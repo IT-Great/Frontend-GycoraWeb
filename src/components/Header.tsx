@@ -2145,7 +2145,7 @@ export default function Header() {
     //   setAdminData(JSON.parse(storedAdmin));
     //   fetchUnreadMessages(); // Refresh badge saat admin terdeteksi login
     // }
-  });
+  }, []);
 
   // --- EFEK KLIK DI LUAR DROPDOWN ---
   useEffect(() => {
