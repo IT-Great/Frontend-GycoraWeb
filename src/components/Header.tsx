@@ -2100,7 +2100,7 @@ import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useCart } from "../context/CartContext";
-import { useMessage } from "../context/MessageContext"; // <-- TAMBAHKAN INI
+// import { useMessage } from "../context/MessageContext"; // <-- TAMBAHKAN INI
 import logoGycora from "../assets/gycora_logo.png";
 import { BASE_URL } from "../config/api";
 
@@ -2110,10 +2110,10 @@ export default function Header() {
   const [userData, setUserData] = useState<any>(null);
   // Tambahkan state terpisah untuk mendeteksi apakah ini akun admin
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [adminData, setAdminData] = useState<any>(null);
+  // const [adminData, setAdminData] = useState<any>(null);
 
   const { cartTotalItems } = useCart();
-  const { unreadCount, fetchUnreadMessages } = useMessage(); // <-- GUNAKAN CONTEXT
+  // const { unreadCount, fetchUnreadMessages } = useMessage(); // <-- GUNAKAN CONTEXT
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -2138,14 +2138,14 @@ export default function Header() {
       setUserData(JSON.parse(storedUser));
     }
 
-    // Cek Admin (Sangat penting karena Admin dan User punya dashboard berbeda)
-    const adminToken = localStorage.getItem("admin_token");
-    const storedAdmin = localStorage.getItem("admin_user");
-    if (adminToken && storedAdmin) {
-      setAdminData(JSON.parse(storedAdmin));
-      fetchUnreadMessages(); // Refresh badge saat admin terdeteksi login
-    }
-  }, [fetchUnreadMessages]);
+    // // Cek Admin (Sangat penting karena Admin dan User punya dashboard berbeda)
+    // const adminToken = localStorage.getItem("admin_token");
+    // const storedAdmin = localStorage.getItem("admin_user");
+    // if (adminToken && storedAdmin) {
+    //   setAdminData(JSON.parse(storedAdmin));
+    //   fetchUnreadMessages(); // Refresh badge saat admin terdeteksi login
+    // }
+  });
 
   // --- EFEK KLIK DI LUAR DROPDOWN ---
   useEffect(() => {
@@ -2360,7 +2360,7 @@ export default function Header() {
                       <svg
                         className="w-4 h-4 mr-3 text-gray-400"
                         fill="none"
-                        viewBox="0 0 24 24"
+                        viewBox="0 0 24 24"   
                         stroke="currentColor"
                       >
                         <path
@@ -2428,25 +2428,23 @@ export default function Header() {
             </button>
 
             {/* --- BARU: IKON PESAN (INBOX) KHUSUS ADMIN --- */}
-            {adminData && (
+            {/* {adminData && (
               <button 
                 onClick={() => navigate("/admin/messages")} // Sesuaikan route Inbox Admin Anda
                 className="relative p-1.5 md:p-1 text-gray-600 transition-colors rounded-full hover:bg-gray-100 hover:text-gycora" 
                 title="Pesan Masuk"
               >
-                {/* Icon Inbox / Amplop */}
                 <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 
-                {/* Badge Unread Count */}
                 {unreadCount > 0 && (
                   <span className="absolute top-0 right-0 flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white translate-x-1 -translate-y-1 bg-red-500 rounded-full shadow-sm animate-pulse">
                     {unreadCount > 99 ? '99+' : unreadCount}
                   </span>
                 )}
               </button>
-            )}
+            )} */}
 
             {/* IKON CHAT (HANYA MUNCUL JIKA SUDAH LOGIN) */}
             {userData && (
