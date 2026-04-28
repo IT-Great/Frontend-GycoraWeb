@@ -397,7 +397,14 @@ export default function App() {
                   </AdminLayout>
                 }
               />
-              <Route path="/admin/users/:id" element={<UserDetailPage />} />
+              <Route
+                path="/admin/users/:id"
+                element={
+                  <AdminLayout>
+                    <UserDetailPage />
+                  </AdminLayout>
+                }
+              />
               {/* Contoh untuk nanti jika ingin menambah Dashboard/Login Admin:
             <Route path="/admin/login" element={<AdminLayout><AdminLogin /></AdminLayout>} />
             <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
