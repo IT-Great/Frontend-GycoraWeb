@@ -64,6 +64,7 @@ import AdminResetPasswordPage from "./pages/admin/AdminResetPasswordPage";
 import AdminReviews from "./pages/admin/AdminReviews";
 import ChatListPage from "./pages/user/ChatListPage";
 import UserDetailPage from "./pages/admin/UserDetailPage";
+import AdminAuditLogPage from "./pages/admin/AdminAuditLogPage";
 import { MessageProvider } from "./context/MessageContext";
 
 // function LayoutWrapper({ children }: { children: React.ReactNode }) {
@@ -402,6 +403,14 @@ export default function App() {
                 element={
                   <AdminLayout>
                     <UserDetailPage />
+                  </AdminLayout>
+                }
+              />
+              <Route
+                path="/admin/audit-logs"
+                element={
+                  <AdminLayout>
+                    <AdminAuditLogPage />
                   </AdminLayout>
                 }
               />
