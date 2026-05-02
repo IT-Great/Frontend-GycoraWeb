@@ -376,7 +376,7 @@ function UserLoginForm() {
 export default function UserLogin() {
     const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6LdHKtUsAAAAAA9niqeYd5PgduCGtuiUcbiwhS4C";
     return (
-        <GoogleReCaptchaProvider reCaptchaKey="{siteKey}">
+        <GoogleReCaptchaProvider reCaptchaKey={siteKey}>
             <UserLoginForm/>
         </GoogleReCaptchaProvider>
     );
