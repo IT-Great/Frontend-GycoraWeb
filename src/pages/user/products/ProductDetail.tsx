@@ -4863,7 +4863,7 @@ export default function ProductDetail() {
     
     // Sortir array agar "Produk Saat Ini" diproses duluan. 
     // Ini menjamin jika ada duplikat warna di DB, produk saat inilah yang akan dipertahankan di UI.
-    const sortedVariants = [...relatedVariants].sort((a, b) => a.id === product.id ? -1 : 1);
+    const sortedVariants = [...relatedVariants].sort((a, _b) => a.id === product.id ? -1 : 1);
     
     sortedVariants.forEach((variant) => {
       let hex = "#ddd";
