@@ -4569,6 +4569,61 @@ import Swal from "sweetalert2";
 import { useCart } from "../../../context/CartContext"; 
 import { BASE_URL } from "../../../config/api";
 
+// =========================================================
+// [BARU] KAMUS WARNA (Sama seperti versi Vue)
+// =========================================================
+const colorMapHex: Record<string, string> = {
+  Black: "#000000", White: "#FFFFFF", Brown: "#8B4513", Beige: "#F5F5DC",
+  Red: "#8B0000", Navy: "#000080", Green: "#008000", Grey: "#808080",
+  Pink: "#FFC0CB", Yellow: "#FFD700", Blue: "#4169E1", Mocca: "#967969",
+  Cream: "#FDF4E3", Sage: "#9DC183", Gold: "#D4AF37", Silver: "#C0C0C0",
+  Maroon: "#800000", Olive: "#808000", Taupe: "#483C32", Khaki: "#F0E68C",
+  Mustard: "#FFDB58", Emerald: "#50C878", Coral: "#FF7F50", Mint: "#98FF98",
+  Teal: "#008080", Cyan: "#00FFFF", Indigo: "#4B0082", Violet: "#EE82EE",
+  Purple: "#800080", Magenta: "#FF00FF", Lilac: "#C8A2C8", Lavender: "#E6E6FA",
+  Rose: "#FF007F", Peach: "#FFE5B4", Apricot: "#FBCEB1", Ivory: "#FFFFF0",
+  Tan: "#D2B48C", Charcoal: "#36454F", Ash: "#555555", Platinum: "#E5E4E2",
+  Bronze: "#CD7F32", Copper: "#B87333", Rust: "#B7410E", Ochre: "#CC7722",
+  Sienna: "#882D17", Terracotta: "#E2725B", Amber: "#FFBF00", Caramel: "#FFD59A",
+  Honey: "#FFC30B", Chestnut: "#954535", Walnut: "#5C4033", Mahogany: "#C04000",
+  Chocolate: "#7B3F00", Cocoa: "#D2691E", Coffee: "#6F4E37", Mocha: "#493D26",
+  Espresso: "#4B3621", Cappuccino: "#654321", Latte: "#C5A059", Macchiato: "#8B5A2B",
+  Almond: "#EED9C4", Hazelnut: "#C4A484", Pecan: "#8A3324", Pistachio: "#93C572",
+  Seafoam: "#9FE2BF", Turquoise: "#40E0D0", Aqua: "#00FFFF", Azure: "#00FFFF",
+  Sky: "#87CEEB", Cerulean: "#007BA7", Cobalt: "#0047AB", Sapphire: "#0F52BA",
+  Ultramarine: "#120A8F", Lapis: "#26619C", Denim: "#1560BD", Steel: "#4682B4",
+  Slate: "#708090", Gunmetal: "#2a3439", Onyx: "#353839", Jet: "#343434",
+  Ebony: "#555D50", Raven: "#050301", Pitch: "#000000", Obsidian: "#0B0B0B",
+  Carbon: "#333333", Graphite: "#383838", Pewter: "#8E8E8E", Zinc: "#8C92AC",
+  Lead: "#778899", Iron: "#A19D94", Titanium: "#878681", Chromium: "#C0C0C0",
+  Nickel: "#727472", Tungsten: "#A0A0A0", Fuchsia: "#FF00FF", Crimson: "#DC143C",
+  Carmine: "#960018", Ruby: "#E0115F", Scarlet: "#FF2400", Vermilion: "#E34234",
+  Brick: "#CB4154", Tomato: "#FF6347", Papaya: "#FFEFD5", Melon: "#FDBCB4",
+  Mango: "#F4A460", Citrus: "#FFA500", Lemon: "#FFF700", Lime: "#BFFF00",
+  Kiwi: "#8EE53F", Apple: "#8DB600", Pear: "#D1E231", Grape: "#6F2DA8",
+  Plum: "#8E4585", Blackberry: "#4D0135", Mulberry: "#C54B8C", Raisin: "#652DC1",
+  Eggplant: "#614051", Aubergine: "#472C4C", Amethyst: "#9966CC", Orchid: "#DA70D6",
+  Heather: "#D473D4", Thistle: "#D8BFD8", Mauve: "#E0B0FF", Wisteria: "#C9A0DC",
+  Periwinkle: "#CCCCFF", Cornflower: "#6495ED", Baby: "#89CFF0", Powder: "#B0E0E6",
+  Midnight: "#191970", Ocean: "#0077BE",
+};
+
+// =========================================================
+// [BARU] HELPER EKSTRAKSI WARNA (Sama seperti versi Vue)
+// =========================================================
+const extractColorName = (fullName: string) => {
+  if (!fullName) return "Main";
+  const words = fullName.trim().split(" ");
+  const lastWord = words[words.length - 1];
+  return lastWord.charAt(0).toUpperCase() + lastWord.slice(1).toLowerCase();
+};
+
+const extractColorHex = (fullName: string) => {
+  const colorName = extractColorName(fullName);
+  return colorMapHex[colorName] || "#cccccc";
+};
+
+
 interface Product {
   id: number;
   category_id: number;
@@ -4584,7 +4639,6 @@ interface Product {
   image_url: string;
   variant_images?: string[]; 
   variant_video?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   color?: any[];
 }
 
@@ -4595,28 +4649,61 @@ export default function ProductDetail() {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   
-  // State untuk Quantity
   const [quantityInput, setQuantityInput] = useState<string>("1");
   const quantity = parseInt(quantityInput) || 1;
 
   const [isBuyingNow, setIsBuyingNow] = useState(false); 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // State untuk menyimpan produk saudara (varian)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [relatedVariants, setRelatedVariants] = useState<any[]>([]);
+  // [BARU] State untuk menyimpan produk saudara menggunakan logika Vue
+  const [siblingColors, setSiblingColors] = useState<Product[]>([]);
 
   const [isFavorited, setIsFavorited] = useState(false);
   const { fetchCart, cartItems, addCartItemOptimistically, revertCartItems } = useCart(); 
 
+  // =========================================================
+  // [BARU] FUNGSI FETCH SIBLING SEPERTI DI VUE
+  // =========================================================
+  const fetchSiblingColors = async (productName: string) => {
+    if (!productName) return;
+    try {
+      const words = productName.trim().split(" ");
+      let rootName = productName;
+      
+      // Hapus 1 kata terakhir sebagai warna
+      if (words.length > 1) {
+        words.pop();
+        rootName = words.join(" ");
+      }
+      
+      // Ambil seluruh produk dari API public
+      const res = await fetch(`${BASE_URL}/api/products`);
+      const data = await res.json();
+      const allProducts = data.data ? data.data : data;
+
+      // Filter nama produk yang mengandung rootName
+      const siblings = allProducts.filter((p: Product) =>
+        p.name.toLowerCase().includes(rootName.toLowerCase())
+      );
+
+      if (siblings.length <= 1) {
+        setSiblingColors([]);
+      } else {
+        setSiblingColors(siblings);
+      }
+    } catch (error) {
+      console.error("Gagal menarik data varian warna:", error);
+    }
+  };
+
+
   useEffect(() => {
-    // Reset state ketika ID URL berubah
     setLoading(true);
     setProduct(null);
     setCurrentImageIndex(0);
     setQuantityInput("1");
 
-    const fetchProduct = async () => {
+    const fetchProductAndSiblings = async () => {
       try {
         const res = await fetch(`${BASE_URL}/api/products/${id}`);
         if (!res.ok) throw new Error("Produk tidak ditemukan");
@@ -4624,21 +4711,13 @@ export default function ProductDetail() {
         
         const productObject = responseData.data ? responseData.data : responseData;
         setProduct(productObject);
+
+        // Setelah produk didapat, cari siblingsnya
+        await fetchSiblingColors(productObject.name);
+
       } catch (error) {
         console.error("Gagal memuat produk:", error);
         navigate("/products");
-      }
-    };
-
-    const fetchVariants = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/api/products/${id}/variants`);
-        if (res.ok) {
-           const data = await res.json();
-           setRelatedVariants(data.variants || []);
-        }
-      } catch (error) {
-        console.error("Gagal memuat produk terkait:", error);
       }
     };
 
@@ -4662,7 +4741,7 @@ export default function ProductDetail() {
     };
 
     if (id) {
-      Promise.all([fetchProduct(), fetchVariants(), checkWishlistStatus()]).finally(() => {
+      Promise.all([fetchProductAndSiblings(), checkWishlistStatus()]).finally(() => {
         setLoading(false);
       });
     }
@@ -4853,47 +4932,6 @@ export default function ProductDetail() {
     setQuantityInput(parsed.toString());
   };
 
-  // =========================================================
-  // [BARU] LOGIKA PENGHAPUSAN DUPLIKAT (DEDUPLICATION)
-  // =========================================================
-  const processedVariants = useMemo(() => {
-    if (!product || !relatedVariants) return [];
-    
-    const uniqueVariantsMap = new Map();
-    
-    // Sortir array agar "Produk Saat Ini" diproses duluan. 
-    // Ini menjamin jika ada duplikat warna di DB, produk saat inilah yang akan dipertahankan di UI.
-    const sortedVariants = [...relatedVariants].sort((a, _b) => a.id === product.id ? -1 : 1);
-    
-    sortedVariants.forEach((variant) => {
-      let hex = "#ddd";
-      let name = "";
-      
-      if (Array.isArray(variant.color) && variant.color.length > 0) {
-        const firstColor = variant.color[0];
-        hex = typeof firstColor === 'string' ? firstColor : (firstColor.hex || hex);
-        name = typeof firstColor === 'string' ? '' : (firstColor.name || '');
-      }
-      
-      if (!name) {
-        name = variant.name.split(' ').pop() || "";
-      }
-
-      const key = hex.toLowerCase(); // Gunakan hex sebagai kunci unik
-      
-      // Hanya masukkan ke Map jika warna ini belum pernah dimasukkan
-      if (!uniqueVariantsMap.has(key)) {
-        uniqueVariantsMap.set(key, {
-          id: variant.id,
-          hex: hex,
-          name: name,
-          isCurrentProduct: variant.id === product.id
-        });
-      }
-    });
-    
-    return Array.from(uniqueVariantsMap.values());
-  }, [relatedVariants, product]);
 
   if (loading) return <div className="flex items-center justify-center min-h-screen font-sans bg-white"><div className="w-12 h-12 border-b-2 rounded-full animate-spin border-gycora"></div></div>;
   if (!product) return null;
@@ -4969,17 +5007,6 @@ export default function ProductDetail() {
              </div>
 
              <p className="mb-8 font-mono text-gray-500">SKU: {product.sku}</p>
-             {/* <div className="mb-8">
-               {product.discount_price && product.discount_price > 0 ? (
-                 <div className="flex flex-col">
-                   <span className="text-2xl text-gray-400 line-through">{formatRupiah(product.price)}</span>
-                   <span className="text-4xl font-extrabold text-red-600">{formatRupiah(product.discount_price)}</span>
-                 </div>
-               ) : (
-                 <p className="text-4xl font-extrabold text-gycora">{formatRupiah(product.price)}</p>
-               )}
-             </div> */}
-
              <div className="mb-8">
                {product.discount_price && product.discount_price > 0 ? (
                  <div className="flex flex-col">
@@ -4994,35 +5021,41 @@ export default function ProductDetail() {
              <div className="p-6 mb-10 border border-gray-100 bg-gray-50 rounded-2xl">
                
                {/* ========================================================= */}
-               {/* RENDER VARIAN YANG SUDAH DI-FILTER & DI-DEDUPLIKASI */}
+               {/* [RENDER BARU] MENGGUNAKAN LOGIKA VUE SIBLING COLORS */}
                {/* ========================================================= */}
-               {processedVariants.length > 0 && (
+               {siblingColors.length > 0 && (
                  <div className="pb-6 mb-6 border-b border-gray-200">
                    <h3 className="mb-3 text-sm font-bold text-gray-700">Pilih Varian Warna:</h3>
                    <div className="flex flex-wrap gap-3">
-                     {processedVariants.map((variant) => (
-                       <button
-                         key={variant.id}
-                         onClick={() => {
-                           if (!variant.isCurrentProduct) {
-                             // Tambahkan smooth scroll agar user menyadari halaman berpindah
-                             window.scrollTo({ top: 0, behavior: 'smooth' });
-                             navigate(`/product/${variant.id}`);
-                           }
-                         }}
-                         className={`flex items-center gap-2 px-3 py-1.5 rounded-full border-2 transition-all shadow-sm ${
-                           variant.isCurrentProduct 
-                            ? 'border-gycora ring-2 ring-gycora/30 scale-105 cursor-default' 
-                            : 'border-gray-200 hover:border-gray-300 hover:scale-105 cursor-pointer bg-white'
-                          }`}
-                         title={`Lihat varian ${variant.name}`}
-                       >
-                         <span className="w-5 h-5 border border-gray-300 rounded-full shadow-inner" style={{ backgroundColor: variant.hex }}></span>
-                         <span className={`text-xs font-bold ${variant.isCurrentProduct ? 'text-gycora-dark' : 'text-gray-700'}`}>
-                            {variant.name}
-                         </span>
-                       </button>
-                     ))}
+                     {siblingColors.map((sibling) => {
+                       const isCurrentProduct = sibling.id === product.id;
+                       
+                       return (
+                         <button
+                           key={sibling.id}
+                           onClick={() => {
+                             if (!isCurrentProduct) {
+                               window.scrollTo({ top: 0, behavior: 'smooth' });
+                               navigate(`/product/${sibling.id}`);
+                             }
+                           }}
+                           className={`flex items-center gap-2 px-3 py-1.5 rounded-full border-2 transition-all shadow-sm ${
+                             isCurrentProduct 
+                              ? 'border-gycora ring-2 ring-gycora/30 scale-105 cursor-default' 
+                              : 'border-gray-200 hover:border-gray-300 hover:scale-105 cursor-pointer bg-white'
+                            }`}
+                           title={`Lihat varian ${extractColorName(sibling.name)}`}
+                         >
+                           <span 
+                              className="w-5 h-5 border border-gray-300 rounded-full shadow-inner" 
+                              style={{ backgroundColor: extractColorHex(sibling.name) }}
+                           ></span>
+                           <span className={`text-xs font-bold ${isCurrentProduct ? 'text-gycora-dark' : 'text-gray-700'}`}>
+                              {extractColorName(sibling.name)}
+                           </span>
+                         </button>
+                       );
+                     })}
                    </div>
                  </div>
                )}
