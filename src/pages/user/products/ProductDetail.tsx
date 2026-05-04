@@ -4594,36 +4594,53 @@ export default function ProductDetail() {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   
-  // State untuk menyimpan daftar semua produk (untuk pencarian warna)
-  const [allProducts, setAllProducts] = useState<Product[]>([]);
-  
+  // State untuk Quantity
   const [quantityInput, setQuantityInput] = useState<string>("1");
   const quantity = parseInt(quantityInput) || 1; 
 
   const [isBuyingNow, setIsBuyingNow] = useState(false); 
   
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [selectedColor, setSelectedColor] = useState<string | null>(null);
 
   const [isFavorited, setIsFavorited] = useState(false);
 
   const { fetchCart, cartItems, addCartItemOptimistically, revertCartItems } = useCart(); 
 
-  useEffect(() => {
-    const fetchProductAndCatalog = async () => {
-      try {
-        // Fetch Detail Produk Saat Ini
-        const resDetail = await fetch(`${BASE_URL}/api/products/${id}`);
-        if (!resDetail.ok) throw new Error("Produk tidak ditemukan");
-        const responseData = await resDetail.json();
-        const productObject = responseData.data ? responseData.data : responseData;
-        setProduct(productObject);
+  // ==============================================================
+  // [BARU] STATE UNTUK CROSS-PRODUCT COLOR NAVIGATION
+  // ==============================================================
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
 
-        // Fetch Semua Produk (Untuk Cross-Referencing Warna)
-        const resAll = await fetch(`${BASE_URL}/api/products`);
-        if (resAll.ok) {
-           const allData = await resAll.json();
-           setAllProducts(allData.data ? allData.data : allData);
+  useEffect(() => {
+    const fetchProductAndRelated = async () => {
+      try {
+        setLoading(true);
+        // 1. Fetch Produk Saat Ini
+        const res = await fetch(`${BASE_URL}/api/products/${id}`);
+        if (!res.ok) throw new Error("Produk tidak ditemukan");
+        const responseData = await res.json();
+        const productData = responseData.data ? responseData.data : responseData;
+        setProduct(productData);
+
+        // 2. [BARU] Fetch Semua Produk untuk Mencari "Kembaran" Warnanya
+        const allRes = await fetch(`${BASE_URL}/api/products`);
+        if (allRes.ok) {
+           const allData = await allRes.json();
+           const allProducts: Product[] = allData.data ? allData.data : allData;
+
+           // Algoritma Mencari Base Name (Mengabaikan kata terakhir yang biasanya adalah warna)
+           // Misal: "Gycora Serum Black" -> ["Gycora", "Serum", "Black"] -> Base: "Gycora Serum"
+           const words = productData.name.split(" ");
+           let baseName = productData.name;
+           if (words.length > 1) {
+              baseName = words.slice(0, -1).join(" ");
+           }
+
+           // Filter produk yang mengandung baseName (Case Insensitive)
+           const siblings = allProducts.filter(p => 
+              p.name.toLowerCase().includes(baseName.toLowerCase())
+           );
+           setRelatedProducts(siblings);
         }
 
       } catch (error) {
@@ -4654,16 +4671,11 @@ export default function ProductDetail() {
     };
 
     if (id) {
-      setLoading(true);
-      fetchProductAndCatalog();
-      checkWishlistStatus();
-      
-      // Reset Image Index & Quantity setiap pindah halaman produk
-      setCurrentImageIndex(0);
+      // Reset kuantitas dan gambar ke 0 saat berpindah halaman produk
       setQuantityInput("1");
-      
-      // Scroll to top
-      window.scrollTo(0, 0);
+      setCurrentImageIndex(0);
+      fetchProductAndRelated();
+      checkWishlistStatus();
     }
   }, [id, navigate]);
 
@@ -4703,62 +4715,37 @@ export default function ProductDetail() {
     }
   };
 
-  const allColors = useMemo(() => {
-    if (!product || !Array.isArray(product.color)) return [];
-    return product.color;
-  }, [product]);
+  // ==============================================================
+  // [BARU] MENGUMPULKAN WARNA DARI PRODUK SAAT INI & PRODUK KEMBAR
+  // ==============================================================
+  const crossProductColors = useMemo(() => {
+    // Array untuk menampung warna unik
+    const colorMap: { productId: number, hex: string, name: string, isCurrent: boolean }[] = [];
 
-  useEffect(() => {
-    if (allColors.length > 0) {
-      const firstColorStr = typeof allColors[0] === 'string' ? allColors[0] : JSON.stringify(allColors[0]);
-      if (!selectedColor || !allColors.some(c => (typeof c === 'string' ? c : JSON.stringify(c)) === selectedColor)) {
-        setSelectedColor(firstColorStr);
-      }
-    } else {
-      setSelectedColor(null);
-    }
-  }, [allColors, selectedColor]);
+    // Jika terkait produk kembar tidak ada/gagal fetch, fallback ke warna produk ini sendiri
+    const listToProcess = relatedProducts.length > 0 ? relatedProducts : (product ? [product] : []);
 
-  // =========================================================================
-  // [BARU] FUNGSI NAVIGASI ANTAR WARNA (FRONTEND CROSS-REFERENCE)
-  // =========================================================================
-  const navigateToColorVariant = (colorName: string) => {
-      if (!product || !colorName || allProducts.length === 0) return;
+    listToProcess.forEach(prod => {
+        if (prod.color && Array.isArray(prod.color) && prod.color.length > 0) {
+            // Ambil warna PERTAMA saja sebagai representasi produk tersebut
+            const primaryColor = prod.color[0];
+            const hex = typeof primaryColor === 'string' ? primaryColor : primaryColor.hex;
+            const name = typeof primaryColor === 'string' ? '' : primaryColor.name;
+            
+            // Hindari duplikasi jika ada warna hex yang sama
+            if (!colorMap.some(c => c.hex === hex)) {
+                colorMap.push({
+                    productId: prod.id,
+                    hex: hex,
+                    name: name || prod.name.split(" ").pop() || "", // Fallback ke kata terakhir di nama produk
+                    isCurrent: prod.id === Number(id)
+                });
+            }
+        }
+    });
 
-      // Ambil Base Name produk ini. 
-      // Contoh: "Gycora Lip Cream Matte Red" -> Asumsi nama dasarnya adalah sebelum warna
-      // Tapi cara paling aman: Cari di allProducts yang namanya MENGANDUNG warna yang di-klik 
-      // dan berpotensi memilik Kategori yang sama.
-
-      const targetVariant = allProducts.find(p => {
-          // Abaikan produk ini sendiri
-          if (p.id === product.id) return false;
-          
-          const pNameLower = p.name.toLowerCase();
-          const targetColorLower = colorName.toLowerCase();
-
-          // Strategi Pencarian: 
-          // 1. Namanya harus berakhir dengan warna, ATAU mengandung nama warna.
-          // 2. Jika Anda memiliki penamaan standar seperti "Base Product Name Color Name"
-          // maka kita bisa mengecek apakah p.name memiliki pola yang sama.
-          
-          return pNameLower.includes(targetColorLower) && p.category_id === product.category_id;
-      });
-
-      if (targetVariant) {
-          navigate(`/product/${targetVariant.id}`);
-      } else {
-          Swal.fire({
-              title: "Varian Tidak Ditemukan",
-              text: `Maaf, produk dengan warna ${colorName} sedang tidak tersedia di katalog saat ini.`,
-              icon: "info",
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 3000
-          });
-      }
-  };
+    return colorMap;
+  }, [relatedProducts, product, id]);
 
 
   const gallery = useMemo(() => {
@@ -4822,12 +4809,10 @@ export default function ProductDetail() {
       return;
     }
 
-    // Jika produk punya opsi warna tapi tidak ada nama warna yang bisa dikirim
-    // ini mencegah error jika user memanipulasi button
-    if (product?.color && product.color.length > 0 && !selectedColor) {
-       Swal.fire("Pilih Warna", "Silakan pilih varian warna terlebih dahulu.", "warning");
-       return;
-    }
+    // Ambil warna dari produk saat ini untuk payload keranjang
+    const colorPayload = (product?.color && product.color.length > 0) 
+        ? (typeof product.color[0] === 'string' ? product.color[0] : JSON.stringify(product.color[0])) 
+        : null;
 
     const previousCartState = [...cartItems];
     const optimisticItem = {
@@ -4835,7 +4820,7 @@ export default function ProductDetail() {
       product_id: product!.id,
       quantity: quantity,
       gross_amount: quantity * product!.price,
-      color: selectedColor,
+      color: colorPayload,
       product: {
         id: product!.id,
         name: product!.name,
@@ -4854,7 +4839,7 @@ export default function ProductDetail() {
     fetch(`${BASE_URL}/api/carts`, {
       method: "POST",
       headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-      body: JSON.stringify({ product_id: product?.id, quantity: quantity, color: selectedColor })
+      body: JSON.stringify({ product_id: product?.id, quantity: quantity, color: colorPayload })
     })
     .then(async (res) => {
       const data = await res.json();
@@ -4878,17 +4863,16 @@ export default function ProductDetail() {
       return;
     }
 
-    if (product?.color && product.color.length > 0 && !selectedColor) {
-       Swal.fire("Pilih Warna", "Silakan pilih varian warna.", "warning");
-       return;
-    }
+    const colorPayload = (product?.color && product.color.length > 0) 
+        ? (typeof product.color[0] === 'string' ? product.color[0] : JSON.stringify(product.color[0])) 
+        : null;
 
     setIsBuyingNow(true);
     try {
       const res = await fetch(`${BASE_URL}/api/carts`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-        body: JSON.stringify({ product_id: product?.id, quantity: quantity, color: selectedColor })
+        body: JSON.stringify({ product_id: product?.id, quantity: quantity, color: colorPayload })
       });
       const data = await res.json();
 
@@ -4905,6 +4889,7 @@ export default function ProductDetail() {
     }
   };
 
+  // --- FUNGSI HANDLE INPUT KUANTITAS ---
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     if (val === "" || /^\d+$/.test(val)) {
@@ -5000,41 +4985,33 @@ export default function ProductDetail() {
 
              <div className="p-6 mb-10 border border-gray-100 bg-gray-50 rounded-2xl">
                
-                {allColors.length > 0 && (
+               {/* ============================================================== */}
+               {/* [PERBAIKAN] UI VARIAN WARNA LINTAS PRODUK */}
+               {/* ============================================================== */}
+                {crossProductColors.length > 0 && (
                   <div className="pb-6 mb-6 border-b border-gray-200">
-                    <h3 className="mb-3 text-sm font-bold text-gray-700">Pilih Varian Warna Lainnya:</h3>
+                    <h3 className="mb-3 text-sm font-bold text-gray-700">Tersedia dalam Warna:</h3>
                     <div className="flex flex-wrap gap-3">
-                      {allColors.map((c, idx) => {
-                        const hex = typeof c === 'string' ? c : c.hex;
-                        const name = typeof c === 'string' ? '' : c.name;
-                        const colorString = typeof c === 'string' ? c : JSON.stringify(c);
-                        const isSelected = selectedColor === colorString;
-
-                        return (
+                      {crossProductColors.map((c, idx) => (
                           <button
                             key={idx}
-                            // [PERUBAHAN]: Jika nama warna tersedia, Navigasikan ke halaman produk lain.
-                            // Jika tidak ada nama, gunakan fallback seperti semula (untuk produk yang warnanya sekadar hex biasa)
+                            // Jika bukan produk saat ini, navigate ke URL produk baru
                             onClick={() => {
-                                if (name) {
-                                    navigateToColorVariant(name);
-                                } else {
-                                    setSelectedColor(colorString);
-                                }
+                                if (!c.isCurrent) navigate(`/product/${c.productId}`);
                             }}
-                            className={`flex items-center gap-2 px-3 py-1.5 rounded-full border-2 transition-all shadow-sm ${isSelected ? 'border-gycora ring-2 ring-gycora/30 scale-105' : 'border-gray-200 hover:border-gray-300 hover:scale-105'}`}
-                            title={`Pilih warna ${name || hex}`}
+                            className={`flex items-center gap-2 px-3 py-1.5 rounded-full border-2 transition-all shadow-sm ${c.isCurrent ? 'border-gycora ring-2 ring-gycora/30 scale-105 cursor-default' : 'border-gray-200 hover:border-gray-300 hover:scale-105 cursor-pointer'}`}
+                            title={`Lihat warna ${c.name || c.hex}`}
                           >
-                            <span className="w-5 h-5 border border-gray-300 rounded-full shadow-inner" style={{ backgroundColor: hex }}></span>
-                            {name && <span className={`text-xs font-bold ${isSelected ? 'text-gycora-dark' : 'text-gray-700'}`}>{name}</span>}
+                            <span className="w-5 h-5 border border-gray-300 rounded-full shadow-inner" style={{ backgroundColor: c.hex }}></span>
+                            {c.name && <span className={`text-xs font-bold ${c.isCurrent ? 'text-gycora-dark' : 'text-gray-700'}`}>{c.name}</span>}
                           </button>
-                        );
-                      })}
+                      ))}
                     </div>
                   </div>
                 )}
 
                 <div className="flex flex-col gap-4">
+                  {/* QTY INPUT */}
                   <div className="flex items-center justify-between w-full overflow-hidden bg-white border border-gray-300 h-14 rounded-xl">
                     <button 
                       onClick={() => {
