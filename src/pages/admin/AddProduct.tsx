@@ -1351,6 +1351,7 @@ export default function AddProduct() {
     name: "",
     price: "",
     discount_price: "", // Tambahan field harga diskon
+    voucher_discount_price: "", // <--- BARU
     stock: "0",
     description: "",
     benefits: "",
@@ -1485,6 +1486,7 @@ export default function AddProduct() {
         ...formData,
         // Pastikan null jika string kosong agar backend memprosesnya dengan benar
         discount_price: formData.discount_price === "" ? null : formData.discount_price,
+        voucher_discount_price: formData.voucher_discount_price === "" ? null : formData.voucher_discount_price, // <--- BARU
         color: colors.length > 0 ? colors : null, 
         image_url: uploadedImageUrl,
         variant_video: uploadedVideoUrl,
@@ -1554,7 +1556,7 @@ export default function AddProduct() {
           </div>
 
           {/* UBAH: GRID MENJADI 3 KOLOM AGAR DISCOUNT PRICE MUAT */}
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          {/* <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             <div>
               <label className="block mb-2 text-sm font-semibold text-gray-700">Harga Asli (Rp)</label>
               <div className="relative">
@@ -1563,12 +1565,42 @@ export default function AddProduct() {
               </div>
             </div>
             
-            {/* TAMBAHAN: HARGA DISKON */}
             <div>
               <label className="block mb-2 text-sm font-semibold text-gray-700">Harga Diskon (Opsional)</label>
               <div className="relative">
                 <span className="absolute left-3 top-2.5 text-gray-500">Rp</span>
                 <input type="number" placeholder="Kosongkan jika tidak ada diskon" value={formData.discount_price} className="w-full pl-10 p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-gycora focus:ring-1 focus:ring-gycora transition-all" onChange={(e) => setFormData({ ...formData, discount_price: e.target.value })} />
+              </div>
+            </div>
+
+            <div>
+              <label className="block mb-2 text-sm font-semibold text-gray-700">Stok Awal</label>
+              <input type="number" required value={formData.stock} className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-gycora focus:ring-1 focus:ring-gycora transition-all" onChange={(e) => setFormData({ ...formData, stock: e.target.value })} />
+            </div>
+          </div> */}
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div>
+              <label className="block mb-2 text-sm font-semibold text-gray-700">Harga Asli (Rp)</label>
+              <div className="relative">
+                <span className="absolute left-3 top-2.5 text-gray-500">Rp</span>
+                <input type="number" required placeholder="0" value={formData.price} className="w-full pl-10 p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-gycora focus:ring-1 focus:ring-gycora transition-all" onChange={(e) => setFormData({ ...formData, price: e.target.value })} />
+              </div>
+            </div>
+            
+            <div>
+              <label className="block mb-2 text-sm font-semibold text-gray-700">Harga Diskon Publik (Opsional)</label>
+              <div className="relative">
+                <span className="absolute left-3 top-2.5 text-gray-500">Rp</span>
+                <input type="number" placeholder="Kosongkan jika tidak ada" value={formData.discount_price} className="w-full pl-10 p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-gycora focus:ring-1 focus:ring-gycora transition-all" onChange={(e) => setFormData({ ...formData, discount_price: e.target.value })} />
+              </div>
+            </div>
+
+            <div>
+              <label className="block mb-2 text-sm font-semibold text-gray-700">Harga Diskon Voucher 20 Kode (Opsional)</label>
+              <div className="relative">
+                <span className="absolute left-3 top-2.5 text-gray-500">Rp</span>
+                <input type="number" placeholder="Harga khusus pemakai kode generate" value={formData.voucher_discount_price} className="w-full pl-10 p-2.5 border-amber-200 bg-amber-50 rounded-lg outline-none focus:border-gycora focus:ring-1 focus:ring-gycora transition-all" onChange={(e) => setFormData({ ...formData, voucher_discount_price: e.target.value })} />
               </div>
             </div>
 

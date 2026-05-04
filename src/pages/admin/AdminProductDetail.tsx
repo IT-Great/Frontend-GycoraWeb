@@ -1150,6 +1150,7 @@ interface Product {
   benefits: string;
   price: number;
   discount_price?: number | null; // Tambahan field discount_price
+  voucher_discount_price?: number | null;
   stock: number;
   image_url: string;
   variant_images?: string[]; 
@@ -1295,10 +1296,9 @@ export default function AdminProductDetail() {
               <p className="text-sm text-gray-400">Slug: <span className="font-mono text-gray-500">{product.slug}</span></p>
             </div>
 
-            <div className="grid grid-cols-2 gap-6 p-6 border border-gray-100 bg-gray-50 rounded-xl">
+            {/* <div className="grid grid-cols-2 gap-6 p-6 border border-gray-100 bg-gray-50 rounded-xl">
               <div>
                 <p className="mb-1 text-sm font-medium text-gray-500">Harga Jual</p>
-                {/* LOGIKA HARGA DISKON */}
                 {product.discount_price && product.discount_price > 0 ? (
                   <div className="flex flex-col">
                     <span className="text-2xl font-bold text-red-600">{formatRupiah(product.discount_price)}</span>
@@ -1314,6 +1314,29 @@ export default function AdminProductDetail() {
                   <span className={`text-2xl font-bold ${product.stock > 0 ? 'text-gray-900' : 'text-red-500'}`}>{product.stock}</span>
                   <span className="text-sm text-gray-500">Unit</span>
                 </div>
+              </div>
+            </div> */}
+
+            <div className="grid grid-cols-1 gap-6 p-6 border border-gray-100 sm:grid-cols-3 bg-gray-50 rounded-xl">
+              <div>
+                <p className="mb-1 text-sm font-medium text-gray-500">Harga Normal</p>
+                <p className="text-xl font-bold text-gray-900">{formatRupiah(product.price)}</p>
+              </div>
+              <div>
+                <p className="mb-1 text-sm font-medium text-gray-500">Diskon Publik</p>
+                {product.discount_price && product.discount_price > 0 ? (
+                  <p className="text-xl font-bold text-red-600">{formatRupiah(product.discount_price)}</p>
+                ) : (
+                  <p className="text-xl font-bold text-gray-300">-</p>
+                )}
+              </div>
+              <div className="p-3 border rounded-lg bg-amber-50 border-amber-100">
+                <p className="mb-1 text-xs font-bold tracking-widest uppercase text-amber-600">Harga Voucher Bos</p>
+                {product.voucher_discount_price && product.voucher_discount_price > 0 ? (
+                  <p className="text-xl font-black text-amber-700">{formatRupiah(product.voucher_discount_price)}</p>
+                ) : (
+                  <p className="text-sm font-bold text-amber-300">Tidak diset</p>
+                )}
               </div>
             </div>
 
