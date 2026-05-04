@@ -4579,6 +4579,7 @@ interface Product {
   description: string;
   benefits: string;
   price: number;
+  discount_price: number;
   stock: number;
   image_url: string;
   variant_images?: string[]; 
@@ -4968,6 +4969,17 @@ export default function ProductDetail() {
              </div>
 
              <p className="mb-8 font-mono text-gray-500">SKU: {product.sku}</p>
+             {/* <div className="mb-8">
+               {product.discount_price && product.discount_price > 0 ? (
+                 <div className="flex flex-col">
+                   <span className="text-2xl text-gray-400 line-through">{formatRupiah(product.price)}</span>
+                   <span className="text-4xl font-extrabold text-red-600">{formatRupiah(product.discount_price)}</span>
+                 </div>
+               ) : (
+                 <p className="text-4xl font-extrabold text-gycora">{formatRupiah(product.price)}</p>
+               )}
+             </div> */}
+
              <div className="mb-8">
                {product.discount_price && product.discount_price > 0 ? (
                  <div className="flex flex-col">
