@@ -4601,7 +4601,7 @@ export default function ProductDetail() {
   const [isBuyingNow, setIsBuyingNow] = useState(false); 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // [BARU] State untuk menyimpan produk saudara (varian)
+  // State untuk menyimpan produk saudara (varian)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [relatedVariants, setRelatedVariants] = useState<any[]>([]);
 
@@ -4757,7 +4757,6 @@ export default function ProductDetail() {
     }
   };
 
-  // [PERBAIKAN] Hapus dependency color, AddToCart langsung melempar base product id
   const handleAddToCart = () => {
     const token = localStorage.getItem("user_token");
     if (!token) {
@@ -4771,7 +4770,6 @@ export default function ProductDetail() {
       product_id: product!.id,
       quantity: quantity,
       gross_amount: quantity * product!.price,
-      // Color dihapus dari keranjang karena sekarang beda warna = beda product_id
       color: null, 
       product: {
         id: product!.id,
@@ -4854,6 +4852,48 @@ export default function ProductDetail() {
     setQuantityInput(parsed.toString());
   };
 
+  // =========================================================
+  // [BARU] LOGIKA PENGHAPUSAN DUPLIKAT (DEDUPLICATION)
+  // =========================================================
+  const processedVariants = useMemo(() => {
+    if (!product || !relatedVariants) return [];
+    
+    const uniqueVariantsMap = new Map();
+    
+    // Sortir array agar "Produk Saat Ini" diproses duluan. 
+    // Ini menjamin jika ada duplikat warna di DB, produk saat inilah yang akan dipertahankan di UI.
+    const sortedVariants = [...relatedVariants].sort((a, b) => a.id === product.id ? -1 : 1);
+    
+    sortedVariants.forEach((variant) => {
+      let hex = "#ddd";
+      let name = "";
+      
+      if (Array.isArray(variant.color) && variant.color.length > 0) {
+        const firstColor = variant.color[0];
+        hex = typeof firstColor === 'string' ? firstColor : (firstColor.hex || hex);
+        name = typeof firstColor === 'string' ? '' : (firstColor.name || '');
+      }
+      
+      if (!name) {
+        name = variant.name.split(' ').pop() || "";
+      }
+
+      const key = hex.toLowerCase(); // Gunakan hex sebagai kunci unik
+      
+      // Hanya masukkan ke Map jika warna ini belum pernah dimasukkan
+      if (!uniqueVariantsMap.has(key)) {
+        uniqueVariantsMap.set(key, {
+          id: variant.id,
+          hex: hex,
+          name: name,
+          isCurrentProduct: variant.id === product.id
+        });
+      }
+    });
+    
+    return Array.from(uniqueVariantsMap.values());
+  }, [relatedVariants, product]);
+
   if (loading) return <div className="flex items-center justify-center min-h-screen font-sans bg-white"><div className="w-12 h-12 border-b-2 rounded-full animate-spin border-gycora"></div></div>;
   if (!product) return null;
   
@@ -4928,56 +4968,49 @@ export default function ProductDetail() {
              </div>
 
              <p className="mb-8 font-mono text-gray-500">SKU: {product.sku}</p>
-             <div className="mb-8"><p className="text-4xl font-extrabold text-gycora">{formatRupiah(product.price)}</p></div>
+             <div className="mb-8">
+               {product.discount_price && product.discount_price > 0 ? (
+                 <div className="flex flex-col">
+                   <span className="text-2xl text-gray-400 line-through">{formatRupiah(product.price)}</span>
+                   <span className="text-4xl font-extrabold text-red-600">{formatRupiah(product.discount_price)}</span>
+                 </div>
+               ) : (
+                 <p className="text-4xl font-extrabold text-gycora">{formatRupiah(product.price)}</p>
+               )}
+             </div>
 
              <div className="p-6 mb-10 border border-gray-100 bg-gray-50 rounded-2xl">
                
                {/* ========================================================= */}
-               {/* [BARU] LOGIKA VARIAN PRODUK LAIN (NAVIGASI) */}
+               {/* RENDER VARIAN YANG SUDAH DI-FILTER & DI-DEDUPLIKASI */}
                {/* ========================================================= */}
-               {relatedVariants.length > 0 && (
+               {processedVariants.length > 0 && (
                  <div className="pb-6 mb-6 border-b border-gray-200">
                    <h3 className="mb-3 text-sm font-bold text-gray-700">Pilih Varian Warna:</h3>
                    <div className="flex flex-wrap gap-3">
-                     {relatedVariants.map((variant) => {
-                       
-                       // Ekstrak Hex dan Name dari JSON array `color`
-                       let hex = "#ddd";
-                       let name = "";
-                       
-                       if (Array.isArray(variant.color) && variant.color.length > 0) {
-                         const firstColor = variant.color[0];
-                         hex = typeof firstColor === 'string' ? firstColor : (firstColor.hex || hex);
-                         name = typeof firstColor === 'string' ? '' : (firstColor.name || '');
-                       }
-
-                       // Cek apakah kotak yang diloop adalah produk yang sedang dibuka
-                       const isCurrentProduct = variant.id === product.id;
-
-                       return (
-                         <button
-                           key={variant.id}
-                           onClick={() => {
-                             if (!isCurrentProduct) {
-                               // NAVIGASI ke URL produk saudara
-                               navigate(`/product/${variant.id}`);
-                             }
-                           }}
-                           className={`flex items-center gap-2 px-3 py-1.5 rounded-full border-2 transition-all shadow-sm ${
-                             isCurrentProduct 
-                              ? 'border-gycora ring-2 ring-gycora/30 scale-105 cursor-default' 
-                              : 'border-gray-200 hover:border-gray-300 hover:scale-105 cursor-pointer bg-white'
-                            }`}
-                           title={`Lihat varian ${name || variant.name}`}
-                         >
-                           <span className="w-5 h-5 border border-gray-300 rounded-full shadow-inner" style={{ backgroundColor: hex }}></span>
-                           {/* Jika nama warnanya kosong di DB, ambil dari kata terakhir nama produk (misal: "Gycora Matte Black" -> "Black") */}
-                           <span className={`text-xs font-bold ${isCurrentProduct ? 'text-gycora-dark' : 'text-gray-700'}`}>
-                              {name ? name : variant.name.split(' ').pop()}
-                           </span>
-                         </button>
-                       );
-                     })}
+                     {processedVariants.map((variant) => (
+                       <button
+                         key={variant.id}
+                         onClick={() => {
+                           if (!variant.isCurrentProduct) {
+                             // Tambahkan smooth scroll agar user menyadari halaman berpindah
+                             window.scrollTo({ top: 0, behavior: 'smooth' });
+                             navigate(`/product/${variant.id}`);
+                           }
+                         }}
+                         className={`flex items-center gap-2 px-3 py-1.5 rounded-full border-2 transition-all shadow-sm ${
+                           variant.isCurrentProduct 
+                            ? 'border-gycora ring-2 ring-gycora/30 scale-105 cursor-default' 
+                            : 'border-gray-200 hover:border-gray-300 hover:scale-105 cursor-pointer bg-white'
+                          }`}
+                         title={`Lihat varian ${variant.name}`}
+                       >
+                         <span className="w-5 h-5 border border-gray-300 rounded-full shadow-inner" style={{ backgroundColor: variant.hex }}></span>
+                         <span className={`text-xs font-bold ${variant.isCurrentProduct ? 'text-gycora-dark' : 'text-gray-700'}`}>
+                            {variant.name}
+                         </span>
+                       </button>
+                     ))}
                    </div>
                  </div>
                )}
