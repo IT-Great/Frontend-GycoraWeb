@@ -4076,6 +4076,493 @@
 //   );
 // }
 
+// import { useState, useEffect, useMemo } from "react";
+// import { useParams, useNavigate } from "react-router-dom"; 
+// import Swal from "sweetalert2";
+// import { useCart } from "../../../context/CartContext"; 
+// import { BASE_URL } from "../../../config/api";
+
+// interface Product {
+//   id: number;
+//   category_id: number;
+//   category_name: string;
+//   sku: string;
+//   name: string;
+//   slug: string;
+//   description: string;
+//   benefits: string;
+//   price: number;
+//   stock: number;
+//   image_url: string;
+//   variant_images?: string[]; 
+//   variant_video?: string;
+//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   color?: any[];
+// }
+
+// export default function ProductDetail() {
+//   const { id } = useParams<{ id: string }>(); 
+//   const navigate = useNavigate(); 
+  
+//   const [product, setProduct] = useState<Product | null>(null);
+//   const [loading, setLoading] = useState(true);
+  
+//   // State untuk Quantity diubah menjadi string sementara agar bisa diketik kosong saat dihapus user
+//   const [quantityInput, setQuantityInput] = useState<string>("1");
+//   const quantity = parseInt(quantityInput) || 1; // Konversi ke angka yang valid
+
+//   const [isBuyingNow, setIsBuyingNow] = useState(false); 
+  
+//   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+//   const [selectedColor, setSelectedColor] = useState<string | null>(null);
+
+//   const [isFavorited, setIsFavorited] = useState(false);
+
+//   const { fetchCart, cartItems, addCartItemOptimistically, revertCartItems } = useCart(); 
+
+//   useEffect(() => {
+//     const fetchProduct = async () => {
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/products/${id}`);
+//         if (!res.ok) throw new Error("Produk tidak ditemukan");
+//         const responseData = await res.json();
+        
+//         const productObject = responseData.data ? responseData.data : responseData;
+//         setProduct(productObject);
+//       } catch (error) {
+//         console.error("Gagal memuat produk:", error);
+//         navigate("/products");
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     const checkWishlistStatus = async () => {
+//       const token = localStorage.getItem("user_token");
+//       if (!token) return;
+
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/wishlists`, {
+//           headers: { Authorization: `Bearer ${token}`, Accept: "application/json" }
+//         });
+//         if (res.ok) {
+//           const data = await res.json();
+//           // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//           const isWished = data.some((item: any) => item.product_id === Number(id));
+//           setIsFavorited(isWished);
+//         }
+//       } catch (error) {
+//         console.error("Gagal memeriksa wishlist:", error);
+//       }
+//     };
+
+//     if (id) {
+//       fetchProduct();
+//       checkWishlistStatus();
+//     }
+//   }, [id, navigate]);
+
+//   const handleToggleWishlist = async () => {
+//     const token = localStorage.getItem("user_token");
+//     if (!token) {
+//       Swal.fire({
+//         title: "Login Diperlukan",
+//         text: "Silakan masuk ke akun Anda untuk menyimpan produk ke favorit.",
+//         icon: "info",
+//         showCancelButton: true,
+//         confirmButtonColor: "#059669",
+//         cancelButtonColor: "#d33",
+//         confirmButtonText: "Ke Halaman Login",
+//         cancelButtonText: "Batal"
+//       }).then((result) => {
+//         if (result.isConfirmed) navigate("/login");
+//       });
+//       return;
+//     }
+
+//     setIsFavorited(!isFavorited);
+//     try {
+//       const res = await fetch(`${BASE_URL}/api/wishlists/toggle`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           "Authorization": `Bearer ${token}`,
+//           "Accept": "application/json"
+//         },
+//         body: JSON.stringify({ product_id: product?.id })
+//       });
+//       if (!res.ok) throw new Error("Gagal");
+//     } catch (error) {
+//       setIsFavorited(!isFavorited);
+//       console.error(error);
+//     }
+//   };
+
+//   const allColors = useMemo(() => {
+//     if (!product || !Array.isArray(product.color)) return [];
+//     return product.color;
+//   }, [product]);
+
+//   useEffect(() => {
+//     if (allColors.length > 0) {
+//       const firstColorStr = typeof allColors[0] === 'string' ? allColors[0] : JSON.stringify(allColors[0]);
+//       if (!selectedColor || !allColors.some(c => (typeof c === 'string' ? c : JSON.stringify(c)) === selectedColor)) {
+//         setSelectedColor(firstColorStr);
+//       }
+//     } else {
+//       setSelectedColor(null);
+//     }
+//   }, [allColors, selectedColor]);
+
+//   const gallery = useMemo(() => {
+//     if (!product) return [];
+//     const imgs = [];
+//     if (product.image_url) imgs.push(product.image_url);
+//     if (Array.isArray(product.variant_images)) {
+//       imgs.push(...product.variant_images);
+//     }
+//     return imgs;
+//   }, [product]);
+
+//   const nextImage = () => setCurrentImageIndex((prev) => (prev + 1) % gallery.length);
+//   const prevImage = () => setCurrentImageIndex((prev) => (prev - 1 + gallery.length) % gallery.length);
+
+//   const formatRupiah = (angka: number) => {
+//     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
+//   };
+
+//   const triggerFlyingAnimation = () => {
+//     const startEl = document.getElementById("product-image");
+//     const endEl = document.getElementById("cart-icon"); 
+    
+//     if (startEl && endEl && gallery.length > 0) {
+//       const startRect = startEl.getBoundingClientRect();
+//       const endRect = endEl.getBoundingClientRect();
+      
+//       const flyingImg = document.createElement("img");
+//       flyingImg.src = gallery[currentImageIndex]; 
+//       flyingImg.style.position = "fixed";
+//       flyingImg.style.top = `${startRect.top}px`;
+//       flyingImg.style.left = `${startRect.left}px`;
+//       flyingImg.style.width = `${startRect.width}px`;
+//       flyingImg.style.height = `${startRect.height}px`;
+//       flyingImg.style.borderRadius = "10%";
+//       flyingImg.style.zIndex = "9999";
+//       flyingImg.style.transition = "all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)"; 
+//       document.body.appendChild(flyingImg);
+
+//       requestAnimationFrame(() => {
+//         flyingImg.style.top = `${endRect.top + 10}px`;
+//         flyingImg.style.left = `${endRect.left + 10}px`;
+//         flyingImg.style.width = "20px";
+//         flyingImg.style.height = "20px";
+//         flyingImg.style.opacity = "0.2";
+//         flyingImg.style.borderRadius = "50%";
+//       });
+
+//       setTimeout(() => {
+//         flyingImg.remove();
+//         endEl.classList.add("scale-125");
+//         setTimeout(() => endEl.classList.remove("scale-125"), 200);
+//       }, 800);
+//     }
+//   };
+
+//   const handleAddToCart = () => {
+//     const token = localStorage.getItem("user_token");
+//     if (!token) {
+//       Swal.fire({ title: "Login Diperlukan", text: "Silakan masuk ke akun Anda untuk mulai berbelanja.", icon: "info", confirmButtonColor: "#059669", confirmButtonText: "Ke Halaman Login" }).then(() => navigate("/login"));
+//       return;
+//     }
+
+//     if (product?.color && product.color.length > 0 && !selectedColor) {
+//        Swal.fire("Pilih Warna", "Silakan pilih varian warna terlebih dahulu.", "warning");
+//        return;
+//     }
+
+//     const previousCartState = [...cartItems];
+//     const optimisticItem = {
+//       id: Date.now(), 
+//       product_id: product!.id,
+//       quantity: quantity,
+//       gross_amount: quantity * product!.price,
+//       color: selectedColor,
+//       product: {
+//         id: product!.id,
+//         name: product!.name,
+//         price: product!.price,
+//         image_url: product!.image_url,
+//         sku: product!.sku,
+//         stock: product!.stock,
+//         color: product?.color ? JSON.stringify(product.color) : "" 
+//       }
+//     };
+    
+//     addCartItemOptimistically(optimisticItem);
+//     triggerFlyingAnimation();
+//     Swal.fire({ title: "Ditambahkan!", icon: "success", toast: true, position: "top-end", timer: 1500, showConfirmButton: false });
+
+//     fetch(`${BASE_URL}/api/carts`, {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+//       body: JSON.stringify({ product_id: product?.id, quantity: quantity, color: selectedColor })
+//     })
+//     .then(async (res) => {
+//       const data = await res.json();
+//       if (res.ok && data.cart_id) {
+//         fetchCart(); 
+//       } else {
+//         revertCartItems(previousCartState);
+//         Swal.fire("Pemberitahuan", data.message || "Gagal menambahkan produk ke keranjang.", "warning");
+//       }
+//     })
+//     .catch(() => {
+//        revertCartItems(previousCartState);
+//        console.error("Gagal terhubung ke server saat add to cart");
+//     });
+//   };
+
+//   const handleBuyItNow = async () => {
+//     const token = localStorage.getItem("user_token");
+//     if (!token) {
+//       Swal.fire({ title: "Login Diperlukan", icon: "info", confirmButtonColor: "#059669" }).then(() => navigate("/login"));
+//       return;
+//     }
+
+//     if (product?.color && product.color.length > 0 && !selectedColor) {
+//        Swal.fire("Pilih Warna", "Silakan pilih varian warna.", "warning");
+//        return;
+//     }
+
+//     setIsBuyingNow(true);
+//     try {
+//       const res = await fetch(`${BASE_URL}/api/carts`, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+//         body: JSON.stringify({ product_id: product?.id, quantity: quantity, color: selectedColor })
+//       });
+//       const data = await res.json();
+
+//       if (res.ok && data.cart_id) {
+//         fetchCart(); 
+//         navigate("/checkout", { state: { selectedIds: [data.cart_id] } });
+//       } else {
+//         Swal.fire("Gagal", data.message || "Terjadi kesalahan", "error");
+//       }
+//     } catch (error) {
+//       Swal.fire("Error", "Gagal terhubung ke server", "error");
+//     } finally {
+//       setIsBuyingNow(false);
+//     }
+//   };
+
+//   // --- FUNGSI HANDLE INPUT KUANTITAS ---
+//   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const val = e.target.value;
+//     if (val === "" || /^\d+$/.test(val)) {
+//       setQuantityInput(val);
+//     }
+//   };
+
+//   const handleInputBlur = () => {
+//     let parsed = parseInt(quantityInput);
+//     if (isNaN(parsed) || parsed < 1) parsed = 1;
+//     if (product && parsed > product.stock) {
+//       parsed = product.stock;
+//       Swal.fire({ toast: true, position: 'top-end', icon: 'warning', title: `Maksimal stok adalah ${product.stock}`, showConfirmButton: false, timer: 2000 });
+//     }
+//     setQuantityInput(parsed.toString());
+//   };
+
+//   if (loading) return <div className="flex items-center justify-center min-h-screen font-sans bg-white"><div className="w-12 h-12 border-b-2 rounded-full animate-spin border-gycora"></div></div>;
+//   if (!product) return null;
+  
+//   const isOutOfStock = product.stock <= 0;
+//   const isFormDisabled = isOutOfStock || isBuyingNow;
+
+//   return (
+//     <div className="min-h-screen py-12 font-sans bg-white">
+//       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+//         <div className="lg:grid lg:grid-cols-2 lg:gap-16">
+          
+//           <div className="flex flex-col mb-10 lg:mb-0">
+//             <div id="product-image" className="relative group bg-gray-50 rounded-3xl overflow-hidden aspect-[4/5] md:aspect-square lg:aspect-[4/5] border border-gray-100 flex items-center justify-center">
+//               {gallery.length > 0 ? (
+//                 <>
+//                   {gallery.map((src, idx) => (
+//                     <img 
+//                       key={idx}
+//                       src={src} 
+//                       alt={`${product.name} - Varian ${idx}`} 
+//                       className={`absolute inset-0 object-cover object-center w-full h-full transition-opacity duration-300 ease-in-out ${idx === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+//                     />
+//                   ))}
+//                   {gallery.length > 1 && (
+//                     <>
+//                       <button onClick={prevImage} className="absolute z-20 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 left-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100">
+//                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+//                       </button>
+//                       <button onClick={nextImage} className="absolute z-20 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 right-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100">
+//                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+//                       </button>
+//                       <div className="absolute z-20 flex gap-2 bottom-6">
+//                         {gallery.map((_, idx) => (
+//                           <button key={idx} onClick={() => setCurrentImageIndex(idx)} className={`h-2 rounded-full transition-all shadow-sm ${idx === currentImageIndex ? 'bg-gycora w-6' : 'bg-white/80 hover:bg-white w-2'}`} />
+//                         ))}
+//                       </div>
+//                     </>
+//                   )}
+//                 </>
+//               ) : (
+//                 <div className="flex items-center justify-center w-full h-full text-gray-400">No Image</div>
+//               )}
+//               <div className="absolute z-20 top-6 left-6">
+//                 <span className="px-4 py-2 text-sm font-bold text-gray-900 rounded-full shadow-sm bg-white/90 backdrop-blur-md">
+//                   {product.category_name}
+//                 </span>
+//               </div>
+//             </div>
+
+//             {product.variant_video && (
+//               <div className="mt-8">
+//                 <h3 className="mb-3 text-sm font-bold tracking-widest text-gray-900 uppercase">Video Demo</h3>
+//                 <div className="overflow-hidden bg-black shadow-sm rounded-3xl">
+//                   <video src={product.variant_video} controls className="object-contain w-full h-64 md:h-80" />
+//                 </div>
+//               </div>
+//             )}
+//           </div>
+
+//           <div className="flex flex-col justify-center">
+//              <div className="flex items-start justify-between gap-4 mb-2">
+//                <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">{product.name}</h1>
+//                <button 
+//                  onClick={handleToggleWishlist}
+//                  className="flex items-center justify-center w-12 h-12 transition-colors bg-white border border-gray-200 rounded-full shadow-sm shrink-0 hover:bg-gray-50"
+//                  title="Simpan ke Favorit"
+//                >
+//                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-6 h-6 transition-all duration-300 ${isFavorited ? "fill-red-500 text-red-500 scale-110" : "fill-none text-gray-400 hover:text-red-500"}`}>
+//                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+//                  </svg>
+//                </button>
+//              </div>
+
+//              <p className="mb-8 font-mono text-gray-500">SKU: {product.sku}</p>
+//              <div className="mb-8"><p className="text-4xl font-extrabold text-gycora">{formatRupiah(product.price)}</p></div>
+
+//              <div className="p-6 mb-10 border border-gray-100 bg-gray-50 rounded-2xl">
+                
+//                 {allColors.length > 0 && (
+//                   <div className="pb-6 mb-6 border-b border-gray-200">
+//                     <h3 className="mb-3 text-sm font-bold text-gray-700">Pilih Varian Warna:</h3>
+//                     <div className="flex flex-wrap gap-3">
+//                       {allColors.map((c, idx) => {
+//                         const hex = typeof c === 'string' ? c : c.hex;
+//                         const name = typeof c === 'string' ? '' : c.name;
+//                         const colorString = typeof c === 'string' ? c : JSON.stringify(c);
+//                         const isSelected = selectedColor === colorString;
+
+//                         return (
+//                           <button
+//                             key={idx}
+//                             onClick={() => setSelectedColor(colorString)}
+//                             className={`flex items-center gap-2 px-3 py-1.5 rounded-full border-2 transition-all shadow-sm ${isSelected ? 'border-gycora ring-2 ring-gycora/30 scale-105' : 'border-gray-200 hover:border-gray-300 hover:scale-105'}`}
+//                             title={`Pilih warna ${name || hex}`}
+//                           >
+//                             <span className="w-5 h-5 border border-gray-300 rounded-full shadow-inner" style={{ backgroundColor: hex }}></span>
+//                             {name && <span className={`text-xs font-bold ${isSelected ? 'text-gycora-dark' : 'text-gray-700'}`}>{name}</span>}
+//                           </button>
+//                         );
+//                       })}
+//                     </div>
+//                   </div>
+//                 )}
+
+//                 <div className="flex flex-col gap-4">
+//                   {/* PERBAIKAN: QTY INPUT BISA DIKETIK */}
+//                   <div className="flex items-center justify-between w-full overflow-hidden bg-white border border-gray-300 h-14 rounded-xl">
+//                     <button 
+//                       onClick={() => {
+//                         const newVal = Math.max(1, quantity - 1);
+//                         setQuantityInput(newVal.toString());
+//                       }} 
+//                       disabled={isFormDisabled} 
+//                       className="flex items-center justify-center h-full text-gray-600 transition-colors w-14 hover:text-gycora hover:bg-gray-50 disabled:opacity-50"
+//                     >
+//                       -
+//                     </button>
+                    
+//                     <input 
+//                       type="text" 
+//                       value={quantityInput}
+//                       onChange={handleInputChange}
+//                       onBlur={handleInputBlur}
+//                       disabled={isFormDisabled}
+//                       className="w-full h-full font-bold text-center text-gray-900 bg-transparent outline-none appearance-none focus:ring-0"
+//                     />
+                    
+//                     <button 
+//                       onClick={() => {
+//                         const newVal = Math.min(product.stock, quantity + 1);
+//                         setQuantityInput(newVal.toString());
+//                       }} 
+//                       disabled={isFormDisabled} 
+//                       className="flex items-center justify-center h-full text-gray-600 transition-colors w-14 hover:text-gycora hover:bg-gray-50 disabled:opacity-50"
+//                     >
+//                       +
+//                     </button>
+//                   </div>
+                  
+//                   <div className="grid grid-cols-1 gap-4 mt-2 sm:grid-cols-2">
+//                     <button 
+//                       onClick={handleAddToCart}
+//                       disabled={isFormDisabled}
+//                       className={`flex items-center justify-center h-14 rounded-xl text-sm md:text-base font-bold tracking-widest uppercase transition-all border-2 ${
+//                         isOutOfStock 
+//                           ? 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed' 
+//                           : 'bg-white border-gycora text-gycora hover:bg-emerald-50 active:scale-95'
+//                       }`}
+//                     >
+//                       Add to Cart
+//                     </button>
+
+//                     <button 
+//                       onClick={handleBuyItNow}
+//                       disabled={isFormDisabled}
+//                       className={`flex items-center justify-center h-14 rounded-xl text-sm md:text-base font-bold tracking-widest uppercase transition-all ${
+//                         isOutOfStock 
+//                           ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
+//                           : 'bg-gycora text-white hover:bg-gycora-dark shadow-[0_4px_14px_0_rgba(5,150,105,0.39)] hover:-translate-y-0.5 active:scale-95'
+//                       }`}
+//                     >
+//                       {isBuyingNow ? "Memproses..." : (isOutOfStock ? 'Stok Habis' : 'Buy it Now')}
+//                     </button>
+//                   </div>
+
+//                 </div>
+//              </div>
+
+//              <div className="space-y-8">
+//                 <div>
+//                   <h3 className="pb-2 mb-4 text-lg font-bold text-gray-900 border-b border-gray-200">Tentang Produk Ini</h3>
+//                   <div className="leading-relaxed prose-sm prose text-gray-600 whitespace-pre-wrap sm:prose max-w-none">{product.description}</div>
+//                 </div>
+//                 {product.benefits && (
+//                   <div>
+//                     <h3 className="pb-2 mb-4 text-lg font-bold text-gray-900 border-b border-gray-200">Manfaat Utama</h3>
+//                     <div className="p-5 border border-emerald-100 bg-emerald-50/50 rounded-2xl">
+//                       <p className="leading-relaxed text-gray-700 whitespace-pre-wrap">{product.benefits}</p>
+//                     </div>
+//                   </div>
+//                 )}
+//              </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
 import { useState, useEffect, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom"; 
 import Swal from "sweetalert2";
@@ -4107,9 +4594,11 @@ export default function ProductDetail() {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   
-  // State untuk Quantity diubah menjadi string sementara agar bisa diketik kosong saat dihapus user
+  // State untuk menyimpan daftar semua produk (untuk pencarian warna)
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  
   const [quantityInput, setQuantityInput] = useState<string>("1");
-  const quantity = parseInt(quantityInput) || 1; // Konversi ke angka yang valid
+  const quantity = parseInt(quantityInput) || 1; 
 
   const [isBuyingNow, setIsBuyingNow] = useState(false); 
   
@@ -4121,14 +4610,22 @@ export default function ProductDetail() {
   const { fetchCart, cartItems, addCartItemOptimistically, revertCartItems } = useCart(); 
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchProductAndCatalog = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/api/products/${id}`);
-        if (!res.ok) throw new Error("Produk tidak ditemukan");
-        const responseData = await res.json();
-        
+        // Fetch Detail Produk Saat Ini
+        const resDetail = await fetch(`${BASE_URL}/api/products/${id}`);
+        if (!resDetail.ok) throw new Error("Produk tidak ditemukan");
+        const responseData = await resDetail.json();
         const productObject = responseData.data ? responseData.data : responseData;
         setProduct(productObject);
+
+        // Fetch Semua Produk (Untuk Cross-Referencing Warna)
+        const resAll = await fetch(`${BASE_URL}/api/products`);
+        if (resAll.ok) {
+           const allData = await resAll.json();
+           setAllProducts(allData.data ? allData.data : allData);
+        }
+
       } catch (error) {
         console.error("Gagal memuat produk:", error);
         navigate("/products");
@@ -4157,8 +4654,16 @@ export default function ProductDetail() {
     };
 
     if (id) {
-      fetchProduct();
+      setLoading(true);
+      fetchProductAndCatalog();
       checkWishlistStatus();
+      
+      // Reset Image Index & Quantity setiap pindah halaman produk
+      setCurrentImageIndex(0);
+      setQuantityInput("1");
+      
+      // Scroll to top
+      window.scrollTo(0, 0);
     }
   }, [id, navigate]);
 
@@ -4213,6 +4718,48 @@ export default function ProductDetail() {
       setSelectedColor(null);
     }
   }, [allColors, selectedColor]);
+
+  // =========================================================================
+  // [BARU] FUNGSI NAVIGASI ANTAR WARNA (FRONTEND CROSS-REFERENCE)
+  // =========================================================================
+  const navigateToColorVariant = (colorName: string) => {
+      if (!product || !colorName || allProducts.length === 0) return;
+
+      // Ambil Base Name produk ini. 
+      // Contoh: "Gycora Lip Cream Matte Red" -> Asumsi nama dasarnya adalah sebelum warna
+      // Tapi cara paling aman: Cari di allProducts yang namanya MENGANDUNG warna yang di-klik 
+      // dan berpotensi memilik Kategori yang sama.
+
+      const targetVariant = allProducts.find(p => {
+          // Abaikan produk ini sendiri
+          if (p.id === product.id) return false;
+          
+          const pNameLower = p.name.toLowerCase();
+          const targetColorLower = colorName.toLowerCase();
+
+          // Strategi Pencarian: 
+          // 1. Namanya harus berakhir dengan warna, ATAU mengandung nama warna.
+          // 2. Jika Anda memiliki penamaan standar seperti "Base Product Name Color Name"
+          // maka kita bisa mengecek apakah p.name memiliki pola yang sama.
+          
+          return pNameLower.includes(targetColorLower) && p.category_id === product.category_id;
+      });
+
+      if (targetVariant) {
+          navigate(`/product/${targetVariant.id}`);
+      } else {
+          Swal.fire({
+              title: "Varian Tidak Ditemukan",
+              text: `Maaf, produk dengan warna ${colorName} sedang tidak tersedia di katalog saat ini.`,
+              icon: "info",
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000
+          });
+      }
+  };
+
 
   const gallery = useMemo(() => {
     if (!product) return [];
@@ -4275,6 +4822,8 @@ export default function ProductDetail() {
       return;
     }
 
+    // Jika produk punya opsi warna tapi tidak ada nama warna yang bisa dikirim
+    // ini mencegah error jika user memanipulasi button
     if (product?.color && product.color.length > 0 && !selectedColor) {
        Swal.fire("Pilih Warna", "Silakan pilih varian warna terlebih dahulu.", "warning");
        return;
@@ -4356,7 +4905,6 @@ export default function ProductDetail() {
     }
   };
 
-  // --- FUNGSI HANDLE INPUT KUANTITAS ---
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     if (val === "" || /^\d+$/.test(val)) {
@@ -4451,10 +4999,10 @@ export default function ProductDetail() {
              <div className="mb-8"><p className="text-4xl font-extrabold text-gycora">{formatRupiah(product.price)}</p></div>
 
              <div className="p-6 mb-10 border border-gray-100 bg-gray-50 rounded-2xl">
-                
+               
                 {allColors.length > 0 && (
                   <div className="pb-6 mb-6 border-b border-gray-200">
-                    <h3 className="mb-3 text-sm font-bold text-gray-700">Pilih Varian Warna:</h3>
+                    <h3 className="mb-3 text-sm font-bold text-gray-700">Pilih Varian Warna Lainnya:</h3>
                     <div className="flex flex-wrap gap-3">
                       {allColors.map((c, idx) => {
                         const hex = typeof c === 'string' ? c : c.hex;
@@ -4465,7 +5013,15 @@ export default function ProductDetail() {
                         return (
                           <button
                             key={idx}
-                            onClick={() => setSelectedColor(colorString)}
+                            // [PERUBAHAN]: Jika nama warna tersedia, Navigasikan ke halaman produk lain.
+                            // Jika tidak ada nama, gunakan fallback seperti semula (untuk produk yang warnanya sekadar hex biasa)
+                            onClick={() => {
+                                if (name) {
+                                    navigateToColorVariant(name);
+                                } else {
+                                    setSelectedColor(colorString);
+                                }
+                            }}
                             className={`flex items-center gap-2 px-3 py-1.5 rounded-full border-2 transition-all shadow-sm ${isSelected ? 'border-gycora ring-2 ring-gycora/30 scale-105' : 'border-gray-200 hover:border-gray-300 hover:scale-105'}`}
                             title={`Pilih warna ${name || hex}`}
                           >
@@ -4479,7 +5035,6 @@ export default function ProductDetail() {
                 )}
 
                 <div className="flex flex-col gap-4">
-                  {/* PERBAIKAN: QTY INPUT BISA DIKETIK */}
                   <div className="flex items-center justify-between w-full overflow-hidden bg-white border border-gray-300 h-14 rounded-xl">
                     <button 
                       onClick={() => {
