@@ -261,6 +261,8 @@ export interface Product {
   id: number;
   name: string;
   price: number;
+  discount_price: number;
+  voucher_discount_price: number;
   image_url: string;
   sku?: string;
   stock: number;
