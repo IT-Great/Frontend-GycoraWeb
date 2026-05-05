@@ -4586,6 +4586,7 @@ const colorMapHex: Record<string, string> = {
   Cream: "#FDF4E3",
   Sage: "#9DC183",
   Gold: "#D4AF37",
+  Orange: "#FF9900",
   Silver: "#C0C0C0",
   Maroon: "#800000",
   Olive: "#808000",
