@@ -4729,7 +4729,7 @@ interface Product {
   benefits: string;
   price: number;
   discount_price: number;
-  voucher_discount_price: number;
+  voucher_discount_price?: number;
 
   stock: number;
   image_url: string;
@@ -4974,6 +4974,7 @@ export default function ProductDetail() {
         id: product!.id,
         name: product!.name,
         price: product!.price,
+        discount_price: product!.price,
         image_url: product!.image_url,
         sku: product!.sku,
         stock: product!.stock,
