@@ -556,9 +556,9 @@ export default function PublicCatalog() {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1598440947619-2ce6598c4e1d?q=80&w=1500')] bg-cover bg-center opacity-20"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
         <div className="relative z-10 px-4">
-          <h1 className="text-4xl font-extrabold tracking-tight text-white md:text-5xl">Koleksi Gycora</h1>
+          <h1 className="text-4xl font-extrabold tracking-tight text-white md:text-5xl">Temukan Favoritmu di Gycora</h1>
           <p className="max-w-2xl mx-auto mt-4 text-gray-300">
-            Temukan perawatan rambut premium yang dirancang khusus untuk Anda. Dari serum yang merevitalisasi hingga kondisioner yang melembapkan.
+            Dari hair brush hingga scalp care, eksplor produk pilihan yang bikin rutinitas rambut terasa lebih praktis setiap hari.
           </p>
         </div>
       </div>
