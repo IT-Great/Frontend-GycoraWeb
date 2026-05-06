@@ -5392,39 +5392,137 @@ import { useCart } from "../../../context/CartContext";
 import { BASE_URL } from "../../../config/api";
 
 const colorMapHex: Record<string, string> = {
-  Black: "#000000", White: "#FFFFFF", Brown: "#8B4513", Beige: "#F5F5DC",
-  Red: "#8B0000", Navy: "#000080", Green: "#008000", Grey: "#808080",
-  Pink: "#FFC0CB", Yellow: "#FFD700", Blue: "#4169E1", Mocca: "#967969",
-  Cream: "#FDF4E3", Sage: "#9DC183", Gold: "#D4AF37", Orange: "#FF9900",
-  Silver: "#C0C0C0", Maroon: "#800000", Olive: "#808000", Taupe: "#483C32",
-  Khaki: "#F0E68C", Mustard: "#FFDB58", Emerald: "#50C878", Coral: "#FF7F50",
-  Mint: "#98FF98", Teal: "#008080", Cyan: "#00FFFF", Indigo: "#4B0082",
-  Violet: "#EE82EE", Purple: "#800080", Magenta: "#FF00FF", Lilac: "#C8A2C8",
-  Lavender: "#E6E6FA", Rose: "#FF007F", Peach: "#FFE5B4", Apricot: "#FBCEB1",
-  Ivory: "#FFFFF0", Tan: "#D2B48C", Charcoal: "#36454F", Ash: "#555555",
-  Platinum: "#E5E4E2", Bronze: "#CD7F32", Copper: "#B87333", Rust: "#B7410E",
-  Ochre: "#CC7722", Sienna: "#882D17", Terracotta: "#E2725B", Amber: "#FFBF00",
-  Caramel: "#FFD59A", Honey: "#FFC30B", Chestnut: "#954535", Walnut: "#5C4033",
-  Mahogany: "#C04000", Chocolate: "#7B3F00", Cocoa: "#D2691E", Coffee: "#6F4E37",
-  Mocha: "#493D26", Espresso: "#4B3621", Cappuccino: "#654321", Latte: "#C5A059",
-  Macchiato: "#8B5A2B", Almond: "#EED9C4", Hazelnut: "#C4A484", Pecan: "#8A3324",
-  Pistachio: "#93C572", Seafoam: "#9FE2BF", Turquoise: "#40E0D0", Aqua: "#00FFFF",
-  Azure: "#00FFFF", Sky: "#87CEEB", Cerulean: "#007BA7", Cobalt: "#0047AB",
-  Sapphire: "#0F52BA", Ultramarine: "#120A8F", Lapis: "#26619C", Denim: "#1560BD",
-  Steel: "#4682B4", Slate: "#708090", Gunmetal: "#2a3439", Onyx: "#353839",
-  Jet: "#343434", Ebony: "#555D50", Raven: "#050301", Pitch: "#000000",
-  Obsidian: "#0B0B0B", Carbon: "#333333", Graphite: "#383838", Pewter: "#8E8E8E",
-  Zinc: "#8C92AC", Lead: "#778899", Iron: "#A19D94", Titanium: "#878681",
-  Chromium: "#C0C0C0", Nickel: "#727472", Tungsten: "#A0A0A0", Fuchsia: "#FF00FF",
-  Crimson: "#DC143C", Carmine: "#960018", Ruby: "#E0115F", Scarlet: "#FF2400",
-  Vermilion: "#E34234", Brick: "#CB4154", Tomato: "#FF6347", Papaya: "#FFEFD5",
-  Melon: "#FDBCB4", Mango: "#F4A460", Citrus: "#FFA500", Lemon: "#FFF700",
-  Lime: "#BFFF00", Kiwi: "#8EE53F", Apple: "#8DB600", Pear: "#D1E231",
-  Grape: "#6F2DA8", Plum: "#8E4585", Blackberry: "#4D0135", Mulberry: "#C54B8C",
-  Raisin: "#652DC1", Eggplant: "#614051", Aubergine: "#472C4C", Amethyst: "#9966CC",
-  Orchid: "#DA70D6", Heather: "#D473D4", Thistle: "#D8BFD8", Mauve: "#E0B0FF",
-  Wisteria: "#C9A0DC", Periwinkle: "#CCCCFF", Cornflower: "#6495ED", Baby: "#89CFF0",
-  Powder: "#B0E0E6", Midnight: "#191970", Ocean: "#0077BE",
+  Black: "#000000",
+  White: "#FFFFFF",
+  Brown: "#8B4513",
+  Beige: "#F5F5DC",
+  Red: "#8B0000",
+  Navy: "#000080",
+  Green: "#008000",
+  Grey: "#808080",
+  Pink: "#FFC0CB",
+  Yellow: "#FFD700",
+  Blue: "#4169E1",
+  Mocca: "#967969",
+  Cream: "#FDF4E3",
+  Sage: "#9DC183",
+  Gold: "#D4AF37",
+  Orange: "#FF9900",
+  Silver: "#C0C0C0",
+  Maroon: "#800000",
+  Olive: "#808000",
+  Taupe: "#483C32",
+  Khaki: "#F0E68C",
+  Mustard: "#FFDB58",
+  Emerald: "#50C878",
+  Coral: "#FF7F50",
+  Mint: "#98FF98",
+  Teal: "#008080",
+  Cyan: "#00FFFF",
+  Indigo: "#4B0082",
+  Violet: "#EE82EE",
+  Purple: "#800080",
+  Magenta: "#FF00FF",
+  Lilac: "#C8A2C8",
+  Lavender: "#E6E6FA",
+  Rose: "#FF007F",
+  Peach: "#FFE5B4",
+  Apricot: "#FBCEB1",
+  Ivory: "#FFFFF0",
+  Tan: "#D2B48C",
+  Charcoal: "#36454F",
+  Ash: "#555555",
+  Platinum: "#E5E4E2",
+  Bronze: "#CD7F32",
+  Copper: "#B87333",
+  Rust: "#B7410E",
+  Ochre: "#CC7722",
+  Sienna: "#882D17",
+  Terracotta: "#E2725B",
+  Amber: "#FFBF00",
+  Caramel: "#FFD59A",
+  Honey: "#FFC30B",
+  Chestnut: "#954535",
+  Walnut: "#5C4033",
+  Mahogany: "#C04000",
+  Chocolate: "#7B3F00",
+  Cocoa: "#D2691E",
+  Coffee: "#6F4E37",
+  Mocha: "#493D26",
+  Espresso: "#4B3621",
+  Cappuccino: "#654321",
+  Latte: "#C5A059",
+  Macchiato: "#8B5A2B",
+  Almond: "#EED9C4",
+  Hazelnut: "#C4A484",
+  Pecan: "#8A3324",
+  Pistachio: "#93C572",
+  Seafoam: "#9FE2BF",
+  Turquoise: "#40E0D0",
+  Aqua: "#00FFFF",
+  Azure: "#00FFFF",
+  Sky: "#87CEEB",
+  Cerulean: "#007BA7",
+  Cobalt: "#0047AB",
+  Sapphire: "#0F52BA",
+  Ultramarine: "#120A8F",
+  Lapis: "#26619C",
+  Denim: "#1560BD",
+  Steel: "#4682B4",
+  Slate: "#708090",
+  Gunmetal: "#2a3439",
+  Onyx: "#353839",
+  Jet: "#343434",
+  Ebony: "#555D50",
+  Raven: "#050301",
+  Pitch: "#000000",
+  Obsidian: "#0B0B0B",
+  Carbon: "#333333",
+  Graphite: "#383838",
+  Pewter: "#8E8E8E",
+  Zinc: "#8C92AC",
+  Lead: "#778899",
+  Iron: "#A19D94",
+  Titanium: "#878681",
+  Chromium: "#C0C0C0",
+  Nickel: "#727472",
+  Tungsten: "#A0A0A0",
+  Fuchsia: "#FF00FF",
+  Crimson: "#DC143C",
+  Carmine: "#960018",
+  Ruby: "#E0115F",
+  Scarlet: "#FF2400",
+  Vermilion: "#E34234",
+  Brick: "#CB4154",
+  Tomato: "#FF6347",
+  Papaya: "#FFEFD5",
+  Melon: "#FDBCB4",
+  Mango: "#F4A460",
+  Citrus: "#FFA500",
+  Lemon: "#FFF700",
+  Lime: "#BFFF00",
+  Kiwi: "#8EE53F",
+  Apple: "#8DB600",
+  Pear: "#D1E231",
+  Grape: "#6F2DA8",
+  Plum: "#8E4585",
+  Blackberry: "#4D0135",
+  Mulberry: "#C54B8C",
+  Raisin: "#652DC1",
+  Eggplant: "#614051",
+  Aubergine: "#472C4C",
+  Amethyst: "#9966CC",
+  Orchid: "#DA70D6",
+  Heather: "#D473D4",
+  Thistle: "#D8BFD8",
+  Mauve: "#E0B0FF",
+  Wisteria: "#C9A0DC",
+  Periwinkle: "#CCCCFF",
+  Cornflower: "#6495ED",
+  Baby: "#89CFF0",
+  Powder: "#B0E0E6",
+  Midnight: "#191970",
+  Ocean: "#0077BE",
 };
 
 const extractColorName = (fullName: string) => {
@@ -5476,7 +5574,8 @@ export default function ProductDetail() {
   const [siblingColors, setSiblingColors] = useState<Product[]>([]);
 
   const [isFavorited, setIsFavorited] = useState(false);
-  const { fetchCart, cartItems, addCartItemOptimistically, revertCartItems } = useCart();
+  const { fetchCart, cartItems, addCartItemOptimistically, revertCartItems } =
+    useCart();
 
   const fetchSiblingColors = async (productName: string) => {
     if (!productName) return;
@@ -5512,7 +5611,7 @@ export default function ProductDetail() {
     // [BARU] OPTIMISTIC UI: Render seketika jika ada data awal
     // =========================================================
     const initialPassedData = location.state?.initialProduct;
-    
+
     if (initialPassedData && String(initialPassedData.id) === id) {
       setProduct(initialPassedData);
       setLoading(false); // Matikan loading besar, biarkan render dengan data seadanya (Gambar, Harga, Judul)
@@ -5531,7 +5630,9 @@ export default function ProductDetail() {
         if (!res.ok) throw new Error("Produk tidak ditemukan");
         const responseData = await res.json();
 
-        const productObject = responseData.data ? responseData.data : responseData;
+        const productObject = responseData.data
+          ? responseData.data
+          : responseData;
         setProduct(productObject); // Perbarui dengan data utuh (Deskripsi, dll akan muncul)
 
         await fetchSiblingColors(productObject.name);
@@ -5547,12 +5648,17 @@ export default function ProductDetail() {
 
       try {
         const res = await fetch(`${BASE_URL}/api/wishlists`, {
-          headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
         });
         if (res.ok) {
           const data = await res.json();
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const isWished = data.some((item: any) => item.product_id === Number(id));
+          const isWished = data.some(
+            (item: any) => item.product_id === Number(id),
+          );
           setIsFavorited(isWished);
         }
       } catch (error) {
@@ -5618,11 +5724,19 @@ export default function ProductDetail() {
     return imgs;
   }, [product]);
 
-  const nextImage = () => setCurrentImageIndex((prev) => (prev + 1) % gallery.length);
-  const prevImage = () => setCurrentImageIndex((prev) => (prev - 1 + gallery.length) % gallery.length);
+  const nextImage = () =>
+    setCurrentImageIndex((prev) => (prev + 1) % gallery.length);
+  const prevImage = () =>
+    setCurrentImageIndex(
+      (prev) => (prev - 1 + gallery.length) % gallery.length,
+    );
 
   const formatRupiah = (angka: number) => {
-    return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(angka);
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(angka);
   };
 
   const triggerFlyingAnimation = () => {
@@ -5642,7 +5756,8 @@ export default function ProductDetail() {
       flyingImg.style.height = `${startRect.height}px`;
       flyingImg.style.borderRadius = "10%";
       flyingImg.style.zIndex = "9999";
-      flyingImg.style.transition = "all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+      flyingImg.style.transition =
+        "all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
       document.body.appendChild(flyingImg);
 
       requestAnimationFrame(() => {
@@ -5696,7 +5811,14 @@ export default function ProductDetail() {
 
     addCartItemOptimistically(optimisticItem);
     triggerFlyingAnimation();
-    Swal.fire({ title: "Ditambahkan!", icon: "success", toast: true, position: "top-end", timer: 1500, showConfirmButton: false });
+    Swal.fire({
+      title: "Ditambahkan!",
+      icon: "success",
+      toast: true,
+      position: "top-end",
+      timer: 1500,
+      showConfirmButton: false,
+    });
 
     fetch(`${BASE_URL}/api/carts`, {
       method: "POST",
@@ -5716,7 +5838,11 @@ export default function ProductDetail() {
           fetchCart();
         } else {
           revertCartItems(previousCartState);
-          Swal.fire("Pemberitahuan", data.message || "Gagal menambahkan produk ke keranjang.", "warning");
+          Swal.fire(
+            "Pemberitahuan",
+            data.message || "Gagal menambahkan produk ke keranjang.",
+            "warning",
+          );
         }
       })
       .catch(() => {
@@ -5728,7 +5854,11 @@ export default function ProductDetail() {
   const handleBuyItNow = async () => {
     const token = localStorage.getItem("user_token");
     if (!token) {
-      Swal.fire({ title: "Login Diperlukan", icon: "info", confirmButtonColor: "#059669" }).then(() => navigate("/login"));
+      Swal.fire({
+        title: "Login Diperlukan",
+        icon: "info",
+        confirmButtonColor: "#059669",
+      }).then(() => navigate("/login"));
       return;
     }
 
@@ -5773,7 +5903,14 @@ export default function ProductDetail() {
     if (isNaN(parsed) || parsed < 1) parsed = 1;
     if (product && parsed > product.stock) {
       parsed = product.stock;
-      Swal.fire({ toast: true, position: "top-end", icon: "warning", title: `Maksimal stok adalah ${product.stock}`, showConfirmButton: false, timer: 2000 });
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "warning",
+        title: `Maksimal stok adalah ${product.stock}`,
+        showConfirmButton: false,
+        timer: 2000,
+      });
     }
     setQuantityInput(parsed.toString());
   };
@@ -5788,6 +5925,34 @@ export default function ProductDetail() {
 
   const isOutOfStock = product.stock <= 0;
   const isFormDisabled = isOutOfStock || isBuyingNow;
+
+  // [BARU] Fungsi Share Link Produk
+  const handleShare = async () => {
+    const shareData = {
+      title: product?.name,
+      text: `Cek produk keren ini dari Gycora: ${product?.name}`,
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        console.error("Gagal membagikan:", err);
+      }
+    } else {
+      // Fallback jika browser desktop lama: Salin ke clipboard
+      navigator.clipboard.writeText(window.location.href);
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",
+        title: "Link produk disalin!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen py-12 font-sans bg-white">
@@ -5814,16 +5979,38 @@ export default function ProductDetail() {
                         onClick={prevImage}
                         className="absolute z-20 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 left-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100"
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-6 h-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M15 19l-7-7 7-7"
+                          />
                         </svg>
                       </button>
                       <button
                         onClick={nextImage}
                         className="absolute z-20 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 right-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100"
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-6 h-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
                         </svg>
                       </button>
                       <div className="absolute z-20 flex gap-2 bottom-6">
@@ -5856,7 +6043,11 @@ export default function ProductDetail() {
                   Video Demo
                 </h3>
                 <div className="overflow-hidden bg-black shadow-sm rounded-3xl">
-                  <video src={product.variant_video} controls className="object-contain w-full h-64 md:h-80" />
+                  <video
+                    src={product.variant_video}
+                    controls
+                    className="object-contain w-full h-64 md:h-80"
+                  />
                 </div>
               </div>
             )}
@@ -5867,21 +6058,47 @@ export default function ProductDetail() {
               <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
                 {product.name}
               </h1>
-              <button
-                onClick={handleToggleWishlist}
-                className="flex items-center justify-center w-12 h-12 transition-colors bg-white border border-gray-200 rounded-full shadow-sm shrink-0 hover:bg-gray-50"
-                title="Simpan ke Favorit"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className={`w-6 h-6 transition-all duration-300 ${isFavorited ? "fill-red-500 text-red-500 scale-110" : "fill-none text-gray-400 hover:text-red-500"}`}
+              <div className="flex items-center gap-2 shrink-0">
+                {/* [BARU] Tombol Share */}
+                <button
+                  onClick={handleShare}
+                  className="flex items-center justify-center w-12 h-12 text-gray-500 transition-colors bg-white border border-gray-200 rounded-full shadow-sm hover:bg-gray-50 hover:text-gycora"
+                  title="Bagikan Produk"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                </svg>
-              </button>
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                    />
+                  </svg>
+                </button>
+                <button
+                  onClick={handleToggleWishlist}
+                  className="flex items-center justify-center w-12 h-12 transition-colors bg-white border border-gray-200 rounded-full shadow-sm shrink-0 hover:bg-gray-50"
+                  title="Simpan ke Favorit"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className={`w-6 h-6 transition-all duration-300 ${isFavorited ? "fill-red-500 text-red-500 scale-110" : "fill-none text-gray-400 hover:text-red-500"}`}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
 
             <p className="mb-8 font-mono text-gray-500">SKU: {product.sku}</p>
@@ -5919,7 +6136,9 @@ export default function ProductDetail() {
                             if (!isCurrentProduct) {
                               window.scrollTo({ top: 0, behavior: "smooth" });
                               // [BARU] Melempar data produk varian ke URL baru agar dirender tanpa loading
-                              navigate(`/product/${sibling.id}`, { state: { initialProduct: sibling } });
+                              navigate(`/product/${sibling.id}`, {
+                                state: { initialProduct: sibling },
+                              });
                             }
                           }}
                           className={`flex items-center gap-2 px-3 py-1.5 rounded-full border-2 transition-all shadow-sm ${
@@ -6003,7 +6222,11 @@ export default function ProductDetail() {
                         : "bg-gycora text-white hover:bg-gycora-dark shadow-[0_4px_14px_0_rgba(5,150,105,0.39)] hover:-translate-y-0.5 active:scale-95"
                     }`}
                   >
-                    {isBuyingNow ? "Memproses..." : isOutOfStock ? "Stok Habis" : "Buy it Now"}
+                    {isBuyingNow
+                      ? "Memproses..."
+                      : isOutOfStock
+                        ? "Stok Habis"
+                        : "Buy it Now"}
                   </button>
                 </div>
               </div>
@@ -6036,7 +6259,7 @@ export default function ProductDetail() {
                   <div className="p-5 border border-emerald-100 bg-emerald-50/50 rounded-2xl">
                     {/* [BARU] Skeleton untuk Benefits */}
                     {isFetchingFull && !product.benefits ? (
-                       <div className="w-3/4 h-3 rounded bg-emerald-200/50 animate-pulse"></div>
+                      <div className="w-3/4 h-3 rounded bg-emerald-200/50 animate-pulse"></div>
                     ) : (
                       <p className="leading-relaxed text-gray-700 whitespace-pre-wrap">
                         {product.benefits}
