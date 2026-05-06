@@ -66,6 +66,8 @@ import ChatListPage from "./pages/user/ChatListPage";
 import UserDetailPage from "./pages/admin/UserDetailPage";
 import AdminAuditLogPage from "./pages/admin/AdminAuditLogPage";
 import { MessageProvider } from "./context/MessageContext";
+import ProductOnePage from "./pages/user/ProductOnePage";
+import ProductTwoPage from "./pages/user/ProductTwoPage";
 
 // function LayoutWrapper({ children }: { children: React.ReactNode }) {
 //   const location = useLocation();
@@ -168,6 +170,8 @@ export default function App() {
               <Route path="/tracking/:id" element={<TrackingPage />} />
               <Route path="/favorites" element={<FavoritePage />} />
               <Route path="/consult" element={<ConsultWithUs />} />
+              <Route path="/product-one" element={<ProductOnePage />} />
+              <Route path="/product-two" element={<ProductTwoPage />} />
               {/* Tambahkan Route lainnya (profile, checkout, dll) di sini nanti */}
               {/* --- RUTE KHUSUS ADMIN --- */}
               {/* Semua rute admin dibungkus manual menggunakan element AdminLayout */}
