@@ -643,6 +643,8 @@ export default function PublicCatalog() {
                 <Link 
                   key={product.id} 
                   to={`/product/${product.id}`} 
+                  // [BARU] Kirim data produk saat ini ke halaman detail agar tidak perlu loading
+                  state={{ initialProduct: product }}
                   className="relative flex flex-col overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-sm group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1"
                 >
                   {/* Product Image Area */}

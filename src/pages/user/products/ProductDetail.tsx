@@ -4561,152 +4561,872 @@
 //   );
 // }
 
+// import { useState, useEffect, useMemo } from "react";
+// import { useParams, useNavigate } from "react-router-dom";
+// import Swal from "sweetalert2";
+// import { useCart } from "../../../context/CartContext";
+// import { BASE_URL } from "../../../config/api";
+
+// // =========================================================
+// // [BARU] KAMUS WARNA (Sama seperti versi Vue)
+// // =========================================================
+// const colorMapHex: Record<string, string> = {
+//   Black: "#000000",
+//   White: "#FFFFFF",
+//   Brown: "#8B4513",
+//   Beige: "#F5F5DC",
+//   Red: "#8B0000",
+//   Navy: "#000080",
+//   Green: "#008000",
+//   Grey: "#808080",
+//   Pink: "#FFC0CB",
+//   Yellow: "#FFD700",
+//   Blue: "#4169E1",
+//   Mocca: "#967969",
+//   Cream: "#FDF4E3",
+//   Sage: "#9DC183",
+//   Gold: "#D4AF37",
+//   Orange: "#FF9900",
+//   Silver: "#C0C0C0",
+//   Maroon: "#800000",
+//   Olive: "#808000",
+//   Taupe: "#483C32",
+//   Khaki: "#F0E68C",
+//   Mustard: "#FFDB58",
+//   Emerald: "#50C878",
+//   Coral: "#FF7F50",
+//   Mint: "#98FF98",
+//   Teal: "#008080",
+//   Cyan: "#00FFFF",
+//   Indigo: "#4B0082",
+//   Violet: "#EE82EE",
+//   Purple: "#800080",
+//   Magenta: "#FF00FF",
+//   Lilac: "#C8A2C8",
+//   Lavender: "#E6E6FA",
+//   Rose: "#FF007F",
+//   Peach: "#FFE5B4",
+//   Apricot: "#FBCEB1",
+//   Ivory: "#FFFFF0",
+//   Tan: "#D2B48C",
+//   Charcoal: "#36454F",
+//   Ash: "#555555",
+//   Platinum: "#E5E4E2",
+//   Bronze: "#CD7F32",
+//   Copper: "#B87333",
+//   Rust: "#B7410E",
+//   Ochre: "#CC7722",
+//   Sienna: "#882D17",
+//   Terracotta: "#E2725B",
+//   Amber: "#FFBF00",
+//   Caramel: "#FFD59A",
+//   Honey: "#FFC30B",
+//   Chestnut: "#954535",
+//   Walnut: "#5C4033",
+//   Mahogany: "#C04000",
+//   Chocolate: "#7B3F00",
+//   Cocoa: "#D2691E",
+//   Coffee: "#6F4E37",
+//   Mocha: "#493D26",
+//   Espresso: "#4B3621",
+//   Cappuccino: "#654321",
+//   Latte: "#C5A059",
+//   Macchiato: "#8B5A2B",
+//   Almond: "#EED9C4",
+//   Hazelnut: "#C4A484",
+//   Pecan: "#8A3324",
+//   Pistachio: "#93C572",
+//   Seafoam: "#9FE2BF",
+//   Turquoise: "#40E0D0",
+//   Aqua: "#00FFFF",
+//   Azure: "#00FFFF",
+//   Sky: "#87CEEB",
+//   Cerulean: "#007BA7",
+//   Cobalt: "#0047AB",
+//   Sapphire: "#0F52BA",
+//   Ultramarine: "#120A8F",
+//   Lapis: "#26619C",
+//   Denim: "#1560BD",
+//   Steel: "#4682B4",
+//   Slate: "#708090",
+//   Gunmetal: "#2a3439",
+//   Onyx: "#353839",
+//   Jet: "#343434",
+//   Ebony: "#555D50",
+//   Raven: "#050301",
+//   Pitch: "#000000",
+//   Obsidian: "#0B0B0B",
+//   Carbon: "#333333",
+//   Graphite: "#383838",
+//   Pewter: "#8E8E8E",
+//   Zinc: "#8C92AC",
+//   Lead: "#778899",
+//   Iron: "#A19D94",
+//   Titanium: "#878681",
+//   Chromium: "#C0C0C0",
+//   Nickel: "#727472",
+//   Tungsten: "#A0A0A0",
+//   Fuchsia: "#FF00FF",
+//   Crimson: "#DC143C",
+//   Carmine: "#960018",
+//   Ruby: "#E0115F",
+//   Scarlet: "#FF2400",
+//   Vermilion: "#E34234",
+//   Brick: "#CB4154",
+//   Tomato: "#FF6347",
+//   Papaya: "#FFEFD5",
+//   Melon: "#FDBCB4",
+//   Mango: "#F4A460",
+//   Citrus: "#FFA500",
+//   Lemon: "#FFF700",
+//   Lime: "#BFFF00",
+//   Kiwi: "#8EE53F",
+//   Apple: "#8DB600",
+//   Pear: "#D1E231",
+//   Grape: "#6F2DA8",
+//   Plum: "#8E4585",
+//   Blackberry: "#4D0135",
+//   Mulberry: "#C54B8C",
+//   Raisin: "#652DC1",
+//   Eggplant: "#614051",
+//   Aubergine: "#472C4C",
+//   Amethyst: "#9966CC",
+//   Orchid: "#DA70D6",
+//   Heather: "#D473D4",
+//   Thistle: "#D8BFD8",
+//   Mauve: "#E0B0FF",
+//   Wisteria: "#C9A0DC",
+//   Periwinkle: "#CCCCFF",
+//   Cornflower: "#6495ED",
+//   Baby: "#89CFF0",
+//   Powder: "#B0E0E6",
+//   Midnight: "#191970",
+//   Ocean: "#0077BE",
+// };
+
+// // =========================================================
+// // [BARU] HELPER EKSTRAKSI WARNA (Sama seperti versi Vue)
+// // =========================================================
+// const extractColorName = (fullName: string) => {
+//   if (!fullName) return "Main";
+//   const words = fullName.trim().split(" ");
+//   const lastWord = words[words.length - 1];
+//   return lastWord.charAt(0).toUpperCase() + lastWord.slice(1).toLowerCase();
+// };
+
+// const extractColorHex = (fullName: string) => {
+//   const colorName = extractColorName(fullName);
+//   return colorMapHex[colorName] || "#cccccc";
+// };
+
+// interface Product {
+//   id: number;
+//   category_id: number;
+//   category_name: string;
+//   sku: string;
+//   name: string;
+//   slug: string;
+//   description: string;
+//   benefits: string;
+//   price: number;
+//   discount_price: number;
+//   voucher_discount_price?: number;
+
+//   stock: number;
+//   image_url: string;
+//   variant_images?: string[];
+//   variant_video?: string;
+//   color?: any[];
+// }
+
+// export default function ProductDetail() {
+//   const { id } = useParams<{ id: string }>();
+//   const navigate = useNavigate();
+
+//   const [product, setProduct] = useState<Product | null>(null);
+//   const [loading, setLoading] = useState(true);
+
+//   const [quantityInput, setQuantityInput] = useState<string>("1");
+//   const quantity = parseInt(quantityInput) || 1;
+
+//   const [isBuyingNow, setIsBuyingNow] = useState(false);
+//   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+//   // [BARU] State untuk menyimpan produk saudara menggunakan logika Vue
+//   const [siblingColors, setSiblingColors] = useState<Product[]>([]);
+
+//   const [isFavorited, setIsFavorited] = useState(false);
+//   const { fetchCart, cartItems, addCartItemOptimistically, revertCartItems } =
+//     useCart();
+
+//   // =========================================================
+//   // [BARU] FUNGSI FETCH SIBLING SEPERTI DI VUE
+//   // =========================================================
+//   const fetchSiblingColors = async (productName: string) => {
+//     if (!productName) return;
+//     try {
+//       const words = productName.trim().split(" ");
+//       let rootName = productName;
+
+//       // Hapus 1 kata terakhir sebagai warna
+//       if (words.length > 1) {
+//         words.pop();
+//         rootName = words.join(" ");
+//       }
+
+//       // Ambil seluruh produk dari API public
+//       const res = await fetch(`${BASE_URL}/api/products`);
+//       const data = await res.json();
+//       const allProducts = data.data ? data.data : data;
+
+//       // Filter nama produk yang mengandung rootName
+//       const siblings = allProducts.filter((p: Product) =>
+//         p.name.toLowerCase().includes(rootName.toLowerCase()),
+//       );
+
+//       if (siblings.length <= 1) {
+//         setSiblingColors([]);
+//       } else {
+//         setSiblingColors(siblings);
+//       }
+//     } catch (error) {
+//       console.error("Gagal menarik data varian warna:", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     setLoading(true);
+//     setProduct(null);
+//     setCurrentImageIndex(0);
+//     setQuantityInput("1");
+
+//     const fetchProductAndSiblings = async () => {
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/products/${id}`);
+//         if (!res.ok) throw new Error("Produk tidak ditemukan");
+//         const responseData = await res.json();
+
+//         const productObject = responseData.data
+//           ? responseData.data
+//           : responseData;
+//         setProduct(productObject);
+
+//         // Setelah produk didapat, cari siblingsnya
+//         await fetchSiblingColors(productObject.name);
+//       } catch (error) {
+//         console.error("Gagal memuat produk:", error);
+//         navigate("/products");
+//       }
+//     };
+
+//     const checkWishlistStatus = async () => {
+//       const token = localStorage.getItem("user_token");
+//       if (!token) return;
+
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/wishlists`, {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//             Accept: "application/json",
+//           },
+//         });
+//         if (res.ok) {
+//           const data = await res.json();
+//           // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//           const isWished = data.some(
+//             (item: any) => item.product_id === Number(id),
+//           );
+//           setIsFavorited(isWished);
+//         }
+//       } catch (error) {
+//         console.error("Gagal memeriksa wishlist:", error);
+//       }
+//     };
+
+//     if (id) {
+//       Promise.all([fetchProductAndSiblings(), checkWishlistStatus()]).finally(
+//         () => {
+//           setLoading(false);
+//         },
+//       );
+//     }
+//   }, [id, navigate]);
+
+//   const handleToggleWishlist = async () => {
+//     const token = localStorage.getItem("user_token");
+//     if (!token) {
+//       Swal.fire({
+//         title: "Login Diperlukan",
+//         text: "Silakan masuk ke akun Anda untuk menyimpan produk ke favorit.",
+//         icon: "info",
+//         showCancelButton: true,
+//         confirmButtonColor: "#059669",
+//         cancelButtonColor: "#d33",
+//         confirmButtonText: "Ke Halaman Login",
+//         cancelButtonText: "Batal",
+//       }).then((result) => {
+//         if (result.isConfirmed) navigate("/login");
+//       });
+//       return;
+//     }
+
+//     setIsFavorited(!isFavorited);
+//     try {
+//       const res = await fetch(`${BASE_URL}/api/wishlists/toggle`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${token}`,
+//           Accept: "application/json",
+//         },
+//         body: JSON.stringify({ product_id: product?.id }),
+//       });
+//       if (!res.ok) throw new Error("Gagal");
+//     } catch (error) {
+//       setIsFavorited(!isFavorited);
+//       console.error(error);
+//     }
+//   };
+
+//   const gallery = useMemo(() => {
+//     if (!product) return [];
+//     const imgs = [];
+//     if (product.image_url) imgs.push(product.image_url);
+//     if (Array.isArray(product.variant_images)) {
+//       imgs.push(...product.variant_images);
+//     }
+//     return imgs;
+//   }, [product]);
+
+//   const nextImage = () =>
+//     setCurrentImageIndex((prev) => (prev + 1) % gallery.length);
+//   const prevImage = () =>
+//     setCurrentImageIndex(
+//       (prev) => (prev - 1 + gallery.length) % gallery.length,
+//     );
+
+//   const formatRupiah = (angka: number) => {
+//     return new Intl.NumberFormat("id-ID", {
+//       style: "currency",
+//       currency: "IDR",
+//       minimumFractionDigits: 0,
+//     }).format(angka);
+//   };
+
+//   const triggerFlyingAnimation = () => {
+//     const startEl = document.getElementById("product-image");
+//     const endEl = document.getElementById("cart-icon");
+
+//     if (startEl && endEl && gallery.length > 0) {
+//       const startRect = startEl.getBoundingClientRect();
+//       const endRect = endEl.getBoundingClientRect();
+
+//       const flyingImg = document.createElement("img");
+//       flyingImg.src = gallery[currentImageIndex];
+//       flyingImg.style.position = "fixed";
+//       flyingImg.style.top = `${startRect.top}px`;
+//       flyingImg.style.left = `${startRect.left}px`;
+//       flyingImg.style.width = `${startRect.width}px`;
+//       flyingImg.style.height = `${startRect.height}px`;
+//       flyingImg.style.borderRadius = "10%";
+//       flyingImg.style.zIndex = "9999";
+//       flyingImg.style.transition =
+//         "all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+//       document.body.appendChild(flyingImg);
+
+//       requestAnimationFrame(() => {
+//         flyingImg.style.top = `${endRect.top + 10}px`;
+//         flyingImg.style.left = `${endRect.left + 10}px`;
+//         flyingImg.style.width = "20px";
+//         flyingImg.style.height = "20px";
+//         flyingImg.style.opacity = "0.2";
+//         flyingImg.style.borderRadius = "50%";
+//       });
+
+//       setTimeout(() => {
+//         flyingImg.remove();
+//         endEl.classList.add("scale-125");
+//         setTimeout(() => endEl.classList.remove("scale-125"), 200);
+//       }, 800);
+//     }
+//   };
+
+//   const handleAddToCart = () => {
+//     const token = localStorage.getItem("user_token");
+//     if (!token) {
+//       Swal.fire({
+//         title: "Login Diperlukan",
+//         text: "Silakan masuk ke akun Anda untuk mulai berbelanja.",
+//         icon: "info",
+//         confirmButtonColor: "#059669",
+//         confirmButtonText: "Ke Halaman Login",
+//       }).then(() => navigate("/login"));
+//       return;
+//     }
+
+//     const previousCartState = [...cartItems];
+//     const optimisticItem = {
+//       id: Date.now(),
+//       product_id: product!.id,
+//       quantity: quantity,
+//       gross_amount: quantity * product!.price,
+//       color: null,
+//       product: {
+//         id: product!.id,
+//         name: product!.name,
+//         price: product!.price,
+//         discount_price: product!.price,
+//         image_url: product!.image_url,
+//         sku: product!.sku,
+//         stock: product!.stock,
+//         color: "",
+//       },
+//     };
+
+//     addCartItemOptimistically(optimisticItem);
+//     triggerFlyingAnimation();
+//     Swal.fire({
+//       title: "Ditambahkan!",
+//       icon: "success",
+//       toast: true,
+//       position: "top-end",
+//       timer: 1500,
+//       showConfirmButton: false,
+//     });
+
+//     fetch(`${BASE_URL}/api/carts`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//       body: JSON.stringify({
+//         product_id: product?.id,
+//         quantity: quantity,
+//         color: null,
+//       }),
+//     })
+//       .then(async (res) => {
+//         const data = await res.json();
+//         if (res.ok && data.cart_id) {
+//           fetchCart();
+//         } else {
+//           revertCartItems(previousCartState);
+//           Swal.fire(
+//             "Pemberitahuan",
+//             data.message || "Gagal menambahkan produk ke keranjang.",
+//             "warning",
+//           );
+//         }
+//       })
+//       .catch(() => {
+//         revertCartItems(previousCartState);
+//         console.error("Gagal terhubung ke server saat add to cart");
+//       });
+//   };
+
+//   const handleBuyItNow = async () => {
+//     const token = localStorage.getItem("user_token");
+//     if (!token) {
+//       Swal.fire({
+//         title: "Login Diperlukan",
+//         icon: "info",
+//         confirmButtonColor: "#059669",
+//       }).then(() => navigate("/login"));
+//       return;
+//     }
+
+//     setIsBuyingNow(true);
+//     try {
+//       const res = await fetch(`${BASE_URL}/api/carts`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${token}`,
+//         },
+//         body: JSON.stringify({
+//           product_id: product?.id,
+//           quantity: quantity,
+//           color: null,
+//         }),
+//       });
+//       const data = await res.json();
+
+//       if (res.ok && data.cart_id) {
+//         fetchCart();
+//         navigate("/checkout", { state: { selectedIds: [data.cart_id] } });
+//       } else {
+//         Swal.fire("Gagal", data.message || "Terjadi kesalahan", "error");
+//       }
+//     } catch (error) {
+//       Swal.fire("Error", "Gagal terhubung ke server", "error");
+//     } finally {
+//       setIsBuyingNow(false);
+//     }
+//   };
+
+//   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const val = e.target.value;
+//     if (val === "" || /^\d+$/.test(val)) {
+//       setQuantityInput(val);
+//     }
+//   };
+
+//   const handleInputBlur = () => {
+//     let parsed = parseInt(quantityInput);
+//     if (isNaN(parsed) || parsed < 1) parsed = 1;
+//     if (product && parsed > product.stock) {
+//       parsed = product.stock;
+//       Swal.fire({
+//         toast: true,
+//         position: "top-end",
+//         icon: "warning",
+//         title: `Maksimal stok adalah ${product.stock}`,
+//         showConfirmButton: false,
+//         timer: 2000,
+//       });
+//     }
+//     setQuantityInput(parsed.toString());
+//   };
+
+//   if (loading)
+//     return (
+//       <div className="flex items-center justify-center min-h-screen font-sans bg-white">
+//         <div className="w-12 h-12 border-b-2 rounded-full animate-spin border-gycora"></div>
+//       </div>
+//     );
+//   if (!product) return null;
+
+//   const isOutOfStock = product.stock <= 0;
+//   const isFormDisabled = isOutOfStock || isBuyingNow;
+
+//   return (
+//     <div className="min-h-screen py-12 font-sans bg-white">
+//       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+//         <div className="lg:grid lg:grid-cols-2 lg:gap-16">
+//           <div className="flex flex-col mb-10 lg:mb-0">
+//             <div
+//               id="product-image"
+//               className="relative group bg-gray-50 rounded-3xl overflow-hidden aspect-[4/5] md:aspect-square lg:aspect-[4/5] border border-gray-100 flex items-center justify-center"
+//             >
+//               {gallery.length > 0 ? (
+//                 <>
+//                   {gallery.map((src, idx) => (
+//                     <img
+//                       key={idx}
+//                       src={src}
+//                       alt={`${product.name} - Varian ${idx}`}
+//                       className={`absolute inset-0 object-cover object-center w-full h-full transition-opacity duration-300 ease-in-out ${idx === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0"}`}
+//                     />
+//                   ))}
+//                   {gallery.length > 1 && (
+//                     <>
+//                       <button
+//                         onClick={prevImage}
+//                         className="absolute z-20 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 left-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100"
+//                       >
+//                         <svg
+//                           xmlns="http://www.w3.org/2000/svg"
+//                           className="w-6 h-6"
+//                           fill="none"
+//                           viewBox="0 0 24 24"
+//                           stroke="currentColor"
+//                         >
+//                           <path
+//                             strokeLinecap="round"
+//                             strokeLinejoin="round"
+//                             strokeWidth={2}
+//                             d="M15 19l-7-7 7-7"
+//                           />
+//                         </svg>
+//                       </button>
+//                       <button
+//                         onClick={nextImage}
+//                         className="absolute z-20 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 right-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100"
+//                       >
+//                         <svg
+//                           xmlns="http://www.w3.org/2000/svg"
+//                           className="w-6 h-6"
+//                           fill="none"
+//                           viewBox="0 0 24 24"
+//                           stroke="currentColor"
+//                         >
+//                           <path
+//                             strokeLinecap="round"
+//                             strokeLinejoin="round"
+//                             strokeWidth={2}
+//                             d="M9 5l7 7-7 7"
+//                           />
+//                         </svg>
+//                       </button>
+//                       <div className="absolute z-20 flex gap-2 bottom-6">
+//                         {gallery.map((_, idx) => (
+//                           <button
+//                             key={idx}
+//                             onClick={() => setCurrentImageIndex(idx)}
+//                             className={`h-2 rounded-full transition-all shadow-sm ${idx === currentImageIndex ? "bg-gycora w-6" : "bg-white/80 hover:bg-white w-2"}`}
+//                           />
+//                         ))}
+//                       </div>
+//                     </>
+//                   )}
+//                 </>
+//               ) : (
+//                 <div className="flex items-center justify-center w-full h-full text-gray-400">
+//                   No Image
+//                 </div>
+//               )}
+//               <div className="absolute z-20 top-6 left-6">
+//                 <span className="px-4 py-2 text-sm font-bold text-gray-900 rounded-full shadow-sm bg-white/90 backdrop-blur-md">
+//                   {product.category_name}
+//                 </span>
+//               </div>
+//             </div>
+
+//             {product.variant_video && (
+//               <div className="mt-8">
+//                 <h3 className="mb-3 text-sm font-bold tracking-widest text-gray-900 uppercase">
+//                   Video Demo
+//                 </h3>
+//                 <div className="overflow-hidden bg-black shadow-sm rounded-3xl">
+//                   <video
+//                     src={product.variant_video}
+//                     controls
+//                     className="object-contain w-full h-64 md:h-80"
+//                   />
+//                 </div>
+//               </div>
+//             )}
+//           </div>
+
+//           <div className="flex flex-col justify-center">
+//             <div className="flex items-start justify-between gap-4 mb-2">
+//               <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
+//                 {product.name}
+//               </h1>
+//               <button
+//                 onClick={handleToggleWishlist}
+//                 className="flex items-center justify-center w-12 h-12 transition-colors bg-white border border-gray-200 rounded-full shadow-sm shrink-0 hover:bg-gray-50"
+//                 title="Simpan ke Favorit"
+//               >
+//                 <svg
+//                   xmlns="http://www.w3.org/2000/svg"
+//                   viewBox="0 0 24 24"
+//                   strokeWidth={1.5}
+//                   stroke="currentColor"
+//                   className={`w-6 h-6 transition-all duration-300 ${isFavorited ? "fill-red-500 text-red-500 scale-110" : "fill-none text-gray-400 hover:text-red-500"}`}
+//                 >
+//                   <path
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                     d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+//                   />
+//                 </svg>
+//               </button>
+//             </div>
+
+//             <p className="mb-8 font-mono text-gray-500">SKU: {product.sku}</p>
+//             <div className="mb-8">
+//               {product.discount_price && product.discount_price > 0 ? (
+//                 <div className="flex flex-col">
+//                   <span className="text-2xl text-gray-400 line-through">
+//                     {formatRupiah(product.price)}
+//                   </span>
+//                   <span className="text-4xl font-extrabold text-red-600">
+//                     {formatRupiah(product.discount_price)}
+//                   </span>
+//                 </div>
+//               ) : (
+//                 <p className="text-4xl font-extrabold text-gycora">
+//                   {formatRupiah(product.price)}
+//                 </p>
+//               )}
+//             </div>
+
+//             <div className="p-6 mb-10 border border-gray-100 bg-gray-50 rounded-2xl">
+//               {/* ========================================================= */}
+//               {/* [RENDER BARU] MENGGUNAKAN LOGIKA VUE SIBLING COLORS */}
+//               {/* ========================================================= */}
+//               {siblingColors.length > 0 && (
+//                 <div className="pb-6 mb-6 border-b border-gray-200">
+//                   <h3 className="mb-3 text-sm font-bold text-gray-700">
+//                     Pilih Varian Warna:
+//                   </h3>
+//                   <div className="flex flex-wrap gap-3">
+//                     {siblingColors.map((sibling) => {
+//                       const isCurrentProduct = sibling.id === product.id;
+
+//                       return (
+//                         <button
+//                           key={sibling.id}
+//                           onClick={() => {
+//                             if (!isCurrentProduct) {
+//                               window.scrollTo({ top: 0, behavior: "smooth" });
+//                               navigate(`/product/${sibling.id}`);
+//                             }
+//                           }}
+//                           className={`flex items-center gap-2 px-3 py-1.5 rounded-full border-2 transition-all shadow-sm ${
+//                             isCurrentProduct
+//                               ? "border-gycora ring-2 ring-gycora/30 scale-105 cursor-default"
+//                               : "border-gray-200 hover:border-gray-300 hover:scale-105 cursor-pointer bg-white"
+//                           }`}
+//                           title={`Lihat varian ${extractColorName(sibling.name)}`}
+//                         >
+//                           <span
+//                             className="w-5 h-5 border border-gray-300 rounded-full shadow-inner"
+//                             style={{
+//                               backgroundColor: extractColorHex(sibling.name),
+//                             }}
+//                           ></span>
+//                           <span
+//                             className={`text-xs font-bold ${isCurrentProduct ? "text-gycora-dark" : "text-gray-700"}`}
+//                           >
+//                             {extractColorName(sibling.name)}
+//                           </span>
+//                         </button>
+//                       );
+//                     })}
+//                   </div>
+//                 </div>
+//               )}
+
+//               <div className="flex flex-col gap-4">
+//                 <div className="flex items-center justify-between w-full overflow-hidden bg-white border border-gray-300 h-14 rounded-xl">
+//                   <button
+//                     onClick={() => {
+//                       const newVal = Math.max(1, quantity - 1);
+//                       setQuantityInput(newVal.toString());
+//                     }}
+//                     disabled={isFormDisabled}
+//                     className="flex items-center justify-center h-full text-gray-600 transition-colors w-14 hover:text-gycora hover:bg-gray-50 disabled:opacity-50"
+//                   >
+//                     -
+//                   </button>
+
+//                   <input
+//                     type="text"
+//                     value={quantityInput}
+//                     onChange={handleInputChange}
+//                     onBlur={handleInputBlur}
+//                     disabled={isFormDisabled}
+//                     className="w-full h-full font-bold text-center text-gray-900 bg-transparent outline-none appearance-none focus:ring-0"
+//                   />
+
+//                   <button
+//                     onClick={() => {
+//                       const newVal = Math.min(product.stock, quantity + 1);
+//                       setQuantityInput(newVal.toString());
+//                     }}
+//                     disabled={isFormDisabled}
+//                     className="flex items-center justify-center h-full text-gray-600 transition-colors w-14 hover:text-gycora hover:bg-gray-50 disabled:opacity-50"
+//                   >
+//                     +
+//                   </button>
+//                 </div>
+
+//                 <div className="grid grid-cols-1 gap-4 mt-2 sm:grid-cols-2">
+//                   <button
+//                     onClick={handleAddToCart}
+//                     disabled={isFormDisabled}
+//                     className={`flex items-center justify-center h-14 rounded-xl text-sm md:text-base font-bold tracking-widest uppercase transition-all border-2 ${
+//                       isOutOfStock
+//                         ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
+//                         : "bg-white border-gycora text-gycora hover:bg-emerald-50 active:scale-95"
+//                     }`}
+//                   >
+//                     Add to Cart
+//                   </button>
+
+//                   <button
+//                     onClick={handleBuyItNow}
+//                     disabled={isFormDisabled}
+//                     className={`flex items-center justify-center h-14 rounded-xl text-sm md:text-base font-bold tracking-widest uppercase transition-all ${
+//                       isOutOfStock
+//                         ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+//                         : "bg-gycora text-white hover:bg-gycora-dark shadow-[0_4px_14px_0_rgba(5,150,105,0.39)] hover:-translate-y-0.5 active:scale-95"
+//                     }`}
+//                   >
+//                     {isBuyingNow
+//                       ? "Memproses..."
+//                       : isOutOfStock
+//                         ? "Stok Habis"
+//                         : "Buy it Now"}
+//                   </button>
+//                 </div>
+//               </div>
+//             </div>
+
+//             <div className="space-y-8">
+//               <div>
+//                 <h3 className="pb-2 mb-4 text-lg font-bold text-gray-900 border-b border-gray-200">
+//                   Tentang Produk Ini
+//                 </h3>
+//                 <div className="leading-relaxed prose-sm prose text-gray-600 whitespace-pre-wrap sm:prose max-w-none">
+//                   {product.description}
+//                 </div>
+//               </div>
+//               {product.benefits && (
+//                 <div>
+//                   <h3 className="pb-2 mb-4 text-lg font-bold text-gray-900 border-b border-gray-200">
+//                     Manfaat Utama
+//                   </h3>
+//                   <div className="p-5 border border-emerald-100 bg-emerald-50/50 rounded-2xl">
+//                     <p className="leading-relaxed text-gray-700 whitespace-pre-wrap">
+//                       {product.benefits}
+//                     </p>
+//                   </div>
+//                 </div>
+//               )}
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
 import { useState, useEffect, useMemo } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom"; // [BARU] Tambahkan useLocation
 import Swal from "sweetalert2";
 import { useCart } from "../../../context/CartContext";
 import { BASE_URL } from "../../../config/api";
 
-// =========================================================
-// [BARU] KAMUS WARNA (Sama seperti versi Vue)
-// =========================================================
 const colorMapHex: Record<string, string> = {
-  Black: "#000000",
-  White: "#FFFFFF",
-  Brown: "#8B4513",
-  Beige: "#F5F5DC",
-  Red: "#8B0000",
-  Navy: "#000080",
-  Green: "#008000",
-  Grey: "#808080",
-  Pink: "#FFC0CB",
-  Yellow: "#FFD700",
-  Blue: "#4169E1",
-  Mocca: "#967969",
-  Cream: "#FDF4E3",
-  Sage: "#9DC183",
-  Gold: "#D4AF37",
-  Orange: "#FF9900",
-  Silver: "#C0C0C0",
-  Maroon: "#800000",
-  Olive: "#808000",
-  Taupe: "#483C32",
-  Khaki: "#F0E68C",
-  Mustard: "#FFDB58",
-  Emerald: "#50C878",
-  Coral: "#FF7F50",
-  Mint: "#98FF98",
-  Teal: "#008080",
-  Cyan: "#00FFFF",
-  Indigo: "#4B0082",
-  Violet: "#EE82EE",
-  Purple: "#800080",
-  Magenta: "#FF00FF",
-  Lilac: "#C8A2C8",
-  Lavender: "#E6E6FA",
-  Rose: "#FF007F",
-  Peach: "#FFE5B4",
-  Apricot: "#FBCEB1",
-  Ivory: "#FFFFF0",
-  Tan: "#D2B48C",
-  Charcoal: "#36454F",
-  Ash: "#555555",
-  Platinum: "#E5E4E2",
-  Bronze: "#CD7F32",
-  Copper: "#B87333",
-  Rust: "#B7410E",
-  Ochre: "#CC7722",
-  Sienna: "#882D17",
-  Terracotta: "#E2725B",
-  Amber: "#FFBF00",
-  Caramel: "#FFD59A",
-  Honey: "#FFC30B",
-  Chestnut: "#954535",
-  Walnut: "#5C4033",
-  Mahogany: "#C04000",
-  Chocolate: "#7B3F00",
-  Cocoa: "#D2691E",
-  Coffee: "#6F4E37",
-  Mocha: "#493D26",
-  Espresso: "#4B3621",
-  Cappuccino: "#654321",
-  Latte: "#C5A059",
-  Macchiato: "#8B5A2B",
-  Almond: "#EED9C4",
-  Hazelnut: "#C4A484",
-  Pecan: "#8A3324",
-  Pistachio: "#93C572",
-  Seafoam: "#9FE2BF",
-  Turquoise: "#40E0D0",
-  Aqua: "#00FFFF",
-  Azure: "#00FFFF",
-  Sky: "#87CEEB",
-  Cerulean: "#007BA7",
-  Cobalt: "#0047AB",
-  Sapphire: "#0F52BA",
-  Ultramarine: "#120A8F",
-  Lapis: "#26619C",
-  Denim: "#1560BD",
-  Steel: "#4682B4",
-  Slate: "#708090",
-  Gunmetal: "#2a3439",
-  Onyx: "#353839",
-  Jet: "#343434",
-  Ebony: "#555D50",
-  Raven: "#050301",
-  Pitch: "#000000",
-  Obsidian: "#0B0B0B",
-  Carbon: "#333333",
-  Graphite: "#383838",
-  Pewter: "#8E8E8E",
-  Zinc: "#8C92AC",
-  Lead: "#778899",
-  Iron: "#A19D94",
-  Titanium: "#878681",
-  Chromium: "#C0C0C0",
-  Nickel: "#727472",
-  Tungsten: "#A0A0A0",
-  Fuchsia: "#FF00FF",
-  Crimson: "#DC143C",
-  Carmine: "#960018",
-  Ruby: "#E0115F",
-  Scarlet: "#FF2400",
-  Vermilion: "#E34234",
-  Brick: "#CB4154",
-  Tomato: "#FF6347",
-  Papaya: "#FFEFD5",
-  Melon: "#FDBCB4",
-  Mango: "#F4A460",
-  Citrus: "#FFA500",
-  Lemon: "#FFF700",
-  Lime: "#BFFF00",
-  Kiwi: "#8EE53F",
-  Apple: "#8DB600",
-  Pear: "#D1E231",
-  Grape: "#6F2DA8",
-  Plum: "#8E4585",
-  Blackberry: "#4D0135",
-  Mulberry: "#C54B8C",
-  Raisin: "#652DC1",
-  Eggplant: "#614051",
-  Aubergine: "#472C4C",
-  Amethyst: "#9966CC",
-  Orchid: "#DA70D6",
-  Heather: "#D473D4",
-  Thistle: "#D8BFD8",
-  Mauve: "#E0B0FF",
-  Wisteria: "#C9A0DC",
-  Periwinkle: "#CCCCFF",
-  Cornflower: "#6495ED",
-  Baby: "#89CFF0",
-  Powder: "#B0E0E6",
-  Midnight: "#191970",
-  Ocean: "#0077BE",
+  Black: "#000000", White: "#FFFFFF", Brown: "#8B4513", Beige: "#F5F5DC",
+  Red: "#8B0000", Navy: "#000080", Green: "#008000", Grey: "#808080",
+  Pink: "#FFC0CB", Yellow: "#FFD700", Blue: "#4169E1", Mocca: "#967969",
+  Cream: "#FDF4E3", Sage: "#9DC183", Gold: "#D4AF37", Orange: "#FF9900",
+  Silver: "#C0C0C0", Maroon: "#800000", Olive: "#808000", Taupe: "#483C32",
+  Khaki: "#F0E68C", Mustard: "#FFDB58", Emerald: "#50C878", Coral: "#FF7F50",
+  Mint: "#98FF98", Teal: "#008080", Cyan: "#00FFFF", Indigo: "#4B0082",
+  Violet: "#EE82EE", Purple: "#800080", Magenta: "#FF00FF", Lilac: "#C8A2C8",
+  Lavender: "#E6E6FA", Rose: "#FF007F", Peach: "#FFE5B4", Apricot: "#FBCEB1",
+  Ivory: "#FFFFF0", Tan: "#D2B48C", Charcoal: "#36454F", Ash: "#555555",
+  Platinum: "#E5E4E2", Bronze: "#CD7F32", Copper: "#B87333", Rust: "#B7410E",
+  Ochre: "#CC7722", Sienna: "#882D17", Terracotta: "#E2725B", Amber: "#FFBF00",
+  Caramel: "#FFD59A", Honey: "#FFC30B", Chestnut: "#954535", Walnut: "#5C4033",
+  Mahogany: "#C04000", Chocolate: "#7B3F00", Cocoa: "#D2691E", Coffee: "#6F4E37",
+  Mocha: "#493D26", Espresso: "#4B3621", Cappuccino: "#654321", Latte: "#C5A059",
+  Macchiato: "#8B5A2B", Almond: "#EED9C4", Hazelnut: "#C4A484", Pecan: "#8A3324",
+  Pistachio: "#93C572", Seafoam: "#9FE2BF", Turquoise: "#40E0D0", Aqua: "#00FFFF",
+  Azure: "#00FFFF", Sky: "#87CEEB", Cerulean: "#007BA7", Cobalt: "#0047AB",
+  Sapphire: "#0F52BA", Ultramarine: "#120A8F", Lapis: "#26619C", Denim: "#1560BD",
+  Steel: "#4682B4", Slate: "#708090", Gunmetal: "#2a3439", Onyx: "#353839",
+  Jet: "#343434", Ebony: "#555D50", Raven: "#050301", Pitch: "#000000",
+  Obsidian: "#0B0B0B", Carbon: "#333333", Graphite: "#383838", Pewter: "#8E8E8E",
+  Zinc: "#8C92AC", Lead: "#778899", Iron: "#A19D94", Titanium: "#878681",
+  Chromium: "#C0C0C0", Nickel: "#727472", Tungsten: "#A0A0A0", Fuchsia: "#FF00FF",
+  Crimson: "#DC143C", Carmine: "#960018", Ruby: "#E0115F", Scarlet: "#FF2400",
+  Vermilion: "#E34234", Brick: "#CB4154", Tomato: "#FF6347", Papaya: "#FFEFD5",
+  Melon: "#FDBCB4", Mango: "#F4A460", Citrus: "#FFA500", Lemon: "#FFF700",
+  Lime: "#BFFF00", Kiwi: "#8EE53F", Apple: "#8DB600", Pear: "#D1E231",
+  Grape: "#6F2DA8", Plum: "#8E4585", Blackberry: "#4D0135", Mulberry: "#C54B8C",
+  Raisin: "#652DC1", Eggplant: "#614051", Aubergine: "#472C4C", Amethyst: "#9966CC",
+  Orchid: "#DA70D6", Heather: "#D473D4", Thistle: "#D8BFD8", Mauve: "#E0B0FF",
+  Wisteria: "#C9A0DC", Periwinkle: "#CCCCFF", Cornflower: "#6495ED", Baby: "#89CFF0",
+  Powder: "#B0E0E6", Midnight: "#191970", Ocean: "#0077BE",
 };
 
-// =========================================================
-// [BARU] HELPER EKSTRAKSI WARNA (Sama seperti versi Vue)
-// =========================================================
 const extractColorName = (fullName: string) => {
   if (!fullName) return "Main";
   const words = fullName.trim().split(" ");
@@ -4731,7 +5451,6 @@ interface Product {
   price: number;
   discount_price: number;
   voucher_discount_price?: number;
-
   stock: number;
   image_url: string;
   variant_images?: string[];
@@ -4742,9 +5461,11 @@ interface Product {
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const location = useLocation(); // [BARU] Menangkap data dari router
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isFetchingFull, setIsFetchingFull] = useState(false); // [BARU] Penanda untuk render skeleton deskripsi
 
   const [quantityInput, setQuantityInput] = useState<string>("1");
   const quantity = parseInt(quantityInput) || 1;
@@ -4752,34 +5473,26 @@ export default function ProductDetail() {
   const [isBuyingNow, setIsBuyingNow] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // [BARU] State untuk menyimpan produk saudara menggunakan logika Vue
   const [siblingColors, setSiblingColors] = useState<Product[]>([]);
 
   const [isFavorited, setIsFavorited] = useState(false);
-  const { fetchCart, cartItems, addCartItemOptimistically, revertCartItems } =
-    useCart();
+  const { fetchCart, cartItems, addCartItemOptimistically, revertCartItems } = useCart();
 
-  // =========================================================
-  // [BARU] FUNGSI FETCH SIBLING SEPERTI DI VUE
-  // =========================================================
   const fetchSiblingColors = async (productName: string) => {
     if (!productName) return;
     try {
       const words = productName.trim().split(" ");
       let rootName = productName;
 
-      // Hapus 1 kata terakhir sebagai warna
       if (words.length > 1) {
         words.pop();
         rootName = words.join(" ");
       }
 
-      // Ambil seluruh produk dari API public
       const res = await fetch(`${BASE_URL}/api/products`);
       const data = await res.json();
       const allProducts = data.data ? data.data : data;
 
-      // Filter nama produk yang mengandung rootName
       const siblings = allProducts.filter((p: Product) =>
         p.name.toLowerCase().includes(rootName.toLowerCase()),
       );
@@ -4795,8 +5508,20 @@ export default function ProductDetail() {
   };
 
   useEffect(() => {
-    setLoading(true);
-    setProduct(null);
+    // =========================================================
+    // [BARU] OPTIMISTIC UI: Render seketika jika ada data awal
+    // =========================================================
+    const initialPassedData = location.state?.initialProduct;
+    
+    if (initialPassedData && String(initialPassedData.id) === id) {
+      setProduct(initialPassedData);
+      setLoading(false); // Matikan loading besar, biarkan render dengan data seadanya (Gambar, Harga, Judul)
+    } else {
+      setLoading(true); // Jika diakses via direct URL (tanpa history), tetap tampilkan spinner
+      setProduct(null);
+    }
+
+    setIsFetchingFull(true);
     setCurrentImageIndex(0);
     setQuantityInput("1");
 
@@ -4806,12 +5531,9 @@ export default function ProductDetail() {
         if (!res.ok) throw new Error("Produk tidak ditemukan");
         const responseData = await res.json();
 
-        const productObject = responseData.data
-          ? responseData.data
-          : responseData;
-        setProduct(productObject);
+        const productObject = responseData.data ? responseData.data : responseData;
+        setProduct(productObject); // Perbarui dengan data utuh (Deskripsi, dll akan muncul)
 
-        // Setelah produk didapat, cari siblingsnya
         await fetchSiblingColors(productObject.name);
       } catch (error) {
         console.error("Gagal memuat produk:", error);
@@ -4825,17 +5547,12 @@ export default function ProductDetail() {
 
       try {
         const res = await fetch(`${BASE_URL}/api/wishlists`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json",
-          },
+          headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
         });
         if (res.ok) {
           const data = await res.json();
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const isWished = data.some(
-            (item: any) => item.product_id === Number(id),
-          );
+          const isWished = data.some((item: any) => item.product_id === Number(id));
           setIsFavorited(isWished);
         }
       } catch (error) {
@@ -4847,9 +5564,12 @@ export default function ProductDetail() {
       Promise.all([fetchProductAndSiblings(), checkWishlistStatus()]).finally(
         () => {
           setLoading(false);
+          setIsFetchingFull(false);
         },
       );
     }
+    // Sengaja tidak memasukkan 'location.state' agar tidak loop render
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, navigate]);
 
   const handleToggleWishlist = async () => {
@@ -4898,19 +5618,11 @@ export default function ProductDetail() {
     return imgs;
   }, [product]);
 
-  const nextImage = () =>
-    setCurrentImageIndex((prev) => (prev + 1) % gallery.length);
-  const prevImage = () =>
-    setCurrentImageIndex(
-      (prev) => (prev - 1 + gallery.length) % gallery.length,
-    );
+  const nextImage = () => setCurrentImageIndex((prev) => (prev + 1) % gallery.length);
+  const prevImage = () => setCurrentImageIndex((prev) => (prev - 1 + gallery.length) % gallery.length);
 
   const formatRupiah = (angka: number) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(angka);
+    return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(angka);
   };
 
   const triggerFlyingAnimation = () => {
@@ -4930,8 +5642,7 @@ export default function ProductDetail() {
       flyingImg.style.height = `${startRect.height}px`;
       flyingImg.style.borderRadius = "10%";
       flyingImg.style.zIndex = "9999";
-      flyingImg.style.transition =
-        "all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+      flyingImg.style.transition = "all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
       document.body.appendChild(flyingImg);
 
       requestAnimationFrame(() => {
@@ -4985,14 +5696,7 @@ export default function ProductDetail() {
 
     addCartItemOptimistically(optimisticItem);
     triggerFlyingAnimation();
-    Swal.fire({
-      title: "Ditambahkan!",
-      icon: "success",
-      toast: true,
-      position: "top-end",
-      timer: 1500,
-      showConfirmButton: false,
-    });
+    Swal.fire({ title: "Ditambahkan!", icon: "success", toast: true, position: "top-end", timer: 1500, showConfirmButton: false });
 
     fetch(`${BASE_URL}/api/carts`, {
       method: "POST",
@@ -5012,11 +5716,7 @@ export default function ProductDetail() {
           fetchCart();
         } else {
           revertCartItems(previousCartState);
-          Swal.fire(
-            "Pemberitahuan",
-            data.message || "Gagal menambahkan produk ke keranjang.",
-            "warning",
-          );
+          Swal.fire("Pemberitahuan", data.message || "Gagal menambahkan produk ke keranjang.", "warning");
         }
       })
       .catch(() => {
@@ -5028,11 +5728,7 @@ export default function ProductDetail() {
   const handleBuyItNow = async () => {
     const token = localStorage.getItem("user_token");
     if (!token) {
-      Swal.fire({
-        title: "Login Diperlukan",
-        icon: "info",
-        confirmButtonColor: "#059669",
-      }).then(() => navigate("/login"));
+      Swal.fire({ title: "Login Diperlukan", icon: "info", confirmButtonColor: "#059669" }).then(() => navigate("/login"));
       return;
     }
 
@@ -5077,14 +5773,7 @@ export default function ProductDetail() {
     if (isNaN(parsed) || parsed < 1) parsed = 1;
     if (product && parsed > product.stock) {
       parsed = product.stock;
-      Swal.fire({
-        toast: true,
-        position: "top-end",
-        icon: "warning",
-        title: `Maksimal stok adalah ${product.stock}`,
-        showConfirmButton: false,
-        timer: 2000,
-      });
+      Swal.fire({ toast: true, position: "top-end", icon: "warning", title: `Maksimal stok adalah ${product.stock}`, showConfirmButton: false, timer: 2000 });
     }
     setQuantityInput(parsed.toString());
   };
@@ -5125,38 +5814,16 @@ export default function ProductDetail() {
                         onClick={prevImage}
                         className="absolute z-20 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 left-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-6 h-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M15 19l-7-7 7-7"
-                          />
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                         </svg>
                       </button>
                       <button
                         onClick={nextImage}
                         className="absolute z-20 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 right-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-6 h-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 5l7 7-7 7"
-                          />
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </button>
                       <div className="absolute z-20 flex gap-2 bottom-6">
@@ -5189,11 +5856,7 @@ export default function ProductDetail() {
                   Video Demo
                 </h3>
                 <div className="overflow-hidden bg-black shadow-sm rounded-3xl">
-                  <video
-                    src={product.variant_video}
-                    controls
-                    className="object-contain w-full h-64 md:h-80"
-                  />
+                  <video src={product.variant_video} controls className="object-contain w-full h-64 md:h-80" />
                 </div>
               </div>
             )}
@@ -5216,11 +5879,7 @@ export default function ProductDetail() {
                   stroke="currentColor"
                   className={`w-6 h-6 transition-all duration-300 ${isFavorited ? "fill-red-500 text-red-500 scale-110" : "fill-none text-gray-400 hover:text-red-500"}`}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                 </svg>
               </button>
             </div>
@@ -5244,9 +5903,6 @@ export default function ProductDetail() {
             </div>
 
             <div className="p-6 mb-10 border border-gray-100 bg-gray-50 rounded-2xl">
-              {/* ========================================================= */}
-              {/* [RENDER BARU] MENGGUNAKAN LOGIKA VUE SIBLING COLORS */}
-              {/* ========================================================= */}
               {siblingColors.length > 0 && (
                 <div className="pb-6 mb-6 border-b border-gray-200">
                   <h3 className="mb-3 text-sm font-bold text-gray-700">
@@ -5262,7 +5918,8 @@ export default function ProductDetail() {
                           onClick={() => {
                             if (!isCurrentProduct) {
                               window.scrollTo({ top: 0, behavior: "smooth" });
-                              navigate(`/product/${sibling.id}`);
+                              // [BARU] Melempar data produk varian ke URL baru agar dirender tanpa loading
+                              navigate(`/product/${sibling.id}`, { state: { initialProduct: sibling } });
                             }
                           }}
                           className={`flex items-center gap-2 px-3 py-1.5 rounded-full border-2 transition-all shadow-sm ${
@@ -5346,11 +6003,7 @@ export default function ProductDetail() {
                         : "bg-gycora text-white hover:bg-gycora-dark shadow-[0_4px_14px_0_rgba(5,150,105,0.39)] hover:-translate-y-0.5 active:scale-95"
                     }`}
                   >
-                    {isBuyingNow
-                      ? "Memproses..."
-                      : isOutOfStock
-                        ? "Stok Habis"
-                        : "Buy it Now"}
+                    {isBuyingNow ? "Memproses..." : isOutOfStock ? "Stok Habis" : "Buy it Now"}
                   </button>
                 </div>
               </div>
@@ -5362,18 +6015,33 @@ export default function ProductDetail() {
                   Tentang Produk Ini
                 </h3>
                 <div className="leading-relaxed prose-sm prose text-gray-600 whitespace-pre-wrap sm:prose max-w-none">
-                  {product.description}
+                  {/* [BARU] Menampilkan Skeleton Text jika deskripsi belum selesai di-fetch */}
+                  {isFetchingFull && !product.description ? (
+                    <div className="space-y-2 animate-pulse">
+                      <div className="w-full h-3 bg-gray-200 rounded"></div>
+                      <div className="w-5/6 h-3 bg-gray-200 rounded"></div>
+                      <div className="w-4/6 h-3 bg-gray-200 rounded"></div>
+                    </div>
+                  ) : (
+                    product.description
+                  )}
                 </div>
               </div>
-              {product.benefits && (
+
+              {(isFetchingFull || product.benefits) && (
                 <div>
                   <h3 className="pb-2 mb-4 text-lg font-bold text-gray-900 border-b border-gray-200">
                     Manfaat Utama
                   </h3>
                   <div className="p-5 border border-emerald-100 bg-emerald-50/50 rounded-2xl">
-                    <p className="leading-relaxed text-gray-700 whitespace-pre-wrap">
-                      {product.benefits}
-                    </p>
+                    {/* [BARU] Skeleton untuk Benefits */}
+                    {isFetchingFull && !product.benefits ? (
+                       <div className="w-3/4 h-3 rounded bg-emerald-200/50 animate-pulse"></div>
+                    ) : (
+                      <p className="leading-relaxed text-gray-700 whitespace-pre-wrap">
+                        {product.benefits}
+                      </p>
+                    )}
                   </div>
                 </div>
               )}
