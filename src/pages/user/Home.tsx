@@ -7827,7 +7827,27 @@ export default function Home() {
       </div>
 
       {/* =========================================
-          2. RELATABLE PROBLEM & SOLUTION SECTION
+          2. REAL RESULTS (BEFORE - AFTER) LOKAL ASET
+      ========================================= */}
+      <div className="py-24 border-gray-100 bg-gray-50 border-y">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="mb-16 text-center">
+            <h2 className="text-3xl font-extrabold text-gray-900">Hasil Nyata Tanpa Filter</h2>
+            <p className="mt-4 text-gray-500">Perbedaan nyata sebelum dan sesudah menggunakan Gycora.</p>
+          </div>
+
+          <div className="relative flex flex-col max-w-4xl mx-auto overflow-hidden bg-white border border-gray-200 shadow-xl group rounded-3xl">
+            <img 
+              src={beforeAfterImg} 
+              alt="Before After Hair Treatment" 
+              className="object-cover w-full h-auto transition-transform duration-1000 group-hover:scale-105" 
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* =========================================
+          3. RELATABLE PROBLEM & SOLUTION SECTION
       ========================================= */}
       <div className="py-24 border-b border-gray-100 bg-gray-50">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -7875,7 +7895,7 @@ export default function Home() {
       </div>
 
       {/* =========================================
-          3. KEY BENEFITS
+          4. KEY BENEFITS
       ========================================= */}
       <div className="py-24 bg-white border-b border-gray-100">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -7909,7 +7929,7 @@ export default function Home() {
       </div>
 
       {/* =========================================
-          4. FEATURED PRODUCT SECTION (PRODUK SHOWCASE)
+          5. FEATURED PRODUCT SECTION (PRODUK SHOWCASE)
       ========================================= */}
       <div id="featured" className="py-24 bg-white">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -7977,26 +7997,6 @@ export default function Home() {
           )}
         </div>
       </div> 
-
-      {/* =========================================
-          5. REAL RESULTS (BEFORE - AFTER) LOKAL ASET
-      ========================================= */}
-      <div className="py-24 border-gray-100 bg-gray-50 border-y">
-        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div className="mb-16 text-center">
-            <h2 className="text-3xl font-extrabold text-gray-900">Hasil Nyata Tanpa Filter</h2>
-            <p className="mt-4 text-gray-500">Perbedaan nyata sebelum dan sesudah menggunakan Gycora.</p>
-          </div>
-
-          <div className="relative flex flex-col max-w-4xl mx-auto overflow-hidden bg-white border border-gray-200 shadow-xl group rounded-3xl">
-            <img 
-              src={beforeAfterImg} 
-              alt="Before After Hair Treatment" 
-              className="object-cover w-full h-auto transition-transform duration-1000 group-hover:scale-105" 
-            />
-          </div>
-        </div>
-      </div>
 
       {/* =========================================
           6. SOCIAL PROOF (REVIEWS)
