@@ -4318,7 +4318,6 @@ import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useCart } from "../context/CartContext";
-// import { useMessage } from "../context/MessageContext";
 import logoGycora from "../assets/gycora_logo.png";
 import { BASE_URL } from "../config/api";
 
@@ -4335,7 +4334,10 @@ export default function Header() {
   const [isProductMenuOpen, setIsProductMenuOpen] = useState(false);
   const [isMobileProductMenuOpen, setIsMobileProductMenuOpen] = useState(false);
 
-  // --- STATE UNTUK MENYIMPAN ID PRODUK DINAMIS UNTUK MENU ---
+  // [BARU] STATE UNTUK MENU ABOUT US
+  const [isAboutMenuOpen, setIsAboutMenuOpen] = useState(false);
+  const [isMobileAboutMenuOpen, setIsMobileAboutMenuOpen] = useState(false);
+
   const [allProducts, setAllProducts] = useState<any[]>([]);
   const [menuIds, setMenuIds] = useState({
     pinkBrush: null as number | null,
@@ -4343,7 +4345,6 @@ export default function Header() {
     scalpCare: null as number | null,
   });
 
-  // --- STATE PENCARIAN (YANG MENYEBABKAN ERROR JIKA TIDAK DIPAKAI) ---
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [timeFilter, setTimeFilter] = useState("all");
@@ -4363,7 +4364,6 @@ export default function Header() {
       setUserData(JSON.parse(storedUser));
     }
 
-    // FETCH PRODUK UNTUK MENGISI LINK DROPDOWN SECARA OTOMATIS
     const fetchForMenu = async () => {
       try {
         const res = await fetch(`${BASE_URL}/api/products`);
@@ -4371,7 +4371,6 @@ export default function Header() {
         const products = data.data ? data.data : data;
         setAllProducts(products);
 
-        // Cari ID berdasarkan nama (Case Insensitive)
         const pink = products.find((p: any) => p.name.toLowerCase().includes("brush") && p.name.toLowerCase().includes("pink"));
         const black = products.find((p: any) => p.name.toLowerCase().includes("brush") && p.name.toLowerCase().includes("black"));
         const scalp = products.find((p: any) => p.name.toLowerCase().includes("scalp"));
@@ -4388,7 +4387,6 @@ export default function Header() {
     fetchForMenu();
   }, []);
 
-  // --- EFEK KLIK DI LUAR DROPDOWN ---
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -4399,7 +4397,6 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // --- MENCEGAH SCROLL SAAT MOBILE MENU DIBUKA ---
   useEffect(() => {
     if (isMobileMenuOpen || isSearchOpen) {
       document.body.style.overflow = "hidden";
@@ -4430,7 +4427,6 @@ export default function Header() {
     });
   };
 
-  // --- EFEK PENCARIAN DENGAN DEBOUNCE ---
   useEffect(() => {
     if (!isSearchOpen) return;
 
@@ -4456,7 +4452,7 @@ export default function Header() {
               Accept: "application/json",
               ...(token && { Authorization: `Bearer ${token}` }),
             },
-          },
+          }
         );
 
         if (res.ok) {
@@ -4497,58 +4493,45 @@ export default function Header() {
       <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
         <div className="relative flex items-center justify-between h-20 px-4 mx-auto max-w-[1536px] sm:px-6 lg:px-8">
           
-          {/* BAGIAN KIRI: Navigasi Desktop / Hamburger Menu Mobile */}
           <div className="flex items-center flex-1">
             <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 -ml-2 text-gray-600 transition-colors rounded-md md:hidden hover:bg-gray-100">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
             </button>
 
-            <nav className="items-center hidden gap-8 text-sm font-semibold text-gray-700 md:flex">
+            <nav className="items-center hidden gap-6 text-sm font-semibold text-gray-700 md:flex lg:gap-8">
               <Link to="/" className="transition-colors hover:text-gycora">Home</Link>
 
-              {/* PRODUCT MENU DENGAN NAVIGASI & DROPDOWN */}
-              {/* <div 
+              {/* [BARU] ABOUT US MENU DROPDOWN */}
+              <div 
                 className="relative flex items-center h-full py-2 cursor-pointer group"
-                onMouseEnter={() => setIsProductMenuOpen(true)}
-                onMouseLeave={() => setIsProductMenuOpen(false)}
+                onMouseEnter={() => setIsAboutMenuOpen(true)}
+                onMouseLeave={() => setIsAboutMenuOpen(false)}
               >
-                <Link to="/products" className="flex items-center gap-1 transition-colors hover:text-gycora">
-                  Product
+                <Link to="/about" className="flex items-center gap-1 transition-colors hover:text-gycora">
+                  About Us
                   <svg
-                    className={`w-4 h-4 transition-transform duration-200 ${isProductMenuOpen ? "rotate-180" : ""}`}
+                    className={`w-4 h-4 transition-transform duration-200 ${isAboutMenuOpen ? "rotate-180" : ""}`}
                     fill="none" viewBox="0 0 24 24" stroke="currentColor"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
                   </svg>
                 </Link>
 
-                {isProductMenuOpen && (
-                  <div className="absolute left-0 w-64 py-2 mt-1 bg-white border border-gray-100 shadow-2xl top-10 rounded-xl animate-fade-in-up">
-                    <button
-                      onClick={() => navigate(menuIds.pinkBrush ? `/product/${menuIds.pinkBrush}` : '/products', { state: { allProducts } })}
-                      className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors"
-                    >
-                      Ethereal Glow Brush Pink
-                    </button>
-                    <button
-                      onClick={() => navigate(menuIds.blackBrush ? `/product/${menuIds.blackBrush}` : '/products', { state: { allProducts } })}
-                      className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors"
-                    >
-                      Ethereal Glow Brush Black
-                    </button>
-                    <button
-                      onClick={() => navigate(menuIds.scalpCare ? `/product/${menuIds.scalpCare}` : '/products', { state: { allProducts } })}
-                      className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors"
-                    >
-                      Eco Serenity Scalp Care
-                    </button>
+                {isAboutMenuOpen && (
+                  <div className="absolute left-0 pt-2 top-full w-52 animate-fade-in-up">
+                    <div className="py-2 bg-white border border-gray-100 shadow-2xl rounded-xl">
+                      <Link to="/about#our-story" className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors">Our Story</Link>
+                      <Link to="/about#our-purpose" className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors">Our Purpose</Link>
+                      <Link to="/about#our-innovation" className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors">Our Innovation</Link>
+                      <Link to="/about#vision-mission" className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors">Vision and Mission</Link>
+                      <Link to="/faq" className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors border-t border-gray-100">FAQs</Link>
+                    </div>
                   </div>
                 )}
-              </div> */}
+              </div>
 
-              {/* PRODUCT MENU DENGAN NAVIGASI & DROPDOWN */}
+              {/* PRODUCT MENU DROPDOWN */}
               <div 
-                // [PERBAIKAN] Pastikan area hover cukup tinggi untuk menyambung dengan dropdown
                 className="relative flex items-center h-full py-2 cursor-pointer group"
                 onMouseEnter={() => setIsProductMenuOpen(true)}
                 onMouseLeave={() => setIsProductMenuOpen(false)}
@@ -4563,28 +4546,16 @@ export default function Header() {
                   </svg>
                 </Link>
 
-                {/* Isi Dropdown Desktop */}
                 {isProductMenuOpen && (
-                  // [PERBAIKAN] Hapus 'mt-1' dan 'top-10', ganti menjadi 'top-full' (menempel pas di bawah parent) 
-                  // Tambahkan sedikit 'pt-2' agar ada area tak terlihat yang menghubungkan menu dengan kotaknya
                   <div className="absolute left-0 w-64 pt-2 top-full animate-fade-in-up">
                     <div className="py-2 bg-white border border-gray-100 shadow-2xl rounded-xl">
-                      <button
-                        onClick={() => navigate(menuIds.pinkBrush ? `/product/${menuIds.pinkBrush}` : '/products', { state: { allProducts } })}
-                        className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors"
-                      >
+                      <button onClick={() => navigate(menuIds.pinkBrush ? `/product/${menuIds.pinkBrush}` : '/products', { state: { allProducts } })} className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors">
                         Ethereal Glow Brush Pink
                       </button>
-                      <button
-                        onClick={() => navigate(menuIds.blackBrush ? `/product/${menuIds.blackBrush}` : '/products', { state: { allProducts } })}
-                        className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors"
-                      >
+                      <button onClick={() => navigate(menuIds.blackBrush ? `/product/${menuIds.blackBrush}` : '/products', { state: { allProducts } })} className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors">
                         Ethereal Glow Brush Black
                       </button>
-                      <button
-                        onClick={() => navigate(menuIds.scalpCare ? `/product/${menuIds.scalpCare}` : '/products', { state: { allProducts } })}
-                        className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors"
-                      >
+                      <button onClick={() => navigate(menuIds.scalpCare ? `/product/${menuIds.scalpCare}` : '/products', { state: { allProducts } })} className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors">
                         Eco Serenity Scalp Care
                       </button>
                     </div>
@@ -4592,11 +4563,11 @@ export default function Header() {
                 )}
               </div>
 
-              <Link to="/consult" className="transition-colors hover:text-gycora">Consult With Us</Link>
+              <Link to="/consult" className="transition-colors hover:text-gycora">Consult</Link>
             </nav>
           </div>
 
-          {/* BAGIAN TENGAH: LOGO (Fix Tengah) */}
+          {/* BAGIAN TENGAH: LOGO */}
           <div className="absolute flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer left-1/2 top-1/2" onClick={() => navigate("/")}>
             <img src={logoGycora} alt="Gycora Logo" className="object-contain h-8 md:h-10" />
           </div>
@@ -4637,7 +4608,7 @@ export default function Header() {
 
             <button onClick={() => navigate("/cart")} className="relative p-1.5 text-gray-600 hover:text-gycora">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
-              {cartTotalItems > 0 && <span className="absolute top-0 right-0 bg-gycora text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">{cartTotalItems}</span>}
+              {cartTotalItems > 0 && <span className="absolute top-0 right-0 bg-gycora text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center translate-x-1 -translate-y-1">{cartTotalItems}</span>}
             </button>
           </div>
         </div>
@@ -4668,6 +4639,23 @@ export default function Header() {
              <nav className="flex flex-col gap-4">
                 <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold">Home</Link>
                 
+                {/* [BARU] Accordion About Us Mobile */}
+                <div>
+                   <button onClick={() => setIsMobileAboutMenuOpen(!isMobileAboutMenuOpen)} className="flex items-center justify-between w-full text-lg font-bold">
+                      About Us
+                      <svg className={`w-5 h-5 transition-transform ${isMobileAboutMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                   </button>
+                   {isMobileAboutMenuOpen && (
+                      <div className="flex flex-col gap-3 pl-4 mt-2 text-gray-600">
+                         <Link to="/about#our-story" onClick={() => setIsMobileMenuOpen(false)} className="text-left">Our Story</Link>
+                         <Link to="/about#our-purpose" onClick={() => setIsMobileMenuOpen(false)} className="text-left">Our Purpose</Link>
+                         <Link to="/about#our-innovation" onClick={() => setIsMobileMenuOpen(false)} className="text-left">Our Innovation</Link>
+                         <Link to="/about#vision-mission" onClick={() => setIsMobileMenuOpen(false)} className="text-left">Vision and Mission</Link>
+                         <Link to="/faq" onClick={() => setIsMobileMenuOpen(false)} className="text-left text-gycora">FAQs</Link>
+                      </div>
+                   )}
+                </div>
+
                 {/* Accordion Product Mobile */}
                 <div>
                    <button onClick={() => setIsMobileProductMenuOpen(!isMobileProductMenuOpen)} className="flex items-center justify-between w-full text-lg font-bold">
@@ -4683,8 +4671,7 @@ export default function Header() {
                    )}
                 </div>
 
-                <Link to="/products" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold">Shop All</Link>
-                <Link to="/consult" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold">Consult With Us</Link>
+                <Link to="/consult" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold">Consult</Link>
              
                 {userData ? (
                   <>

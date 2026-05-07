@@ -68,6 +68,7 @@ import AdminAuditLogPage from "./pages/admin/AdminAuditLogPage";
 import { MessageProvider } from "./context/MessageContext";
 import ProductOnePage from "./pages/user/ProductOnePage";
 import ProductTwoPage from "./pages/user/ProductTwoPage";
+import AboutUsPage from "./pages/user/AboutUsPage";
 
 // function LayoutWrapper({ children }: { children: React.ReactNode }) {
 //   const location = useLocation();
@@ -172,6 +173,7 @@ export default function App() {
               <Route path="/consult" element={<ConsultWithUs />} />
               <Route path="/product-one" element={<ProductOnePage />} />
               <Route path="/product-two" element={<ProductTwoPage />} />
+              <Route path="/about" element={<AboutUsPage />} />
               {/* Tambahkan Route lainnya (profile, checkout, dll) di sini nanti */}
               {/* --- RUTE KHUSUS ADMIN --- */}
               {/* Semua rute admin dibungkus manual menggunakan element AdminLayout */}
