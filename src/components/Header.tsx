@@ -4507,7 +4507,7 @@ export default function Header() {
               <Link to="/" className="transition-colors hover:text-gycora">Home</Link>
 
               {/* PRODUCT MENU DENGAN NAVIGASI & DROPDOWN */}
-              <div 
+              {/* <div 
                 className="relative flex items-center h-full py-2 cursor-pointer group"
                 onMouseEnter={() => setIsProductMenuOpen(true)}
                 onMouseLeave={() => setIsProductMenuOpen(false)}
@@ -4522,7 +4522,6 @@ export default function Header() {
                   </svg>
                 </Link>
 
-                {/* Isi Dropdown Desktop */}
                 {isProductMenuOpen && (
                   <div className="absolute left-0 w-64 py-2 mt-1 bg-white border border-gray-100 shadow-2xl top-10 rounded-xl animate-fade-in-up">
                     <button
@@ -4543,6 +4542,52 @@ export default function Header() {
                     >
                       Eco Serenity Scalp Care
                     </button>
+                  </div>
+                )}
+              </div> */}
+
+              {/* PRODUCT MENU DENGAN NAVIGASI & DROPDOWN */}
+              <div 
+                // [PERBAIKAN] Pastikan area hover cukup tinggi untuk menyambung dengan dropdown
+                className="relative flex items-center h-full py-2 cursor-pointer group"
+                onMouseEnter={() => setIsProductMenuOpen(true)}
+                onMouseLeave={() => setIsProductMenuOpen(false)}
+              >
+                <Link to="/products" className="flex items-center gap-1 transition-colors hover:text-gycora">
+                  Product
+                  <svg
+                    className={`w-4 h-4 transition-transform duration-200 ${isProductMenuOpen ? "rotate-180" : ""}`}
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </Link>
+
+                {/* Isi Dropdown Desktop */}
+                {isProductMenuOpen && (
+                  // [PERBAIKAN] Hapus 'mt-1' dan 'top-10', ganti menjadi 'top-full' (menempel pas di bawah parent) 
+                  // Tambahkan sedikit 'pt-2' agar ada area tak terlihat yang menghubungkan menu dengan kotaknya
+                  <div className="absolute left-0 w-64 pt-2 top-full animate-fade-in-up">
+                    <div className="py-2 bg-white border border-gray-100 shadow-2xl rounded-xl">
+                      <button
+                        onClick={() => navigate(menuIds.pinkBrush ? `/product/${menuIds.pinkBrush}` : '/products', { state: { allProducts } })}
+                        className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors"
+                      >
+                        Ethereal Glow Brush Pink
+                      </button>
+                      <button
+                        onClick={() => navigate(menuIds.blackBrush ? `/product/${menuIds.blackBrush}` : '/products', { state: { allProducts } })}
+                        className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors"
+                      >
+                        Ethereal Glow Brush Black
+                      </button>
+                      <button
+                        onClick={() => navigate(menuIds.scalpCare ? `/product/${menuIds.scalpCare}` : '/products', { state: { allProducts } })}
+                        className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors"
+                      >
+                        Eco Serenity Scalp Care
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
