@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { BASE_URL } from "../../config/api"; // Sesuaikan path
 
 export default function AdminEventList() {
-  const navigate = useNavigate();
+//   const navigate = useNavigate();
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
