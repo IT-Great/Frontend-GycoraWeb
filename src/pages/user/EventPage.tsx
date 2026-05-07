@@ -107,90 +107,113 @@ export default function EventPage() {
             <p className="py-10 italic text-center text-gray-500">Belum ada event mendatang. Stay tuned!</p>
           ) : (
             <div className="space-y-12">
-              {upcomingEvents.map((event) => (
-                <div 
-                  key={`upcoming-${event.id}`} 
-                  // [PERBAIKAN] Menggunakan card berwarna hijau persis seperti referensi
-                  className="flex flex-col-reverse md:flex-row bg-[#006A4E] rounded-3xl overflow-hidden shadow-2xl p-6 md:p-10 gap-8 items-center"
-                >
-                  
-                  {/* Event Details (Kiri) */}
-                  <div className="w-full space-y-6 md:w-1/2">
-                    <div>
-                      <h3 className="mb-4 text-2xl font-bold text-white md:text-3xl">
-                        {event.name} — {event.location}
-                      </h3>
-                      {/* Tanggal menggunakan pill outline putih */}
-                      <span className="inline-block px-5 py-2 text-sm font-bold text-white border-2 border-white rounded-full">
-                        {formatDateRange(event.start_date, event.end_date)}
-                      </span>
-                    </div>
+              {upcomingEvents.map((event, index) => {
+                const isEven = index % 2 === 0;
+
+                return (
+                  <div 
+                    key={`upcoming-${event.id}`} 
+                    className={`flex ${isEven ? 'flex-col-reverse md:flex-row' : 'flex-col-reverse md:flex-row-reverse'} bg-[#006A4E] rounded-3xl overflow-hidden shadow-2xl p-6 md:p-10 gap-8 items-center`}
+                  >
                     
-                    <div className="text-base leading-relaxed whitespace-pre-wrap text-emerald-50">
-                      {event.description}
-                    </div>
-
-                    {event.link_url && (
-                      <div className="pt-2">
-                        <a 
-                          href={event.link_url} 
-                          target="_blank" 
-                          rel="noreferrer"
-                          // Tombol putih dengan teks hijau
-                          className="inline-block px-6 py-3 text-sm font-bold text-[#006A4E] transition-all bg-white rounded-full shadow-lg hover:bg-gray-100 hover:-translate-y-0.5"
-                        >
-                          Visit Event
-                        </a>
+                    {/* Event Details */}
+                    <div className="w-full space-y-6 md:w-1/2">
+                      <div>
+                        <h3 className="mb-4 text-2xl font-bold text-white md:text-3xl">
+                          {event.name} — {event.location}
+                        </h3>
+                        <span className="inline-block px-5 py-2 text-sm font-bold text-white border-2 border-white rounded-full">
+                          {formatDateRange(event.start_date, event.end_date)}
+                        </span>
                       </div>
-                    )}
-                  </div>
+                      
+                      <div className="text-base leading-relaxed whitespace-pre-wrap text-emerald-50">
+                        {event.description}
+                      </div>
 
-                  {/* Event Image (Kanan) */}
-                  <div className="w-full md:w-1/2">
-                    <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-inner bg-emerald-900/50">
-                      {event.image_url ? (
-                        <img 
-                          src={event.image_url} 
-                          alt={event.name} 
-                          className="object-cover w-full h-full"
-                        />
-                      ) : (
-                        <div className="flex items-center justify-center w-full h-full font-medium text-emerald-200">
-                          Gambar Event Belum Tersedia
+                      {event.link_url && (
+                        <div className="pt-2">
+                          <a 
+                            href={event.link_url} 
+                            target="_blank" 
+                            rel="noreferrer"
+                            className="inline-block px-6 py-3 text-sm font-bold text-[#006A4E] transition-all bg-white rounded-full shadow-lg hover:bg-gray-100 hover:-translate-y-0.5"
+                          >
+                            Visit Event
+                          </a>
                         </div>
                       )}
                     </div>
-                  </div>
 
-                </div>
-              ))}
+                    {/* Event Image */}
+                    <div className="w-full md:w-1/2">
+                      <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-inner bg-emerald-900/50 group">
+                        {event.image_url ? (
+                          <img 
+                            src={event.image_url} 
+                            alt={event.name} 
+                            className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="flex items-center justify-center w-full h-full font-medium text-emerald-200">
+                            Gambar Event Belum Tersedia
+                          </div>
+                        )}
+                        {/* Optional Label (Hidden by default, you can remove this if not needed for upcoming) */}
+                        <div className="absolute px-4 py-2 rounded-full shadow-sm top-4 left-4 bg-white/90 backdrop-blur-sm md:hidden">
+                           <span className="text-xs font-black tracking-widest text-[#006A4E] uppercase">Upcoming</span>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                );
+              })}
             </div>
           )}
         </section>
 
         {/* =========================================
-            PAST EVENTS SECTION (CLEAN ZIG-ZAG)
+            PAST EVENTS SECTION (CARD ABU-ABU)
         ========================================= */}
         {pastEvents.length > 0 && (
           <section className="pt-16 border-t border-gray-100">
-            <div className="mb-16 text-center">
+            <div className="mb-12 text-center">
               <h2 className="text-3xl font-black tracking-wide text-gray-400 uppercase md:text-4xl">
                 Past Events
               </h2>
-              <div className="w-24 h-1.5 bg-gray-200 mx-auto mt-4 rounded-full"></div>
             </div>
 
-            <div className="space-y-20 md:space-y-32">
+            <div className="space-y-12">
               {pastEvents.map((event, index) => {
                 const isEven = index % 2 === 0;
 
                 return (
                   <div 
                     key={`past-${event.id}`} 
-                    className={`flex flex-col gap-10 md:gap-16 items-center opacity-80 hover:opacity-100 transition-opacity duration-300 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+                    // [PERBAIKAN] Layout persis Upcoming, tapi warna diubah ke abu-abu gelap
+                    className={`flex ${isEven ? 'flex-col-reverse md:flex-row' : 'flex-col-reverse md:flex-row-reverse'} bg-gray-800 rounded-3xl overflow-hidden shadow-xl p-6 md:p-10 gap-8 items-center opacity-90 hover:opacity-100 transition-opacity duration-300`}
                   >
+                    
+                    {/* Event Details */}
+                    <div className="w-full space-y-6 md:w-1/2">
+                      <div>
+                        <h3 className="mb-4 text-2xl font-bold text-white md:text-3xl">
+                          {event.name} — {event.location}
+                        </h3>
+                        <span className="inline-block px-5 py-2 text-sm font-bold text-gray-300 border-2 border-gray-500 rounded-full">
+                          {formatDateRange(event.start_date, event.end_date)}
+                        </span>
+                      </div>
+                      
+                      <div className="text-base leading-relaxed text-gray-300 whitespace-pre-wrap">
+                        {event.description}
+                      </div>
+                    </div>
+
+                    {/* Event Image */}
                     <div className="w-full md:w-1/2">
-                      <div className="relative rounded-3xl overflow-hidden shadow-lg border border-gray-100 bg-gray-50 aspect-[4/3] sm:aspect-video grayscale-[30%] hover:grayscale-0 transition-all duration-500">
+                      <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-inner bg-gray-900 grayscale-[20%] hover:grayscale-0 transition-all duration-500">
                         {event.image_url ? (
                           <img 
                             src={event.image_url} 
@@ -198,7 +221,7 @@ export default function EventPage() {
                             className="object-cover w-full h-full"
                           />
                         ) : (
-                          <div className="flex items-center justify-center w-full h-full font-medium text-gray-400">
+                          <div className="flex items-center justify-center w-full h-full font-medium text-gray-600">
                             Gambar Event Belum Tersedia
                           </div>
                         )}
@@ -208,21 +231,6 @@ export default function EventPage() {
                       </div>
                     </div>
 
-                    <div className="w-full space-y-6 md:w-1/2">
-                      <div>
-                        <h3 className="mb-2 text-3xl font-extrabold text-gray-700 md:text-4xl">
-                          {event.name} — {event.location}
-                        </h3>
-                        <p className="flex items-center gap-2 text-lg font-bold text-gray-500">
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                          {formatDateRange(event.start_date, event.end_date)}
-                        </p>
-                      </div>
-                      
-                      <div className="prose prose-lg text-gray-500 whitespace-pre-wrap">
-                        {event.description}
-                      </div>
-                    </div>
                   </div>
                 );
               })}
