@@ -8554,7 +8554,7 @@ export default function Home() {
                       <h3 className="text-sm font-extrabold leading-tight text-[#006A4E] line-clamp-2">
                         {product.name}
                       </h3>
-                      <p className="mt-1 text-xs leading-relaxed text-gray-500 line-clamp-3">
+                      <p className="mt-1 text-lg leading-relaxed text-gray-500 line-clamp-3">
                         {customDesc || "Sisir premium dengan teknologi anti-static yang bantu rambut lebih halus, rapi, dan berkilau dalam sekali sisir."}
                       </p>
                       
