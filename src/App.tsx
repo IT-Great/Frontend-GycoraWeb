@@ -69,6 +69,10 @@ import { MessageProvider } from "./context/MessageContext";
 import ProductOnePage from "./pages/user/ProductOnePage";
 import ProductTwoPage from "./pages/user/ProductTwoPage";
 import AboutUsPage from "./pages/user/AboutUsPage";
+import AdminEventList from "./pages/admin/AdminEventList";
+import AdminEventForm from "./pages/admin/AdminEventForm";
+import AdminEventDetail from "./pages/admin/AdminEventDetail";
+import EventPage from "./pages/user/EventPage";
 
 // function LayoutWrapper({ children }: { children: React.ReactNode }) {
 //   const location = useLocation();
@@ -174,6 +178,7 @@ export default function App() {
               <Route path="/product-one" element={<ProductOnePage />} />
               <Route path="/product-two" element={<ProductTwoPage />} />
               <Route path="/about" element={<AboutUsPage />} />
+              <Route path="/events" element={<EventPage />} />
               {/* Tambahkan Route lainnya (profile, checkout, dll) di sini nanti */}
               {/* --- RUTE KHUSUS ADMIN --- */}
               {/* Semua rute admin dibungkus manual menggunakan element AdminLayout */}
@@ -417,6 +422,38 @@ export default function App() {
                 element={
                   <AdminLayout>
                     <AdminAuditLogPage />
+                  </AdminLayout>
+                }
+              />
+              <Route
+                path="/admin/events"
+                element={
+                  <AdminLayout>
+                    <AdminEventList />
+                  </AdminLayout>
+                }
+              />
+              <Route
+                path="/admin/events/create"
+                element={
+                  <AdminLayout>
+                    <AdminEventForm />
+                  </AdminLayout>
+                }
+              />
+              <Route
+                path="/admin/events/edit/:id"
+                element={
+                  <AdminLayout>
+                    <AdminEventForm />
+                  </AdminLayout>
+                }
+              />
+              <Route
+                path="/admin/events/:id"
+                element={
+                  <AdminLayout>
+                    <AdminEventDetail />
                   </AdminLayout>
                 }
               />
