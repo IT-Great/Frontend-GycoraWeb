@@ -5606,6 +5606,78 @@ export default function ProductDetail() {
     }
   };
 
+  // useEffect(() => {
+  //   // =========================================================
+  //   // [BARU] OPTIMISTIC UI: Render seketika jika ada data awal
+  //   // =========================================================
+  //   const initialPassedData = location.state?.initialProduct;
+
+  //   if (initialPassedData && String(initialPassedData.id) === id) {
+  //     setProduct(initialPassedData);
+  //     setLoading(false); // Matikan loading besar, biarkan render dengan data seadanya (Gambar, Harga, Judul)
+  //   } else {
+  //     setLoading(true); // Jika diakses via direct URL (tanpa history), tetap tampilkan spinner
+  //     setProduct(null);
+  //   }
+
+  //   setIsFetchingFull(true);
+  //   setCurrentImageIndex(0);
+  //   setQuantityInput("1");
+
+  //   const fetchProductAndSiblings = async () => {
+  //     try {
+  //       const res = await fetch(`${BASE_URL}/api/products/${id}`);
+  //       if (!res.ok) throw new Error("Produk tidak ditemukan");
+  //       const responseData = await res.json();
+
+  //       const productObject = responseData.data
+  //         ? responseData.data
+  //         : responseData;
+  //       setProduct(productObject); // Perbarui dengan data utuh (Deskripsi, dll akan muncul)
+
+  //       await fetchSiblingColors(productObject.name);
+  //     } catch (error) {
+  //       console.error("Gagal memuat produk:", error);
+  //       navigate("/products");
+  //     }
+  //   };
+
+  //   const checkWishlistStatus = async () => {
+  //     const token = localStorage.getItem("user_token");
+  //     if (!token) return;
+
+  //     try {
+  //       const res = await fetch(`${BASE_URL}/api/wishlists`, {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           Accept: "application/json",
+  //         },
+  //       });
+  //       if (res.ok) {
+  //         const data = await res.json();
+  //         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //         const isWished = data.some(
+  //           (item: any) => item.product_id === Number(id),
+  //         );
+  //         setIsFavorited(isWished);
+  //       }
+  //     } catch (error) {
+  //       console.error("Gagal memeriksa wishlist:", error);
+  //     }
+  //   };
+
+  //   if (id) {
+  //     Promise.all([fetchProductAndSiblings(), checkWishlistStatus()]).finally(
+  //       () => {
+  //         setLoading(false);
+  //         setIsFetchingFull(false);
+  //       },
+  //     );
+  //   }
+  //   // Sengaja tidak memasukkan 'location.state' agar tidak loop render
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [id, navigate]);
+
   useEffect(() => {
     // =========================================================
     // [BARU] OPTIMISTIC UI: Render seketika jika ada data awal
@@ -5624,21 +5696,26 @@ export default function ProductDetail() {
     setCurrentImageIndex(0);
     setQuantityInput("1");
 
+    // [PERBAIKAN] Variabel pencegah Race Condition
+    let isCurrentFetchValid = true;
+
     const fetchProductAndSiblings = async () => {
       try {
         const res = await fetch(`${BASE_URL}/api/products/${id}`);
         if (!res.ok) throw new Error("Produk tidak ditemukan");
         const responseData = await res.json();
 
-        const productObject = responseData.data
-          ? responseData.data
-          : responseData;
-        setProduct(productObject); // Perbarui dengan data utuh (Deskripsi, dll akan muncul)
-
-        await fetchSiblingColors(productObject.name);
+        // Hanya ubah state JIKA request ini masih relevan (user belum pindah warna lagi)
+        if (isCurrentFetchValid) {
+          const productObject = responseData.data ? responseData.data : responseData;
+          setProduct(productObject);
+          await fetchSiblingColors(productObject.name);
+        }
       } catch (error) {
-        console.error("Gagal memuat produk:", error);
-        navigate("/products");
+        if (isCurrentFetchValid) {
+          console.error("Gagal memuat produk:", error);
+          navigate("/products");
+        }
       }
     };
 
@@ -5659,21 +5736,30 @@ export default function ProductDetail() {
           const isWished = data.some(
             (item: any) => item.product_id === Number(id),
           );
-          setIsFavorited(isWished);
+          
+          if (isCurrentFetchValid) setIsFavorited(isWished);
         }
       } catch (error) {
-        console.error("Gagal memeriksa wishlist:", error);
+        if (isCurrentFetchValid) console.error("Gagal memeriksa wishlist:", error);
       }
     };
 
     if (id) {
       Promise.all([fetchProductAndSiblings(), checkWishlistStatus()]).finally(
         () => {
-          setLoading(false);
-          setIsFetchingFull(false);
+          if (isCurrentFetchValid) {
+            setLoading(false);
+            setIsFetchingFull(false);
+          }
         },
       );
     }
+
+    // [PERBAIKAN] Cleanup function: Beritahu fetch lama agar tidak usah merubah state lagi
+    return () => {
+      isCurrentFetchValid = false;
+    };
+    
     // Sengaja tidak memasukkan 'location.state' agar tidak loop render
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, navigate]);
