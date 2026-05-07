@@ -7162,7 +7162,7 @@ export default function ProductDetail() {
                 </div>
               </div>
 
-              {(isFetchingFull || product.benefits) && (
+              {/* {(isFetchingFull || product.benefits) && (
                 <div>
                   <h3 className="pb-2 mb-4 text-lg font-bold text-gray-900 border-b border-gray-200">
                     Manfaat Utama
@@ -7177,7 +7177,7 @@ export default function ProductDetail() {
                     )}
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>
