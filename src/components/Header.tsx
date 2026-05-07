@@ -4779,7 +4779,7 @@ export default function Header() {
                       </div>
                     </div>
                   )}
-
+                  {/*  */}
                   {!isSearching && searchResults.products?.length === 0 && searchResults.transactions?.length === 0 && searchResults.carts?.length === 0 && (
                     <div className="flex flex-col items-center justify-center py-10 text-center">
                       <p className="text-lg font-bold text-gray-900">Oops, tidak ditemukan!</p>
