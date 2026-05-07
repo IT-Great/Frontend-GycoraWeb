@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -10,7 +10,7 @@ export default function AdminEventForm() {
   const navigate = useNavigate();
   const isEditMode = !!id;
 
-  const [loading, setLoading] = useState(isEditMode); // Loading jika mode edit untuk ambil data lama
+  const [loading, setLoading] = useState(isEditMode);
   const [saving, setSaving] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -19,19 +19,19 @@ export default function AdminEventForm() {
     start_date: "",
     end_date: "",
     description: "",
-    image_url: "",
     link_url: "",
     is_active: true
   });
+
+  // [BARU] State khusus untuk menangkap file gambar
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   // Ambil data event lama jika dalam mode Edit
   useEffect(() => {
     if (isEditMode) {
       const fetchEventDetail = async () => {
         try {
-          // Asumsi Anda punya endpoint GET detail event atau ngambil dari list. 
-          // Karena controller Anda belum ada GET /{id}, 
-          // kita fetch semua lalu cari yang cocok (Workaround sementara)
           const res = await fetch(`${BASE_URL}/api/events`);
           const data = await res.json();
           const allEvents = [...(data.data.upcoming || []), ...(data.data.past || [])];
@@ -41,14 +41,16 @@ export default function AdminEventForm() {
             setFormData({
               name: event.name,
               location: event.location,
-              // Potong jam/waktu jika format dari server adalah datetime
               start_date: event.start_date.split('T')[0], 
               end_date: event.end_date ? event.end_date.split('T')[0] : event.start_date.split('T')[0],
               description: event.description,
-              image_url: event.image_url || "",
               link_url: event.link_url || "",
               is_active: event.is_active
             });
+            // Set preview gambar lama jika ada
+            if (event.image_url) {
+              setImagePreview(event.image_url);
+            }
           } else {
             Swal.fire("Error", "Event tidak ditemukan", "error");
             navigate("/admin/events");
@@ -63,15 +65,24 @@ export default function AdminEventForm() {
     }
   }, [id, isEditMode, navigate]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     
-    // Handle checkbox khusus
     if (type === "checkbox") {
       const checked = (e.target as HTMLInputElement).checked;
       setFormData({ ...formData, [name]: checked });
     } else {
       setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  // [BARU] Fungsi menangkap file gambar
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setImageFile(file);
+      // Buat URL sementara untuk preview gambar di browser
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
@@ -81,17 +92,36 @@ export default function AdminEventForm() {
 
     try {
       const token = localStorage.getItem("admin_token") || localStorage.getItem("user_token");
-      const url = isEditMode ? `${BASE_URL}/api/admin/events/${id}` : `${BASE_URL}/api/admin/events`;
-      const method = isEditMode ? "PUT" : "POST";
+      
+      // [PERBAIKAN] Karena ada file, kita HARUS pakai FormData, BUKAN JSON.
+      const payload = new FormData();
+      payload.append("name", formData.name);
+      payload.append("location", formData.location);
+      payload.append("start_date", formData.start_date);
+      payload.append("end_date", formData.end_date);
+      payload.append("description", formData.description);
+      payload.append("link_url", formData.link_url);
+      payload.append("is_active", formData.is_active ? "1" : "0");
+
+      if (imageFile) {
+        payload.append("image_url", imageFile); // 'image_url' sesuai nama yang ditangkap controller
+      }
+
+      // [PENTING] Di Laravel, kirim file via PUT akan error. Harus pakai POST dengan trick _method=PUT
+      let url = `${BASE_URL}/api/admin/events`;
+      if (isEditMode) {
+        url = `${BASE_URL}/api/admin/events/${id}`;
+        payload.append("_method", "PUT");
+      }
 
       const res = await fetch(url, {
-        method: method,
+        method: "POST", // Selalu POST karena pakai FormData
         headers: {
-          "Content-Type": "application/json",
+          // Jangan set "Content-Type" manual, biarkan browser set multipart/form-data & boundaries
           "Accept": "application/json",
           "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
+        body: payload
       });
 
       const responseData = await res.json();
@@ -106,7 +136,6 @@ export default function AdminEventForm() {
         });
         navigate("/admin/events");
       } else {
-        // Tampilkan error validasi dari Laravel
         let errorMsg = responseData.message || "Gagal menyimpan data.";
         if (responseData.errors) {
             errorMsg = Object.values(responseData.errors).flat().join("\n");
@@ -181,13 +210,20 @@ export default function AdminEventForm() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <div className="space-y-1">
-            <label className="block text-sm font-semibold text-gray-700">URL Gambar/Banner</label>
+          {/* [BARU] Input File Picker untuk Gambar */}
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Gambar/Banner (Max 5MB)</label>
             <input 
-              type="text" name="image_url" value={formData.image_url} onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg outline-none bg-gray-50 focus:ring-2 focus:ring-gycora"
-              placeholder="/images/event_cover.jpg atau https://..."
+              type="file" name="image" accept="image/*" onChange={handleImageChange}
+              className="w-full px-4 py-2 text-sm border border-gray-200 rounded-lg outline-none bg-gray-50 focus:ring-2 focus:ring-gycora file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-gycora hover:file:bg-emerald-100"
             />
+            {/* Image Preview */}
+            {imagePreview && (
+              <div className="mt-4">
+                <p className="mb-2 text-xs text-gray-500">Pratinjau Gambar:</p>
+                <img src={imagePreview} alt="Preview" className="object-cover w-full h-40 border border-gray-200 rounded-lg shadow-sm" />
+              </div>
+            )}
           </div>
 
           <div className="space-y-1">
