@@ -1451,69 +1451,30 @@
 // }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { BASE_URL } from "../../config/api";
 
 const IconAcne = () => (
-  <svg
-    className="w-8 h-8 text-gycora"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={1.5}
-      d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-    />
+  <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
   </svg>
 );
 const IconHair = () => (
-  <svg
-    className="w-8 h-8 text-gycora"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={1.5}
-      d="M14 5l7 7m0 0l-7 7m7-7H3"
-    />
+  <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
   </svg>
 );
 const IconSkin = () => (
-  <svg
-    className="w-8 h-8 text-gycora"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={1.5}
-      d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-    />
+  <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
   </svg>
 );
 const IconBeard = () => (
-  <svg
-    className="w-8 h-8 text-gycora"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={1.5}
-      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-    />
+  <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
   </svg>
 );
 
@@ -1527,10 +1488,6 @@ const consultationCategories = [
   { id: 7, title: "Bekas Jerawat", icon: <IconAcne /> },
   { id: 8, title: "Ketombe", icon: <IconHair /> },
 ];
-
-import img1 from "../../assets/consult_images/header_1.png";
-import img2 from "../../assets/consult_images/header_2.png";
-import img3 from "../../assets/consult_images/header_3.png";
 
 import logoShopee from "../../assets/shopee.png";
 import logoTokopedia from "../../assets/tokopedia.png";
@@ -1549,16 +1506,6 @@ export default function ConsultWithUs() {
   });
 
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
-
-  const headerImages = [img1, img2, img3];
-  const [currentImgIdx, setCurrentImgIdx] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImgIdx((prev) => (prev + 1) % headerImages.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [headerImages.length]);
 
   const [clinicTreatments, setClinicTreatments] = useState<any[]>([]);
   const [otcProducts, setOtcProducts] = useState<any[]>([]);
@@ -1635,18 +1582,15 @@ export default function ConsultWithUs() {
       cancelButtonText: "Batal",
       confirmButtonColor: "#059669",
       preConfirm: () => {
-        const time = (document.getElementById("swal-time") as HTMLInputElement)
-          .value;
+        const time = (document.getElementById("swal-time") as HTMLInputElement).value;
         if (!time) {
           Swal.showValidationMessage("Harap lengkapi jadwal konsultasi!");
           return false;
         }
         return {
-          type: (document.getElementById("swal-type") as HTMLSelectElement)
-            .value,
+          type: (document.getElementById("swal-type") as HTMLSelectElement).value,
           time: time,
-          notes: (document.getElementById("swal-notes") as HTMLTextAreaElement)
-            .value,
+          notes: (document.getElementById("swal-notes") as HTMLTextAreaElement).value,
         };
       },
     });
@@ -1669,13 +1613,8 @@ export default function ConsultWithUs() {
         });
 
         if (res.ok) {
-          // Format pesan untuk WhatsApp
-          const dateFormatted = new Date(formValues.time).toLocaleString(
-            "id-ID",
-            { dateStyle: "full", timeStyle: "short" },
-          );
+          const dateFormatted = new Date(formValues.time).toLocaleString("id-ID", { dateStyle: "full", timeStyle: "short" });
           const waMessage = `Halo Gycora Clinic, saya ${userData.first_name}.\n\nSaya ingin melakukan *${formValues.type}* mengenai keluhan *${category}*.\nJadwal Pengajuan: *${dateFormatted}*\nKeluhan: ${formValues.notes || "-"}\n\nMohon konfirmasinya. Terima kasih.`;
-
           const waUrl = `https://wa.me/${ADMIN_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;
 
           Swal.fire({
@@ -1685,7 +1624,6 @@ export default function ConsultWithUs() {
             timer: 2000,
             showConfirmButton: false,
           }).then(() => {
-            // REDIRECT LANGSUNG KE WHATSAPP
             window.open(waUrl, "_blank");
           });
         } else {
@@ -1700,11 +1638,7 @@ export default function ConsultWithUs() {
   // --- LOGIKA JANJI TEMU KLINIK (UI MEWAH) ---
   const handleBookAppointment = async (treatment: any) => {
     if (!userData) {
-      Swal.fire(
-        "Login Diperlukan",
-        "Silakan login untuk membuat janji temu.",
-        "info",
-      );
+      Swal.fire("Login Diperlukan", "Silakan login untuk membuat janji temu.", "info");
       navigate("/login");
       return;
     }
@@ -1737,11 +1671,8 @@ export default function ConsultWithUs() {
       cancelButtonText: "Batal",
       confirmButtonColor: "#059669",
       preConfirm: () => {
-        const time = (document.getElementById("swal-date") as HTMLInputElement)
-          .value;
-        const reason = (
-          document.getElementById("swal-reason") as HTMLTextAreaElement
-        ).value;
+        const time = (document.getElementById("swal-date") as HTMLInputElement).value;
+        const reason = (document.getElementById("swal-reason") as HTMLTextAreaElement).value;
         if (!time || !reason) {
           Swal.showValidationMessage("Harap lengkapi tanggal dan alasan.");
           return false;
@@ -1802,76 +1733,37 @@ export default function ConsultWithUs() {
 
   return (
     <div className="pb-20 font-sans bg-gray-50">
-      {/* ================= HERO SECTION WITH SHUFFLE IMAGE ================= */}
-      {/* <div className="relative h-[600px] bg-gray-900 flex items-center overflow-hidden">
-        <img
-          src={headerImages[currentImgIdx]}
-          alt="Gycora Clinic"
-          className="absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 opacity-40"
-        />
-        <div className="relative z-10 max-w-4xl px-8 space-y-6 text-white md:px-12 animate-fade-in-up">
-          <h1 className="text-5xl font-black leading-tight tracking-tight md:text-6xl">
-            Solusi Medis Profesional
-            <br />
-            Untuk Rambut & Kulit.
-          </h1>
-          <p className="max-w-2xl text-lg text-gray-300 md:text-xl">
-            Konsultasi gratis secara daring dengan dokter spesialis Gycora dan
-            temukan perawatan terbaik untuk Anda.
-          </p>
-          <button
-            onClick={() =>
-              categorySectionRef.current?.scrollIntoView({ behavior: "smooth" })
-            }
-            className="px-8 py-4 mt-4 font-bold text-white transition-all rounded-full shadow-xl bg-gycora hover:scale-105 hover:bg-gycora-dark"
-          >
-            Pilih Keluhanmu Sekarang
-          </button>
-        </div>
-      </div> */}
-      {/* ================= HERO SECTION WITH SHUFFLE IMAGE ================= */}
-      {/* [PERBAIKAN] Hapus w-[600px] yang memaksakan ukuran, biarkan tinggi mengikuti aspect-ratio gambar */}
-      <div className="relative flex items-center justify-center w-full overflow-hidden bg-gray-900">
-        {/* Gambar tidak lagi pakai object-cover agar tidak terpotong, melainkan memanjang sesuai ukuran aslinya */}
-        <img
-          src={headerImages[currentImgIdx]}
-          alt="Gycora Clinic"
-          className="w-full h-auto max-h-[80vh] object-contain transition-opacity duration-1000 opacity-60"
-        />
-        {/* [PERBAIKAN TENGAH X] Tambahkan 'mx-auto' di sini agar elemen div ini benar-benar rata tengah */}
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center max-w-4xl px-8 mx-auto text-center md:px-12 animate-fade-in-up">
+      {/* ================= HERO SECTION TANPA GAMBAR ================= */}
+      <div className="relative py-24 md:py-32 bg-[#006A4E] overflow-hidden">
+        {/* Ornamen Latar Belakang Lingkaran (Opsional agar tidak terlalu sepi) */}
+        <div className="absolute top-0 right-0 -mt-20 -mr-20 bg-white rounded-full pointer-events-none w-96 h-96 opacity-5 blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 -mb-20 -ml-20 bg-white rounded-full pointer-events-none w-80 h-80 opacity-5 blur-2xl"></div>
+
+        <div className="relative z-10 max-w-4xl px-8 mx-auto text-center md:px-12 animate-fade-in-up">
           <h1 className="text-5xl font-black leading-tight tracking-tight text-white md:text-6xl drop-shadow-lg">
             Solusi Medis Profesional
             <br />
             Untuk Rambut & Kulit.
           </h1>
-          <p className="max-w-2xl mt-6 text-lg text-gray-200 md:text-xl drop-shadow-md">
+          <p className="max-w-2xl mx-auto mt-6 text-lg text-emerald-100 md:text-xl drop-shadow-md">
             Konsultasi gratis secara daring dengan dokter spesialis Gycora dan
             temukan perawatan terbaik untuk Anda.
           </p>
           <button
-            onClick={() =>
-              categorySectionRef.current?.scrollIntoView({ behavior: "smooth" })
-            }
-            className="px-8 py-4 mt-8 font-bold text-white transition-all rounded-full shadow-xl bg-gycora hover:scale-105 hover:bg-gycora-dark"
+            onClick={() => categorySectionRef.current?.scrollIntoView({ behavior: "smooth" })}
+            className="px-10 py-4 mt-10 font-bold text-[#006A4E] transition-all rounded-full shadow-xl bg-white hover:-translate-y-1 hover:shadow-2xl"
           >
             Pilih Keluhanmu Sekarang
           </button>
         </div>
       </div>
+
       {/* ================= KATEGORI KONSULTASI (USER INTERACTION) ================= */}
-      <div
-        ref={categorySectionRef}
-        className="px-6 py-24 mx-auto max-w-7xl lg:px-8"
-      >
+      <div ref={categorySectionRef} className="px-6 py-24 mx-auto max-w-7xl lg:px-8">
         <div className="mb-12 text-center md:text-left md:flex md:items-end md:justify-between">
           <div>
-            <h2 className="mb-2 text-3xl font-bold text-gray-900">
-              Konsul keluhan sesuai kebutuhan
-            </h2>
-            <p className="text-gray-500">
-              Pilih kondisi dan dapatkan panduan dari dokter ahli.
-            </p>
+            <h2 className="mb-2 text-3xl font-bold text-gray-900">Konsul keluhan sesuai kebutuhan</h2>
+            <p className="text-gray-500">Pilih kondisi dan dapatkan panduan dari dokter ahli.</p>
           </div>
           <span className="hidden px-4 py-2 mt-4 text-xs font-bold text-white bg-red-500 rounded-full shadow-md animate-pulse md:inline-block w-max">
             Konsultasi 100% GRATIS
@@ -1895,38 +1787,22 @@ export default function ConsultWithUs() {
           ))}
         </div>
       </div>
-      {/* ... [SISA KODE BAWAH SEPERTI SIGNATURE CLINIC & OTC TETAP SAMA] ... */}
-      {/* SISA KODE SAYA POTONG AGAR TIDAK TERLALU PANJANG KARENA TIDAK ADA PERUBAHAN */}
+
       {/* ================= SIGNATURE CLINIC TREATMENTS ================= */}
       <div className="py-24 bg-gray-900">
         <div className="px-6 mx-auto max-w-7xl lg:px-8">
           <div className="mb-12">
-            <h2 className="mb-2 text-3xl font-bold text-white">
-              Signature Clinic Treatments
-            </h2>
-            <p className="text-gray-400">
-              Perawatan eksklusif langsung di klinik dengan teknologi mutakhir.
-            </p>
+            <h2 className="mb-2 text-3xl font-bold text-white">Signature Clinic Treatments</h2>
+            <p className="text-gray-400">Perawatan eksklusif langsung di klinik dengan teknologi mutakhir.</p>
           </div>
 
           <div className="flex gap-6 pb-8 overflow-x-auto snap-x snap-mandatory no-scrollbar">
             {clinicTreatments.map((t) => (
-              <div
-                key={t.id}
-                className="flex flex-col min-w-[280px] w-[280px] bg-white rounded-3xl overflow-hidden shadow-2xl snap-center shrink-0"
-              >
-                <img
-                  src={t.image_url}
-                  alt={t.title}
-                  className="object-cover w-full bg-gray-100 h-52"
-                />
+              <div key={t.id} className="flex flex-col min-w-[280px] w-[280px] bg-white rounded-3xl overflow-hidden shadow-2xl snap-center shrink-0">
+                <img src={t.image_url} alt={t.title} className="object-cover w-full bg-gray-100 h-52" />
                 <div className="flex flex-col flex-1 p-6">
-                  <h4 className="flex-1 mb-2 text-lg font-bold text-gray-900 line-clamp-2">
-                    {t.title}
-                  </h4>
-                  <p className="mb-6 font-black text-gycora">
-                    Rp {parseInt(t.price).toLocaleString("id-ID")}
-                  </p>
+                  <h4 className="flex-1 mb-2 text-lg font-bold text-gray-900 line-clamp-2">{t.title}</h4>
+                  <p className="mb-6 font-black text-gycora">Rp {parseInt(t.price).toLocaleString("id-ID")}</p>
                   <button
                     onClick={() => handleBookAppointment(t)}
                     className="w-full py-3 font-bold text-white transition-colors bg-gray-900 rounded-xl hover:bg-black"
@@ -1939,51 +1815,33 @@ export default function ConsultWithUs() {
           </div>
         </div>
       </div>
+
       {/* ================= OTC / ESSENTIALS PRODUCTS ================= */}
       <div className="py-24 bg-white border-b border-gray-100">
         <div className="px-6 mx-auto max-w-7xl lg:px-8">
           <div className="flex flex-col justify-between gap-4 mb-12 md:flex-row md:items-end">
             <div>
-              <h2 className="mb-2 text-3xl font-bold text-gray-900">
-                Skip Konsultasi dengan Gycora Essentials
-              </h2>
-              <p className="text-gray-500">
-                Skincare harian (Bebas Beli) yang aman digunakan tanpa resep
-                dokter.
-              </p>
+              <h2 className="mb-2 text-3xl font-bold text-gray-900">Skip Konsultasi dengan Gycora Essentials</h2>
+              <p className="text-gray-500">Skincare harian (Bebas Beli) yang aman digunakan tanpa resep dokter.</p>
             </div>
-            <Link
-              to="/products"
-              className="text-sm font-bold transition-colors text-gycora hover:text-gycora-dark"
-            >
+            <Link to="/products" className="text-sm font-bold transition-colors text-gycora hover:text-gycora-dark">
               Lihat Semua Produk &rarr;
             </Link>
           </div>
 
           <div className="flex gap-6 pb-8 overflow-x-auto snap-x snap-mandatory no-scrollbar">
             {otcProducts.map((product) => (
-              <div
-                key={product.id}
-                className="flex flex-col min-w-[240px] w-[240px] overflow-hidden transition-colors bg-white border border-gray-200 snap-center shrink-0 rounded-3xl hover:border-gycora group"
-              >
+              <div key={product.id} className="flex flex-col min-w-[240px] w-[240px] overflow-hidden transition-colors bg-white border border-gray-200 snap-center shrink-0 rounded-3xl hover:border-gycora group">
                 <div className="relative flex items-center justify-center p-4 aspect-square bg-gray-50">
                   <div className="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">
                     PROMO
                   </div>
-                  <img
-                    src={product.image_url || product.image}
-                    alt={product.name || product.title}
-                    className="object-contain w-full h-full transition-transform duration-500 group-hover:scale-105"
-                  />
+                  <img src={product.image_url || product.image} alt={product.name || product.title} className="object-contain w-full h-full transition-transform duration-500 group-hover:scale-105" />
                 </div>
                 <div className="flex flex-col flex-1 p-5 border-t border-gray-100">
-                  <h3 className="flex-1 mb-2 text-sm font-bold text-gray-900 line-clamp-2 group-hover:text-gycora">
-                    {product.name || product.title}
-                  </h3>
+                  <h3 className="flex-1 mb-2 text-sm font-bold text-gray-900 line-clamp-2 group-hover:text-gycora">{product.name || product.title}</h3>
                   <div className="flex items-center gap-2 mb-4">
-                    <span className="text-lg font-black text-gycora">
-                      {formatRupiah(product.price)}
-                    </span>
+                    <span className="text-lg font-black text-gycora">{formatRupiah(product.price)}</span>
                   </div>
                   <button
                     onClick={() => navigate("/products")}
@@ -1997,66 +1855,40 @@ export default function ConsultWithUs() {
           </div>
         </div>
       </div>
+
       {/* ================= MEDIA COVERAGE / PARTNERS ================= */}
       <div className="py-12 border-b border-gray-200 bg-gray-50">
         <div className="px-6 mx-auto max-w-7xl lg:px-8">
-          <h3 className="mb-8 text-sm font-bold tracking-widest text-center text-gray-400 uppercase">
-            Tersedia Juga Di
-          </h3>
+          <h3 className="mb-8 text-sm font-bold tracking-widest text-center text-gray-400 uppercase">Tersedia Juga Di</h3>
           <div className="flex flex-wrap items-center justify-center gap-8 transition-all duration-500 md:gap-16 opacity-70 grayscale hover:grayscale-0">
             {mediaLogos.map((logo, idx) => (
-              <img
-                key={idx}
-                src={logo}
-                alt="Partner Logo"
-                className="object-contain h-8 md:h-12"
-              />
+              <img key={idx} src={logo} alt="Partner Logo" className="object-contain h-8 md:h-12" />
             ))}
           </div>
         </div>
       </div>
-      // {/* ================= FAQ SECTION ================= */}
+
+      {/* ================= FAQ SECTION ================= */}
       <div className="py-24 bg-white">
         <div className="max-w-3xl px-6 mx-auto lg:px-8">
           <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-extrabold text-gray-900">
-              Kamu Tanya, Kami Jawab
-            </h2>
-            <p className="text-gray-500">
-              Pertanyaan yang paling sering diajukan oleh pelanggan kami.
-            </p>
+            <h2 className="mb-4 text-3xl font-extrabold text-gray-900">Kamu Tanya, Kami Jawab</h2>
+            <p className="text-gray-500">Pertanyaan yang paling sering diajukan oleh pelanggan kami.</p>
           </div>
 
           <div className="space-y-4">
             {faqs.map((faq, index) => (
-              <div
-                key={index}
-                className="overflow-hidden transition-all duration-300 border border-gray-200 rounded-2xl"
-              >
+              <div key={index} className="overflow-hidden transition-all duration-300 border border-gray-200 rounded-2xl">
                 <button
                   onClick={() => toggleFaq(index)}
                   className="flex items-center justify-between w-full p-5 text-left transition-colors bg-white hover:bg-gray-50 focus:outline-none"
                 >
-                  <span className="pr-4 text-sm font-bold text-gray-900 md:text-base">
-                    {faq.q}
-                  </span>
-                  <svg
-                    className={`w-5 h-5 text-gycora transform transition-transform duration-300 shrink-0 ${activeFaq === index ? "rotate-180" : ""}`}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
+                  <span className="pr-4 text-sm font-bold text-gray-900 md:text-base">{faq.q}</span>
+                  <svg className={`w-5 h-5 text-gycora transform transition-transform duration-300 shrink-0 ${activeFaq === index ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
-                <div
-                  className={`px-5 text-gray-600 text-sm leading-relaxed transition-all duration-300 ease-in-out bg-gray-50 ${activeFaq === index ? "max-h-40 py-5 border-t border-gray-100 opacity-100" : "max-h-0 py-0 opacity-0 pointer-events-none"}`}
-                >
+                <div className={`px-5 text-gray-600 text-sm leading-relaxed transition-all duration-300 ease-in-out bg-gray-50 ${activeFaq === index ? "max-h-40 py-5 border-t border-gray-100 opacity-100" : "max-h-0 py-0 opacity-0 pointer-events-none"}`}>
                   {faq.a}
                 </div>
               </div>
@@ -2064,10 +1896,7 @@ export default function ConsultWithUs() {
           </div>
 
           <div className="mt-12 text-center">
-            <button
-              onClick={() => navigate("/help-center")}
-              className="text-sm font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline"
-            >
+            <button onClick={() => navigate("/help-center")} className="text-sm font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
               Lihat Pusat Bantuan Lengkap &rarr;
             </button>
           </div>
