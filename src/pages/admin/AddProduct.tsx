@@ -1408,8 +1408,8 @@ export default function AddProduct() {
 
   const handleVariantChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    if (variantFiles.length + files.length > 5) {
-      Swal.fire("Batas Tercapai", "Maksimal hanya 5 gambar varian yang diperbolehkan.", "warning");
+    if (variantFiles.length + files.length > 7) {
+      Swal.fire("Batas Tercapai", "Maksimal hanya 7 gambar varian yang diperbolehkan.", "warning");
       return;
     }
     const newFiles = [...variantFiles, ...files];

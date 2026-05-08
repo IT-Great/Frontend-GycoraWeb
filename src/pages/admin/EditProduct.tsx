@@ -1821,8 +1821,8 @@ export default function EditProduct() {
   const handleVariantChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     const totalCurrent = existingVariants.length + newVariantFiles.length;
-    if (totalCurrent + files.length > 5)
-      return Swal.fire("Batas Tercapai", "Maksimal 5 varian.", "warning");
+    if (totalCurrent + files.length > 7)
+      return Swal.fire("Batas Tercapai", "Maksimal 7 varian.", "warning");
 
     const updatedFiles = [...newVariantFiles, ...files];
     setNewVariantFiles(updatedFiles);
