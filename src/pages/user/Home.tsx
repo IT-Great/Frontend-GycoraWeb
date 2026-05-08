@@ -10013,7 +10013,7 @@ export default function Home() {
           <div className="flex flex-col items-end justify-between mb-10 md:flex-row">
             <div className="w-full md:w-1/2">
               <h2 className="text-2xl font-extrabold sm:text-3xl text-[#006A4E] text-center">Produk Favorit Pilihan Banyak Orang</h2>
-              <p className="mt-2 text-sm text-gray-500 sm:text-base">
+              <p className="mt-2 text-sm text-gray-500 sm:text-base tezt-center">
                 Temukan produk best seller yang jadi andalan untuk rambut lebih rapi, halus, dan mudah diatur setiap hari.
               </p>
             </div>
