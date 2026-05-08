@@ -9805,9 +9805,7 @@ export default function Home() {
       {/* =========================================
           HERO SECTION (RESPONSIVE HALF-WIDTH MOBILE)
       ========================================= */}
-      <div className="relative w-full overflow-hidden bg-[#F4F9F6] min-h-[450px] md:min-h-[600px] flex items-center">
-        {/* Gambar Slider */}
-        {/* [PERBAIKAN] translate-x-4 di mobile menggeser gambar sedikit ke kanan */}
+      {/* <div className="relative w-full overflow-hidden bg-[#F4F9F6] min-h-[450px] md:min-h-[600px] flex items-center">
         <div className="absolute inset-0 z-0 flex justify-end">
           <div className="w-[65%] md:w-[60%] h-full relative translate-x-6 md:translate-x-0">
             {heroSlides.map((slide, index) => (
@@ -9818,13 +9816,10 @@ export default function Home() {
                 className={`absolute inset-0 object-cover object-right-top w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
               />
             ))}
-            {/* Overlay Gradient agar teks terbaca */}
-            {/* [PERBAIKAN] Mengurangi lebar gradient di mobile agar "cahaya" tidak menutupi setengah gambar */}
             <div className="absolute inset-0 bg-gradient-to-r from-[#F4F9F6] via-[#F4F9F6]/90 to-transparent w-full sm:w-1/2"></div>
           </div>
         </div>
 
-        {/* Panah Navigasi - Disesuaikan ukurannya untuk mobile */}
         <button
           onClick={() => setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1))}
           className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md left-2 md:left-8 hover:bg-gray-50"
@@ -9843,7 +9838,6 @@ export default function Home() {
         </button>
 
         <div className="relative z-10 w-full px-4 mx-auto max-w-[1236px] sm:px-10 lg:px-16 animate-fade-in-up">
-          {/* Konten Teks Kiri - [PERBAIKAN] Dibatasi max 55-60% di mobile agar gambar di kanan tetap terlihat */}
           <div className="w-[60%] sm:w-[60%] md:max-w-xl">
             <h1 className="text-2xl font-extrabold leading-tight sm:text-4xl md:text-5xl lg:text-6xl text-[#006A4E]">
               Solusi Cepat untuk <br /> Rambut Lebih Rapi
@@ -9855,7 +9849,6 @@ export default function Home() {
               Nggak semua orang punya waktu buat styling setiap hari. Tapi kamu tetap bisa tampil lebih rapi dalam hitungan menit dengan produk pilihan dari Gycora.
             </p>
 
-            {/* Tombol Action */}
             <div className="flex flex-col gap-2 mt-4 sm:flex-row md:gap-4 md:mt-8">
               <Link
                 to="/products"
@@ -9871,7 +9864,6 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Ikon Benefits Bawah - Ditumpuk di mobile, sejajar di desktop */}
             <div className="flex flex-col items-start gap-3 mt-6 sm:flex-row sm:items-center md:gap-8 md:mt-10">
               <div className="flex items-center gap-2">
                 <svg className="w-5 h-5 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -9910,6 +9902,109 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </div> */}
+
+      {/* =========================================
+          HERO SECTION (STACKED ON MOBILE, SIDE-BY-SIDE ON DESKTOP)
+      ========================================= */}
+      <div className="relative w-full overflow-hidden bg-[#F4F9F6] flex flex-col md:block md:min-h-[600px]">
+        
+        {/* GAMBAR SLIDER (Di atas pada mobile, absolute di kanan pada desktop) */}
+        <div className="relative w-full h-[350px] sm:h-[450px] md:absolute md:inset-0 md:h-full md:z-0 md:flex md:justify-end shrink-0">
+          <div className="w-full h-full md:w-[60%] relative">
+            {heroSlides.map((slide, index) => (
+              <img
+                key={slide.id}
+                src={slide.image}
+                alt={slide.alt}
+                className={`absolute inset-0 object-cover object-center md:object-right-top w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
+              />
+            ))}
+            {/* Overlay Gradient: 
+                Mobile: Gradasi ringan dari bawah ke atas agar menyatu lembut dengan area teks.
+                Desktop: Gradasi dari kiri ke kanan agar teks bisa terbaca jelas.
+            */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#F4F9F6] via-[#F4F9F6]/20 to-transparent md:bg-gradient-to-r md:from-[#F4F9F6] md:via-[#F4F9F6]/90 md:to-transparent md:w-1/2"></div>
+          </div>
+
+          {/* Panah Navigasi */}
+          <button
+            onClick={() => setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1))}
+            className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md left-4 md:left-8 top-1/2 -translate-y-1/2 hover:bg-gray-50 focus:outline-none"
+          >
+            <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            onClick={() => setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1))}
+            className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md right-4 md:right-8 top-1/2 -translate-y-1/2 hover:bg-gray-50 focus:outline-none"
+          >
+            <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+
+        {/* KONTEN TEKS (Di bawah gambar pada mobile, di kiri pada desktop) */}
+        <div className="relative z-10 w-full px-6 pt-6 pb-12 mx-auto max-w-[1236px] sm:px-10 lg:px-16 animate-fade-in-up flex items-center md:min-h-[600px]">
+          {/* Teks di-center pada mobile agar terlihat seimbang dengan gambar di atasnya */}
+          <div className="w-full text-center md:max-w-xl md:text-left">
+            <h1 className="text-3xl font-extrabold leading-tight sm:text-4xl md:text-5xl lg:text-6xl text-[#006A4E]">
+              Solusi Cepat untuk <br className="hidden md:block"/> Rambut Lebih Rapi
+            </h1>
+            <h2 className="mt-3 text-base font-bold text-gray-900 md:mt-4 sm:text-xl md:text-2xl">
+              Tanpa Ribet, Tanpa Nunggu Lama.
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-gray-500 md:mt-4 md:text-lg">
+              Nggak semua orang punya waktu buat styling setiap hari. Tapi kamu tetap bisa tampil lebih rapi dalam hitungan menit dengan produk pilihan dari Gycora.
+            </p>
+
+            {/* Tombol Action */}
+            <div className="flex flex-col justify-center gap-3 mt-6 sm:flex-row md:justify-start md:gap-4 md:mt-8">
+              <Link
+                to="/products"
+                className="px-6 py-3 md:px-8 md:py-3.5 text-xs md:text-sm font-bold tracking-wider text-center text-white uppercase transition-colors rounded-full shadow-lg bg-[#006A4E] hover:bg-emerald-900"
+              >
+                Shop Now
+              </Link>
+              <a
+                href="#featured"
+                className="px-6 py-3 md:px-8 md:py-3.5 text-xs md:text-sm font-bold tracking-wider text-center uppercase transition-colors bg-transparent border-2 rounded-full border-[#006A4E] text-[#006A4E] hover:bg-[#006A4E] hover:text-white"
+              >
+                Lihat Produk
+              </a>
+            </div>
+
+            {/* Ikon Benefits Bawah */}
+            <div className="flex flex-wrap justify-center gap-4 mt-8 md:justify-start md:gap-8 md:mt-10">
+              <div className="flex items-center gap-2">
+                <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
+                  Teknologi<br className="hidden sm:block" /> Anti Statis
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+                <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
+                  Material<br className="hidden sm:block" /> Premium
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
+                  Eco<br className="hidden sm:block" /> Friendly
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* FEATURED PRODUCT SECTION */}
@@ -9917,7 +10012,7 @@ export default function Home() {
         <div className="px-6 mx-auto max-w-[1536px] sm:px-10 lg:px-16">
           <div className="flex flex-col items-end justify-between mb-10 md:flex-row">
             <div className="w-full md:w-1/2">
-              <h2 className="text-2xl font-extrabold sm:text-3xl text-[#006A4E]">Produk Favorit Pilihan Banyak Orang</h2>
+              <h2 className="text-2xl font-extrabold sm:text-3xl text-[#006A4E] text-center">Produk Favorit Pilihan Banyak Orang</h2>
               <p className="mt-2 text-sm text-gray-500 sm:text-base">
                 Temukan produk best seller yang jadi andalan untuk rambut lebih rapi, halus, dan mudah diatur setiap hari.
               </p>
@@ -10138,23 +10233,6 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </div>
-      </div>
-
-      {/* OFFER SECTION */}
-      <div className="py-20 bg-emerald-50">
-        <div className="max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
-          <h2 className="mb-4 text-3xl font-extrabold text-[#006A4E]">Lagi Ada Promo Spesial Hari Ini ✨</h2>
-          <p className="mb-8 text-lg text-emerald-800">
-            Nikmati berbagai penawaran menarik untuk produk favorit kamu. Penawaran terbatas selama stok masih ada. Jangan sampai
-            kehabisan.
-          </p>
-          <button
-            onClick={() => setShowPromoModal(true)}
-            className="inline-block px-10 py-4 text-lg font-bold text-white transition-all rounded-full bg-[#006A4E] hover:bg-emerald-900 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-          >
-            Ambil Promo Sekarang
-          </button>
         </div>
       </div>
 
