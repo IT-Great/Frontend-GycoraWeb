@@ -1734,24 +1734,28 @@ export default function ConsultWithUs() {
   return (
     <div className="pb-20 font-sans bg-gray-50">
       {/* ================= HERO SECTION TANPA GAMBAR ================= */}
-      <div className="relative py-24 md:py-32 bg-[#006A4E] overflow-hidden">
-        {/* Ornamen Latar Belakang Lingkaran (Opsional agar tidak terlalu sepi) */}
-        <div className="absolute top-0 right-0 -mt-20 -mr-20 bg-white rounded-full pointer-events-none w-96 h-96 opacity-5 blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 -mb-20 -ml-20 bg-white rounded-full pointer-events-none w-80 h-80 opacity-5 blur-2xl"></div>
+      {/* [PERBAIKAN] Background diubah menjadi terang/hijau sangat muda */}
+      <div className="relative py-24 md:py-32 bg-[#F4F9F6] overflow-hidden">
+        {/* Ornamen Latar Belakang Lingkaran (Diubah menjadi hijau transparan agar terlihat di background terang) */}
+        <div className="absolute top-0 right-0 -mt-20 -mr-20 bg-[#006A4E] rounded-full pointer-events-none w-96 h-96 opacity-[0.03] blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 -mb-20 -ml-20 bg-[#006A4E] rounded-full pointer-events-none w-80 h-80 opacity-[0.03] blur-2xl"></div>
 
         <div className="relative z-10 max-w-4xl px-8 mx-auto text-center md:px-12 animate-fade-in-up">
-          <h1 className="text-5xl font-black leading-tight tracking-tight text-white md:text-6xl drop-shadow-lg">
+          {/* [PERBAIKAN] Warna teks diubah menjadi hijau tua */}
+          <h1 className="text-5xl font-black leading-tight tracking-tight text-[#006A4E] md:text-6xl drop-shadow-sm">
             Solusi Medis Profesional
             <br />
             Untuk Rambut & Kulit.
           </h1>
-          <p className="max-w-2xl mx-auto mt-6 text-lg text-emerald-100 md:text-xl drop-shadow-md">
+          {/* [PERBAIKAN] Warna teks paragraf diubah menjadi abu-abu/gelap */}
+          <p className="max-w-2xl mx-auto mt-6 text-lg text-gray-600 md:text-xl">
             Konsultasi gratis secara daring dengan dokter spesialis Gycora dan
             temukan perawatan terbaik untuk Anda.
           </p>
+          {/* [PERBAIKAN] Tombol diubah menjadi solid hijau tua dengan teks putih */}
           <button
             onClick={() => categorySectionRef.current?.scrollIntoView({ behavior: "smooth" })}
-            className="px-10 py-4 mt-10 font-bold text-[#006A4E] transition-all rounded-full shadow-xl bg-white hover:-translate-y-1 hover:shadow-2xl"
+            className="px-10 py-4 mt-10 font-bold text-white transition-all rounded-full shadow-lg bg-[#006A4E] hover:-translate-y-1 hover:shadow-xl hover:bg-emerald-900"
           >
             Pilih Keluhanmu Sekarang
           </button>
