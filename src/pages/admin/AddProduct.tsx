@@ -1634,12 +1634,12 @@ export default function AddProduct() {
             {/* VARIANT IMAGES SECTION */}
             <div>
               <label className="flex justify-between block mb-2 text-sm font-semibold text-gray-700">
-                <span>Gambar Varian (Opsional, Maks 5)</span>
+                <span>Gambar Varian (Opsional, Maks 7)</span>
                 <span className="text-xs text-gray-400">{variantFiles.length} / 5</span>
               </label>
               
               <div className="flex flex-wrap gap-4 mt-2">
-                {variantFiles.length < 5 && (
+                {variantFiles.length < 7 && (
                   <label className="flex items-center justify-center w-24 h-24 text-gray-400 transition bg-white border-2 border-gray-200 border-dashed cursor-pointer rounded-xl hover:bg-gray-50 hover:text-gycora hover:border-gycora shrink-0">
                     <input type="file" accept="image/*" multiple onChange={handleVariantChange} className="hidden" />
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
