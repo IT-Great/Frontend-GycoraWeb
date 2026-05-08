@@ -8151,7 +8151,6 @@ export default function Home() {
   const navigate = useNavigate();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // const [userData, setUserData] = useState<any>(null);
-  const [setUserData] = useState<any>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -8170,10 +8169,10 @@ export default function Home() {
   const [isSubscribing, setIsSubscribing] = useState(false);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user_data");
-    if (storedUser) {
-      setUserData(JSON.parse(storedUser));
-    }
+    // const storedUser = localStorage.getItem("user_data");
+    // if (storedUser) {
+    //   setUserData(JSON.parse(storedUser));
+    // }
 
     // Mount modal secara instan, lalu trigger animasi 50ms kemudian agar CSS transisi bekerja
     setIsPromoMounted(true);
