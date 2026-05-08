@@ -9642,6 +9642,23 @@ export default function ProductDetail() {
   const isEtherealBrush = product.name.toLowerCase().includes("ethereal glow brush");
   const isScalpCare = product.name.toLowerCase().includes("scalp");
 
+  // [BARU] Data Review Spesifik per Produk
+  const brushReviews = [
+    { name: "Claudiasunshinee", text: "Sisir nya bagus banget sih sesuai dgn claim nya 🙌🙌 sblmnya aku pakai brand w** krn rambutku rontok.. trs setelah aku compare sm brand Gycora ternyata jauh lbh ga rontok pakai Gycora ❤👍" },
+    { name: "Nilasetiobudii", text: "Sisirnya enak banget terutama buat rambut yg suka kusut Jd lebih gampang pake sisir dari Gycora.." },
+    { name: "Thaliastanley___", text: "Setelah saya pakai hair brush nya rambutku jadi lebih gak kusut dan bikin lebih pede pastinya.." },
+    { name: "Herlenasutanto", text: "Oke kok enak sisir nya lentur ngikutin kepala. ga nyangkut2 hehe" },
+    { name: "Anitaa_bee", text: "Sukaaa poll sma sisirnya... Rambut jd makin teratur pas disisir dan ga gerundel (kusut frizzy) n rambut ku ya uda ga tllu banyak yg rontok. terus sisirnya tu empuk dan nyaman poll di kepala ga sakit." },
+  ];
+
+  const scalpReviews = [
+    { name: "v*****b", text: "Kemasan: Bagus\nEfek: Ketombe keluar semua, semoga bisa bersih pakai ini\nPengalaman Penggunaan: Rasanya rambut halus setelah pakai." },
+    { name: "evelinlembono", text: "Tidak ada komentar." },
+    { name: "arhdt", text: "Tidak ada komentar." },
+  ];
+
+  const activeReviews = isEtherealBrush ? brushReviews : isScalpCare ? scalpReviews : [];
+
   return (
     <div className="min-h-screen py-12 font-sans bg-white">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -10088,9 +10105,8 @@ export default function ProductDetail() {
                 )}
 
                 {/* KONTEN TAB: REVIEW */}
-                {activeTab === "review" && (
+                {/* {activeTab === "review" && (
                   <div className="space-y-6 animate-fade-in-up">
-                    {/* Placeholder Reviews */}
                     <div className="pb-4 border-b border-gray-100">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="flex text-xs text-amber-400">★★★★★</div>
@@ -10110,6 +10126,35 @@ export default function ProductDetail() {
                     <div className="mt-4 text-center">
                       <button className="text-sm font-bold text-[#006A4E] hover:underline">Lihat Semua Ulasan</button>
                     </div>
+                  </div>
+                )} */}
+                
+                {activeTab === "review" && (
+                  <div className="space-y-6 animate-fade-in-up">
+                    {activeReviews.length > 0 ? (
+                      activeReviews.map((review, index) => (
+                        <div key={index} className="pb-4 border-b border-gray-100">
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="flex text-xs text-amber-400">★★★★★</div>
+                            <span className="font-bold text-gray-900">{review.name}</span>
+                            <span className="px-2 py-0.5 ml-2 text-[10px] font-bold text-[#006A4E] bg-emerald-50 rounded-full">
+                              Verified Buyer
+                            </span>
+                          </div>
+                          <p className="text-gray-600 whitespace-pre-line">"{review.text}"</p>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="italic text-gray-400">Belum ada ulasan untuk produk ini.</p>
+                    )}
+                    
+                    {activeReviews.length > 0 && (
+                      <div className="mt-4 text-center">
+                        <button className="text-sm font-bold text-[#006A4E] hover:underline focus:outline-none">
+                          Lihat Semua Ulasan
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
