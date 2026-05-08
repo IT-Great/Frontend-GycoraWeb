@@ -1969,7 +1969,7 @@ export default function ConsultWithUs() {
   const [otcProducts, setOtcProducts] = useState<any[]>([]);
   
   // [BARU] Data FAQ yang sudah disaring
-  const [faqs, setFaqs] = useState<any[]>([
+  const [faqs] = useState<any[]>([
     {
       q: "Apa itu Ethereal Glow Brush?",
       a: "Ethereal Glow Brush adalah hairbrush anti-static dengan teknologi konduktif dan molekul karbon yang membantu rambut terasa lebih halus, rapi, dan mudah diatur dalam sekali sisir."
