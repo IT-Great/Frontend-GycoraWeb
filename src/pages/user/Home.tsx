@@ -8895,8 +8895,6 @@ import slide1 from "/landing_page_images/hero_slide_1.jpg";
 import slide2 from "/landing_page_images/hero_slide_2.jpg";
 import slide3 from "/landing_page_images/hero_slide_3.jpg";
 import slide4 from "/landing_page_images/hero_slide_4.jpg";
-
-// Import aset baru untuk Before-After
 import beforeAfterImg from "/landing_page_images/before_after.png";
 
 const heroSlides = [
@@ -8906,7 +8904,6 @@ const heroSlides = [
   { id: 4, image: slide4, alt: "Gycora Premium Hair Care 4" },
 ];
 
-// Data Benefit Baru
 const keyBenefits = [
   {
     title: "Bantu mengurangi rambut kusut dalam hitungan menit",
@@ -8950,13 +8947,13 @@ const keyBenefits = [
   },
 ];
 
-// Data Testimoni Baru dengan Gambar Profil
-const fallbackTestimonials = [
+// Data Testimoni Berdasarkan Permintaan (Hardcoded/Dummy)
+const displayReviews = [
   {
     id: "f1",
     name: "Claudiasunshinee",
     role: "Verified Buyer",
-    image: "/landing_page_images/user_1.jpg", // Pastikan file ada di folder public/landing_page_images/
+    image: "/landing_page_images/user_1.jpg", 
     text: "Sisir nya bagus banget sih sesuai dgn claim nya 🙌🙌 sblmnya aku pakai brand w** krn rambutku rontok.. trs setelah aku compare sm brand Gycora ternyata jauh lbh ga rontok pakai Gycora ❤👍",
     rating: 5,
   },
@@ -8999,8 +8996,6 @@ export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
-  const [realReviews, setRealReviews] = useState<any[]>([]);
-  const [isLoadingReviews, setIsLoadingReviews] = useState(true);
   const [isPromoMounted, setIsPromoMounted] = useState(false);
   const [showPromoModal, setShowPromoModal] = useState(false);
   const [promoEmail, setPromoEmail] = useState("");
@@ -9038,28 +9033,7 @@ export default function Home() {
       }
     };
 
-    const fetchRealReviews = async () => {
-      try {
-        const token = localStorage.getItem("user_token") || localStorage.getItem("admin_token");
-        const headers: HeadersInit = { Accept: "application/json" };
-        if (token) headers["Authorization"] = `Bearer ${token}`;
-
-        const res = await fetch(`${BASE_URL}/api/admin/reviews`, { headers });
-
-        if (res.ok) {
-          const data = await res.json();
-          const fiveStarReviews = data.filter((review: any) => review.rating === 5).slice(0, 6);
-          setRealReviews(fiveStarReviews);
-        }
-      } catch (error) {
-        console.error("Gagal memuat ulasan asli:", error);
-      } finally {
-        setIsLoadingReviews(false);
-      }
-    };
-
     fetchFeaturedProducts();
-    fetchRealReviews();
 
     return () => {
       clearTimeout(animTimer);
@@ -9134,13 +9108,9 @@ export default function Home() {
     }
   };
 
-  const displayReviews = realReviews.length > 0 ? realReviews : fallbackTestimonials;
-
   return (
     <div className="relative font-sans bg-white">
-      {/* =========================================
-          POP-UP PROMO MODAL 
-      ========================================= */}
+      {/* POP-UP PROMO MODAL */}
       {isPromoMounted && (
         <div
           className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-500 ease-out
@@ -9194,9 +9164,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* =========================================
-          1. HERO SECTION 
-      ========================================= */}
+      {/* HERO SECTION */}
       <div className="relative w-full overflow-hidden bg-[#F4F9F6] min-h-[600px] flex items-center">
         <div className="absolute inset-0 z-0 flex justify-end">
           <div className="w-full h-full md:w-[60%] relative">
@@ -9301,9 +9269,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* =========================================
-          2. FEATURED PRODUCT SECTION 
-      ========================================= */}
+      {/* FEATURED PRODUCT SECTION */}
       <div id="featured" className="py-24 bg-[#F9FDFB]">
         <div className="px-6 mx-auto max-w-[1536px] sm:px-10 lg:px-16">
           <div className="flex flex-col items-end justify-between mb-10 md:flex-row">
@@ -9393,9 +9359,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* =========================================
-          3. RELATABLE PROBLEM & SOLUTION SECTION
-      ========================================= */}
+      {/* RELATABLE PROBLEM & SOLUTION SECTION */}
       <div className="py-24 bg-white border-gray-100 border-y">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex flex-col gap-16 lg:flex-row lg:items-center">
@@ -9443,13 +9407,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* =========================================
-          4. REAL RESULTS (BEFORE - AFTER)
-      ========================================= */}
+      {/* REAL RESULTS (BEFORE - AFTER) */}
       <div className="py-24 border-gray-100 bg-[#F4F9F6] border-b">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="mb-16 text-center">
-            {/* [PERBAIKAN] Judul baru sesuai permintaan */}
             <h2 className="text-3xl font-extrabold text-gray-900">Hasil Nyata Tanpa Filter</h2>
             <p className="mt-4 text-gray-500">Perbedaan nyata sebelum dan sesudah menggunakan Gycora.</p>
           </div>
@@ -9464,13 +9425,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* =========================================
-          5. KEY BENEFITS (DIPERBARUI)
-      ========================================= */}
+      {/* KEY BENEFITS */}
       <div className="py-24 bg-white border-b border-gray-100">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="mb-16 text-center">
-            {/* [PERBAIKAN] Judul sesuai permintaan */}
             <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Kenapa Banyak yang Pilih Gycora?</h2>
           </div>
           <div className="grid grid-cols-1 gap-8 text-center md:grid-cols-3 lg:grid-cols-5">
@@ -9489,67 +9447,60 @@ export default function Home() {
         </div>
       </div>
 
-      {/* =========================================
-          6. SOCIAL PROOF (DIPERBARUI DENGAN FOTO)
-      ========================================= */}
+      {/* SOCIAL PROOF */}
       <div className="py-24 bg-white border-b border-gray-100">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto mb-16 text-center">
-            {/* [PERBAIKAN] Judul sesuai permintaan */}
             <h2 className="text-3xl font-extrabold text-gray-900">Bukan Cuma Kata Kami, Tapi Mereka yang Sudah Coba</h2>
             <p className="mt-4 text-gray-500">Ribuan pengguna Gycora sudah merasakan perubahan nyata dalam rutinitas mereka.</p>
           </div>
 
-          {isLoadingReviews ? (
-            <div className="flex justify-center">
-              <div className="w-10 h-10 border-4 rounded-full border-[#006A4E] animate-spin border-t-transparent"></div>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {displayReviews.map((review: any) => (
-                <div
-                  key={review.id}
-                  className="relative flex flex-col p-8 transition-shadow border border-gray-100 bg-gray-50 rounded-3xl hover:shadow-md"
-                >
-                  <div className="flex gap-1 mb-4 text-amber-400">
-                    {[...Array(5)].map((_, i) => (
-                      <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
+          {/* Dihilangkan state loading, langsung render displayReviews (data static dummy) */}
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {displayReviews.map((review) => (
+              <div
+                key={review.id}
+                className="relative flex flex-col p-8 transition-shadow border border-gray-100 bg-gray-50 rounded-3xl hover:shadow-md"
+              >
+                <div className="flex gap-1 mb-4 text-amber-400">
+                  {[...Array(review.rating)].map((_, i) => (
+                    <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
 
-                  <p className="flex-1 mb-6 text-sm italic leading-relaxed text-gray-600 line-clamp-4">
-                    "{review.comment || review.text}"
-                  </p>
+                <p className="flex-1 mb-6 text-sm italic leading-relaxed text-gray-600 line-clamp-4">
+                  "{review.text}"
+                </p>
 
-                  <div className="flex items-center gap-3 pt-6 mt-auto border-t border-gray-200">
-                    {/* [BARU] Foto Profil User */}
-                    <img
-                      src={
-                        review.image ||
-                        `https://ui-avatars.com/api/?name=${review.user?.first_name || review.name}&background=059669&color=fff`
-                      }
-                      alt={review.name}
-                      className="object-cover w-10 h-10 rounded-full bg-emerald-100"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-bold text-gray-900 truncate">
-                        {review.user ? `${review.user.first_name}` : review.name}
-                      </h4>
-                      <p className="text-xs text-gray-500 uppercase tracking-widest">{review.role || "Verified Buyer"}</p>
-                    </div>
+                <div className="flex items-center gap-3 pt-6 mt-auto border-t border-gray-200">
+                  <img
+                    src={
+                      review.image ||
+                      `https://ui-avatars.com/api/?name=${review.name}&background=059669&color=fff`
+                    }
+                    alt={review.name}
+                    className="object-cover w-10 h-10 rounded-full bg-emerald-100"
+                    onError={(e) => {
+                       // Jika file tidak ada di storage, buatkan avatar otomatis.
+                       e.currentTarget.src = `https://ui-avatars.com/api/?name=${review.name}&background=059669&color=fff`;
+                    }}
+                  />
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-sm font-bold text-gray-900 truncate">
+                      {review.name}
+                    </h4>
+                    <p className="text-xs tracking-widest text-gray-500 uppercase">{review.role}</p>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* =========================================
-          7. OFFER SECTION
-      ========================================= */}
+      {/* OFFER SECTION */}
       <div className="py-20 bg-emerald-50">
         <div className="max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
           <h2 className="mb-4 text-3xl font-extrabold text-[#006A4E]">Lagi Ada Promo Spesial Hari Ini ✨</h2>
@@ -9566,9 +9517,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* =========================================
-          8. CTA SECTION (CLOSING)
-      ========================================= */}
+      {/* CTA SECTION (CLOSING) */}
       <div className="relative py-24 overflow-hidden bg-gray-900">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
 
