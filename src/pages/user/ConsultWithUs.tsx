@@ -1803,7 +1803,7 @@ export default function ConsultWithUs() {
   return (
     <div className="pb-20 font-sans bg-gray-50">
       {/* ================= HERO SECTION WITH SHUFFLE IMAGE ================= */}
-      <div className="relative h-[600px] bg-gray-900 flex items-center overflow-hidden">
+      {/* <div className="relative h-[600px] bg-gray-900 flex items-center overflow-hidden">
         <img
           src={headerImages[currentImgIdx]}
           alt="Gycora Clinic"
@@ -1824,6 +1824,35 @@ export default function ConsultWithUs() {
               categorySectionRef.current?.scrollIntoView({ behavior: "smooth" })
             }
             className="px-8 py-4 mt-4 font-bold text-white transition-all rounded-full shadow-xl bg-gycora hover:scale-105 hover:bg-gycora-dark"
+          >
+            Pilih Keluhanmu Sekarang
+          </button>
+        </div>
+      </div> */}
+      {/* ================= HERO SECTION WITH SHUFFLE IMAGE ================= */}
+      {/* [PERBAIKAN] Hapus w-[600px] yang memaksakan ukuran, biarkan tinggi mengikuti aspect-ratio gambar */}
+      <div className="relative flex items-center justify-center w-full overflow-hidden bg-gray-900">
+        {/* Gambar tidak lagi pakai object-cover agar tidak terpotong, melainkan memanjang sesuai ukuran aslinya */}
+        <img
+          src={headerImages[currentImgIdx]}
+          alt="Gycora Clinic"
+          className="w-full h-auto max-h-[80vh] object-contain transition-opacity duration-1000 opacity-60"
+        />
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center max-w-4xl px-8 text-center md:px-12 animate-fade-in-up">
+          <h1 className="text-5xl font-black leading-tight tracking-tight text-white md:text-6xl drop-shadow-lg">
+            Solusi Medis Profesional
+            <br />
+            Untuk Rambut & Kulit.
+          </h1>
+          <p className="max-w-2xl mt-6 text-lg text-gray-200 md:text-xl drop-shadow-md">
+            Konsultasi gratis secara daring dengan dokter spesialis Gycora dan
+            temukan perawatan terbaik untuk Anda.
+          </p>
+          <button
+            onClick={() =>
+              categorySectionRef.current?.scrollIntoView({ behavior: "smooth" })
+            }
+            className="px-8 py-4 mt-8 font-bold text-white transition-all rounded-full shadow-xl bg-gycora hover:scale-105 hover:bg-gycora-dark"
           >
             Pilih Keluhanmu Sekarang
           </button>
@@ -1909,7 +1938,7 @@ export default function ConsultWithUs() {
           </div>
         </div>
       </div>
-      // {/* ================= OTC / ESSENTIALS PRODUCTS ================= */}
+      {/* ================= OTC / ESSENTIALS PRODUCTS ================= */}
       <div className="py-24 bg-white border-b border-gray-100">
         <div className="px-6 mx-auto max-w-7xl lg:px-8">
           <div className="flex flex-col justify-between gap-4 mb-12 md:flex-row md:items-end">
