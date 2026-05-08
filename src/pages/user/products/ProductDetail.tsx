@@ -8730,6 +8730,7 @@ export default function ProductDetail() {
               </div>
             )}
           </div>
+          {/*  */}
 
           <div className="flex flex-col justify-center">
             <div className="flex items-start justify-between gap-4 mb-2">
