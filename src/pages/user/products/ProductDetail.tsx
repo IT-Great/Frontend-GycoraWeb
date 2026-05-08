@@ -8547,7 +8547,7 @@ export default function ProductDetail() {
     <div className="min-h-screen py-12 font-sans bg-white">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-2 lg:gap-16">
-          <div className="flex flex-col mb-10 lg:mb-0">
+          {/* <div className="flex flex-col mb-10 lg:mb-0">
             <div
               id="product-image"
               className="relative group bg-gray-50 rounded-3xl overflow-hidden aspect-[4/5] md:aspect-square lg:aspect-[4/5] border border-gray-100 flex items-center justify-center"
@@ -8626,6 +8626,95 @@ export default function ProductDetail() {
               </div>
             </div>
 
+            {product.variant_video && (
+              <div className="mt-8">
+                <h3 className="mb-3 text-sm font-bold tracking-widest text-gray-900 uppercase">
+                  Video Demo
+                </h3>
+                <div className="overflow-hidden bg-black shadow-sm rounded-3xl">
+                  <video
+                    src={product.variant_video}
+                    controls
+                    className="object-contain w-full h-64 md:h-80"
+                  />
+                </div>
+              </div>
+            )}
+          </div> */}
+
+          <div className="flex flex-col mb-10 lg:mb-0">
+            {/* [PERBAIKAN] Ubah aspect ratio menjadi square dan pastikan background color serasi */}
+            <div
+              id="product-image"
+              className="relative flex items-center justify-center p-4 overflow-hidden border border-gray-100 group bg-gray-50/50 rounded-3xl aspect-square md:p-8"
+            >
+              {gallery.length > 0 ? (
+                <>
+                  {gallery.map((src, idx) => (
+                    <img
+                      key={idx}
+                      src={src}
+                      alt={`${product.name} - Varian ${idx}`}
+                      // [PERBAIKAN] Ubah 'object-cover' menjadi 'object-contain' agar gambar selalu utuh
+                      className={`absolute inset-0 object-contain object-center w-full h-full p-4 md:p-8 transition-opacity duration-300 ease-in-out ${idx === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0"}`}
+                    />
+                  ))}
+                  {gallery.length > 1 && (
+                    <>
+                      <button
+                        onClick={prevImage}
+                        className="absolute z-20 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 left-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-6 h-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={nextImage}
+                        className="absolute z-20 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 right-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-6 h-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+                      <div className="absolute z-20 flex gap-2 bottom-6">
+                        {gallery.map((_, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setCurrentImageIndex(idx)}
+                            className={`h-2 rounded-full transition-all shadow-sm ${idx === currentImageIndex ? "bg-gycora w-6" : "bg-white/80 hover:bg-white w-2"}`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </>
+              ) : (
+                <div className="flex items-center justify-center w-full h-full text-gray-400">
+                  No Image
+                </div>
+              )}
+              {/* Badge Kategori */}
+              <div className="absolute z-20 top-6 left-6">
+                <span className="px-4 py-2 text-sm font-bold text-gray-900 rounded-full shadow-sm bg-white/90 backdrop-blur-md">
+                  {product.category_name}
+                </span>
+              </div>
+            </div>
+
+            {/* Video Demo (Jika ada) */}
             {product.variant_video && (
               <div className="mt-8">
                 <h3 className="mb-3 text-sm font-bold tracking-widest text-gray-900 uppercase">

@@ -9501,7 +9501,7 @@ export default function Home() {
       </div>
 
       {/* OFFER SECTION */}
-      <div className="py-20 bg-emerald-50">
+      {/* <div className="py-20 bg-emerald-50">
         <div className="max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
           <h2 className="mb-4 text-3xl font-extrabold text-[#006A4E]">Lagi Ada Promo Spesial Hari Ini ✨</h2>
           <p className="mb-8 text-lg text-emerald-800">
@@ -9515,7 +9515,7 @@ export default function Home() {
             Ambil Promo Sekarang
           </button>
         </div>
-      </div>
+      </div> */}
 
       {/* CTA SECTION (CLOSING) */}
       <div className="relative py-24 overflow-hidden bg-gray-900">
