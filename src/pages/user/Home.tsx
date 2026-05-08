@@ -9806,9 +9806,10 @@ export default function Home() {
           HERO SECTION (RESPONSIVE HALF-WIDTH MOBILE)
       ========================================= */}
       <div className="relative w-full overflow-hidden bg-[#F4F9F6] min-h-[450px] md:min-h-[600px] flex items-center">
-        {/* Gambar Slider - [PERBAIKAN] Diubah menjad w-[65%] di mobile agar selalu ada ruang untuk teks */}
+        {/* Gambar Slider */}
+        {/* [PERBAIKAN] translate-x-4 di mobile menggeser gambar sedikit ke kanan */}
         <div className="absolute inset-0 z-0 flex justify-end">
-          <div className="w-[65%] md:w-[60%] h-full relative">
+          <div className="w-[65%] md:w-[60%] h-full relative translate-x-6 md:translate-x-0">
             {heroSlides.map((slide, index) => (
               <img
                 key={slide.id}
@@ -9818,7 +9819,8 @@ export default function Home() {
               />
             ))}
             {/* Overlay Gradient agar teks terbaca */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#F4F9F6] via-[#F4F9F6]/90 to-transparent w-full md:w-1/2"></div>
+            {/* [PERBAIKAN] Mengurangi lebar gradient di mobile agar "cahaya" tidak menutupi setengah gambar */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#F4F9F6] via-[#F4F9F6]/90 to-transparent w-full sm:w-1/2"></div>
           </div>
         </div>
 
@@ -9842,7 +9844,7 @@ export default function Home() {
 
         <div className="relative z-10 w-full px-4 mx-auto max-w-[1236px] sm:px-10 lg:px-16 animate-fade-in-up">
           {/* Konten Teks Kiri - [PERBAIKAN] Dibatasi max 55-60% di mobile agar gambar di kanan tetap terlihat */}
-          <div className="w-[55%] sm:w-[60%] md:max-w-xl">
+          <div className="w-[60%] sm:w-[60%] md:max-w-xl">
             <h1 className="text-2xl font-extrabold leading-tight sm:text-4xl md:text-5xl lg:text-6xl text-[#006A4E]">
               Solusi Cepat untuk <br /> Rambut Lebih Rapi
             </h1>
@@ -9853,7 +9855,7 @@ export default function Home() {
               Nggak semua orang punya waktu buat styling setiap hari. Tapi kamu tetap bisa tampil lebih rapi dalam hitungan menit dengan produk pilihan dari Gycora.
             </p>
 
-            {/* Tombol Action - Dikecilkan padding dan text-nya di mobile */}
+            {/* Tombol Action */}
             <div className="flex flex-col gap-2 mt-4 sm:flex-row md:gap-4 md:mt-8">
               <Link
                 to="/products"
