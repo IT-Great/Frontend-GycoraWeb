@@ -1838,7 +1838,8 @@ export default function ConsultWithUs() {
           alt="Gycora Clinic"
           className="w-full h-auto max-h-[80vh] object-contain transition-opacity duration-1000 opacity-60"
         />
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center max-w-4xl px-8 text-center md:px-12 animate-fade-in-up">
+        {/* [PERBAIKAN TENGAH X] Tambahkan 'mx-auto' di sini agar elemen div ini benar-benar rata tengah */}
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center max-w-4xl px-8 mx-auto text-center md:px-12 animate-fade-in-up">
           <h1 className="text-5xl font-black leading-tight tracking-tight text-white md:text-6xl drop-shadow-lg">
             Solusi Medis Profesional
             <br />
