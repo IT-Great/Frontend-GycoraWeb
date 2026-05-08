@@ -8150,7 +8150,8 @@ const fallbackTestimonials = [
 export default function Home() {
   const navigate = useNavigate();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [userData, setUserData] = useState<any>(null);
+  // const [userData, setUserData] = useState<any>(null);
+  const [setUserData] = useState<any>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -8243,15 +8244,26 @@ export default function Home() {
     };
   }, []);
 
+  // useEffect(() => {
+  //   if (userData) return;
+  //   const slideInterval = setInterval(() => {
+  //     setCurrentSlide((prev) =>
+  //       prev === heroSlides.length - 1 ? 0 : prev + 1,
+  //     );
+  //   }, 4000);
+  //   return () => clearInterval(slideInterval);
+  // }, [userData]);
+
+  // --- EFEK UNTUK AUTO-SLIDE HERO IMAGE ---
   useEffect(() => {
-    if (userData) return;
     const slideInterval = setInterval(() => {
       setCurrentSlide((prev) =>
         prev === heroSlides.length - 1 ? 0 : prev + 1,
       );
-    }, 4000);
+    }, 4000); // Ganti gambar setiap 4000ms (4 detik)
+    
     return () => clearInterval(slideInterval);
-  }, [userData]);
+  }, []);
 
   const formatRupiah = (angka: number) => {
     return new Intl.NumberFormat('id-ID', { 
