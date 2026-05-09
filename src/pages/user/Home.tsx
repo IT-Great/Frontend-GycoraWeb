@@ -9803,108 +9803,6 @@ export default function Home() {
       )}
 
       {/* =========================================
-          HERO SECTION (RESPONSIVE HALF-WIDTH MOBILE)
-      ========================================= */}
-      {/* <div className="relative w-full overflow-hidden bg-[#F4F9F6] min-h-[450px] md:min-h-[600px] flex items-center">
-        <div className="absolute inset-0 z-0 flex justify-end">
-          <div className="w-[65%] md:w-[60%] h-full relative translate-x-6 md:translate-x-0">
-            {heroSlides.map((slide, index) => (
-              <img
-                key={slide.id}
-                src={slide.image}
-                alt={slide.alt}
-                className={`absolute inset-0 object-cover object-right-top w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
-              />
-            ))}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#F4F9F6] via-[#F4F9F6]/90 to-transparent w-full sm:w-1/2"></div>
-          </div>
-        </div>
-
-        <button
-          onClick={() => setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1))}
-          className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md left-2 md:left-8 hover:bg-gray-50"
-        >
-          <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-        <button
-          onClick={() => setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1))}
-          className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md right-2 md:right-8 hover:bg-gray-50"
-        >
-          <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
-
-        <div className="relative z-10 w-full px-4 mx-auto max-w-[1236px] sm:px-10 lg:px-16 animate-fade-in-up">
-          <div className="w-[60%] sm:w-[60%] md:max-w-xl">
-            <h1 className="text-2xl font-extrabold leading-tight sm:text-4xl md:text-5xl lg:text-6xl text-[#006A4E]">
-              Solusi Cepat untuk <br /> Rambut Lebih Rapi
-            </h1>
-            <h2 className="mt-2 text-sm font-bold text-gray-900 md:mt-4 sm:text-xl md:text-2xl">
-              Tanpa Ribet, Tanpa Nunggu Lama.
-            </h2>
-            <p className="mt-2 text-xs leading-relaxed text-gray-500 md:mt-4 sm:text-sm md:text-lg">
-              Nggak semua orang punya waktu buat styling setiap hari. Tapi kamu tetap bisa tampil lebih rapi dalam hitungan menit dengan produk pilihan dari Gycora.
-            </p>
-
-            <div className="flex flex-col gap-2 mt-4 sm:flex-row md:gap-4 md:mt-8">
-              <Link
-                to="/products"
-                className="px-4 py-2 md:px-8 md:py-3.5 text-[10px] md:text-sm font-bold tracking-wider text-center text-white uppercase transition-colors rounded-full shadow-lg bg-[#006A4E] hover:bg-emerald-900"
-              >
-                Shop Now
-              </Link>
-              <a
-                href="#featured"
-                className="px-4 py-2 md:px-8 md:py-3.5 text-[10px] md:text-sm font-bold tracking-wider text-center uppercase transition-colors bg-transparent border-2 rounded-full border-[#006A4E] text-[#006A4E] hover:bg-[#006A4E] hover:text-white"
-              >
-                Lihat Produk
-              </a>
-            </div>
-
-            <div className="flex flex-col items-start gap-3 mt-6 sm:flex-row sm:items-center md:gap-8 md:mt-10">
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-                <span className="text-[9px] md:text-xs font-bold leading-tight text-gray-500">
-                  Teknologi<br className="hidden sm:block" /> Anti Statis
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                  />
-                </svg>
-                <span className="text-[9px] md:text-xs font-bold leading-tight text-gray-500">
-                  Material<br className="hidden sm:block" /> Premium
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <span className="text-[9px] md:text-xs font-bold leading-tight text-gray-500">
-                  Eco<br className="hidden sm:block" /> Friendly
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
-      {/* =========================================
           HERO SECTION (STACKED ON MOBILE, SIDE-BY-SIDE ON DESKTOP)
       ========================================= */}
       <div className="relative w-full overflow-hidden bg-[#F4F9F6] flex flex-col md:block md:min-h-[600px]">
@@ -10010,16 +9908,20 @@ export default function Home() {
       {/* FEATURED PRODUCT SECTION */}
       <div id="featured" className="py-24 bg-[#F9FDFB]">
         <div className="px-6 mx-auto max-w-[1536px] sm:px-10 lg:px-16">
-          <div className="flex flex-col items-end justify-between mb-10 md:flex-row">
+          {/* [PERBAIKAN] Mengubah layout header featured product */}
+          <div className="flex flex-col items-center justify-between mb-10 text-center md:items-end md:flex-row md:text-left">
             <div className="w-full md:w-1/2">
-              <h2 className="text-2xl font-extrabold sm:text-3xl text-[#006A4E] text-center">Produk Favorit Pilihan Banyak Orang</h2>
-              <p className="mt-2 text-sm text-center text-gray-500 sm:text-base">
+              <h2 className="text-2xl font-extrabold sm:text-3xl text-[#006A4E]">
+                Produk Favorit Pilihan Banyak Orang
+              </h2>
+              <p className="mt-2 text-sm text-gray-500 sm:text-base">
                 Temukan produk best seller yang jadi andalan untuk rambut lebih rapi, halus, dan mudah diatur setiap hari.
               </p>
             </div>
             <Link
               to="/products"
-              className="flex items-center gap-2 mt-4 font-bold text-gray-600 transition-colors md:mt-0 hover:text-[#006A4E]"
+              // [PERBAIKAN] Menambahkan justify-center di mobile agar icon dan teks sejajar di tengah
+              className="flex items-center justify-center gap-2 mt-4 font-bold text-gray-600 transition-colors md:justify-start md:mt-0 hover:text-[#006A4E]"
             >
               Lihat Semua Produk
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
