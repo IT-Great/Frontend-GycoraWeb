@@ -9808,7 +9808,7 @@ export default function Home() {
       <div className="relative w-full overflow-hidden bg-[#F4F9F6] flex flex-col md:block md:min-h-[600px]">
         
         {/* GAMBAR SLIDER (Di atas pada mobile, absolute di kanan pada desktop) */}
-        <div className="relative w-full h-[350px] sm:h-[450px] md:absolute md:inset-0 md:h-full md:z-0 md:flex md:justify-end shrink-0">
+        {/* <div className="relative w-full h-[350px] sm:h-[450px] md:absolute md:inset-0 md:h-full md:z-0 md:flex md:justify-end shrink-0">
           <div className="w-full h-full md:w-[60%] relative">
             {heroSlides.map((slide, index) => (
               <img
@@ -9821,10 +9821,43 @@ export default function Home() {
                 className={`absolute inset-0 object-cover object-[75%_top] md:object-right-top w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
               />
             ))}
-            {/* Overlay Gradient: 
-                Mobile: Gradasi ringan dari bawah ke atas agar menyatu lembut dengan area teks.
-                Desktop: Gradasi dari kiri ke kanan agar teks bisa terbaca jelas.
-            */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#F4F9F6] via-[#F4F9F6]/20 to-transparent md:bg-gradient-to-r md:from-[#F4F9F6] md:via-[#F4F9F6]/90 md:to-transparent md:w-1/2"></div>
+          </div>
+
+          <button
+            onClick={() => setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1))}
+            className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md left-4 md:left-8 top-1/2 -translate-y-1/2 hover:bg-gray-50 focus:outline-none"
+          >
+            <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            onClick={() => setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1))}
+            className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md right-4 md:right-8 top-1/2 -translate-y-1/2 hover:bg-gray-50 focus:outline-none"
+          >
+            <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div> */}
+
+        {/* GAMBAR SLIDER (Di atas pada mobile, absolute di kanan pada desktop) */}
+        <div className="relative w-full h-[350px] sm:h-[450px] md:absolute md:inset-0 md:h-full md:z-0 md:flex md:justify-end shrink-0">
+          <div className="w-full h-full md:w-[60%] relative">
+            {heroSlides.map((slide, index) => (
+              <img
+                key={slide.id}
+                src={slide.image}
+                alt={slide.alt}
+                // [PENGATURAN POSISI GAMBAR MOBILE]
+                // Ubah angka "80%" di bawah ini sesuai selera Anda. 
+                // Semakin mendekati 100%, gambar akan semakin menempel ke kanan.
+                // Semakin mendekati 50%, gambar akan semakin ke tengah.
+                className={`absolute inset-0 object-cover object-[80%_top] md:object-right-top w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
+              />
+            ))}
+            {/* Overlay Gradient */}
             <div className="absolute inset-0 bg-gradient-to-t from-[#F4F9F6] via-[#F4F9F6]/20 to-transparent md:bg-gradient-to-r md:from-[#F4F9F6] md:via-[#F4F9F6]/90 md:to-transparent md:w-1/2"></div>
           </div>
 
