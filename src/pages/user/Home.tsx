@@ -9854,7 +9854,7 @@ export default function Home() {
                 // Ubah angka "80%" di bawah ini sesuai selera Anda. 
                 // Semakin mendekati 100%, gambar akan semakin menempel ke kanan.
                 // Semakin mendekati 50%, gambar akan semakin ke tengah.
-                className={`absolute inset-0 object-cover object-[80%_top] md:object-right-top w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
+                className={`absolute inset-0 object-cover object-[100%_top] md:object-right-top w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
               />
             ))}
             {/* Overlay Gradient */}
