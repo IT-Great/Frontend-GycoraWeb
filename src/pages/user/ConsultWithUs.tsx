@@ -2396,7 +2396,7 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { BASE_URL } from "../../config/api";
 
@@ -2432,12 +2432,12 @@ const consultationCategories = [
   { id: 8, title: "Ketombe", icon: <IconHair /> },
 ];
 
-import logoShopee from "../../assets/shopee.png";
-import logoTokopedia from "../../assets/tokopedia.png";
-import logoTiktok from "../../assets/tiktok.png";
-import logoInstagram from "../../assets/instagram.png";
+// import logoShopee from "../../assets/shopee.png";
+// import logoTokopedia from "../../assets/tokopedia.png";
+// import logoTiktok from "../../assets/tiktok.png";
+// import logoInstagram from "../../assets/instagram.png";
 
-const mediaLogos = [logoShopee, logoTokopedia, logoTiktok, logoInstagram];
+// const mediaLogos = [logoShopee, logoTokopedia, logoTiktok, logoInstagram];
 
 export default function ConsultWithUs() {
   const navigate = useNavigate();
@@ -2451,40 +2451,40 @@ export default function ConsultWithUs() {
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
-  const [activeFaq, setActiveFaq] = useState<number | null>(null);
-  const [clinicTreatments, setClinicTreatments] = useState<any[]>([]);
-  const [otcProducts, setOtcProducts] = useState<any[]>([]);
+  // const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  // const [clinicTreatments, setClinicTreatments] = useState<any[]>([]);
+  // const [otcProducts, setOtcProducts] = useState<any[]>([]);
   
-  const [faqs] = useState<any[]>([
-    {
-      q: "Apa itu Ethereal Glow Brush?",
-      a: "Ethereal Glow Brush adalah hairbrush anti-static dengan teknologi konduktif dan molekul karbon yang membantu rambut terasa lebih halus, rapi, dan mudah diatur dalam sekali sisir."
-    },
-    {
-      q: "Apakah bulu sisir Ethereal Glow Brush sakit di kulit kepala?",
-      a: "Tidak. Bulu sisir dirancang fleksibel dan lembut untuk memberikan pengalaman menyisir yang lebih nyaman tanpa rasa sakit atau tarikan berlebih pada rambut."
-    },
-    {
-      q: "Apa manfaat menggunakan Eco Serenity Scalp Care?",
-      a: "Scalp massager membantu membersihkan kulit kepala lebih optimal, membantu mengurangi penumpukan minyak dan kotoran, serta memberikan efek relaksasi yang menenangkan."
-    },
-    {
-      q: "Apakah Eco Serenity bisa digunakan saat rambut kering?",
-      a: "Bisa. Selain saat keramas untuk pembersihan maksimal, Eco Serenity juga sangat nyaman digunakan untuk pijatan relaksasi pada kulit kepala saat rambut dalam kondisi kering."
-    },
-    {
-      q: "Apakah produk Gycora original?",
-      a: "Ya. Seluruh produk yang dijual melalui official store Gycora merupakan produk 100% original dan telah melalui standar kualitas yang ketat."
-    },
-    {
-      q: "Apakah tersedia pengiriman ke seluruh Indonesia?",
-      a: "Ya, Gycora melayani pengiriman ke seluruh wilayah Indonesia menggunakan berbagai pilihan ekspedisi yang tersedia."
-    },
-    {
-      q: "Bagaimana jika produk diterima dalam kondisi rusak?",
-      a: "Silakan hubungi tim customer support kami maksimal 1x24 jam setelah produk diterima dengan menyertakan video unboxing dan foto produk untuk proses klaim."
-    }
-  ]);
+  // const [faqs] = useState<any[]>([
+  //   {
+  //     q: "Apa itu Ethereal Glow Brush?",
+  //     a: "Ethereal Glow Brush adalah hairbrush anti-static dengan teknologi konduktif dan molekul karbon yang membantu rambut terasa lebih halus, rapi, dan mudah diatur dalam sekali sisir."
+  //   },
+  //   {
+  //     q: "Apakah bulu sisir Ethereal Glow Brush sakit di kulit kepala?",
+  //     a: "Tidak. Bulu sisir dirancang fleksibel dan lembut untuk memberikan pengalaman menyisir yang lebih nyaman tanpa rasa sakit atau tarikan berlebih pada rambut."
+  //   },
+  //   {
+  //     q: "Apa manfaat menggunakan Eco Serenity Scalp Care?",
+  //     a: "Scalp massager membantu membersihkan kulit kepala lebih optimal, membantu mengurangi penumpukan minyak dan kotoran, serta memberikan efek relaksasi yang menenangkan."
+  //   },
+  //   {
+  //     q: "Apakah Eco Serenity bisa digunakan saat rambut kering?",
+  //     a: "Bisa. Selain saat keramas untuk pembersihan maksimal, Eco Serenity juga sangat nyaman digunakan untuk pijatan relaksasi pada kulit kepala saat rambut dalam kondisi kering."
+  //   },
+  //   {
+  //     q: "Apakah produk Gycora original?",
+  //     a: "Ya. Seluruh produk yang dijual melalui official store Gycora merupakan produk 100% original dan telah melalui standar kualitas yang ketat."
+  //   },
+  //   {
+  //     q: "Apakah tersedia pengiriman ke seluruh Indonesia?",
+  //     a: "Ya, Gycora melayani pengiriman ke seluruh wilayah Indonesia menggunakan berbagai pilihan ekspedisi yang tersedia."
+  //   },
+  //   {
+  //     q: "Bagaimana jika produk diterima dalam kondisi rusak?",
+  //     a: "Silakan hubungi tim customer support kami maksimal 1x24 jam setelah produk diterima dengan menyertakan video unboxing dan foto produk untuk proses klaim."
+  //   }
+  // ]);
 
   const [isLoading, setIsLoading] = useState(true);
   const ADMIN_WA_NUMBER = "6289517999768";
@@ -2494,9 +2494,9 @@ export default function ConsultWithUs() {
       try {
         const res = await fetch(`${BASE_URL}/api/landing-page/consult`);
         if (res.ok) {
-          const data = await res.json();
-          setClinicTreatments(data.treatments || []);
-          setOtcProducts(data.otc_products || []);
+          // const data = await res.json();
+          // setClinicTreatments(data.treatments || []);
+          // setOtcProducts(data.otc_products || []);
         }
       } catch (e) {
         console.error(e);
@@ -2607,93 +2607,93 @@ export default function ConsultWithUs() {
     }
   };
 
-  const handleBookAppointment = async (treatment: any) => {
-    if (!userData) {
-      Swal.fire("Login Diperlukan", "Silakan login untuk membuat janji temu.", "info");
-      navigate("/login");
-      return;
-    }
+  // const handleBookAppointment = async (treatment: any) => {
+  //   if (!userData) {
+  //     Swal.fire("Login Diperlukan", "Silakan login untuk membuat janji temu.", "info");
+  //     navigate("/login");
+  //     return;
+  //   }
 
-    const { value: formValues } = await Swal.fire({
-      title: `<span class="text-xl font-extrabold text-gray-900">Reservasi Klinik</span>`,
-      html: `
-        <div class="text-left mt-4 space-y-4">
-          <div class="p-4 bg-emerald-50 border border-emerald-100 rounded-xl mb-2">
-            <p class="text-xs text-emerald-600 font-bold uppercase tracking-widest mb-1">Treatment Pilihan</p>
-            <p class="text-sm font-black text-gray-900">${treatment.title}</p>
-          </div>
-          <div>
-            <label class="block mb-1 text-sm font-bold text-gray-700">Pilih Tanggal & Waktu Kedatangan</label>
-            <input id="swal-date" type="datetime-local" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gycora outline-none transition-all" />
-          </div>
-          <div>
-            <label class="block mb-1 text-sm font-bold text-gray-700">Alasan Kunjungan</label>
-            <textarea id="swal-reason" rows="3" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gycora outline-none resize-none transition-all" placeholder="Sebutkan detail keluhan/permintaan Anda..."></textarea>
-          </div>
-        </div>
-      `,
-      customClass: {
-        popup: "rounded-3xl p-6",
-        confirmButton: "rounded-xl px-8 py-3 text-sm tracking-wider font-bold",
-        cancelButton: "rounded-xl px-8 py-3 text-sm font-bold",
-      },
-      showCancelButton: true,
-      confirmButtonText: "Konfirmasi Janji",
-      cancelButtonText: "Batal",
-      confirmButtonColor: "#059669",
-      preConfirm: () => {
-        const time = (document.getElementById("swal-date") as HTMLInputElement).value;
-        const reason = (document.getElementById("swal-reason") as HTMLTextAreaElement).value;
-        if (!time || !reason) {
-          Swal.showValidationMessage("Harap lengkapi tanggal dan alasan.");
-          return false;
-        }
-        return { time, reason };
-      },
-    });
+  //   const { value: formValues } = await Swal.fire({
+  //     title: `<span class="text-xl font-extrabold text-gray-900">Reservasi Klinik</span>`,
+  //     html: `
+  //       <div class="text-left mt-4 space-y-4">
+  //         <div class="p-4 bg-emerald-50 border border-emerald-100 rounded-xl mb-2">
+  //           <p class="text-xs text-emerald-600 font-bold uppercase tracking-widest mb-1">Treatment Pilihan</p>
+  //           <p class="text-sm font-black text-gray-900">${treatment.title}</p>
+  //         </div>
+  //         <div>
+  //           <label class="block mb-1 text-sm font-bold text-gray-700">Pilih Tanggal & Waktu Kedatangan</label>
+  //           <input id="swal-date" type="datetime-local" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gycora outline-none transition-all" />
+  //         </div>
+  //         <div>
+  //           <label class="block mb-1 text-sm font-bold text-gray-700">Alasan Kunjungan</label>
+  //           <textarea id="swal-reason" rows="3" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gycora outline-none resize-none transition-all" placeholder="Sebutkan detail keluhan/permintaan Anda..."></textarea>
+  //         </div>
+  //       </div>
+  //     `,
+  //     customClass: {
+  //       popup: "rounded-3xl p-6",
+  //       confirmButton: "rounded-xl px-8 py-3 text-sm tracking-wider font-bold",
+  //       cancelButton: "rounded-xl px-8 py-3 text-sm font-bold",
+  //     },
+  //     showCancelButton: true,
+  //     confirmButtonText: "Konfirmasi Janji",
+  //     cancelButtonText: "Batal",
+  //     confirmButtonColor: "#059669",
+  //     preConfirm: () => {
+  //       const time = (document.getElementById("swal-date") as HTMLInputElement).value;
+  //       const reason = (document.getElementById("swal-reason") as HTMLTextAreaElement).value;
+  //       if (!time || !reason) {
+  //         Swal.showValidationMessage("Harap lengkapi tanggal dan alasan.");
+  //         return false;
+  //       }
+  //       return { time, reason };
+  //     },
+  //   });
 
-    if (formValues) {
-      const token = localStorage.getItem("user_token");
-      try {
-        const res = await fetch(`${BASE_URL}/api/clinic/appointment`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            treatment_id: treatment.id,
-            appointment_time: formValues.time,
-            reason: formValues.reason,
-          }),
-        });
-        if (res.ok) {
-          Swal.fire({
-            title: "Sukses",
-            text: "Jadwal Anda telah tercatat. Menunggu konfirmasi admin.",
-            icon: "success",
-            customClass: { popup: "rounded-3xl" },
-          });
-        } else {
-          throw new Error("Gagal membuat janji.");
-        }
-      } catch (err) {
-        Swal.fire("Error", "Gagal membuat janji temu.", "error");
-      }
-    }
-  };
+  //   if (formValues) {
+  //     const token = localStorage.getItem("user_token");
+  //     try {
+  //       const res = await fetch(`${BASE_URL}/api/clinic/appointment`, {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         body: JSON.stringify({
+  //           treatment_id: treatment.id,
+  //           appointment_time: formValues.time,
+  //           reason: formValues.reason,
+  //         }),
+  //       });
+  //       if (res.ok) {
+  //         Swal.fire({
+  //           title: "Sukses",
+  //           text: "Jadwal Anda telah tercatat. Menunggu konfirmasi admin.",
+  //           icon: "success",
+  //           customClass: { popup: "rounded-3xl" },
+  //         });
+  //       } else {
+  //         throw new Error("Gagal membuat janji.");
+  //       }
+  //     } catch (err) {
+  //       Swal.fire("Error", "Gagal membuat janji temu.", "error");
+  //     }
+  //   }
+  // };
 
-  const toggleFaq = (index: number) => {
-    setActiveFaq(activeFaq === index ? null : index);
-  };
+  // const toggleFaq = (index: number) => {
+  //   setActiveFaq(activeFaq === index ? null : index);
+  // };
 
-  const formatRupiah = (angka: number) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(angka || 0);
-  };
+  // const formatRupiah = (angka: number) => {
+  //   return new Intl.NumberFormat("id-ID", {
+  //     style: "currency",
+  //     currency: "IDR",
+  //     minimumFractionDigits: 0,
+  //   }).format(angka || 0);
+  // };
 
   if (isLoading)
     return (
