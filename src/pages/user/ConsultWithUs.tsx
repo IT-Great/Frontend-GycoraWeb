@@ -2720,26 +2720,6 @@ export default function ConsultWithUs() {
         </div>
       </div>
 
-      {/* ================= SECTION 3: RELATABLE PROBLEM ================= */}
-      <div className="py-20 bg-white border-b border-gray-100">
-        <div className="max-w-4xl px-6 mx-auto text-center lg:px-8">
-          <h2 className="mb-6 text-3xl font-extrabold leading-tight text-gray-900 sm:text-4xl">
-            Kami Paham, Kadang Sulit Menentukan Produk yang Cocok
-          </h2>
-          <div className="space-y-4 text-base text-gray-600 md:text-lg">
-            <p>
-              Setiap orang punya kebutuhan rambut yang berbeda.
-            </p>
-            <p>
-              Mulai dari rambut mudah kusut, sulit diatur, kulit kepala berminyak, hingga rutinitas yang padat dan nggak punya banyak waktu untuk styling.
-            </p>
-            <p className="font-medium text-gray-900">
-              Karena itu, kami hadir untuk membantu kamu menemukan solusi yang lebih sesuai dan nyaman digunakan setiap hari.
-            </p>
-          </div>
-        </div>
-      </div>
-
       {/* ================= SECTION 2: PILIH KONSULTASI ================= */}
       <div className="py-24 border-b border-gray-100 bg-gray-50">
         <div className="px-6 mx-auto max-w-7xl lg:px-8">
@@ -2785,6 +2765,26 @@ export default function ConsultWithUs() {
         </div>
       </div>
 
+       {/* ================= SECTION 3: RELATABLE PROBLEM ================= */}
+      <div className="py-20 bg-white border-b border-gray-100">
+        <div className="max-w-4xl px-6 mx-auto text-center lg:px-8">
+          <h2 className="mb-6 text-3xl font-extrabold leading-tight text-gray-900 sm:text-4xl">
+            Kami Paham, Kadang Sulit Menentukan Produk yang Cocok
+          </h2>
+          <div className="space-y-4 text-base text-gray-600 md:text-lg">
+            <p>
+              Setiap orang punya kebutuhan rambut yang berbeda.
+            </p>
+            <p>
+              Mulai dari rambut mudah kusut, sulit diatur, kulit kepala berminyak, hingga rutinitas yang padat dan nggak punya banyak waktu untuk styling.
+            </p>
+            <p className="font-medium text-gray-900">
+              Karena itu, kami hadir untuk membantu kamu menemukan solusi yang lebih sesuai dan nyaman digunakan setiap hari.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* ================= SECTION 4: WHAT YOU CAN CONSULT (CATEGORIES) ================= */}
       <div ref={categorySectionRef} className="px-6 py-24 mx-auto bg-white border-b border-gray-100 max-w-7xl lg:px-8">
         <div className="mb-12 text-center">
@@ -2812,7 +2812,7 @@ export default function ConsultWithUs() {
       </div>
 
       {/* ================= SIGNATURE CLINIC TREATMENTS ================= */}
-      <div ref={storeSectionRef} className="py-24 bg-gray-900">
+      {/* <div ref={storeSectionRef} className="py-24 bg-gray-900">
         <div className="px-6 mx-auto max-w-7xl lg:px-8">
           <div className="mb-12">
             <h2 className="mb-2 text-3xl font-bold text-white">Signature Clinic Treatments</h2>
@@ -2837,10 +2837,10 @@ export default function ConsultWithUs() {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* ================= OTC / ESSENTIALS PRODUCTS ================= */}
-      <div className="py-24 bg-white border-b border-gray-100">
+      {/* <div className="py-24 bg-white border-b border-gray-100">
         <div className="px-6 mx-auto max-w-7xl lg:px-8">
           <div className="flex flex-col justify-between gap-4 mb-12 md:flex-row md:items-end">
             <div>
@@ -2877,10 +2877,10 @@ export default function ConsultWithUs() {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* ================= MEDIA COVERAGE / PARTNERS ================= */}
-      <div className="py-12 border-b border-gray-200 bg-gray-50">
+      {/* <div className="py-12 border-b border-gray-200 bg-gray-50">
         <div className="px-6 mx-auto max-w-7xl lg:px-8">
           <h3 className="mb-8 text-sm font-bold tracking-widest text-center text-gray-400 uppercase">Tersedia Juga Di</h3>
           <div className="flex flex-wrap items-center justify-center gap-8 transition-all duration-500 md:gap-16 opacity-70 grayscale hover:grayscale-0">
@@ -2889,10 +2889,10 @@ export default function ConsultWithUs() {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* ================= FAQ SECTION ================= */}
-      <div className="py-24 bg-white">
+      {/* <div className="py-24 bg-white">
         <div className="max-w-3xl px-6 mx-auto lg:px-8">
           <div className="mb-12 text-center">
             <h2 className="mb-4 text-3xl font-extrabold text-gray-900">Kamu Tanya, Kami Jawab</h2>
@@ -2924,7 +2924,7 @@ export default function ConsultWithUs() {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* ================= SECTION 5: CTA (CLOSING) ================= */}
       <div className="relative py-24 overflow-hidden bg-gray-900">
