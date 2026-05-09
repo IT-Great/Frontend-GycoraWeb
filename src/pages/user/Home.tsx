@@ -9815,7 +9815,10 @@ export default function Home() {
                 key={slide.id}
                 src={slide.image}
                 alt={slide.alt}
-                className={`absolute inset-0 object-cover object-center md:object-right-top w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
+                // [PERBAIKAN] Mengubah object position untuk mobile. 
+                // Di mobile: object-[75%_top] (Menggeser fokus ke 75% dari kiri, menarik sisi kanan lebih ke tengah)
+                // Di desktop: md:object-right-top (Kembali fokus ke paling kanan atas)
+                className={`absolute inset-0 object-cover object-[75%_top] md:object-right-top w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
               />
             ))}
             {/* Overlay Gradient: 
