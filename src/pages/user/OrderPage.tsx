@@ -5311,7 +5311,7 @@ export default function OrderPage() {
                     </div>
                   )}
                   {canCancel(order.status) && (
-                    <button onClick={() => cancelOrder(order.id)} className="w-full py-2.5 border border-red-200 rounded-xl font-bold text-red-600 text-[10px] uppercase tracking-widest transition hover:bg-red-50">
+                    <button onClick={() => cancelOrder(order.id)} className="col-span-2 w-full py-2.5 border border-red-200 rounded-xl font-bold text-red-600 text-[10px] uppercase tracking-widest transition hover:bg-red-50">
                       Cancel
                     </button>
                   )}
@@ -5319,7 +5319,7 @@ export default function OrderPage() {
                     <button
                       onClick={() => redirectToPayment(order)}
                       disabled={countdowns[order.id] === "Expired"}
-                      className={`w-full py-2.5 bg-black rounded-xl font-bold text-white text-[10px] uppercase tracking-widest transition hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed ${!canCancel(order.status) ? "col-span-2" : ""}`}
+                      className={`col-span-2 w-full py-2.5 bg-black rounded-xl font-bold text-white text-[10px] uppercase tracking-widest transition hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed ${!canCancel(order.status) ? "col-span-2" : ""}`}
                     >
                       Pay Now
                     </button>
