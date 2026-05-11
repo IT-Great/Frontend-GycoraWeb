@@ -9911,7 +9911,7 @@ export default function Home() {
             </div>
 
             {/* Ikon Benefits Bawah */}
-            <div className="flex flex-wrap justify-center gap-4 mt-8 md:justify-start md:gap-8 md:mt-10">
+            {/* <div className="flex flex-wrap justify-center gap-4 mt-8 md:justify-start md:gap-8 md:mt-10">
               <div className="flex items-center gap-2">
                 <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -9935,6 +9935,58 @@ export default function Home() {
                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
                   Eco<br className="hidden sm:block" /> Friendly
                 </span>
+              </div>
+            </div> */}
+
+            {/* Ikon Benefits Bawah */}
+            <div className="flex flex-wrap justify-center gap-4 mt-8 md:justify-start md:gap-8 md:mt-10">
+              <div className="relative flex items-center gap-2 group cursor-help">
+                <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
+                  Teknologi<br className="hidden sm:block" /> Anti Statis
+                </span>
+                
+                {/* Tooltip */}
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
+                  Teknologi ion untuk mencegah rambut berdiri karena listrik statis.
+                  {/* Panah bawah tooltip */}
+                  <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900"></div>
+                </div>
+              </div>
+
+              {/* [PERBAIKAN] Mengubah Teks dan Menambahkan Tooltip */}
+              <div className="relative flex items-center gap-2 group cursor-help">
+                <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+                <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
+                  Carbon Patented<br className="hidden sm:block" /> Material
+                </span>
+                
+                {/* Tooltip */}
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
+                  Bahan karbon khusus yang dipatenkan untuk mendistribusikan panas secara merata dan aman.
+                  {/* Panah bawah tooltip */}
+                  <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900"></div>
+                </div>
+              </div>
+
+              <div className="relative flex items-center gap-2 group cursor-help">
+                <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
+                  Eco<br className="hidden sm:block" /> Friendly
+                </span>
+                
+                {/* Tooltip */}
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
+                  Terbuat dari bahan ramah lingkungan yang aman dan dapat didaur ulang.
+                  {/* Panah bawah tooltip */}
+                  <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900"></div>
+                </div>
               </div>
             </div>
           </div>
