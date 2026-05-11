@@ -6108,7 +6108,7 @@ export default function OrderPage() {
   };
 
   return (
-    <div className="min-h-screen px-4 py-8 mx-auto font-sans md:px-6 md:py-20 max-w-7xl animate-fade-in">
+    <div className="min-h-screen px-4 py-8 mx-auto font-sans md:px-6 md:py-20 max-w-7xl animate-fade-in bg-[#FAFAFA]">
       <div className="flex items-center justify-between mb-6 md:mb-10">
         <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 uppercase sm:text-3xl md:text-4xl">
           Lacak Pesanan
@@ -6156,7 +6156,7 @@ export default function OrderPage() {
             onChange={(e) => setSearchQuery(e.target.value)}
             type="text"
             placeholder="Cari ID, Kurir..."
-            className="w-full py-2.5 md:py-2 pl-9 md:pl-10 pr-4 text-xs md:text-sm transition border border-gray-200 outline-none bg-gray-50 rounded-xl focus:ring-2 focus:ring-gycora"
+            className="w-full py-2.5 md:py-2 pl-9 md:pl-10 pr-4 text-xs md:text-sm transition border border-gray-200 outline-none bg-white rounded-xl focus:ring-2 focus:ring-gycora"
           />
         </div>
 
@@ -6167,7 +6167,7 @@ export default function OrderPage() {
           <select
             value={itemsPerPage}
             onChange={(e) => setItemsPerPage(Number(e.target.value))}
-            className="px-2 py-1.5 md:px-3 md:py-2 text-xs md:text-sm font-bold border border-gray-200 outline-none cursor-pointer bg-gray-50 rounded-lg md:rounded-xl focus:ring-2 focus:ring-gycora"
+            className="px-2 py-1.5 md:px-3 md:py-2 text-xs md:text-sm font-bold border border-gray-200 outline-none cursor-pointer bg-white rounded-lg md:rounded-xl focus:ring-2 focus:ring-gycora"
           >
             <option value={5}>5</option>
             <option value={10}>10</option>
@@ -6209,73 +6209,32 @@ export default function OrderPage() {
             <div key={order.id} className="relative overflow-hidden transition-shadow duration-300 bg-white border border-gray-100 shadow-sm rounded-xl md:rounded-2xl hover:shadow-md">
               
               {/* ==============================================================
-                  VERSI MOBILE (< 768px)
+                  VERSI MOBILE (< 768px) - MATCHING SCREENSHOT UI
               ============================================================== */}
               <div className="block md:hidden">
                 {/* Header Card Mobile */}
-                <div className="flex flex-col gap-2 p-4 border-b border-gray-100 bg-gray-50">
-                  <div className="flex items-start justify-between w-full">
-                    <div>
-                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Order ID</p>
-                      <p className="text-xs font-bold text-gray-900 truncate font-mono max-w-[150px]">{order.order_id}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Tanggal</p>
-                      <p className="text-[10px] font-bold text-gray-900">{formatDateTime(order.created_at)}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between w-full mt-2">
-                    <span className={`px-2 py-1 rounded-full font-bold text-[9px] uppercase tracking-tighter ${statusClass(order.status)}`}>
-                      {formatStatus(order.status)}
-                    </span>
-                    {order.shipping_method === "biteship" ? (
-                      <span className={`px-2 py-1 rounded-full font-bold text-[9px] uppercase tracking-tighter border ${shippingStatusClass(order.shipping_status)}`}>
-                        {formatStatus(order.shipping_status || "Pending")}
-                      </span>
-                    ) : order.shipping_method === "free" ? (
-                      <span className="px-2 py-1 rounded-full font-bold text-[9px] uppercase tracking-tighter border bg-gray-100 text-gray-600">
-                        In-Store Pickup
-                      </span>
-                    ) : null}
-                  </div>
+                <div className="p-4 bg-white border-b border-gray-100">
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Order ID</p>
+                  <p className="mb-3 font-mono text-sm font-bold text-gray-900 truncate">{order.order_id}</p>
+                  <span className={`px-2.5 py-1 rounded-full font-bold text-[9px] uppercase tracking-tighter w-max inline-block ${statusClass(order.status)}`}>
+                    {formatStatus(order.status)}
+                  </span>
                 </div>
 
-                {/* Loyalty Reward Mobile */}
-                {userData?.is_membership && order.point > 0 && order.status === "completed" && (
-                  <div className="px-4 py-3 border-b border-gray-100">
-                    <div className="flex items-center justify-between p-3 border rounded-lg bg-gradient-to-r from-emerald-50 to-white border-emerald-100">
-                      <div className="flex items-center gap-2">
-                        <div className="flex items-center justify-center w-8 h-8 text-white rounded-full bg-emerald-500 shrink-0">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                        </div>
-                        <p className="text-[10px] font-bold text-emerald-800 uppercase tracking-widest">Loyalty Reward</p>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-sm font-black text-emerald-600">+{order.point}</span>
-                        <span className="ml-1 text-[9px] font-bold text-emerald-800">Pts</span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
                 {/* Items Mobile */}
-                <div onClick={() => handleOrderClick(order)} className={`px-4 py-2 border-b border-gray-100 ${canPay(order.status) && countdowns[order.id] !== "Expired" ? "cursor-pointer" : ""}`}>
+                <div onClick={() => handleOrderClick(order)} className={`px-4 py-2 bg-white border-b border-gray-100 ${canPay(order.status) && countdowns[order.id] !== "Expired" ? "cursor-pointer" : ""}`}>
                   {canPay(order.status) && countdowns[order.id] !== "Expired" && (
                     <div className="my-2 text-emerald-600 text-[10px] text-center uppercase tracking-widest animate-pulse font-bold bg-emerald-50 py-1.5 rounded-md">
                       Ketuk di sini untuk bayar
                     </div>
                   )}
                   {order.details.map((detail: any) => (
-                    <div key={detail.id} className="flex gap-3 py-3 border-b border-gray-50 last:border-0">
-                      <img src={detail.product.image_url} className="object-cover bg-gray-100 border border-gray-100 rounded-md w-14 h-14 shrink-0" />
-                      <div className="flex-grow min-w-0">
-                        <h4 className="text-[11px] font-bold text-gray-900 uppercase leading-tight truncate">{detail.product.name}</h4>
-                        {detail.color && (
-                          <div className="w-2.5 h-2.5 border border-gray-300 rounded-full shadow-sm mt-1" style={{ backgroundColor: detail.color }}></div>
-                        )}
+                    <div key={detail.id} className="flex items-center gap-4 py-3 border-b border-gray-50 last:border-0">
+                      <img src={detail.product.image_url} className="object-cover w-16 h-16 border border-gray-200 rounded-lg bg-gray-50 shrink-0" />
+                      <div className="flex flex-col justify-center flex-grow min-w-0">
+                        <h4 className="text-xs font-bold leading-tight text-gray-900 uppercase truncate">{detail.product.name}</h4>
                         <p className="text-[10px] text-gray-500 mt-1">{detail.quantity} x {formatPrice(detail.price)}</p>
+                        
                         {order.status === "completed" && (
                           <button
                             onClick={(e) => {
@@ -6283,7 +6242,7 @@ export default function OrderPage() {
                               setSelectedReviewItem({ productId: detail.product.id, productName: detail.product.name, transactionId: order.order_id });
                               setIsReviewModalOpen(true);
                             }}
-                            className="px-2 py-1 mt-1.5 text-[9px] font-bold tracking-widest text-gycora uppercase transition-colors bg-white border border-gycora rounded w-max"
+                            className="px-2.5 py-1 mt-2 text-[9px] font-bold tracking-widest text-gycora uppercase transition-colors bg-white border border-gycora rounded w-max"
                           >
                             Beri Ulasan
                           </button>
@@ -6293,50 +6252,51 @@ export default function OrderPage() {
                   ))}
                 </div>
 
-                {/* Shipping & Payment Info Mobile */}
-                <div className="flex gap-4 p-4 border-b border-gray-100 bg-gray-50/30">
-                  <div className="flex-1 w-1/2">
-                    <p className="font-bold text-[9px] text-gray-400 uppercase tracking-[0.2em] mb-1.5">Payment</p>
-                    {order.payment_method ? (
-                      <p className="text-[10px] font-bold text-gray-800 uppercase truncate">{order.payment_method.replace("_", " ")}</p>
-                    ) : <p className="text-[10px] italic text-gray-400">Pending</p>}
+                {/* Payment & Additional Info Mobile */}
+                <div className="p-4 bg-white border-b border-gray-100">
+                  <div className="flex gap-4 mb-4">
+                    <div className="flex-1 w-1/2">
+                      <p className="font-bold text-[10px] text-gray-400 uppercase tracking-widest mb-1">Payment</p>
+                      <p className="text-xs italic text-gray-500 truncate">
+                        {order.payment_method ? order.payment_method.replace("_", " ").toUpperCase() : "Pending"}
+                      </p>
+                    </div>
+                    <div className="flex-1 w-1/2">
+                      <p className="font-bold text-[10px] text-gray-400 uppercase tracking-widest mb-1">Shipping</p>
+                      <p className="text-xs italic text-gray-500 truncate">
+                        {order.shipping_method === "free" ? "Ambil Sendiri" : order.courier_company ? order.courier_company.toUpperCase() : "Checkout"}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex-1 w-1/2">
-                    <p className="font-bold text-[9px] text-gray-400 uppercase tracking-[0.2em] mb-1.5">Shipping</p>
-                    {order.shipping_method === "free" ? (
-                      <p className="text-[10px] font-bold text-gray-800 uppercase truncate">Ambil Sendiri</p>
-                    ) : order.shipping_method === "biteship" && order.courier_company ? (
-                      <p className="text-[10px] font-bold text-gray-800 uppercase truncate">{order.courier_company}</p>
-                    ) : <p className="text-[10px] italic text-gray-400">Tentukan Checkout</p>}
+                  
+                  {/* Loyalty Reward Mobile */}
+                  {userData?.is_membership && order.point > 0 && order.status === "completed" && (
+                    <div className="flex items-center justify-between p-3 mb-4 border rounded-lg bg-gradient-to-r from-emerald-50 to-white border-emerald-100">
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center justify-center w-6 h-6 text-white rounded-full bg-emerald-500 shrink-0">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                        </div>
+                        <p className="text-[9px] font-bold text-emerald-800 uppercase tracking-widest">Reward</p>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-sm font-black text-emerald-600">+{order.point}</span>
+                        <span className="ml-1 text-[9px] font-bold text-emerald-800">Pts</span>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="pt-3 mt-1 border-t border-gray-100 border-dashed">
+                    <div className="flex items-center justify-between">
+                      <span className="uppercase tracking-widest text-[10px] font-bold text-gray-500">Total Akhir</span>
+                      <span className="text-sm font-black text-gycora">{formatPrice(getGrandTotal(order))}</span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Totals Mobile */}
-                <div className="p-4 border-b border-gray-100 bg-gray-50/50">
-                  <div className="flex justify-between text-[10px] text-gray-500 mb-1">
-                    <span>Subtotal</span><span>{formatPrice(getSubtotal(order))}</span>
-                  </div>
-                  <div className="flex justify-between text-[10px] text-gray-500 mb-1">
-                    <span>Ongkir</span><span>{formatPrice(order.shipping_cost)}</span>
-                  </div>
-                  {order.promo_discount > 0 && (
-                    <div className="flex justify-between text-[10px] text-emerald-600 mb-1">
-                      <span>Promo</span><span>- {formatPrice(order.promo_discount)}</span>
-                    </div>
-                  )}
-                  {order.points_used > 0 && (
-                    <div className="flex justify-between text-[10px] text-yellow-600 mb-1">
-                      <span>Poin ({order.points_used})</span><span>- {formatPrice(order.points_used * 1000)}</span>
-                    </div>
-                  )}
-                  <div className="flex items-center justify-between pt-2 mt-2 border-t border-gray-200 border-dashed">
-                    <span className="uppercase tracking-widest text-[10px] font-bold">Total</span>
-                    <span className="text-sm font-black text-gycora">{formatPrice(getGrandTotal(order))}</span>
-                  </div>
-                </div>
-
-                {/* Actions Mobile (Grid Full Width) */}
-                <div className="grid grid-cols-2 gap-2 p-4">
+                {/* Actions Mobile */}
+                <div className="grid grid-cols-2 gap-2 p-4 bg-gray-50">
                   {canPay(order.status) && order.payment && (
                     <div className="col-span-2 flex items-center justify-center gap-1.5 mb-2">
                       <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 text-red-500 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
