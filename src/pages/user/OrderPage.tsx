@@ -5080,7 +5080,7 @@ export default function OrderPage() {
     <div className="min-h-screen w-full px-4 py-6 mx-auto font-sans md:px-6 md:py-20 max-w-7xl animate-fade-in bg-[#FAFAFA] overflow-x-hidden">
 
       <div className="flex items-center justify-between w-full mb-6 md:mb-10">
-        <h1 className="font-serif text-3xl tracking-tighter text-gray-900 uppercase md:text-4xl">
+        <h1 className="text-3xl font-extrabold tracking-tighter text-gray-900 uppercase md:text-4xl">
           Track My Orders
         </h1>
       </div>
