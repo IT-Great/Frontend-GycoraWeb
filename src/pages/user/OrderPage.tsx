@@ -6108,15 +6108,16 @@ export default function OrderPage() {
   };
 
   return (
-    <div className="min-h-screen px-4 py-8 mx-auto font-sans md:px-6 md:py-20 max-w-7xl animate-fade-in bg-[#FAFAFA]">
-      <div className="flex items-center justify-between mb-6 md:mb-10">
+    // [PERBAIKAN] Menambahkan overflow-x-hidden pada parent paling luar untuk mencegah halaman geser horizontal
+    <div className="min-h-screen px-4 md:px-6 py-8 md:py-20 mx-auto font-sans max-w-7xl animate-fade-in bg-[#FAFAFA] overflow-x-hidden">
+      <div className="flex items-center justify-between w-full max-w-full mb-6 md:mb-10">
         <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 uppercase sm:text-3xl md:text-4xl">
           Lacak Pesanan
         </h1>
       </div>
 
       {/* TABS - Scrollable on Mobile */}
-      <div className="mb-6 border-b border-gray-200 md:mb-8">
+      <div className="w-full max-w-full mb-6 border-b border-gray-200 md:mb-8">
         <div className="flex gap-4 pb-2 overflow-x-auto md:gap-6 custom-scrollbar scroll-smooth">
           {unifiedTabs.map((tab) => (
             <button
@@ -6144,8 +6145,9 @@ export default function OrderPage() {
       </div>
 
       {/* FILTER & SEARCH */}
-      <div className="flex flex-col gap-4 mb-6 sm:flex-row sm:flex-wrap md:flex-nowrap md:mb-8 sm:items-center sm:justify-between">
-        <div className="relative w-full sm:w-full md:w-80">
+      {/* [PERBAIKAN] Menggunakan flex-col penuh di mobile, membatasi lebar agar tidak luber */}
+      <div className="flex flex-col w-full max-w-full gap-4 mb-6 md:flex-row md:flex-nowrap md:mb-8 md:items-center md:justify-between">
+        <div className="relative w-full md:w-80">
           <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -6160,7 +6162,7 @@ export default function OrderPage() {
           />
         </div>
 
-        <div className="flex items-center justify-between w-full gap-2 sm:w-auto sm:justify-end shrink-0">
+        <div className="flex items-center justify-between w-full gap-2 md:w-auto md:justify-end shrink-0">
           <span className="text-[10px] md:text-xs font-bold tracking-wide text-gray-400 uppercase whitespace-nowrap">
             Tampilkan:
           </span>
@@ -6179,9 +6181,9 @@ export default function OrderPage() {
 
       {/* KONTEN */}
       {loading ? (
-        <div className="space-y-6 md:space-y-8 animate-pulse">
+        <div className="w-full max-w-full space-y-6 md:space-y-8 animate-pulse">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="overflow-hidden bg-white border border-gray-100 rounded-2xl">
+            <div key={i} className="w-full overflow-hidden bg-white border border-gray-100 rounded-2xl">
               <div className="h-16 border-b border-gray-100 md:h-20 bg-gray-50"></div>
               <div className="flex items-center gap-4 px-4 py-4 md:px-6 md:py-6">
                 <div className="w-12 h-12 bg-gray-200 rounded-lg md:w-16 md:h-16 shrink-0"></div>
@@ -6192,7 +6194,7 @@ export default function OrderPage() {
           ))}
         </div>
       ) : filteredTransactions.length === 0 ? (
-        <div className="p-8 text-center bg-white border border-gray-100 md:p-12 rounded-2xl animate-fade-in">
+        <div className="w-full max-w-full p-8 text-center bg-white border border-gray-100 md:p-12 rounded-2xl animate-fade-in">
           <p className="text-sm italic text-gray-400 md:text-base">
             Tidak ada pesanan yang sesuai dengan filter.
           </p>
@@ -6204,21 +6206,27 @@ export default function OrderPage() {
           </button>
         </div>
       ) : (
-        <div className="space-y-6 md:space-y-8 animate-fade-in">
+        <div className="w-full max-w-full space-y-6 md:space-y-8 animate-fade-in">
           {paginatedTransactions.map((order) => (
-            <div key={order.id} className="relative overflow-hidden transition-shadow duration-300 bg-white border border-gray-100 shadow-sm rounded-xl md:rounded-2xl hover:shadow-md">
+            <div key={order.id} className="relative w-full max-w-full overflow-hidden transition-shadow duration-300 bg-white border border-gray-100 shadow-sm rounded-xl md:rounded-2xl hover:shadow-md">
               
               {/* ==============================================================
                   VERSI MOBILE (< 768px) - MATCHING SCREENSHOT UI
               ============================================================== */}
-              <div className="block md:hidden">
+              <div className="block w-full max-w-full md:hidden">
                 {/* Header Card Mobile */}
-                <div className="p-4 bg-white border-b border-gray-100">
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Order ID</p>
-                  <p className="mb-3 font-mono text-sm font-bold text-gray-900 truncate">{order.order_id}</p>
-                  <span className={`px-2.5 py-1 rounded-full font-bold text-[9px] uppercase tracking-tighter w-max inline-block ${statusClass(order.status)}`}>
-                    {formatStatus(order.status)}
-                  </span>
+                <div className="flex items-start justify-between p-4 bg-white border-b border-gray-100">
+                  <div className="min-w-0 max-w-[70%]">
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Order ID</p>
+                    <p className="mb-2 font-mono text-sm font-bold text-gray-900 truncate">{order.order_id}</p>
+                    <span className={`px-2.5 py-1 rounded-full font-bold text-[9px] uppercase tracking-tighter w-max inline-block ${statusClass(order.status)}`}>
+                      {formatStatus(order.status)}
+                    </span>
+                  </div>
+                  <div className="text-right shrink-0">
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Tanggal</p>
+                    <p className="text-[10px] font-bold text-gray-900">{formatDateTime(order.created_at)}</p>
+                  </div>
                 </div>
 
                 {/* Items Mobile */}
@@ -6229,7 +6237,7 @@ export default function OrderPage() {
                     </div>
                   )}
                   {order.details.map((detail: any) => (
-                    <div key={detail.id} className="flex items-center gap-4 py-3 border-b border-gray-50 last:border-0">
+                    <div key={detail.id} className="flex items-center w-full max-w-full gap-4 py-3 border-b border-gray-50 last:border-0">
                       <img src={detail.product.image_url} className="object-cover w-16 h-16 border border-gray-200 rounded-lg bg-gray-50 shrink-0" />
                       <div className="flex flex-col justify-center flex-grow min-w-0">
                         <h4 className="text-xs font-bold leading-tight text-gray-900 uppercase truncate">{detail.product.name}</h4>
@@ -6253,15 +6261,15 @@ export default function OrderPage() {
                 </div>
 
                 {/* Payment & Additional Info Mobile */}
-                <div className="p-4 bg-white border-b border-gray-100">
-                  <div className="flex gap-4 mb-4">
-                    <div className="flex-1 w-1/2">
+                <div className="w-full max-w-full p-4 bg-white border-b border-gray-100">
+                  <div className="flex w-full gap-4">
+                    <div className="flex-1 min-w-0">
                       <p className="font-bold text-[10px] text-gray-400 uppercase tracking-widest mb-1">Payment</p>
                       <p className="text-xs italic text-gray-500 truncate">
                         {order.payment_method ? order.payment_method.replace("_", " ").toUpperCase() : "Pending"}
                       </p>
                     </div>
-                    <div className="flex-1 w-1/2">
+                    <div className="flex-1 min-w-0">
                       <p className="font-bold text-[10px] text-gray-400 uppercase tracking-widest mb-1">Shipping</p>
                       <p className="text-xs italic text-gray-500 truncate">
                         {order.shipping_method === "free" ? "Ambil Sendiri" : order.courier_company ? order.courier_company.toUpperCase() : "Checkout"}
@@ -6271,7 +6279,7 @@ export default function OrderPage() {
                   
                   {/* Loyalty Reward Mobile */}
                   {userData?.is_membership && order.point > 0 && order.status === "completed" && (
-                    <div className="flex items-center justify-between p-3 mb-4 border rounded-lg bg-gradient-to-r from-emerald-50 to-white border-emerald-100">
+                    <div className="flex items-center justify-between p-3 mt-4 border rounded-lg bg-gradient-to-r from-emerald-50 to-white border-emerald-100">
                       <div className="flex items-center gap-2">
                         <div className="flex items-center justify-center w-6 h-6 text-white rounded-full bg-emerald-500 shrink-0">
                           <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
@@ -6287,7 +6295,7 @@ export default function OrderPage() {
                     </div>
                   )}
 
-                  <div className="pt-3 mt-1 border-t border-gray-100 border-dashed">
+                  <div className="pt-3 mt-4 border-t border-gray-100 border-dashed">
                     <div className="flex items-center justify-between">
                       <span className="uppercase tracking-widest text-[10px] font-bold text-gray-500">Total Akhir</span>
                       <span className="text-sm font-black text-gycora">{formatPrice(getGrandTotal(order))}</span>
@@ -6296,9 +6304,10 @@ export default function OrderPage() {
                 </div>
 
                 {/* Actions Mobile */}
-                <div className="grid grid-cols-2 gap-2 p-4 bg-gray-50">
+                {/* [PERBAIKAN] Menggunakan grid dan membatasi lebar tombol agar tidak menabrak batas layar */}
+                <div className="grid w-full max-w-full grid-cols-2 gap-3 p-4 bg-gray-50">
                   {canPay(order.status) && order.payment && (
-                    <div className="col-span-2 flex items-center justify-center gap-1.5 mb-2">
+                    <div className="col-span-2 flex items-center justify-center gap-1.5 mb-1">
                       <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 text-red-500 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
@@ -6306,28 +6315,28 @@ export default function OrderPage() {
                     </div>
                   )}
                   {canCancel(order.status) && (
-                    <button onClick={() => cancelOrder(order.id)} className="w-full py-2.5 text-[10px] font-bold tracking-widest text-red-600 uppercase border border-red-200 hover:bg-red-50 rounded-lg">Batalkan</button>
+                    <button onClick={() => cancelOrder(order.id)} className="w-full py-2.5 text-[10px] font-bold tracking-widest text-red-600 uppercase border border-red-200 hover:bg-red-50 rounded-lg whitespace-nowrap overflow-hidden text-ellipsis">Batalkan</button>
                   )}
                   {canPay(order.status) && (
-                    <button onClick={() => redirectToPayment(order)} disabled={countdowns[order.id] === "Expired"} className={`w-full py-2.5 text-[10px] font-bold tracking-widest text-white uppercase bg-gray-900 rounded-lg ${!canCancel(order.status) ? "col-span-2" : ""}`}>Bayar</button>
+                    <button onClick={() => redirectToPayment(order)} disabled={countdowns[order.id] === "Expired"} className={`w-full py-2.5 text-[10px] font-bold tracking-widest text-white uppercase bg-gray-900 hover:bg-black rounded-lg whitespace-nowrap overflow-hidden text-ellipsis ${!canCancel(order.status) ? "col-span-2" : ""}`}>Bayar</button>
                   )}
                   {["processing", "completed", "cancelled", "refund_requested", "refund_approved", "refunded", "refund_rejected", "refund_manual_required", "shipping_failed", "returned"].includes(order.status) && order.shipping_method === "biteship" && (
-                    <button onClick={() => navigate(`/tracking/${order.id}`, { state: { paymentMethod: order.payment_method } })} className="col-span-2 w-full py-2.5 text-[10px] font-bold tracking-widest text-white uppercase bg-gycora rounded-lg">Lacak Paket</button>
+                    <button onClick={() => navigate(`/tracking/${order.id}`, { state: { paymentMethod: order.payment_method } })} className="col-span-2 w-full py-2.5 text-[10px] font-bold tracking-widest text-white uppercase bg-gycora rounded-lg whitespace-nowrap overflow-hidden text-ellipsis">Lacak Paket</button>
                   )}
                   {canRequestRefund(order) && (
-                    <button onClick={() => requestRefund(order.id)} className="col-span-2 w-full py-2.5 text-[10px] font-bold tracking-widest text-gray-600 uppercase border border-gray-300 rounded-lg">Ajukan Retur</button>
+                    <button onClick={() => requestRefund(order.id)} className="col-span-2 w-full py-2.5 text-[10px] font-bold tracking-widest text-gray-600 uppercase border border-gray-300 rounded-lg whitespace-nowrap overflow-hidden text-ellipsis">Ajukan Retur</button>
                   )}
                   {order.status === "refund_requested" && (
-                    <div className="col-span-2 w-full py-2.5 text-[10px] font-bold text-center bg-amber-100 rounded-lg text-amber-700">Menunggu Admin</div>
+                    <div className="col-span-2 w-full py-2.5 text-[10px] font-bold text-center bg-amber-100 rounded-lg text-amber-700 whitespace-nowrap overflow-hidden text-ellipsis">Menunggu Admin</div>
                   )}
                   {order.status === "refund_manual_required" && (
-                    <div className="col-span-2 w-full py-2.5 text-[10px] font-bold text-center text-pink-700 bg-pink-100 rounded-lg">Refund Manual</div>
+                    <div className="col-span-2 w-full py-2.5 text-[10px] font-bold text-center text-pink-700 bg-pink-100 rounded-lg whitespace-nowrap overflow-hidden text-ellipsis">Refund Manual</div>
                   )}
                   {order.status === "refund_approved" && (
-                    <button onClick={() => processRefundUser(order.id)} className="col-span-2 w-full py-2.5 text-[10px] font-bold tracking-widest text-white uppercase bg-blue-600 rounded-lg">Tarik Dana</button>
+                    <button onClick={() => processRefundUser(order.id)} className="col-span-2 w-full py-2.5 text-[10px] font-bold tracking-widest text-white uppercase bg-blue-600 rounded-lg whitespace-nowrap overflow-hidden text-ellipsis">Tarik Dana</button>
                   )}
                   {order.status === "refund_rejected" && (
-                    <div className="col-span-2 text-[10px] italic font-bold text-center text-red-500 py-2">Retur Ditolak</div>
+                    <div className="col-span-2 text-[10px] italic font-bold text-center text-red-500 py-2 whitespace-nowrap overflow-hidden text-ellipsis">Retur Ditolak</div>
                   )}
                 </div>
               </div>
@@ -6552,7 +6561,7 @@ export default function OrderPage() {
 
           {/* PAGINATION */}
           {filteredTransactions.length > 0 && (
-            <div className="flex flex-col items-center justify-between gap-4 pt-4 mt-6 border-t border-gray-100 md:pt-6 md:mt-8 md:flex-row">
+            <div className="flex flex-col items-center justify-between w-full max-w-full gap-4 pt-4 mt-6 border-t border-gray-100 md:pt-6 md:mt-8 md:flex-row">
               <p className="text-[10px] md:text-sm text-gray-400">
                 Menampilkan <span className="font-bold text-black">{showingStart}</span> - <span className="font-bold text-black">{showingEnd}</span> dari <span className="font-bold text-black">{filteredTransactions.length}</span>
               </p>
@@ -6561,7 +6570,7 @@ export default function OrderPage() {
                 <button
                   onClick={() => setCurrentPage((prev) => prev - 1)}
                   disabled={currentPage === 1}
-                  className="px-2 py-1.5 md:px-4 md:py-2 text-[9px] md:text-sm font-medium transition border border-gray-200 rounded-lg md:rounded-xl hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="px-2 py-1.5 md:px-4 md:py-2 text-[9px] md:text-sm font-medium transition border border-gray-200 rounded-lg md:rounded-xl hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed shrink-0"
                 >
                   Mundur
                 </button>
@@ -6572,7 +6581,7 @@ export default function OrderPage() {
                       key={index}
                       onClick={() => typeof page === "number" ? setCurrentPage(page) : null}
                       disabled={page === "..."}
-                      className={`flex items-center justify-center w-6 h-6 md:w-10 md:h-10 text-[9px] md:text-sm font-medium transition rounded-md md:rounded-xl ${currentPage === page ? "bg-gycora text-white border-gycora" : "hover:bg-gray-50 border-gray-200"} ${page === "..." ? "cursor-default border-transparent hover:bg-transparent" : "border"}`}
+                      className={`flex items-center justify-center w-6 h-6 md:w-10 md:h-10 text-[9px] md:text-sm font-medium transition rounded-md md:rounded-xl shrink-0 ${currentPage === page ? "bg-gycora text-white border-gycora" : "hover:bg-gray-50 border-gray-200"} ${page === "..." ? "cursor-default border-transparent hover:bg-transparent" : "border"}`}
                     >
                       {page}
                     </button>
@@ -6582,7 +6591,7 @@ export default function OrderPage() {
                 <button
                   onClick={() => setCurrentPage((prev) => prev + 1)}
                   disabled={currentPage === totalPages || totalPages === 0}
-                  className="px-2 py-1.5 md:px-4 md:py-2 text-[9px] md:text-sm font-medium transition border border-gray-200 rounded-lg md:rounded-xl hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="px-2 py-1.5 md:px-4 md:py-2 text-[9px] md:text-sm font-medium transition border border-gray-200 rounded-lg md:rounded-xl hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed shrink-0"
                 >
                   Lanjut
                 </button>
