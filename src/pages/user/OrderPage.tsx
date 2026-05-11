@@ -4640,13 +4640,11 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { BASE_URL } from "../../config/api";
 
-// --- IMPORT KOMPONEN REVIEW MODAL ---
 import ReviewModal from "../../components/ReviewModal";
 
 export default function OrderPage() {
   const navigate = useNavigate();
 
-  // --- STATE ---
   const [userData, setUserData] = useState<any>(null);
   const [transactions, setTransactions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -4659,7 +4657,6 @@ export default function OrderPage() {
 
   const timerIntervalRef = useRef<any>(null);
 
-  // --- STATE UNTUK REVIEW MODAL ---
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [selectedReviewItem, setSelectedReviewItem] = useState<{
     productId: number;
@@ -4667,7 +4664,6 @@ export default function OrderPage() {
     transactionId: string;
   } | null>(null);
 
-  // --- TABS DEFINITION ---
   const unifiedTabs = [
     { label: "Semua Pesanan", value: "all" },
     { label: "Belum Dibayar", value: "unpaid" },
@@ -4787,7 +4783,6 @@ export default function OrderPage() {
     if (!["completed", "shipping_failed", "returned"].includes(order.status)) return false;
     if (["shipping_failed", "returned"].includes(order.status)) return true;
     if (order.shipping_method === "free") return true;
-
     if (order.shipping_method === "biteship") {
       const shipStatus = order.shipping_status ? order.shipping_status.toLowerCase() : "pending";
       const unRefundableLogistics = ["picked", "dropping_off", "delivered", "return_in_transit"];
@@ -4797,12 +4792,10 @@ export default function OrderPage() {
     return false;
   };
 
-  // --- LOGIC & COMPUTED EQUIVALENTS ---
   const getUnifiedTabCount = (tabValue: string) => {
     return transactions.filter((order) => {
       if (tabValue === "all") return true;
       const shipStatus = order.shipping_status ? order.shipping_status.toLowerCase() : "pending";
-
       if (tabValue === "unpaid") return order.status === "pending";
       if (tabValue === "to_ship")
         return (
@@ -4818,14 +4811,12 @@ export default function OrderPage() {
           ["returned", "shipping_failed"].includes(order.status) ||
           ["on_hold", "return_in_transit", "rejected", "disposed", "courier_not_found"].includes(shipStatus)
         );
-
       return false;
     }).length;
   };
 
   const filteredTransactions = useMemo(() => {
     const query = searchQuery.toLowerCase();
-
     return transactions.filter((order) => {
       let matchSearch = true;
       if (query) {
@@ -4838,11 +4829,9 @@ export default function OrderPage() {
           (order.delivery_type && order.delivery_type.toLowerCase().includes(query)) ||
           (order.courier_company && order.courier_company.toLowerCase().includes(query));
       }
-
       let matchTab = false;
       const tabValue = activeUnifiedTab;
       const shipStatus = order.shipping_status ? order.shipping_status.toLowerCase() : "pending";
-
       if (tabValue === "all") matchTab = true;
       else if (tabValue === "unpaid") matchTab = order.status === "pending";
       else if (tabValue === "to_ship")
@@ -4857,7 +4846,6 @@ export default function OrderPage() {
           order.status.includes("refund") ||
           ["returned", "shipping_failed"].includes(order.status) ||
           ["on_hold", "return_in_transit", "rejected", "disposed", "courier_not_found"].includes(shipStatus);
-
       return matchSearch && matchTab;
     });
   }, [transactions, searchQuery, activeUnifiedTab]);
@@ -4871,13 +4859,10 @@ export default function OrderPage() {
   const showingStart = filteredTransactions.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
   const showingEnd = Math.min(currentPage * itemsPerPage, filteredTransactions.length);
 
-  // [PERBAIKAN MOBILE] Menyesuaikan pagination agar tidak terlalu panjang di layar sempit
   const visiblePages = useMemo(() => {
-    const isMobile = window.innerWidth < 768; // Deteksi sederhana
+    const isMobile = window.innerWidth < 768;
     const maxVisible = isMobile ? 3 : 7;
-    
     if (totalPages <= maxVisible) return Array.from({ length: totalPages }, (_, i) => i + 1);
-    
     if (isMobile) {
       if (currentPage <= 2) return [1, 2, "...", totalPages];
       if (currentPage >= totalPages - 1) return [1, "...", totalPages - 1, totalPages];
@@ -4889,24 +4874,19 @@ export default function OrderPage() {
     }
   }, [currentPage, totalPages]);
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchQuery, itemsPerPage, activeUnifiedTab]);
+  useEffect(() => { setCurrentPage(1); }, [searchQuery, itemsPerPage, activeUnifiedTab]);
 
   const resetFilters = () => {
     setActiveUnifiedTab("all");
     setSearchQuery("");
   };
 
-  // --- TIMERS & API ---
   const calculateTimeLeft = (referenceDate: string) => {
     if (!referenceDate) return "Expired";
-    const expiryTime = new Date(referenceDate).getTime() + 86400000; // +24 Jam
+    const expiryTime = new Date(referenceDate).getTime() + 86400000;
     const now = new Date().getTime();
     const diff = expiryTime - now;
-
     if (diff <= 0) return "Expired";
-
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
@@ -4928,7 +4908,6 @@ export default function OrderPage() {
 
   const startTimers = (currentOrders: any[]) => {
     if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
-
     timerIntervalRef.current = setInterval(() => {
       setCountdowns((prev) => {
         const newCountdowns = { ...prev };
@@ -4936,10 +4915,8 @@ export default function OrderPage() {
           if (canPay(order.status)) {
             const timeReference =
               order.status === "pending" && order.payment?.created_at ? order.payment.created_at : order.created_at;
-
             const timeLeft = calculateTimeLeft(timeReference);
             newCountdowns[order.id] = timeLeft;
-
             if (timeLeft === "Expired" && !order.isCancelling) {
               order.isCancelling = true;
               autoCancelSilent(order.id);
@@ -4956,20 +4933,12 @@ export default function OrderPage() {
     try {
       const token = localStorage.getItem("user_token");
       const res = await fetch(`${BASE_URL}/api/transactions`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
+        headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
       });
       if (!res.ok) throw new Error("Gagal mengambil data");
-
       const data = await res.json();
       const validTransactions = data.filter((order: any) => order.status !== "awaiting_payment");
-
-      const mappedOrders = validTransactions.map((o: any) => ({
-        ...o,
-        isCancelling: false,
-      }));
+      const mappedOrders = validTransactions.map((o: any) => ({ ...o, isCancelling: false }));
       setTransactions(mappedOrders);
       startTimers(mappedOrders);
     } catch (err) {
@@ -4983,14 +4952,10 @@ export default function OrderPage() {
     const userStr = localStorage.getItem("user_data");
     if (userStr) setUserData(JSON.parse(userStr));
     fetchOrders();
-
-    return () => {
-      if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
-    };
+    return () => { if (timerIntervalRef.current) clearInterval(timerIntervalRef.current); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // --- ACTIONS ---
   const redirectToPayment = (order: any) => {
     if (order.status === "pending" && order.payment?.checkout_url) {
       window.location.href = order.payment.checkout_url;
@@ -5016,7 +4981,6 @@ export default function OrderPage() {
       confirmButtonText: "Ya, batalkan!",
       cancelButtonText: "Kembali",
     });
-
     if (result.isConfirmed) {
       try {
         const token = localStorage.getItem("user_token");
@@ -5024,7 +4988,6 @@ export default function OrderPage() {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
         });
-
         if (res.ok) {
           Swal.fire("Dibatalkan!", "Pesanan Anda telah dibatalkan.", "success");
           fetchOrders();
@@ -5050,7 +5013,7 @@ export default function OrderPage() {
           <div>
             <label class="block text-xs font-bold text-gray-700 uppercase tracking-widest mb-1">Upload Bukti (Foto/Video)</label>
             <input type="file" id="swal-refund-file" accept="image/*,video/mp4,video/quicktime" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-gray-100 file:text-black hover:file:bg-gray-200 cursor-pointer" />
-            <p class="text-[10px] text-gray-400 mt-1 mt-1">Maksimal 10MB. Format: JPG, PNG, MP4.</p>
+            <p class="text-[10px] text-gray-400 mt-1">Maksimal 10MB. Format: JPG, PNG, MP4.</p>
           </div>
         </div>
       `,
@@ -5061,45 +5024,25 @@ export default function OrderPage() {
         const reason = (document.getElementById("swal-refund-reason") as HTMLTextAreaElement).value;
         const fileInput = document.getElementById("swal-refund-file") as HTMLInputElement;
         const file = fileInput.files?.[0];
-
-        if (!reason) {
-          Swal.showValidationMessage("Harap isi alasan pengembalian.");
-          return false;
-        }
-        if (!file) {
-          Swal.showValidationMessage("Harap unggah file bukti.");
-          return false;
-        }
-        if (file.size > 10 * 1024 * 1024) {
-          Swal.showValidationMessage("Ukuran file tidak boleh lebih dari 10MB.");
-          return false;
-        }
+        if (!reason) { Swal.showValidationMessage("Harap isi alasan pengembalian."); return false; }
+        if (!file) { Swal.showValidationMessage("Harap unggah file bukti."); return false; }
+        if (file.size > 10 * 1024 * 1024) { Swal.showValidationMessage("Ukuran file tidak boleh lebih dari 10MB."); return false; }
         return { reason, file };
       },
     });
 
     if (isConfirmed && formValues) {
-      Swal.fire({
-        title: "Mengunggah...",
-        text: "Mohon tunggu, permintaan Anda sedang diproses.",
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
-      });
-
+      Swal.fire({ title: "Mengunggah...", text: "Mohon tunggu, permintaan Anda sedang diproses.", allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
       try {
         const token = localStorage.getItem("user_token");
         const formData = new FormData();
         formData.append("reason", formValues.reason);
         formData.append("proof_file", formValues.file);
-
         const res = await fetch(`${BASE_URL}/api/transactions/${id}/refund-request`, {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
           body: formData,
         });
-
         if (res.ok) {
           fetchOrders();
           Swal.fire("Berhasil", "Pengajuan pengembalian telah dikirim ke admin.", "success");
@@ -5120,7 +5063,6 @@ export default function OrderPage() {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       });
-
       if (res.ok) {
         const data = await res.json();
         fetchOrders();
@@ -5134,17 +5076,21 @@ export default function OrderPage() {
   };
 
   return (
-    <div className="min-h-screen px-4 py-6 mx-auto font-sans md:px-6 md:py-20 max-w-7xl animate-fade-in bg-[#FAFAFA] overflow-x-hidden">
-      
-      <div className="flex items-center justify-between w-full max-w-full mb-6 md:mb-10">
+    // [FIX 1] Tambah overflow-x-hidden + w-full di wrapper utama agar tidak ada scroll horizontal
+    <div className="min-h-screen w-full px-4 py-6 mx-auto font-sans md:px-6 md:py-20 max-w-7xl animate-fade-in bg-[#FAFAFA] overflow-x-hidden">
+
+      <div className="flex items-center justify-between w-full mb-6 md:mb-10">
         <h1 className="font-serif text-3xl tracking-tighter text-gray-900 uppercase md:text-4xl">
           Track My Orders
         </h1>
       </div>
 
-      {/* [PERBAIKAN] TABS - Menggunakan struktur yang aman dari overflow */}
-      <div className="w-full mb-6 border-b border-gray-200 md:mb-8">
-        <div className="flex gap-4 pb-2 overflow-x-auto md:gap-6 custom-scrollbar scroll-smooth">
+      {/* [FIX 2] Tab wrapper: overflow-hidden di luar, scroll hanya pada inner div */}
+      <div className="w-full mb-6 overflow-hidden border-b border-gray-200 md:mb-8">
+        <div
+          className="flex gap-4 pb-2 overflow-x-auto md:gap-6 scroll-smooth"
+          style={{ WebkitOverflowScrolling: "touch", scrollbarWidth: "none" }}
+        >
           {unifiedTabs.map((tab) => (
             <button
               key={tab.value}
@@ -5157,11 +5103,7 @@ export default function OrderPage() {
             >
               {tab.label}
               {getUnifiedTabCount(tab.value) > 0 && (
-                <span
-                  className={`px-1.5 py-0.5 rounded-full text-[8px] md:text-[9px] font-black ${
-                    activeUnifiedTab === tab.value ? "bg-black text-white" : "bg-gray-200 text-gray-600"
-                  }`}
-                >
+                <span className={`px-1.5 py-0.5 rounded-full text-[8px] md:text-[9px] font-black ${activeUnifiedTab === tab.value ? "bg-black text-white" : "bg-gray-200 text-gray-600"}`}>
                   {getUnifiedTabCount(tab.value)}
                 </span>
               )}
@@ -5170,8 +5112,8 @@ export default function OrderPage() {
         </div>
       </div>
 
-      {/* FILTER & SEARCH */}
-      <div className="flex flex-col w-full max-w-full gap-4 mb-6 md:flex-row md:flex-nowrap md:mb-8 md:items-center md:justify-between">
+      {/* [FIX 3] Filter row: pastikan tidak meluap di mobile */}
+      <div className="flex flex-col w-full gap-3 mb-6 md:flex-row md:flex-nowrap md:mb-8 md:items-center md:justify-between">
         <div className="relative w-full md:w-80">
           <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -5186,11 +5128,8 @@ export default function OrderPage() {
             className="w-full py-2.5 md:py-2 pl-9 md:pl-10 pr-4 text-xs md:text-sm transition border border-gray-200 outline-none bg-white rounded-xl focus:ring-2 focus:ring-black"
           />
         </div>
-
-        <div className="flex items-center justify-start w-full gap-2 md:justify-end md:w-auto shrink-0">
-          <span className="text-[10px] md:text-xs font-bold tracking-wide text-gray-400 uppercase whitespace-nowrap">
-            Show:
-          </span>
+        <div className="flex items-center gap-2 shrink-0">
+          <span className="text-[10px] md:text-xs font-bold tracking-wide text-gray-400 uppercase whitespace-nowrap">Show:</span>
           <select
             value={itemsPerPage}
             onChange={(e) => setItemsPerPage(Number(e.target.value))}
@@ -5206,7 +5145,7 @@ export default function OrderPage() {
 
       {/* KONTEN */}
       {loading ? (
-        <div className="w-full max-w-full space-y-6 md:space-y-8 animate-pulse">
+        <div className="w-full space-y-6 md:space-y-8 animate-pulse">
           {[1, 2, 3].map((i) => (
             <div key={i} className="w-full overflow-hidden bg-white border border-gray-100 rounded-2xl">
               <div className="flex flex-col justify-between gap-4 px-6 py-4 border-b border-gray-100 md:flex-row bg-gray-50">
@@ -5228,7 +5167,7 @@ export default function OrderPage() {
               <div className="px-6 py-6">
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 bg-gray-200 rounded-lg animate-pulse shrink-0"></div>
-                  <div className="flex-grow space-y-2">
+                  <div className="flex-grow min-w-0 space-y-2">
                     <div className="w-48 h-4 bg-gray-300 rounded animate-pulse"></div>
                     <div className="w-20 h-3 bg-gray-200 rounded animate-pulse"></div>
                   </div>
@@ -5246,43 +5185,46 @@ export default function OrderPage() {
           ))}
         </div>
       ) : filteredTransactions.length === 0 ? (
-        <div className="w-full max-w-full p-8 text-center bg-white border border-gray-100 md:p-12 rounded-2xl animate-fade-in">
-          <p className="text-sm italic text-gray-400 md:text-base">
-            Tidak ada pesanan yang sesuai dengan filter.
-          </p>
-          <button
-            onClick={resetFilters}
-            className="inline-block mt-4 md:mt-6 text-[10px] md:text-xs font-bold tracking-widest text-black underline uppercase"
-          >
+        <div className="w-full p-8 text-center bg-white border border-gray-100 md:p-12 rounded-2xl animate-fade-in">
+          <p className="text-sm italic text-gray-400 md:text-base">Tidak ada pesanan yang sesuai dengan filter.</p>
+          <button onClick={resetFilters} className="inline-block mt-4 md:mt-6 text-[10px] md:text-xs font-bold tracking-widest text-black underline uppercase">
             Hapus Filter
           </button>
         </div>
       ) : (
-        <div className="w-full max-w-full space-y-6 md:space-y-8 animate-fade-in">
+        <div className="w-full space-y-6 md:space-y-8 animate-fade-in">
           {paginatedTransactions.map((order) => (
-            <div key={order.id} className="relative w-full max-w-full overflow-hidden transition-shadow duration-300 bg-white border border-gray-100 shadow-sm rounded-2xl hover:shadow-md">
-              
-              {/* ==============================================================
+            // [FIX 4] Card: overflow-hidden + min-w-0 wajib ada agar konten tidak meluap
+            <div key={order.id} className="relative w-full min-w-0 overflow-hidden transition-shadow duration-300 bg-white border border-gray-100 shadow-sm rounded-2xl hover:shadow-md">
+
+              {/* ============================================================
                   VERSI MOBILE (< 768px)
-              ============================================================== */}
+              ============================================================ */}
               <div className="block w-full md:hidden">
-                {/* Header Card Mobile */}
-                <div className="flex items-start justify-between p-4 bg-white border-b border-gray-100">
-                  <div className="min-w-0 max-w-[65%]">
+
+                {/* [FIX 5] Header card mobile: min-w-0 + overflow-hidden pada parent flex */}
+                <div className="flex items-start justify-between gap-2 p-4 bg-white border-b border-gray-100">
+                  {/* [FIX 6] Kolom kiri: min-w-0 + overflow-hidden agar Order ID tidak meluap */}
+                  <div className="flex-1 min-w-0 overflow-hidden">
                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Order ID</p>
-                    <p className="mb-2 font-mono text-sm font-bold text-gray-900 truncate">{order.order_id}</p>
+                    {/* [FIX 7] font-mono dengan truncate + max-w penuh agar tidak overflow */}
+                    <p className="w-full mb-2 font-mono text-xs font-bold text-gray-900 truncate">{order.order_id}</p>
                     <span className={`px-2.5 py-1 rounded-full font-bold text-[9px] uppercase tracking-tighter w-max inline-block ${statusClass(order.status)}`}>
                       {formatStatus(order.status)}
                     </span>
                   </div>
-                  <div className="text-right shrink-0">
+                  {/* [FIX 8] Kolom kanan: shrink-0 dengan max-w agar tidak dorong kolom kiri */}
+                  <div className="text-right shrink-0 max-w-[40%]">
                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Tanggal</p>
-                    <p className="text-[10px] font-bold text-gray-900">{formatDateTime(order.created_at)}</p>
+                    <p className="text-[10px] font-bold text-gray-900 leading-snug">{formatDateTime(order.created_at)}</p>
                   </div>
                 </div>
 
                 {/* Items Mobile */}
-                <div onClick={() => handleOrderClick(order)} className={`px-4 py-2 bg-white border-b border-gray-100 ${canPay(order.status) && countdowns[order.id] !== "Expired" ? "cursor-pointer" : ""}`}>
+                <div
+                  onClick={() => handleOrderClick(order)}
+                  className={`px-4 py-2 bg-white border-b border-gray-100 ${canPay(order.status) && countdowns[order.id] !== "Expired" ? "cursor-pointer" : ""}`}
+                >
                   {canPay(order.status) && countdowns[order.id] !== "Expired" && (
                     <div className="my-2 text-blue-600 text-[10px] text-center uppercase tracking-widest animate-pulse font-bold bg-blue-50 py-1.5 rounded-md">
                       Ketuk di sini untuk bayar
@@ -5290,11 +5232,14 @@ export default function OrderPage() {
                   )}
                   {order.details.map((detail: any) => (
                     <div key={detail.id} className="flex items-center w-full gap-3 py-3 border-b border-gray-50 last:border-0">
-                      <img src={detail.product.image_url || detail.product.image} className="object-cover border border-gray-200 rounded-lg w-14 h-14 bg-gray-50 shrink-0" />
+                      <img
+                        src={detail.product.image_url || detail.product.image}
+                        className="object-cover border border-gray-200 rounded-lg w-14 h-14 bg-gray-50 shrink-0"
+                      />
+                      {/* [FIX 9] flex-grow + min-w-0 agar nama produk truncate dengan benar */}
                       <div className="flex flex-col justify-center flex-grow min-w-0">
                         <h4 className="text-[11px] font-bold text-gray-900 uppercase leading-tight truncate">{detail.product.name}</h4>
                         <p className="text-[10px] text-gray-500 mt-1">{detail.quantity} x {formatPrice(detail.price)}</p>
-                        
                         {order.status === "completed" && (
                           <button
                             onClick={(e) => {
@@ -5312,48 +5257,51 @@ export default function OrderPage() {
                   ))}
                 </div>
 
-                {/* Payment & Additional Info Mobile */}
+                {/* Payment & Info Mobile */}
                 <div className="w-full p-4 bg-white border-b border-gray-100">
-                  <div className="flex gap-4 mb-4">
-                    <div className="flex-1 min-w-0">
+                  {/* [FIX 10] Flex row payment+shipping: min-w-0 pada setiap child */}
+                  <div className="flex gap-3 mb-4">
+                    <div className="flex-1 min-w-0 overflow-hidden">
                       <p className="font-bold text-[10px] text-gray-400 uppercase tracking-widest mb-1">Payment</p>
                       <p className="text-xs italic text-gray-500 truncate">
                         {order.payment_method ? order.payment_method.replace("_", " ").toUpperCase() : "Pending"}
                       </p>
                     </div>
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 overflow-hidden">
                       <p className="font-bold text-[10px] text-gray-400 uppercase tracking-widest mb-1">Shipping</p>
                       <p className="text-xs italic text-gray-500 truncate">
-                        {order.shipping_method === "free" ? "Ambil Sendiri" : order.courier_company ? order.courier_company.toUpperCase() : "Checkout"}
+                        {order.shipping_method === "free"
+                          ? "Ambil Sendiri"
+                          : order.courier_company
+                          ? order.courier_company.toUpperCase()
+                          : "Checkout"}
                       </p>
                     </div>
                   </div>
-                  
+
                   {/* Loyalty Reward Mobile */}
                   {userData?.is_membership && order.point > 0 && order.status === "completed" && (
                     <div className="flex items-center justify-between p-3 mb-4 border border-yellow-100 rounded-lg bg-gradient-to-r from-yellow-50 to-white">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center min-w-0 gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-yellow-500 shrink-0" viewBox="0 0 20 20" fill="currentColor">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                         <p className="text-[9px] font-bold text-yellow-800 uppercase tracking-widest">Points Earned</p>
                       </div>
-                      <div className="text-right">
-                        <span className="text-sm font-black text-yellow-600">+{order.point} Pts</span>
-                      </div>
+                      <span className="text-sm font-black text-yellow-600 shrink-0">+{order.point} Pts</span>
                     </div>
                   )}
 
                   <div className="pt-3 mt-1 border-t border-gray-100 border-dashed">
-                    <div className="flex items-center justify-between">
-                      <span className="uppercase tracking-widest text-[10px] font-bold text-gray-500">Final Amount</span>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="uppercase tracking-widest text-[10px] font-bold text-gray-500 shrink-0">Final Amount</span>
                       <span className="text-sm font-black text-gray-900">{formatPrice(getGrandTotal(order))}</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Actions Mobile */}
-                <div className="grid w-full grid-cols-2 gap-2 p-4 bg-gray-50">
+                {/* [FIX 11] Actions Mobile: overflow-hidden pada grid wrapper */}
+                <div className="grid w-full grid-cols-2 gap-2 p-4 overflow-hidden bg-gray-50">
                   {canPay(order.status) && order.payment && (
                     <div className="col-span-2 flex items-center justify-center gap-1.5 mb-1">
                       <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 text-red-500 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -5363,25 +5311,43 @@ export default function OrderPage() {
                     </div>
                   )}
                   {canCancel(order.status) && (
-                    <button onClick={() => cancelOrder(order.id)} className="w-full py-2 border border-red-200 rounded-xl font-bold text-red-600 text-[10px] uppercase tracking-widest transition hover:bg-red-50">Cancel</button>
+                    <button onClick={() => cancelOrder(order.id)} className="w-full py-2.5 border border-red-200 rounded-xl font-bold text-red-600 text-[10px] uppercase tracking-widest transition hover:bg-red-50">
+                      Cancel
+                    </button>
                   )}
                   {canPay(order.status) && (
-                    <button onClick={() => redirectToPayment(order)} disabled={countdowns[order.id] === "Expired"} className={`w-full py-2 bg-black rounded-xl font-bold text-white text-[10px] uppercase tracking-widest transition hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed ${!canCancel(order.status) ? "col-span-2" : ""}`}>Pay Now</button>
+                    <button
+                      onClick={() => redirectToPayment(order)}
+                      disabled={countdowns[order.id] === "Expired"}
+                      className={`w-full py-2.5 bg-black rounded-xl font-bold text-white text-[10px] uppercase tracking-widest transition hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed ${!canCancel(order.status) ? "col-span-2" : ""}`}
+                    >
+                      Pay Now
+                    </button>
                   )}
-                  {["processing", "completed", "cancelled", "refund_requested", "refund_approved", "refunded", "refund_rejected", "refund_manual_required", "shipping_failed", "returned"].includes(order.status) && order.shipping_method === "biteship" && (
-                    <button onClick={() => navigate(`/tracking/${order.id}`, { state: { paymentMethod: order.payment_method } })} className="col-span-2 w-full py-2 bg-black rounded-xl font-bold text-white text-[10px] uppercase tracking-widest transition hover:bg-gray-800">Track Order</button>
-                  )}
+                  {["processing", "completed", "cancelled", "refund_requested", "refund_approved", "refunded", "refund_rejected", "refund_manual_required", "shipping_failed", "returned"].includes(order.status) &&
+                    order.shipping_method === "biteship" && (
+                      <button
+                        onClick={() => navigate(`/tracking/${order.id}`, { state: { paymentMethod: order.payment_method } })}
+                        className="col-span-2 w-full py-2.5 bg-black rounded-xl font-bold text-white text-[10px] uppercase tracking-widest transition hover:bg-gray-800"
+                      >
+                        Track Order
+                      </button>
+                    )}
                   {canRequestRefund(order) && (
-                    <button onClick={() => requestRefund(order.id)} className="col-span-2 w-full py-2 border border-gray-300 rounded-xl font-bold text-gray-600 text-[10px] uppercase tracking-widest transition hover:bg-gray-100">Request to Refund</button>
+                    <button onClick={() => requestRefund(order.id)} className="col-span-2 w-full py-2.5 border border-gray-300 rounded-xl font-bold text-gray-600 text-[10px] uppercase tracking-widest transition hover:bg-gray-100">
+                      Request to Refund
+                    </button>
                   )}
                   {order.status === "refund_requested" && (
-                    <div className="col-span-2 w-full py-2 bg-amber-100 rounded-xl text-amber-700 text-[10px] font-bold text-center">Waiting Admin</div>
+                    <div className="col-span-2 w-full py-2.5 bg-amber-100 rounded-xl text-amber-700 text-[10px] font-bold text-center">Waiting Admin</div>
                   )}
                   {order.status === "refund_manual_required" && (
-                    <div className="col-span-2 w-full py-2 bg-pink-100 rounded-xl text-pink-700 text-[10px] font-bold text-center">Manual Refund</div>
+                    <div className="col-span-2 w-full py-2.5 bg-pink-100 rounded-xl text-pink-700 text-[10px] font-bold text-center">Manual Refund</div>
                   )}
                   {order.status === "refund_approved" && (
-                    <button onClick={() => processRefundUser(order.id)} className="col-span-2 w-full py-2 bg-blue-600 rounded-xl font-bold text-white text-[10px] uppercase tracking-widest transition hover:bg-blue-700">Refund Now</button>
+                    <button onClick={() => processRefundUser(order.id)} className="col-span-2 w-full py-2.5 bg-blue-600 rounded-xl font-bold text-white text-[10px] uppercase tracking-widest transition hover:bg-blue-700">
+                      Refund Now
+                    </button>
                   )}
                   {order.status === "refund_rejected" && (
                     <div className="col-span-2 text-[10px] font-bold italic text-red-500 text-center py-1">Refund Rejected</div>
@@ -5389,14 +5355,13 @@ export default function OrderPage() {
                 </div>
               </div>
 
-
-              {/* ==============================================================
+              {/* ============================================================
                   VERSI DESKTOP (>= 768px)
-              ============================================================== */}
+              ============================================================ */}
               <div className="hidden md:block">
                 <div className="flex flex-col items-start justify-between gap-4 px-6 py-4 border-b border-gray-100 md:flex-row md:items-center bg-gray-50">
-                  <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-8">
-                    <div>
+                  <div className="flex flex-col min-w-0 gap-4 md:flex-row md:items-center md:gap-8">
+                    <div className="min-w-0">
                       <p className="font-bold text-[10px] text-gray-400 uppercase tracking-[0.2em] mb-1">Order ID</p>
                       <p className="font-mono font-bold text-gray-800 text-sm truncate max-w-[200px]">{order.order_id}</p>
                     </div>
@@ -5405,8 +5370,7 @@ export default function OrderPage() {
                       <p className="text-xs font-bold text-gray-800 whitespace-nowrap">{formatDateTime(order.created_at)}</p>
                     </div>
                   </div>
-
-                  <div className="flex flex-col items-end w-full gap-2 md:w-auto">
+                  <div className="flex flex-col items-end w-full gap-2 md:w-auto shrink-0">
                     <div className="flex items-center justify-between w-full gap-3 md:justify-end md:w-auto">
                       <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Transaction:</span>
                       <span className={`px-3 py-1 rounded-full font-bold text-[10px] uppercase tracking-tighter ${statusClass(order.status)}`}>{formatStatus(order.status)}</span>
@@ -5501,7 +5465,10 @@ export default function OrderPage() {
                   </div>
                 </div>
 
-                <div onClick={() => handleOrderClick(order)} className={`px-6 py-2 ${canPay(order.status) && countdowns[order.id] !== "Expired" ? "cursor-pointer hover:bg-blue-50/30 transition-colors" : ""}`}>
+                <div
+                  onClick={() => handleOrderClick(order)}
+                  className={`px-6 py-2 ${canPay(order.status) && countdowns[order.id] !== "Expired" ? "cursor-pointer hover:bg-blue-50/30 transition-colors" : ""}`}
+                >
                   {canPay(order.status) && countdowns[order.id] !== "Expired" && (
                     <div className="my-3 text-blue-600 text-[10px] text-center uppercase tracking-widest animate-pulse font-bold bg-blue-50 py-2 rounded-lg">
                       Tap anywhere here to complete payment
@@ -5512,8 +5479,8 @@ export default function OrderPage() {
                       <img src={detail.product.image_url || detail.product.image} className="object-cover w-16 h-16 bg-gray-100 border border-gray-100 rounded-lg shadow-sm shrink-0" />
                       <div className="flex-grow min-w-0">
                         <h4 className="text-sm font-bold text-gray-900 uppercase truncate">{detail.product.name}</h4>
-                        <div className="flex items-center justify-between">
-                          <p className="mt-1 text-xs text-gray-400">{detail.quantity} x {formatPrice(detail.price)}</p>
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="mt-1 text-xs text-gray-400 shrink-0">{detail.quantity} x {formatPrice(detail.price)}</p>
                           {order.status === "completed" && (
                             <button
                               onClick={(e) => {
@@ -5521,7 +5488,7 @@ export default function OrderPage() {
                                 setSelectedReviewItem({ productId: detail.product.id, productName: detail.product.name, transactionId: order.order_id });
                                 setIsReviewModalOpen(true);
                               }}
-                              className="px-2 py-1 mt-1 text-[10px] font-bold tracking-widest text-black uppercase transition-colors bg-white border border-black hover:bg-gray-50 rounded w-max"
+                              className="px-2 py-1 mt-1 text-[10px] font-bold tracking-widest text-black uppercase transition-colors bg-white border border-black hover:bg-gray-50 rounded w-max shrink-0"
                             >
                               Review
                             </button>
@@ -5540,18 +5507,18 @@ export default function OrderPage() {
                     </div>
                     <div className="flex justify-between text-xs text-gray-500">
                       <span className="pr-2 truncate">Shipping Subtotal ({order.shipping_cost > 0 ? `${formatPrice(order.shipping_cost / getOrderQuantity(order))} x ${getOrderQuantity(order)}` : "Free"})</span>
-                      <span>{formatPrice(order.shipping_cost)}</span>
+                      <span className="shrink-0">{formatPrice(order.shipping_cost)}</span>
                     </div>
                     {order.promo_discount > 0 && (
                       <div className="flex justify-between text-xs font-medium text-emerald-600">
                         <span className="pr-2 truncate">Promo (<span className="font-mono uppercase">{order.promo_code}</span>)</span>
-                        <span>- {formatPrice(order.promo_discount)}</span>
+                        <span className="shrink-0">- {formatPrice(order.promo_discount)}</span>
                       </div>
                     )}
                     {order.points_used > 0 && (
                       <div className="flex justify-between text-xs font-medium text-yellow-600">
                         <span className="pr-2 truncate">Points Used ({order.points_used} Pts)</span>
-                        <span>- {formatPrice(order.points_used * 1000)}</span>
+                        <span className="shrink-0">- {formatPrice(order.points_used * 1000)}</span>
                       </div>
                     )}
                     <div className="flex items-center justify-between pt-2 mt-2 text-sm font-bold text-gray-900 border-t border-gray-200 border-dashed">
@@ -5578,9 +5545,10 @@ export default function OrderPage() {
                       {canPay(order.status) && (
                         <button onClick={() => redirectToPayment(order)} disabled={countdowns[order.id] === "Expired"} className="w-full px-6 py-2 text-xs font-bold tracking-widest text-white uppercase transition bg-black hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed rounded-xl md:w-auto">Pay Now</button>
                       )}
-                      {["processing", "completed", "cancelled", "refund_requested", "refund_approved", "refunded", "refund_rejected", "refund_manual_required", "shipping_failed", "returned"].includes(order.status) && order.shipping_method === "biteship" && (
-                        <button onClick={() => navigate(`/tracking/${order.id}`, { state: { paymentMethod: order.payment_method } })} className="w-full px-6 py-2 text-xs font-bold tracking-widest text-white uppercase transition bg-black shadow-sm hover:bg-gray-800 rounded-xl md:w-auto">Track Order</button>
-                      )}
+                      {["processing", "completed", "cancelled", "refund_requested", "refund_approved", "refunded", "refund_rejected", "refund_manual_required", "shipping_failed", "returned"].includes(order.status) &&
+                        order.shipping_method === "biteship" && (
+                          <button onClick={() => navigate(`/tracking/${order.id}`, { state: { paymentMethod: order.payment_method } })} className="w-full px-6 py-2 text-xs font-bold tracking-widest text-white uppercase transition bg-black shadow-sm hover:bg-gray-800 rounded-xl md:w-auto">Track Order</button>
+                        )}
                       {canRequestRefund(order) && (
                         <button onClick={() => requestRefund(order.id)} className="w-full px-6 py-2 text-xs font-bold tracking-widest text-gray-600 uppercase transition border border-gray-300 hover:bg-gray-100 rounded-xl md:w-auto">Request to Refund</button>
                       )}
@@ -5600,35 +5568,49 @@ export default function OrderPage() {
                   </div>
                 </div>
               </div>
+
             </div>
           ))}
 
           {/* PAGINATION */}
-          <div className="flex flex-col items-center justify-between w-full max-w-full gap-4 pt-6 mt-8 border-t border-gray-100 md:flex-row">
+          <div className="flex flex-col items-center justify-between w-full gap-4 pt-6 mt-8 border-t border-gray-100 md:flex-row">
             <p className="text-[10px] md:text-sm text-gray-400">
               Showing <span className="font-bold text-black">{showingStart}</span> to <span className="font-bold text-black">{showingEnd}</span> of <span className="font-bold text-black">{filteredTransactions.length}</span> orders
             </p>
             <div className="flex gap-2">
-              <button onClick={() => setCurrentPage((prev) => prev - 1)} disabled={currentPage === 1} className="px-3 py-1.5 md:px-4 md:py-2 border rounded-xl hover:bg-gray-50 disabled:opacity-30 transition disabled:cursor-not-allowed text-[10px] md:text-sm font-medium">Previous</button>
+              <button
+                onClick={() => setCurrentPage((prev) => prev - 1)}
+                disabled={currentPage === 1}
+                className="px-3 py-1.5 md:px-4 md:py-2 border rounded-xl hover:bg-gray-50 disabled:opacity-30 transition disabled:cursor-not-allowed text-[10px] md:text-sm font-medium"
+              >
+                Previous
+              </button>
               <div className="flex gap-1">
                 {visiblePages.map((page, index) => (
                   <button
                     key={index}
                     onClick={() => typeof page === "number" ? setCurrentPage(page) : null}
                     disabled={page === "..."}
-                    className={`w-7 h-7 md:w-10 md:h-10 rounded-lg md:rounded-xl font-medium transition flex items-center justify-center text-[10px] md:text-sm ${currentPage === page ? "bg-black text-white border-black" : "hover:bg-gray-50 border-gray-200"} ${page === "..." ? "cursor-default border-transparent hover:bg-transparent" : "border"}`}
+                    className={`w-7 h-7 md:w-10 md:h-10 rounded-lg md:rounded-xl font-medium transition flex items-center justify-center text-[10px] md:text-sm ${
+                      currentPage === page ? "bg-black text-white border-black" : "hover:bg-gray-50 border-gray-200"
+                    } ${page === "..." ? "cursor-default border-transparent hover:bg-transparent" : "border"}`}
                   >
                     {page}
                   </button>
                 ))}
               </div>
-              <button onClick={() => setCurrentPage((prev) => prev + 1)} disabled={currentPage === totalPages || totalPages === 0} className="px-3 py-1.5 md:px-4 md:py-2 border rounded-xl hover:bg-gray-50 disabled:opacity-30 transition disabled:cursor-not-allowed text-[10px] md:text-sm font-medium">Next</button>
+              <button
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+                disabled={currentPage === totalPages || totalPages === 0}
+                className="px-3 py-1.5 md:px-4 md:py-2 border rounded-xl hover:bg-gray-50 disabled:opacity-30 transition disabled:cursor-not-allowed text-[10px] md:text-sm font-medium"
+              >
+                Next
+              </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* --- MOUNT KOMPONEN REVIEW MODAL --- */}
       {selectedReviewItem && (
         <ReviewModal
           isOpen={isReviewModalOpen}
