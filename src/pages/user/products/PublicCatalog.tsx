@@ -968,17 +968,16 @@ export default function PublicCatalog() {
             </div>
             
             {/* Sort Select */}
-            <select 
+            {/* <select 
               value={sortBy} 
               onChange={(e) => setSortBy(e.target.value)}
               className="py-2 pl-4 pr-8 text-sm font-medium bg-white border border-gray-200 rounded-full outline-none cursor-pointer focus:ring-2 focus:ring-gycora/50 focus:border-gycora"
             >
-              {/* [PERBAIKAN] Menambahkan opsi Nama: A ke Z */}
               <option value="name_asc">Nama: A ke Z</option>
               <option value="newest">Terbaru</option>
               <option value="price_asc">Harga: Rendah ke Tinggi</option>
               <option value="price_desc">Harga: Tinggi ke Rendah</option>
-            </select>
+            </select> */}
           </div>
         </div>
 
