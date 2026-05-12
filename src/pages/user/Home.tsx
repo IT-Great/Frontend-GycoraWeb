@@ -9524,6 +9524,731 @@
 //   );
 // }
 
+// import { useState, useEffect } from "react";
+// import { Link, useNavigate } from "react-router-dom";
+// import { BASE_URL } from "../../config/api";
+// import Swal from "sweetalert2";
+
+// // --- IMPORT GAMBAR DARI LOKAL UNTUK SLIDER & ASET ---
+// import slide1 from "/landing_page_images/hero_slide_1.jpg";
+// import slide2 from "/landing_page_images/hero_slide_2.jpg";
+// import slide3 from "/landing_page_images/hero_slide_3.jpg";
+// import slide4 from "/landing_page_images/hero_slide_4.jpg";
+// import beforeAfterImg from "/landing_page_images/before_after.png";
+
+// const heroSlides = [
+//   { id: 1, image: slide1, alt: "Gycora Premium Hair Care 1" },
+//   { id: 2, image: slide2, alt: "Gycora Premium Hair Care 2" },
+//   { id: 3, image: slide3, alt: "Gycora Premium Hair Care 3" },
+//   { id: 4, image: slide4, alt: "Gycora Premium Hair Care 4" },
+// ];
+
+// const keyBenefits = [
+//   {
+//     title: "Bantu mengurangi rambut kusut dalam hitungan menit",
+//     icon: (
+//       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+//       </svg>
+//     ),
+//   },
+//   {
+//     title: "Mengurangi listrik statis pada rambut",
+//     icon: (
+//       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+//       </svg>
+//     ),
+//   },
+//   {
+//     title: "Praktis dibawa ke mana aja",
+//     icon: (
+//       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+//       </svg>
+//     ),
+//   },
+//   {
+//     title: "Cocok untuk berbagai jenis rambut",
+//     icon: (
+//       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+//       </svg>
+//     ),
+//   },
+//   {
+//     title: "Nggak perlu effort lebih untuk hasil yang rapi",
+//     icon: (
+//       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+//       </svg>
+//     ),
+//   },
+// ];
+
+// const displayReviews = [
+//   {
+//     id: "f1",
+//     name: "Claudiasunshinee",
+//     role: "Verified Buyer",
+//     image: "/landing_page_images/user_1.jpg", 
+//     text: "Sisir nya bagus banget sih sesuai dgn claim nya 🙌🙌 sblmnya aku pakai brand w** krn rambutku rontok.. trs setelah aku compare sm brand Gycora ternyata jauh lbh ga rontok pakai Gycora ❤👍",
+//     rating: 5,
+//   },
+//   {
+//     id: "f2",
+//     name: "Nilasetiobudii",
+//     role: "Verified Buyer",
+//     image: "/landing_page_images/user_2.jpg",
+//     text: "Sisirnya enak banget terutama buat rambut yg suka kusut Jd lebih gampang pake sisir dari Gycora..",
+//     rating: 5,
+//   },
+//   {
+//     id: "f3",
+//     name: "Thaliastanley___",
+//     role: "Verified Buyer",
+//     image: "/landing_page_images/user_3.jpg",
+//     text: "Setelah saya pakai hair brush nya rambutku jadi lebih gak kusut dan bikin lebih pede pastinya..",
+//     rating: 5,
+//   },
+//   {
+//     id: "f4",
+//     name: "Herlenasutanto",
+//     role: "Verified Buyer",
+//     image: "/landing_page_images/user_4.jpg",
+//     text: "Oke kok enak sisir nya lentur ngikutin kepala. ga nyangkut2 hehe",
+//     rating: 5,
+//   },
+//   {
+//     id: "f5",
+//     name: "Anitaa_bee",
+//     role: "Verified Buyer",
+//     image: "/landing_page_images/user_5.jpg",
+//     text: "Sukaaa poll sma sisirnya... Rambut jd makin teratur pas disisir dan ga gerundel (kusut frizzy) n rambut ku ya uda ga tllu banyak yg rontok. terus sisirnya tu empuk dan nyaman poll di kepala ga sakit.",
+//     rating: 5,
+//   },
+// ];
+
+// export default function Home() {
+//   const navigate = useNavigate();
+//   const [currentSlide, setCurrentSlide] = useState(0);
+//   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
+//   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
+//   const [isPromoMounted, setIsPromoMounted] = useState(false);
+//   const [showPromoModal, setShowPromoModal] = useState(false);
+//   const [promoEmail, setPromoEmail] = useState("");
+//   const [isSubscribing, setIsSubscribing] = useState(false);
+
+//   useEffect(() => {
+//     setIsPromoMounted(true);
+//     const animTimer = setTimeout(() => {
+//       setShowPromoModal(true);
+//     }, 50);
+
+//     const fetchFeaturedProducts = async () => {
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/products`);
+//         if (res.ok) {
+//           const data = await res.json();
+//           let productsArray = data.data ? data.data : data;
+
+//           productsArray = productsArray.sort((a: any, b: any) => {
+//             const nameA = a.name.toLowerCase();
+//             const nameB = b.name.toLowerCase();
+//             const aIsBrush = nameA.includes("ethereal glow brush");
+//             const bIsBrush = nameB.includes("ethereal glow brush");
+//             if (aIsBrush && !bIsBrush) return -1;
+//             if (!aIsBrush && bIsBrush) return 1;
+//             return 0;
+//           });
+
+//           setFeaturedProducts(productsArray.slice(0, 3) || []);
+//         }
+//       } catch (error) {
+//         console.error("Gagal memuat produk unggulan:", error);
+//       } finally {
+//         setIsLoadingProducts(false);
+//       }
+//     };
+
+//     fetchFeaturedProducts();
+
+//     return () => {
+//       clearTimeout(animTimer);
+//     };
+//   }, []);
+
+//   useEffect(() => {
+//     const slideInterval = setInterval(() => {
+//       setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
+//     }, 4000);
+//     return () => clearInterval(slideInterval);
+//   }, []);
+
+//   const formatRupiah = (angka: number) => {
+//     return new Intl.NumberFormat("id-ID", {
+//       style: "currency",
+//       currency: "IDR",
+//       minimumFractionDigits: 0,
+//     }).format(angka || 0);
+//   };
+
+//   const closePromoModal = () => {
+//     setShowPromoModal(false);
+//     setTimeout(() => {
+//       setIsPromoMounted(false);
+//     }, 300);
+//   };
+
+//   const handleSubscribePromo = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     if (!promoEmail) return;
+
+//     setIsSubscribing(true);
+//     try {
+//       const res = await fetch(`${BASE_URL}/api/promo/claim`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Accept: "application/json",
+//         },
+//         body: JSON.stringify({ email: promoEmail }),
+//       });
+
+//       const data = await res.json();
+
+//       if (res.ok) {
+//         closePromoModal();
+//         Swal.fire({
+//           icon: "success",
+//           title: "Kode Promo Terkirim!",
+//           text: "Silakan periksa kotak masuk email Anda untuk mendapatkan kode voucher spesial dari Gycora.",
+//           confirmButtonColor: "#059669",
+//         });
+//       } else {
+//         Swal.fire({
+//           icon: "warning",
+//           title: "Pemberitahuan",
+//           text: data.message || "Gagal mengklaim promo. Pastikan format email benar.",
+//           confirmButtonColor: "#d33",
+//         });
+//       }
+//     } catch (error) {
+//       console.error(error);
+//       Swal.fire({
+//         icon: "error",
+//         title: "Gagal",
+//         text: "Terjadi kesalahan server saat memproses permintaan Anda.",
+//         confirmButtonColor: "#d33",
+//       });
+//     } finally {
+//       setIsSubscribing(false);
+//     }
+//   };
+
+//   return (
+//     <div className="relative font-sans bg-white">
+//       {/* POP-UP PROMO MODAL */}
+//       {isPromoMounted && (
+//         <div
+//           className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-500 ease-out
+//             ${showPromoModal ? "bg-black/60 backdrop-blur-sm opacity-100" : "bg-black/0 backdrop-blur-none opacity-0"}
+//           `}
+//         >
+//           <div
+//             className={`relative flex flex-col w-full max-w-3xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-2xl transition-all duration-500 ease-out transform
+//               ${showPromoModal ? "scale-100 translate-y-0 opacity-100" : "scale-95 translate-y-8 opacity-0"}
+//             `}
+//           >
+//             <button
+//               onClick={closePromoModal}
+//               className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
+//             >
+//               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+//               </svg>
+//             </button>
+
+//             <div className="flex flex-col justify-center flex-1 p-8 md:p-12">
+//               <h2 className="mb-2 font-serif text-4xl font-black tracking-tight text-gray-900 uppercase">Gycora</h2>
+//               <h3 className="mb-4 text-3xl font-extrabold leading-tight text-[#006A4E]">
+//                 Dapetin Diskon Spesial untuk First Order ✨
+//               </h3>
+//               <p className="mb-8 text-sm font-medium text-gray-500">Masukkan email kamu & nikmati voucher eksklusif hari ini.</p>
+
+//               <form onSubmit={handleSubscribePromo} className="space-y-4">
+//                 <input
+//                   type="email"
+//                   value={promoEmail}
+//                   onChange={(e) => setPromoEmail(e.target.value)}
+//                   placeholder="Masukkan Email"
+//                   className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-[#006A4E]"
+//                   required
+//                 />
+//                 <button
+//                   type="submit"
+//                   disabled={isSubscribing}
+//                   className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-[#006A4E] rounded-lg hover:bg-emerald-900 disabled:bg-gray-400"
+//                 >
+//                   {isSubscribing ? "Mengirim..." : "Ambil Voucher"}
+//                 </button>
+//               </form>
+//             </div>
+
+//             <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
+//               <img src="/landing_page_images/promo_popup.jpg" alt="Promo Gycora" className="object-cover w-full h-full" />
+//             </div>
+//           </div>
+//         </div>
+//       )}
+
+//       {/* =========================================
+//           HERO SECTION (STACKED ON MOBILE, SIDE-BY-SIDE ON DESKTOP)
+//       ========================================= */}
+//       <div className="relative w-full overflow-hidden bg-[#F4F9F6] flex flex-col md:block md:min-h-[600px]">
+        
+//         {/* GAMBAR SLIDER (Di atas pada mobile, absolute di kanan pada desktop) */}
+//         {/* <div className="relative w-full h-[350px] sm:h-[450px] md:absolute md:inset-0 md:h-full md:z-0 md:flex md:justify-end shrink-0">
+//           <div className="w-full h-full md:w-[60%] relative">
+//             {heroSlides.map((slide, index) => (
+//               <img
+//                 key={slide.id}
+//                 src={slide.image}
+//                 alt={slide.alt}
+//                 // [PERBAIKAN] Mengubah object position untuk mobile. 
+//                 // Di mobile: object-[75%_top] (Menggeser fokus ke 75% dari kiri, menarik sisi kanan lebih ke tengah)
+//                 // Di desktop: md:object-right-top (Kembali fokus ke paling kanan atas)
+//                 className={`absolute inset-0 object-cover object-[75%_top] md:object-right-top w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
+//               />
+//             ))}
+//             <div className="absolute inset-0 bg-gradient-to-t from-[#F4F9F6] via-[#F4F9F6]/20 to-transparent md:bg-gradient-to-r md:from-[#F4F9F6] md:via-[#F4F9F6]/90 md:to-transparent md:w-1/2"></div>
+//           </div>
+
+//           <button
+//             onClick={() => setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1))}
+//             className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md left-4 md:left-8 top-1/2 -translate-y-1/2 hover:bg-gray-50 focus:outline-none"
+//           >
+//             <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+//             </svg>
+//           </button>
+//           <button
+//             onClick={() => setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1))}
+//             className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md right-4 md:right-8 top-1/2 -translate-y-1/2 hover:bg-gray-50 focus:outline-none"
+//           >
+//             <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+//             </svg>
+//           </button>
+//         </div> */}
+
+//         {/* GAMBAR SLIDER (Di atas pada mobile, absolute di kanan pada desktop) */}
+//         <div className="relative w-full h-[350px] sm:h-[450px] md:absolute md:inset-0 md:h-full md:z-0 md:flex md:justify-end shrink-0">
+//           <div className="w-full h-full md:w-[60%] relative">
+//             {heroSlides.map((slide, index) => (
+//               <img
+//                 key={slide.id}
+//                 src={slide.image}
+//                 alt={slide.alt}
+//                 // [PENGATURAN POSISI GAMBAR MOBILE]
+//                 // Ubah angka "80%" di bawah ini sesuai selera Anda. 
+//                 // Semakin mendekati 100%, gambar akan semakin menempel ke kanan.
+//                 // Semakin mendekati 50%, gambar akan semakin ke tengah.
+//                 className={`absolute inset-0 object-cover object-[100%_top] md:object-right-top w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
+//               />
+//             ))}
+//             {/* Overlay Gradient */}
+//             <div className="absolute inset-0 bg-gradient-to-t from-[#F4F9F6] via-[#F4F9F6]/20 to-transparent md:bg-gradient-to-r md:from-[#F4F9F6] md:via-[#F4F9F6]/90 md:to-transparent md:w-1/2"></div>
+//           </div>
+
+//           {/* Panah Navigasi */}
+//           <button
+//             onClick={() => setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1))}
+//             className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md left-4 md:left-8 top-1/2 -translate-y-1/2 hover:bg-gray-50 focus:outline-none"
+//           >
+//             <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+//             </svg>
+//           </button>
+//           <button
+//             onClick={() => setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1))}
+//             className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md right-4 md:right-8 top-1/2 -translate-y-1/2 hover:bg-gray-50 focus:outline-none"
+//           >
+//             <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+//             </svg>
+//           </button>
+//         </div>
+
+//         {/* KONTEN TEKS (Di bawah gambar pada mobile, di kiri pada desktop) */}
+//         <div className="relative z-10 w-full px-6 pt-6 pb-12 mx-auto max-w-[1236px] sm:px-10 lg:px-16 animate-fade-in-up flex items-center md:min-h-[600px]">
+//           {/* Teks di-center pada mobile agar terlihat seimbang dengan gambar di atasnya */}
+//           <div className="w-full text-center md:max-w-xl md:text-left">
+//             <h1 className="text-3xl font-extrabold leading-tight sm:text-4xl md:text-5xl lg:text-6xl text-[#006A4E]">
+//               Solusi Cepat untuk <br className="hidden md:block"/> Rambut Lebih Rapi
+//             </h1>
+//             <h2 className="mt-3 text-base font-bold text-gray-900 md:mt-4 sm:text-xl md:text-2xl">
+//               Tanpa Ribet, Tanpa Nunggu Lama.
+//             </h2>
+//             <p className="mt-3 text-sm leading-relaxed text-gray-500 md:mt-4 md:text-lg">
+//               Nggak semua orang punya waktu buat styling setiap hari. Tapi kamu tetap bisa tampil lebih rapi dalam hitungan menit dengan produk pilihan dari Gycora.
+//             </p>
+
+//             {/* Tombol Action */}
+//             <div className="flex flex-col justify-center gap-3 mt-6 sm:flex-row md:justify-start md:gap-4 md:mt-8">
+//               <Link
+//                 to="/products"
+//                 className="px-6 py-3 md:px-8 md:py-3.5 text-xs md:text-sm font-bold tracking-wider text-center text-white uppercase transition-colors rounded-full shadow-lg bg-[#006A4E] hover:bg-emerald-900"
+//               >
+//                 Shop Now
+//               </Link>
+//               <a
+//                 href="#featured"
+//                 className="px-6 py-3 md:px-8 md:py-3.5 text-xs md:text-sm font-bold tracking-wider text-center uppercase transition-colors bg-transparent border-2 rounded-full border-[#006A4E] text-[#006A4E] hover:bg-[#006A4E] hover:text-white"
+//               >
+//                 Lihat Produk
+//               </a>
+//             </div>
+
+//             {/* Ikon Benefits Bawah */}
+//             {/* <div className="flex flex-wrap justify-center gap-4 mt-8 md:justify-start md:gap-8 md:mt-10">
+//               <div className="flex items-center gap-2">
+//                 <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+//                 </svg>
+//                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
+//                   Teknologi<br className="hidden sm:block" /> Anti Statis
+//                 </span>
+//               </div>
+//               <div className="flex items-center gap-2">
+//                 <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+//                 </svg>
+//                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
+//                   Material<br className="hidden sm:block" /> Premium
+//                 </span>
+//               </div>
+//               <div className="flex items-center gap-2">
+//                 <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+//                 </svg>
+//                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
+//                   Eco<br className="hidden sm:block" /> Friendly
+//                 </span>
+//               </div>
+//             </div> */}
+
+//             {/* Ikon Benefits Bawah */}
+//             <div className="flex flex-wrap justify-center gap-4 mt-8 md:justify-start md:gap-8 md:mt-10">
+//               <div className="relative flex items-center gap-2 group cursor-help">
+//                 <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+//                 </svg>
+//                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
+//                   Teknologi<br className="hidden sm:block" /> Anti Statis
+//                 </span>
+                
+//                 {/* Tooltip */}
+//                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
+//                   Teknologi ion untuk mencegah rambut berdiri karena listrik statis.
+//                   {/* Panah bawah tooltip */}
+//                   <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900"></div>
+//                 </div>
+//               </div>
+
+//               {/* [PERBAIKAN] Mengubah Teks dan Menambahkan Tooltip */}
+//               <div className="relative flex items-center gap-2 group cursor-help">
+//                 <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+//                 </svg>
+//                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
+//                   Carbon Patented<br className="hidden sm:block" /> Material
+//                 </span>
+                
+//                 {/* Tooltip */}
+//                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
+//                   Bahan karbon khusus yang dipatenkan untuk mendistribusikan panas secara merata dan aman.
+//                   {/* Panah bawah tooltip */}
+//                   <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900"></div>
+//                 </div>
+//               </div>
+
+//               <div className="relative flex items-center gap-2 group cursor-help">
+//                 <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+//                 </svg>
+//                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
+//                   Eco<br className="hidden sm:block" /> Friendly
+//                 </span>
+                
+//                 {/* Tooltip */}
+//                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
+//                   Terbuat dari bahan ramah lingkungan yang aman dan dapat didaur ulang.
+//                   {/* Panah bawah tooltip */}
+//                   <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900"></div>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* FEATURED PRODUCT SECTION */}
+//       <div id="featured" className="py-24 bg-[#F9FDFB]">
+//         <div className="px-6 mx-auto max-w-[1536px] sm:px-10 lg:px-16">
+//           {/* [PERBAIKAN] Mengubah layout header featured product */}
+//           <div className="flex flex-col items-center justify-between mb-10 text-center md:items-end md:flex-row md:text-left">
+//             <div className="w-full md:w-1/2">
+//               <h2 className="text-2xl font-extrabold sm:text-3xl text-[#006A4E]">
+//                 Produk Favorit Pilihan Banyak Orang
+//               </h2>
+//               <p className="mt-2 text-sm text-gray-500 sm:text-base">
+//                 Temukan produk best seller yang jadi andalan untuk rambut lebih rapi, halus, dan mudah diatur setiap hari.
+//               </p>
+//             </div>
+//             <Link
+//               to="/products"
+//               // [PERBAIKAN] Menambahkan justify-center di mobile agar icon dan teks sejajar di tengah
+//               className="flex items-center justify-center gap-2 mt-4 font-bold text-gray-600 transition-colors md:justify-start md:mt-0 hover:text-[#006A4E]"
+//             >
+//               Lihat Semua Produk
+//               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+//               </svg>
+//             </Link>
+//           </div>
+
+//           {isLoadingProducts ? (
+//             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+//               {[1, 2, 3].map((i) => (
+//                 <div key={i} className="flex flex-row p-4 bg-white border border-gray-100 shadow-sm rounded-3xl animate-pulse">
+//                   <div className="w-2/5 bg-gray-200 rounded-2xl h-36"></div>
+//                   <div className="w-3/5 pl-4 space-y-3">
+//                     <div className="w-full h-4 bg-gray-200 rounded"></div>
+//                     <div className="w-3/4 h-3 bg-gray-200 rounded"></div>
+//                     <div className="w-1/2 h-5 mt-4 bg-gray-200 rounded"></div>
+//                   </div>
+//                 </div>
+//               ))}
+//             </div>
+//           ) : featuredProducts.length > 0 ? (
+//             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+//               {featuredProducts.map((product) => {
+//                 let customDesc = product.description;
+//                 if (product.name.toLowerCase().includes("brush")) {
+//                   customDesc = "Sisir premium dengan teknologi anti-static yang bantu rambut lebih halus, rapi, dan berkilau dalam sekali sisir.";
+//                 }
+
+//                 return (
+//                   <div
+//                     key={product.id}
+//                     className="relative flex flex-row p-4 transition-all duration-300 bg-white border border-gray-100 shadow-sm cursor-pointer rounded-3xl hover:shadow-lg hover:-translate-y-1"
+//                     onClick={() => navigate(`/product/${product.id}`)}
+//                   >
+//                     <button className="absolute z-10 text-gray-300 top-4 right-4 hover:text-red-500">
+//                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                         <path
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                           strokeWidth={1.5}
+//                           d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+//                         />
+//                       </svg>
+//                     </button>
+
+//                     <div className="flex items-center justify-center w-2/5 shrink-0">
+//                       <img src={product.image_url} alt={product.name} className="object-contain w-full h-32 md:h-40 drop-shadow-sm" />
+//                     </div>
+
+//                     <div className="flex flex-col justify-center w-3/5 pl-4 pr-2">
+//                       <h3 className="text-sm font-extrabold leading-tight text-[#006A4E] line-clamp-2">{product.name}</h3>
+//                       <p className="mt-1 leading-relaxed text-gray-500 text-md line-clamp-3">{customDesc}</p>
+//                       <div className="mt-3">
+//                         {product.discount_price && product.discount_price > 0 ? (
+//                           <>
+//                             <span className="block text-[10px] font-medium text-gray-400 line-through">{formatRupiah(product.price)}</span>
+//                             <span className="block text-lg font-black leading-none text-rose-500">{formatRupiah(product.discount_price)}</span>
+//                           </>
+//                         ) : (
+//                           <span className="block text-lg font-black leading-none text-[#006A4E]">{formatRupiah(product.price)}</span>
+//                         )}
+//                       </div>
+//                       <button className="px-4 py-1.5 mt-4 text-[10px] font-bold tracking-widest uppercase transition-colors bg-white border border-[#006A4E] rounded-full text-[#006A4E] hover:bg-[#006A4E] hover:text-white w-max">
+//                         Shop Now
+//                       </button>
+//                     </div>
+//                   </div>
+//                 );
+//               })}
+//             </div>
+//           ) : (
+//             <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
+//           )}
+//         </div>
+//       </div>
+
+//       {/* RELATABLE PROBLEM & SOLUTION SECTION */}
+//       <div className="py-24 bg-white border-gray-100 border-y">
+//         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+//           <div className="flex flex-col gap-16 lg:flex-row lg:items-center">
+//             <div className="flex-1 space-y-6">
+//               <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Pernah Ngerasa Kayak Gini?</h2>
+//               <ul className="space-y-4 text-lg text-gray-600">
+//                 <li className="flex items-start gap-3">
+//                   <span className="mt-1 text-red-500">✕</span>
+//                   <span>Rambut tiba-tiba kusut di momen penting</span>
+//                 </li>
+//                 <li className="flex items-start gap-3">
+//                   <span className="mt-1 text-red-500">✕</span>
+//                   <span>Udah rapi dari rumah, tapi berantakan di jalan</span>
+//                 </li>
+//                 <li className="flex items-start gap-3">
+//                   <span className="mt-1 text-red-500">✕</span>
+//                   <span>Habis pakai helm, kena angin, atau aktivitas seharian</span>
+//                 </li>
+//                 <li className="flex items-start gap-3">
+//                   <span className="mt-1 text-red-500">✕</span>
+//                   <span>Nggak punya banyak waktu buat styling ulang</span>
+//                 </li>
+//               </ul>
+//               <p className="pt-4 font-medium text-gray-900 text-md">Padahal kamu cuma butuh cara cepat buat balik rapi lagi.</p>
+//             </div>
+
+//             <div className="flex-1 p-8 bg-white border border-gray-100 shadow-xl rounded-3xl lg:p-12">
+//               <div className="inline-flex items-center px-4 py-1.5 mb-6 rounded-full text-xs font-bold tracking-wide text-emerald-800 bg-emerald-100 uppercase">
+//                 The Solution
+//               </div>
+//               <h3 className="mb-6 text-2xl font-extrabold text-gray-900 sm:text-3xl">Nggak Perlu Ribet Buat Tampil Rapi</h3>
+//               <p className="mb-6 text-lg leading-relaxed text-gray-500">
+//                 Kenalin, <strong>Ethereal Glow Brush</strong> — sisir dengan teknologi anti-static yang bantu rambut lebih halus, rapi,
+//                 dan mudah diatur hanya dalam beberapa menit.
+//               </p>
+//               <p className="mb-8 text-lg leading-relaxed text-gray-500">Cukup sisir seperti biasa, tanpa teknik khusus. Hasilnya langsung terasa.</p>
+//               <Link
+//                 to="/products"
+//                 className="inline-block px-8 py-4 text-base font-bold text-white transition-all bg-[#006A4E] rounded-full shadow-lg hover:bg-emerald-900 hover:shadow-xl hover:-translate-y-0.5"
+//               >
+//                 Explore Product
+//               </Link>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* REAL RESULTS (BEFORE - AFTER) */}
+//       <div className="py-24 border-gray-100 bg-[#F4F9F6] border-b">
+//         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+//           <div className="mb-16 text-center">
+//             <h2 className="text-3xl font-extrabold text-gray-900">Hasil Nyata Tanpa Filter</h2>
+//             <p className="mt-4 text-gray-500">Perbedaan nyata sebelum dan sesudah menggunakan Gycora.</p>
+//           </div>
+
+//           <div className="relative flex flex-col max-w-4xl mx-auto overflow-hidden bg-white border border-gray-200 shadow-xl group rounded-3xl">
+//             <img
+//               src={beforeAfterImg}
+//               alt="Before After Hair Treatment"
+//               className="object-cover w-full h-auto transition-transform duration-1000 group-hover:scale-105"
+//             />
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* KEY BENEFITS */}
+//       <div className="py-24 bg-white border-b border-gray-100">
+//         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+//           <div className="mb-16 text-center">
+//             <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Kenapa Banyak yang Pilih Gycora?</h2>
+//           </div>
+//           <div className="grid grid-cols-1 gap-8 text-center md:grid-cols-3 lg:grid-cols-5">
+//             {keyBenefits.map((benefit, idx) => (
+//               <div
+//                 key={idx}
+//                 className="p-8 transition-colors border border-transparent shadow-sm bg-gray-50 rounded-3xl hover:border-emerald-100 hover:shadow-md"
+//               >
+//                 <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 rounded-2xl bg-emerald-100 text-[#006A4E]">
+//                   {benefit.icon}
+//                 </div>
+//                 <p className="text-sm font-bold leading-relaxed text-gray-800">{benefit.title}</p>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* SOCIAL PROOF */}
+//       <div className="py-24 bg-white border-b border-gray-100">
+//         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+//           <div className="max-w-2xl mx-auto mb-16 text-center">
+//             <h2 className="text-3xl font-extrabold text-gray-900">Bukan Cuma Kata Kami, Tapi Mereka yang Sudah Coba</h2>
+//             <p className="mt-4 text-gray-500">Ribuan pengguna Gycora sudah merasakan perubahan nyata dalam rutinitas mereka.</p>
+//           </div>
+
+//           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+//             {displayReviews.map((review) => (
+//               <div
+//                 key={review.id}
+//                 className="relative flex flex-col p-8 transition-shadow border border-gray-100 bg-gray-50 rounded-3xl hover:shadow-md"
+//               >
+//                 <div className="flex gap-1 mb-4 text-amber-400">
+//                   {[...Array(review.rating)].map((_, i) => (
+//                     <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+//                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+//                     </svg>
+//                   ))}
+//                 </div>
+
+//                 <p className="flex-1 mb-6 text-sm italic leading-relaxed text-gray-600 line-clamp-4">
+//                   "{review.text}"
+//                 </p>
+
+//                 <div className="flex items-center gap-3 pt-6 mt-auto border-t border-gray-200">
+//                   <img
+//                     src={
+//                       review.image ||
+//                       `https://ui-avatars.com/api/?name=${review.name}&background=059669&color=fff`
+//                     }
+//                     alt={review.name}
+//                     className="object-cover w-10 h-10 rounded-full bg-emerald-100"
+//                     onError={(e) => {
+//                        e.currentTarget.src = `https://ui-avatars.com/api/?name=${review.name}&background=059669&color=fff`;
+//                     }}
+//                   />
+//                   <div className="flex-1 min-w-0">
+//                     <h4 className="text-sm font-bold text-gray-900 truncate">
+//                       {review.name}
+//                     </h4>
+//                     <p className="text-xs tracking-widest text-gray-500 uppercase">{review.role}</p>
+//                   </div>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* CTA SECTION (CLOSING) */}
+//       <div className="relative py-24 overflow-hidden bg-gray-900">
+//         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
+
+//         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
+//           <h2 className="text-3xl font-extrabold text-white sm:text-5xl">Nggak Perlu Ribet Buat Tampil Rapi</h2>
+//           <p className="mt-6 mb-10 text-lg leading-relaxed text-gray-400">
+//             Mulai dari langkah kecil yang bikin perbedaan besar di penampilan kamu.
+//             <br />
+//             Dengan Gycora, rambut rapi bukan lagi hal yang butuh effort lebih.
+//           </p>
+//           <button
+//             onClick={() => navigate("/products")}
+//             className="px-10 py-4 text-lg font-bold text-gray-900 transition-all bg-[#D4FF32] rounded-full hover:bg-[#bce520] hover:shadow-lg hover:shadow-[#D4FF32]/20 hover:-translate-y-0.5"
+//           >
+//             Shop Now
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../config/api";
@@ -9543,44 +10268,50 @@ const heroSlides = [
   { id: 4, image: slide4, alt: "Gycora Premium Hair Care 4" },
 ];
 
+// [PERBAIKAN] Mengganti SVG Icons agar lebih bernuansa Hair Care & Beauty
 const keyBenefits = [
   {
     title: "Bantu mengurangi rambut kusut dalam hitungan menit",
     icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+      // Ikon Hair Brush / Sisir
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M8 20v-4m4 4v-4m4 4v-4M6 11a6 6 0 0112 0v3a2 2 0 01-2 2H8a2 2 0 01-2-2v-3zM9 5v4m3-4v4m3-4v4" />
       </svg>
     ),
   },
   {
     title: "Mengurangi listrik statis pada rambut",
     icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+      // Ikon Perisai Anti-Statis (Shield + Lightning)
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM13 10V6l-4 6h4v4l4-6h-4z" />
       </svg>
     ),
   },
   {
     title: "Praktis dibawa ke mana aja",
     icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+      // Ikon Pouch / Makeup Travel Bag
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 8h16M4 8a2 2 0 00-2 2v8a2 2 0 002 2h16a2 2 0 002-2v-8a2 2 0 00-2-2M4 8V6a2 2 0 012-2h12a2 2 0 012 2v2M9 14h6" />
       </svg>
     ),
   },
   {
     title: "Cocok untuk berbagai jenis rambut",
     icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+      // Ikon Wavy Hair Strands (Helaian Rambut Bergelombang)
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 12c1.5-3 3-3 4.5 0s3 3 4.5 0 3-3 4.5 0M4 16c1.5-3 3-3 4.5 0s3 3 4.5 0 3-3 4.5 0M4 8c1.5-3 3-3 4.5 0s3 3 4.5 0 3-3 4.5 0" />
       </svg>
     ),
   },
   {
     title: "Nggak perlu effort lebih untuk hasil yang rapi",
     icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+      // Ikon Sparkles / Magic (Effortless Beauty)
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
       </svg>
     ),
   },
@@ -9808,41 +10539,6 @@ export default function Home() {
       <div className="relative w-full overflow-hidden bg-[#F4F9F6] flex flex-col md:block md:min-h-[600px]">
         
         {/* GAMBAR SLIDER (Di atas pada mobile, absolute di kanan pada desktop) */}
-        {/* <div className="relative w-full h-[350px] sm:h-[450px] md:absolute md:inset-0 md:h-full md:z-0 md:flex md:justify-end shrink-0">
-          <div className="w-full h-full md:w-[60%] relative">
-            {heroSlides.map((slide, index) => (
-              <img
-                key={slide.id}
-                src={slide.image}
-                alt={slide.alt}
-                // [PERBAIKAN] Mengubah object position untuk mobile. 
-                // Di mobile: object-[75%_top] (Menggeser fokus ke 75% dari kiri, menarik sisi kanan lebih ke tengah)
-                // Di desktop: md:object-right-top (Kembali fokus ke paling kanan atas)
-                className={`absolute inset-0 object-cover object-[75%_top] md:object-right-top w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
-              />
-            ))}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#F4F9F6] via-[#F4F9F6]/20 to-transparent md:bg-gradient-to-r md:from-[#F4F9F6] md:via-[#F4F9F6]/90 md:to-transparent md:w-1/2"></div>
-          </div>
-
-          <button
-            onClick={() => setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1))}
-            className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md left-4 md:left-8 top-1/2 -translate-y-1/2 hover:bg-gray-50 focus:outline-none"
-          >
-            <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <button
-            onClick={() => setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1))}
-            className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md right-4 md:right-8 top-1/2 -translate-y-1/2 hover:bg-gray-50 focus:outline-none"
-          >
-            <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div> */}
-
-        {/* GAMBAR SLIDER (Di atas pada mobile, absolute di kanan pada desktop) */}
         <div className="relative w-full h-[350px] sm:h-[450px] md:absolute md:inset-0 md:h-full md:z-0 md:flex md:justify-end shrink-0">
           <div className="w-full h-full md:w-[60%] relative">
             {heroSlides.map((slide, index) => (
@@ -9911,34 +10607,6 @@ export default function Home() {
             </div>
 
             {/* Ikon Benefits Bawah */}
-            {/* <div className="flex flex-wrap justify-center gap-4 mt-8 md:justify-start md:gap-8 md:mt-10">
-              <div className="flex items-center gap-2">
-                <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-                <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
-                  Teknologi<br className="hidden sm:block" /> Anti Statis
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                </svg>
-                <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
-                  Material<br className="hidden sm:block" /> Premium
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
-                  Eco<br className="hidden sm:block" /> Friendly
-                </span>
-              </div>
-            </div> */}
-
-            {/* Ikon Benefits Bawah */}
             <div className="flex flex-wrap justify-center gap-4 mt-8 md:justify-start md:gap-8 md:mt-10">
               <div className="relative flex items-center gap-2 group cursor-help">
                 <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -9996,7 +10664,6 @@ export default function Home() {
       {/* FEATURED PRODUCT SECTION */}
       <div id="featured" className="py-24 bg-[#F9FDFB]">
         <div className="px-6 mx-auto max-w-[1536px] sm:px-10 lg:px-16">
-          {/* [PERBAIKAN] Mengubah layout header featured product */}
           <div className="flex flex-col items-center justify-between mb-10 text-center md:items-end md:flex-row md:text-left">
             <div className="w-full md:w-1/2">
               <h2 className="text-2xl font-extrabold sm:text-3xl text-[#006A4E]">
@@ -10008,7 +10675,6 @@ export default function Home() {
             </div>
             <Link
               to="/products"
-              // [PERBAIKAN] Menambahkan justify-center di mobile agar icon dan teks sejajar di tengah
               className="flex items-center justify-center gap-2 mt-4 font-bold text-gray-600 transition-colors md:justify-start md:mt-0 hover:text-[#006A4E]"
             >
               Lihat Semua Produk
