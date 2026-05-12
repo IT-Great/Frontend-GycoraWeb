@@ -10500,7 +10500,7 @@ export default function Home() {
               </svg>
             </button>
 
-            <div className="flex flex-col justify-center flex-1 p-8 md:p-12">
+            {/* <div className="flex flex-col justify-center flex-1 p-8 md:p-12">
               <h2 className="mb-2 font-serif text-4xl font-black tracking-tight text-gray-900 uppercase">Gycora</h2>
               <h3 className="mb-4 text-3xl font-extrabold leading-tight text-[#006A4E]">
                 Dapetin Diskon Spesial untuk First Order ✨
@@ -10522,6 +10522,35 @@ export default function Home() {
                   className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-[#006A4E] rounded-lg hover:bg-emerald-900 disabled:bg-gray-400"
                 >
                   {isSubscribing ? "Mengirim..." : "Ambil Voucher"}
+                </button>
+              </form>
+            </div> */}
+
+            <div className="flex flex-col justify-center flex-1 p-8 md:p-12">
+              <h2 className="mb-2 font-serif text-4xl font-black tracking-tight text-gray-900 uppercase">Gycora</h2>
+              <h3 className="mb-4 text-3xl font-extrabold leading-tight text-[#006A4E]">
+                Diskon Spesial First Order ✨
+              </h3>
+              <p className="mb-8 text-sm font-medium text-gray-500">
+                Nikmati 10% OFF + subsidi ongkir Rp10.000 untuk pembelian pertamamu.<br/>
+                Masukkan email kamu dan klaim voucher eksklusif sekarang.
+              </p>
+
+              <form onSubmit={handleSubscribePromo} className="space-y-4">
+                <input
+                  type="email"
+                  value={promoEmail}
+                  onChange={(e) => setPromoEmail(e.target.value)}
+                  placeholder="Masukkan Email"
+                  className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-[#006A4E]"
+                  required
+                />
+                <button
+                  type="submit"
+                  disabled={isSubscribing}
+                  className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-[#006A4E] rounded-lg hover:bg-emerald-900 disabled:bg-gray-400"
+                >
+                  {isSubscribing ? "Mengirim..." : "Klaim Sekarang"}
                 </button>
               </form>
             </div>

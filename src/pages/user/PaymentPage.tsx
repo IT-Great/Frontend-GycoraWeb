@@ -4596,31 +4596,6 @@ export default function PaymentPage() {
   const [promoMessage, setPromoMessage] = useState("");
   const [isVerifyingPromo, setIsVerifyingPromo] = useState(false);
 
-  // --- STATE LOYALTY POINTS ---
-  const [availablePoints, setAvailablePoints] = useState(0);
-  const [pointsInput, setPointsInput] = useState<number | "">("");
-  const [pointsUsed, setPointsUsed] = useState<number>(0);
-
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  // --- STATE IMAGE ERRORS & MODAL ALAMAT ---
-  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
-  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
-  const [isSubmittingAddress, setIsSubmittingAddress] = useState(false);
-  const [addressFormData, setAddressFormData] = useState({
-    region: "",
-    first_name_address: "",
-    last_name_address: "",
-    address_location: "",
-    city: "",
-    province: "",
-    postal_code: "",
-    location_type: "home",
-    latitude: "",
-    longitude: "",
-    is_default: false,
-  });
-
   // =========================================================================
   // LOGIKA KALKULASI HARGA DINAMIS BERDASARKAN TIPE PROMO
   // =========================================================================
@@ -4653,14 +4628,73 @@ export default function PaymentPage() {
     }, 0);
   }, [checkoutItems, appliedPromoType]);
 
+  // [PERBAIKAN 1] Buat variabel dinamis untuk menghitung total diskon promo
+  const actualPromoDiscount = useMemo(() => {
+    if (appliedPromoType === "claim") {
+      // Hitung 10% dari total barang
+      const productDiscount = Math.floor(checkoutTotalAmount * 0.1);
+
+      // Hitung maksimal 10.000 dari ongkos kirim
+      let shippingCost = 0;
+      if (shippingMethod === "biteship" && selectedRate) {
+        shippingCost = parseFloat(selectedRate.price) * checkoutCount;
+      }
+      const shippingSubsidy = Math.min(10000, shippingCost);
+
+      return productDiscount + shippingSubsidy;
+    }
+    return promoDiscountAmount; // Jika voucher bos (global), pakai angka statis
+  }, [
+    appliedPromoType,
+    checkoutTotalAmount,
+    shippingMethod,
+    selectedRate,
+    checkoutCount,
+    promoDiscountAmount,
+  ]);
+
+  // --- STATE LOYALTY POINTS ---
+  const [availablePoints, setAvailablePoints] = useState(0);
+  const [pointsInput, setPointsInput] = useState<number | "">("");
+  const [pointsUsed, setPointsUsed] = useState<number>(0);
+
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  // --- STATE IMAGE ERRORS & MODAL ALAMAT ---
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+  const [isSubmittingAddress, setIsSubmittingAddress] = useState(false);
+  const [addressFormData, setAddressFormData] = useState({
+    region: "",
+    first_name_address: "",
+    last_name_address: "",
+    address_location: "",
+    city: "",
+    province: "",
+    postal_code: "",
+    location_type: "home",
+    latitude: "",
+    longitude: "",
+    is_default: false,
+  });
+
   // Maksimal poin yang bisa dipakai = Sisa tagihan (setelah dipotong promo claim global jika ada) / 1000
+  // const maxPointsAllowed = useMemo(() => {
+  //   const maxUsableAmount = Math.max(
+  //     0,
+  //     checkoutTotalAmount - promoDiscountAmount,
+  //   );
+  //   return Math.min(availablePoints, Math.floor(maxUsableAmount / 1000));
+  // }, [availablePoints, checkoutTotalAmount, promoDiscountAmount]);
+
+  // [PERBAIKAN 2] Ubah semua `promoDiscountAmount` menjadi `actualPromoDiscount` pada maxPointsAllowed dan grandTotal
   const maxPointsAllowed = useMemo(() => {
     const maxUsableAmount = Math.max(
       0,
-      checkoutTotalAmount - promoDiscountAmount,
+      checkoutTotalAmount - actualPromoDiscount,
     );
     return Math.min(availablePoints, Math.floor(maxUsableAmount / 1000));
-  }, [availablePoints, checkoutTotalAmount, promoDiscountAmount]);
+  }, [availablePoints, checkoutTotalAmount, actualPromoDiscount]);
 
   const appliedPointDiscount = pointsUsed * 1000;
 
@@ -4817,6 +4851,57 @@ export default function PaymentPage() {
   // =========================================================================
   // HANDLERS DISKON, POIN, & PEMBAYARAN
   // =========================================================================
+  // const applyPromo = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (!promoInput) return;
+  //   setIsVerifyingPromo(true);
+  //   try {
+  //     const token = localStorage.getItem("user_token");
+  //     const res = await fetch(`${BASE_URL}/api/promo/verify`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //         Accept: "application/json",
+  //       },
+  //       body: JSON.stringify({ promo_code: promoInput }),
+  //     });
+  //     const data = await res.json();
+
+  //     if (!res.ok) throw new Error(data.message || "Promo tidak valid");
+
+  //     // Default pengecekan, total belanja keranjang minimal 50rb sebelum dipotong
+  //     if (checkoutTotalAmount < 50000)
+  //       throw new Error("Minimum belanja Rp 50.000");
+
+  //     setAppliedPromoCode(promoInput.toUpperCase());
+  //     setAppliedPromoType(data.promo_type); // Setel tipe promo ('claim' atau 'voucher')
+
+  //     // Jika promo_type == 'claim', set nominal diskon global. Jika 'voucher', jangan set diskon global.
+  //     if (data.promo_type === "claim") {
+  //       setPromoDiscountAmount(
+  //         Math.min(data.discount_value, checkoutTotalAmount),
+  //       );
+  //       setPromoMessage("✅ " + data.message + " (Potongan Global)");
+  //     } else {
+  //       setPromoDiscountAmount(0);
+  //       setPromoMessage(
+  //         "✅ " + data.message + " (Harga Khusus per Produk Diterapkan)",
+  //       );
+  //     }
+
+  //     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //   } catch (err: any) {
+  //     setAppliedPromoCode(null);
+  //     setAppliedPromoType(null);
+  //     setPromoDiscountAmount(0);
+  //     setPromoMessage("❌ " + err.message);
+  //   } finally {
+  //     setIsVerifyingPromo(false);
+  //   }
+  // };
+
+  // [PERBAIKAN 3] Ubah fungsi applyPromo()
   const applyPromo = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!promoInput) return;
@@ -4835,32 +4920,23 @@ export default function PaymentPage() {
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.message || "Promo tidak valid");
-
-      // Default pengecekan, total belanja keranjang minimal 50rb sebelum dipotong
       if (checkoutTotalAmount < 50000)
         throw new Error("Minimum belanja Rp 50.000");
 
       setAppliedPromoCode(promoInput.toUpperCase());
-      setAppliedPromoType(data.promo_type); // Setel tipe promo ('claim' atau 'voucher')
+      setAppliedPromoType(data.promo_type);
 
-      // Jika promo_type == 'claim', set nominal diskon global. Jika 'voucher', jangan set diskon global.
       if (data.promo_type === "claim") {
-        setPromoDiscountAmount(
-          Math.min(data.discount_value, checkoutTotalAmount),
-        );
-        setPromoMessage("✅ " + data.message + " (Potongan Global)");
-      } else {
-        setPromoDiscountAmount(0);
+        setPromoDiscountAmount(0); // Nilainya dihandle dinamis oleh useMemo 'actualPromoDiscount'
         setPromoMessage(
-          "✅ " + data.message + " (Harga Khusus per Produk Diterapkan)",
+          "✅ " + data.message + " (10% OFF + Subsidi Ongkir 10K)",
         );
+      } else {
+        setPromoDiscountAmount(data.discount_value);
+        setPromoMessage("✅ " + data.message + " (Harga Khusus Diterapkan)");
       }
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      setAppliedPromoCode(null);
-      setAppliedPromoType(null);
-      setPromoDiscountAmount(0);
+      removePromo();
       setPromoMessage("❌ " + err.message);
     } finally {
       setIsVerifyingPromo(false);
@@ -5439,7 +5515,7 @@ export default function PaymentPage() {
                 )}
 
                 {/* HANYA TAMPIL JIKA PROMO TYPE == CLAIM (Diskon Global) */}
-                {appliedPromoCode && appliedPromoType === "claim" && (
+                {/* {appliedPromoCode && appliedPromoType === "claim" && (
                   <div className="flex items-center justify-between mt-2">
                     <span className="text-[10px] font-bold tracking-widest text-gray-500 uppercase">
                       Promo Applied
@@ -5447,6 +5523,20 @@ export default function PaymentPage() {
                     <span className="text-[11px] font-medium text-emerald-600">
                       - {formatPrice(promoDiscountAmount)}
                     </span>
+                  </div>
+                )} */}
+
+                {appliedPromoCode && (
+                  <div className="flex justify-between text-[10px] md:text-xs font-medium text-emerald-600">
+                    <span className="pr-2 truncate">
+                      Promo (
+                      <span className="font-mono uppercase">
+                        {appliedPromoCode}
+                      </span>
+                      )
+                    </span>
+                    <span>- {formatPrice(actualPromoDiscount)}</span>{" "}
+                    {/* <-- Gunakan actualPromoDiscount */}
                   </div>
                 )}
               </div>
