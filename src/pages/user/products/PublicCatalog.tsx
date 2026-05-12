@@ -764,7 +764,8 @@ export default function PublicCatalog() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("Semua");
   // [PERBAIKAN] Mengubah default sortBy menjadi "name_asc" (A ke Z)
-  const [sortBy, setSortBy] = useState("name_asc"); 
+  // const [sortBy, setSortBy] = useState("name_asc"); 
+  const [sortBy] = useState("name_asc"); 
   const [addingToCartId, setAddingToCartId] = useState<number | null>(null);
 
   useEffect(() => {
