@@ -2847,7 +2847,7 @@ export default function CartPage() {
     setSelectedIds((prev) => prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]);
   };
 
-  // [PERBAIKAN] Helper untuk mendapatkan harga yang aktif (diskon atau harga normal)
+  // Helper untuk mendapatkan harga yang aktif (diskon atau harga normal)
   const getActivePrice = (product: Product) => {
     return product.discount_price && product.discount_price > 0 ? product.discount_price : product.price;
   };
@@ -2855,8 +2855,8 @@ export default function CartPage() {
   const checkoutTotalAmount = useMemo(() => {
     return localCartItems
       .filter((item) => selectedIds.includes(item.id))
-      // [PERBAIKAN] Total checkout dihitung berdasarkan gross_amount yang sudah ter-update
-      .reduce((total, item) => total + Number(item.gross_amount), 0);
+      // [PERBAIKAN] Selalu gunakan fungsi getActivePrice dikalikan quantity agar selalu akurat
+      .reduce((total, item) => total + (getActivePrice(item.product) * item.quantity), 0);
   }, [localCartItems, selectedIds]);
 
   // FUNGSI INTI UNTUK MENGUBAH DAN MEMUKUL API
@@ -2874,7 +2874,7 @@ export default function CartPage() {
     const token = localStorage.getItem("user_token");
     const originalItems = [...localCartItems]; 
     
-    // [PERBAIKAN] Menghitung gross amount menggunakan harga diskon jika ada
+    // Menghitung gross amount menggunakan harga aktif
     const currentPrice = getActivePrice(item.product);
     const newGrossAmount = newQty * currentPrice;
 
@@ -3056,6 +3056,9 @@ export default function CartPage() {
                 {localCartItems.map((item: CartItem) => {
                   const currentPrice = getActivePrice(item.product);
                   const isDiscounted = item.product.discount_price && item.product.discount_price > 0;
+                  // [PERBAIKAN] Menghitung harga total (gross) baris ini dengan akurat
+                  const currentGrossAmount = currentPrice * item.quantity;
+                  const originalGrossAmount = item.product.price * item.quantity;
 
                   return (
                     <div key={item.id} className="relative flex items-start gap-4 pb-8 border-b border-gray-50 sm:gap-6 last:border-0 last:pb-0">
@@ -3077,14 +3080,15 @@ export default function CartPage() {
                             <h3 className="w-2/3 text-sm font-bold tracking-tight text-gray-900 transition-colors cursor-pointer sm:text-lg hover:text-gycora line-clamp-2" onClick={() => navigate(`/product/${item.product.id}`)}>
                               {item.product.name}
                             </h3>
-                            {/* [PERBAIKAN] Harga Total Item per Baris */}
                             <div className="text-right">
+                              {/* [PERBAIKAN] Memastikan harga besar utama di pojok kanan adalah harga setelah diskon */}
                               <p className="text-sm font-extrabold sm:text-lg whitespace-nowrap text-gycora">
-                                {formatPrice(item.gross_amount)}
+                                {formatPrice(currentGrossAmount)}
                               </p>
+                              {/* [PERBAIKAN] Harga coret adalah total dari harga original */}
                               {isDiscounted && (
                                 <p className="text-[10px] text-gray-400 line-through">
-                                  {formatPrice(item.product.price * item.quantity)}
+                                  {formatPrice(originalGrossAmount)}
                                 </p>
                               )}
                             </div>
@@ -3121,10 +3125,11 @@ export default function CartPage() {
                           )}
 
                           <div className="flex flex-wrap items-center mt-2 gap-x-3 gap-y-1">
-                            {/* [PERBAIKAN] Tampilan Harga Satuan dengan Diskon */}
                             {isDiscounted ? (
                               <div className="flex items-center gap-2">
+                                {/* Harga diskon satuan */}
                                 <p className="text-xs font-bold text-rose-500">{formatPrice(currentPrice)} / pc</p>
+                                {/* Harga coret satuan */}
                                 <p className="text-[10px] text-gray-400 line-through">{formatPrice(item.product.price)}</p>
                               </div>
                             ) : (
@@ -3160,7 +3165,6 @@ export default function CartPage() {
             </div>
           )}
 
-          {/* ... [SISA KODE MUNGKIN ANDA JUGA SUKA] ... */}
           <div className="pt-12 mt-12 border-t border-gray-100">
             <h3 className="mb-6 text-sm font-bold tracking-widest text-gray-900 uppercase">Mungkin Anda Juga Suka</h3>
             {loadingSuggestions ? (
@@ -3187,7 +3191,6 @@ export default function CartPage() {
                       </div>
                       <h4 className="mb-1 text-[11px] font-bold tracking-wide text-gray-900 uppercase truncate">{product.name}</h4>
                       
-                      {/* [PERBAIKAN] Tampilan harga diskon pada sugesti produk */}
                       {isSugDiscounted ? (
                         <div className="mb-3">
                           <p className="text-xs font-bold text-rose-500">{formatPrice(product.discount_price!)}</p>
@@ -3208,7 +3211,6 @@ export default function CartPage() {
           </div>
         </div>
 
-        {/* ... [SISA KODE RINGKASAN PESANAN] ... */}
         {localCartItems.length > 0 && (
           <div className="lg:w-1/3 animate-fade-in-up" style={{ animationDelay: "200ms" }}>
             <div className="sticky p-8 bg-gray-50/50 border border-gray-100 rounded-[2rem] top-32 shadow-sm">
