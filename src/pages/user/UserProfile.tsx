@@ -4242,146 +4242,171 @@ export default function UserProfile() {
 
   if (loading || !user) {
     return (
-      <div className="flex items-center justify-center min-h-screen font-sans bg-gray-50">
-        <div className="w-12 h-12 border-b-2 rounded-full animate-spin border-[#006A4E]"></div>
+      <div className="flex items-center justify-center min-h-screen font-sans bg-[#F9FAFB]">
+        <div className="w-12 h-12 border-b-2 border-[#006A4E] rounded-full animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-10 font-sans bg-[#FAFAFA] animate-fade-in">
-      
-      {/* --- HERO BACKDROP --- */}
-      <div className="absolute top-0 left-0 w-full h-64 bg-emerald-800 rounded-b-[3rem] shadow-sm z-0 hidden md:block pointer-events-none"></div>
-
-      <div className="relative z-10 max-w-5xl px-4 mx-auto space-y-8 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-12 font-sans bg-[#F9FAFB] animate-fade-in">
+      <div className="max-w-6xl px-4 mx-auto space-y-10 sm:px-6 lg:px-8">
         
-        {/* --- PROFIL PENGGUNA --- */}
-        <div className="flex flex-col items-center gap-8 p-8 bg-white border border-gray-100 shadow-xl rounded-3xl md:flex-row md:items-start md:mt-8">
+        {/* --- HEADER PROFIL --- */}
+        <div className="relative overflow-hidden bg-white shadow-sm rounded-3xl">
+          {/* Aksen Latar Belakang */}
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-r from-[#006A4E] to-emerald-400 opacity-90"></div>
           
-          {/* AREA FOTO PROFIL */}
-          <div className="relative group shrink-0">
-            {user.profile_image ? (
-              <img 
-                src={user.profile_image} 
-                alt="Profile" 
-                className="object-cover border-4 border-white rounded-full shadow-lg w-28 h-28 md:w-36 md:h-36 bg-gray-50"
-              />
-            ) : (
-              <div className="flex items-center justify-center border-4 border-white rounded-full shadow-lg w-28 h-28 md:w-36 md:h-36 text-4xl md:text-5xl font-bold text-[#006A4E] uppercase bg-emerald-50">
-                {user.first_name.charAt(0)}{user.last_name.charAt(0)}
+          <div className="relative px-6 pb-8 sm:px-10 mt-14 sm:mt-16">
+            <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-end">
+              
+              {/* AREA FOTO PROFIL */}
+              <div className="relative group shrink-0">
+                <div className="p-1.5 bg-white rounded-full shadow-lg">
+                  {user.profile_image ? (
+                    <img 
+                      src={user.profile_image} 
+                      alt="Profile" 
+                      className="object-cover w-28 h-28 sm:w-32 sm:h-32 rounded-full border border-gray-100"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center w-28 h-28 sm:w-32 sm:h-32 text-4xl font-extrabold text-[#006A4E] uppercase rounded-full bg-emerald-50">
+                      {user.first_name.charAt(0)}{user.last_name.charAt(0)}
+                    </div>
+                  )}
+                </div>
+                
+                <button 
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isUploadingImage}
+                  className="absolute inset-1.5 flex items-center justify-center transition-opacity duration-300 rounded-full opacity-0 cursor-pointer bg-black/60 backdrop-blur-sm group-hover:opacity-100 disabled:cursor-not-allowed"
+                  title="Ubah Foto Profil"
+                >
+                  {isUploadingImage ? (
+                    <span className="w-6 h-6 border-2 border-white rounded-full border-t-transparent animate-spin"></span>
+                  ) : (
+                    <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  )}
+                </button>
+                <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  onChange={handleImageUpload} 
+                  accept="image/png, image/jpeg, image/jpg" 
+                  className="hidden" 
+                />
               </div>
-            )}
-            
-            <button 
-              onClick={() => fileInputRef.current?.click()}
-              disabled={isUploadingImage}
-              className="absolute inset-0 flex items-center justify-center transition-opacity duration-300 rounded-full opacity-0 cursor-pointer bg-black/40 backdrop-blur-sm group-hover:opacity-100 disabled:cursor-not-allowed"
-              title="Ubah Foto Profil"
-            >
-              {isUploadingImage ? (
-                <span className="w-6 h-6 border-2 border-white rounded-full border-t-transparent animate-spin"></span>
-              ) : (
-                <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-              )}
-            </button>
-            <input 
-              type="file" 
-              ref={fileInputRef} 
-              onChange={handleImageUpload} 
-              accept="image/png, image/jpeg, image/jpg" 
-              className="hidden" 
-            />
-          </div>
-          
-          <div className="flex-1 text-center md:text-left pt-2 md:pt-4">
-            <h1 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">{user.first_name} {user.last_name}</h1>
-            <p className="mt-1.5 text-gray-500 font-medium">{user.email}</p>
-            <p className="mt-1 text-sm text-gray-400">
-              {user.phone ? user.phone : <span className="italic">Belum menambahkan nomor telepon</span>}
-            </p>
-            {user.is_membership && (
-               <div className="inline-flex items-center px-4 py-1 mt-4 text-xs font-bold tracking-widest uppercase border rounded-full bg-emerald-50 text-emerald-800 border-emerald-200">
-                 Gycora VIP Member
-               </div>
-            )}
-          </div>
-          
-          {/* SECTION POIN DAN TOMBOL */}
-          <div className="flex flex-col items-center w-full gap-4 md:items-end md:w-auto md:pt-4">
-            <div className="flex items-center w-full gap-5 px-6 py-4 border shadow-sm sm:w-auto border-gray-100 bg-gray-50 rounded-2xl">
-              <div className="flex items-center justify-center w-12 h-12 text-white rounded-full shadow-inner bg-[#006A4E]">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                  <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005z" clipRule="evenodd" />
-                </svg>
+              
+              <div className="flex-1 text-center sm:text-left sm:mb-2">
+                <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl tracking-tight">{user.first_name} {user.last_name}</h1>
+                <div className="flex flex-col items-center gap-2 mt-2 sm:flex-row sm:gap-4 text-gray-500">
+                  <span className="flex items-center gap-1.5 text-sm font-medium">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    {user.email}
+                  </span>
+                  <span className="hidden sm:block w-1.5 h-1.5 bg-gray-300 rounded-full"></span>
+                  <span className="flex items-center gap-1.5 text-sm font-medium">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                    {user.phone ? user.phone : <span className="italic text-gray-400">Belum ada nomor</span>}
+                  </span>
+                </div>
               </div>
-              <div className="text-left">
-                <p className="text-[10px] font-bold tracking-widest text-gray-500 uppercase">Loyalty Points</p>
-                <p className="text-2xl font-black text-gray-900">
-                  {new Intl.NumberFormat('id-ID').format(user.point || 0)} <span className="text-sm font-bold text-[#006A4E]">Pts</span>
-                </p>
+
+              {/* SECTION POIN (Didesain ulang menjadi lencana mengambang) */}
+              <div className="flex items-center gap-4 p-4 mt-4 transition-transform shadow-lg bg-gray-900 rounded-2xl sm:mt-0 hover:-translate-y-1">
+                <div className="flex items-center justify-center w-12 h-12 rounded-full shadow-inner bg-[#006A4E]/20 text-[#006A4E]">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                    <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div className="pr-2 text-left">
+                  <p className="text-[10px] font-bold tracking-widest text-gray-400 uppercase">Gycora Points</p>
+                  <p className="text-2xl font-black text-white leading-none mt-0.5">
+                    {new Intl.NumberFormat('id-ID').format(user.point || 0)} <span className="text-xs font-medium text-emerald-400 ml-1">Pts</span>
+                  </p>
+                </div>
               </div>
             </div>
 
-            <div className="flex flex-col w-full gap-3 sm:w-auto sm:flex-row md:flex-col lg:flex-row">
-              <button onClick={() => navigate("/favorites")} className="px-5 py-2.5 text-xs font-bold text-white uppercase tracking-widest transition-colors rounded-xl shadow-md bg-[#006A4E] hover:bg-emerald-900 border border-transparent">
+            {/* ACTION BUTTONS (Edit Profil, Ubah Sandi, Favorit) */}
+            <div className="flex flex-wrap justify-center gap-3 pt-6 mt-8 border-t border-gray-100 sm:justify-end">
+              <button onClick={() => navigate("/favorites")} className="flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-gray-700 transition-colors bg-white border border-gray-200 shadow-sm rounded-xl hover:bg-gray-50 hover:text-[#006A4E]">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
                 Favorit
               </button>
-              <button onClick={handleOpenProfileModal} className="px-5 py-2.5 text-xs font-bold text-gray-700 uppercase tracking-widest transition-colors border border-gray-200 rounded-xl shadow-sm hover:bg-gray-50 bg-white">
+              <button onClick={() => setIsPasswordModalOpen(true)} className="flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-gray-700 transition-colors bg-white border border-gray-200 shadow-sm rounded-xl hover:bg-gray-50 hover:text-[#006A4E]">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8V7a4 4 0 00-8 0v4h8z" /></svg>
+                Ubah Sandi
+              </button>
+              <button onClick={handleOpenProfileModal} className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white transition-all shadow-md bg-[#006A4E] rounded-xl hover:bg-emerald-900 hover:shadow-lg">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
                 Edit Profil
               </button>
             </div>
-            
-            <button onClick={() => setIsPasswordModalOpen(true)} className="text-[11px] font-bold tracking-wider text-gray-400 transition-colors hover:text-gray-900 underline underline-offset-4 decoration-gray-300 hover:decoration-gray-900 mt-2">
-              Ubah Kata Sandi
-            </button>
           </div>
         </div>
 
         {/* --- BUKU ALAMAT --- */}
-        <div className="p-8 bg-white border border-gray-100 shadow-sm rounded-3xl">
-          <div className="flex flex-col items-start justify-between gap-4 mb-8 sm:flex-row sm:items-center">
+        <div className="p-6 bg-white shadow-sm sm:p-8 rounded-3xl">
+          <div className="flex flex-col gap-4 pb-6 mb-6 border-b border-gray-100 sm:flex-row sm:items-center sm:justify-between">
             <div>
-               <h2 className="text-2xl font-extrabold text-gray-900">Buku Alamat</h2>
-               <p className="text-sm text-gray-500 mt-1">Kelola alamat pengiriman untuk mempermudah checkout.</p>
+              <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">Buku Alamat</h2>
+              <p className="text-sm text-gray-500 mt-1">Kelola alamat pengiriman untuk mempermudah proses checkout.</p>
             </div>
-            <button onClick={() => handleOpenModal()} className="px-5 py-2.5 text-xs font-bold tracking-widest text-white uppercase transition-all bg-gray-900 rounded-xl shadow-md hover:bg-black w-full sm:w-auto">
-              + Tambah Alamat
+            <button onClick={() => handleOpenModal()} className="flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold text-white transition-all shadow-md bg-gray-900 rounded-xl hover:bg-black hover:shadow-lg shrink-0">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
+              Tambah Alamat Baru
             </button>
           </div>
 
           {addresses.length === 0 ? (
-            <div className="py-16 text-center border-2 border-gray-200 border-dashed bg-gray-50 rounded-2xl">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gray-200 rounded-full flex items-center justify-center text-gray-400">
-                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-              </div>
-              <p className="font-bold text-gray-600">Buku alamat Anda masih kosong.</p>
-              <p className="text-sm text-gray-400 mt-1">Tambahkan alamat baru untuk mulai berbelanja.</p>
+            <div className="flex flex-col items-center justify-center py-16 border-2 border-gray-200 border-dashed bg-gray-50 rounded-2xl">
+              <svg className="w-16 h-16 mb-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+              <p className="font-bold text-gray-500 text-lg">Belum ada alamat</p>
+              <p className="text-sm text-gray-400 mt-1">Tambahkan alamat pertama Anda sekarang.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {addresses.map((addr) => (
-                <div key={addr.id} className={`relative p-6 rounded-2xl border-2 transition-all ${addr.is_default ? "border-[#006A4E] bg-emerald-50/20" : "border-gray-100 hover:border-gray-200 bg-white"}`}>
-                  {addr.is_default && (
-                    <span className="absolute top-5 right-5 bg-[#006A4E] text-white text-[10px] uppercase font-bold tracking-widest px-2.5 py-1 rounded">
-                      Utama
-                    </span>
-                  )}
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="px-2.5 py-1 text-[10px] font-bold tracking-widest text-gray-500 uppercase bg-gray-100 rounded">
-                      {addr.details.type === "home" ? "Rumah" : addr.details.type === "office" ? "Kantor" : "Lainnya"}
-                    </span>
+                <div key={addr.id} className={`relative flex flex-col p-6 rounded-2xl border transition-all duration-300 ${addr.is_default ? "border-[#006A4E] shadow-md bg-emerald-50/20" : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm"}`}>
+                  
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className={`flex items-center justify-center w-10 h-10 rounded-full ${addr.is_default ? "bg-emerald-100 text-[#006A4E]" : "bg-gray-100 text-gray-500"}`}>
+                        {addr.details.type === "home" ? (
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                        ) : addr.details.type === "office" ? (
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        ) : (
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                        )}
+                      </div>
+                      <div>
+                        <h3 className="text-base font-bold text-gray-900">{addr.receiver.full_name}</h3>
+                        <p className="text-[10px] font-bold tracking-widest text-gray-400 uppercase">{addr.details.type}</p>
+                      </div>
+                    </div>
+                    {addr.is_default && (
+                      <span className="px-2.5 py-1 text-[9px] font-black tracking-widest text-[#006A4E] uppercase bg-emerald-100 rounded-md">
+                        Alamat Utama
+                      </span>
+                    )}
                   </div>
-                  <h3 className="text-base font-bold text-gray-900">{addr.receiver.full_name}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-600">
+
+                  <p className="flex-1 text-sm leading-relaxed text-gray-600 line-clamp-3">
                     {addr.details.address_location} <br /> {addr.details.city}, {addr.details.province} <br /> {addr.details.postal_code}
                   </p>
-                  <p className="mt-2 text-xs font-bold text-gray-400">Region: <span className="font-medium text-gray-600">{addr.details.region}</span></p>
                   
-                  <div className="flex items-center gap-4 pt-5 mt-5 border-t border-gray-100">
-                    <button onClick={() => handleOpenModal(addr)} className="text-xs font-bold tracking-widest uppercase transition-colors text-[#006A4E] hover:text-emerald-900">Edit</button>
-                    <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
-                    <button onClick={() => handleDeleteAddress(addr.id)} className="text-xs font-bold tracking-widest uppercase text-red-500 transition-colors hover:text-red-700">Hapus</button>
+                  <div className="flex items-center justify-between pt-4 mt-4 border-t border-gray-100">
+                    <p className="text-xs font-semibold text-gray-500 truncate max-w-[50%]">Kec. {addr.details.region}</p>
+                    <div className="flex items-center gap-3">
+                      <button onClick={() => handleOpenModal(addr)} className="text-xs font-bold transition-colors text-[#006A4E] hover:text-emerald-800">Edit</button>
+                      <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
+                      <button onClick={() => handleDeleteAddress(addr.id)} className="text-xs font-bold text-red-500 transition-colors hover:text-red-700">Hapus</button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -4392,36 +4417,36 @@ export default function UserProfile() {
 
       {/* --- MODAL FORM EDIT PROFIL --- */}
       {isProfileModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-up">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-up">
           <div className="flex flex-col w-full max-w-md overflow-hidden bg-white shadow-2xl rounded-3xl">
-            <div className="flex items-center justify-between p-6 border-b border-gray-100">
-              <h3 className="text-lg font-extrabold text-gray-900">Edit Profil</h3>
-              <button onClick={() => setIsProfileModalOpen(false)} className="p-1 text-gray-400 transition-colors rounded-full hover:bg-gray-100 hover:text-gray-900">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50">
+              <h3 className="text-xl font-extrabold text-gray-900 tracking-tight">Edit Profil</h3>
+              <button onClick={() => setIsProfileModalOpen(false)} className="p-2 text-gray-400 transition-colors bg-white border border-gray-200 rounded-full hover:text-gray-900 hover:bg-gray-100">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
-            <form onSubmit={handleSubmitProfile} className="p-6 space-y-5 bg-gray-50/30">
-              <div className="grid grid-cols-2 gap-4">
+            <form onSubmit={handleSubmitProfile} className="p-6 space-y-5">
+              <div className="grid grid-cols-2 gap-5">
                 <div>
-                  <label className="block mb-1.5 text-xs font-bold tracking-widest text-gray-500 uppercase">Nama Depan</label>
-                  <input type="text" required value={profileFormData.first_name} onChange={(e) => setProfileFormData({ ...profileFormData, first_name: e.target.value })} className="w-full p-3 text-sm bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all shadow-sm" />
+                  <label className="block mb-1.5 text-xs font-bold text-gray-500 uppercase tracking-widest">Nama Depan</label>
+                  <input type="text" required value={profileFormData.first_name} onChange={(e) => setProfileFormData({ ...profileFormData, first_name: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] focus:border-transparent outline-none transition-all" />
                 </div>
                 <div>
-                  <label className="block mb-1.5 text-xs font-bold tracking-widest text-gray-500 uppercase">Nama Belakang</label>
-                  <input type="text" required value={profileFormData.last_name} onChange={(e) => setProfileFormData({ ...profileFormData, last_name: e.target.value })} className="w-full p-3 text-sm bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all shadow-sm" />
+                  <label className="block mb-1.5 text-xs font-bold text-gray-500 uppercase tracking-widest">Nama Belakang</label>
+                  <input type="text" required value={profileFormData.last_name} onChange={(e) => setProfileFormData({ ...profileFormData, last_name: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] focus:border-transparent outline-none transition-all" />
                 </div>
               </div>
               <div>
-                <label className="block mb-1.5 text-xs font-bold tracking-widest text-gray-500 uppercase">Email</label>
-                <input type="email" required value={profileFormData.email} onChange={(e) => setProfileFormData({ ...profileFormData, email: e.target.value })} className="w-full p-3 text-sm bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all shadow-sm" />
+                <label className="block mb-1.5 text-xs font-bold text-gray-500 uppercase tracking-widest">Email</label>
+                <input type="email" required value={profileFormData.email} onChange={(e) => setProfileFormData({ ...profileFormData, email: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] focus:border-transparent outline-none transition-all" />
               </div>
               <div>
-                <label className="block mb-1.5 text-xs font-bold tracking-widest text-gray-500 uppercase">Nomor Telepon</label>
-                <input type="tel" placeholder="Contoh: 081234567890" value={profileFormData.phone} onChange={(e) => setProfileFormData({ ...profileFormData, phone: e.target.value })} className="w-full p-3 text-sm bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all shadow-sm" />
+                <label className="block mb-1.5 text-xs font-bold text-gray-500 uppercase tracking-widest">Nomor Telepon</label>
+                <input type="tel" placeholder="Contoh: 081234567890" value={profileFormData.phone} onChange={(e) => setProfileFormData({ ...profileFormData, phone: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] focus:border-transparent outline-none transition-all" />
               </div>
               <div className="flex justify-end gap-3 pt-6 mt-2 border-t border-gray-100">
-                <button type="button" onClick={() => setIsProfileModalOpen(false)} className="px-6 py-2.5 text-xs font-bold tracking-widest text-gray-600 uppercase transition-colors bg-white border border-gray-200 rounded-xl hover:bg-gray-50">Batal</button>
-                <button type="submit" className="px-6 py-2.5 text-xs font-bold tracking-widest text-white uppercase transition-colors shadow-md rounded-xl bg-[#006A4E] hover:bg-emerald-900">Simpan Profil</button>
+                <button type="button" onClick={() => setIsProfileModalOpen(false)} className="px-6 py-2.5 text-sm font-bold text-gray-600 transition-colors bg-gray-100 rounded-xl hover:bg-gray-200">Batal</button>
+                <button type="submit" className="px-6 py-2.5 text-sm font-bold text-white transition-all shadow-md bg-[#006A4E] rounded-xl hover:bg-emerald-900 hover:shadow-lg">Simpan Profil</button>
               </div>
             </form>
           </div>
@@ -4430,43 +4455,43 @@ export default function UserProfile() {
 
       {/* --- MODAL FORM UBAH KATA SANDI --- */}
       {isPasswordModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-up">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-up">
           <div className="flex flex-col w-full max-w-sm overflow-hidden bg-white shadow-2xl rounded-3xl">
-            <div className="flex items-center justify-between p-6 border-b border-gray-100">
-              <h3 className="text-lg font-extrabold text-gray-900">Ubah Kata Sandi</h3>
-              <button onClick={() => setIsPasswordModalOpen(false)} className="p-1 text-gray-400 transition-colors rounded-full hover:bg-gray-100 hover:text-gray-900">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50">
+              <h3 className="text-xl font-extrabold text-gray-900 tracking-tight">Ubah Sandi</h3>
+              <button onClick={() => setIsPasswordModalOpen(false)} className="p-2 text-gray-400 transition-colors bg-white border border-gray-200 rounded-full hover:text-gray-900 hover:bg-gray-100">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
-            <form onSubmit={handleSubmitPassword} className="p-6 space-y-5 bg-gray-50/30">
+            <form onSubmit={handleSubmitPassword} className="p-6 space-y-5">
               <div>
-                <label className="block mb-1.5 text-xs font-bold tracking-widest text-gray-500 uppercase">Kata Sandi Lama</label>
+                <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Sandi Saat Ini</label>
                 <input 
                   type="password" required value={passwordFormData.old_password} 
                   onChange={(e) => setPasswordFormData({ ...passwordFormData, old_password: e.target.value })} 
-                  className="w-full p-3 text-sm bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all shadow-sm" 
+                  className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] focus:border-transparent outline-none transition-all" 
                 />
               </div>
               <div>
-                <label className="block mb-1.5 text-xs font-bold tracking-widest text-gray-500 uppercase">Kata Sandi Baru</label>
+                <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Sandi Baru</label>
                 <input 
                   type="password" required minLength={8} value={passwordFormData.password} 
                   onChange={(e) => setPasswordFormData({ ...passwordFormData, password: e.target.value })} 
-                  className="w-full p-3 text-sm bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all shadow-sm" 
+                  className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] focus:border-transparent outline-none transition-all" 
                 />
               </div>
               <div>
-                <label className="block mb-1.5 text-xs font-bold tracking-widest text-gray-500 uppercase">Konfirmasi Kata Sandi Baru</label>
+                <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Konfirmasi Sandi Baru</label>
                 <input 
                   type="password" required minLength={8} value={passwordFormData.password_confirmation} 
                   onChange={(e) => setPasswordFormData({ ...passwordFormData, password_confirmation: e.target.value })} 
-                  className="w-full p-3 text-sm bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all shadow-sm" 
+                  className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] focus:border-transparent outline-none transition-all" 
                 />
               </div>
               
               <div className="flex justify-end gap-3 pt-6 mt-2 border-t border-gray-100">
-                <button type="button" onClick={() => setIsPasswordModalOpen(false)} className="px-6 py-2.5 text-xs font-bold tracking-widest text-gray-600 uppercase transition-colors bg-white border border-gray-200 rounded-xl hover:bg-gray-50">Batal</button>
-                <button type="submit" className="px-6 py-2.5 text-xs font-bold tracking-widest text-white uppercase transition-colors bg-gray-900 shadow-md rounded-xl hover:bg-black">Ubah Sandi</button>
+                <button type="button" onClick={() => setIsPasswordModalOpen(false)} className="px-6 py-2.5 text-sm font-bold text-gray-600 transition-colors bg-gray-100 rounded-xl hover:bg-gray-200">Batal</button>
+                <button type="submit" className="px-6 py-2.5 text-sm font-bold text-white transition-all shadow-md bg-gray-900 rounded-xl hover:bg-black hover:shadow-lg">Ubah Sandi</button>
               </div>
             </form>
           </div>
@@ -4475,38 +4500,37 @@ export default function UserProfile() {
 
       {/* --- MODAL FORM ALAMAT DENGAN PETA --- */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-up overflow-y-auto pt-10 pb-10">
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl flex flex-col overflow-hidden my-auto">
-            <div className="flex items-center justify-between p-6 border-b border-gray-100 shrink-0">
-              <h3 className="text-xl font-extrabold text-gray-900">
-                {editingId ? "Edit Alamat" : "Tambah Alamat Baru"}
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-up overflow-y-auto pt-10 pb-10">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-5xl flex flex-col overflow-hidden my-auto">
+            <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50 shrink-0">
+              <h3 className="text-xl font-extrabold text-gray-900 tracking-tight">
+                {editingId ? "Edit Alamat Pengiriman" : "Tambah Alamat Baru"}
               </h3>
-              <button onClick={() => setIsModalOpen(false)} className="p-1 text-gray-400 transition-colors rounded-full hover:bg-gray-100 hover:text-gray-900">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              <button onClick={() => setIsModalOpen(false)} className="p-2 text-gray-400 transition-colors bg-white border border-gray-200 rounded-full hover:text-gray-900 hover:bg-gray-100">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
 
-            <div className="flex flex-col md:flex-row h-auto md:h-[600px] overflow-hidden">
+            <div className="flex flex-col md:flex-row h-auto md:h-[650px] overflow-hidden">
               {/* BAGIAN PETA (KIRI) */}
-              <div className="relative w-full h-64 md:h-full md:w-1/2 bg-gray-100 border-b md:border-b-0 md:border-r border-gray-100">
-                <MapContainer center={mapPosition} zoom={15} style={{ height: "100%", width: "100%" }} scrollWheelZoom={true} className="z-10">
+              <div className="relative w-full h-72 md:h-full md:w-5/12 bg-gray-100 border-b md:border-b-0 md:border-r border-gray-200 shrink-0">
+                <MapContainer center={mapPosition} zoom={15} style={{ height: "100%", width: "100%" }} scrollWheelZoom={true}>
                   <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   />
                   <Marker position={mapPosition}>
-                    <Popup>Lokasi pengiriman Anda</Popup>
+                    <Popup>Lokasi yang dipilih</Popup>
                   </Marker>
                   <MapEvents />
                   <MapCenterUpdater position={mapPosition} />
                 </MapContainer>
                 
-                {/* Tombol Ambil Lokasi Saat Ini */}
                 <button 
                   type="button"
                   onClick={handleGetCurrentLocation}
                   disabled={isGettingLocation}
-                  className="absolute z-[1000] bottom-6 right-6 flex items-center gap-2 bg-white text-gray-900 px-4 py-2.5 rounded-full shadow-xl font-bold text-xs hover:bg-gray-50 border border-gray-200 transition-all"
+                  className="absolute z-[1000] bottom-6 left-1/2 -translate-x-1/2 md:left-auto md:-translate-x-0 md:right-6 flex items-center gap-2 bg-white text-gray-900 px-5 py-2.5 rounded-full shadow-xl font-bold text-xs hover:bg-gray-50 border border-gray-200 transition-all hover:-translate-y-0.5"
                 >
                   {isGettingLocation ? (
                     <span className="w-4 h-4 border-2 rounded-full border-[#006A4E] border-t-transparent animate-spin"></span>
@@ -4518,79 +4542,82 @@ export default function UserProfile() {
               </div>
 
               {/* BAGIAN FORM (KANAN) */}
-              <form onSubmit={handleSubmitAddress} className="flex flex-col w-full p-8 space-y-6 md:w-1/2 overflow-y-auto custom-scrollbar bg-gray-50/30">
+              <form onSubmit={handleSubmitAddress} className="flex flex-col flex-1 p-6 space-y-6 overflow-y-auto sm:p-8 custom-scrollbar bg-white">
                 
-                <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-xl">
-                  <p className="text-xs font-medium leading-relaxed text-emerald-800">
-                    <strong className="block mb-1 text-sm">Panduan Lokasi</strong>
-                    Geser dan klik pada peta di sebelah kiri untuk mengisi otomatis data alamat Anda. Anda tetap dapat mengedit isian secara manual.
+                <div className="flex gap-3 p-4 border border-blue-100 rounded-2xl bg-blue-50/50">
+                  <svg className="w-5 h-5 text-blue-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <p className="text-xs text-blue-800 leading-relaxed">
+                    <strong>Panduan:</strong> Geser dan klik pada peta di sebelah untuk mengisi data alamat otomatis. Anda tetap dapat mengedit isian di bawah ini secara manual.
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-                  <div>
-                    <label className="block mb-1.5 text-[10px] font-bold tracking-widest text-gray-500 uppercase">Nama Depan</label>
-                    <input type="text" required value={formData.first_name_address} onChange={(e) => setFormData({ ...formData, first_name_address: e.target.value })} className="w-full p-3 text-sm bg-white border border-gray-200 shadow-sm rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
+                <div className="space-y-5">
+                  <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                    <div>
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Nama Depan</label>
+                      <input type="text" required value={formData.first_name_address} onChange={(e) => setFormData({ ...formData, first_name_address: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
+                    </div>
+                    <div>
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Nama Belakang</label>
+                      <input type="text" required value={formData.last_name_address} onChange={(e) => setFormData({ ...formData, last_name_address: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
+                    </div>
                   </div>
-                  <div>
-                    <label className="block mb-1.5 text-[10px] font-bold tracking-widest text-gray-500 uppercase">Nama Belakang</label>
-                    <input type="text" required value={formData.last_name_address} onChange={(e) => setFormData({ ...formData, last_name_address: e.target.value })} className="w-full p-3 text-sm bg-white border border-gray-200 shadow-sm rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
-                  </div>
-                </div>
 
-                <div>
-                  <label className="block mb-1.5 text-[10px] font-bold tracking-widest text-gray-500 uppercase">Detail Alamat (Jalan, Blok, Patokan)</label>
-                  <textarea required rows={3} value={formData.address_location} onChange={(e) => setFormData({ ...formData, address_location: e.target.value })} className="w-full p-3 text-sm bg-white border border-gray-200 shadow-sm rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all resize-none"></textarea>
-                </div>
-
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <div>
-                    <label className="block mb-1.5 text-[10px] font-bold tracking-widest text-gray-500 uppercase">Kecamatan/Desa</label>
-                    <input type="text" required value={formData.region} onChange={(e) => setFormData({ ...formData, region: e.target.value })} className="w-full p-3 text-sm bg-white border border-gray-200 shadow-sm rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
+                    <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Label Alamat</label>
+                    <select value={formData.location_type} onChange={(e) => setFormData({ ...formData, location_type: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none bg-white transition-all">
+                      <option value="home">Rumah</option>
+                      <option value="office">Kantor</option>
+                      <option value="other">Lainnya</option>
+                    </select>
                   </div>
-                  <div>
-                    <label className="block mb-1.5 text-[10px] font-bold tracking-widest text-gray-500 uppercase">Kota/Kabupaten</label>
-                    <input type="text" required value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value })} className="w-full p-3 text-sm bg-white border border-gray-200 shadow-sm rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
-                  </div>
-                  <div>
-                    <label className="block mb-1.5 text-[10px] font-bold tracking-widest text-gray-500 uppercase">Provinsi</label>
-                    <input type="text" required value={formData.province} onChange={(e) => setFormData({ ...formData, province: e.target.value })} className="w-full p-3 text-sm bg-white border border-gray-200 shadow-sm rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
-                  </div>
-                  <div>
-                    <label className="block mb-1.5 text-[10px] font-bold tracking-widest text-gray-500 uppercase">Kode Pos</label>
-                    <input type="text" required value={formData.postal_code} onChange={(e) => setFormData({ ...formData, postal_code: e.target.value })} className="w-full p-3 text-sm bg-white border border-gray-200 shadow-sm rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
-                  </div>
-                </div>
 
-                <div>
-                  <label className="block mb-1.5 text-[10px] font-bold tracking-widest text-gray-500 uppercase">Label Alamat</label>
-                  <select value={formData.location_type} onChange={(e) => setFormData({ ...formData, location_type: e.target.value })} className="w-full p-3 text-sm bg-white border border-gray-200 shadow-sm rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all cursor-pointer">
-                    <option value="home">Rumah</option>
-                    <option value="office">Kantor</option>
-                    <option value="other">Lainnya</option>
-                  </select>
-                </div>
+                  <div>
+                    <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Detail Alamat Lengkap</label>
+                    <textarea required rows={3} placeholder="Nama jalan, blok, RT/RW, atau patokan..." value={formData.address_location} onChange={(e) => setFormData({ ...formData, address_location: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none resize-none bg-white transition-all"></textarea>
+                  </div>
 
-                <input type="hidden" value={formData.latitude} />
-                <input type="hidden" value={formData.longitude} />
+                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                    <div>
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Kecamatan</label>
+                      <input type="text" required value={formData.region} onChange={(e) => setFormData({ ...formData, region: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
+                    </div>
+                    <div>
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Kota/Kabupaten</label>
+                      <input type="text" required value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
+                    </div>
+                    <div>
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Provinsi</label>
+                      <input type="text" required value={formData.province} onChange={(e) => setFormData({ ...formData, province: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
+                    </div>
+                    <div>
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Kode Pos</label>
+                      <input type="text" required value={formData.postal_code} onChange={(e) => setFormData({ ...formData, postal_code: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
+                    </div>
+                  </div>
 
-                <div className="flex items-center gap-3 p-4 mt-2 bg-white border border-gray-200 shadow-sm rounded-xl">
-                  <input type="checkbox" id="is_default" checked={formData.is_default} onChange={(e) => setFormData({ ...formData, is_default: e.target.checked })} className="w-5 h-5 rounded cursor-pointer text-[#006A4E] focus:ring-[#006A4E] accent-[#006A4E]" />
-                  <label htmlFor="is_default" className="text-sm font-bold cursor-pointer select-none text-gray-800">
-                    Jadikan Alamat Pengiriman Utama
-                  </label>
+                  <input type="hidden" value={formData.latitude} />
+                  <input type="hidden" value={formData.longitude} />
+
+                  <div className="flex items-center gap-3 p-4 mt-2 border rounded-xl bg-gray-50 border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => setFormData({ ...formData, is_default: !formData.is_default })}>
+                    <input type="checkbox" id="is_default" checked={formData.is_default} onChange={(e) => setFormData({ ...formData, is_default: e.target.checked })} className="w-5 h-5 rounded cursor-pointer text-[#006A4E] focus:ring-[#006A4E] accent-[#006A4E]" onClick={(e) => e.stopPropagation()} />
+                    <label htmlFor="is_default" className="text-sm font-bold cursor-pointer select-none text-gray-800" onClick={(e) => e.stopPropagation()}>
+                      Jadikan Alamat Utama Pengiriman
+                    </label>
+                  </div>
                 </div>
 
                 <div className="flex justify-end gap-3 pt-6 mt-auto border-t border-gray-100">
-                  <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-3 text-xs font-bold tracking-widest text-gray-600 uppercase transition-colors bg-white border border-gray-200 rounded-xl hover:bg-gray-50">
+                  <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-3 text-sm font-bold text-gray-600 transition-colors bg-gray-100 rounded-xl hover:bg-gray-200">
                     Batal
                   </button>
-                  <button type="submit" className="px-6 py-3 text-xs font-bold tracking-widest text-white uppercase transition-colors bg-gray-900 shadow-md rounded-xl hover:bg-black">
+                  <button type="submit" className="px-6 py-3 text-sm font-bold text-white transition-all shadow-md bg-[#006A4E] rounded-xl hover:bg-emerald-900 hover:shadow-lg">
                     {editingId ? "Simpan Perubahan" : "Simpan Alamat"}
                   </button>
                 </div>
               </form>
             </div>
+
           </div>
         </div>
       )}
