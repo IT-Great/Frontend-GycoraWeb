@@ -10378,18 +10378,43 @@ export default function ProductDetail() {
     };
 
     // [BARU] Fungsi mengambil review asli dari database
+    // const fetchReviews = async () => {
+    //   try {
+    //     // Sesuaikan URL endpoint ini jika struktur API Review Anda berbeda. 
+    //     // Biasa: GET /api/reviews?product_id={id} atau GET /api/products/{id}/reviews
+    //     // const res = await fetch(`${BASE_URL}/api/reviews?product_id=${id}`, {
+    //     //     headers: { Accept: "application/json" }
+    //     // });
+
+    //     const res = await fetch(`${BASE_URL}/api/products/${id}/reviews`, {
+    //         headers: { Accept: "application/json" }
+    //     });
+    //     if (res.ok) {
+    //         const data = await res.json();
+    //         if (isCurrentFetchValid) {
+    //             // Ambil data array review (tergantung bentuk json response laravel Anda)
+    //             const reviewsArr = data.data ? data.data : data; 
+    //             setApiReviews(reviewsArr);
+    //         }
+    //     }
+    //   } catch (error) {
+    //     console.error("Gagal menarik data ulasan asli:", error);
+    //   }
+    // };
+
+    // [BARU] Fungsi mengambil review asli dari database
     const fetchReviews = async () => {
       try {
-        // Sesuaikan URL endpoint ini jika struktur API Review Anda berbeda. 
-        // Biasa: GET /api/reviews?product_id={id} atau GET /api/products/{id}/reviews
-        const res = await fetch(`${BASE_URL}/api/reviews?product_id=${id}`, {
+        // [PERBAIKAN] Disesuaikan dengan endpoint Route::get('/products/{product}/reviews')
+        const res = await fetch(`${BASE_URL}/api/products/${id}/reviews`, {
             headers: { Accept: "application/json" }
         });
+        
         if (res.ok) {
             const data = await res.json();
             if (isCurrentFetchValid) {
-                // Ambil data array review (tergantung bentuk json response laravel Anda)
-                const reviewsArr = data.data ? data.data : data; 
+                // [PERBAIKAN] Mengambil dari key 'reviews' sesuai controller Backend Anda
+                const reviewsArr = data.reviews ? data.reviews : []; 
                 setApiReviews(reviewsArr);
             }
         }
