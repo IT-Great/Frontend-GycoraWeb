@@ -5055,7 +5055,7 @@ export default function Header() {
               </div>
 
               {/* PRODUCT MENU DROPDOWN */}
-              <div 
+              {/* <div 
                 className="relative flex items-center h-full py-2 cursor-pointer group"
                 onMouseEnter={() => setIsProductMenuOpen(true)}
                 onMouseLeave={() => setIsProductMenuOpen(false)}
@@ -5080,6 +5080,63 @@ export default function Header() {
                         Ethereal Glow Brush Black
                       </button>
                       <button onClick={() => navigate(menuIds.scalpCare ? `/product/${menuIds.scalpCare}` : '/products', { state: { allProducts } })} className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors">
+                        Eco Serenity Scalp Care
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div> */}
+
+              {/* PRODUCT MENU DROPDOWN */}
+              <div 
+                className="relative flex items-center h-full py-2 cursor-pointer group"
+                onMouseEnter={() => setIsProductMenuOpen(true)}
+                onMouseLeave={() => setIsProductMenuOpen(false)}
+              >
+                <Link to="/products" className="flex items-center gap-1 transition-colors hover:text-gycora">
+                  Product
+                  <svg
+                    className={`w-4 h-4 transition-transform duration-200 ${isProductMenuOpen ? "rotate-180" : ""}`}
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </Link>
+
+                {isProductMenuOpen && (
+                  <div className="absolute left-0 w-64 pt-2 top-full animate-fade-in-up">
+                    <div className="py-2 bg-white border border-gray-100 shadow-2xl rounded-xl">
+                      <button 
+                        onClick={() => {
+                          const targetProduct = allProducts.find(p => p.id === menuIds.pinkBrush);
+                          navigate(menuIds.pinkBrush ? `/product/${menuIds.pinkBrush}` : '/products', { 
+                            state: { initialProduct: targetProduct, allProducts } 
+                          });
+                        }} 
+                        className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors"
+                      >
+                        Ethereal Glow Brush Pink
+                      </button>
+                      <button 
+                        onClick={() => {
+                          const targetProduct = allProducts.find(p => p.id === menuIds.blackBrush);
+                          navigate(menuIds.blackBrush ? `/product/${menuIds.blackBrush}` : '/products', { 
+                            state: { initialProduct: targetProduct, allProducts } 
+                          });
+                        }} 
+                        className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors"
+                      >
+                        Ethereal Glow Brush Black
+                      </button>
+                      <button 
+                        onClick={() => {
+                          const targetProduct = allProducts.find(p => p.id === menuIds.scalpCare);
+                          navigate(menuIds.scalpCare ? `/product/${menuIds.scalpCare}` : '/products', { 
+                            state: { initialProduct: targetProduct, allProducts } 
+                          });
+                        }} 
+                        className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors"
+                      >
                         Eco Serenity Scalp Care
                       </button>
                     </div>
@@ -5184,7 +5241,7 @@ export default function Header() {
                 </div>
 
                 {/* Accordion Product Mobile */}
-                <div>
+                {/* <div>
                    <button onClick={() => setIsMobileProductMenuOpen(!isMobileProductMenuOpen)} className="flex items-center justify-between w-full text-lg font-bold">
                       Product
                       <svg className={`w-5 h-5 transition-transform ${isMobileProductMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
@@ -5194,6 +5251,32 @@ export default function Header() {
                          <button className="text-left" onClick={() => { setIsMobileMenuOpen(false); navigate(menuIds.pinkBrush ? `/product/${menuIds.pinkBrush}` : '/products', { state: { allProducts } }); }}>Ethereal Glow Brush Pink</button>
                          <button className="text-left" onClick={() => { setIsMobileMenuOpen(false); navigate(menuIds.blackBrush ? `/product/${menuIds.blackBrush}` : '/products', { state: { allProducts } }); }}>Ethereal Glow Brush Black</button>
                          <button className="text-left" onClick={() => { setIsMobileMenuOpen(false); navigate(menuIds.scalpCare ? `/product/${menuIds.scalpCare}` : '/products', { state: { allProducts } }); }}>Eco Serenity Scalp Care</button>
+                      </div>
+                   )}
+                </div> */}
+
+                <div>
+                   <button onClick={() => setIsMobileProductMenuOpen(!isMobileProductMenuOpen)} className="flex items-center justify-between w-full text-lg font-bold">
+                      Product
+                      <svg className={`w-5 h-5 transition-transform ${isMobileProductMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                   </button>
+                   {isMobileProductMenuOpen && (
+                      <div className="flex flex-col gap-3 pl-4 mt-2 text-gray-600">
+                         <button className="text-left" onClick={() => { 
+                           setIsMobileMenuOpen(false); 
+                           const targetProduct = allProducts.find(p => p.id === menuIds.pinkBrush);
+                           navigate(menuIds.pinkBrush ? `/product/${menuIds.pinkBrush}` : '/products', { state: { initialProduct: targetProduct, allProducts } }); 
+                         }}>Ethereal Glow Brush Pink</button>
+                         <button className="text-left" onClick={() => { 
+                           setIsMobileMenuOpen(false); 
+                           const targetProduct = allProducts.find(p => p.id === menuIds.blackBrush);
+                           navigate(menuIds.blackBrush ? `/product/${menuIds.blackBrush}` : '/products', { state: { initialProduct: targetProduct, allProducts } }); 
+                         }}>Ethereal Glow Brush Black</button>
+                         <button className="text-left" onClick={() => { 
+                           setIsMobileMenuOpen(false); 
+                           const targetProduct = allProducts.find(p => p.id === menuIds.scalpCare);
+                           navigate(menuIds.scalpCare ? `/product/${menuIds.scalpCare}` : '/products', { state: { initialProduct: targetProduct, allProducts } }); 
+                         }}>Eco Serenity Scalp Care</button>
                       </div>
                    )}
                 </div>
