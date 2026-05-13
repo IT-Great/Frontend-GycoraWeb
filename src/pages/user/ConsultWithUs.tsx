@@ -2740,7 +2740,7 @@ export default function ConsultWithUs() {
               </p>
               <button
                 onClick={() => categorySectionRef.current?.scrollIntoView({ behavior: "smooth" })}
-                className="w-full py-4 text-sm font-bold tracking-widest text-white uppercase transition-all shadow-lg rounded-xl bg-[#006A4E] hover:-translate-y-0.5 hover:shadow-xl hover:bg-emerald-900"
+                className="w-full py-4 text-sm font-bold tracking-widest uppercase transition-all bg-transparent border-2 rounded-xl text-[#006A4E] border-[#006A4E] hover:bg-[#006A4E] hover:text-white"
               >
                 Mulai Konsultasi Online
               </button>
