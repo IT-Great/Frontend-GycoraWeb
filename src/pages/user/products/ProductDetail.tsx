@@ -10336,11 +10336,21 @@ export default function ProductDetail() {
         if (!res.ok) throw new Error("Produk tidak ditemukan");
         const responseData = await res.json();
 
+        // if (isCurrentFetchValid) {
+        //   const productObject = responseData.data ? responseData.data : responseData;
+        //   setProduct(productObject);
+          
+        //   if (!allPassedProducts) {
+        //      await fetchSiblingColorsViaAPI(productObject.name);
+        //   }
+        // }
+
         if (isCurrentFetchValid) {
           const productObject = responseData.data ? responseData.data : responseData;
           setProduct(productObject);
           
-          if (!allPassedProducts) {
+          // [PERBAIKAN] Validasi yang lebih ketat: Cek apakah data benar-benar ada dan panjangnya lebih dari 0
+          if (!allPassedProducts || allPassedProducts.length === 0) {
              await fetchSiblingColorsViaAPI(productObject.name);
           }
         }
