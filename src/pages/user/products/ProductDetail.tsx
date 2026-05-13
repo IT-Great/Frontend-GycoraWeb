@@ -10365,7 +10365,6 @@ export default function ProductDetail() {
         });
         if (res.ok) {
           const data = await res.json();
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const isWished = data.some(
             (item: any) => item.product_id === Number(id),
           );
