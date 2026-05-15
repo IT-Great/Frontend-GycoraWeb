@@ -6009,11 +6009,559 @@
 //   );
 // }
 
+// import { useEffect, useState, useRef } from "react";
+// import { Link, useNavigate } from "react-router-dom";
+// import Swal from "sweetalert2";
+// import { useCart } from "../context/CartContext";
+// // import { useMessage } from "../context/MessageContext";
+// import logoGycora from "../assets/gycora_logo.png";
+// import { BASE_URL } from "../config/api";
+
+// export default function Header() {
+//   const navigate = useNavigate();
+//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   const [userData, setUserData] = useState<any>(null);
+//   const { cartTotalItems } = useCart();
+
+//   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+//   const dropdownRef = useRef<HTMLDivElement>(null);
+//   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+//   const [isProductMenuOpen, setIsProductMenuOpen] = useState(false);
+//   const [isMobileProductMenuOpen, setIsMobileProductMenuOpen] = useState(false);
+
+//   const [isAboutMenuOpen, setIsAboutMenuOpen] = useState(false);
+//   const [isMobileAboutMenuOpen, setIsMobileAboutMenuOpen] = useState(false);
+
+//   const [allProducts, setAllProducts] = useState<any[]>([]);
+//   // [PERBAIKAN] Mengubah tipe dari number | null menjadi string | null karena sekarang menyimpan slug
+//   const [menuIds, setMenuIds] = useState({
+//     pinkBrush: null as string | null,
+//     blackBrush: null as string | null,
+//     scalpCare: null as string | null,
+//   });
+
+//   const [isSearchOpen, setIsSearchOpen] = useState(false);
+//   const [searchQuery, setSearchQuery] = useState("");
+//   const [timeFilter, setTimeFilter] = useState("all");
+//   const [isSearching, setIsSearching] = useState(false);
+//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   const [searchResults, setSearchResults] = useState<any>({
+//     products: [],
+//     transactions: [],
+//     carts: [],
+//   });
+//   const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+//   useEffect(() => {
+//     const userToken = localStorage.getItem("user_token");
+//     const storedUser = localStorage.getItem("user_data");
+//     if (userToken && storedUser) {
+//       setUserData(JSON.parse(storedUser));
+//     }
+
+//     const fetchForMenu = async () => {
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/products`);
+//         const data = await res.json();
+//         const products = data.data ? data.data : data;
+//         setAllProducts(products);
+
+//         const pink = products.find((p: any) => p.name.toLowerCase().includes("brush") && p.name.toLowerCase().includes("pink"));
+//         const black = products.find((p: any) => p.name.toLowerCase().includes("brush") && p.name.toLowerCase().includes("black"));
+//         const scalp = products.find((p: any) => p.name.toLowerCase().includes("scalp"));
+
+//         // [PERBAIKAN] Menyimpan slug, bukan id
+//         setMenuIds({
+//           pinkBrush: pink?.slug || null,
+//           blackBrush: black?.slug || null,
+//           scalpCare: scalp?.slug || null,
+//         });
+//       } catch (err) {
+//         console.error("Gagal load menu produk", err);
+//       }
+//     };
+//     fetchForMenu();
+//   }, []);
+
+//   useEffect(() => {
+//     function handleClickOutside(event: MouseEvent) {
+//       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+//         setIsDropdownOpen(false);
+//       }
+//     }
+//     document.addEventListener("mousedown", handleClickOutside);
+//     return () => document.removeEventListener("mousedown", handleClickOutside);
+//   }, []);
+
+//   useEffect(() => {
+//     if (isMobileMenuOpen || isSearchOpen) {
+//       document.body.style.overflow = "hidden";
+//     } else {
+//       document.body.style.overflow = "unset";
+//     }
+//     return () => {
+//       document.body.style.overflow = "unset";
+//     };
+//   }, [isMobileMenuOpen, isSearchOpen]);
+
+//   const handleLogout = () => {
+//     setIsDropdownOpen(false);
+    
+//     Swal.fire({
+//       title: "Keluar?",
+//       icon: "warning",
+//       showCancelButton: true,
+//       confirmButtonColor: "#059669",
+//       cancelButtonColor: "#d33",
+//       confirmButtonText: "Ya, Keluar",
+//     }).then((result) => {
+//       if (result.isConfirmed) {
+//         localStorage.removeItem("user_token");
+//         localStorage.removeItem("user_data");
+//         setUserData(null);
+//         setIsMobileMenuOpen(false);
+//         navigate("/");
+//       }
+//     });
+//   };
+
+//   useEffect(() => {
+//     if (!isSearchOpen) return;
+
+//     if (searchQuery.trim().length === 0) {
+//       setSearchResults({ products: [], transactions: [], carts: [] });
+//       setIsSearching(false);
+//       return;
+//     }
+
+//     setIsSearching(true);
+
+//     if (searchTimeoutRef.current) {
+//       clearTimeout(searchTimeoutRef.current);
+//     }
+
+//     searchTimeoutRef.current = setTimeout(async () => {
+//       try {
+//         const token = localStorage.getItem("user_token");
+//         const res = await fetch(
+//           `${BASE_URL}/api/search?q=${encodeURIComponent(searchQuery)}&time=${timeFilter}`,
+//           {
+//             headers: {
+//               Accept: "application/json",
+//               ...(token && { Authorization: `Bearer ${token}` }),
+//             },
+//           }
+//         );
+
+//         if (res.ok) {
+//           const data = await res.json();
+//           setSearchResults(data);
+//         } else {
+//           setSearchResults({ products: [], transactions: [], carts: [] });
+//         }
+//       } catch (error) {
+//         console.error("Global search error:", error);
+//         setSearchResults({ products: [], transactions: [], carts: [] });
+//       } finally {
+//         setIsSearching(false);
+//       }
+//     }, 500);
+
+//     return () => {
+//       if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+//     };
+//   }, [searchQuery, timeFilter, isSearchOpen]);
+
+//   const closeSearchModal = () => {
+//     setIsSearchOpen(false);
+//     setSearchQuery("");
+//     setSearchResults({ products: [], transactions: [], carts: [] });
+//   };
+
+//   const formatRupiah = (angka: number) => {
+//     return new Intl.NumberFormat("id-ID", {
+//       style: "currency",
+//       currency: "IDR",
+//       minimumFractionDigits: 0,
+//     }).format(angka || 0);
+//   };
+
+//   return (
+//     <>
+//       <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
+//         <div className="relative flex items-center justify-between h-20 px-4 mx-auto max-w-[1536px] sm:px-6 lg:px-8">
+          
+//           <div className="flex items-center flex-1">
+//             <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 -ml-2 text-gray-600 transition-colors rounded-md md:hidden hover:bg-gray-100">
+//               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+//             </button>
+
+//             <nav className="items-center hidden gap-6 text-sm font-semibold text-gray-700 md:flex lg:gap-8">
+//               <Link to="/" className="transition-colors hover:text-gycora">Home</Link>
+
+//               <div 
+//                 className="relative flex items-center h-full py-2 cursor-pointer group"
+//                 onMouseEnter={() => setIsAboutMenuOpen(true)}
+//                 onMouseLeave={() => setIsAboutMenuOpen(false)}
+//               >
+//                 <Link to="/about" className="flex items-center gap-1 transition-colors hover:text-gycora">
+//                   About Us
+//                   <svg
+//                     className={`w-4 h-4 transition-transform duration-200 ${isAboutMenuOpen ? "rotate-180" : ""}`}
+//                     fill="none" viewBox="0 0 24 24" stroke="currentColor"
+//                   >
+//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+//                   </svg>
+//                 </Link>
+
+//                 {isAboutMenuOpen && (
+//                   <div className="absolute left-0 pt-2 top-full w-52 animate-fade-in-up">
+//                     <div className="py-2 bg-white border border-gray-100 shadow-2xl rounded-xl">
+//                       <Link to="/about#our-story" className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors">Our Story</Link>
+//                       <Link to="/about#our-purpose" className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors">Our Purpose</Link>
+//                       <Link to="/about#our-innovation" className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors">Our Innovation</Link>
+//                       <Link to="/about#vision-mission" className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors">Vision and Mission</Link>
+//                       <Link to="/faq" className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors border-t border-gray-100">FAQs</Link>
+//                     </div>
+//                   </div>
+//                 )}
+//               </div>
+
+//               <div 
+//                 className="relative flex items-center h-full py-2 cursor-pointer group"
+//                 onMouseEnter={() => setIsProductMenuOpen(true)}
+//                 onMouseLeave={() => setIsProductMenuOpen(false)}
+//               >
+//                 <Link to="/products" className="flex items-center gap-1 transition-colors hover:text-gycora">
+//                   Product
+//                   <svg
+//                     className={`w-4 h-4 transition-transform duration-200 ${isProductMenuOpen ? "rotate-180" : ""}`}
+//                     fill="none" viewBox="0 0 24 24" stroke="currentColor"
+//                   >
+//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+//                   </svg>
+//                 </Link>
+
+//                 {isProductMenuOpen && (
+//                   <div className="absolute left-0 w-64 pt-2 top-full animate-fade-in-up">
+//                     <div className="py-2 bg-white border border-gray-100 shadow-2xl rounded-xl">
+//                       <button 
+//                         onClick={() => {
+//                           // [PERBAIKAN] Pencarian berdasarkan slug
+//                           const targetProduct = allProducts.find(p => p.slug === menuIds.pinkBrush);
+//                           navigate(menuIds.pinkBrush ? `/product/${menuIds.pinkBrush}` : '/products', { 
+//                             state: { initialProduct: targetProduct, allProducts } 
+//                           });
+//                         }} 
+//                         className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors"
+//                       >
+//                         Ethereal Glow Brush Pink
+//                       </button>
+//                       <button 
+//                         onClick={() => {
+//                           const targetProduct = allProducts.find(p => p.slug === menuIds.blackBrush);
+//                           navigate(menuIds.blackBrush ? `/product/${menuIds.blackBrush}` : '/products', { 
+//                             state: { initialProduct: targetProduct, allProducts } 
+//                           });
+//                         }} 
+//                         className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors"
+//                       >
+//                         Ethereal Glow Brush Black
+//                       </button>
+//                       <button 
+//                         onClick={() => {
+//                           const targetProduct = allProducts.find(p => p.slug === menuIds.scalpCare);
+//                           navigate(menuIds.scalpCare ? `/product/${menuIds.scalpCare}` : '/products', { 
+//                             state: { initialProduct: targetProduct, allProducts } 
+//                           });
+//                         }} 
+//                         className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors"
+//                       >
+//                         Eco Serenity Scalp Care
+//                       </button>
+//                     </div>
+//                   </div>
+//                 )}
+//               </div>
+
+//               <Link to="/events" className="transition-colors hover:text-gycora">Events</Link>
+//               <Link to="/consult" className="transition-colors hover:text-gycora">Consult</Link>
+//             </nav>
+//           </div>
+
+//           <div className="absolute flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer left-1/2 top-1/2" onClick={() => navigate("/")}>
+//             <img src={logoGycora} alt="Gycora Logo" className="object-contain h-8 md:h-10" />
+//           </div>
+
+//           <div className="flex items-center justify-end flex-1 gap-2 md:gap-5">
+//             {userData ? (
+//               <div className="relative hidden md:block" ref={dropdownRef}>
+//                 <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center gap-2 cursor-pointer group focus:outline-none">
+//                   <div className="flex items-center justify-center w-8 h-8 text-sm font-bold transition-colors rounded-full bg-gycora-light text-gycora-dark group-hover:bg-gycora group-hover:text-white">
+//                     {userData.first_name.charAt(0)}
+//                   </div>
+//                   <span className="hidden text-sm font-semibold text-gray-800 transition-colors md:block group-hover:text-gycora">Hi, {userData.first_name}</span>
+//                 </button>
+//                 {isDropdownOpen && (
+//                   <div className="absolute right-0 w-48 py-2 mt-3 bg-white border border-gray-100 shadow-xl rounded-xl animate-fade-in-up">
+//                     <Link to="/profile" onClick={() => setIsDropdownOpen(false)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Profil Saya</Link>
+//                     <Link to="/orders" onClick={() => setIsDropdownOpen(false)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Pesanan Saya</Link>
+//                     <button onClick={handleLogout} className="w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-red-50">Keluar</button>
+//                   </div>
+//                 )}
+//               </div>
+//             ) : (
+//               <Link to="/login" className="hidden text-sm font-medium text-gray-600 transition-colors md:block hover:text-gycora">Login</Link>
+//             )}
+            
+//             <button onClick={() => setIsSearchOpen(true)} className="p-1.5 text-gray-600 hover:text-gycora">
+//               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+//             </button>
+            
+//             {userData && (
+//               <button onClick={() => navigate("/chat")} className="relative hidden md:block p-1.5 md:p-1 text-gray-600 transition-colors rounded-full hover:bg-gray-100 hover:text-gycora" title="Chat dengan Pakar">
+//                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+//                 </svg>
+//               </button>
+//             )}
+
+//             <button onClick={() => navigate("/cart")} className="relative p-1.5 text-gray-600 hover:text-gycora">
+//               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+//               {cartTotalItems > 0 && <span className="absolute top-0 right-0 bg-gycora text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center translate-x-1 -translate-y-1">{cartTotalItems}</span>}
+//             </button>
+//           </div>
+//         </div>
+//       </header>
+
+//       {/* MOBILE MENU */}
+//       {isMobileMenuOpen && (
+//         <div className="fixed inset-0 z-[100] md:hidden">
+//           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
+//           <div className="absolute inset-y-0 left-0 w-4/5 max-w-sm p-4 overflow-y-auto bg-white shadow-2xl">
+//              <div className="flex items-center justify-between mb-8">
+//                 <img src={logoGycora} alt="Logo" className="h-6" />
+//                 <button onClick={() => setIsMobileMenuOpen(false)}><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+//              </div>
+             
+//              {userData && (
+//               <div className="flex items-center gap-3 p-4 mb-4 border border-gray-100 rounded-xl bg-emerald-50/30">
+//                 <div className="flex items-center justify-center w-12 h-12 font-bold rounded-full bg-gycora-light text-gycora-dark">
+//                   {userData.first_name.charAt(0)}
+//                 </div>
+//                 <div>
+//                   <p className="text-sm font-bold text-gray-900">{userData.first_name} {userData.last_name}</p>
+//                   <p className="text-xs text-gray-500">{userData.email}</p>
+//                 </div>
+//               </div>
+//             )}
+
+//              <nav className="flex flex-col gap-4">
+//                 <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold">Home</Link>
+                
+//                 <div>
+//                    <button onClick={() => setIsMobileAboutMenuOpen(!isMobileAboutMenuOpen)} className="flex items-center justify-between w-full text-lg font-bold">
+//                       About Us
+//                       <svg className={`w-5 h-5 transition-transform ${isMobileAboutMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+//                    </button>
+//                    {isMobileAboutMenuOpen && (
+//                       <div className="flex flex-col gap-3 pl-4 mt-2 text-gray-600">
+//                          <Link to="/about#our-story" onClick={() => setIsMobileMenuOpen(false)} className="text-left">Our Story</Link>
+//                          <Link to="/about#our-purpose" onClick={() => setIsMobileMenuOpen(false)} className="text-left">Our Purpose</Link>
+//                          <Link to="/about#our-innovation" onClick={() => setIsMobileMenuOpen(false)} className="text-left">Our Innovation</Link>
+//                          <Link to="/about#vision-mission" onClick={() => setIsMobileMenuOpen(false)} className="text-left">Vision and Mission</Link>
+//                          <Link to="/faq" onClick={() => setIsMobileMenuOpen(false)} className="text-left text-gycora">FAQs</Link>
+//                       </div>
+//                    )}
+//                 </div>
+
+//                 <div>
+//                    <button onClick={() => setIsMobileProductMenuOpen(!isMobileProductMenuOpen)} className="flex items-center justify-between w-full text-lg font-bold">
+//                       Product
+//                       <svg className={`w-5 h-5 transition-transform ${isMobileProductMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+//                    </button>
+//                    {isMobileProductMenuOpen && (
+//                       <div className="flex flex-col gap-3 pl-4 mt-2 text-gray-600">
+//                          <button className="text-left" onClick={() => { 
+//                            setIsMobileMenuOpen(false); 
+//                            const targetProduct = allProducts.find(p => p.slug === menuIds.pinkBrush);
+//                            navigate(menuIds.pinkBrush ? `/product/${menuIds.pinkBrush}` : '/products', { state: { initialProduct: targetProduct, allProducts } }); 
+//                          }}>Ethereal Glow Brush Pink</button>
+//                          <button className="text-left" onClick={() => { 
+//                            setIsMobileMenuOpen(false); 
+//                            const targetProduct = allProducts.find(p => p.slug === menuIds.blackBrush);
+//                            navigate(menuIds.blackBrush ? `/product/${menuIds.blackBrush}` : '/products', { state: { initialProduct: targetProduct, allProducts } }); 
+//                          }}>Ethereal Glow Brush Black</button>
+//                          <button className="text-left" onClick={() => { 
+//                            setIsMobileMenuOpen(false); 
+//                            const targetProduct = allProducts.find(p => p.slug === menuIds.scalpCare);
+//                            navigate(menuIds.scalpCare ? `/product/${menuIds.scalpCare}` : '/products', { state: { initialProduct: targetProduct, allProducts } }); 
+//                          }}>Eco Serenity Scalp Care</button>
+//                       </div>
+//                    )}
+//                 </div>
+
+//                 <Link to="/events" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold">Events</Link>
+//                 <Link to="/consult" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold">Consult</Link>
+             
+//                 {userData ? (
+//                   <>
+//                     <div className="my-2 border-t border-gray-100"></div>
+//                     <Link to="/chat" onClick={() => setIsMobileMenuOpen(false)} className="text-base font-medium text-gray-700">Live Chat Pakar</Link>
+//                     <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)} className="text-base font-medium text-gray-700">Profil Saya</Link>
+//                     <Link to="/orders" onClick={() => setIsMobileMenuOpen(false)} className="text-base font-medium text-gray-700">Pesanan Saya</Link>
+//                     <button onClick={handleLogout} className="mt-4 font-bold text-left text-red-600">Keluar</button>
+//                   </>
+//                 ) : (
+//                   <div className="flex flex-col gap-2 mt-4">
+//                     <button onClick={() => { setIsMobileMenuOpen(false); navigate("/login"); }} className="w-full px-4 py-3 text-sm font-bold text-white bg-gray-900 rounded-xl">Masuk</button>
+//                     <button onClick={() => { setIsMobileMenuOpen(false); navigate("/register"); }} className="w-full px-4 py-3 text-sm font-bold text-gray-700 border border-gray-200 rounded-xl">Daftar Akun Baru</button>
+//                   </div>
+//                 )}
+//              </nav>
+//           </div>
+//         </div>
+//       )}
+
+//       {/* GLOBAL SEARCH MODAL */}
+//       {isSearchOpen && (
+//         <div className="fixed inset-0 z-[100] flex justify-center bg-black/60 backdrop-blur-sm animate-fade-in">
+//           <div className="absolute inset-0" onClick={closeSearchModal}></div>
+
+//           <div className="relative flex flex-col w-full max-w-3xl mt-16 md:mt-24 overflow-hidden bg-white shadow-2xl h-[85vh] md:h-[75vh] rounded-t-3xl md:rounded-3xl animate-fade-in-up">
+//             <div className="flex flex-col p-4 border-b border-gray-100 md:p-6 bg-gray-50/50">
+//               <div className="flex items-center justify-between mb-4">
+//                 <h2 className="text-lg font-bold text-gray-900">
+//                   Pencarian Universal
+//                 </h2>
+//                 <button onClick={closeSearchModal} className="p-1 text-gray-400 bg-white border border-gray-200 rounded-full hover:text-gray-900 hover:bg-gray-100">
+//                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+//                   </svg>
+//                 </button>
+//               </div>
+
+//               <div className="relative">
+//                 <svg className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+//                 </svg>
+//                 <input
+//                   type="text"
+//                   value={searchQuery}
+//                   onChange={(e) => setSearchQuery(e.target.value)}
+//                   placeholder="Cari produk, No. Pesanan (INV-...), atau status..."
+//                   className="w-full py-3 pl-12 pr-4 text-sm font-medium transition-all bg-white border border-gray-300 shadow-sm outline-none rounded-xl focus:ring-2 focus:ring-gycora focus:border-transparent"
+//                   autoFocus
+//                 />
+//               </div>
+
+//               <div className="flex gap-2 mt-4 overflow-x-auto no-scrollbar">
+//                 {[
+//                   { id: "all", label: "Semua Waktu" },
+//                   { id: "7d", label: "7 Hari Terakhir" },
+//                   { id: "30d", label: "30 Hari Terakhir" },
+//                   { id: "90d", label: "3 Bulan Terakhir" },
+//                 ].map((filter) => (
+//                   <button
+//                     key={filter.id}
+//                     onClick={() => setTimeFilter(filter.id)}
+//                     className={`shrink-0 px-4 py-1.5 text-xs font-bold rounded-full transition-all border ${timeFilter === filter.id ? "bg-gycora text-white border-gycora shadow-md" : "bg-white text-gray-500 border-gray-200 hover:bg-gray-100"}`}
+//                   >
+//                     {filter.label}
+//                   </button>
+//                 ))}
+//               </div>
+//             </div>
+
+//             <div className="flex-1 p-4 overflow-y-auto bg-white md:p-6 custom-scrollbar">
+//               {searchQuery.trim().length === 0 ? (
+//                 <div className="flex flex-col items-center justify-center h-full text-gray-400 opacity-60">
+//                   <svg className="w-16 h-16 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1">
+//                     <path strokeLinecap="round" strokeLinejoin="round" d="M8 16l2.879-2.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+//                   </svg>
+//                   <p className="text-sm font-medium">Ketik kata kunci untuk memulai pencarian.</p>
+//                 </div>
+//               ) : isSearching ? (
+//                 <div className="flex flex-col items-center justify-center h-full gap-3 text-gycora">
+//                   <div className="w-8 h-8 border-4 rounded-full border-emerald-100 border-t-gycora animate-spin"></div>
+//                   <p className="text-xs font-bold tracking-widest uppercase animate-pulse">Mencari data...</p>
+//                 </div>
+//               ) : (
+//                 <div className="space-y-8 animate-fade-in">
+//                   {searchResults.products && searchResults.products.length > 0 && (
+//                     <div className="space-y-3">
+//                       <h3 className="pb-2 text-xs font-bold tracking-widest text-gray-400 uppercase border-b border-gray-100">Produk Katalog</h3>
+//                       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+//                         {searchResults.products.map((product: any) => (
+//                           <div
+//                             key={`prod-${product.id}`}
+//                             onClick={() => { closeSearchModal(); navigate(`/product/${product.slug}`); }} // [PERBAIKAN] Menggunakan slug di Global Search
+//                             className="flex items-center gap-3 p-3 transition-colors border border-gray-100 cursor-pointer rounded-xl hover:bg-emerald-50/50 hover:border-emerald-200 group"
+//                           >
+//                             <img src={product.image_url} alt={product.name} className="object-cover w-12 h-12 rounded-lg bg-gray-50 shrink-0" />
+//                             <div className="flex-1 min-w-0">
+//                               <p className="text-sm font-bold text-gray-900 truncate group-hover:text-gycora">{product.name}</p>
+//                               <p className="text-xs text-gray-500 font-mono mt-0.5">{product.sku}</p>
+//                             </div>
+//                             <span className="text-sm font-black text-gycora shrink-0">{formatRupiah(product.price)}</span>
+//                           </div>
+//                         ))}
+//                       </div>
+//                     </div>
+//                   )}
+
+//                   {searchResults.transactions && searchResults.transactions.length > 0 && (
+//                     <div className="space-y-3">
+//                       <h3 className="pb-2 text-xs font-bold tracking-widest text-gray-400 uppercase border-b border-gray-100">Riwayat Transaksi</h3>
+//                       <div className="flex flex-col gap-3">
+//                         {searchResults.transactions.map((trx: any) => (
+//                           <div
+//                             key={`trx-${trx.id}`}
+//                             onClick={() => { closeSearchModal(); navigate(`/orders`); }}
+//                             className="flex items-center justify-between p-4 transition-colors border border-gray-100 cursor-pointer rounded-xl hover:bg-emerald-50/50 hover:border-emerald-200 group"
+//                           >
+//                             <div className="flex items-center gap-4">
+//                               <div className="flex items-center justify-center w-10 h-10 text-gray-500 bg-gray-100 rounded-full shadow-sm group-hover:bg-white group-hover:text-gycora">
+//                                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+//                                 </svg>
+//                               </div>
+//                               <div>
+//                                 <p className="font-mono text-sm font-bold text-gray-900 group-hover:text-gycora">{trx.order_id}</p>
+//                                 <p className="mt-1 text-xs text-gray-500">{new Date(trx.created_at).toLocaleDateString("id-ID")}</p>
+//                               </div>
+//                             </div>
+//                             <div className="text-right">
+//                               <p className="text-sm font-black text-gray-900">{formatRupiah(trx.total_amount)}</p>
+//                               <span className="inline-block mt-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-gray-100 text-gray-600">{trx.status}</span>
+//                             </div>
+//                           </div>
+//                         ))}
+//                       </div>
+//                     </div>
+//                   )}
+
+//                   {!isSearching && searchResults.products?.length === 0 && searchResults.transactions?.length === 0 && searchResults.carts?.length === 0 && (
+//                     <div className="flex flex-col items-center justify-center py-10 text-center">
+//                       <p className="text-lg font-bold text-gray-900">Oops, tidak ditemukan!</p>
+//                       <p className="max-w-sm mt-2 text-sm text-gray-500">Kami tidak dapat menemukan hasil untuk "{searchQuery}" dengan rentang waktu yang Anda pilih.</p>
+//                     </div>
+//                   )}
+//                 </div>
+//               )}
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//     </>
+//   );
+// }
+
 import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useCart } from "../context/CartContext";
-// import { useMessage } from "../context/MessageContext";
 import logoGycora from "../assets/gycora_logo.png";
 import { BASE_URL } from "../config/api";
 
@@ -6033,8 +6581,12 @@ export default function Header() {
   const [isAboutMenuOpen, setIsAboutMenuOpen] = useState(false);
   const [isMobileAboutMenuOpen, setIsMobileAboutMenuOpen] = useState(false);
 
+  // [BARU] State untuk menyimpan bahasa saat ini
+  const [currentLang, setCurrentLang] = useState<"id" | "en">(
+    (localStorage.getItem("app_lang") as "id" | "en") || "id"
+  );
+
   const [allProducts, setAllProducts] = useState<any[]>([]);
-  // [PERBAIKAN] Mengubah tipe dari number | null menjadi string | null karena sekarang menyimpan slug
   const [menuIds, setMenuIds] = useState({
     pinkBrush: null as string | null,
     blackBrush: null as string | null,
@@ -6071,7 +6623,6 @@ export default function Header() {
         const black = products.find((p: any) => p.name.toLowerCase().includes("brush") && p.name.toLowerCase().includes("black"));
         const scalp = products.find((p: any) => p.name.toLowerCase().includes("scalp"));
 
-        // [PERBAIKAN] Menyimpan slug, bukan id
         setMenuIds({
           pinkBrush: pink?.slug || null,
           blackBrush: black?.slug || null,
@@ -6083,6 +6634,36 @@ export default function Header() {
     };
     fetchForMenu();
   }, []);
+
+  // [BARU] FUNGSI MEMICU TERJEMAHAN GOOGLE
+  const triggerGoogleTranslate = (langCode: "id" | "en") => {
+    const selectEl = document.querySelector(".goog-te-combo") as HTMLSelectElement;
+    if (selectEl) {
+      // Set nilai select Google Translate (Inggris='en', Indonesia='id')
+      selectEl.value = langCode;
+      selectEl.dispatchEvent(new Event("change"));
+    }
+  };
+
+  // [BARU] Saat komponen pertama kali dimuat, periksa preferensi bahasa sebelumnya
+  useEffect(() => {
+    // Beri jeda sedikit agar Google Translate widget punya waktu untuk dimuat (mount)
+    const initLangTimeout = setTimeout(() => {
+      if (currentLang === "en") {
+        triggerGoogleTranslate("en");
+      }
+    }, 1500);
+
+    return () => clearTimeout(initLangTimeout);
+  }, []);
+
+  // [BARU] Handler untuk tombol toggle
+  const toggleLanguage = () => {
+    const newLang = currentLang === "id" ? "en" : "id";
+    setCurrentLang(newLang);
+    localStorage.setItem("app_lang", newLang);
+    triggerGoogleTranslate(newLang);
+  };
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -6189,7 +6770,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
+      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm notranslate">
         <div className="relative flex items-center justify-between h-20 px-4 mx-auto max-w-[1536px] sm:px-6 lg:px-8">
           
           <div className="flex items-center flex-1">
@@ -6198,14 +6779,15 @@ export default function Header() {
             </button>
 
             <nav className="items-center hidden gap-6 text-sm font-semibold text-gray-700 md:flex lg:gap-8">
-              <Link to="/" className="transition-colors hover:text-gycora">Home</Link>
+              {/* [PENTING] Anda dapat memberikan class "translate" jika ingin kata khusus ini ikut diterjemahkan (secara default semua web akan ditranslate kecuali diberi class notranslate) */}
+              <Link to="/" className="transition-colors translate hover:text-gycora">Home</Link>
 
               <div 
                 className="relative flex items-center h-full py-2 cursor-pointer group"
                 onMouseEnter={() => setIsAboutMenuOpen(true)}
                 onMouseLeave={() => setIsAboutMenuOpen(false)}
               >
-                <Link to="/about" className="flex items-center gap-1 transition-colors hover:text-gycora">
+                <Link to="/about" className="flex items-center gap-1 transition-colors translate hover:text-gycora">
                   About Us
                   <svg
                     className={`w-4 h-4 transition-transform duration-200 ${isAboutMenuOpen ? "rotate-180" : ""}`}
@@ -6216,7 +6798,7 @@ export default function Header() {
                 </Link>
 
                 {isAboutMenuOpen && (
-                  <div className="absolute left-0 pt-2 top-full w-52 animate-fade-in-up">
+                  <div className="absolute left-0 pt-2 top-full w-52 animate-fade-in-up translate">
                     <div className="py-2 bg-white border border-gray-100 shadow-2xl rounded-xl">
                       <Link to="/about#our-story" className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors">Our Story</Link>
                       <Link to="/about#our-purpose" className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-gycora transition-colors">Our Purpose</Link>
@@ -6233,7 +6815,7 @@ export default function Header() {
                 onMouseEnter={() => setIsProductMenuOpen(true)}
                 onMouseLeave={() => setIsProductMenuOpen(false)}
               >
-                <Link to="/products" className="flex items-center gap-1 transition-colors hover:text-gycora">
+                <Link to="/products" className="flex items-center gap-1 transition-colors translate hover:text-gycora">
                   Product
                   <svg
                     className={`w-4 h-4 transition-transform duration-200 ${isProductMenuOpen ? "rotate-180" : ""}`}
@@ -6245,10 +6827,10 @@ export default function Header() {
 
                 {isProductMenuOpen && (
                   <div className="absolute left-0 w-64 pt-2 top-full animate-fade-in-up">
-                    <div className="py-2 bg-white border border-gray-100 shadow-2xl rounded-xl">
+                    {/* [PENTING] Gunakan class "notranslate" pada nama produk spesifik agar mesin tidak mengacaukan merek */}
+                    <div className="py-2 bg-white border border-gray-100 shadow-2xl rounded-xl notranslate">
                       <button 
                         onClick={() => {
-                          // [PERBAIKAN] Pencarian berdasarkan slug
                           const targetProduct = allProducts.find(p => p.slug === menuIds.pinkBrush);
                           navigate(menuIds.pinkBrush ? `/product/${menuIds.pinkBrush}` : '/products', { 
                             state: { initialProduct: targetProduct, allProducts } 
@@ -6285,26 +6867,35 @@ export default function Header() {
                 )}
               </div>
 
-              <Link to="/events" className="transition-colors hover:text-gycora">Events</Link>
-              <Link to="/consult" className="transition-colors hover:text-gycora">Consult</Link>
+              <Link to="/events" className="transition-colors translate hover:text-gycora">Events</Link>
+              <Link to="/consult" className="transition-colors translate hover:text-gycora">Consult</Link>
             </nav>
           </div>
 
-          <div className="absolute flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer left-1/2 top-1/2" onClick={() => navigate("/")}>
+          <div className="absolute flex items-center justify-center -translate-x-1/2 -translate-y-1/2 cursor-pointer left-1/2 top-1/2 notranslate" onClick={() => navigate("/")}>
             <img src={logoGycora} alt="Gycora Logo" className="object-contain h-8 md:h-10" />
           </div>
 
           <div className="flex items-center justify-end flex-1 gap-2 md:gap-5">
+            {/* [BARU] TOMBOL TOGGLE BAHASA (DESKTOP & MOBILE) */}
+            <button 
+              onClick={toggleLanguage}
+              className="flex items-center justify-center w-8 h-8 mr-1 text-xs font-bold text-gray-600 transition-colors border border-gray-200 rounded-full md:mr-0 hover:bg-gray-100 hover:text-gycora notranslate"
+              title={currentLang === 'id' ? 'Switch to English' : 'Ganti ke Indonesia'}
+            >
+              {currentLang === 'id' ? 'ID' : 'EN'}
+            </button>
+
             {userData ? (
               <div className="relative hidden md:block" ref={dropdownRef}>
                 <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center gap-2 cursor-pointer group focus:outline-none">
-                  <div className="flex items-center justify-center w-8 h-8 text-sm font-bold transition-colors rounded-full bg-gycora-light text-gycora-dark group-hover:bg-gycora group-hover:text-white">
+                  <div className="flex items-center justify-center w-8 h-8 text-sm font-bold transition-colors rounded-full bg-gycora-light text-gycora-dark group-hover:bg-gycora group-hover:text-white notranslate">
                     {userData.first_name.charAt(0)}
                   </div>
-                  <span className="hidden text-sm font-semibold text-gray-800 transition-colors md:block group-hover:text-gycora">Hi, {userData.first_name}</span>
+                  <span className="hidden text-sm font-semibold text-gray-800 transition-colors md:block group-hover:text-gycora notranslate">Hi, {userData.first_name}</span>
                 </button>
                 {isDropdownOpen && (
-                  <div className="absolute right-0 w-48 py-2 mt-3 bg-white border border-gray-100 shadow-xl rounded-xl animate-fade-in-up">
+                  <div className="absolute right-0 w-48 py-2 mt-3 bg-white border border-gray-100 shadow-xl rounded-xl animate-fade-in-up translate">
                     <Link to="/profile" onClick={() => setIsDropdownOpen(false)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Profil Saya</Link>
                     <Link to="/orders" onClick={() => setIsDropdownOpen(false)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Pesanan Saya</Link>
                     <button onClick={handleLogout} className="w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-red-50">Keluar</button>
@@ -6312,7 +6903,7 @@ export default function Header() {
                 )}
               </div>
             ) : (
-              <Link to="/login" className="hidden text-sm font-medium text-gray-600 transition-colors md:block hover:text-gycora">Login</Link>
+              <Link to="/login" className="hidden text-sm font-medium text-gray-600 transition-colors md:block hover:text-gycora translate">Login</Link>
             )}
             
             <button onClick={() => setIsSearchOpen(true)} className="p-1.5 text-gray-600 hover:text-gycora">
@@ -6329,7 +6920,7 @@ export default function Header() {
 
             <button onClick={() => navigate("/cart")} className="relative p-1.5 text-gray-600 hover:text-gycora">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
-              {cartTotalItems > 0 && <span className="absolute top-0 right-0 bg-gycora text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center translate-x-1 -translate-y-1">{cartTotalItems}</span>}
+              {cartTotalItems > 0 && <span className="absolute top-0 right-0 bg-gycora text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center translate-x-1 -translate-y-1 notranslate">{cartTotalItems}</span>}
             </button>
           </div>
         </div>
@@ -6339,14 +6930,14 @@ export default function Header() {
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-[100] md:hidden">
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
-          <div className="absolute inset-y-0 left-0 w-4/5 max-w-sm p-4 overflow-y-auto bg-white shadow-2xl">
-             <div className="flex items-center justify-between mb-8">
+          <div className="absolute inset-y-0 left-0 w-4/5 max-w-sm p-4 overflow-y-auto bg-white shadow-2xl translate">
+             <div className="flex items-center justify-between mb-8 notranslate">
                 <img src={logoGycora} alt="Logo" className="h-6" />
-                <button onClick={() => setIsMobileMenuOpen(false)}><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+                <button onClick={() => setIsMobileMenuOpen(false)}><svg className="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
              </div>
              
              {userData && (
-              <div className="flex items-center gap-3 p-4 mb-4 border border-gray-100 rounded-xl bg-emerald-50/30">
+              <div className="flex items-center gap-3 p-4 mb-4 border border-gray-100 rounded-xl bg-emerald-50/30 notranslate">
                 <div className="flex items-center justify-center w-12 h-12 font-bold rounded-full bg-gycora-light text-gycora-dark">
                   {userData.first_name.charAt(0)}
                 </div>
@@ -6376,8 +6967,8 @@ export default function Header() {
                    )}
                 </div>
 
-                <div>
-                   <button onClick={() => setIsMobileProductMenuOpen(!isMobileProductMenuOpen)} className="flex items-center justify-between w-full text-lg font-bold">
+                <div className="notranslate">
+                   <button onClick={() => setIsMobileProductMenuOpen(!isMobileProductMenuOpen)} className="flex items-center justify-between w-full text-lg font-bold translate">
                       Product
                       <svg className={`w-5 h-5 transition-transform ${isMobileProductMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
                    </button>
@@ -6429,7 +7020,7 @@ export default function Header() {
         <div className="fixed inset-0 z-[100] flex justify-center bg-black/60 backdrop-blur-sm animate-fade-in">
           <div className="absolute inset-0" onClick={closeSearchModal}></div>
 
-          <div className="relative flex flex-col w-full max-w-3xl mt-16 md:mt-24 overflow-hidden bg-white shadow-2xl h-[85vh] md:h-[75vh] rounded-t-3xl md:rounded-3xl animate-fade-in-up">
+          <div className="relative flex flex-col w-full max-w-3xl mt-16 md:mt-24 overflow-hidden bg-white shadow-2xl h-[85vh] md:h-[75vh] rounded-t-3xl md:rounded-3xl animate-fade-in-up translate">
             <div className="flex flex-col p-4 border-b border-gray-100 md:p-6 bg-gray-50/50">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-bold text-gray-900">
@@ -6451,7 +7042,7 @@ export default function Header() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Cari produk, No. Pesanan (INV-...), atau status..."
-                  className="w-full py-3 pl-12 pr-4 text-sm font-medium transition-all bg-white border border-gray-300 shadow-sm outline-none rounded-xl focus:ring-2 focus:ring-gycora focus:border-transparent"
+                  className="w-full py-3 pl-12 pr-4 text-sm font-medium transition-all bg-white border border-gray-300 shadow-sm outline-none rounded-xl focus:ring-2 focus:ring-gycora focus:border-transparent notranslate"
                   autoFocus
                 />
               </div>
@@ -6496,8 +7087,8 @@ export default function Header() {
                         {searchResults.products.map((product: any) => (
                           <div
                             key={`prod-${product.id}`}
-                            onClick={() => { closeSearchModal(); navigate(`/product/${product.slug}`); }} // [PERBAIKAN] Menggunakan slug di Global Search
-                            className="flex items-center gap-3 p-3 transition-colors border border-gray-100 cursor-pointer rounded-xl hover:bg-emerald-50/50 hover:border-emerald-200 group"
+                            onClick={() => { closeSearchModal(); navigate(`/product/${product.slug}`); }}
+                            className="flex items-center gap-3 p-3 transition-colors border border-gray-100 cursor-pointer rounded-xl hover:bg-emerald-50/50 hover:border-emerald-200 group notranslate"
                           >
                             <img src={product.image_url} alt={product.name} className="object-cover w-12 h-12 rounded-lg bg-gray-50 shrink-0" />
                             <div className="flex-1 min-w-0">
@@ -6527,14 +7118,14 @@ export default function Header() {
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                               </div>
-                              <div>
+                              <div className="notranslate">
                                 <p className="font-mono text-sm font-bold text-gray-900 group-hover:text-gycora">{trx.order_id}</p>
                                 <p className="mt-1 text-xs text-gray-500">{new Date(trx.created_at).toLocaleDateString("id-ID")}</p>
                               </div>
                             </div>
                             <div className="text-right">
-                              <p className="text-sm font-black text-gray-900">{formatRupiah(trx.total_amount)}</p>
-                              <span className="inline-block mt-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-gray-100 text-gray-600">{trx.status}</span>
+                              <p className="text-sm font-black text-gray-900 notranslate">{formatRupiah(trx.total_amount)}</p>
+                              <span className="inline-block mt-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-gray-100 text-gray-600 translate">{trx.status}</span>
                             </div>
                           </div>
                         ))}
