@@ -11371,127 +11371,257 @@ export default function ProductDetail() {
     }
   };
 
-  useEffect(() => {
+//   useEffect(() => {
+//     let isCurrentFetchValid = true;
+
+//     const initialPassedData = location.state?.initialProduct;
+//     const allPassedProducts = location.state?.allProducts; 
+
+//     // [PERBAIKAN] Kondisi verifikasi menggunakan SLUG
+//     if (initialPassedData && initialPassedData.slug === slug) {
+//       setProduct(initialPassedData);
+//       setLoading(false);
+      
+//       if (allPassedProducts && allPassedProducts.length > 0) {
+//         const words = initialPassedData.name.trim().split(" ");
+//         let rootName = initialPassedData.name;
+//         if (words.length > 1) {
+//           words.pop(); 
+//           rootName = words.join(" ");
+//         }
+
+//         const localSiblings = allPassedProducts.filter((p: Product) =>
+//           p.name.toLowerCase().includes(rootName.toLowerCase())
+//         );
+
+//         if (localSiblings.length > 1) {
+//            setSiblingColors(localSiblings);
+//         }
+//       }
+//     } else {
+//       setLoading(true);
+//       setProduct(null);
+//     }
+
+//     setIsFetchingFull(true);
+//     setCurrentImageIndex(0);
+//     setQuantityInput("1");
+//     setActiveTab("desc");
+
+//     const fetchProductAndSiblings = async () => {
+//       try {
+//         // [PERBAIKAN] Menembak endpoint menggunakan slug
+//         const res = await fetch(`${BASE_URL}/api/products/${slug}`);
+//         if (!res.ok) throw new Error("Produk tidak ditemukan");
+//         const responseData = await res.json();
+
+//         if (isCurrentFetchValid) {
+//           const productObject = responseData.data ? responseData.data : responseData;
+//           setProduct(productObject);
+          
+//           if (!allPassedProducts || allPassedProducts.length === 0) {
+//              await fetchSiblingColorsViaAPI(productObject.name);
+//           }
+//         }
+//       } catch (error) {
+//         if (isCurrentFetchValid) {
+//           console.error("Gagal memuat produk:", error);
+//           navigate("/products");
+//         }
+//       }
+//     };
+
+//     const checkWishlistStatus = async () => {
+//       const token = localStorage.getItem("user_token");
+//       if (!token) return;
+
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/wishlists`, {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//             Accept: "application/json",
+//           },
+//         });
+//         if (res.ok) {
+//           const data = await res.json();
+//           // Hati-hati, wishlist menggunakan ID produk!
+//           // Periksa apakah product saat ini sudah di-set
+//           if (product && isCurrentFetchValid) {
+//             const isWished = data.some(
+//               (item: any) => item.product_id === product.id,
+//             );
+//             setIsFavorited(isWished);
+//           }
+//         }
+//       } catch (error) {
+//         if (isCurrentFetchValid) console.error("Gagal memeriksa wishlist:", error);
+//       }
+//     };
+
+//     // [PERBAIKAN] Endpoint Reviews disesuaikan agar menerima parameter $slug
+//     const fetchReviews = async () => {
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/products/${slug}/reviews`, {
+//             headers: { Accept: "application/json" }
+//         });
+        
+//         if (res.ok) {
+//             const data = await res.json();
+//             if (isCurrentFetchValid) {
+//                 const reviewsArr = data.reviews ? data.reviews : []; 
+//                 setApiReviews(reviewsArr);
+//             }
+//         }
+//       } catch (error) {
+//         console.error("Gagal menarik data ulasan asli:", error);
+//       }
+//     };
+
+//     if (slug) {
+//       Promise.all([fetchProductAndSiblings(), checkWishlistStatus(), fetchReviews()]).finally(
+//         () => {
+//           if (isCurrentFetchValid) {
+//             setLoading(false);
+//             setIsFetchingFull(false);
+//           }
+//         },
+//       );
+//     }
+
+//     return () => {
+//       isCurrentFetchValid = false;
+//     };
+//   }, [slug, navigate, product]); // [PERBAIKAN] Tambahkan 'product' dan 'slug' sebagai dependency
+
+useEffect(() => {
     let isCurrentFetchValid = true;
 
     const initialPassedData = location.state?.initialProduct;
-    const allPassedProducts = location.state?.allProducts; 
-
-    // [PERBAIKAN] Kondisi verifikasi menggunakan SLUG
-    if (initialPassedData && initialPassedData.slug === slug) {
-      setProduct(initialPassedData);
-      setLoading(false);
-      
-      if (allPassedProducts && allPassedProducts.length > 0) {
-        const words = initialPassedData.name.trim().split(" ");
-        let rootName = initialPassedData.name;
-        if (words.length > 1) {
-          words.pop(); 
-          rootName = words.join(" ");
-        }
-
-        const localSiblings = allPassedProducts.filter((p: Product) =>
-          p.name.toLowerCase().includes(rootName.toLowerCase())
-        );
-
-        if (localSiblings.length > 1) {
-           setSiblingColors(localSiblings);
-        }
-      }
-    } else {
-      setLoading(true);
-      setProduct(null);
-    }
+    const allPassedProducts = location.state?.allProducts;
 
     setIsFetchingFull(true);
     setCurrentImageIndex(0);
     setQuantityInput("1");
     setActiveTab("desc");
 
-    const fetchProductAndSiblings = async () => {
-      try {
-        // [PERBAIKAN] Menembak endpoint menggunakan slug
-        const res = await fetch(`${BASE_URL}/api/products/${slug}`);
-        if (!res.ok) throw new Error("Produk tidak ditemukan");
-        const responseData = await res.json();
+    const loadProductData = async () => {
+      let activeProduct: Product | null = null;
 
+      // 1. CEK STATE NAVIGASI (Jika datang dari Home / Catalog)
+      if (initialPassedData && initialPassedData.slug === slug) {
+        activeProduct = initialPassedData;
         if (isCurrentFetchValid) {
-          const productObject = responseData.data ? responseData.data : responseData;
-          setProduct(productObject);
-          
-          if (!allPassedProducts || allPassedProducts.length === 0) {
-             await fetchSiblingColorsViaAPI(productObject.name);
-          }
-        }
-      } catch (error) {
-        if (isCurrentFetchValid) {
-          console.error("Gagal memuat produk:", error);
-          navigate("/products");
-        }
-      }
-    };
+          setProduct(activeProduct);
 
-    const checkWishlistStatus = async () => {
-      const token = localStorage.getItem("user_token");
-      if (!token) return;
-
-      try {
-        const res = await fetch(`${BASE_URL}/api/wishlists`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json",
-          },
-        });
-        if (res.ok) {
-          const data = await res.json();
-          // Hati-hati, wishlist menggunakan ID produk!
-          // Periksa apakah product saat ini sudah di-set
-          if (product && isCurrentFetchValid) {
-            const isWished = data.some(
-              (item: any) => item.product_id === product.id,
-            );
-            setIsFavorited(isWished);
-          }
-        }
-      } catch (error) {
-        if (isCurrentFetchValid) console.error("Gagal memeriksa wishlist:", error);
-      }
-    };
-
-    // [PERBAIKAN] Endpoint Reviews disesuaikan agar menerima parameter $slug
-    const fetchReviews = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/api/products/${slug}/reviews`, {
-            headers: { Accept: "application/json" }
-        });
-        
-        if (res.ok) {
-            const data = await res.json();
-            if (isCurrentFetchValid) {
-                const reviewsArr = data.reviews ? data.reviews : []; 
-                setApiReviews(reviewsArr);
+          // Render Sibling Colors
+          if (allPassedProducts && allPassedProducts.length > 0) {
+            const words = activeProduct!.name.trim().split(" ");
+            let rootName = activeProduct!.name;
+            if (words.length > 1) {
+              words.pop();
+              rootName = words.join(" ");
             }
+
+            const localSiblings = allPassedProducts.filter((p: Product) =>
+              p.name.toLowerCase().includes(rootName.toLowerCase())
+            );
+
+            if (localSiblings.length > 1) {
+              setSiblingColors(localSiblings);
+            }
+          } else {
+            await fetchSiblingColorsViaAPI(activeProduct!.name);
+          }
         }
-      } catch (error) {
-        console.error("Gagal menarik data ulasan asli:", error);
+      } 
+      // 2. FETCH DARI API (Jika buka URL langsung)
+      else {
+        if (isCurrentFetchValid) {
+          setLoading(true);
+          setProduct(null);
+        }
+        try {
+          const res = await fetch(`${BASE_URL}/api/products/${slug}`);
+          if (!res.ok) throw new Error("Produk tidak ditemukan");
+          const responseData = await res.json();
+
+          if (isCurrentFetchValid) {
+            activeProduct = responseData.data ? responseData.data : responseData;
+            setProduct(activeProduct);
+            await fetchSiblingColorsViaAPI(activeProduct!.name);
+          }
+        } catch (error) {
+          if (isCurrentFetchValid) {
+            console.error("Gagal memuat produk:", error);
+            navigate("/products");
+          }
+          return; // Hentikan eksekusi jika gagal
+        }
+      }
+
+      // 3. FETCH REVIEWS & WISHLIST (Setelah Produk Berhasil Ditemukan)
+      if (activeProduct && isCurrentFetchValid) {
+        const fetchReviews = async () => {
+          try {
+            const res = await fetch(`${BASE_URL}/api/products/${slug}/reviews`, {
+              headers: { Accept: "application/json" },
+            });
+
+            if (res.ok) {
+              const data = await res.json();
+              if (isCurrentFetchValid) {
+                const reviewsArr = data.reviews ? data.reviews : [];
+                setApiReviews(reviewsArr);
+              }
+            }
+          } catch (error) {
+            console.error("Gagal menarik data ulasan asli:", error);
+          }
+        };
+
+        const checkWishlistStatus = async () => {
+          const token = localStorage.getItem("user_token");
+          if (!token) return;
+
+          try {
+            const res = await fetch(`${BASE_URL}/api/wishlists`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json",
+              },
+            });
+            if (res.ok) {
+              const data = await res.json();
+              if (isCurrentFetchValid) {
+                const isWished = data.some(
+                  (item: any) => item.product_id === activeProduct!.id
+                );
+                setIsFavorited(isWished);
+              }
+            }
+          } catch (error) {
+            if (isCurrentFetchValid) console.error("Gagal memeriksa wishlist:", error);
+          }
+        };
+
+        // Jalankan fetch tambahan secara paralel agar lebih cepat
+        await Promise.all([fetchReviews(), checkWishlistStatus()]);
+      }
+
+      // 4. SELESAI LOADING
+      if (isCurrentFetchValid) {
+        setLoading(false);
+        setIsFetchingFull(false);
       }
     };
 
-    if (slug) {
-      Promise.all([fetchProductAndSiblings(), checkWishlistStatus(), fetchReviews()]).finally(
-        () => {
-          if (isCurrentFetchValid) {
-            setLoading(false);
-            setIsFetchingFull(false);
-          }
-        },
-      );
-    }
+    loadProductData();
 
     return () => {
       isCurrentFetchValid = false;
     };
-  }, [slug, navigate, product]); // [PERBAIKAN] Tambahkan 'product' dan 'slug' sebagai dependency
+    // [PERBAIKAN] 'product' DIHAPUS DARI DEPENDENCY ARRAY AGAR TIDAK INFINITE LOOP
+  }, [slug, navigate, location.state]);
 
   const handleToggleWishlist = async () => {
     const token = localStorage.getItem("user_token");
