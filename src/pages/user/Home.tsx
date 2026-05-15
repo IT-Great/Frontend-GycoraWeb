@@ -17,7 +17,7 @@
 
 //   return (
 //     <div className="font-sans bg-white">
-      
+
 //       {/* =========================================
 //           1. HERO SECTION
 //       ========================================= */}
@@ -69,9 +69,9 @@
 //               <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "200ms" }}>
 //                 {/* Gambar Hero Placeholder - Ganti dengan URL gambar produk asli Anda nanti */}
 //                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-pink-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-//                 <img 
-//                   src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-//                   alt="Gycora Premium Hair Care" 
+//                 <img
+//                   src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+//                   alt="Gycora Premium Hair Care"
 //                   className="object-cover w-full shadow-2xl h-[500px] rounded-[3rem]"
 //                 />
 //               </div>
@@ -177,7 +177,7 @@
 //               </div>
 //             </div>
 //           </div> */}
-          
+
 //           <div className="mt-8 text-center sm:hidden">
 //             <Link to="/products" className="font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
 //               Lihat Semua Produk &rarr;
@@ -192,7 +192,7 @@
 //       <div className="relative py-24 overflow-hidden bg-gray-900">
 //         {/* Dekorasi Glow */}
 //         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
-        
+
 //         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
 //           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
 //             Siap mengubah rutinitas rambut Anda?
@@ -232,7 +232,7 @@
 //   const navigate = useNavigate();
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [userData, setUserData] = useState<any>(null);
-  
+
 //   // State untuk Carousel
 //   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -271,7 +271,7 @@
 //   // Efek Autoplay untuk Slider
 //   useEffect(() => {
 //     // Jika user sudah login, slider tidak tampil, jadi tidak perlu jalankan interval
-//     if (userData) return; 
+//     if (userData) return;
 
 //     const slideInterval = setInterval(() => {
 //       setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
@@ -286,7 +286,7 @@
 
 //   return (
 //     <div className="font-sans bg-white">
-      
+
 //       {/* =========================================
 //           1. HERO SECTION
 //       ========================================= */}
@@ -337,32 +337,32 @@
 //                   </Link>
 //                 </div>
 //               </div>
-              
+
 //               {/* IMAGE CAROUSEL AREA */}
 //               <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "200ms" }}>
 //                 {/* Latar belakang dekoratif */}
 //                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-pink-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-                
+
 //                 {/* Wadah Gambar Slider */}
 //                 <div className="relative w-full overflow-hidden shadow-2xl h-[500px] rounded-[3rem] group">
 //                   {heroSlides.map((slide, index) => (
-//                     <img 
+//                     <img
 //                       key={slide.id}
-//                       src={slide.image} 
-//                       alt={slide.alt} 
+//                       src={slide.image}
+//                       alt={slide.alt}
 //                       className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
 //                     />
 //                   ))}
 
 //                   {/* Tombol Navigasi Manual Slider (Muncul saat hover) */}
 //                   <div className="absolute inset-0 flex items-center justify-between px-4 transition-opacity opacity-0 group-hover:opacity-100">
-//                     <button 
+//                     <button
 //                       onClick={() => setCurrentSlide(prev => prev === 0 ? heroSlides.length - 1 : prev - 1)}
 //                       className="p-3 text-gray-800 transition-colors rounded-full shadow-md bg-white/80 hover:bg-white backdrop-blur-sm"
 //                     >
 //                       <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
 //                     </button>
-//                     <button 
+//                     <button
 //                       onClick={() => setCurrentSlide(prev => prev === heroSlides.length - 1 ? 0 : prev + 1)}
 //                       className="p-3 text-gray-800 transition-colors rounded-full shadow-md bg-white/80 hover:bg-white backdrop-blur-sm"
 //                     >
@@ -373,8 +373,8 @@
 //                   {/* Indikator Titik (Dots) di bawah gambar */}
 //                   <div className="absolute flex justify-center w-full gap-2 bottom-6">
 //                     {heroSlides.map((_, index) => (
-//                       <button 
-//                         key={index} 
+//                       <button
+//                         key={index}
 //                         onClick={() => setCurrentSlide(index)}
 //                         className={`h-2.5 rounded-full transition-all duration-300 shadow-sm ${index === currentSlide ? 'w-8 bg-gycora' : 'w-2.5 bg-white/70 hover:bg-white'}`}
 //                         aria-label={`Slide ${index + 1}`}
@@ -451,16 +451,16 @@
 //           ) : featuredProducts.length > 0 ? (
 //             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 //               {featuredProducts.map((product) => (
-//                 <div 
-//                   key={product.id} 
-//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-sm cursor-pointer group rounded-2xl hover:shadow-xl hover:-translate-y-1" 
+//                 <div
+//                   key={product.id}
+//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-sm cursor-pointer group rounded-2xl hover:shadow-xl hover:-translate-y-1"
 //                   onClick={() => navigate(`/product/${product.id}`)}
 //                 >
 //                   <div className="relative overflow-hidden bg-gray-100 aspect-square">
-//                     <img 
-//                       src={product.image_url} 
-//                       alt={product.name} 
-//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
+//                     <img
+//                       src={product.image_url}
+//                       alt={product.name}
+//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
 //                     />
 //                     <div className="absolute px-3 py-1 text-[10px] font-bold tracking-widest text-gray-900 uppercase rounded-full shadow-sm top-4 left-4 bg-white/90 backdrop-blur-sm">
 //                       {product.category?.name || "Gycora"}
@@ -484,14 +484,14 @@
 //           ) : (
 //             <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
 //           )}
-          
+
 //           <div className="mt-8 text-center sm:hidden">
 //             <Link to="/products" className="font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
 //               Lihat Semua Produk &rarr;
 //             </Link>
 //           </div>
 //         </div>
-//       </div> 
+//       </div>
 
 //       {/* =========================================
 //           4. CTA (CALL TO ACTION) / NEWSLETTER
@@ -499,7 +499,7 @@
 //       <div className="relative py-24 overflow-hidden bg-gray-900">
 //         {/* Dekorasi Glow */}
 //         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
-        
+
 //         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
 //           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
 //             Siap mengubah rutinitas rambut Anda?
@@ -528,7 +528,7 @@
 // import slide2 from "/landing_page_images/hero_slide_2.jpg";
 // import slide3 from "/landing_page_images/hero_slide_3.jpg";
 // import slide4 from "/landing_page_images/hero_slide_4.jpg";
-// import slide5 from "/landing_page_images/hero_slide_5.jpg"; 
+// import slide5 from "/landing_page_images/hero_slide_5.jpg";
 
 // const heroSlides = [
 //   { id: 1, image: slide1, alt: "Gycora Premium Hair Care 1" },
@@ -542,7 +542,7 @@
 //   const navigate = useNavigate();
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [userData, setUserData] = useState<any>(null);
-  
+
 //   // State untuk Carousel
 //   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -581,7 +581,7 @@
 //   // Efek Autoplay untuk Slider
 //   useEffect(() => {
 //     // Jika user sudah login, slider tidak tampil, jadi tidak perlu jalankan interval
-//     if (userData) return; 
+//     if (userData) return;
 
 //     const slideInterval = setInterval(() => {
 //       // Logika otomatis menyesuaikan jumlah gambar di array heroSlides
@@ -597,7 +597,7 @@
 
 //   return (
 //     <div className="font-sans bg-white">
-      
+
 //       {/* =========================================
 //           1. HERO SECTION
 //       ========================================= */}
@@ -648,32 +648,32 @@
 //                   </Link>
 //                 </div>
 //               </div>
-              
+
 //               {/* IMAGE CAROUSEL AREA */}
 //               <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "200ms" }}>
 //                 {/* Latar belakang dekoratif */}
 //                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-pink-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-                
+
 //                 {/* Wadah Gambar Slider */}
 //                 <div className="relative w-full overflow-hidden shadow-2xl h-[500px] rounded-[3rem] group">
 //                   {heroSlides.map((slide, index) => (
-//                     <img 
+//                     <img
 //                       key={slide.id}
-//                       src={slide.image} 
-//                       alt={slide.alt} 
+//                       src={slide.image}
+//                       alt={slide.alt}
 //                       className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
 //                     />
 //                   ))}
 
 //                   {/* Tombol Navigasi Manual Slider (Muncul saat hover) */}
 //                   <div className="absolute inset-0 flex items-center justify-between px-4 transition-opacity opacity-0 group-hover:opacity-100">
-//                     <button 
+//                     <button
 //                       onClick={() => setCurrentSlide(prev => prev === 0 ? heroSlides.length - 1 : prev - 1)}
 //                       className="p-3 text-gray-800 transition-colors rounded-full shadow-md bg-white/80 hover:bg-white backdrop-blur-sm"
 //                     >
 //                       <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
 //                     </button>
-//                     <button 
+//                     <button
 //                       onClick={() => setCurrentSlide(prev => prev === heroSlides.length - 1 ? 0 : prev + 1)}
 //                       className="p-3 text-gray-800 transition-colors rounded-full shadow-md bg-white/80 hover:bg-white backdrop-blur-sm"
 //                     >
@@ -684,8 +684,8 @@
 //                   {/* Indikator Titik (Dots) di bawah gambar */}
 //                   <div className="absolute flex justify-center w-full gap-2 bottom-6">
 //                     {heroSlides.map((_, index) => (
-//                       <button 
-//                         key={index} 
+//                       <button
+//                         key={index}
 //                         onClick={() => setCurrentSlide(index)}
 //                         className={`h-2.5 rounded-full transition-all duration-300 shadow-sm ${index === currentSlide ? 'w-8 bg-gycora' : 'w-2.5 bg-white/70 hover:bg-white'}`}
 //                         aria-label={`Slide ${index + 1}`}
@@ -762,16 +762,16 @@
 //           ) : featuredProducts.length > 0 ? (
 //             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 //               {featuredProducts.map((product) => (
-//                 <div 
-//                   key={product.id} 
-//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-sm cursor-pointer group rounded-2xl hover:shadow-xl hover:-translate-y-1" 
+//                 <div
+//                   key={product.id}
+//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-sm cursor-pointer group rounded-2xl hover:shadow-xl hover:-translate-y-1"
 //                   onClick={() => navigate(`/product/${product.id}`)}
 //                 >
 //                   <div className="relative overflow-hidden bg-gray-100 aspect-square">
-//                     <img 
-//                       src={product.image_url} 
-//                       alt={product.name} 
-//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
+//                     <img
+//                       src={product.image_url}
+//                       alt={product.name}
+//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
 //                     />
 //                     <div className="absolute px-3 py-1 text-[10px] font-bold tracking-widest text-gray-900 uppercase rounded-full shadow-sm top-4 left-4 bg-white/90 backdrop-blur-sm">
 //                       {product.category?.name || "Gycora"}
@@ -795,14 +795,14 @@
 //           ) : (
 //             <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
 //           )}
-          
+
 //           <div className="mt-8 text-center sm:hidden">
 //             <Link to="/products" className="font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
 //               Lihat Semua Produk &rarr;
 //             </Link>
 //           </div>
 //         </div>
-//       </div> 
+//       </div>
 
 //       {/* =========================================
 //           4. CTA (CALL TO ACTION) / NEWSLETTER
@@ -810,7 +810,7 @@
 //       <div className="relative py-24 overflow-hidden bg-gray-900">
 //         {/* Dekorasi Glow */}
 //         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
-        
+
 //         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
 //           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
 //             Siap mengubah rutinitas rambut Anda?
@@ -832,14 +832,14 @@
 
 // import { useState, useEffect } from "react";
 // import { Link, useNavigate } from "react-router-dom";
-// import { BASE_URL } from "../../config/api"; 
+// import { BASE_URL } from "../../config/api";
 
 // // --- IMPORT 5 GAMBAR DARI LOKAL UNTUK SLIDER ---
 // import slide1 from "/landing_page_images/hero_slide_1.jpg";
 // import slide2 from "/landing_page_images/hero_slide_2.jpg";
 // import slide3 from "/landing_page_images/hero_slide_3.jpg";
 // import slide4 from "/landing_page_images/hero_slide_4.jpg";
-// import slide5 from "/landing_page_images/hero_slide_5.jpg"; 
+// import slide5 from "/landing_page_images/hero_slide_5.jpg";
 
 // const heroSlides = [
 //   { id: 1, image: slide1, alt: "Gycora Premium Hair Care 1" },
@@ -878,7 +878,7 @@
 //   const navigate = useNavigate();
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [userData, setUserData] = useState<any>(null);
-  
+
 //   // State untuk Carousel
 //   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -914,11 +914,11 @@
 
 //   // Efek Autoplay untuk Slider
 //   useEffect(() => {
-//     if (userData) return; 
+//     if (userData) return;
 
 //     const slideInterval = setInterval(() => {
 //       setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
-//     }, 4000); 
+//     }, 4000);
 
 //     return () => clearInterval(slideInterval);
 //   }, [userData]);
@@ -929,7 +929,7 @@
 
 //   return (
 //     <div className="font-sans bg-white">
-      
+
 //       {/* =========================================
 //           1. HERO SECTION
 //       ========================================= */}
@@ -983,17 +983,17 @@
 //                   </Link>
 //                 </div>
 //               </div>
-              
+
 //               {/* IMAGE CAROUSEL AREA */}
 //               <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "200ms" }}>
 //                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-pink-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-                
+
 //                 <div className="relative w-full overflow-hidden shadow-2xl h-[500px] rounded-[3rem] group">
 //                   {heroSlides.map((slide, index) => (
-//                     <img 
+//                     <img
 //                       key={slide.id}
-//                       src={slide.image} 
-//                       alt={slide.alt} 
+//                       src={slide.image}
+//                       alt={slide.alt}
 //                       className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
 //                     />
 //                   ))}
@@ -1028,7 +1028,7 @@
 //             <h2 className="text-3xl font-extrabold text-gray-900">Kategori Terpopuler</h2>
 //             <p className="mt-4 text-gray-500">Jelajahi rangkaian produk spesifik untuk setiap kebutuhan mahkota Anda.</p>
 //           </div>
-          
+
 //           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
 //             {/* Category 1 */}
 //             <Link to="/products" className="relative block overflow-hidden shadow-sm h-80 rounded-3xl group">
@@ -1039,7 +1039,7 @@
 //                 <p className="mt-2 text-sm text-gray-200 transition-opacity duration-300 opacity-0 group-hover:opacity-100">Shampoo, Conditioner & Serum</p>
 //               </div>
 //             </Link>
-            
+
 //             {/* Category 2 */}
 //             <Link to="/products" className="relative block overflow-hidden shadow-sm h-80 rounded-3xl group">
 //               <img src="https://images.unsplash.com/photo-1598440947619-2ce6598c4e1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tools & Accessories" className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" />
@@ -1125,16 +1125,16 @@
 //           ) : featuredProducts.length > 0 ? (
 //             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 //               {featuredProducts.map((product) => (
-//                 <div 
-//                   key={product.id} 
-//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1" 
+//                 <div
+//                   key={product.id}
+//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1"
 //                   onClick={() => navigate(`/product/${product.id}`)}
 //                 >
 //                   <div className="relative overflow-hidden bg-gray-100 aspect-square">
-//                     <img 
-//                       src={product.image_url} 
-//                       alt={product.name} 
-//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
+//                     <img
+//                       src={product.image_url}
+//                       alt={product.name}
+//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
 //                     />
 //                     <div className="absolute px-3 py-1 text-[10px] font-bold tracking-widest text-gray-900 uppercase rounded-full shadow-sm top-4 left-4 bg-white/90 backdrop-blur-sm">
 //                       {product.category?.name || "Gycora"}
@@ -1158,14 +1158,14 @@
 //           ) : (
 //             <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
 //           )}
-          
+
 //           <div className="mt-8 text-center sm:hidden">
 //             <Link to="/products" className="font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
 //               Lihat Semua Produk &rarr;
 //             </Link>
 //           </div>
 //         </div>
-//       </div> 
+//       </div>
 
 //       {/* =========================================
 //           5. TESTIMONIALS / SOCIAL PROOF (SEKSI BARU)
@@ -1207,7 +1207,7 @@
 //       <div className="relative py-24 overflow-hidden bg-gray-900">
 //         {/* Dekorasi Glow */}
 //         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
-        
+
 //         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
 //           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
 //             Siap mengubah rutinitas rambut Anda?
@@ -1233,7 +1233,7 @@
 
 // import { useState, useEffect } from "react";
 // import { Link, useNavigate } from "react-router-dom";
-// import { BASE_URL } from "../../config/api"; 
+// import { BASE_URL } from "../../config/api";
 // import Swal from "sweetalert2"; // Pastikan Swal di-import untuk notifikasi langganan
 
 // // --- IMPORT 5 GAMBAR DARI LOKAL UNTUK SLIDER ---
@@ -1241,7 +1241,7 @@
 // import slide2 from "/landing_page_images/hero_slide_2.jpg";
 // import slide3 from "/landing_page_images/hero_slide_3.jpg";
 // import slide4 from "/landing_page_images/hero_slide_4.jpg";
-// import slide5 from "/landing_page_images/hero_slide_5.jpg"; 
+// import slide5 from "/landing_page_images/hero_slide_5.jpg";
 
 // const heroSlides = [
 //   { id: 1, image: slide1, alt: "Gycora Premium Hair Care 1" },
@@ -1262,7 +1262,7 @@
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [userData, setUserData] = useState<any>(null);
 //   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
 //   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
@@ -1307,10 +1307,10 @@
 //   }, []);
 
 //   useEffect(() => {
-//     if (userData) return; 
+//     if (userData) return;
 //     const slideInterval = setInterval(() => {
 //       setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
-//     }, 4000); 
+//     }, 4000);
 //     return () => clearInterval(slideInterval);
 //   }, [userData]);
 
@@ -1327,7 +1327,7 @@
 //   const handleSubscribePromo = async (e: React.FormEvent) => {
 //     e.preventDefault();
 //     if (!promoEmail) return;
-    
+
 //     setIsSubscribing(true);
 //     try {
 //       const res = await fetch(`${BASE_URL}/api/subscribe`, {
@@ -1359,16 +1359,16 @@
 
 //   return (
 //     <div className="relative font-sans bg-white">
-      
+
 //       {/* =========================================
 //           POP-UP PROMO MODAL (GUEST ONLY)
 //       ========================================= */}
 //       {showPromoModal && !userData && (
 //         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-up">
 //           <div className="relative flex flex-col w-full max-w-3xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-2xl">
-            
+
 //             {/* Tombol Close */}
-//             <button 
+//             <button
 //               onClick={closePromoModal}
 //               className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
 //             >
@@ -1384,25 +1384,25 @@
 //               <p className="mb-8 text-sm font-medium text-gray-500">
 //                 Daftarkan Email & SMS untuk mendapatkan penawaran eksklusif, tips kecantikan, dan banyak lagi dari kami!
 //               </p>
-              
+
 //               <form onSubmit={handleSubscribePromo} className="space-y-4">
-//                 <input 
-//                   type="email" 
+//                 <input
+//                   type="email"
 //                   value={promoEmail}
 //                   onChange={(e) => setPromoEmail(e.target.value)}
-//                   placeholder="Masukkan Email Anda" 
+//                   placeholder="Masukkan Email Anda"
 //                   className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-gycora"
 //                   required
 //                 />
-//                 <button 
-//                   type="submit" 
+//                 <button
+//                   type="submit"
 //                   disabled={isSubscribing}
 //                   className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-gray-900 rounded-lg hover:bg-black disabled:bg-gray-400"
 //                 >
 //                   {isSubscribing ? "Memproses..." : "Continue"}
 //                 </button>
 //               </form>
-              
+
 //               <p className="mt-4 text-[9px] text-gray-400 leading-relaxed">
 //                 *Penawaran hanya berlaku untuk pesanan pertama di atas Rp 200.000. Tidak dapat digabungkan dengan promo lain.
 //               </p>
@@ -1410,9 +1410,9 @@
 
 //             {/* Bagian Kanan: Gambar Pemanis (Akan disembunyikan di layar kecil) */}
 //             <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
-//               <img 
-//                 src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-//                 alt="Promo Gycora" 
+//               <img
+//                 src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+//                 alt="Promo Gycora"
 //                 className="object-cover w-full h-full"
 //               />
 //             </div>
@@ -1420,7 +1420,6 @@
 //           </div>
 //         </div>
 //       )}
-
 
 //       {/* =========================================
 //           1. HERO SECTION
@@ -1473,16 +1472,16 @@
 //                   </Link>
 //                 </div>
 //               </div>
-              
+
 //               <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "200ms" }}>
 //                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-pink-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-                
+
 //                 <div className="relative w-full overflow-hidden shadow-2xl h-[500px] rounded-[3rem] group">
 //                   {heroSlides.map((slide, index) => (
-//                     <img 
+//                     <img
 //                       key={slide.id}
-//                       src={slide.image} 
-//                       alt={slide.alt} 
+//                       src={slide.image}
+//                       alt={slide.alt}
 //                       className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
 //                     />
 //                   ))}
@@ -1517,7 +1516,7 @@
 //             <h2 className="text-3xl font-extrabold text-gray-900">Kategori Terpopuler</h2>
 //             <p className="mt-4 text-gray-500">Jelajahi rangkaian produk spesifik untuk setiap kebutuhan mahkota Anda.</p>
 //           </div>
-          
+
 //           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
 //             <Link to="/products" className="relative block overflow-hidden shadow-sm h-80 rounded-3xl group">
 //               <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair Care" className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" />
@@ -1527,7 +1526,7 @@
 //                 <p className="mt-2 text-sm text-gray-200 transition-opacity duration-300 opacity-0 group-hover:opacity-100">Shampoo, Conditioner & Serum</p>
 //               </div>
 //             </Link>
-            
+
 //             <Link to="/products" className="relative block overflow-hidden shadow-sm h-80 rounded-3xl group">
 //               <img src="https://images.unsplash.com/photo-1598440947619-2ce6598c4e1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tools & Accessories" className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" />
 //               <div className="absolute inset-0 transition-opacity bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent group-hover:from-gray-900/90"></div>
@@ -1611,16 +1610,16 @@
 //           ) : featuredProducts.length > 0 ? (
 //             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 //               {featuredProducts.map((product) => (
-//                 <div 
-//                   key={product.id} 
-//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1" 
+//                 <div
+//                   key={product.id}
+//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1"
 //                   onClick={() => navigate(`/product/${product.id}`)}
 //                 >
 //                   <div className="relative overflow-hidden bg-gray-100 aspect-square">
-//                     <img 
-//                       src={product.image_url} 
-//                       alt={product.name} 
-//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
+//                     <img
+//                       src={product.image_url}
+//                       alt={product.name}
+//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
 //                     />
 //                     <div className="absolute px-3 py-1 text-[10px] font-bold tracking-widest text-gray-900 uppercase rounded-full shadow-sm top-4 left-4 bg-white/90 backdrop-blur-sm">
 //                       {product.category?.name || "Gycora"}
@@ -1644,14 +1643,14 @@
 //           ) : (
 //             <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
 //           )}
-          
+
 //           <div className="mt-8 text-center sm:hidden">
 //             <Link to="/products" className="font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
 //               Lihat Semua Produk &rarr;
 //             </Link>
 //           </div>
 //         </div>
-//       </div> 
+//       </div>
 
 //       {/* =========================================
 //           5. TESTIMONIALS / SOCIAL PROOF (SEKSI BARU)
@@ -1693,7 +1692,7 @@
 //       <div className="relative py-24 overflow-hidden bg-gray-900">
 //         {/* Dekorasi Glow */}
 //         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
-        
+
 //         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
 //           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
 //             Siap mengubah rutinitas rambut Anda?
@@ -1717,503 +1716,17 @@
 //   );
 // }
 
-  // import { useState, useEffect } from "react";
-  // import { Link, useNavigate } from "react-router-dom";
-  // import { BASE_URL } from "../../config/api"; 
-  // import Swal from "sweetalert2"; // Pastikan Swal di-import untuk notifikasi langganan
-
-  // // --- IMPORT 5 GAMBAR DARI LOKAL UNTUK SLIDER ---
-  // import slide1 from "/landing_page_images/hero_slide_1.jpg";
-  // import slide2 from "/landing_page_images/hero_slide_2.jpg";
-  // import slide3 from "/landing_page_images/hero_slide_3.jpg";
-  // import slide4 from "/landing_page_images/hero_slide_4.jpg";
-  // import slide5 from "/landing_page_images/hero_slide_5.jpg"; 
-
-  // const heroSlides = [
-  //   { id: 1, image: slide1, alt: "Gycora Premium Hair Care 1" },
-  //   { id: 2, image: slide2, alt: "Gycora Premium Hair Care 2" },
-  //   { id: 3, image: slide3, alt: "Gycora Premium Hair Care 3" },
-  //   { id: 4, image: slide4, alt: "Gycora Premium Hair Care 4" },
-  //   { id: 5, image: slide5, alt: "Gycora Premium Hair Care 5" },
-  // ];
-
-  // const testimonials = [
-  //   { id: 1, name: "Amanda S.", role: "Verified Buyer", text: "Ethereal Glow Brush benar-benar mengubah hidup saya. Rambut yang biasanya rontok saat disisir sekarang sangat mudah diatur dan jauh lebih berkilau!", rating: 5 },
-  //   { id: 2, name: "Rina Kartika", role: "Gycora Member", text: "Wangi dari Revitalizing Shampoo sangat elegan dan tahan lama. Kulit kepala terasa lebih bersih tanpa membuat ujung rambut menjadi kering.", rating: 5 },
-  //   { id: 3, name: "Jessica W.", role: "Verified Buyer", text: "Awalnya ragu, tapi setelah mencoba Argan Hair Serum selama 2 minggu, ujung rambut bercabang saya benar-benar membaik. Sangat direkomendasikan!", rating: 4 }
-  // ];
-
-  // export default function Home() {
-  //   const navigate = useNavigate();
-  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //   const [userData, setUserData] = useState<any>(null);
-  //   const [currentSlide, setCurrentSlide] = useState(0);
-    
-  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
-  //   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
-
-  //   // --- STATE UNTUK POP-UP PROMO ---
-  //   const [showPromoModal, setShowPromoModal] = useState(false);
-  //   const [promoEmail, setPromoEmail] = useState("");
-  //   const [isSubscribing, setIsSubscribing] = useState(false);
-
-  //   useEffect(() => {
-  //     const storedUser = localStorage.getItem("user_data");
-  //     if (storedUser) {
-  //       setUserData(JSON.parse(storedUser));
-  //     } else {
-  //       // Tampilkan Promo Modal hanya untuk Guest yang belum pernah melihatnya di sesi ini
-  //       const hasSeenPromo = sessionStorage.getItem("hasSeenPromo");
-  //       if (!hasSeenPromo) {
-  //         // Delay sedikit agar lebih natural setelah halaman dimuat
-  //         const timer = setTimeout(() => {
-  //           setShowPromoModal(true);
-  //         }, 1500);
-  //         return () => clearTimeout(timer);
-  //       }
-  //     }
-
-  //     const fetchFeaturedProducts = async () => {
-  //       try {
-  //         const res = await fetch(`${BASE_URL}/api/products`);
-  //         if (res.ok) {
-  //           const data = await res.json();
-  //           const productsArray = data.data ? data.data : data;
-  //           setFeaturedProducts(productsArray.slice(0, 3) || []);
-  //         }
-  //       } catch (error) {
-  //         console.error("Gagal memuat produk unggulan:", error);
-  //       } finally {
-  //         setIsLoadingProducts(false);
-  //       }
-  //     };
-
-  //     fetchFeaturedProducts();
-  //   }, []);
-
-  //   useEffect(() => {
-  //     if (userData) return; 
-  //     const slideInterval = setInterval(() => {
-  //       setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
-  //     }, 4000); 
-  //     return () => clearInterval(slideInterval);
-  //   }, [userData]);
-
-  //   const formatRupiah = (angka: number) => {
-  //     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka || 0);
-  //   };
-
-  //   // --- HANDLER TUTUP PROMO & SUBMIT ---
-  //   const closePromoModal = () => {
-  //     setShowPromoModal(false);
-  //     sessionStorage.setItem("hasSeenPromo", "true"); // Tandai agar tidak muncul lagi di tab ini
-  //   };
-
-  //   const handleSubscribePromo = async (e: React.FormEvent) => {
-  //     e.preventDefault();
-  //     if (!promoEmail) return;
-      
-  //     setIsSubscribing(true);
-  //     try {
-  //       const res = await fetch(`${BASE_URL}/api/subscribe`, {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json", "Accept": "application/json" },
-  //         body: JSON.stringify({ email: promoEmail }),
-  //       });
-
-  //       const data = await res.json();
-
-  //       if (res.ok) {
-  //         closePromoModal();
-  //         Swal.fire({
-  //           icon: "success",
-  //           title: "Berhasil!",
-  //           text: "Cek email Anda untuk kode voucher 50% Gycora.",
-  //           confirmButtonColor: "#059669",
-  //         });
-  //       } else {
-  //         Swal.fire({ icon: "warning", title: "Pemberitahuan", text: data.message || "Gagal berlangganan.", confirmButtonColor: "#d33" });
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //       Swal.fire({ icon: "error", title: "Gagal", text: "Terjadi kesalahan server.", confirmButtonColor: "#d33" });
-  //     } finally {
-  //       setIsSubscribing(false);
-  //     }
-  //   };
-
-  //   return (
-  //     <div className="relative font-sans bg-white">
-        
-  //       {/* =========================================
-  //           POP-UP PROMO MODAL (GUEST ONLY)
-  //       ========================================= */}
-  //       {showPromoModal && !userData && (
-  //         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-up">
-  //           <div className="relative flex flex-col w-full max-w-3xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-2xl">
-              
-  //             {/* Tombol Close */}
-  //             <button 
-  //               onClick={closePromoModal}
-  //               className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
-  //             >
-  //               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-  //             </button>
-
-  //             {/* Bagian Kiri: Teks & Form */}
-  //             <div className="flex flex-col justify-center flex-1 p-8 md:p-12">
-  //               <h2 className="mb-2 font-serif text-4xl font-black tracking-tight text-gray-900 uppercase">Gycora</h2>
-  //               <h3 className="mb-4 text-3xl font-extrabold leading-tight text-gycora-dark">
-  //                 Dapatkan Diskon 50% + Produk Spesial
-  //               </h3>
-  //               <p className="mb-8 text-sm font-medium text-gray-500">
-  //                 Daftarkan Email & SMS untuk mendapatkan penawaran eksklusif, tips kecantikan, dan banyak lagi dari kami!
-  //               </p>
-                
-  //               <form onSubmit={handleSubscribePromo} className="space-y-4">
-  //                 <input 
-  //                   type="email" 
-  //                   value={promoEmail}
-  //                   onChange={(e) => setPromoEmail(e.target.value)}
-  //                   placeholder="Masukkan Email Anda" 
-  //                   className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-gycora"
-  //                   required
-  //                 />
-  //                 <button 
-  //                   type="submit" 
-  //                   disabled={isSubscribing}
-  //                   className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-gray-900 rounded-lg hover:bg-black disabled:bg-gray-400"
-  //                 >
-  //                   {isSubscribing ? "Memproses..." : "Continue"}
-  //                 </button>
-  //               </form>
-                
-  //               <p className="mt-4 text-[9px] text-gray-400 leading-relaxed">
-  //                 *Penawaran hanya berlaku untuk pesanan pertama di atas Rp 200.000. Tidak dapat digabungkan dengan promo lain.
-  //               </p>
-  //             </div>
-
-  //             {/* Bagian Kanan: Gambar Pemanis (Akan disembunyikan di layar kecil) */}
-  //             <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
-  //               <img 
-  //                 src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-  //                 alt="Promo Gycora" 
-  //                 className="object-cover w-full h-full"
-  //               />
-  //             </div>
-
-  //           </div>
-  //         </div>
-  //       )}
-
-
-  //       {/* =========================================
-  //           1. HERO SECTION
-  //       ========================================= */}
-  //       <div className="relative overflow-hidden bg-gradient-to-b from-emerald-50/50 to-white">
-  //         <div className="absolute top-0 -translate-x-1/2 left-1/2 -z-10">
-  //           <div className="w-[800px] h-[400px] bg-emerald-200/30 rounded-full blur-3xl opacity-50 mix-blend-multiply"></div>
-  //         </div>
-
-  //         <div className="px-4 py-24 mx-auto max-w-7xl sm:px-6 lg:px-8 lg:py-32">
-  //           {userData ? (
-  //             <div className="max-w-4xl mx-auto space-y-8 text-center animate-fade-in-up">
-  //               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wide text-emerald-800 bg-emerald-100 uppercase border border-emerald-200">
-  //                 <svg className="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
-  //                 Gycora Exclusive Member
-  //               </div>
-  //               <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-  //                 Selamat datang kembali, <span className="text-gycora">{userData.first_name}</span>.
-  //               </h1>
-  //               <p className="max-w-2xl mx-auto text-lg text-gray-500 sm:text-xl">
-  //                 Katalog rambut premium terbaru kami sudah menanti Anda. Nikmati penawaran eksklusif, lacak pesanan, dan dapatkan kemudahan berbelanja khusus untuk member Gycora.
-  //               </p>
-  //               <div className="flex flex-col justify-center gap-4 pt-4 sm:flex-row">
-  //                 <button onClick={() => navigate("/products")} className="px-8 py-3.5 text-base font-bold text-white transition-all bg-gray-900 rounded-full shadow-lg hover:bg-gray-800 hover:shadow-xl hover:-translate-y-0.5">
-  //                   Lanjutkan Belanja
-  //                 </button>
-  //                 <button onClick={() => navigate("/profile")} className="px-8 py-3.5 text-base font-bold text-gray-700 transition-all bg-white border border-gray-300 rounded-full hover:bg-gray-50 hover:-translate-y-0.5">
-  //                   Profil & Pesanan Saya
-  //                 </button>
-  //               </div>
-  //             </div>
-  //           ) : (
-  //             <div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2">
-  //               <div className="space-y-8 animate-fade-in-up">
-  //                 <div className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold tracking-wide text-emerald-800 bg-emerald-100 uppercase border border-emerald-200">
-  //                   ✨ Solusi Perawatan Rambut Premium
-  //                 </div>
-  //                 <h1 className="text-5xl font-extrabold leading-tight tracking-tight text-gray-900 sm:text-6xl lg:text-7xl">
-  //                   Tingkatkan <span className="text-transparent bg-clip-text bg-gradient-to-r from-gycora to-emerald-400">Pesona</span><br /> Mahkota Anda.
-  //                 </h1>
-  //                 <p className="text-lg leading-relaxed text-gray-500 sm:text-xl">
-  //                   Temukan koleksi eksklusif Gycora. Diformulasikan dengan teknologi mutakhir dan bahan premium untuk rambut yang lebih sehat, bersinar, dan bebas kusut dari akar hingga ujung.
-  //                 </p>
-  //                 <div className="flex flex-col gap-4 pt-4 sm:flex-row">
-  //                   <Link to="/products" className="px-8 py-4 text-lg font-bold text-center text-white transition-all rounded-full bg-gycora hover:bg-gycora-dark shadow-[0_4px_14px_0_rgba(5,150,105,0.39)] hover:-translate-y-0.5">
-  //                     Eksplorasi Katalog
-  //                   </Link>
-  //                   <Link to="/register" className="px-8 py-4 text-lg font-bold text-center text-gray-700 transition-all bg-white border border-gray-300 rounded-full hover:bg-gray-50 hover:-translate-y-0.5">
-  //                     Daftar Member
-  //                   </Link>
-  //                 </div>
-  //               </div>
-                
-  //               <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "200ms" }}>
-  //                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-pink-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-                  
-  //                 <div className="relative w-full overflow-hidden shadow-2xl h-[500px] rounded-[3rem] group">
-  //                   {heroSlides.map((slide, index) => (
-  //                     <img 
-  //                       key={slide.id}
-  //                       src={slide.image} 
-  //                       alt={slide.alt} 
-  //                       className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
-  //                     />
-  //                   ))}
-
-  //                   <div className="absolute inset-0 flex items-center justify-between px-4 transition-opacity opacity-0 group-hover:opacity-100">
-  //                     <button onClick={() => setCurrentSlide(prev => prev === 0 ? heroSlides.length - 1 : prev - 1)} className="p-3 text-gray-800 transition-colors rounded-full shadow-md bg-white/80 hover:bg-white backdrop-blur-sm">
-  //                       <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-  //                     </button>
-  //                     <button onClick={() => setCurrentSlide(prev => prev === heroSlides.length - 1 ? 0 : prev + 1)} className="p-3 text-gray-800 transition-colors rounded-full shadow-md bg-white/80 hover:bg-white backdrop-blur-sm">
-  //                       <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-  //                     </button>
-  //                   </div>
-
-  //                   <div className="absolute flex justify-center w-full gap-2 bottom-6">
-  //                     {heroSlides.map((_, index) => (
-  //                       <button key={index} onClick={() => setCurrentSlide(index)} className={`h-2.5 rounded-full transition-all duration-300 shadow-sm ${index === currentSlide ? 'w-8 bg-gycora' : 'w-2.5 bg-white/70 hover:bg-white'}`} aria-label={`Slide ${index + 1}`}></button>
-  //                     ))}
-  //                   </div>
-  //                 </div>
-  //               </div>
-  //             </div>
-  //           )}
-  //         </div>
-  //       </div>
-
-  //       {/* =========================================
-  //           2. SHOP BY CATEGORY (SEKSI BARU)
-  //       ========================================= */}
-  //       <div className="py-24 bg-white border-t border-gray-100">
-  //         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-  //           <div className="mb-12 text-center">
-  //             <h2 className="text-3xl font-extrabold text-gray-900">Kategori Terpopuler</h2>
-  //             <p className="mt-4 text-gray-500">Jelajahi rangkaian produk spesifik untuk setiap kebutuhan mahkota Anda.</p>
-  //           </div>
-            
-  //           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-  //             <Link to="/products" className="relative block overflow-hidden shadow-sm h-80 rounded-3xl group">
-  //               <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair Care" className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" />
-  //               <div className="absolute inset-0 transition-opacity bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent group-hover:from-gray-900/90"></div>
-  //               <div className="absolute bottom-0 left-0 right-0 p-8 text-center transition-transform transform translate-y-2 group-hover:translate-y-0">
-  //                 <h3 className="text-2xl font-bold text-white">Hair Care</h3>
-  //                 <p className="mt-2 text-sm text-gray-200 transition-opacity duration-300 opacity-0 group-hover:opacity-100">Shampoo, Conditioner & Serum</p>
-  //               </div>
-  //             </Link>
-              
-  //             <Link to="/products" className="relative block overflow-hidden shadow-sm h-80 rounded-3xl group">
-  //               <img src="https://images.unsplash.com/photo-1598440947619-2ce6598c4e1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tools & Accessories" className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" />
-  //               <div className="absolute inset-0 transition-opacity bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent group-hover:from-gray-900/90"></div>
-  //               <div className="absolute bottom-0 left-0 right-0 p-8 text-center transition-transform transform translate-y-2 group-hover:translate-y-0">
-  //                 <h3 className="text-2xl font-bold text-white">Tools & Brushes</h3>
-  //                 <p className="mt-2 text-sm text-gray-200 transition-opacity duration-300 opacity-0 group-hover:opacity-100">Anti-Static & Detangling</p>
-  //               </div>
-  //             </Link>
-
-  //             <Link to="/products" className="relative block overflow-hidden shadow-sm h-80 rounded-3xl group">
-  //               <img src="https://images.unsplash.com/photo-1615397323218-c2bda069f9d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Bundles & Gift Sets" className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" />
-  //               <div className="absolute inset-0 transition-opacity bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent group-hover:from-gray-900/90"></div>
-  //               <div className="absolute bottom-0 left-0 right-0 p-8 text-center transition-transform transform translate-y-2 group-hover:translate-y-0">
-  //                 <h3 className="text-2xl font-bold text-white">Bundles & Gifts</h3>
-  //                 <p className="mt-2 text-sm text-gray-200 transition-opacity duration-300 opacity-0 group-hover:opacity-100">Set Lengkap & Promo Spesial</p>
-  //               </div>
-  //             </Link>
-  //           </div>
-  //         </div>
-  //       </div>
-
-  //       {/* =========================================
-  //           3. VALUE PROPOSITION (MENGAPA GYCORA?)
-  //       ========================================= */}
-  //       <div className="py-24 border-gray-100 bg-gray-50 border-y">
-  //         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-  //           <div className="grid grid-cols-1 gap-10 text-center md:grid-cols-3">
-  //             <div className="p-8 transition-colors bg-white border border-transparent shadow-sm rounded-3xl hover:border-emerald-100 hover:shadow-md">
-  //               <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 rounded-2xl bg-emerald-50 text-gycora">
-  //                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-  //               </div>
-  //               <h3 className="mb-3 text-xl font-bold text-gray-900">Teknologi Anti-Statis</h3>
-  //               <p className="leading-relaxed text-gray-500">Molekul karbon konduktif pada sisir kami menetralkan listrik statis, mencegah rambut kusut dan rusak seketika.</p>
-  //             </div>
-  //             <div className="p-8 transition-colors bg-white border border-transparent shadow-sm rounded-3xl hover:border-emerald-100 hover:shadow-md">
-  //               <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 rounded-2xl bg-emerald-50 text-gycora">
-  //                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
-  //               </div>
-  //               <h3 className="mb-3 text-xl font-bold text-gray-900">Bahan Baku Premium</h3>
-  //               <p className="leading-relaxed text-gray-500">Setiap tetes diformulasikan dengan bahan baku berkualitas tinggi yang aman dan teruji klinis untuk kesehatan kulit kepala.</p>
-  //             </div>
-  //             <div className="p-8 transition-colors bg-white border border-transparent shadow-sm rounded-3xl hover:border-emerald-100 hover:shadow-md">
-  //               <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 rounded-2xl bg-emerald-50 text-gycora">
-  //                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-  //               </div>
-  //               <h3 className="mb-3 text-xl font-bold text-gray-900">Cruelty-Free</h3>
-  //               <p className="leading-relaxed text-gray-500">Kecantikan sejati tidak menyakiti. Seluruh lini produk Gycora 100% bebas dari uji coba pada hewan.</p>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-
-  //       {/* =========================================
-  //           4. FEATURED PRODUCTS (PRODUK UNGGULAN DINAMIS)
-  //       ========================================= */}
-  //       <div className="py-24 bg-white">
-  //         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-  //           <div className="flex flex-col items-center justify-between mb-12 sm:flex-row">
-  //             <div>
-  //               <h2 className="text-3xl font-extrabold text-gray-900">Produk Terlaris Kami</h2>
-  //               <p className="mt-2 text-gray-500">Pilihan favorit pelanggan Gycora bulan ini.</p>
-  //             </div>
-  //             <Link to="/products" className="hidden font-bold transition-colors sm:block text-gycora hover:text-gycora-dark hover:underline">
-  //               Lihat Semua Produk &rarr;
-  //             </Link>
-  //           </div>
-
-  //           {isLoadingProducts ? (
-  //             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-  //               {[1, 2, 3].map((i) => (
-  //                 <div key={i} className="bg-white border border-gray-100 shadow-sm rounded-2xl animate-pulse">
-  //                   <div className="w-full bg-gray-200 aspect-square rounded-t-2xl"></div>
-  //                   <div className="p-6 space-y-3">
-  //                     <div className="w-3/4 h-5 bg-gray-200 rounded"></div>
-  //                     <div className="w-full h-4 bg-gray-200 rounded"></div>
-  //                     <div className="w-1/2 h-6 mt-4 bg-gray-200 rounded"></div>
-  //                   </div>
-  //                 </div>
-  //               ))}
-  //             </div>
-  //           ) : featuredProducts.length > 0 ? (
-  //             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-  //               {featuredProducts.map((product) => (
-  //                 <div 
-  //                   key={product.id} 
-  //                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1" 
-  //                   onClick={() => navigate(`/product/${product.id}`)}
-  //                 >
-  //                   <div className="relative overflow-hidden bg-gray-100 aspect-square">
-  //                     <img 
-  //                       src={product.image_url} 
-  //                       alt={product.name} 
-  //                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
-  //                     />
-  //                     <div className="absolute px-3 py-1 text-[10px] font-bold tracking-widest text-gray-900 uppercase rounded-full shadow-sm top-4 left-4 bg-white/90 backdrop-blur-sm">
-  //                       {product.category?.name || "Gycora"}
-  //                     </div>
-  //                   </div>
-  //                   <div className="p-6">
-  //                     <h3 className="mb-1 text-lg font-bold text-gray-900 line-clamp-1">{product.name}</h3>
-  //                     <p className="mb-4 text-sm text-gray-500 line-clamp-2">
-  //                       {product.description || "Temukan kilau alami rambut Anda dengan perawatan eksklusif dari Gycora."}
-  //                     </p>
-  //                     <div className="flex items-center justify-between">
-  //                       <span className="text-xl font-extrabold text-gycora">{formatRupiah(product.price)}</span>
-  //                       <button className="p-2 text-gray-900 transition-colors bg-gray-100 rounded-full hover:bg-gycora hover:text-white">
-  //                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
-  //                       </button>
-  //                     </div>
-  //                   </div>
-  //                 </div>
-  //               ))}
-  //             </div>
-  //           ) : (
-  //             <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
-  //           )}
-            
-  //           <div className="mt-8 text-center sm:hidden">
-  //             <Link to="/products" className="font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
-  //               Lihat Semua Produk &rarr;
-  //             </Link>
-  //           </div>
-  //         </div>
-  //       </div> 
-
-  //       {/* =========================================
-  //           5. TESTIMONIALS / SOCIAL PROOF (SEKSI BARU)
-  //       ========================================= */}
-  //       <div className="py-24 border-t border-gray-100 bg-emerald-50/50">
-  //         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-  //           <div className="mb-16 text-center">
-  //             <h2 className="text-3xl font-extrabold text-gray-900">Kata Mereka Tentang Gycora</h2>
-  //             <p className="mt-4 text-gray-500">Ulasan jujur dari pelanggan setia yang telah membuktikan kualitas kami.</p>
-  //           </div>
-
-  //           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-  //             {testimonials.map((testi) => (
-  //               <div key={testi.id} className="p-8 bg-white border border-gray-100 shadow-sm rounded-3xl">
-  //                 <div className="flex gap-1 mb-4 text-amber-400">
-  //                   {[...Array(testi.rating)].map((_, i) => (
-  //                     <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-  //                   ))}
-  //                 </div>
-  //                 <p className="mb-6 italic text-gray-600">"{testi.text}"</p>
-  //                 <div className="flex items-center gap-4 pt-6 border-t border-gray-100">
-  //                   <div className="flex items-center justify-center w-10 h-10 font-bold rounded-full bg-emerald-100 text-emerald-700">
-  //                     {testi.name.charAt(0)}
-  //                   </div>
-  //                   <div>
-  //                     <h4 className="text-sm font-bold text-gray-900">{testi.name}</h4>
-  //                     <p className="text-xs text-gray-500">{testi.role}</p>
-  //                   </div>
-  //                 </div>
-  //               </div>
-  //             ))}
-  //           </div>
-  //         </div>
-  //       </div>
-
-  //       {/* =========================================
-  //           6. CTA (CALL TO ACTION) / NEWSLETTER
-  //       ========================================= */}
-  //       <div className="relative py-24 overflow-hidden bg-gray-900">
-  //         {/* Dekorasi Glow */}
-  //         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
-          
-  //         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
-  //           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-  //             Siap mengubah rutinitas rambut Anda?
-  //           </h2>
-  //           <p className="mt-4 mb-10 text-lg text-gray-400">
-  //             Bergabunglah dengan ribuan pelanggan yang telah merasakan keajaiban Ethereal Glow Brush dan rangkaian produk Gycora lainnya.
-  //           </p>
-  //           {!userData ? (
-  //             <button onClick={() => navigate("/register")} className="px-10 py-4 text-lg font-bold text-gray-900 transition-all bg-[#D4FF32] rounded-full hover:bg-[#bce520] hover:shadow-lg hover:shadow-[#D4FF32]/20 hover:-translate-y-0.5">
-  //               Mulai Perjalanan Anda Sekarang
-  //             </button>
-  //           ) : (
-  //             <button onClick={() => navigate("/products")} className="px-10 py-4 text-lg font-bold text-gray-900 transition-all bg-[#D4FF32] rounded-full hover:bg-[#bce520] hover:shadow-lg hover:shadow-[#D4FF32]/20 hover:-translate-y-0.5">
-  //               Belanja Koleksi Kami
-  //             </button>
-  //           )}
-  //         </div>
-  //       </div>
-
-  //     </div>
-  //   );
-  // }
-
 // import { useState, useEffect } from "react";
 // import { Link, useNavigate } from "react-router-dom";
-// import { BASE_URL } from "../../config/api"; 
-// import Swal from "sweetalert2";
+// import { BASE_URL } from "../../config/api";
+// import Swal from "sweetalert2"; // Pastikan Swal di-import untuk notifikasi langganan
 
-// // --- IMPORT GAMBAR DARI LOKAL UNTUK SLIDER ---
+// // --- IMPORT 5 GAMBAR DARI LOKAL UNTUK SLIDER ---
 // import slide1 from "/landing_page_images/hero_slide_1.jpg";
 // import slide2 from "/landing_page_images/hero_slide_2.jpg";
 // import slide3 from "/landing_page_images/hero_slide_3.jpg";
 // import slide4 from "/landing_page_images/hero_slide_4.jpg";
-// import slide5 from "/landing_page_images/hero_slide_5.jpg"; 
+// import slide5 from "/landing_page_images/hero_slide_5.jpg";
 
 // const heroSlides = [
 //   { id: 1, image: slide1, alt: "Gycora Premium Hair Care 1" },
@@ -2234,7 +1747,492 @@
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [userData, setUserData] = useState<any>(null);
 //   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
+//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
+//   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
+
+//   // --- STATE UNTUK POP-UP PROMO ---
+//   const [showPromoModal, setShowPromoModal] = useState(false);
+//   const [promoEmail, setPromoEmail] = useState("");
+//   const [isSubscribing, setIsSubscribing] = useState(false);
+
+//   useEffect(() => {
+//     const storedUser = localStorage.getItem("user_data");
+//     if (storedUser) {
+//       setUserData(JSON.parse(storedUser));
+//     } else {
+//       // Tampilkan Promo Modal hanya untuk Guest yang belum pernah melihatnya di sesi ini
+//       const hasSeenPromo = sessionStorage.getItem("hasSeenPromo");
+//       if (!hasSeenPromo) {
+//         // Delay sedikit agar lebih natural setelah halaman dimuat
+//         const timer = setTimeout(() => {
+//           setShowPromoModal(true);
+//         }, 1500);
+//         return () => clearTimeout(timer);
+//       }
+//     }
+
+//     const fetchFeaturedProducts = async () => {
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/products`);
+//         if (res.ok) {
+//           const data = await res.json();
+//           const productsArray = data.data ? data.data : data;
+//           setFeaturedProducts(productsArray.slice(0, 3) || []);
+//         }
+//       } catch (error) {
+//         console.error("Gagal memuat produk unggulan:", error);
+//       } finally {
+//         setIsLoadingProducts(false);
+//       }
+//     };
+
+//     fetchFeaturedProducts();
+//   }, []);
+
+//   useEffect(() => {
+//     if (userData) return;
+//     const slideInterval = setInterval(() => {
+//       setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
+//     }, 4000);
+//     return () => clearInterval(slideInterval);
+//   }, [userData]);
+
+//   const formatRupiah = (angka: number) => {
+//     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka || 0);
+//   };
+
+//   // --- HANDLER TUTUP PROMO & SUBMIT ---
+//   const closePromoModal = () => {
+//     setShowPromoModal(false);
+//     sessionStorage.setItem("hasSeenPromo", "true"); // Tandai agar tidak muncul lagi di tab ini
+//   };
+
+//   const handleSubscribePromo = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     if (!promoEmail) return;
+
+//     setIsSubscribing(true);
+//     try {
+//       const res = await fetch(`${BASE_URL}/api/subscribe`, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json", "Accept": "application/json" },
+//         body: JSON.stringify({ email: promoEmail }),
+//       });
+
+//       const data = await res.json();
+
+//       if (res.ok) {
+//         closePromoModal();
+//         Swal.fire({
+//           icon: "success",
+//           title: "Berhasil!",
+//           text: "Cek email Anda untuk kode voucher 50% Gycora.",
+//           confirmButtonColor: "#059669",
+//         });
+//       } else {
+//         Swal.fire({ icon: "warning", title: "Pemberitahuan", text: data.message || "Gagal berlangganan.", confirmButtonColor: "#d33" });
+//       }
+//     } catch (error) {
+//       console.error(error);
+//       Swal.fire({ icon: "error", title: "Gagal", text: "Terjadi kesalahan server.", confirmButtonColor: "#d33" });
+//     } finally {
+//       setIsSubscribing(false);
+//     }
+//   };
+
+//   return (
+//     <div className="relative font-sans bg-white">
+
+//       {/* =========================================
+//           POP-UP PROMO MODAL (GUEST ONLY)
+//       ========================================= */}
+//       {showPromoModal && !userData && (
+//         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-up">
+//           <div className="relative flex flex-col w-full max-w-3xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-2xl">
+
+//             {/* Tombol Close */}
+//             <button
+//               onClick={closePromoModal}
+//               className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
+//             >
+//               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+//             </button>
+
+//             {/* Bagian Kiri: Teks & Form */}
+//             <div className="flex flex-col justify-center flex-1 p-8 md:p-12">
+//               <h2 className="mb-2 font-serif text-4xl font-black tracking-tight text-gray-900 uppercase">Gycora</h2>
+//               <h3 className="mb-4 text-3xl font-extrabold leading-tight text-gycora-dark">
+//                 Dapatkan Diskon 50% + Produk Spesial
+//               </h3>
+//               <p className="mb-8 text-sm font-medium text-gray-500">
+//                 Daftarkan Email & SMS untuk mendapatkan penawaran eksklusif, tips kecantikan, dan banyak lagi dari kami!
+//               </p>
+
+//               <form onSubmit={handleSubscribePromo} className="space-y-4">
+//                 <input
+//                   type="email"
+//                   value={promoEmail}
+//                   onChange={(e) => setPromoEmail(e.target.value)}
+//                   placeholder="Masukkan Email Anda"
+//                   className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-gycora"
+//                   required
+//                 />
+//                 <button
+//                   type="submit"
+//                   disabled={isSubscribing}
+//                   className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-gray-900 rounded-lg hover:bg-black disabled:bg-gray-400"
+//                 >
+//                   {isSubscribing ? "Memproses..." : "Continue"}
+//                 </button>
+//               </form>
+
+//               <p className="mt-4 text-[9px] text-gray-400 leading-relaxed">
+//                 *Penawaran hanya berlaku untuk pesanan pertama di atas Rp 200.000. Tidak dapat digabungkan dengan promo lain.
+//               </p>
+//             </div>
+
+//             {/* Bagian Kanan: Gambar Pemanis (Akan disembunyikan di layar kecil) */}
+//             <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
+//               <img
+//                 src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+//                 alt="Promo Gycora"
+//                 className="object-cover w-full h-full"
+//               />
+//             </div>
+
+//           </div>
+//         </div>
+//       )}
+
+//       {/* =========================================
+//           1. HERO SECTION
+//       ========================================= */}
+//       <div className="relative overflow-hidden bg-gradient-to-b from-emerald-50/50 to-white">
+//         <div className="absolute top-0 -translate-x-1/2 left-1/2 -z-10">
+//           <div className="w-[800px] h-[400px] bg-emerald-200/30 rounded-full blur-3xl opacity-50 mix-blend-multiply"></div>
+//         </div>
+
+//         <div className="px-4 py-24 mx-auto max-w-7xl sm:px-6 lg:px-8 lg:py-32">
+//           {userData ? (
+//             <div className="max-w-4xl mx-auto space-y-8 text-center animate-fade-in-up">
+//               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wide text-emerald-800 bg-emerald-100 uppercase border border-emerald-200">
+//                 <svg className="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
+//                 Gycora Exclusive Member
+//               </div>
+//               <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+//                 Selamat datang kembali, <span className="text-gycora">{userData.first_name}</span>.
+//               </h1>
+//               <p className="max-w-2xl mx-auto text-lg text-gray-500 sm:text-xl">
+//                 Katalog rambut premium terbaru kami sudah menanti Anda. Nikmati penawaran eksklusif, lacak pesanan, dan dapatkan kemudahan berbelanja khusus untuk member Gycora.
+//               </p>
+//               <div className="flex flex-col justify-center gap-4 pt-4 sm:flex-row">
+//                 <button onClick={() => navigate("/products")} className="px-8 py-3.5 text-base font-bold text-white transition-all bg-gray-900 rounded-full shadow-lg hover:bg-gray-800 hover:shadow-xl hover:-translate-y-0.5">
+//                   Lanjutkan Belanja
+//                 </button>
+//                 <button onClick={() => navigate("/profile")} className="px-8 py-3.5 text-base font-bold text-gray-700 transition-all bg-white border border-gray-300 rounded-full hover:bg-gray-50 hover:-translate-y-0.5">
+//                   Profil & Pesanan Saya
+//                 </button>
+//               </div>
+//             </div>
+//           ) : (
+//             <div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2">
+//               <div className="space-y-8 animate-fade-in-up">
+//                 <div className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold tracking-wide text-emerald-800 bg-emerald-100 uppercase border border-emerald-200">
+//                   ✨ Solusi Perawatan Rambut Premium
+//                 </div>
+//                 <h1 className="text-5xl font-extrabold leading-tight tracking-tight text-gray-900 sm:text-6xl lg:text-7xl">
+//                   Tingkatkan <span className="text-transparent bg-clip-text bg-gradient-to-r from-gycora to-emerald-400">Pesona</span><br /> Mahkota Anda.
+//                 </h1>
+//                 <p className="text-lg leading-relaxed text-gray-500 sm:text-xl">
+//                   Temukan koleksi eksklusif Gycora. Diformulasikan dengan teknologi mutakhir dan bahan premium untuk rambut yang lebih sehat, bersinar, dan bebas kusut dari akar hingga ujung.
+//                 </p>
+//                 <div className="flex flex-col gap-4 pt-4 sm:flex-row">
+//                   <Link to="/products" className="px-8 py-4 text-lg font-bold text-center text-white transition-all rounded-full bg-gycora hover:bg-gycora-dark shadow-[0_4px_14px_0_rgba(5,150,105,0.39)] hover:-translate-y-0.5">
+//                     Eksplorasi Katalog
+//                   </Link>
+//                   <Link to="/register" className="px-8 py-4 text-lg font-bold text-center text-gray-700 transition-all bg-white border border-gray-300 rounded-full hover:bg-gray-50 hover:-translate-y-0.5">
+//                     Daftar Member
+//                   </Link>
+//                 </div>
+//               </div>
+
+//               <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "200ms" }}>
+//                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-pink-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
+
+//                 <div className="relative w-full overflow-hidden shadow-2xl h-[500px] rounded-[3rem] group">
+//                   {heroSlides.map((slide, index) => (
+//                     <img
+//                       key={slide.id}
+//                       src={slide.image}
+//                       alt={slide.alt}
+//                       className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
+//                     />
+//                   ))}
+
+//                   <div className="absolute inset-0 flex items-center justify-between px-4 transition-opacity opacity-0 group-hover:opacity-100">
+//                     <button onClick={() => setCurrentSlide(prev => prev === 0 ? heroSlides.length - 1 : prev - 1)} className="p-3 text-gray-800 transition-colors rounded-full shadow-md bg-white/80 hover:bg-white backdrop-blur-sm">
+//                       <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+//                     </button>
+//                     <button onClick={() => setCurrentSlide(prev => prev === heroSlides.length - 1 ? 0 : prev + 1)} className="p-3 text-gray-800 transition-colors rounded-full shadow-md bg-white/80 hover:bg-white backdrop-blur-sm">
+//                       <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+//                     </button>
+//                   </div>
+
+//                   <div className="absolute flex justify-center w-full gap-2 bottom-6">
+//                     {heroSlides.map((_, index) => (
+//                       <button key={index} onClick={() => setCurrentSlide(index)} className={`h-2.5 rounded-full transition-all duration-300 shadow-sm ${index === currentSlide ? 'w-8 bg-gycora' : 'w-2.5 bg-white/70 hover:bg-white'}`} aria-label={`Slide ${index + 1}`}></button>
+//                     ))}
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//           )}
+//         </div>
+//       </div>
+
+//       {/* =========================================
+//           2. SHOP BY CATEGORY (SEKSI BARU)
+//       ========================================= */}
+//       <div className="py-24 bg-white border-t border-gray-100">
+//         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+//           <div className="mb-12 text-center">
+//             <h2 className="text-3xl font-extrabold text-gray-900">Kategori Terpopuler</h2>
+//             <p className="mt-4 text-gray-500">Jelajahi rangkaian produk spesifik untuk setiap kebutuhan mahkota Anda.</p>
+//           </div>
+
+//           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+//             <Link to="/products" className="relative block overflow-hidden shadow-sm h-80 rounded-3xl group">
+//               <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair Care" className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" />
+//               <div className="absolute inset-0 transition-opacity bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent group-hover:from-gray-900/90"></div>
+//               <div className="absolute bottom-0 left-0 right-0 p-8 text-center transition-transform transform translate-y-2 group-hover:translate-y-0">
+//                 <h3 className="text-2xl font-bold text-white">Hair Care</h3>
+//                 <p className="mt-2 text-sm text-gray-200 transition-opacity duration-300 opacity-0 group-hover:opacity-100">Shampoo, Conditioner & Serum</p>
+//               </div>
+//             </Link>
+
+//             <Link to="/products" className="relative block overflow-hidden shadow-sm h-80 rounded-3xl group">
+//               <img src="https://images.unsplash.com/photo-1598440947619-2ce6598c4e1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tools & Accessories" className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" />
+//               <div className="absolute inset-0 transition-opacity bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent group-hover:from-gray-900/90"></div>
+//               <div className="absolute bottom-0 left-0 right-0 p-8 text-center transition-transform transform translate-y-2 group-hover:translate-y-0">
+//                 <h3 className="text-2xl font-bold text-white">Tools & Brushes</h3>
+//                 <p className="mt-2 text-sm text-gray-200 transition-opacity duration-300 opacity-0 group-hover:opacity-100">Anti-Static & Detangling</p>
+//               </div>
+//             </Link>
+
+//             <Link to="/products" className="relative block overflow-hidden shadow-sm h-80 rounded-3xl group">
+//               <img src="https://images.unsplash.com/photo-1615397323218-c2bda069f9d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Bundles & Gift Sets" className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" />
+//               <div className="absolute inset-0 transition-opacity bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent group-hover:from-gray-900/90"></div>
+//               <div className="absolute bottom-0 left-0 right-0 p-8 text-center transition-transform transform translate-y-2 group-hover:translate-y-0">
+//                 <h3 className="text-2xl font-bold text-white">Bundles & Gifts</h3>
+//                 <p className="mt-2 text-sm text-gray-200 transition-opacity duration-300 opacity-0 group-hover:opacity-100">Set Lengkap & Promo Spesial</p>
+//               </div>
+//             </Link>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* =========================================
+//           3. VALUE PROPOSITION (MENGAPA GYCORA?)
+//       ========================================= */}
+//       <div className="py-24 border-gray-100 bg-gray-50 border-y">
+//         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+//           <div className="grid grid-cols-1 gap-10 text-center md:grid-cols-3">
+//             <div className="p-8 transition-colors bg-white border border-transparent shadow-sm rounded-3xl hover:border-emerald-100 hover:shadow-md">
+//               <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 rounded-2xl bg-emerald-50 text-gycora">
+//                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+//               </div>
+//               <h3 className="mb-3 text-xl font-bold text-gray-900">Teknologi Anti-Statis</h3>
+//               <p className="leading-relaxed text-gray-500">Molekul karbon konduktif pada sisir kami menetralkan listrik statis, mencegah rambut kusut dan rusak seketika.</p>
+//             </div>
+//             <div className="p-8 transition-colors bg-white border border-transparent shadow-sm rounded-3xl hover:border-emerald-100 hover:shadow-md">
+//               <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 rounded-2xl bg-emerald-50 text-gycora">
+//                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+//               </div>
+//               <h3 className="mb-3 text-xl font-bold text-gray-900">Bahan Baku Premium</h3>
+//               <p className="leading-relaxed text-gray-500">Setiap tetes diformulasikan dengan bahan baku berkualitas tinggi yang aman dan teruji klinis untuk kesehatan kulit kepala.</p>
+//             </div>
+//             <div className="p-8 transition-colors bg-white border border-transparent shadow-sm rounded-3xl hover:border-emerald-100 hover:shadow-md">
+//               <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 rounded-2xl bg-emerald-50 text-gycora">
+//                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+//               </div>
+//               <h3 className="mb-3 text-xl font-bold text-gray-900">Cruelty-Free</h3>
+//               <p className="leading-relaxed text-gray-500">Kecantikan sejati tidak menyakiti. Seluruh lini produk Gycora 100% bebas dari uji coba pada hewan.</p>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* =========================================
+//           4. FEATURED PRODUCTS (PRODUK UNGGULAN DINAMIS)
+//       ========================================= */}
+//       <div className="py-24 bg-white">
+//         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+//           <div className="flex flex-col items-center justify-between mb-12 sm:flex-row">
+//             <div>
+//               <h2 className="text-3xl font-extrabold text-gray-900">Produk Terlaris Kami</h2>
+//               <p className="mt-2 text-gray-500">Pilihan favorit pelanggan Gycora bulan ini.</p>
+//             </div>
+//             <Link to="/products" className="hidden font-bold transition-colors sm:block text-gycora hover:text-gycora-dark hover:underline">
+//               Lihat Semua Produk &rarr;
+//             </Link>
+//           </div>
+
+//           {isLoadingProducts ? (
+//             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+//               {[1, 2, 3].map((i) => (
+//                 <div key={i} className="bg-white border border-gray-100 shadow-sm rounded-2xl animate-pulse">
+//                   <div className="w-full bg-gray-200 aspect-square rounded-t-2xl"></div>
+//                   <div className="p-6 space-y-3">
+//                     <div className="w-3/4 h-5 bg-gray-200 rounded"></div>
+//                     <div className="w-full h-4 bg-gray-200 rounded"></div>
+//                     <div className="w-1/2 h-6 mt-4 bg-gray-200 rounded"></div>
+//                   </div>
+//                 </div>
+//               ))}
+//             </div>
+//           ) : featuredProducts.length > 0 ? (
+//             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+//               {featuredProducts.map((product) => (
+//                 <div
+//                   key={product.id}
+//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1"
+//                   onClick={() => navigate(`/product/${product.id}`)}
+//                 >
+//                   <div className="relative overflow-hidden bg-gray-100 aspect-square">
+//                     <img
+//                       src={product.image_url}
+//                       alt={product.name}
+//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+//                     />
+//                     <div className="absolute px-3 py-1 text-[10px] font-bold tracking-widest text-gray-900 uppercase rounded-full shadow-sm top-4 left-4 bg-white/90 backdrop-blur-sm">
+//                       {product.category?.name || "Gycora"}
+//                     </div>
+//                   </div>
+//                   <div className="p-6">
+//                     <h3 className="mb-1 text-lg font-bold text-gray-900 line-clamp-1">{product.name}</h3>
+//                     <p className="mb-4 text-sm text-gray-500 line-clamp-2">
+//                       {product.description || "Temukan kilau alami rambut Anda dengan perawatan eksklusif dari Gycora."}
+//                     </p>
+//                     <div className="flex items-center justify-between">
+//                       <span className="text-xl font-extrabold text-gycora">{formatRupiah(product.price)}</span>
+//                       <button className="p-2 text-gray-900 transition-colors bg-gray-100 rounded-full hover:bg-gycora hover:text-white">
+//                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
+//                       </button>
+//                     </div>
+//                   </div>
+//                 </div>
+//               ))}
+//             </div>
+//           ) : (
+//             <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
+//           )}
+
+//           <div className="mt-8 text-center sm:hidden">
+//             <Link to="/products" className="font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
+//               Lihat Semua Produk &rarr;
+//             </Link>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* =========================================
+//           5. TESTIMONIALS / SOCIAL PROOF (SEKSI BARU)
+//       ========================================= */}
+//       <div className="py-24 border-t border-gray-100 bg-emerald-50/50">
+//         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+//           <div className="mb-16 text-center">
+//             <h2 className="text-3xl font-extrabold text-gray-900">Kata Mereka Tentang Gycora</h2>
+//             <p className="mt-4 text-gray-500">Ulasan jujur dari pelanggan setia yang telah membuktikan kualitas kami.</p>
+//           </div>
+
+//           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+//             {testimonials.map((testi) => (
+//               <div key={testi.id} className="p-8 bg-white border border-gray-100 shadow-sm rounded-3xl">
+//                 <div className="flex gap-1 mb-4 text-amber-400">
+//                   {[...Array(testi.rating)].map((_, i) => (
+//                     <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+//                   ))}
+//                 </div>
+//                 <p className="mb-6 italic text-gray-600">"{testi.text}"</p>
+//                 <div className="flex items-center gap-4 pt-6 border-t border-gray-100">
+//                   <div className="flex items-center justify-center w-10 h-10 font-bold rounded-full bg-emerald-100 text-emerald-700">
+//                     {testi.name.charAt(0)}
+//                   </div>
+//                   <div>
+//                     <h4 className="text-sm font-bold text-gray-900">{testi.name}</h4>
+//                     <p className="text-xs text-gray-500">{testi.role}</p>
+//                   </div>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* =========================================
+//           6. CTA (CALL TO ACTION) / NEWSLETTER
+//       ========================================= */}
+//       <div className="relative py-24 overflow-hidden bg-gray-900">
+//         {/* Dekorasi Glow */}
+//         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
+
+//         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
+//           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
+//             Siap mengubah rutinitas rambut Anda?
+//           </h2>
+//           <p className="mt-4 mb-10 text-lg text-gray-400">
+//             Bergabunglah dengan ribuan pelanggan yang telah merasakan keajaiban Ethereal Glow Brush dan rangkaian produk Gycora lainnya.
+//           </p>
+//           {!userData ? (
+//             <button onClick={() => navigate("/register")} className="px-10 py-4 text-lg font-bold text-gray-900 transition-all bg-[#D4FF32] rounded-full hover:bg-[#bce520] hover:shadow-lg hover:shadow-[#D4FF32]/20 hover:-translate-y-0.5">
+//               Mulai Perjalanan Anda Sekarang
+//             </button>
+//           ) : (
+//             <button onClick={() => navigate("/products")} className="px-10 py-4 text-lg font-bold text-gray-900 transition-all bg-[#D4FF32] rounded-full hover:bg-[#bce520] hover:shadow-lg hover:shadow-[#D4FF32]/20 hover:-translate-y-0.5">
+//               Belanja Koleksi Kami
+//             </button>
+//           )}
+//         </div>
+//       </div>
+
+//     </div>
+//   );
+// }
+
+// import { useState, useEffect } from "react";
+// import { Link, useNavigate } from "react-router-dom";
+// import { BASE_URL } from "../../config/api";
+// import Swal from "sweetalert2";
+
+// // --- IMPORT GAMBAR DARI LOKAL UNTUK SLIDER ---
+// import slide1 from "/landing_page_images/hero_slide_1.jpg";
+// import slide2 from "/landing_page_images/hero_slide_2.jpg";
+// import slide3 from "/landing_page_images/hero_slide_3.jpg";
+// import slide4 from "/landing_page_images/hero_slide_4.jpg";
+// import slide5 from "/landing_page_images/hero_slide_5.jpg";
+
+// const heroSlides = [
+//   { id: 1, image: slide1, alt: "Gycora Premium Hair Care 1" },
+//   { id: 2, image: slide2, alt: "Gycora Premium Hair Care 2" },
+//   { id: 3, image: slide3, alt: "Gycora Premium Hair Care 3" },
+//   { id: 4, image: slide4, alt: "Gycora Premium Hair Care 4" },
+//   { id: 5, image: slide5, alt: "Gycora Premium Hair Care 5" },
+// ];
+
+// const testimonials = [
+//   { id: 1, name: "Amanda S.", role: "Verified Buyer", text: "Ethereal Glow Brush benar-benar mengubah hidup saya. Rambut yang biasanya rontok saat disisir sekarang sangat mudah diatur dan jauh lebih berkilau!", rating: 5 },
+//   { id: 2, name: "Rina Kartika", role: "Gycora Member", text: "Wangi dari Revitalizing Shampoo sangat elegan dan tahan lama. Kulit kepala terasa lebih bersih tanpa membuat ujung rambut menjadi kering.", rating: 5 },
+//   { id: 3, name: "Jessica W.", role: "Verified Buyer", text: "Awalnya ragu, tapi setelah mencoba Argan Hair Serum selama 2 minggu, ujung rambut bercabang saya benar-benar membaik. Sangat direkomendasikan!", rating: 4 }
+// ];
+
+// export default function Home() {
+//   const navigate = useNavigate();
+//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   const [userData, setUserData] = useState<any>(null);
+//   const [currentSlide, setCurrentSlide] = useState(0);
+
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
 //   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
@@ -2277,10 +2275,10 @@
 //   }, []);
 
 //   useEffect(() => {
-//     if (userData) return; 
+//     if (userData) return;
 //     const slideInterval = setInterval(() => {
 //       setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
-//     }, 4000); 
+//     }, 4000);
 //     return () => clearInterval(slideInterval);
 //   }, [userData]);
 
@@ -2296,7 +2294,7 @@
 //   const handleSubscribePromo = async (e: React.FormEvent) => {
 //     e.preventDefault();
 //     if (!promoEmail) return;
-    
+
 //     setIsSubscribing(true);
 //     try {
 //       const res = await fetch(`${BASE_URL}/api/subscribe`, {
@@ -2328,16 +2326,16 @@
 
 //   return (
 //     <div className="relative font-sans bg-white">
-      
+
 //       {/* =========================================
 //           POP-UP PROMO MODAL (SELALU MUNCUL)
 //       ========================================= */}
 //       {showPromoModal && (
 //         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-up">
 //           <div className="relative flex flex-col w-full max-w-3xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-2xl">
-            
+
 //             {/* Tombol Close */}
-//             <button 
+//             <button
 //               onClick={closePromoModal}
 //               className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
 //             >
@@ -2353,25 +2351,25 @@
 //               <p className="mb-8 text-sm font-medium text-gray-500">
 //                 Daftarkan Email & SMS untuk mendapatkan penawaran eksklusif, tips kecantikan, dan banyak lagi dari kami!
 //               </p>
-              
+
 //               <form onSubmit={handleSubscribePromo} className="space-y-4">
-//                 <input 
-//                   type="email" 
+//                 <input
+//                   type="email"
 //                   value={promoEmail}
 //                   onChange={(e) => setPromoEmail(e.target.value)}
-//                   placeholder="Masukkan Email Anda" 
+//                   placeholder="Masukkan Email Anda"
 //                   className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-gycora"
 //                   required
 //                 />
-//                 <button 
-//                   type="submit" 
+//                 <button
+//                   type="submit"
 //                   disabled={isSubscribing}
 //                   className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-gray-900 rounded-lg hover:bg-black disabled:bg-gray-400"
 //                 >
 //                   {isSubscribing ? "Memproses..." : "Continue"}
 //                 </button>
 //               </form>
-              
+
 //               <p className="mt-4 text-[9px] text-gray-400 leading-relaxed">
 //                 *Penawaran hanya berlaku untuk pesanan pertama di atas Rp 200.000. Tidak dapat digabungkan dengan promo lain.
 //               </p>
@@ -2379,9 +2377,9 @@
 
 //             {/* Bagian Kanan: Gambar Pemanis dari Aset Lokal */}
 //             <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
-//               <img 
-//                 src="/landing_page_images/promo_popup.jpg" 
-//                 alt="Promo Gycora" 
+//               <img
+//                 src="/landing_page_images/promo_popup.jpg"
+//                 alt="Promo Gycora"
 //                 className="object-cover w-full h-full"
 //               />
 //             </div>
@@ -2441,16 +2439,16 @@
 //                   </Link>
 //                 </div>
 //               </div>
-              
+
 //               <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "200ms" }}>
 //                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-pink-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-                
+
 //                 <div className="relative w-full overflow-hidden shadow-2xl h-[500px] rounded-[3rem] group">
 //                   {heroSlides.map((slide, index) => (
-//                     <img 
+//                     <img
 //                       key={slide.id}
-//                       src={slide.image} 
-//                       alt={slide.alt} 
+//                       src={slide.image}
+//                       alt={slide.alt}
 //                       className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
 //                     />
 //                   ))}
@@ -2485,7 +2483,7 @@
 //             <h2 className="text-3xl font-extrabold text-gray-900">Kategori Terpopuler</h2>
 //             <p className="mt-4 text-gray-500">Jelajahi rangkaian produk spesifik untuk setiap kebutuhan mahkota Anda.</p>
 //           </div>
-          
+
 //           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
 //             <Link to="/products" className="relative block overflow-hidden shadow-sm h-80 rounded-3xl group">
 //               <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair Care" className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" />
@@ -2495,7 +2493,7 @@
 //                 <p className="mt-2 text-sm text-gray-200 transition-opacity duration-300 opacity-0 group-hover:opacity-100">Shampoo, Conditioner & Serum</p>
 //               </div>
 //             </Link>
-            
+
 //             <Link to="/products" className="relative block overflow-hidden shadow-sm h-80 rounded-3xl group">
 //               <img src="https://images.unsplash.com/photo-1598440947619-2ce6598c4e1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tools & Accessories" className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" />
 //               <div className="absolute inset-0 transition-opacity bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent group-hover:from-gray-900/90"></div>
@@ -2579,16 +2577,16 @@
 //           ) : featuredProducts.length > 0 ? (
 //             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 //               {featuredProducts.map((product) => (
-//                 <div 
-//                   key={product.id} 
-//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1" 
+//                 <div
+//                   key={product.id}
+//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1"
 //                   onClick={() => navigate(`/product/${product.id}`)}
 //                 >
 //                   <div className="relative overflow-hidden bg-gray-100 aspect-square">
-//                     <img 
-//                       src={product.image_url} 
-//                       alt={product.name} 
-//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
+//                     <img
+//                       src={product.image_url}
+//                       alt={product.name}
+//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
 //                     />
 //                     <div className="absolute px-3 py-1 text-[10px] font-bold tracking-widest text-gray-900 uppercase rounded-full shadow-sm top-4 left-4 bg-white/90 backdrop-blur-sm">
 //                       {product.category?.name || "Gycora"}
@@ -2612,14 +2610,14 @@
 //           ) : (
 //             <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
 //           )}
-          
+
 //           <div className="mt-8 text-center sm:hidden">
 //             <Link to="/products" className="font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
 //               Lihat Semua Produk &rarr;
 //             </Link>
 //           </div>
 //         </div>
-//       </div> 
+//       </div>
 
 //       {/* =========================================
 //           5. TESTIMONIALS / SOCIAL PROOF (SEKSI BARU)
@@ -2661,7 +2659,7 @@
 //       <div className="relative py-24 overflow-hidden bg-gray-900">
 //         {/* Dekorasi Glow */}
 //         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
-        
+
 //         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
 //           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
 //             Siap mengubah rutinitas rambut Anda?
@@ -2687,15 +2685,15 @@
 
 // import { useState, useEffect } from "react";
 // import { Link, useNavigate } from "react-router-dom";
-// import { BASE_URL } from "../../config/api"; 
-// import Swal from "sweetalert2"; 
+// import { BASE_URL } from "../../config/api";
+// import Swal from "sweetalert2";
 
 // // --- IMPORT 5 GAMBAR DARI LOKAL UNTUK SLIDER ---
 // import slide1 from "/landing_page_images/hero_slide_1.jpg";
 // import slide2 from "/landing_page_images/hero_slide_2.jpg";
 // import slide3 from "/landing_page_images/hero_slide_3.jpg";
 // import slide4 from "/landing_page_images/hero_slide_4.jpg";
-// import slide5 from "/landing_page_images/hero_slide_5.jpg"; 
+// import slide5 from "/landing_page_images/hero_slide_5.jpg";
 
 // const heroSlides = [
 //   { id: 1, image: slide1, alt: "Gycora Premium Hair Care 1" },
@@ -2716,7 +2714,7 @@
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [userData, setUserData] = useState<any>(null);
 //   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
 //   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
@@ -2764,10 +2762,10 @@
 //   }, []);
 
 //   useEffect(() => {
-//     if (userData) return; 
+//     if (userData) return;
 //     const slideInterval = setInterval(() => {
 //       setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
-//     }, 4000); 
+//     }, 4000);
 //     return () => clearInterval(slideInterval);
 //   }, [userData]);
 
@@ -2787,7 +2785,7 @@
 //   const handleSubscribePromo = async (e: React.FormEvent) => {
 //     e.preventDefault();
 //     if (!promoEmail) return;
-    
+
 //     setIsSubscribing(true);
 //     try {
 //       const res = await fetch(`${BASE_URL}/api/subscribe`, {
@@ -2819,24 +2817,24 @@
 
 //   return (
 //     <div className="relative font-sans bg-white">
-      
+
 //       {/* =========================================
 //           POP-UP PROMO MODAL (DENGAN ANIMASI)
 //       ========================================= */}
 //       {isPromoMounted && (
-//         <div 
+//         <div
 //           className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-500 ease-out
 //             ${showPromoModal ? 'bg-black/60 backdrop-blur-sm opacity-100' : 'bg-black/0 backdrop-blur-none opacity-0'}
 //           `}
 //         >
-//           <div 
+//           <div
 //             className={`relative flex flex-col w-full max-w-3xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-2xl transition-all duration-500 ease-out transform
 //               ${showPromoModal ? 'scale-100 translate-y-0 opacity-100' : 'scale-95 translate-y-8 opacity-0'}
 //             `}
 //           >
-            
+
 //             {/* Tombol Close */}
-//             <button 
+//             <button
 //               onClick={closePromoModal}
 //               className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
 //             >
@@ -2852,25 +2850,25 @@
 //               <p className="mb-8 text-sm font-medium text-gray-500">
 //                 Daftarkan Email & SMS untuk mendapatkan penawaran eksklusif, tips kecantikan, dan banyak lagi dari kami!
 //               </p>
-              
+
 //               <form onSubmit={handleSubscribePromo} className="space-y-4">
-//                 <input 
-//                   type="email" 
+//                 <input
+//                   type="email"
 //                   value={promoEmail}
 //                   onChange={(e) => setPromoEmail(e.target.value)}
-//                   placeholder="Masukkan Email Anda" 
+//                   placeholder="Masukkan Email Anda"
 //                   className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-gycora"
 //                   required
 //                 />
-//                 <button 
-//                   type="submit" 
+//                 <button
+//                   type="submit"
 //                   disabled={isSubscribing}
 //                   className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-gray-900 rounded-lg hover:bg-black disabled:bg-gray-400"
 //                 >
 //                   {isSubscribing ? "Memproses..." : "Continue"}
 //                 </button>
 //               </form>
-              
+
 //               <p className="mt-4 text-[9px] text-gray-400 leading-relaxed">
 //                 *Penawaran hanya berlaku untuk pesanan pertama di atas Rp 200.000. Tidak dapat digabungkan dengan promo lain.
 //               </p>
@@ -2878,9 +2876,9 @@
 
 //             {/* Bagian Kanan: Gambar Pemanis dari Aset Lokal */}
 //             <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
-//               <img 
-//                 src="/landing_page_images/promo_popup.jpg" 
-//                 alt="Promo Gycora" 
+//               <img
+//                 src="/landing_page_images/promo_popup.jpg"
+//                 alt="Promo Gycora"
 //                 className="object-cover w-full h-full"
 //               />
 //             </div>
@@ -2888,7 +2886,6 @@
 //           </div>
 //         </div>
 //       )}
-
 
 //       {/* =========================================
 //           1. HERO SECTION
@@ -2941,16 +2938,16 @@
 //                   </Link>
 //                 </div>
 //               </div>
-              
+
 //               <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "200ms" }}>
 //                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-pink-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-                
+
 //                 <div className="relative w-full overflow-hidden shadow-2xl h-[500px] rounded-[3rem] group">
 //                   {heroSlides.map((slide, index) => (
-//                     <img 
+//                     <img
 //                       key={slide.id}
-//                       src={slide.image} 
-//                       alt={slide.alt} 
+//                       src={slide.image}
+//                       alt={slide.alt}
 //                       className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
 //                     />
 //                   ))}
@@ -2985,7 +2982,7 @@
 //             <h2 className="text-3xl font-extrabold text-gray-900">Kategori Terpopuler</h2>
 //             <p className="mt-4 text-gray-500">Jelajahi rangkaian produk spesifik untuk setiap kebutuhan mahkota Anda.</p>
 //           </div>
-          
+
 //           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
 //             <Link to="/products" className="relative block overflow-hidden shadow-sm h-80 rounded-3xl group">
 //               <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair Care" className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" />
@@ -2995,7 +2992,7 @@
 //                 <p className="mt-2 text-sm text-gray-200 transition-opacity duration-300 opacity-0 group-hover:opacity-100">Shampoo, Conditioner & Serum</p>
 //               </div>
 //             </Link>
-            
+
 //             <Link to="/products" className="relative block overflow-hidden shadow-sm h-80 rounded-3xl group">
 //               <img src="https://images.unsplash.com/photo-1598440947619-2ce6598c4e1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tools & Accessories" className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" />
 //               <div className="absolute inset-0 transition-opacity bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent group-hover:from-gray-900/90"></div>
@@ -3079,16 +3076,16 @@
 //           ) : featuredProducts.length > 0 ? (
 //             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 //               {featuredProducts.map((product) => (
-//                 <div 
-//                   key={product.id} 
-//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1" 
+//                 <div
+//                   key={product.id}
+//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1"
 //                   onClick={() => navigate(`/product/${product.id}`)}
 //                 >
 //                   <div className="relative overflow-hidden bg-gray-100 aspect-square">
-//                     <img 
-//                       src={product.image_url} 
-//                       alt={product.name} 
-//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
+//                     <img
+//                       src={product.image_url}
+//                       alt={product.name}
+//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
 //                     />
 //                     <div className="absolute px-3 py-1 text-[10px] font-bold tracking-widest text-gray-900 uppercase rounded-full shadow-sm top-4 left-4 bg-white/90 backdrop-blur-sm">
 //                       {product.category?.name || "Gycora"}
@@ -3112,14 +3109,14 @@
 //           ) : (
 //             <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
 //           )}
-          
+
 //           <div className="mt-8 text-center sm:hidden">
 //             <Link to="/products" className="font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
 //               Lihat Semua Produk &rarr;
 //             </Link>
 //           </div>
 //         </div>
-//       </div> 
+//       </div>
 
 //       {/* =========================================
 //           5. TESTIMONIALS / SOCIAL PROOF (SEKSI BARU)
@@ -3161,7 +3158,7 @@
 //       <div className="relative py-24 overflow-hidden bg-gray-900">
 //         {/* Dekorasi Glow */}
 //         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
-        
+
 //         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
 //           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
 //             Siap mengubah rutinitas rambut Anda?
@@ -3187,14 +3184,14 @@
 
 // import { useState, useEffect } from "react";
 // import { Link, useNavigate } from "react-router-dom";
-// import { BASE_URL } from "../../config/api"; 
-// import Swal from "sweetalert2"; 
+// import { BASE_URL } from "../../config/api";
+// import Swal from "sweetalert2";
 
 // import slide1 from "/landing_page_images/hero_slide_1.jpg";
 // import slide2 from "/landing_page_images/hero_slide_2.jpg";
 // import slide3 from "/landing_page_images/hero_slide_3.jpg";
 // import slide4 from "/landing_page_images/hero_slide_4.jpg";
-// import slide5 from "/landing_page_images/hero_slide_5.jpg"; 
+// import slide5 from "/landing_page_images/hero_slide_5.jpg";
 
 // const heroSlides = [
 //   { id: 1, image: slide1, alt: "Gycora Premium Hair Care 1" },
@@ -3215,7 +3212,7 @@
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [userData, setUserData] = useState<any>(null);
 //   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
 //   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
@@ -3262,10 +3259,10 @@
 //   }, []);
 
 //   useEffect(() => {
-//     if (userData) return; 
+//     if (userData) return;
 //     const slideInterval = setInterval(() => {
 //       setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
-//     }, 4000); 
+//     }, 4000);
 //     return () => clearInterval(slideInterval);
 //   }, [userData]);
 
@@ -3285,7 +3282,7 @@
 //   const handleSubscribePromo = async (e: React.FormEvent) => {
 //     e.preventDefault();
 //     if (!promoEmail) return;
-    
+
 //     setIsSubscribing(true);
 //     try {
 //       const res = await fetch(`${BASE_URL}/api/subscribe`, {
@@ -3317,24 +3314,24 @@
 
 //   return (
 //     <div className="relative font-sans bg-white">
-      
+
 //       {/* =========================================
 //           POP-UP PROMO MODAL (DENGAN ANIMASI INSTAN)
 //       ========================================= */}
 //       {isPromoMounted && (
-//         <div 
+//         <div
 //           className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-500 ease-out
 //             ${showPromoModal ? 'bg-black/60 backdrop-blur-sm opacity-100' : 'bg-black/0 backdrop-blur-none opacity-0'}
 //           `}
 //         >
-//           <div 
+//           <div
 //             className={`relative flex flex-col w-full max-w-3xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-2xl transition-all duration-500 ease-out transform
 //               ${showPromoModal ? 'scale-100 translate-y-0 opacity-100' : 'scale-95 translate-y-8 opacity-0'}
 //             `}
 //           >
-            
+
 //             {/* Tombol Close */}
-//             <button 
+//             <button
 //               onClick={closePromoModal}
 //               className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
 //             >
@@ -3350,25 +3347,25 @@
 //               <p className="mb-8 text-sm font-medium text-gray-500">
 //                 Daftarkan Email & SMS untuk mendapatkan penawaran eksklusif, tips kecantikan, dan banyak lagi dari kami!
 //               </p>
-              
+
 //               <form onSubmit={handleSubscribePromo} className="space-y-4">
-//                 <input 
-//                   type="email" 
+//                 <input
+//                   type="email"
 //                   value={promoEmail}
 //                   onChange={(e) => setPromoEmail(e.target.value)}
-//                   placeholder="Masukkan Email Anda" 
+//                   placeholder="Masukkan Email Anda"
 //                   className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-gycora"
 //                   required
 //                 />
-//                 <button 
-//                   type="submit" 
+//                 <button
+//                   type="submit"
 //                   disabled={isSubscribing}
 //                   className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-gray-900 rounded-lg hover:bg-black disabled:bg-gray-400"
 //                 >
 //                   {isSubscribing ? "Memproses..." : "Continue"}
 //                 </button>
 //               </form>
-              
+
 //               <p className="mt-4 text-[9px] text-gray-400 leading-relaxed">
 //                 *Penawaran hanya berlaku untuk pesanan pertama di atas Rp 200.000. Tidak dapat digabungkan dengan promo lain.
 //               </p>
@@ -3376,9 +3373,9 @@
 
 //             {/* Bagian Kanan: Gambar Pemanis dari Aset Lokal */}
 //             <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
-//               <img 
-//                 src="/landing_page_images/promo_popup.jpg" 
-//                 alt="Promo Gycora" 
+//               <img
+//                 src="/landing_page_images/promo_popup.jpg"
+//                 alt="Promo Gycora"
 //                 className="object-cover w-full h-full"
 //               />
 //             </div>
@@ -3438,16 +3435,16 @@
 //                   </Link>
 //                 </div>
 //               </div>
-              
+
 //               <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "200ms" }}>
 //                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-pink-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-                
+
 //                 <div className="relative w-full overflow-hidden shadow-2xl h-[500px] rounded-[3rem] group">
 //                   {heroSlides.map((slide, index) => (
-//                     <img 
+//                     <img
 //                       key={slide.id}
-//                       src={slide.image} 
-//                       alt={slide.alt} 
+//                       src={slide.image}
+//                       alt={slide.alt}
 //                       className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
 //                     />
 //                   ))}
@@ -3482,7 +3479,7 @@
 //             <h2 className="text-3xl font-extrabold text-gray-900">Kategori Terpopuler</h2>
 //             <p className="mt-4 text-gray-500">Jelajahi rangkaian produk spesifik untuk setiap kebutuhan mahkota Anda.</p>
 //           </div>
-          
+
 //           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
 //             <Link to="/products" className="relative block overflow-hidden shadow-sm h-80 rounded-3xl group">
 //               <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair Care" className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" />
@@ -3492,7 +3489,7 @@
 //                 <p className="mt-2 text-sm text-gray-200 transition-opacity duration-300 opacity-0 group-hover:opacity-100">Shampoo, Conditioner & Serum</p>
 //               </div>
 //             </Link>
-            
+
 //             <Link to="/products" className="relative block overflow-hidden shadow-sm h-80 rounded-3xl group">
 //               <img src="https://images.unsplash.com/photo-1598440947619-2ce6598c4e1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tools & Accessories" className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" />
 //               <div className="absolute inset-0 transition-opacity bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent group-hover:from-gray-900/90"></div>
@@ -3576,16 +3573,16 @@
 //           ) : featuredProducts.length > 0 ? (
 //             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 //               {featuredProducts.map((product) => (
-//                 <div 
-//                   key={product.id} 
-//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1" 
+//                 <div
+//                   key={product.id}
+//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1"
 //                   onClick={() => navigate(`/product/${product.id}`)}
 //                 >
 //                   <div className="relative overflow-hidden bg-gray-100 aspect-square">
-//                     <img 
-//                       src={product.image_url} 
-//                       alt={product.name} 
-//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
+//                     <img
+//                       src={product.image_url}
+//                       alt={product.name}
+//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
 //                     />
 //                     <div className="absolute px-3 py-1 text-[10px] font-bold tracking-widest text-gray-900 uppercase rounded-full shadow-sm top-4 left-4 bg-white/90 backdrop-blur-sm">
 //                       {product.category?.name || "Gycora"}
@@ -3609,14 +3606,14 @@
 //           ) : (
 //             <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
 //           )}
-          
+
 //           <div className="mt-8 text-center sm:hidden">
 //             <Link to="/products" className="font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
 //               Lihat Semua Produk &rarr;
 //             </Link>
 //           </div>
 //         </div>
-//       </div> 
+//       </div>
 
 //       {/* =========================================
 //           5. TESTIMONIALS / SOCIAL PROOF (SEKSI BARU)
@@ -3658,7 +3655,7 @@
 //       <div className="relative py-24 overflow-hidden bg-gray-900">
 //         {/* Dekorasi Glow */}
 //         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
-        
+
 //         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
 //           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
 //             Siap mengubah rutinitas rambut Anda?
@@ -3684,15 +3681,15 @@
 
 // import { useState, useEffect } from "react";
 // import { Link, useNavigate } from "react-router-dom";
-// import { BASE_URL } from "../../config/api"; 
-// import Swal from "sweetalert2"; 
+// import { BASE_URL } from "../../config/api";
+// import Swal from "sweetalert2";
 
 // // --- IMPORT GAMBAR DARI LOKAL UNTUK SLIDER ---
 // import slide1 from "/landing_page_images/hero_slide_1.jpg";
 // import slide2 from "/landing_page_images/hero_slide_2.jpg";
 // import slide3 from "/landing_page_images/hero_slide_3.jpg";
 // import slide4 from "/landing_page_images/hero_slide_4.jpg";
-// import slide5 from "/landing_page_images/hero_slide_5.jpg"; 
+// import slide5 from "/landing_page_images/hero_slide_5.jpg";
 
 // const heroSlides = [
 //   { id: 1, image: slide1, alt: "Gycora Premium Hair Care 1" },
@@ -3713,14 +3710,14 @@
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [userData, setUserData] = useState<any>(null);
 //   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
 //   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
 
 //   // --- STATE UNTUK POP-UP PROMO ---
-//   const [isPromoMounted, setIsPromoMounted] = useState(false); 
-//   const [showPromoModal, setShowPromoModal] = useState(false); 
+//   const [isPromoMounted, setIsPromoMounted] = useState(false);
+//   const [showPromoModal, setShowPromoModal] = useState(false);
 //   const [promoEmail, setPromoEmail] = useState("");
 //   const [isSubscribing, setIsSubscribing] = useState(false);
 
@@ -3759,10 +3756,10 @@
 //   }, []);
 
 //   useEffect(() => {
-//     if (userData) return; 
+//     if (userData) return;
 //     const slideInterval = setInterval(() => {
 //       setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
-//     }, 4000); 
+//     }, 4000);
 //     return () => clearInterval(slideInterval);
 //   }, [userData]);
 
@@ -3771,7 +3768,7 @@
 //   };
 
 //   const closePromoModal = () => {
-//     setShowPromoModal(false); 
+//     setShowPromoModal(false);
 //     setTimeout(() => {
 //       setIsPromoMounted(false);
 //     }, 300);
@@ -3781,7 +3778,7 @@
 //   const handleSubscribePromo = async (e: React.FormEvent) => {
 //     e.preventDefault();
 //     if (!promoEmail) return;
-    
+
 //     setIsSubscribing(true);
 //     try {
 //       const res = await fetch(`${BASE_URL}/api/promo/claim`, {
@@ -3801,20 +3798,20 @@
 //           confirmButtonColor: "#059669",
 //         });
 //       } else {
-//         Swal.fire({ 
-//           icon: "warning", 
-//           title: "Pemberitahuan", 
-//           text: data.message || "Gagal mengklaim promo. Pastikan format email benar.", 
-//           confirmButtonColor: "#d33" 
+//         Swal.fire({
+//           icon: "warning",
+//           title: "Pemberitahuan",
+//           text: data.message || "Gagal mengklaim promo. Pastikan format email benar.",
+//           confirmButtonColor: "#d33"
 //         });
 //       }
 //     } catch (error) {
 //       console.error(error);
-//       Swal.fire({ 
-//         icon: "error", 
-//         title: "Gagal", 
-//         text: "Terjadi kesalahan server saat memproses permintaan Anda.", 
-//         confirmButtonColor: "#d33" 
+//       Swal.fire({
+//         icon: "error",
+//         title: "Gagal",
+//         text: "Terjadi kesalahan server saat memproses permintaan Anda.",
+//         confirmButtonColor: "#d33"
 //       });
 //     } finally {
 //       setIsSubscribing(false);
@@ -3823,24 +3820,24 @@
 
 //   return (
 //     <div className="relative font-sans bg-white">
-      
+
 //       {/* =========================================
 //           POP-UP PROMO MODAL (DENGAN ANIMASI INSTAN)
 //       ========================================= */}
 //       {isPromoMounted && (
-//         <div 
+//         <div
 //           className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-500 ease-out
 //             ${showPromoModal ? 'bg-black/60 backdrop-blur-sm opacity-100' : 'bg-black/0 backdrop-blur-none opacity-0'}
 //           `}
 //         >
-//           <div 
+//           <div
 //             className={`relative flex flex-col w-full max-w-3xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-2xl transition-all duration-500 ease-out transform
 //               ${showPromoModal ? 'scale-100 translate-y-0 opacity-100' : 'scale-95 translate-y-8 opacity-0'}
 //             `}
 //           >
-            
+
 //             {/* Tombol Close */}
-//             <button 
+//             <button
 //               onClick={closePromoModal}
 //               className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
 //             >
@@ -3856,25 +3853,25 @@
 //               <p className="mb-8 text-sm font-medium text-gray-500">
 //                 Masukkan email Anda untuk mendapatkan kode voucher eksklusif yang bisa langsung digunakan pada pesanan pertama!
 //               </p>
-              
+
 //               <form onSubmit={handleSubscribePromo} className="space-y-4">
-//                 <input 
-//                   type="email" 
+//                 <input
+//                   type="email"
 //                   value={promoEmail}
 //                   onChange={(e) => setPromoEmail(e.target.value)}
-//                   placeholder="Alamat Email Anda" 
+//                   placeholder="Alamat Email Anda"
 //                   className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-gycora"
 //                   required
 //                 />
-//                 <button 
-//                   type="submit" 
+//                 <button
+//                   type="submit"
 //                   disabled={isSubscribing}
 //                   className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-gray-900 rounded-lg hover:bg-black disabled:bg-gray-400"
 //                 >
 //                   {isSubscribing ? "Mengirim Kode..." : "Dapatkan Kode Promo"}
 //                 </button>
 //               </form>
-              
+
 //               <p className="mt-4 text-[9px] text-gray-400 leading-relaxed">
 //                 *Penawaran hanya berlaku untuk pelanggan baru. Kode akan dikirimkan ke email Anda.
 //               </p>
@@ -3882,9 +3879,9 @@
 
 //             {/* Bagian Kanan: Gambar Pemanis dari Aset Lokal */}
 //             <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
-//               <img 
-//                 src="/landing_page_images/promo_popup.jpg" 
-//                 alt="Promo Gycora" 
+//               <img
+//                 src="/landing_page_images/promo_popup.jpg"
+//                 alt="Promo Gycora"
 //                 className="object-cover w-full h-full"
 //               />
 //             </div>
@@ -3944,16 +3941,16 @@
 //                   </Link>
 //                 </div>
 //               </div>
-              
+
 //               <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "200ms" }}>
 //                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-pink-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-                
+
 //                 <div className="relative w-full overflow-hidden shadow-2xl h-[500px] rounded-[3rem] group">
 //                   {heroSlides.map((slide, index) => (
-//                     <img 
+//                     <img
 //                       key={slide.id}
-//                       src={slide.image} 
-//                       alt={slide.alt} 
+//                       src={slide.image}
+//                       alt={slide.alt}
 //                       className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
 //                     />
 //                   ))}
@@ -3988,7 +3985,7 @@
 //             <h2 className="text-3xl font-extrabold text-gray-900">Kategori Terpopuler</h2>
 //             <p className="mt-4 text-gray-500">Jelajahi rangkaian produk spesifik untuk setiap kebutuhan mahkota Anda.</p>
 //           </div>
-          
+
 //           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
 //             <Link to="/products" className="relative block overflow-hidden shadow-sm h-80 rounded-3xl group">
 //               <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair Care" className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" />
@@ -3998,7 +3995,7 @@
 //                 <p className="mt-2 text-sm text-gray-200 transition-opacity duration-300 opacity-0 group-hover:opacity-100">Shampoo, Conditioner & Serum</p>
 //               </div>
 //             </Link>
-            
+
 //             <Link to="/products" className="relative block overflow-hidden shadow-sm h-80 rounded-3xl group">
 //               <img src="https://images.unsplash.com/photo-1598440947619-2ce6598c4e1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tools & Accessories" className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" />
 //               <div className="absolute inset-0 transition-opacity bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent group-hover:from-gray-900/90"></div>
@@ -4082,16 +4079,16 @@
 //           ) : featuredProducts.length > 0 ? (
 //             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 //               {featuredProducts.map((product) => (
-//                 <div 
-//                   key={product.id} 
-//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1" 
+//                 <div
+//                   key={product.id}
+//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1"
 //                   onClick={() => navigate(`/product/${product.id}`)}
 //                 >
 //                   <div className="relative overflow-hidden bg-gray-100 aspect-square">
-//                     <img 
-//                       src={product.image_url} 
-//                       alt={product.name} 
-//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
+//                     <img
+//                       src={product.image_url}
+//                       alt={product.name}
+//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
 //                     />
 //                     <div className="absolute px-3 py-1 text-[10px] font-bold tracking-widest text-gray-900 uppercase rounded-full shadow-sm top-4 left-4 bg-white/90 backdrop-blur-sm">
 //                       {product.category?.name || "Gycora"}
@@ -4115,14 +4112,14 @@
 //           ) : (
 //             <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
 //           )}
-          
+
 //           <div className="mt-8 text-center sm:hidden">
 //             <Link to="/products" className="font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
 //               Lihat Semua Produk &rarr;
 //             </Link>
 //           </div>
 //         </div>
-//       </div> 
+//       </div>
 
 //       {/* =========================================
 //           5. TESTIMONIALS / SOCIAL PROOF (SEKSI BARU)
@@ -4164,7 +4161,7 @@
 //       <div className="relative py-24 overflow-hidden bg-gray-900">
 //         {/* Dekorasi Glow */}
 //         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
-        
+
 //         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
 //           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
 //             Siap mengubah rutinitas rambut Anda?
@@ -4190,15 +4187,15 @@
 
 // import { useState, useEffect } from "react";
 // import { Link, useNavigate } from "react-router-dom";
-// import { BASE_URL } from "../../config/api"; 
-// import Swal from "sweetalert2"; 
+// import { BASE_URL } from "../../config/api";
+// import Swal from "sweetalert2";
 
 // // --- IMPORT GAMBAR DARI LOKAL UNTUK SLIDER ---
 // import slide1 from "/landing_page_images/hero_slide_1.jpg";
 // import slide2 from "/landing_page_images/hero_slide_2.jpg";
 // import slide3 from "/landing_page_images/hero_slide_3.jpg";
 // import slide4 from "/landing_page_images/hero_slide_4.jpg";
-// import slide5 from "/landing_page_images/hero_slide_5.jpg"; 
+// import slide5 from "/landing_page_images/hero_slide_5.jpg";
 
 // const heroSlides = [
 //   { id: 1, image: slide1, alt: "Gycora Premium Hair Care 1" },
@@ -4219,14 +4216,14 @@
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [userData, setUserData] = useState<any>(null);
 //   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
 //   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
 
 //   // --- STATE UNTUK POP-UP PROMO ---
-//   const [isPromoMounted, setIsPromoMounted] = useState(false); 
-//   const [showPromoModal, setShowPromoModal] = useState(false); 
+//   const [isPromoMounted, setIsPromoMounted] = useState(false);
+//   const [showPromoModal, setShowPromoModal] = useState(false);
 //   const [promoEmail, setPromoEmail] = useState("");
 //   const [isSubscribing, setIsSubscribing] = useState(false);
 
@@ -4265,10 +4262,10 @@
 //   }, []);
 
 //   useEffect(() => {
-//     if (userData) return; 
+//     if (userData) return;
 //     const slideInterval = setInterval(() => {
 //       setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
-//     }, 4000); 
+//     }, 4000);
 //     return () => clearInterval(slideInterval);
 //   }, [userData]);
 
@@ -4277,7 +4274,7 @@
 //   };
 
 //   const closePromoModal = () => {
-//     setShowPromoModal(false); 
+//     setShowPromoModal(false);
 //     setTimeout(() => {
 //       setIsPromoMounted(false);
 //     }, 300);
@@ -4287,7 +4284,7 @@
 //   const handleSubscribePromo = async (e: React.FormEvent) => {
 //     e.preventDefault();
 //     if (!promoEmail) return;
-    
+
 //     setIsSubscribing(true);
 //     try {
 //       const res = await fetch(`${BASE_URL}/api/promo/claim`, {
@@ -4307,20 +4304,20 @@
 //           confirmButtonColor: "#059669",
 //         });
 //       } else {
-//         Swal.fire({ 
-//           icon: "warning", 
-//           title: "Pemberitahuan", 
-//           text: data.message || "Gagal mengklaim promo. Pastikan format email benar.", 
-//           confirmButtonColor: "#d33" 
+//         Swal.fire({
+//           icon: "warning",
+//           title: "Pemberitahuan",
+//           text: data.message || "Gagal mengklaim promo. Pastikan format email benar.",
+//           confirmButtonColor: "#d33"
 //         });
 //       }
 //     } catch (error) {
 //       console.error(error);
-//       Swal.fire({ 
-//         icon: "error", 
-//         title: "Gagal", 
-//         text: "Terjadi kesalahan server saat memproses permintaan Anda.", 
-//         confirmButtonColor: "#d33" 
+//       Swal.fire({
+//         icon: "error",
+//         title: "Gagal",
+//         text: "Terjadi kesalahan server saat memproses permintaan Anda.",
+//         confirmButtonColor: "#d33"
 //       });
 //     } finally {
 //       setIsSubscribing(false);
@@ -4329,22 +4326,22 @@
 
 //   return (
 //     <div className="relative font-sans bg-white">
-      
+
 //       {/* =========================================
 //           POP-UP PROMO MODAL (DENGAN ANIMASI INSTAN)
 //       ========================================= */}
 //       {isPromoMounted && (
-//         <div 
+//         <div
 //           className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-500 ease-out
 //             ${showPromoModal ? 'bg-black/60 backdrop-blur-sm opacity-100' : 'bg-black/0 backdrop-blur-none opacity-0'}
 //           `}
 //         >
-//           <div 
+//           <div
 //             className={`relative flex flex-col w-full max-w-3xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-2xl transition-all duration-500 ease-out transform
 //               ${showPromoModal ? 'scale-100 translate-y-0 opacity-100' : 'scale-95 translate-y-8 opacity-0'}
 //             `}
 //           >
-//             <button 
+//             <button
 //               onClick={closePromoModal}
 //               className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
 //             >
@@ -4359,34 +4356,34 @@
 //               <p className="mb-8 text-sm font-medium text-gray-500">
 //                 Masukkan email Anda untuk mendapatkan kode voucher eksklusif yang bisa langsung digunakan pada pesanan pertama!
 //               </p>
-              
+
 //               <form onSubmit={handleSubscribePromo} className="space-y-4">
-//                 <input 
-//                   type="email" 
+//                 <input
+//                   type="email"
 //                   value={promoEmail}
 //                   onChange={(e) => setPromoEmail(e.target.value)}
-//                   placeholder="Alamat Email Anda" 
+//                   placeholder="Alamat Email Anda"
 //                   className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-gycora"
 //                   required
 //                 />
-//                 <button 
-//                   type="submit" 
+//                 <button
+//                   type="submit"
 //                   disabled={isSubscribing}
 //                   className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-gray-900 rounded-lg hover:bg-black disabled:bg-gray-400"
 //                 >
 //                   {isSubscribing ? "Mengirim Kode..." : "Dapatkan Kode Promo"}
 //                 </button>
 //               </form>
-              
+
 //               <p className="mt-4 text-[9px] text-gray-400 leading-relaxed">
 //                 *Penawaran hanya berlaku untuk pelanggan baru. Kode akan dikirimkan ke email Anda.
 //               </p>
 //             </div>
 
 //             <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
-//               <img 
-//                 src="/landing_page_images/promo_popup.jpg" 
-//                 alt="Promo Gycora" 
+//               <img
+//                 src="/landing_page_images/promo_popup.jpg"
+//                 alt="Promo Gycora"
 //                 className="object-cover w-full h-full"
 //               />
 //             </div>
@@ -4445,16 +4442,16 @@
 //                   </Link>
 //                 </div>
 //               </div>
-              
+
 //               <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "200ms" }}>
 //                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-pink-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-                
+
 //                 <div className="relative w-full overflow-hidden shadow-2xl h-[500px] rounded-[3rem] group">
 //                   {heroSlides.map((slide, index) => (
-//                     <img 
+//                     <img
 //                       key={slide.id}
-//                       src={slide.image} 
-//                       alt={slide.alt} 
+//                       src={slide.image}
+//                       alt={slide.alt}
 //                       className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
 //                     />
 //                   ))}
@@ -4495,7 +4492,7 @@
 //                 Gycora tidak hanya menyediakan produk unggulan, tetapi juga layanan telemedisin terintegrasi. Konsultasikan kondisi rambut, kebotakan, atau masalah kulit Anda secara <strong className="text-white">GRATIS</strong> bersama dokter spesialis kami, dan dapatkan resep yang dirancang khusus untuk Anda.
 //               </p>
 //               <div className="pt-4">
-//                 <button 
+//                 <button
 //                   onClick={() => navigate('/consult')}
 //                   className="inline-flex items-center gap-2 px-8 py-4 font-bold text-gray-900 transition-all bg-white rounded-full hover:bg-emerald-50 hover:scale-105"
 //                 >
@@ -4508,9 +4505,9 @@
 //               <div className="relative">
 //                 {/* Aksen glow di belakang gambar */}
 //                 <div className="absolute inset-0 transform scale-105 bg-emerald-500 rounded-3xl blur-2xl opacity-20"></div>
-//                 <img 
-//                   src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-//                   alt="Gycora Dermatologist" 
+//                 <img
+//                   src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+//                   alt="Gycora Dermatologist"
 //                   className="relative object-cover w-full shadow-2xl h-96 rounded-3xl"
 //                 />
 //               </div>
@@ -4581,16 +4578,16 @@
 //           ) : featuredProducts.length > 0 ? (
 //             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 //               {featuredProducts.map((product) => (
-//                 <div 
-//                   key={product.id} 
-//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1" 
+//                 <div
+//                   key={product.id}
+//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1"
 //                   onClick={() => navigate(`/product/${product.id}`)}
 //                 >
 //                   <div className="relative overflow-hidden bg-gray-100 aspect-square">
-//                     <img 
-//                       src={product.image_url} 
-//                       alt={product.name} 
-//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
+//                     <img
+//                       src={product.image_url}
+//                       alt={product.name}
+//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
 //                     />
 //                     <div className="absolute px-3 py-1 text-[10px] font-bold tracking-widest text-gray-900 uppercase rounded-full shadow-sm top-4 left-4 bg-white/90 backdrop-blur-sm">
 //                       {product.category?.name || "Gycora"}
@@ -4614,14 +4611,14 @@
 //           ) : (
 //             <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
 //           )}
-          
+
 //           <div className="mt-8 text-center sm:hidden">
 //             <Link to="/products" className="font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
 //               Lihat Semua Produk &rarr;
 //             </Link>
 //           </div>
 //         </div>
-//       </div> 
+//       </div>
 
 //       {/* =========================================
 //           5. TESTIMONIALS / SOCIAL PROOF
@@ -4662,7 +4659,7 @@
 //       ========================================= */}
 //       <div className="relative py-24 overflow-hidden bg-gray-900">
 //         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
-        
+
 //         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
 //           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
 //             Siap mengubah rutinitas Anda?
@@ -4688,15 +4685,15 @@
 
 // import { useState, useEffect } from "react";
 // import { Link, useNavigate } from "react-router-dom";
-// import { BASE_URL } from "../../config/api"; 
-// import Swal from "sweetalert2"; 
+// import { BASE_URL } from "../../config/api";
+// import Swal from "sweetalert2";
 
 // // --- IMPORT GAMBAR DARI LOKAL UNTUK SLIDER ---
 // import slide1 from "/landing_page_images/hero_slide_1.jpg";
 // import slide2 from "/landing_page_images/hero_slide_2.jpg";
 // import slide3 from "/landing_page_images/hero_slide_3.jpg";
 // import slide4 from "/landing_page_images/hero_slide_4.jpg";
-// import slide5 from "/landing_page_images/hero_slide_5.jpg"; 
+// import slide5 from "/landing_page_images/hero_slide_5.jpg";
 
 // const heroSlides = [
 //   { id: 1, image: slide1, alt: "Gycora Premium Hair Care 1" },
@@ -4717,14 +4714,14 @@
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [userData, setUserData] = useState<any>(null);
 //   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
 //   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
 
 //   // --- STATE UNTUK POP-UP PROMO ---
-//   const [isPromoMounted, setIsPromoMounted] = useState(false); 
-//   const [showPromoModal, setShowPromoModal] = useState(false); 
+//   const [isPromoMounted, setIsPromoMounted] = useState(false);
+//   const [showPromoModal, setShowPromoModal] = useState(false);
 //   const [promoEmail, setPromoEmail] = useState("");
 //   const [isSubscribing, setIsSubscribing] = useState(false);
 
@@ -4763,10 +4760,10 @@
 //   }, []);
 
 //   useEffect(() => {
-//     if (userData) return; 
+//     if (userData) return;
 //     const slideInterval = setInterval(() => {
 //       setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
-//     }, 4000); 
+//     }, 4000);
 //     return () => clearInterval(slideInterval);
 //   }, [userData]);
 
@@ -4775,7 +4772,7 @@
 //   };
 
 //   const closePromoModal = () => {
-//     setShowPromoModal(false); 
+//     setShowPromoModal(false);
 //     setTimeout(() => {
 //       setIsPromoMounted(false);
 //     }, 300);
@@ -4785,7 +4782,7 @@
 //   const handleSubscribePromo = async (e: React.FormEvent) => {
 //     e.preventDefault();
 //     if (!promoEmail) return;
-    
+
 //     setIsSubscribing(true);
 //     try {
 //       const res = await fetch(`${BASE_URL}/api/promo/claim`, {
@@ -4805,20 +4802,20 @@
 //           confirmButtonColor: "#059669",
 //         });
 //       } else {
-//         Swal.fire({ 
-//           icon: "warning", 
-//           title: "Pemberitahuan", 
-//           text: data.message || "Gagal mengklaim promo. Pastikan format email benar.", 
-//           confirmButtonColor: "#d33" 
+//         Swal.fire({
+//           icon: "warning",
+//           title: "Pemberitahuan",
+//           text: data.message || "Gagal mengklaim promo. Pastikan format email benar.",
+//           confirmButtonColor: "#d33"
 //         });
 //       }
 //     } catch (error) {
 //       console.error(error);
-//       Swal.fire({ 
-//         icon: "error", 
-//         title: "Gagal", 
-//         text: "Terjadi kesalahan server saat memproses permintaan Anda.", 
-//         confirmButtonColor: "#d33" 
+//       Swal.fire({
+//         icon: "error",
+//         title: "Gagal",
+//         text: "Terjadi kesalahan server saat memproses permintaan Anda.",
+//         confirmButtonColor: "#d33"
 //       });
 //     } finally {
 //       setIsSubscribing(false);
@@ -4827,22 +4824,22 @@
 
 //   return (
 //     <div className="relative font-sans bg-white">
-      
+
 //       {/* =========================================
 //           POP-UP PROMO MODAL (DENGAN ANIMASI INSTAN)
 //       ========================================= */}
 //       {isPromoMounted && (
-//         <div 
+//         <div
 //           className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-500 ease-out
 //             ${showPromoModal ? 'bg-black/60 backdrop-blur-sm opacity-100' : 'bg-black/0 backdrop-blur-none opacity-0'}
 //           `}
 //         >
-//           <div 
+//           <div
 //             className={`relative flex flex-col w-full max-w-3xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-2xl transition-all duration-500 ease-out transform
 //               ${showPromoModal ? 'scale-100 translate-y-0 opacity-100' : 'scale-95 translate-y-8 opacity-0'}
 //             `}
 //           >
-//             <button 
+//             <button
 //               onClick={closePromoModal}
 //               className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
 //             >
@@ -4857,34 +4854,34 @@
 //               <p className="mb-8 text-sm font-medium text-gray-500">
 //                 Masukkan email Anda untuk mendapatkan kode voucher eksklusif yang bisa langsung digunakan pada pesanan pertama!
 //               </p>
-              
+
 //               <form onSubmit={handleSubscribePromo} className="space-y-4">
-//                 <input 
-//                   type="email" 
+//                 <input
+//                   type="email"
 //                   value={promoEmail}
 //                   onChange={(e) => setPromoEmail(e.target.value)}
-//                   placeholder="Alamat Email Anda" 
+//                   placeholder="Alamat Email Anda"
 //                   className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-gycora"
 //                   required
 //                 />
-//                 <button 
-//                   type="submit" 
+//                 <button
+//                   type="submit"
 //                   disabled={isSubscribing}
 //                   className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-gray-900 rounded-lg hover:bg-black disabled:bg-gray-400"
 //                 >
 //                   {isSubscribing ? "Mengirim Kode..." : "Dapatkan Kode Promo"}
 //                 </button>
 //               </form>
-              
+
 //               <p className="mt-4 text-[9px] text-gray-400 leading-relaxed">
 //                 *Penawaran hanya berlaku untuk pelanggan baru. Kode akan dikirimkan ke email Anda.
 //               </p>
 //             </div>
 
 //             <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
-//               <img 
-//                 src="/landing_page_images/promo_popup.jpg" 
-//                 alt="Promo Gycora" 
+//               <img
+//                 src="/landing_page_images/promo_popup.jpg"
+//                 alt="Promo Gycora"
 //                 className="object-cover w-full h-full"
 //               />
 //             </div>
@@ -4943,16 +4940,16 @@
 //                   </Link>
 //                 </div>
 //               </div>
-              
+
 //               <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "200ms" }}>
 //                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-pink-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-                
+
 //                 <div className="relative w-full overflow-hidden shadow-2xl h-[500px] rounded-[3rem] group">
 //                   {heroSlides.map((slide, index) => (
-//                     <img 
+//                     <img
 //                       key={slide.id}
-//                       src={slide.image} 
-//                       alt={slide.alt} 
+//                       src={slide.image}
+//                       alt={slide.alt}
 //                       className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
 //                     />
 //                   ))}
@@ -4993,7 +4990,7 @@
 //                 Gycora tidak hanya menyediakan produk unggulan, tetapi juga layanan telemedisin terintegrasi. Konsultasikan kondisi rambut, kebotakan, atau masalah kulit Anda secara <strong className="text-white">GRATIS</strong> bersama dokter spesialis kami, dan dapatkan resep yang dirancang khusus untuk Anda.
 //               </p>
 //               <div className="pt-4">
-//                 <button 
+//                 <button
 //                   onClick={() => navigate('/consult')}
 //                   className="inline-flex items-center gap-2 px-8 py-4 font-bold text-gray-900 transition-all bg-white rounded-full hover:bg-emerald-50 hover:scale-105"
 //                 >
@@ -5007,9 +5004,9 @@
 //                 {/* Aksen glow di belakang gambar */}
 //                 <div className="absolute inset-0 transform scale-105 bg-emerald-500 rounded-3xl blur-2xl opacity-20"></div>
 //                 {/* GAMBAR UNSPLASH DIUBAH MENJADI RAMBUT DISISIR */}
-//                 <img 
-//                   src="https://images.unsplash.com/photo-1560869713-da86a9ec460b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-//                   alt="Gycora Hair Care Routine" 
+//                 <img
+//                   src="https://images.unsplash.com/photo-1560869713-da86a9ec460b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+//                   alt="Gycora Hair Care Routine"
 //                   className="relative object-cover w-full shadow-2xl h-96 rounded-3xl"
 //                 />
 //               </div>
@@ -5080,16 +5077,16 @@
 //           ) : featuredProducts.length > 0 ? (
 //             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 //               {featuredProducts.map((product) => (
-//                 <div 
-//                   key={product.id} 
-//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1" 
+//                 <div
+//                   key={product.id}
+//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1"
 //                   onClick={() => navigate(`/product/${product.id}`)}
 //                 >
 //                   <div className="relative overflow-hidden bg-gray-100 aspect-square">
-//                     <img 
-//                       src={product.image_url} 
-//                       alt={product.name} 
-//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
+//                     <img
+//                       src={product.image_url}
+//                       alt={product.name}
+//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
 //                     />
 //                     <div className="absolute px-3 py-1 text-[10px] font-bold tracking-widest text-gray-900 uppercase rounded-full shadow-sm top-4 left-4 bg-white/90 backdrop-blur-sm">
 //                       {product.category?.name || "Gycora"}
@@ -5113,14 +5110,14 @@
 //           ) : (
 //             <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
 //           )}
-          
+
 //           <div className="mt-8 text-center sm:hidden">
 //             <Link to="/products" className="font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
 //               Lihat Semua Produk &rarr;
 //             </Link>
 //           </div>
 //         </div>
-//       </div> 
+//       </div>
 
 //       {/* =========================================
 //           5. TESTIMONIALS / SOCIAL PROOF
@@ -5161,7 +5158,7 @@
 //       ========================================= */}
 //       <div className="relative py-24 overflow-hidden bg-gray-900">
 //         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
-        
+
 //         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
 //           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
 //             Siap mengubah rutinitas Anda?
@@ -5187,15 +5184,15 @@
 
 // import { useState, useEffect } from "react";
 // import { Link, useNavigate } from "react-router-dom";
-// import { BASE_URL } from "../../config/api"; 
-// import Swal from "sweetalert2"; 
+// import { BASE_URL } from "../../config/api";
+// import Swal from "sweetalert2";
 
 // // --- IMPORT GAMBAR DARI LOKAL UNTUK SLIDER & ASET ---
 // import slide1 from "/landing_page_images/hero_slide_1.jpg";
 // import slide2 from "/landing_page_images/hero_slide_2.jpg";
 // import slide3 from "/landing_page_images/hero_slide_3.jpg";
 // import slide4 from "/landing_page_images/hero_slide_4.jpg";
-// import slide5 from "/landing_page_images/hero_slide_5.jpg"; 
+// import slide5 from "/landing_page_images/hero_slide_5.jpg";
 
 // // Import aset baru untuk seksi janji temu
 // import gycoraPromise from "/landing_page_images/gycora_promise.webp";
@@ -5219,14 +5216,14 @@
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [userData, setUserData] = useState<any>(null);
 //   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
 //   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
 
 //   // --- STATE UNTUK POP-UP PROMO ---
-//   const [isPromoMounted, setIsPromoMounted] = useState(false); 
-//   const [showPromoModal, setShowPromoModal] = useState(false); 
+//   const [isPromoMounted, setIsPromoMounted] = useState(false);
+//   const [showPromoModal, setShowPromoModal] = useState(false);
 //   const [promoEmail, setPromoEmail] = useState("");
 //   const [isSubscribing, setIsSubscribing] = useState(false);
 
@@ -5265,10 +5262,10 @@
 //   }, []);
 
 //   useEffect(() => {
-//     if (userData) return; 
+//     if (userData) return;
 //     const slideInterval = setInterval(() => {
 //       setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
-//     }, 4000); 
+//     }, 4000);
 //     return () => clearInterval(slideInterval);
 //   }, [userData]);
 
@@ -5277,7 +5274,7 @@
 //   };
 
 //   const closePromoModal = () => {
-//     setShowPromoModal(false); 
+//     setShowPromoModal(false);
 //     setTimeout(() => {
 //       setIsPromoMounted(false);
 //     }, 300);
@@ -5287,7 +5284,7 @@
 //   const handleSubscribePromo = async (e: React.FormEvent) => {
 //     e.preventDefault();
 //     if (!promoEmail) return;
-    
+
 //     setIsSubscribing(true);
 //     try {
 //       const res = await fetch(`${BASE_URL}/api/promo/claim`, {
@@ -5307,20 +5304,20 @@
 //           confirmButtonColor: "#059669",
 //         });
 //       } else {
-//         Swal.fire({ 
-//           icon: "warning", 
-//           title: "Pemberitahuan", 
-//           text: data.message || "Gagal mengklaim promo. Pastikan format email benar.", 
-//           confirmButtonColor: "#d33" 
+//         Swal.fire({
+//           icon: "warning",
+//           title: "Pemberitahuan",
+//           text: data.message || "Gagal mengklaim promo. Pastikan format email benar.",
+//           confirmButtonColor: "#d33"
 //         });
 //       }
 //     } catch (error) {
 //       console.error(error);
-//       Swal.fire({ 
-//         icon: "error", 
-//         title: "Gagal", 
-//         text: "Terjadi kesalahan server saat memproses permintaan Anda.", 
-//         confirmButtonColor: "#d33" 
+//       Swal.fire({
+//         icon: "error",
+//         title: "Gagal",
+//         text: "Terjadi kesalahan server saat memproses permintaan Anda.",
+//         confirmButtonColor: "#d33"
 //       });
 //     } finally {
 //       setIsSubscribing(false);
@@ -5329,22 +5326,22 @@
 
 //   return (
 //     <div className="relative font-sans bg-white">
-      
+
 //       {/* =========================================
 //           POP-UP PROMO MODAL (DENGAN ANIMASI INSTAN)
 //       ========================================= */}
 //       {isPromoMounted && (
-//         <div 
+//         <div
 //           className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-500 ease-out
 //             ${showPromoModal ? 'bg-black/60 backdrop-blur-sm opacity-100' : 'bg-black/0 backdrop-blur-none opacity-0'}
 //           `}
 //         >
-//           <div 
+//           <div
 //             className={`relative flex flex-col w-full max-w-3xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-2xl transition-all duration-500 ease-out transform
 //               ${showPromoModal ? 'scale-100 translate-y-0 opacity-100' : 'scale-95 translate-y-8 opacity-0'}
 //             `}
 //           >
-//             <button 
+//             <button
 //               onClick={closePromoModal}
 //               className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
 //             >
@@ -5359,34 +5356,34 @@
 //               <p className="mb-8 text-sm font-medium text-gray-500">
 //                 Masukkan email Anda untuk mendapatkan kode voucher eksklusif yang bisa langsung digunakan pada pesanan pertama!
 //               </p>
-              
+
 //               <form onSubmit={handleSubscribePromo} className="space-y-4">
-//                 <input 
-//                   type="email" 
+//                 <input
+//                   type="email"
 //                   value={promoEmail}
 //                   onChange={(e) => setPromoEmail(e.target.value)}
-//                   placeholder="Alamat Email Anda" 
+//                   placeholder="Alamat Email Anda"
 //                   className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-gycora"
 //                   required
 //                 />
-//                 <button 
-//                   type="submit" 
+//                 <button
+//                   type="submit"
 //                   disabled={isSubscribing}
 //                   className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-gray-900 rounded-lg hover:bg-black disabled:bg-gray-400"
 //                 >
 //                   {isSubscribing ? "Mengirim Kode..." : "Dapatkan Kode Promo"}
 //                 </button>
 //               </form>
-              
+
 //               <p className="mt-4 text-[9px] text-gray-400 leading-relaxed">
 //                 *Penawaran hanya berlaku untuk pelanggan baru. Kode akan dikirimkan ke email Anda.
 //               </p>
 //             </div>
 
 //             <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
-//               <img 
-//                 src="/landing_page_images/promo_popup.jpg" 
-//                 alt="Promo Gycora" 
+//               <img
+//                 src="/landing_page_images/promo_popup.jpg"
+//                 alt="Promo Gycora"
 //                 className="object-cover w-full h-full"
 //               />
 //             </div>
@@ -5445,16 +5442,16 @@
 //                   </Link>
 //                 </div>
 //               </div>
-              
+
 //               <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "200ms" }}>
 //                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-pink-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-                
+
 //                 <div className="relative w-full overflow-hidden shadow-2xl h-[500px] rounded-[3rem] group">
 //                   {heroSlides.map((slide, index) => (
-//                     <img 
+//                     <img
 //                       key={slide.id}
-//                       src={slide.image} 
-//                       alt={slide.alt} 
+//                       src={slide.image}
+//                       alt={slide.alt}
 //                       className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
 //                     />
 //                   ))}
@@ -5495,7 +5492,7 @@
 //                 Gycora tidak hanya menyediakan produk unggulan, tetapi juga layanan telemedisin terintegrasi. Konsultasikan kondisi rambut, kebotakan, atau masalah kulit Anda secara <strong className="text-white">GRATIS</strong> bersama dokter spesialis kami, dan dapatkan resep yang dirancang khusus untuk Anda.
 //               </p>
 //               <div className="pt-4">
-//                 <button 
+//                 <button
 //                   onClick={() => navigate('/consult')}
 //                   className="inline-flex items-center gap-2 px-8 py-4 font-bold text-gray-900 transition-all bg-white rounded-full hover:bg-emerald-50 hover:scale-105"
 //                 >
@@ -5511,9 +5508,9 @@
 //                 {/* Aksen glow di belakang gambar */}
 //                 <div className="absolute inset-0 transform scale-105 bg-emerald-500 rounded-3xl blur-2xl opacity-20"></div>
 //                 {/* MENGGUNAKAN ASET LOKAL, MENGHAPUS onError, TINGGI DISESUAIKAN KE FULL */}
-//                 <img 
-//                   src={gycoraPromise} 
-//                   alt="Gycora Promise Hair Care Routine" 
+//                 <img
+//                   src={gycoraPromise}
+//                   alt="Gycora Promise Hair Care Routine"
 //                   className="relative object-cover w-full h-full shadow-2xl rounded-3xl"
 //                 />
 //               </div>
@@ -5584,16 +5581,16 @@
 //           ) : featuredProducts.length > 0 ? (
 //             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 //               {featuredProducts.map((product) => (
-//                 <div 
-//                   key={product.id} 
-//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1" 
+//                 <div
+//                   key={product.id}
+//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1"
 //                   onClick={() => navigate(`/product/${product.id}`)}
 //                 >
 //                   <div className="relative overflow-hidden bg-gray-100 aspect-square">
-//                     <img 
-//                       src={product.image_url} 
-//                       alt={product.name} 
-//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
+//                     <img
+//                       src={product.image_url}
+//                       alt={product.name}
+//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
 //                     />
 //                     <div className="absolute px-3 py-1 text-[10px] font-bold tracking-widest text-gray-900 uppercase rounded-full shadow-sm top-4 left-4 bg-white/90 backdrop-blur-sm">
 //                       {product.category?.name || "Gycora"}
@@ -5617,14 +5614,14 @@
 //           ) : (
 //             <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
 //           )}
-          
+
 //           <div className="mt-8 text-center sm:hidden">
 //             <Link to="/products" className="font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
 //               Lihat Semua Produk &rarr;
 //             </Link>
 //           </div>
 //         </div>
-//       </div> 
+//       </div>
 
 //       {/* =========================================
 //           5. TESTIMONIALS / SOCIAL PROOF
@@ -5665,7 +5662,7 @@
 //       ========================================= */}
 //       <div className="relative py-24 overflow-hidden bg-gray-900">
 //         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
-        
+
 //         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
 //           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
 //             Siap mengubah rutinitas Anda?
@@ -5691,15 +5688,15 @@
 
 // import { useState, useEffect } from "react";
 // import { Link, useNavigate } from "react-router-dom";
-// import { BASE_URL } from "../../config/api"; 
-// import Swal from "sweetalert2"; 
+// import { BASE_URL } from "../../config/api";
+// import Swal from "sweetalert2";
 
 // // --- IMPORT GAMBAR DARI LOKAL UNTUK SLIDER & ASET ---
 // import slide1 from "/landing_page_images/hero_slide_1.jpg";
 // import slide2 from "/landing_page_images/hero_slide_2.jpg";
 // import slide3 from "/landing_page_images/hero_slide_3.jpg";
 // import slide4 from "/landing_page_images/hero_slide_4.jpg";
-// import slide5 from "/landing_page_images/hero_slide_5.jpg"; 
+// import slide5 from "/landing_page_images/hero_slide_5.jpg";
 
 // // Import aset baru untuk seksi janji temu
 // import gycoraPromise from "/landing_page_images/gycora_promise.webp";
@@ -5731,14 +5728,14 @@
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [userData, setUserData] = useState<any>(null);
 //   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
 //   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
 
 //   // --- STATE UNTUK POP-UP PROMO ---
-//   const [isPromoMounted, setIsPromoMounted] = useState(false); 
-//   const [showPromoModal, setShowPromoModal] = useState(false); 
+//   const [isPromoMounted, setIsPromoMounted] = useState(false);
+//   const [showPromoModal, setShowPromoModal] = useState(false);
 //   const [promoEmail, setPromoEmail] = useState("");
 //   const [isSubscribing, setIsSubscribing] = useState(false);
 
@@ -5777,10 +5774,10 @@
 //   }, []);
 
 //   useEffect(() => {
-//     if (userData) return; 
+//     if (userData) return;
 //     const slideInterval = setInterval(() => {
 //       setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
-//     }, 4000); 
+//     }, 4000);
 //     return () => clearInterval(slideInterval);
 //   }, [userData]);
 
@@ -5789,7 +5786,7 @@
 //   };
 
 //   const closePromoModal = () => {
-//     setShowPromoModal(false); 
+//     setShowPromoModal(false);
 //     setTimeout(() => {
 //       setIsPromoMounted(false);
 //     }, 300);
@@ -5799,7 +5796,7 @@
 //   const handleSubscribePromo = async (e: React.FormEvent) => {
 //     e.preventDefault();
 //     if (!promoEmail) return;
-    
+
 //     setIsSubscribing(true);
 //     try {
 //       const res = await fetch(`${BASE_URL}/api/promo/claim`, {
@@ -5819,20 +5816,20 @@
 //           confirmButtonColor: "#059669",
 //         });
 //       } else {
-//         Swal.fire({ 
-//           icon: "warning", 
-//           title: "Pemberitahuan", 
-//           text: data.message || "Gagal mengklaim promo. Pastikan format email benar.", 
-//           confirmButtonColor: "#d33" 
+//         Swal.fire({
+//           icon: "warning",
+//           title: "Pemberitahuan",
+//           text: data.message || "Gagal mengklaim promo. Pastikan format email benar.",
+//           confirmButtonColor: "#d33"
 //         });
 //       }
 //     } catch (error) {
 //       console.error(error);
-//       Swal.fire({ 
-//         icon: "error", 
-//         title: "Gagal", 
-//         text: "Terjadi kesalahan server saat memproses permintaan Anda.", 
-//         confirmButtonColor: "#d33" 
+//       Swal.fire({
+//         icon: "error",
+//         title: "Gagal",
+//         text: "Terjadi kesalahan server saat memproses permintaan Anda.",
+//         confirmButtonColor: "#d33"
 //       });
 //     } finally {
 //       setIsSubscribing(false);
@@ -5841,22 +5838,22 @@
 
 //   return (
 //     <div className="relative font-sans bg-white">
-      
+
 //       {/* =========================================
 //           POP-UP PROMO MODAL (DENGAN ANIMASI INSTAN)
 //       ========================================= */}
 //       {isPromoMounted && (
-//         <div 
+//         <div
 //           className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-500 ease-out
 //             ${showPromoModal ? 'bg-black/60 backdrop-blur-sm opacity-100' : 'bg-black/0 backdrop-blur-none opacity-0'}
 //           `}
 //         >
-//           <div 
+//           <div
 //             className={`relative flex flex-col w-full max-w-3xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-2xl transition-all duration-500 ease-out transform
 //               ${showPromoModal ? 'scale-100 translate-y-0 opacity-100' : 'scale-95 translate-y-8 opacity-0'}
 //             `}
 //           >
-//             <button 
+//             <button
 //               onClick={closePromoModal}
 //               className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
 //             >
@@ -5871,34 +5868,34 @@
 //               <p className="mb-8 text-sm font-medium text-gray-500">
 //                 Masukkan email Anda untuk mendapatkan kode voucher eksklusif yang bisa langsung digunakan pada pesanan pertama!
 //               </p>
-              
+
 //               <form onSubmit={handleSubscribePromo} className="space-y-4">
-//                 <input 
-//                   type="email" 
+//                 <input
+//                   type="email"
 //                   value={promoEmail}
 //                   onChange={(e) => setPromoEmail(e.target.value)}
-//                   placeholder="Alamat Email Anda" 
+//                   placeholder="Alamat Email Anda"
 //                   className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-gycora"
 //                   required
 //                 />
-//                 <button 
-//                   type="submit" 
+//                 <button
+//                   type="submit"
 //                   disabled={isSubscribing}
 //                   className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-gray-900 rounded-lg hover:bg-black disabled:bg-gray-400"
 //                 >
 //                   {isSubscribing ? "Mengirim Kode..." : "Dapatkan Kode Promo"}
 //                 </button>
 //               </form>
-              
+
 //               <p className="mt-4 text-[9px] text-gray-400 leading-relaxed">
 //                 *Penawaran hanya berlaku untuk pelanggan baru. Kode akan dikirimkan ke email Anda.
 //               </p>
 //             </div>
 
 //             <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
-//               <img 
-//                 src="/landing_page_images/promo_popup.jpg" 
-//                 alt="Promo Gycora" 
+//               <img
+//                 src="/landing_page_images/promo_popup.jpg"
+//                 alt="Promo Gycora"
 //                 className="object-cover w-full h-full"
 //               />
 //             </div>
@@ -5957,16 +5954,16 @@
 //                   </Link>
 //                 </div>
 //               </div>
-              
+
 //               <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "200ms" }}>
 //                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-pink-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-                
+
 //                 <div className="relative w-full overflow-hidden shadow-2xl h-[500px] rounded-[3rem] group">
 //                   {heroSlides.map((slide, index) => (
-//                     <img 
+//                     <img
 //                       key={slide.id}
-//                       src={slide.image} 
-//                       alt={slide.alt} 
+//                       src={slide.image}
+//                       alt={slide.alt}
 //                       className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
 //                     />
 //                   ))}
@@ -6003,16 +6000,16 @@
 //           </div>
 //           <div className="grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4">
 //             {hairConcerns.map((concern) => (
-//               <div 
-//                 key={concern.id} 
-//                 onClick={() => navigate('/products')} 
+//               <div
+//                 key={concern.id}
+//                 onClick={() => navigate('/products')}
 //                 className="flex flex-col items-center text-center transition-all cursor-pointer group"
 //               >
 //                 <div className="relative w-32 h-32 mb-4 overflow-hidden transition-all duration-500 rounded-full shadow-md sm:w-44 sm:h-44 ring-4 ring-white group-hover:shadow-2xl group-hover:ring-emerald-50">
-//                   <img 
-//                     src={concern.img} 
-//                     alt={concern.title} 
-//                     className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" 
+//                   <img
+//                     src={concern.img}
+//                     alt={concern.title}
+//                     className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
 //                   />
 //                   <div className="absolute inset-0 transition-opacity opacity-0 bg-gray-900/10 group-hover:opacity-100"></div>
 //                 </div>
@@ -6041,7 +6038,7 @@
 //                 Gycora tidak hanya menyediakan produk unggulan, tetapi juga layanan telemedisin terintegrasi. Konsultasikan kondisi rambut, kebotakan, atau masalah kulit Anda secara <strong className="text-white">GRATIS</strong> bersama dokter spesialis kami, dan dapatkan resep yang dirancang khusus untuk Anda.
 //               </p>
 //               <div className="pt-4">
-//                 <button 
+//                 <button
 //                   onClick={() => navigate('/consult')}
 //                   className="inline-flex items-center gap-2 px-8 py-4 font-bold text-gray-900 transition-all bg-white rounded-full hover:bg-emerald-50 hover:scale-105"
 //                 >
@@ -6053,9 +6050,9 @@
 //             <div className="flex-1 w-full lg:w-auto">
 //               <div className="relative aspect-[4/5] max-w-md mx-auto lg:max-w-none lg:mx-0">
 //                 <div className="absolute inset-0 transform scale-105 bg-emerald-500 rounded-3xl blur-2xl opacity-20"></div>
-//                 <img 
-//                   src={gycoraPromise} 
-//                   alt="Gycora Promise Hair Care Routine" 
+//                 <img
+//                   src={gycoraPromise}
+//                   alt="Gycora Promise Hair Care Routine"
 //                   className="relative object-cover w-full h-full shadow-2xl rounded-3xl"
 //                 />
 //               </div>
@@ -6126,16 +6123,16 @@
 //           ) : featuredProducts.length > 0 ? (
 //             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 //               {featuredProducts.map((product) => (
-//                 <div 
-//                   key={product.id} 
-//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1" 
+//                 <div
+//                   key={product.id}
+//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1"
 //                   onClick={() => navigate(`/product/${product.id}`)}
 //                 >
 //                   <div className="relative overflow-hidden bg-gray-100 aspect-square">
-//                     <img 
-//                       src={product.image_url} 
-//                       alt={product.name} 
-//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
+//                     <img
+//                       src={product.image_url}
+//                       alt={product.name}
+//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
 //                     />
 //                     <div className="absolute px-3 py-1 text-[10px] font-bold tracking-widest text-gray-900 uppercase rounded-full shadow-sm top-4 left-4 bg-white/90 backdrop-blur-sm">
 //                       {product.category?.name || "Gycora"}
@@ -6159,14 +6156,14 @@
 //           ) : (
 //             <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
 //           )}
-          
+
 //           <div className="mt-8 text-center sm:hidden">
 //             <Link to="/products" className="font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
 //               Lihat Semua Produk &rarr;
 //             </Link>
 //           </div>
 //         </div>
-//       </div> 
+//       </div>
 
 //       {/* =========================================
 //           6. TESTIMONIALS / SOCIAL PROOF
@@ -6218,25 +6215,25 @@
 //               <div className="absolute top-6 left-6 z-10 px-4 py-1.5 text-xs font-bold tracking-widest text-white uppercase bg-black/50 backdrop-blur-md rounded-full">
 //                 Before
 //               </div>
-//               <img 
-//                 src="https://images.unsplash.com/photo-1580612140415-3850ea950c45?q=80&w=800" 
-//                 alt="Before Hair Treatment" 
-//                 className="object-cover w-full h-full transition-transform duration-1000 filter grayscale-[40%] contrast-75 group-hover:scale-105" 
+//               <img
+//                 src="https://images.unsplash.com/photo-1580612140415-3850ea950c45?q=80&w=800"
+//                 alt="Before Hair Treatment"
+//                 className="object-cover w-full h-full transition-transform duration-1000 filter grayscale-[40%] contrast-75 group-hover:scale-105"
 //               />
 //               <div className="absolute inset-0 bg-black/20"></div>
 //             </div>
-            
+
 //             {/* Sisi Kanan (After) */}
 //             <div className="relative w-full border-t-4 border-gycora md:border-t-0 md:border-l-4 md:w-1/2 h-80 md:h-[450px] group overflow-hidden">
 //               <div className="absolute top-6 right-6 z-10 px-4 py-1.5 text-xs font-bold tracking-widest text-gray-900 uppercase bg-white/90 backdrop-blur-md rounded-full shadow-lg">
 //                 After 14 Days
 //               </div>
-//               <img 
-//                 src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800" 
-//                 alt="After Hair Treatment" 
-//                 className="object-cover w-full h-full transition-transform duration-1000 group-hover:scale-105" 
+//               <img
+//                 src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800"
+//                 alt="After Hair Treatment"
+//                 className="object-cover w-full h-full transition-transform duration-1000 group-hover:scale-105"
 //               />
-              
+
 //               {/* Teks Overlay */}
 //               <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
 //               <div className="absolute bottom-0 left-0 p-8 text-left">
@@ -6256,7 +6253,7 @@
 //       ========================================= */}
 //       <div className="relative py-24 overflow-hidden bg-gray-900">
 //         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
-        
+
 //         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
 //           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
 //             Siap mengubah rutinitas Anda?
@@ -6282,15 +6279,15 @@
 
 // import { useState, useEffect } from "react";
 // import { Link, useNavigate } from "react-router-dom";
-// import { BASE_URL } from "../../config/api"; 
-// import Swal from "sweetalert2"; 
+// import { BASE_URL } from "../../config/api";
+// import Swal from "sweetalert2";
 
 // // --- IMPORT GAMBAR DARI LOKAL UNTUK SLIDER & ASET ---
 // import slide1 from "/landing_page_images/hero_slide_1.jpg";
 // import slide2 from "/landing_page_images/hero_slide_2.jpg";
 // import slide3 from "/landing_page_images/hero_slide_3.jpg";
 // import slide4 from "/landing_page_images/hero_slide_4.jpg";
-// import slide5 from "/landing_page_images/hero_slide_5.jpg"; 
+// import slide5 from "/landing_page_images/hero_slide_5.jpg";
 
 // // Import aset baru untuk seksi janji temu
 // import gycoraPromise from "/landing_page_images/gycora_promise.webp";
@@ -6329,14 +6326,14 @@
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [userData, setUserData] = useState<any>(null);
 //   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
 //   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
 
 //   // --- STATE UNTUK POP-UP PROMO ---
-//   const [isPromoMounted, setIsPromoMounted] = useState(false); 
-//   const [showPromoModal, setShowPromoModal] = useState(false); 
+//   const [isPromoMounted, setIsPromoMounted] = useState(false);
+//   const [showPromoModal, setShowPromoModal] = useState(false);
 //   const [promoEmail, setPromoEmail] = useState("");
 //   const [isSubscribing, setIsSubscribing] = useState(false);
 
@@ -6375,10 +6372,10 @@
 //   }, []);
 
 //   useEffect(() => {
-//     if (userData) return; 
+//     if (userData) return;
 //     const slideInterval = setInterval(() => {
 //       setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
-//     }, 4000); 
+//     }, 4000);
 //     return () => clearInterval(slideInterval);
 //   }, [userData]);
 
@@ -6387,7 +6384,7 @@
 //   };
 
 //   const closePromoModal = () => {
-//     setShowPromoModal(false); 
+//     setShowPromoModal(false);
 //     setTimeout(() => {
 //       setIsPromoMounted(false);
 //     }, 300);
@@ -6397,7 +6394,7 @@
 //   const handleSubscribePromo = async (e: React.FormEvent) => {
 //     e.preventDefault();
 //     if (!promoEmail) return;
-    
+
 //     setIsSubscribing(true);
 //     try {
 //       const res = await fetch(`${BASE_URL}/api/promo/claim`, {
@@ -6417,20 +6414,20 @@
 //           confirmButtonColor: "#059669",
 //         });
 //       } else {
-//         Swal.fire({ 
-//           icon: "warning", 
-//           title: "Pemberitahuan", 
-//           text: data.message || "Gagal mengklaim promo. Pastikan format email benar.", 
-//           confirmButtonColor: "#d33" 
+//         Swal.fire({
+//           icon: "warning",
+//           title: "Pemberitahuan",
+//           text: data.message || "Gagal mengklaim promo. Pastikan format email benar.",
+//           confirmButtonColor: "#d33"
 //         });
 //       }
 //     } catch (error) {
 //       console.error(error);
-//       Swal.fire({ 
-//         icon: "error", 
-//         title: "Gagal", 
-//         text: "Terjadi kesalahan server saat memproses permintaan Anda.", 
-//         confirmButtonColor: "#d33" 
+//       Swal.fire({
+//         icon: "error",
+//         title: "Gagal",
+//         text: "Terjadi kesalahan server saat memproses permintaan Anda.",
+//         confirmButtonColor: "#d33"
 //       });
 //     } finally {
 //       setIsSubscribing(false);
@@ -6439,22 +6436,22 @@
 
 //   return (
 //     <div className="relative font-sans bg-white">
-      
+
 //       {/* =========================================
 //           POP-UP PROMO MODAL (DENGAN ANIMASI INSTAN)
 //       ========================================= */}
 //       {isPromoMounted && (
-//         <div 
+//         <div
 //           className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-500 ease-out
 //             ${showPromoModal ? 'bg-black/60 backdrop-blur-sm opacity-100' : 'bg-black/0 backdrop-blur-none opacity-0'}
 //           `}
 //         >
-//           <div 
+//           <div
 //             className={`relative flex flex-col w-full max-w-3xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-2xl transition-all duration-500 ease-out transform
 //               ${showPromoModal ? 'scale-100 translate-y-0 opacity-100' : 'scale-95 translate-y-8 opacity-0'}
 //             `}
 //           >
-//             <button 
+//             <button
 //               onClick={closePromoModal}
 //               className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
 //             >
@@ -6469,34 +6466,34 @@
 //               <p className="mb-8 text-sm font-medium text-gray-500">
 //                 Masukkan email Anda untuk mendapatkan kode voucher eksklusif yang bisa langsung digunakan pada pesanan pertama!
 //               </p>
-              
+
 //               <form onSubmit={handleSubscribePromo} className="space-y-4">
-//                 <input 
-//                   type="email" 
+//                 <input
+//                   type="email"
 //                   value={promoEmail}
 //                   onChange={(e) => setPromoEmail(e.target.value)}
-//                   placeholder="Alamat Email Anda" 
+//                   placeholder="Alamat Email Anda"
 //                   className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-gycora"
 //                   required
 //                 />
-//                 <button 
-//                   type="submit" 
+//                 <button
+//                   type="submit"
 //                   disabled={isSubscribing}
 //                   className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-gray-900 rounded-lg hover:bg-black disabled:bg-gray-400"
 //                 >
 //                   {isSubscribing ? "Mengirim Kode..." : "Dapatkan Kode Promo"}
 //                 </button>
 //               </form>
-              
+
 //               <p className="mt-4 text-[9px] text-gray-400 leading-relaxed">
 //                 *Penawaran hanya berlaku untuk pelanggan baru. Kode akan dikirimkan ke email Anda.
 //               </p>
 //             </div>
 
 //             <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
-//               <img 
-//                 src="/landing_page_images/promo_popup.jpg" 
-//                 alt="Promo Gycora" 
+//               <img
+//                 src="/landing_page_images/promo_popup.jpg"
+//                 alt="Promo Gycora"
 //                 className="object-cover w-full h-full"
 //               />
 //             </div>
@@ -6555,16 +6552,16 @@
 //                   </Link>
 //                 </div>
 //               </div>
-              
+
 //               <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "200ms" }}>
 //                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-pink-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-                
+
 //                 <div className="relative w-full overflow-hidden shadow-2xl h-[500px] rounded-[3rem] group">
 //                   {heroSlides.map((slide, index) => (
-//                     <img 
+//                     <img
 //                       key={slide.id}
-//                       src={slide.image} 
-//                       alt={slide.alt} 
+//                       src={slide.image}
+//                       alt={slide.alt}
 //                       className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
 //                     />
 //                   ))}
@@ -6601,16 +6598,16 @@
 //           </div>
 //           <div className="grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4">
 //             {hairConcerns.map((concern) => (
-//               <div 
-//                 key={concern.id} 
-//                 onClick={() => navigate('/products')} 
+//               <div
+//                 key={concern.id}
+//                 onClick={() => navigate('/products')}
 //                 className="flex flex-col items-center text-center transition-all cursor-pointer group"
 //               >
 //                 <div className="relative w-32 h-32 mb-4 overflow-hidden transition-all duration-500 rounded-full shadow-md sm:w-44 sm:h-44 ring-4 ring-white group-hover:shadow-2xl group-hover:ring-emerald-50">
-//                   <img 
-//                     src={concern.img} 
-//                     alt={concern.title} 
-//                     className="object-cover w-full h-full transition-transform duration-700 bg-gray-50 group-hover:scale-110" 
+//                   <img
+//                     src={concern.img}
+//                     alt={concern.title}
+//                     className="object-cover w-full h-full transition-transform duration-700 bg-gray-50 group-hover:scale-110"
 //                   />
 //                   <div className="absolute inset-0 transition-opacity opacity-0 bg-gray-900/10 group-hover:opacity-100"></div>
 //                 </div>
@@ -6639,7 +6636,7 @@
 //                 Gycora tidak hanya menyediakan produk unggulan, tetapi juga layanan telemedisin terintegrasi. Konsultasikan kondisi rambut, kebotakan, atau masalah kulit Anda secara <strong className="text-white">GRATIS</strong> bersama dokter spesialis kami, dan dapatkan resep yang dirancang khusus untuk Anda.
 //               </p>
 //               <div className="pt-4">
-//                 <button 
+//                 <button
 //                   onClick={() => navigate('/consult')}
 //                   className="inline-flex items-center gap-2 px-8 py-4 font-bold text-gray-900 transition-all bg-white rounded-full hover:bg-emerald-50 hover:scale-105"
 //                 >
@@ -6651,9 +6648,9 @@
 //             <div className="flex-1 w-full lg:w-auto">
 //               <div className="relative aspect-[4/5] max-w-md mx-auto lg:max-w-none lg:mx-0">
 //                 <div className="absolute inset-0 transform scale-105 bg-emerald-500 rounded-3xl blur-2xl opacity-20"></div>
-//                 <img 
-//                   src={gycoraPromise} 
-//                   alt="Gycora Promise Hair Care Routine" 
+//                 <img
+//                   src={gycoraPromise}
+//                   alt="Gycora Promise Hair Care Routine"
 //                   className="relative object-cover w-full h-full shadow-2xl rounded-3xl"
 //                 />
 //               </div>
@@ -6724,16 +6721,16 @@
 //           ) : featuredProducts.length > 0 ? (
 //             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 //               {featuredProducts.map((product) => (
-//                 <div 
-//                   key={product.id} 
-//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1" 
+//                 <div
+//                   key={product.id}
+//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1"
 //                   onClick={() => navigate(`/product/${product.id}`)}
 //                 >
 //                   <div className="relative overflow-hidden bg-gray-100 aspect-square">
-//                     <img 
-//                       src={product.image_url} 
-//                       alt={product.name} 
-//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
+//                     <img
+//                       src={product.image_url}
+//                       alt={product.name}
+//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
 //                     />
 //                     <div className="absolute px-3 py-1 text-[10px] font-bold tracking-widest text-gray-900 uppercase rounded-full shadow-sm top-4 left-4 bg-white/90 backdrop-blur-sm">
 //                       {product.category?.name || "Gycora"}
@@ -6757,14 +6754,14 @@
 //           ) : (
 //             <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
 //           )}
-          
+
 //           <div className="mt-8 text-center sm:hidden">
 //             <Link to="/products" className="font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
 //               Lihat Semua Produk &rarr;
 //             </Link>
 //           </div>
 //         </div>
-//       </div> 
+//       </div>
 
 //       {/* =========================================
 //           6. TESTIMONIALS / SOCIAL PROOF
@@ -6811,10 +6808,10 @@
 //           </div>
 
 //           <div className="relative flex flex-col max-w-4xl mx-auto overflow-hidden bg-gray-900 shadow-2xl group rounded-3xl">
-//             <img 
-//               src={beforeAfterImg} 
-//               alt="Before After Hair Treatment" 
-//               className="object-cover w-full h-auto transition-transform duration-1000 group-hover:scale-105" 
+//             <img
+//               src={beforeAfterImg}
+//               alt="Before After Hair Treatment"
+//               className="object-cover w-full h-auto transition-transform duration-1000 group-hover:scale-105"
 //             />
 //             {/* Teks Overlay */}
 //             <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-gray-900/80 via-transparent to-transparent"></div>
@@ -6834,7 +6831,7 @@
 //       ========================================= */}
 //       <div className="relative py-24 overflow-hidden bg-gray-900">
 //         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
-        
+
 //         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
 //           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
 //             Siap mengubah rutinitas Anda?
@@ -6860,15 +6857,15 @@
 
 // import { useState, useEffect } from "react";
 // import { Link, useNavigate } from "react-router-dom";
-// import { BASE_URL } from "../../config/api"; 
-// import Swal from "sweetalert2"; 
+// import { BASE_URL } from "../../config/api";
+// import Swal from "sweetalert2";
 
 // // --- IMPORT GAMBAR DARI LOKAL UNTUK SLIDER & ASET ---
 // import slide1 from "/landing_page_images/hero_slide_1.jpg";
 // import slide2 from "/landing_page_images/hero_slide_2.jpg";
 // import slide3 from "/landing_page_images/hero_slide_3.jpg";
 // import slide4 from "/landing_page_images/hero_slide_4.jpg";
-// import slide5 from "/landing_page_images/hero_slide_5.jpg"; 
+// import slide5 from "/landing_page_images/hero_slide_5.jpg";
 
 // // Import aset baru untuk seksi janji temu
 // import gycoraPromise from "/landing_page_images/gycora_promise.webp";
@@ -6908,7 +6905,7 @@
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [userData, setUserData] = useState<any>(null);
 //   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
 //   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
@@ -6919,8 +6916,8 @@
 //   const [isLoadingReviews, setIsLoadingReviews] = useState(true);
 
 //   // --- STATE UNTUK POP-UP PROMO ---
-//   const [isPromoMounted, setIsPromoMounted] = useState(false); 
-//   const [showPromoModal, setShowPromoModal] = useState(false); 
+//   const [isPromoMounted, setIsPromoMounted] = useState(false);
+//   const [showPromoModal, setShowPromoModal] = useState(false);
 //   const [promoEmail, setPromoEmail] = useState("");
 //   const [isSubscribing, setIsSubscribing] = useState(false);
 
@@ -6954,16 +6951,16 @@
 //     // FUNGSI BARU: Fetch ulasan asli dari backend
 //     const fetchRealReviews = async () => {
 //       try {
-//         // Catatan: Jika endpoint /admin/reviews membutuhkan token admin, 
+//         // Catatan: Jika endpoint /admin/reviews membutuhkan token admin,
 //         // Anda mungkin perlu membuat endpoint khusus publik (misal: /api/public-reviews) di Laravel.
 //         // Untuk saat ini, kita asumsikan bisa diakses atau kita tangani error-nya.
-        
+
 //         const token = localStorage.getItem("user_token") || localStorage.getItem("admin_token");
 //         const headers: HeadersInit = { "Accept": "application/json" };
 //         if (token) headers["Authorization"] = `Bearer ${token}`;
 
 //         const res = await fetch(`${BASE_URL}/api/admin/reviews`, { headers });
-        
+
 //         if (res.ok) {
 //           const data = await res.json();
 //           // Filter hanya rating 5, dan batasi misal hanya 6 ulasan terbaik/terbaru
@@ -6987,10 +6984,10 @@
 //   }, []);
 
 //   useEffect(() => {
-//     if (userData) return; 
+//     if (userData) return;
 //     const slideInterval = setInterval(() => {
 //       setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
-//     }, 4000); 
+//     }, 4000);
 //     return () => clearInterval(slideInterval);
 //   }, [userData]);
 
@@ -6999,7 +6996,7 @@
 //   };
 
 //   const closePromoModal = () => {
-//     setShowPromoModal(false); 
+//     setShowPromoModal(false);
 //     setTimeout(() => {
 //       setIsPromoMounted(false);
 //     }, 300);
@@ -7009,7 +7006,7 @@
 //   const handleSubscribePromo = async (e: React.FormEvent) => {
 //     e.preventDefault();
 //     if (!promoEmail) return;
-    
+
 //     setIsSubscribing(true);
 //     try {
 //       const res = await fetch(`${BASE_URL}/api/promo/claim`, {
@@ -7029,20 +7026,20 @@
 //           confirmButtonColor: "#059669",
 //         });
 //       } else {
-//         Swal.fire({ 
-//           icon: "warning", 
-//           title: "Pemberitahuan", 
-//           text: data.message || "Gagal mengklaim promo. Pastikan format email benar.", 
-//           confirmButtonColor: "#d33" 
+//         Swal.fire({
+//           icon: "warning",
+//           title: "Pemberitahuan",
+//           text: data.message || "Gagal mengklaim promo. Pastikan format email benar.",
+//           confirmButtonColor: "#d33"
 //         });
 //       }
 //     } catch (error) {
 //       console.error(error);
-//       Swal.fire({ 
-//         icon: "error", 
-//         title: "Gagal", 
-//         text: "Terjadi kesalahan server saat memproses permintaan Anda.", 
-//         confirmButtonColor: "#d33" 
+//       Swal.fire({
+//         icon: "error",
+//         title: "Gagal",
+//         text: "Terjadi kesalahan server saat memproses permintaan Anda.",
+//         confirmButtonColor: "#d33"
 //       });
 //     } finally {
 //       setIsSubscribing(false);
@@ -7054,22 +7051,22 @@
 
 //   return (
 //     <div className="relative font-sans bg-white">
-      
+
 //       {/* =========================================
 //           POP-UP PROMO MODAL (DENGAN ANIMASI INSTAN)
 //       ========================================= */}
 //       {isPromoMounted && (
-//         <div 
+//         <div
 //           className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-500 ease-out
 //             ${showPromoModal ? 'bg-black/60 backdrop-blur-sm opacity-100' : 'bg-black/0 backdrop-blur-none opacity-0'}
 //           `}
 //         >
-//           <div 
+//           <div
 //             className={`relative flex flex-col w-full max-w-3xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-2xl transition-all duration-500 ease-out transform
 //               ${showPromoModal ? 'scale-100 translate-y-0 opacity-100' : 'scale-95 translate-y-8 opacity-0'}
 //             `}
 //           >
-//             <button 
+//             <button
 //               onClick={closePromoModal}
 //               className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
 //             >
@@ -7084,34 +7081,34 @@
 //               <p className="mb-8 text-sm font-medium text-gray-500">
 //                 Masukkan email Anda untuk mendapatkan kode voucher eksklusif yang bisa langsung digunakan pada pesanan pertama!
 //               </p>
-              
+
 //               <form onSubmit={handleSubscribePromo} className="space-y-4">
-//                 <input 
-//                   type="email" 
+//                 <input
+//                   type="email"
 //                   value={promoEmail}
 //                   onChange={(e) => setPromoEmail(e.target.value)}
-//                   placeholder="Alamat Email Anda" 
+//                   placeholder="Alamat Email Anda"
 //                   className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-gycora"
 //                   required
 //                 />
-//                 <button 
-//                   type="submit" 
+//                 <button
+//                   type="submit"
 //                   disabled={isSubscribing}
 //                   className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-gray-900 rounded-lg hover:bg-black disabled:bg-gray-400"
 //                 >
 //                   {isSubscribing ? "Mengirim Kode..." : "Dapatkan Kode Promo"}
 //                 </button>
 //               </form>
-              
+
 //               <p className="mt-4 text-[9px] text-gray-400 leading-relaxed">
 //                 *Penawaran hanya berlaku untuk pelanggan baru. Kode akan dikirimkan ke email Anda.
 //               </p>
 //             </div>
 
 //             <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
-//               <img 
-//                 src="/landing_page_images/promo_popup.jpg" 
-//                 alt="Promo Gycora" 
+//               <img
+//                 src="/landing_page_images/promo_popup.jpg"
+//                 alt="Promo Gycora"
 //                 className="object-cover w-full h-full"
 //               />
 //             </div>
@@ -7170,16 +7167,16 @@
 //                   </Link>
 //                 </div>
 //               </div>
-              
+
 //               <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "200ms" }}>
 //                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-pink-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-                
+
 //                 <div className="relative w-full overflow-hidden shadow-2xl h-[500px] rounded-[3rem] group">
 //                   {heroSlides.map((slide, index) => (
-//                     <img 
+//                     <img
 //                       key={slide.id}
-//                       src={slide.image} 
-//                       alt={slide.alt} 
+//                       src={slide.image}
+//                       alt={slide.alt}
 //                       className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
 //                     />
 //                   ))}
@@ -7216,16 +7213,16 @@
 //           </div>
 //           <div className="grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4">
 //             {hairConcerns.map((concern) => (
-//               <div 
-//                 key={concern.id} 
-//                 onClick={() => navigate('/products')} 
+//               <div
+//                 key={concern.id}
+//                 onClick={() => navigate('/products')}
 //                 className="flex flex-col items-center text-center transition-all cursor-pointer group"
 //               >
 //                 <div className="relative w-32 h-32 mb-4 overflow-hidden transition-all duration-500 rounded-full shadow-md sm:w-44 sm:h-44 ring-4 ring-white group-hover:shadow-2xl group-hover:ring-emerald-50">
-//                   <img 
-//                     src={concern.img} 
-//                     alt={concern.title} 
-//                     className="object-cover w-full h-full transition-transform duration-700 bg-gray-50 group-hover:scale-110" 
+//                   <img
+//                     src={concern.img}
+//                     alt={concern.title}
+//                     className="object-cover w-full h-full transition-transform duration-700 bg-gray-50 group-hover:scale-110"
 //                   />
 //                   <div className="absolute inset-0 transition-opacity opacity-0 bg-gray-900/10 group-hover:opacity-100"></div>
 //                 </div>
@@ -7254,7 +7251,7 @@
 //                 Gycora tidak hanya menyediakan produk unggulan, tetapi juga layanan telemedisin terintegrasi. Konsultasikan kondisi rambut, kebotakan, atau masalah kulit Anda secara <strong className="text-white">GRATIS</strong> bersama dokter spesialis kami, dan dapatkan resep yang dirancang khusus untuk Anda.
 //               </p>
 //               <div className="pt-4">
-//                 <button 
+//                 <button
 //                   onClick={() => navigate('/consult')}
 //                   className="inline-flex items-center gap-2 px-8 py-4 font-bold text-gray-900 transition-all bg-white rounded-full hover:bg-emerald-50 hover:scale-105"
 //                 >
@@ -7266,9 +7263,9 @@
 //             <div className="flex-1 w-full lg:w-auto">
 //               <div className="relative aspect-[4/5] max-w-md mx-auto lg:max-w-none lg:mx-0">
 //                 <div className="absolute inset-0 transform scale-105 bg-emerald-500 rounded-3xl blur-2xl opacity-20"></div>
-//                 <img 
-//                   src={gycoraPromise} 
-//                   alt="Gycora Promise Hair Care Routine" 
+//                 <img
+//                   src={gycoraPromise}
+//                   alt="Gycora Promise Hair Care Routine"
 //                   className="relative object-cover w-full h-full shadow-2xl rounded-3xl"
 //                 />
 //               </div>
@@ -7339,16 +7336,16 @@
 //           ) : featuredProducts.length > 0 ? (
 //             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 //               {featuredProducts.map((product) => (
-//                 <div 
-//                   key={product.id} 
-//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1" 
+//                 <div
+//                   key={product.id}
+//                   className="overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1"
 //                   onClick={() => navigate(`/product/${product.id}`)}
 //                 >
 //                   <div className="relative overflow-hidden bg-gray-100 aspect-square">
-//                     <img 
-//                       src={product.image_url} 
-//                       alt={product.name} 
-//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
+//                     <img
+//                       src={product.image_url}
+//                       alt={product.name}
+//                       className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
 //                     />
 //                     <div className="absolute px-3 py-1 text-[10px] font-bold tracking-widest text-gray-900 uppercase rounded-full shadow-sm top-4 left-4 bg-white/90 backdrop-blur-sm">
 //                       {product.category?.name || "Gycora"}
@@ -7372,14 +7369,14 @@
 //           ) : (
 //             <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
 //           )}
-          
+
 //           <div className="mt-8 text-center sm:hidden">
 //             <Link to="/products" className="font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
 //               Lihat Semua Produk &rarr;
 //             </Link>
 //           </div>
 //         </div>
-//       </div> 
+//       </div>
 
 //       {/* =========================================
 //           6. REAL REVIEWS / SOCIAL PROOF (DATA DARI BACKEND)
@@ -7405,12 +7402,12 @@
 //                       <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
 //                     ))}
 //                   </div>
-                  
+
 //                   {/* Teks Ulasan */}
 //                   <p className="flex-1 mb-6 italic text-gray-600 line-clamp-4">
 //                     "{review.comment || review.text}"
 //                   </p>
-                  
+
 //                   {/* Info User & Produk */}
 //                   <div className="flex items-center gap-4 pt-6 mt-auto border-t border-gray-100">
 //                     {review.user?.profile_image ? (
@@ -7420,7 +7417,7 @@
 //                         {(review.user?.first_name || review.name || "U").charAt(0)}
 //                       </div>
 //                     )}
-                    
+
 //                     <div className="flex-1 min-w-0">
 //                       <h4 className="text-sm font-bold text-gray-900 truncate">
 //                         {review.user ? `${review.user.first_name} ${review.user.last_name}` : review.name}
@@ -7431,7 +7428,7 @@
 //                       </p>
 //                     </div>
 //                   </div>
-                  
+
 //                   {/* Jika ada gambar ulasan, tampilkan kecil di pojok kanan atas */}
 //                   {review.image_url && (
 //                     <div className="absolute w-12 h-12 overflow-hidden border border-gray-200 rounded-lg shadow-sm top-8 right-8">
@@ -7456,10 +7453,10 @@
 //           </div>
 
 //           <div className="relative flex flex-col max-w-4xl mx-auto overflow-hidden bg-gray-900 shadow-2xl group rounded-3xl">
-//             <img 
-//               src={beforeAfterImg} 
-//               alt="Before After Hair Treatment" 
-//               className="object-cover w-full h-auto transition-transform duration-1000 group-hover:scale-105" 
+//             <img
+//               src={beforeAfterImg}
+//               alt="Before After Hair Treatment"
+//               className="object-cover w-full h-auto transition-transform duration-1000 group-hover:scale-105"
 //             />
 //             {/* Teks Overlay */}
 //             <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-gray-900/80 via-transparent to-transparent"></div>
@@ -7479,7 +7476,7 @@
 //       ========================================= */}
 //       <div className="relative py-24 overflow-hidden bg-gray-900">
 //         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
-        
+
 //         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
 //           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
 //             Siap mengubah rutinitas Anda?
@@ -7505,15 +7502,15 @@
 
 // import { useState, useEffect } from "react";
 // import { Link, useNavigate } from "react-router-dom";
-// import { BASE_URL } from "../../config/api"; 
-// import Swal from "sweetalert2"; 
+// import { BASE_URL } from "../../config/api";
+// import Swal from "sweetalert2";
 
 // // --- IMPORT GAMBAR DARI LOKAL UNTUK SLIDER & ASET ---
 // import slide1 from "/landing_page_images/hero_slide_1.jpg";
 // import slide2 from "/landing_page_images/hero_slide_2.jpg";
 // import slide3 from "/landing_page_images/hero_slide_3.jpg";
 // import slide4 from "/landing_page_images/hero_slide_4.jpg";
-// import slide5 from "/landing_page_images/hero_slide_5.jpg"; 
+// import slide5 from "/landing_page_images/hero_slide_5.jpg";
 
 // // Import aset baru untuk Before-After
 // import beforeAfterImg from "/landing_page_images/before_after.webp";
@@ -7540,7 +7537,7 @@
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [userData, setUserData] = useState<any>(null);
 //   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
 //   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
@@ -7551,8 +7548,8 @@
 //   const [isLoadingReviews, setIsLoadingReviews] = useState(true);
 
 //   // --- STATE UNTUK POP-UP PROMO ---
-//   const [isPromoMounted, setIsPromoMounted] = useState(false); 
-//   const [showPromoModal, setShowPromoModal] = useState(false); 
+//   const [isPromoMounted, setIsPromoMounted] = useState(false);
+//   const [showPromoModal, setShowPromoModal] = useState(false);
 //   const [promoEmail, setPromoEmail] = useState("");
 //   const [isSubscribing, setIsSubscribing] = useState(false);
 
@@ -7590,7 +7587,7 @@
 //         if (token) headers["Authorization"] = `Bearer ${token}`;
 
 //         const res = await fetch(`${BASE_URL}/api/admin/reviews`, { headers });
-        
+
 //         if (res.ok) {
 //           const data = await res.json();
 //           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -7613,10 +7610,10 @@
 //   }, []);
 
 //   useEffect(() => {
-//     if (userData) return; 
+//     if (userData) return;
 //     const slideInterval = setInterval(() => {
 //       setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
-//     }, 4000); 
+//     }, 4000);
 //     return () => clearInterval(slideInterval);
 //   }, [userData]);
 
@@ -7625,7 +7622,7 @@
 //   // };
 
 //   const closePromoModal = () => {
-//     setShowPromoModal(false); 
+//     setShowPromoModal(false);
 //     setTimeout(() => {
 //       setIsPromoMounted(false);
 //     }, 300);
@@ -7634,7 +7631,7 @@
 //   const handleSubscribePromo = async (e: React.FormEvent) => {
 //     e.preventDefault();
 //     if (!promoEmail) return;
-    
+
 //     setIsSubscribing(true);
 //     try {
 //       const res = await fetch(`${BASE_URL}/api/promo/claim`, {
@@ -7654,20 +7651,20 @@
 //           confirmButtonColor: "#059669",
 //         });
 //       } else {
-//         Swal.fire({ 
-//           icon: "warning", 
-//           title: "Pemberitahuan", 
-//           text: data.message || "Gagal mengklaim promo. Pastikan format email benar.", 
-//           confirmButtonColor: "#d33" 
+//         Swal.fire({
+//           icon: "warning",
+//           title: "Pemberitahuan",
+//           text: data.message || "Gagal mengklaim promo. Pastikan format email benar.",
+//           confirmButtonColor: "#d33"
 //         });
 //       }
 //     } catch (error) {
 //       console.error(error);
-//       Swal.fire({ 
-//         icon: "error", 
-//         title: "Gagal", 
-//         text: "Terjadi kesalahan server saat memproses permintaan Anda.", 
-//         confirmButtonColor: "#d33" 
+//       Swal.fire({
+//         icon: "error",
+//         title: "Gagal",
+//         text: "Terjadi kesalahan server saat memproses permintaan Anda.",
+//         confirmButtonColor: "#d33"
 //       });
 //     } finally {
 //       setIsSubscribing(false);
@@ -7678,22 +7675,22 @@
 
 //   return (
 //     <div className="relative font-sans bg-white">
-      
+
 //       {/* =========================================
 //           POP-UP PROMO MODAL (DISESUAIKAN DENGAN COPY UI/UX)
 //       ========================================= */}
 //       {isPromoMounted && (
-//         <div 
+//         <div
 //           className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-500 ease-out
 //             ${showPromoModal ? 'bg-black/60 backdrop-blur-sm opacity-100' : 'bg-black/0 backdrop-blur-none opacity-0'}
 //           `}
 //         >
-//           <div 
+//           <div
 //             className={`relative flex flex-col w-full max-w-3xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-2xl transition-all duration-500 ease-out transform
 //               ${showPromoModal ? 'scale-100 translate-y-0 opacity-100' : 'scale-95 translate-y-8 opacity-0'}
 //             `}
 //           >
-//             <button 
+//             <button
 //               onClick={closePromoModal}
 //               className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
 //             >
@@ -7708,18 +7705,18 @@
 //               <p className="mb-8 text-sm font-medium text-gray-500">
 //                 Masukkan email kamu & nikmati voucher eksklusif hari ini.
 //               </p>
-              
+
 //               <form onSubmit={handleSubscribePromo} className="space-y-4">
-//                 <input 
-//                   type="email" 
+//                 <input
+//                   type="email"
 //                   value={promoEmail}
 //                   onChange={(e) => setPromoEmail(e.target.value)}
-//                   placeholder="Masukkan Email" 
+//                   placeholder="Masukkan Email"
 //                   className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-gycora"
 //                   required
 //                 />
-//                 <button 
-//                   type="submit" 
+//                 <button
+//                   type="submit"
 //                   disabled={isSubscribing}
 //                   className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-gray-900 rounded-lg hover:bg-black disabled:bg-gray-400"
 //                 >
@@ -7729,9 +7726,9 @@
 //             </div>
 
 //             <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
-//               <img 
-//                 src="/landing_page_images/promo_popup.jpg" 
-//                 alt="Promo Gycora" 
+//               <img
+//                 src="/landing_page_images/promo_popup.jpg"
+//                 alt="Promo Gycora"
 //                 className="object-cover w-full h-full"
 //               />
 //             </div>
@@ -7791,16 +7788,16 @@
 //                   </a>
 //                 </div>
 //               </div>
-              
+
 //               <div className="relative hidden lg:block animate-fade-in-up" style={{ animationDelay: "200ms" }}>
 //                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-pink-50 rounded-[3rem] transform rotate-3 scale-105 -z-10"></div>
-                
+
 //                 <div className="relative w-full overflow-hidden shadow-2xl h-[500px] rounded-[3rem] group">
 //                   {heroSlides.map((slide, index) => (
-//                     <img 
+//                     <img
 //                       key={slide.id}
-//                       src={slide.image} 
-//                       alt={slide.alt} 
+//                       src={slide.image}
+//                       alt={slide.alt}
 //                       className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`}
 //                     />
 //                   ))}
@@ -7837,10 +7834,10 @@
 //           </div>
 
 //           <div className="relative flex flex-col max-w-4xl mx-auto overflow-hidden bg-white border border-gray-200 shadow-xl group rounded-3xl">
-//             <img 
-//               src={beforeAfterImg} 
-//               alt="Before After Hair Treatment" 
-//               className="object-cover w-full h-auto transition-transform duration-1000 group-hover:scale-105" 
+//             <img
+//               src={beforeAfterImg}
+//               alt="Before After Hair Treatment"
+//               className="object-cover w-full h-auto transition-transform duration-1000 group-hover:scale-105"
 //             />
 //           </div>
 //         </div>
@@ -7967,16 +7964,16 @@
 //                 }
 
 //                 return (
-//                   <div 
-//                     key={product.id} 
-//                     className="flex flex-col overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1" 
+//                   <div
+//                     key={product.id}
+//                     className="flex flex-col overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-md cursor-pointer group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1"
 //                     onClick={() => navigate(`/product/${product.id}`)}
 //                   >
 //                     <div className="relative overflow-hidden bg-gray-100 aspect-[4/5]">
-//                       <img 
-//                         src={product.image_url} 
-//                         alt={product.name} 
-//                         className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
+//                       <img
+//                         src={product.image_url}
+//                         alt={product.name}
+//                         className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
 //                       />
 //                     </div>
 //                     <div className="flex flex-col flex-1 p-6">
@@ -7996,7 +7993,7 @@
 //             <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
 //           )}
 //         </div>
-//       </div> 
+//       </div>
 
 //       {/* =========================================
 //           6. SOCIAL PROOF (REVIEWS)
@@ -8021,11 +8018,11 @@
 //                       <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
 //                     ))}
 //                   </div>
-                  
+
 //                   <p className="flex-1 mb-6 text-sm italic leading-relaxed text-gray-600 line-clamp-4">
 //                     "{review.comment || review.text}"
 //                   </p>
-                  
+
 //                   <div className="flex items-center gap-3 pt-6 mt-auto border-t border-gray-200">
 //                     <div className="flex-1 min-w-0">
 //                       <h4 className="text-sm font-bold text-gray-900 truncate">
@@ -8049,8 +8046,8 @@
 //           <p className="mb-8 text-lg text-emerald-800">
 //             Nikmati berbagai penawaran menarik untuk produk favorit kamu. Penawaran terbatas selama stok masih ada. Jangan sampai kehabisan.
 //           </p>
-//           <button 
-//             onClick={() => setShowPromoModal(true)} 
+//           <button
+//             onClick={() => setShowPromoModal(true)}
 //             className="inline-block px-10 py-4 text-lg font-bold text-white transition-all rounded-full bg-gycora hover:bg-gycora-dark shadow-lg hover:shadow-xl hover:-translate-y-0.5"
 //           >
 //             Ambil Promo Sekarang
@@ -8063,7 +8060,7 @@
 //       ========================================= */}
 //       <div className="relative py-24 overflow-hidden bg-gray-900">
 //         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
-        
+
 //         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
 //           <h2 className="text-3xl font-extrabold text-white sm:text-5xl">
 //             Nggak Perlu Ribet Buat Tampil Rapi
@@ -8072,8 +8069,8 @@
 //             Mulai dari langkah kecil yang bikin perbedaan besar di penampilan kamu.<br/>
 //             Dengan Gycora, rambut rapi bukan lagi hal yang butuh effort lebih.
 //           </p>
-//           <button 
-//             onClick={() => navigate("/products")} 
+//           <button
+//             onClick={() => navigate("/products")}
 //             className="px-10 py-4 text-lg font-bold text-gray-900 transition-all bg-[#D4FF32] rounded-full hover:bg-[#bce520] hover:shadow-lg hover:shadow-[#D4FF32]/20 hover:-translate-y-0.5"
 //           >
 //             Shop Now
@@ -8195,7 +8192,7 @@
 //             const nameB = b.name.toLowerCase();
 //             const aIsBrush = nameA.includes("ethereal glow brush");
 //             const bIsBrush = nameB.includes("ethereal glow brush");
-            
+
 //             if (aIsBrush && !bIsBrush) return -1; // Taruh A di depan
 //             if (!aIsBrush && bIsBrush) return 1;  // Taruh B di depan
 //             return 0; // Jika sama-sama brush atau sama-sama bukan, biarkan urutannya
@@ -8260,15 +8257,15 @@
 //         prev === heroSlides.length - 1 ? 0 : prev + 1,
 //       );
 //     }, 4000); // Ganti gambar setiap 4000ms (4 detik)
-    
+
 //     return () => clearInterval(slideInterval);
 //   }, []);
 
 //   const formatRupiah = (angka: number) => {
-//     return new Intl.NumberFormat('id-ID', { 
-//       style: 'currency', 
-//       currency: 'IDR', 
-//       minimumFractionDigits: 0 
+//     return new Intl.NumberFormat('id-ID', {
+//       style: 'currency',
+//       currency: 'IDR',
+//       minimumFractionDigits: 0
 //     }).format(angka || 0);
 //   };
 
@@ -8333,7 +8330,7 @@
 //   return (
 //     <div className="relative font-sans bg-white">
 //       {/* =========================================
-//           POP-UP PROMO MODAL 
+//           POP-UP PROMO MODAL
 //       ========================================= */}
 //       {isPromoMounted && (
 //         <div
@@ -8407,7 +8404,7 @@
 //       )}
 
 //       {/* =========================================
-//           1. HERO SECTION 
+//           1. HERO SECTION
 //           [PERBAIKAN] max-w-[1536px] agar melebar lebih dekat ke tepi layar
 //       ========================================= */}
 //       <div className="relative w-full overflow-hidden bg-[#F4F9F6] min-h-[600px] flex items-center">
@@ -8509,7 +8506,7 @@
 //               to="/products"
 //               className="flex items-center gap-2 mt-4 font-bold text-gray-600 transition-colors md:mt-0 hover:text-[#006A4E]"
 //             >
-//               Lihat Semua Produk 
+//               Lihat Semua Produk
 //               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
 //             </Link>
 //           </div>
@@ -8568,7 +8565,7 @@
 //                       <p className="mt-1 leading-relaxed text-gray-500 text-md line-clamp-3">
 //                         {customDesc || "Sisir premium dengan teknologi anti-static yang bantu rambut lebih halus, rapi, dan berkilau dalam sekali sisir."}
 //                       </p>
-                      
+
 //                       {/* Area Harga */}
 //                       <div className="mt-3">
 //                         {product.discount_price && product.discount_price > 0 ? (
@@ -8953,7 +8950,7 @@
 //     id: "f1",
 //     name: "Claudiasunshinee",
 //     role: "Verified Buyer",
-//     image: "/landing_page_images/user_1.jpg", 
+//     image: "/landing_page_images/user_1.jpg",
 //     text: "Sisir nya bagus banget sih sesuai dgn claim nya 🙌🙌 sblmnya aku pakai brand w** krn rambutku rontok.. trs setelah aku compare sm brand Gycora ternyata jauh lbh ga rontok pakai Gycora ❤👍",
 //     rating: 5,
 //   },
@@ -9591,7 +9588,7 @@
 //     id: "f1",
 //     name: "Claudiasunshinee",
 //     role: "Verified Buyer",
-//     image: "/landing_page_images/user_1.jpg", 
+//     image: "/landing_page_images/user_1.jpg",
 //     text: "Sisir nya bagus banget sih sesuai dgn claim nya 🙌🙌 sblmnya aku pakai brand w** krn rambutku rontok.. trs setelah aku compare sm brand Gycora ternyata jauh lbh ga rontok pakai Gycora ❤👍",
 //     rating: 5,
 //   },
@@ -9806,7 +9803,7 @@
 //           HERO SECTION (STACKED ON MOBILE, SIDE-BY-SIDE ON DESKTOP)
 //       ========================================= */}
 //       <div className="relative w-full overflow-hidden bg-[#F4F9F6] flex flex-col md:block md:min-h-[600px]">
-        
+
 //         {/* GAMBAR SLIDER (Di atas pada mobile, absolute di kanan pada desktop) */}
 //         {/* <div className="relative w-full h-[350px] sm:h-[450px] md:absolute md:inset-0 md:h-full md:z-0 md:flex md:justify-end shrink-0">
 //           <div className="w-full h-full md:w-[60%] relative">
@@ -9815,7 +9812,7 @@
 //                 key={slide.id}
 //                 src={slide.image}
 //                 alt={slide.alt}
-//                 // [PERBAIKAN] Mengubah object position untuk mobile. 
+//                 // [PERBAIKAN] Mengubah object position untuk mobile.
 //                 // Di mobile: object-[75%_top] (Menggeser fokus ke 75% dari kiri, menarik sisi kanan lebih ke tengah)
 //                 // Di desktop: md:object-right-top (Kembali fokus ke paling kanan atas)
 //                 className={`absolute inset-0 object-cover object-[75%_top] md:object-right-top w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
@@ -9851,7 +9848,7 @@
 //                 src={slide.image}
 //                 alt={slide.alt}
 //                 // [PENGATURAN POSISI GAMBAR MOBILE]
-//                 // Ubah angka "80%" di bawah ini sesuai selera Anda. 
+//                 // Ubah angka "80%" di bawah ini sesuai selera Anda.
 //                 // Semakin mendekati 100%, gambar akan semakin menempel ke kanan.
 //                 // Semakin mendekati 50%, gambar akan semakin ke tengah.
 //                 className={`absolute inset-0 object-cover object-[100%_top] md:object-right-top w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
@@ -9947,7 +9944,7 @@
 //                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
 //                   Teknologi<br className="hidden sm:block" /> Anti Statis
 //                 </span>
-                
+
 //                 {/* Tooltip */}
 //                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
 //                   Teknologi ion untuk mencegah rambut berdiri karena listrik statis.
@@ -9964,7 +9961,7 @@
 //                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
 //                   Carbon Patented<br className="hidden sm:block" /> Material
 //                 </span>
-                
+
 //                 {/* Tooltip */}
 //                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
 //                   Bahan karbon khusus yang dipatenkan untuk mendistribusikan panas secara merata dan aman.
@@ -9980,7 +9977,7 @@
 //                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
 //                   Eco<br className="hidden sm:block" /> Friendly
 //                 </span>
-                
+
 //                 {/* Tooltip */}
 //                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
 //                   Terbuat dari bahan ramah lingkungan yang aman dan dapat didaur ulang.
@@ -10322,7 +10319,7 @@
 //     id: "f1",
 //     name: "Claudiasunshinee",
 //     role: "Verified Buyer",
-//     image: "/landing_page_images/user_1.jpg", 
+//     image: "/landing_page_images/user_1.jpg",
 //     text: "Sisir nya bagus banget sih sesuai dgn claim nya 🙌🙌 sblmnya aku pakai brand w** krn rambutku rontok.. trs setelah aku compare sm brand Gycora ternyata jauh lbh ga rontok pakai Gycora ❤👍",
 //     rating: 5,
 //   },
@@ -10566,7 +10563,7 @@
 //           HERO SECTION (STACKED ON MOBILE, SIDE-BY-SIDE ON DESKTOP)
 //       ========================================= */}
 //       <div className="relative w-full overflow-hidden bg-[#F4F9F6] flex flex-col md:block md:min-h-[600px]">
-        
+
 //         {/* GAMBAR SLIDER (Di atas pada mobile, absolute di kanan pada desktop) */}
 //         <div className="relative w-full h-[350px] sm:h-[450px] md:absolute md:inset-0 md:h-full md:z-0 md:flex md:justify-end shrink-0">
 //           <div className="w-full h-full md:w-[60%] relative">
@@ -10576,7 +10573,7 @@
 //                 src={slide.image}
 //                 alt={slide.alt}
 //                 // [PENGATURAN POSISI GAMBAR MOBILE]
-//                 // Ubah angka "80%" di bawah ini sesuai selera Anda. 
+//                 // Ubah angka "80%" di bawah ini sesuai selera Anda.
 //                 // Semakin mendekati 100%, gambar akan semakin menempel ke kanan.
 //                 // Semakin mendekati 50%, gambar akan semakin ke tengah.
 //                 className={`absolute inset-0 object-cover object-[100%_top] md:object-right-top w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
@@ -10644,7 +10641,7 @@
 //                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
 //                   Teknologi<br className="hidden sm:block" /> Anti Statis
 //                 </span>
-                
+
 //                 {/* Tooltip */}
 //                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
 //                   Teknologi ion untuk mencegah rambut berdiri karena listrik statis.
@@ -10661,7 +10658,7 @@
 //                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
 //                   Carbon Patented<br className="hidden sm:block" /> Material
 //                 </span>
-                
+
 //                 {/* Tooltip */}
 //                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
 //                   Bahan karbon khusus yang dipatenkan untuk mendistribusikan panas secara merata dan aman.
@@ -10677,7 +10674,7 @@
 //                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
 //                   Eco<br className="hidden sm:block" /> Friendly
 //                 </span>
-                
+
 //                 {/* Tooltip */}
 //                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
 //                   Terbuat dari bahan ramah lingkungan yang aman dan dapat didaur ulang.
@@ -11011,7 +11008,7 @@
 //     id: "f1",
 //     name: "Claudiasunshinee",
 //     role: "Verified Buyer",
-//     image: "/landing_page_images/user_1.jpg", 
+//     image: "/landing_page_images/user_1.jpg",
 //     text: "Sisir nya bagus banget sih sesuai dgn claim nya 🙌🙌 sblmnya aku pakai brand w** krn rambutku rontok.. trs setelah aku compare sm brand Gycora ternyata jauh lbh ga rontok pakai Gycora ❤👍",
 //     rating: 5,
 //   },
@@ -11230,7 +11227,7 @@
 //           HERO SECTION
 //       ========================================= */}
 //       <div className="relative w-full overflow-hidden bg-[#F4F9F6] flex flex-col md:block md:min-h-[600px]">
-        
+
 //         <div className="relative w-full h-[350px] sm:h-[450px] md:absolute md:inset-0 md:h-full md:z-0 md:flex md:justify-end shrink-0">
 //           <div className="w-full h-full md:w-[60%] relative">
 //             {heroSlides.map((slide, index) => (
@@ -11297,7 +11294,7 @@
 //                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
 //                   Teknologi<br className="hidden sm:block" /> Anti Statis
 //                 </span>
-                
+
 //                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
 //                   Teknologi ion untuk mencegah rambut berdiri karena listrik statis.
 //                   <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900"></div>
@@ -11311,7 +11308,7 @@
 //                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
 //                   Carbon Patented<br className="hidden sm:block" /> Material
 //                 </span>
-                
+
 //                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
 //                   Bahan karbon khusus yang dipatenkan untuk mendistribusikan panas secara merata dan aman.
 //                   <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900"></div>
@@ -11325,7 +11322,7 @@
 //                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
 //                   Eco<br className="hidden sm:block" /> Friendly
 //                 </span>
-                
+
 //                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
 //                   Terbuat dari bahan ramah lingkungan yang aman dan dapat didaur ulang.
 //                   <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900"></div>
@@ -11459,7 +11456,7 @@
 //             <div className="flex-1 p-8 bg-white border border-gray-200 shadow-xl rounded-3xl lg:p-12 relative overflow-hidden">
 //               {/* Ornamen Abstrak Halus */}
 //               <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-bl-full -z-0 opacity-50"></div>
-              
+
 //               <div className="relative z-10">
 //                 <div className="inline-flex items-center px-4 py-1.5 mb-6 rounded-full text-xs font-bold tracking-wide text-emerald-800 bg-emerald-100 uppercase">
 //                   The Solution
@@ -11621,40 +11618,90 @@ const keyBenefits = [
   {
     title: "Bantu mengurangi rambut kusut dalam hitungan menit",
     icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M8 20v-4m4 4v-4m4 4v-4M6 11a6 6 0 0112 0v3a2 2 0 01-2 2H8a2 2 0 01-2-2v-3zM9 5v4m3-4v4m3-4v4" />
+      <svg
+        className="w-8 h-8"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.5"
+          d="M8 20v-4m4 4v-4m4 4v-4M6 11a6 6 0 0112 0v3a2 2 0 01-2 2H8a2 2 0 01-2-2v-3zM9 5v4m3-4v4m3-4v4"
+        />
       </svg>
     ),
   },
   {
     title: "Mengurangi listrik statis pada rambut",
     icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM13 10V6l-4 6h4v4l4-6h-4z" />
+      <svg
+        className="w-8 h-8"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.5"
+          d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM13 10V6l-4 6h4v4l4-6h-4z"
+        />
       </svg>
     ),
   },
   {
     title: "Praktis dibawa ke mana aja",
     icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 8h16M4 8a2 2 0 00-2 2v8a2 2 0 002 2h16a2 2 0 002-2v-8a2 2 0 00-2-2M4 8V6a2 2 0 012-2h12a2 2 0 012 2v2M9 14h6" />
+      <svg
+        className="w-8 h-8"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.5"
+          d="M4 8h16M4 8a2 2 0 00-2 2v8a2 2 0 002 2h16a2 2 0 002-2v-8a2 2 0 00-2-2M4 8V6a2 2 0 012-2h12a2 2 0 012 2v2M9 14h6"
+        />
       </svg>
     ),
   },
   {
     title: "Cocok untuk berbagai jenis rambut",
     icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 12c1.5-3 3-3 4.5 0s3 3 4.5 0 3-3 4.5 0M4 16c1.5-3 3-3 4.5 0s3 3 4.5 0 3-3 4.5 0M4 8c1.5-3 3-3 4.5 0s3 3 4.5 0 3-3 4.5 0" />
+      <svg
+        className="w-8 h-8"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.5"
+          d="M4 12c1.5-3 3-3 4.5 0s3 3 4.5 0 3-3 4.5 0M4 16c1.5-3 3-3 4.5 0s3 3 4.5 0 3-3 4.5 0M4 8c1.5-3 3-3 4.5 0s3 3 4.5 0 3-3 4.5 0"
+        />
       </svg>
     ),
   },
   {
     title: "Nggak perlu effort lebih untuk hasil yang rapi",
     icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+      <svg
+        className="w-8 h-8"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.5"
+          d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+        />
       </svg>
     ),
   },
@@ -11665,7 +11712,7 @@ const displayReviews = [
     id: "f1",
     name: "Claudiasunshinee",
     role: "Verified Buyer",
-    image: "/landing_page_images/user_1.jpg", 
+    image: "/landing_page_images/user_1.jpg",
     text: "Sisir nya bagus banget sih sesuai dgn claim nya 🙌🙌 sblmnya aku pakai brand w** krn rambutku rontok.. trs setelah aku compare sm brand Gycora ternyata jauh lbh ga rontok pakai Gycora ❤👍",
     rating: 5,
   },
@@ -11754,7 +11801,9 @@ export default function Home() {
 
   useEffect(() => {
     const slideInterval = setInterval(() => {
-      setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
+      setCurrentSlide((prev) =>
+        prev === heroSlides.length - 1 ? 0 : prev + 1,
+      );
     }, 4000);
     return () => clearInterval(slideInterval);
   }, []);
@@ -11803,7 +11852,9 @@ export default function Home() {
         Swal.fire({
           icon: "warning",
           title: "Pemberitahuan",
-          text: data.message || "Gagal mengklaim promo. Pastikan format email benar.",
+          text:
+            data.message ||
+            "Gagal mengklaim promo. Pastikan format email benar.",
           confirmButtonColor: "#d33",
         });
       }
@@ -11838,18 +11889,32 @@ export default function Home() {
               onClick={closePromoModal}
               className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
 
             <div className="flex flex-col justify-center flex-1 p-8 md:p-12">
-              <h2 className="mb-2 font-serif text-4xl font-black tracking-tight text-gray-900 uppercase">Gycora</h2>
+              <h2 className="mb-2 font-serif text-4xl font-black tracking-tight text-gray-900 uppercase">
+                Gycora
+              </h2>
               <h3 className="mb-4 text-3xl font-extrabold leading-tight text-[#006A4E]">
                 Diskon Spesial First Order ✨
               </h3>
               <p className="mb-8 text-sm font-medium text-gray-500">
-                Nikmati 10% OFF + subsidi ongkir Rp10.000 untuk pembelian pertamamu.<br/>
+                Nikmati 10% OFF + subsidi ongkir Rp10.000 untuk pembelian
+                pertamamu.
+                <br />
                 Masukkan email kamu dan klaim voucher eksklusif sekarang.
               </p>
 
@@ -11873,7 +11938,11 @@ export default function Home() {
             </div>
 
             <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
-              <img src="/landing_page_images/promo_popup.jpg" alt="Promo Gycora" className="object-cover w-full h-full" />
+              <img
+                src="/landing_page_images/promo_popup.jpg"
+                alt="Promo Gycora"
+                className="object-cover w-full h-full"
+              />
             </div>
           </div>
         </div>
@@ -11883,7 +11952,6 @@ export default function Home() {
           HERO SECTION
       ========================================= */}
       <div className="relative w-full overflow-hidden bg-[#F4F9F6] flex flex-col md:block md:min-h-[600px]">
-        
         <div className="relative w-full h-[350px] sm:h-[450px] md:absolute md:inset-0 md:h-full md:z-0 md:flex md:justify-end shrink-0">
           <div className="w-full h-full md:w-[60%] relative">
             {heroSlides.map((slide, index) => (
@@ -11898,19 +11966,47 @@ export default function Home() {
           </div>
 
           <button
-            onClick={() => setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1))}
+            onClick={() =>
+              setCurrentSlide((prev) =>
+                prev === 0 ? heroSlides.length - 1 : prev - 1,
+              )
+            }
             className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md left-4 md:left-8 top-1/2 -translate-y-1/2 hover:bg-gray-50 focus:outline-none"
           >
-            <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+            <svg
+              className="w-4 h-4 md:w-6 md:h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
           </button>
           <button
-            onClick={() => setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1))}
+            onClick={() =>
+              setCurrentSlide((prev) =>
+                prev === heroSlides.length - 1 ? 0 : prev + 1,
+              )
+            }
             className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md right-4 md:right-8 top-1/2 -translate-y-1/2 hover:bg-gray-50 focus:outline-none"
           >
-            <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+            <svg
+              className="w-4 h-4 md:w-6 md:h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </button>
         </div>
@@ -11918,13 +12014,16 @@ export default function Home() {
         <div className="relative z-10 w-full px-6 pt-6 pb-12 mx-auto max-w-[1236px] sm:px-10 lg:px-16 animate-fade-in-up flex items-center md:min-h-[600px]">
           <div className="w-full text-center md:max-w-xl md:text-left">
             <h1 className="text-3xl font-extrabold leading-tight sm:text-4xl md:text-5xl lg:text-6xl text-[#006A4E]">
-              Solusi Cepat untuk <br className="hidden md:block"/> Rambut Lebih Rapi
+              Solusi Cepat untuk <br className="hidden md:block" /> Rambut Lebih
+              Rapi
             </h1>
             <h2 className="mt-3 text-base font-bold text-gray-900 md:mt-4 sm:text-xl md:text-2xl">
               Tanpa Ribet, Tanpa Nunggu Lama.
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-gray-500 md:mt-4 md:text-lg">
-              Nggak semua orang punya waktu buat styling setiap hari. Tapi kamu tetap bisa tampil lebih rapi dalam hitungan menit dengan produk pilihan dari Gycora.
+              Nggak semua orang punya waktu buat styling setiap hari. Tapi kamu
+              tetap bisa tampil lebih rapi dalam hitungan menit dengan produk
+              pilihan dari Gycora.
             </p>
 
             <div className="flex flex-col justify-center gap-3 mt-6 sm:flex-row md:justify-start md:gap-4 md:mt-8">
@@ -11944,43 +12043,79 @@ export default function Home() {
 
             <div className="flex flex-wrap justify-center gap-4 mt-8 md:justify-start md:gap-8 md:mt-10">
               <div className="relative flex items-center gap-2 group cursor-help">
-                <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                <svg
+                  className="w-6 h-6 text-gray-600 md:w-8 md:h-8"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
                 </svg>
                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
-                  Teknologi<br className="hidden sm:block" /> Anti Statis
+                  Teknologi
+                  <br className="hidden sm:block" /> Anti Statis
                 </span>
-                
+
                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
-                  Teknologi ion untuk mencegah rambut berdiri karena listrik statis.
+                  Teknologi ion untuk mencegah rambut berdiri karena listrik
+                  statis.
                   <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900"></div>
                 </div>
               </div>
 
               <div className="relative flex items-center gap-2 group cursor-help">
-                <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                <svg
+                  className="w-6 h-6 text-gray-600 md:w-8 md:h-8"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                  />
                 </svg>
                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
-                  Carbon Patented<br className="hidden sm:block" /> Material
+                  Carbon Patented
+                  <br className="hidden sm:block" /> Material
                 </span>
-                
+
                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
-                  Bahan karbon khusus yang dipatenkan untuk mendistribusikan panas secara merata dan aman.
+                  Bahan karbon khusus yang dipatenkan untuk mendistribusikan
+                  panas secara merata dan aman.
                   <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900"></div>
                 </div>
               </div>
 
               <div className="relative flex items-center gap-2 group cursor-help">
-                <svg className="w-6 h-6 text-gray-600 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  className="w-6 h-6 text-gray-600 md:w-8 md:h-8"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
-                  Eco<br className="hidden sm:block" /> Friendly
+                  Eco
+                  <br className="hidden sm:block" /> Friendly
                 </span>
-                
+
                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
-                  Terbuat dari bahan ramah lingkungan yang aman dan dapat didaur ulang.
+                  Terbuat dari bahan ramah lingkungan yang aman dan dapat didaur
+                  ulang.
                   <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900"></div>
                 </div>
               </div>
@@ -11998,7 +12133,8 @@ export default function Home() {
                 Produk Favorit Pilihan Banyak Orang
               </h2>
               <p className="mt-2 text-sm text-gray-500 sm:text-base">
-                Temukan produk best seller yang jadi andalan untuk rambut lebih rapi, halus, dan mudah diatur setiap hari.
+                Temukan produk best seller yang jadi andalan untuk rambut lebih
+                rapi, halus, dan mudah diatur setiap hari.
               </p>
             </div>
             <Link
@@ -12006,8 +12142,18 @@ export default function Home() {
               className="flex items-center justify-center gap-2 mt-4 font-bold text-gray-600 transition-colors md:justify-start md:mt-0 hover:text-[#006A4E]"
             >
               Lihat Semua Produk
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
               </svg>
             </Link>
           </div>
@@ -12015,7 +12161,10 @@ export default function Home() {
           {isLoadingProducts ? (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="flex flex-row p-4 bg-gray-50 border border-gray-100 shadow-sm rounded-3xl animate-pulse">
+                <div
+                  key={i}
+                  className="flex flex-row p-4 bg-gray-50 border border-gray-100 shadow-sm rounded-3xl animate-pulse"
+                >
                   <div className="w-2/5 bg-gray-200 rounded-2xl h-36"></div>
                   <div className="w-3/5 pl-4 space-y-3">
                     <div className="w-full h-4 bg-gray-200 rounded"></div>
@@ -12030,7 +12179,8 @@ export default function Home() {
               {featuredProducts.map((product) => {
                 let customDesc = product.description;
                 if (product.name.toLowerCase().includes("brush")) {
-                  customDesc = "Sisir premium dengan teknologi anti-static yang bantu rambut lebih halus, rapi, dan berkilau dalam sekali sisir.";
+                  customDesc =
+                    "Sisir premium dengan teknologi anti-static yang bantu rambut lebih halus, rapi, dan berkilau dalam sekali sisir.";
                 }
 
                 return (
@@ -12038,10 +12188,23 @@ export default function Home() {
                     key={product.id}
                     className="relative flex flex-row p-4 transition-all duration-300 bg-gray-50 border border-gray-100 shadow-sm cursor-pointer rounded-3xl hover:shadow-lg hover:-translate-y-1 hover:border-[#006A4E]/30"
                     // [PERBAIKAN] Ubah onClick dari product.id ke product.slug
-                    onClick={() => navigate(`/product/${product.slug}`)}
+                    // onClick={() => navigate(`/product/${product.slug}`)}
+                    onClick={() =>
+                      navigate(`/product/${product.slug}`, {
+                        state: {
+                          initialProduct: product,
+                          allProducts: featuredProducts, // Kirim featuredProducts sebagai allProducts
+                        },
+                      })
+                    }
                   >
                     <button className="absolute z-10 text-gray-300 top-4 right-4 hover:text-red-500">
-                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -12052,20 +12215,35 @@ export default function Home() {
                     </button>
 
                     <div className="flex items-center justify-center w-2/5 shrink-0 bg-white rounded-2xl p-2">
-                      <img src={product.image_url} alt={product.name} className="object-contain w-full h-28 md:h-32 drop-shadow-sm" />
+                      <img
+                        src={product.image_url}
+                        alt={product.name}
+                        className="object-contain w-full h-28 md:h-32 drop-shadow-sm"
+                      />
                     </div>
 
                     <div className="flex flex-col justify-center w-3/5 pl-4 pr-2">
-                      <h3 className="text-sm font-extrabold leading-tight text-[#006A4E] line-clamp-2">{product.name}</h3>
-                      <p className="mt-1 leading-relaxed text-gray-500 text-xs md:text-sm line-clamp-3">{customDesc}</p>
+                      <h3 className="text-sm font-extrabold leading-tight text-[#006A4E] line-clamp-2">
+                        {product.name}
+                      </h3>
+                      <p className="mt-1 leading-relaxed text-gray-500 text-xs md:text-sm line-clamp-3">
+                        {customDesc}
+                      </p>
                       <div className="mt-3">
-                        {product.discount_price && product.discount_price > 0 ? (
+                        {product.discount_price &&
+                        product.discount_price > 0 ? (
                           <>
-                            <span className="block text-[10px] font-medium text-gray-400 line-through">{formatRupiah(product.price)}</span>
-                            <span className="block text-base md:text-lg font-black leading-none text-rose-500">{formatRupiah(product.discount_price)}</span>
+                            <span className="block text-[10px] font-medium text-gray-400 line-through">
+                              {formatRupiah(product.price)}
+                            </span>
+                            <span className="block text-base md:text-lg font-black leading-none text-rose-500">
+                              {formatRupiah(product.discount_price)}
+                            </span>
                           </>
                         ) : (
-                          <span className="block text-base md:text-lg font-black leading-none text-[#006A4E]">{formatRupiah(product.price)}</span>
+                          <span className="block text-base md:text-lg font-black leading-none text-[#006A4E]">
+                            {formatRupiah(product.price)}
+                          </span>
                         )}
                       </div>
                       <button className="px-4 py-1.5 mt-4 text-[10px] font-bold tracking-widest uppercase transition-colors bg-white border border-[#006A4E] rounded-full text-[#006A4E] hover:bg-[#006A4E] hover:text-white w-max">
@@ -12077,7 +12255,9 @@ export default function Home() {
               })}
             </div>
           ) : (
-            <div className="py-12 italic text-center text-gray-500">Belum ada produk yang tersedia.</div>
+            <div className="py-12 italic text-center text-gray-500">
+              Belum ada produk yang tersedia.
+            </div>
           )}
         </div>
       </div>
@@ -12087,7 +12267,9 @@ export default function Home() {
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex flex-col gap-16 lg:flex-row lg:items-center">
             <div className="flex-1 space-y-6">
-              <h2 className="text-3xl font-extrabold text-[#006A4E] sm:text-4xl">Pernah Ngerasa Kayak Gini?</h2>
+              <h2 className="text-3xl font-extrabold text-[#006A4E] sm:text-4xl">
+                Pernah Ngerasa Kayak Gini?
+              </h2>
               <ul className="space-y-4 text-lg text-gray-600">
                 <li className="flex items-start gap-3">
                   <span className="mt-1 text-red-500 font-bold">✕</span>
@@ -12099,30 +12281,40 @@ export default function Home() {
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="mt-1 text-red-500 font-bold">✕</span>
-                  <span>Habis pakai helm, kena angin, atau aktivitas seharian</span>
+                  <span>
+                    Habis pakai helm, kena angin, atau aktivitas seharian
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="mt-1 text-red-500 font-bold">✕</span>
                   <span>Nggak punya banyak waktu buat styling ulang</span>
                 </li>
               </ul>
-              <p className="pt-4 font-medium text-gray-900 text-md">Padahal kamu cuma butuh cara cepat buat balik rapi lagi.</p>
+              <p className="pt-4 font-medium text-gray-900 text-md">
+                Padahal kamu cuma butuh cara cepat buat balik rapi lagi.
+              </p>
             </div>
 
             <div className="flex-1 p-8 bg-white border border-gray-200 shadow-xl rounded-3xl lg:p-12 relative overflow-hidden">
               {/* Ornamen Abstrak Halus */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-bl-full -z-0 opacity-50"></div>
-              
+
               <div className="relative z-10">
                 <div className="inline-flex items-center px-4 py-1.5 mb-6 rounded-full text-xs font-bold tracking-wide text-emerald-800 bg-emerald-100 uppercase">
                   The Solution
                 </div>
-                <h3 className="mb-6 text-2xl font-extrabold text-gray-900 sm:text-3xl">Nggak Perlu Ribet Buat Tampil Rapi</h3>
+                <h3 className="mb-6 text-2xl font-extrabold text-gray-900 sm:text-3xl">
+                  Nggak Perlu Ribet Buat Tampil Rapi
+                </h3>
                 <p className="mb-6 text-lg leading-relaxed text-gray-500">
-                  Kenalin, <strong>Ethereal Glow Brush</strong> — sisir dengan teknologi anti-static yang bantu rambut lebih halus, rapi,
-                  dan mudah diatur hanya dalam beberapa menit.
+                  Kenalin, <strong>Ethereal Glow Brush</strong> — sisir dengan
+                  teknologi anti-static yang bantu rambut lebih halus, rapi, dan
+                  mudah diatur hanya dalam beberapa menit.
                 </p>
-                <p className="mb-8 text-lg leading-relaxed text-gray-500">Cukup sisir seperti biasa, tanpa teknik khusus. Hasilnya langsung terasa.</p>
+                <p className="mb-8 text-lg leading-relaxed text-gray-500">
+                  Cukup sisir seperti biasa, tanpa teknik khusus. Hasilnya
+                  langsung terasa.
+                </p>
                 <Link
                   to="/products"
                   className="inline-block px-8 py-4 text-base font-bold text-white transition-all bg-[#006A4E] rounded-full shadow-lg hover:bg-emerald-900 hover:shadow-xl hover:-translate-y-0.5"
@@ -12139,8 +12331,12 @@ export default function Home() {
       <div className="py-24 bg-white border-b border-gray-100">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="mb-16 text-center">
-            <h2 className="text-3xl font-extrabold text-[#006A4E]">Hasil Nyata Tanpa Filter</h2>
-            <p className="mt-4 text-gray-500">Perbedaan nyata sebelum dan sesudah menggunakan Gycora.</p>
+            <h2 className="text-3xl font-extrabold text-[#006A4E]">
+              Hasil Nyata Tanpa Filter
+            </h2>
+            <p className="mt-4 text-gray-500">
+              Perbedaan nyata sebelum dan sesudah menggunakan Gycora.
+            </p>
           </div>
 
           <div className="relative flex flex-col max-w-4xl mx-auto overflow-hidden bg-gray-50 border border-gray-200 shadow-xl group rounded-3xl">
@@ -12157,7 +12353,9 @@ export default function Home() {
       <div className="py-24 bg-gray-50 border-b border-gray-100">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="mb-16 text-center">
-            <h2 className="text-3xl font-extrabold text-[#006A4E] sm:text-4xl">Kenapa Banyak yang Pilih Gycora?</h2>
+            <h2 className="text-3xl font-extrabold text-[#006A4E] sm:text-4xl">
+              Kenapa Banyak yang Pilih Gycora?
+            </h2>
           </div>
           <div className="grid grid-cols-1 gap-8 text-center md:grid-cols-3 lg:grid-cols-5">
             {keyBenefits.map((benefit, idx) => (
@@ -12168,7 +12366,9 @@ export default function Home() {
                 <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 rounded-2xl bg-emerald-100 text-[#006A4E]">
                   {benefit.icon}
                 </div>
-                <p className="text-sm font-bold leading-relaxed text-gray-800">{benefit.title}</p>
+                <p className="text-sm font-bold leading-relaxed text-gray-800">
+                  {benefit.title}
+                </p>
               </div>
             ))}
           </div>
@@ -12179,8 +12379,13 @@ export default function Home() {
       <div className="py-24 bg-white border-b border-gray-100">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto mb-16 text-center">
-            <h2 className="text-3xl font-extrabold text-[#006A4E]">Bukan Cuma Kata Kami, Tapi Mereka yang Sudah Coba</h2>
-            <p className="mt-4 text-gray-500">Ribuan pengguna Gycora sudah merasakan perubahan nyata dalam rutinitas mereka.</p>
+            <h2 className="text-3xl font-extrabold text-[#006A4E]">
+              Bukan Cuma Kata Kami, Tapi Mereka yang Sudah Coba
+            </h2>
+            <p className="mt-4 text-gray-500">
+              Ribuan pengguna Gycora sudah merasakan perubahan nyata dalam
+              rutinitas mereka.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -12191,7 +12396,11 @@ export default function Home() {
               >
                 <div className="flex gap-1 mb-4 text-amber-400">
                   {[...Array(review.rating)].map((_, i) => (
-                    <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                    <svg
+                      key={i}
+                      className="w-5 h-5 fill-current"
+                      viewBox="0 0 20 20"
+                    >
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
@@ -12210,14 +12419,16 @@ export default function Home() {
                     alt={review.name}
                     className="object-cover w-10 h-10 rounded-full bg-emerald-100"
                     onError={(e) => {
-                       e.currentTarget.src = `https://ui-avatars.com/api/?name=${review.name}&background=059669&color=fff`;
+                      e.currentTarget.src = `https://ui-avatars.com/api/?name=${review.name}&background=059669&color=fff`;
                     }}
                   />
                   <div className="flex-1 min-w-0">
                     <h4 className="text-sm font-bold text-gray-900 truncate">
                       {review.name}
                     </h4>
-                    <p className="text-xs tracking-widest text-emerald-700 uppercase">{review.role}</p>
+                    <p className="text-xs tracking-widest text-emerald-700 uppercase">
+                      {review.role}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -12231,9 +12442,12 @@ export default function Home() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-400 rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
 
         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-extrabold text-white sm:text-5xl">Nggak Perlu Ribet Buat Tampil Rapi</h2>
+          <h2 className="text-3xl font-extrabold text-white sm:text-5xl">
+            Nggak Perlu Ribet Buat Tampil Rapi
+          </h2>
           <p className="mt-6 mb-10 text-lg leading-relaxed text-emerald-100">
-            Mulai dari langkah kecil yang bikin perbedaan besar di penampilan kamu.
+            Mulai dari langkah kecil yang bikin perbedaan besar di penampilan
+            kamu.
             <br />
             Dengan Gycora, rambut rapi bukan lagi hal yang butuh effort lebih.
           </p>
