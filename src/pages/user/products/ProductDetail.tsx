@@ -10167,6 +10167,1083 @@
 //   );
 // }
 
+// import { useState, useEffect, useMemo } from "react";
+// import { useParams, useNavigate, useLocation } from "react-router-dom";
+// import Swal from "sweetalert2";
+// import { useCart } from "../../../context/CartContext";
+// import { BASE_URL } from "../../../config/api";
+
+// const colorMapHex: Record<string, string> = {
+//   Black: "#000000", White: "#FFFFFF", Brown: "#8B4513", Beige: "#F5F5DC",
+//   Red: "#8B0000", Navy: "#000080", Green: "#008000", Grey: "#808080",
+//   Pink: "#FFC0CB", Yellow: "#FFD700", Blue: "#4169E1", Mocca: "#967969",
+//   Cream: "#FDF4E3", Sage: "#9DC183", Gold: "#D4AF37", Orange: "#FF9900",
+//   Silver: "#C0C0C0", Maroon: "#800000", Olive: "#808000", Taupe: "#483C32",
+//   Khaki: "#F0E68C", Mustard: "#FFDB58", Emerald: "#50C878", Coral: "#FF7F50",
+//   Mint: "#98FF98", Teal: "#008080", Cyan: "#00FFFF", Indigo: "#4B0082",
+//   Violet: "#EE82EE", Purple: "#800080", Magenta: "#FF00FF", Lilac: "#C8A2C8",
+//   Lavender: "#E6E6FA", Rose: "#FF007F", Peach: "#FFE5B4", Apricot: "#FBCEB1",
+//   Ivory: "#FFFFF0", Tan: "#D2B48C", Charcoal: "#36454F", Ash: "#555555",
+//   Platinum: "#E5E4E2", Bronze: "#CD7F32", Copper: "#B87333", Rust: "#B7410E",
+//   Ochre: "#CC7722", Sienna: "#882D17", Terracotta: "#E2725B", Amber: "#FFBF00",
+//   Caramel: "#FFD59A", Honey: "#FFC30B", Chestnut: "#954535", Walnut: "#5C4033",
+//   Mahogany: "#C04000", Chocolate: "#7B3F00", Cocoa: "#D2691E", Coffee: "#6F4E37",
+//   Mocha: "#493D26", Espresso: "#4B3621", Cappuccino: "#654321", Latte: "#C5A059",
+//   Macchiato: "#8B5A2B", Almond: "#EED9C4", Hazelnut: "#C4A484", Pecan: "#8A3324",
+//   Pistachio: "#93C572", Seafoam: "#9FE2BF", Turquoise: "#40E0D0", Aqua: "#00FFFF",
+//   Azure: "#00FFFF", Sky: "#87CEEB", Cerulean: "#007BA7", Cobalt: "#0047AB",
+//   Sapphire: "#0F52BA", Ultramarine: "#120A8F", Lapis: "#26619C", Denim: "#1560BD",
+//   Steel: "#4682B4", Slate: "#708090", Gunmetal: "#2a3439", Onyx: "#353839",
+//   Jet: "#343434", Ebony: "#555D50", Raven: "#050301", Pitch: "#000000",
+//   Obsidian: "#0B0B0B", Carbon: "#333333", Graphite: "#383838", Pewter: "#8E8E8E",
+//   Zinc: "#8C92AC", Lead: "#778899", Iron: "#A19D94", Titanium: "#878681",
+//   Chromium: "#C0C0C0", Nickel: "#727472", Tungsten: "#A0A0A0", Fuchsia: "#FF00FF",
+//   Crimson: "#DC143C", Carmine: "#960018", Ruby: "#E0115F", Scarlet: "#FF2400",
+//   Vermilion: "#E34234", Brick: "#CB4154", Tomato: "#FF6347", Papaya: "#FFEFD5",
+//   Melon: "#FDBCB4", Mango: "#F4A460", Citrus: "#FFA500", Lemon: "#FFF700",
+//   Lime: "#BFFF00", Kiwi: "#8EE53F", Apple: "#8DB600", Pear: "#D1E231",
+//   Grape: "#6F2DA8", Plum: "#8E4585", Blackberry: "#4D0135", Mulberry: "#C54B8C",
+//   Raisin: "#652DC1", Eggplant: "#614051", Aubergine: "#472C4C", Amethyst: "#9966CC",
+//   Orchid: "#DA70D6", Heather: "#D473D4", Thistle: "#D8BFD8", Mauve: "#E0B0FF",
+//   Wisteria: "#C9A0DC", Periwinkle: "#CCCCFF", Cornflower: "#6495ED", Baby: "#89CFF0",
+//   Powder: "#B0E0E6", Midnight: "#191970", Ocean: "#0077BE",
+// };
+
+// const extractColorName = (fullName: string) => {
+//   if (!fullName) return "Main";
+//   const words = fullName.trim().split(" ");
+//   const lastWord = words[words.length - 1];
+//   return lastWord.charAt(0).toUpperCase() + lastWord.slice(1).toLowerCase();
+// };
+
+// const extractColorHex = (fullName: string) => {
+//   const colorName = extractColorName(fullName);
+//   return colorMapHex[colorName] || "#cccccc";
+// };
+
+// interface Product {
+//   id: number;
+//   category_id: number;
+//   category_name: string;
+//   sku: string;
+//   name: string;
+//   slug: string;
+//   description: string;
+//   benefits: string;
+//   price: number;
+//   discount_price: number;
+//   voucher_discount_price?: number;
+//   stock: number;
+//   image_url: string;
+//   variant_images?: string[];
+//   variant_video?: string;
+//   color?: any[];
+// }
+
+// export default function ProductDetail() {
+//   const { id } = useParams<{ id: string }>();
+//   const { slug } = useParams<{ slug: string }>();
+//   const navigate = useNavigate();
+//   const location = useLocation();
+
+//   const [product, setProduct] = useState<Product | null>(null);
+//   const [loading, setLoading] = useState(true);
+//   const [isFetchingFull, setIsFetchingFull] = useState(false);
+
+//   const [quantityInput, setQuantityInput] = useState<string>("1");
+//   const quantity = parseInt(quantityInput) || 1;
+
+//   const [isBuyingNow, setIsBuyingNow] = useState(false);
+//   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+//   const [siblingColors, setSiblingColors] = useState<Product[]>([]);
+//   const [isFavorited, setIsFavorited] = useState(false);
+  
+//   const [activeTab, setActiveTab] = useState("desc");
+
+//   // [BARU] State untuk menampung review asli dari database
+//   const [apiReviews, setApiReviews] = useState<any[]>([]);
+
+//   const { fetchCart, cartItems, addCartItemOptimistically, revertCartItems } = useCart();
+
+//   const fetchSiblingColorsViaAPI = async (productName: string) => {
+//     if (!productName) return;
+//     try {
+//       const words = productName.trim().split(" ");
+//       let rootName = productName;
+
+//       if (words.length > 1) {
+//         words.pop();
+//         rootName = words.join(" ");
+//       }
+
+//       const res = await fetch(`${BASE_URL}/api/products`);
+//       const data = await res.json();
+//       const allProducts = data.data ? data.data : data;
+
+//       const siblings = allProducts.filter((p: Product) =>
+//         p.name.toLowerCase().includes(rootName.toLowerCase()),
+//       );
+
+//       if (siblings.length <= 1) {
+//         setSiblingColors([]);
+//       } else {
+//         setSiblingColors(siblings);
+//       }
+//     } catch (error) {
+//       console.error("Gagal menarik data varian warna:", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     let isCurrentFetchValid = true;
+
+//     const initialPassedData = location.state?.initialProduct;
+//     const allPassedProducts = location.state?.allProducts; 
+
+//     if (initialPassedData && String(initialPassedData.id) === id) {
+//       setProduct(initialPassedData);
+//       setLoading(false);
+      
+//       if (allPassedProducts && allPassedProducts.length > 0) {
+//         const words = initialPassedData.name.trim().split(" ");
+//         let rootName = initialPassedData.name;
+//         if (words.length > 1) {
+//           words.pop(); 
+//           rootName = words.join(" ");
+//         }
+
+//         const localSiblings = allPassedProducts.filter((p: Product) =>
+//           p.name.toLowerCase().includes(rootName.toLowerCase())
+//         );
+
+//         if (localSiblings.length > 1) {
+//            setSiblingColors(localSiblings);
+//         }
+//       }
+//     } else {
+//       setLoading(true);
+//       setProduct(null);
+//     }
+
+//     setIsFetchingFull(true);
+//     setCurrentImageIndex(0);
+//     setQuantityInput("1");
+//     setActiveTab("desc");
+
+//     const fetchProductAndSiblings = async () => {
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/products/${id}`);
+//         if (!res.ok) throw new Error("Produk tidak ditemukan");
+//         const responseData = await res.json();
+
+//         // if (isCurrentFetchValid) {
+//         //   const productObject = responseData.data ? responseData.data : responseData;
+//         //   setProduct(productObject);
+          
+//         //   if (!allPassedProducts) {
+//         //      await fetchSiblingColorsViaAPI(productObject.name);
+//         //   }
+//         // }
+
+//         if (isCurrentFetchValid) {
+//           const productObject = responseData.data ? responseData.data : responseData;
+//           setProduct(productObject);
+          
+//           // [PERBAIKAN] Validasi yang lebih ketat: Cek apakah data benar-benar ada dan panjangnya lebih dari 0
+//           if (!allPassedProducts || allPassedProducts.length === 0) {
+//              await fetchSiblingColorsViaAPI(productObject.name);
+//           }
+//         }
+//       } catch (error) {
+//         if (isCurrentFetchValid) {
+//           console.error("Gagal memuat produk:", error);
+//           navigate("/products");
+//         }
+//       }
+//     };
+
+//     const checkWishlistStatus = async () => {
+//       const token = localStorage.getItem("user_token");
+//       if (!token) return;
+
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/wishlists`, {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//             Accept: "application/json",
+//           },
+//         });
+//         if (res.ok) {
+//           const data = await res.json();
+//           const isWished = data.some(
+//             (item: any) => item.product_id === Number(id),
+//           );
+          
+//           if (isCurrentFetchValid) setIsFavorited(isWished);
+//         }
+//       } catch (error) {
+//         if (isCurrentFetchValid) console.error("Gagal memeriksa wishlist:", error);
+//       }
+//     };
+
+//     // [BARU] Fungsi mengambil review asli dari database
+//     // const fetchReviews = async () => {
+//     //   try {
+//     //     // Sesuaikan URL endpoint ini jika struktur API Review Anda berbeda. 
+//     //     // Biasa: GET /api/reviews?product_id={id} atau GET /api/products/{id}/reviews
+//     //     // const res = await fetch(`${BASE_URL}/api/reviews?product_id=${id}`, {
+//     //     //     headers: { Accept: "application/json" }
+//     //     // });
+
+//     //     const res = await fetch(`${BASE_URL}/api/products/${id}/reviews`, {
+//     //         headers: { Accept: "application/json" }
+//     //     });
+//     //     if (res.ok) {
+//     //         const data = await res.json();
+//     //         if (isCurrentFetchValid) {
+//     //             // Ambil data array review (tergantung bentuk json response laravel Anda)
+//     //             const reviewsArr = data.data ? data.data : data; 
+//     //             setApiReviews(reviewsArr);
+//     //         }
+//     //     }
+//     //   } catch (error) {
+//     //     console.error("Gagal menarik data ulasan asli:", error);
+//     //   }
+//     // };
+
+//     // [BARU] Fungsi mengambil review asli dari database
+//     const fetchReviews = async () => {
+//       try {
+//         // [PERBAIKAN] Disesuaikan dengan endpoint Route::get('/products/{product}/reviews')
+//         const res = await fetch(`${BASE_URL}/api/products/${id}/reviews`, {
+//             headers: { Accept: "application/json" }
+//         });
+        
+//         if (res.ok) {
+//             const data = await res.json();
+//             if (isCurrentFetchValid) {
+//                 // [PERBAIKAN] Mengambil dari key 'reviews' sesuai controller Backend Anda
+//                 const reviewsArr = data.reviews ? data.reviews : []; 
+//                 setApiReviews(reviewsArr);
+//             }
+//         }
+//       } catch (error) {
+//         console.error("Gagal menarik data ulasan asli:", error);
+//       }
+//     };
+
+//     if (id) {
+//       Promise.all([fetchProductAndSiblings(), checkWishlistStatus(), fetchReviews()]).finally(
+//         () => {
+//           if (isCurrentFetchValid) {
+//             setLoading(false);
+//             setIsFetchingFull(false);
+//           }
+//         },
+//       );
+//     }
+
+//     return () => {
+//       isCurrentFetchValid = false;
+//     };
+//     // eslint-disable-next-line react-hooks/exhaustive-deps
+//   }, [id, navigate]);
+
+//   const handleToggleWishlist = async () => {
+//     const token = localStorage.getItem("user_token");
+//     if (!token) {
+//       Swal.fire({
+//         title: "Login Diperlukan",
+//         text: "Silakan masuk ke akun Anda untuk menyimpan produk ke favorit.",
+//         icon: "info",
+//         showCancelButton: true,
+//         confirmButtonColor: "#059669",
+//         cancelButtonColor: "#d33",
+//         confirmButtonText: "Ke Halaman Login",
+//         cancelButtonText: "Batal",
+//       }).then((result) => {
+//         if (result.isConfirmed) navigate("/login");
+//       });
+//       return;
+//     }
+
+//     setIsFavorited(!isFavorited);
+//     try {
+//       const res = await fetch(`${BASE_URL}/api/wishlists/toggle`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${token}`,
+//           Accept: "application/json",
+//         },
+//         body: JSON.stringify({ product_id: product?.id }),
+//       });
+//       if (!res.ok) throw new Error("Gagal");
+//     } catch (error) {
+//       setIsFavorited(!isFavorited);
+//       console.error(error);
+//     }
+//   };
+
+//   const gallery = useMemo(() => {
+//     if (!product) return [];
+//     const imgs = [];
+//     if (product.image_url) imgs.push(product.image_url);
+//     if (Array.isArray(product.variant_images)) {
+//       imgs.push(...product.variant_images);
+//     }
+//     return imgs;
+//   }, [product]);
+
+//   const nextImage = () =>
+//     setCurrentImageIndex((prev) => (prev + 1) % gallery.length);
+//   const prevImage = () =>
+//     setCurrentImageIndex(
+//       (prev) => (prev - 1 + gallery.length) % gallery.length,
+//     );
+
+//   const formatRupiah = (angka: number) => {
+//     return new Intl.NumberFormat("id-ID", {
+//       style: "currency",
+//       currency: "IDR",
+//       minimumFractionDigits: 0,
+//     }).format(angka);
+//   };
+
+//   const triggerFlyingAnimation = () => {
+//     const startEl = document.getElementById("product-image");
+//     const endEl = document.getElementById("cart-icon");
+
+//     if (startEl && endEl && gallery.length > 0) {
+//       const startRect = startEl.getBoundingClientRect();
+//       const endRect = endEl.getBoundingClientRect();
+
+//       const flyingImg = document.createElement("img");
+//       flyingImg.src = gallery[currentImageIndex];
+//       flyingImg.style.position = "fixed";
+//       flyingImg.style.top = `${startRect.top}px`;
+//       flyingImg.style.left = `${startRect.left}px`;
+//       flyingImg.style.width = `${startRect.width}px`;
+//       flyingImg.style.height = `${startRect.height}px`;
+//       flyingImg.style.borderRadius = "10%";
+//       flyingImg.style.zIndex = "9999";
+//       flyingImg.style.transition =
+//         "all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+//       document.body.appendChild(flyingImg);
+
+//       requestAnimationFrame(() => {
+//         flyingImg.style.top = `${endRect.top + 10}px`;
+//         flyingImg.style.left = `${endRect.left + 10}px`;
+//         flyingImg.style.width = "20px";
+//         flyingImg.style.height = "20px";
+//         flyingImg.style.opacity = "0.2";
+//         flyingImg.style.borderRadius = "50%";
+//       });
+
+//       setTimeout(() => {
+//         flyingImg.remove();
+//         endEl.classList.add("scale-125");
+//         setTimeout(() => endEl.classList.remove("scale-125"), 200);
+//       }, 800);
+//     }
+//   };
+
+//   const handleAddToCart = () => {
+//     const token = localStorage.getItem("user_token");
+//     if (!token) {
+//       Swal.fire({
+//         title: "Login Diperlukan",
+//         text: "Silakan masuk ke akun Anda untuk mulai berbelanja.",
+//         icon: "info",
+//         confirmButtonColor: "#059669",
+//         confirmButtonText: "Ke Halaman Login",
+//       }).then(() => navigate("/login"));
+//       return;
+//     }
+
+//     const previousCartState = [...cartItems];
+//     const optimisticItem = {
+//       id: Date.now(),
+//       product_id: product!.id,
+//       quantity: quantity,
+//       gross_amount: quantity * product!.price,
+//       color: null,
+//       product: {
+//         id: product!.id,
+//         name: product!.name,
+//         price: product!.price,
+//         discount_price: product!.price,
+//         image_url: product!.image_url,
+//         sku: product!.sku,
+//         stock: product!.stock,
+//         color: "",
+//       },
+//     };
+
+//     addCartItemOptimistically(optimisticItem);
+//     triggerFlyingAnimation();
+//     Swal.fire({
+//       title: "Ditambahkan!",
+//       icon: "success",
+//       toast: true,
+//       position: "top-end",
+//       timer: 1500,
+//       showConfirmButton: false,
+//     });
+
+//     fetch(`${BASE_URL}/api/carts`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//       body: JSON.stringify({
+//         product_id: product?.id,
+//         quantity: quantity,
+//         color: null,
+//       }),
+//     })
+//       .then(async (res) => {
+//         const data = await res.json();
+//         if (res.ok && data.cart_id) {
+//           fetchCart();
+//         } else {
+//           revertCartItems(previousCartState);
+//           Swal.fire(
+//             "Pemberitahuan",
+//             data.message || "Gagal menambahkan produk ke keranjang.",
+//             "warning",
+//           );
+//         }
+//       })
+//       .catch(() => {
+//         revertCartItems(previousCartState);
+//         console.error("Gagal terhubung ke server saat add to cart");
+//       });
+//   };
+
+//   const handleBuyItNow = async () => {
+//     const token = localStorage.getItem("user_token");
+//     if (!token) {
+//       Swal.fire({
+//         title: "Login Diperlukan",
+//         icon: "info",
+//         confirmButtonColor: "#059669",
+//       }).then(() => navigate("/login"));
+//       return;
+//     }
+
+//     setIsBuyingNow(true);
+//     try {
+//       const res = await fetch(`${BASE_URL}/api/carts`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${token}`,
+//         },
+//         body: JSON.stringify({
+//           product_id: product?.id,
+//           quantity: quantity,
+//           color: null,
+//         }),
+//       });
+//       const data = await res.json();
+
+//       if (res.ok && data.cart_id) {
+//         fetchCart();
+//         navigate("/checkout", { state: { selectedIds: [data.cart_id] } });
+//       } else {
+//         Swal.fire("Gagal", data.message || "Terjadi kesalahan", "error");
+//       }
+//     } catch (error) {
+//       Swal.fire("Error", "Gagal terhubung ke server", "error");
+//     } finally {
+//       setIsBuyingNow(false);
+//     }
+//   };
+
+//   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const val = e.target.value;
+//     if (val === "" || /^\d+$/.test(val)) {
+//       setQuantityInput(val);
+//     }
+//   };
+
+//   const handleInputBlur = () => {
+//     let parsed = parseInt(quantityInput);
+//     if (isNaN(parsed) || parsed < 1) parsed = 1;
+//     if (product && parsed > product.stock) {
+//       parsed = product.stock;
+//       Swal.fire({
+//         toast: true,
+//         position: "top-end",
+//         icon: "warning",
+//         title: `Maksimal stok adalah ${product.stock}`,
+//         showConfirmButton: false,
+//         timer: 2000,
+//       });
+//     }
+//     setQuantityInput(parsed.toString());
+//   };
+
+//   if (loading)
+//     return (
+//       <div className="flex items-center justify-center min-h-screen font-sans bg-white">
+//         <div className="w-12 h-12 border-b-2 rounded-full animate-spin border-gycora"></div>
+//       </div>
+//     );
+//   if (!product) return null;
+
+//   const isOutOfStock = product.stock <= 0;
+//   const isFormDisabled = isOutOfStock || isBuyingNow;
+
+//   const handleShare = async () => {
+//     const shareData = {
+//       title: product?.name,
+//       text: `Cek produk keren ini dari Gycora: ${product?.name}`,
+//       url: window.location.href,
+//     };
+
+//     if (navigator.share) {
+//       try {
+//         await navigator.share(shareData);
+//       } catch (err) {
+//         console.error("Gagal membagikan:", err);
+//       }
+//     } else {
+//       navigator.clipboard.writeText(window.location.href);
+//       Swal.fire({
+//         toast: true,
+//         position: "top-end",
+//         icon: "success",
+//         title: "Link produk disalin!",
+//         showConfirmButton: false,
+//         timer: 1500,
+//       });
+//     }
+//   };
+
+//   const isEtherealBrush = product.name.toLowerCase().includes("ethereal glow brush");
+//   const isScalpCare = product.name.toLowerCase().includes("scalp");
+
+//   // [BARU] Gabungkan ulasan asli dari user dengan ulasan statis/dummy
+//   // Kita map ulasan asli agar struktur object-nya sama dengan ulasan dummy.
+//   const formattedApiReviews = apiReviews.map((r: any) => ({
+//       name: r.user?.first_name ? `${r.user.first_name} ${r.user.last_name || ''}` : "Gycora Customer",
+//       text: r.comment,
+//       rating: r.rating || 5, // fallback ke 5 jika tidak ada sistem rating
+//       is_verified: true
+//   }));
+
+//   const brushReviews = [
+//     { name: "Claudiasunshinee", text: "Sisir nya bagus banget sih sesuai dgn claim nya 🙌🙌 sblmnya aku pakai brand w** krn rambutku rontok.. trs setelah aku compare sm brand Gycora ternyata jauh lbh ga rontok pakai Gycora ❤👍", rating: 5, is_verified: true },
+//     { name: "Nilasetiobudii", text: "Sisirnya enak banget terutama buat rambut yg suka kusut Jd lebih gampang pake sisir dari Gycora..", rating: 5, is_verified: true },
+//     { name: "Thaliastanley___", text: "Setelah saya pakai hair brush nya rambutku jadi lebih gak kusut dan bikin lebih pede pastinya..", rating: 5, is_verified: true },
+//     { name: "Herlenasutanto", text: "Oke kok enak sisir nya lentur ngikutin kepala. ga nyangkut2 hehe", rating: 5, is_verified: true },
+//     { name: "Anitaa_bee", text: "Sukaaa poll sma sisirnya... Rambut jd makin teratur pas disisir dan ga gerundel (kusut frizzy) n rambut ku ya uda ga tllu banyak yg rontok. terus sisirnya tu empuk dan nyaman poll di kepala ga sakit.", rating: 5, is_verified: true },
+//   ];
+
+//   const scalpReviews = [
+//     { name: "v*****b", text: "Kemasan: Bagus\nEfek: Ketombe keluar semua, semoga bisa bersih pakai ini\nPengalaman Penggunaan: Rasanya rambut halus setelah pakai.", rating: 5, is_verified: true },
+//   ];
+
+//   const staticReviews = isEtherealBrush ? brushReviews : isScalpCare ? scalpReviews : [];
+  
+//   // Array Final yang akan di render: Ulasan User Asli ditaruh di urutan Paling Atas, disusul dummy.
+//   const activeReviews = [...formattedApiReviews, ...staticReviews];
+
+//   return (
+//     <div className="min-h-screen py-12 font-sans bg-white">
+//       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+//         <div className="lg:grid lg:grid-cols-2 lg:gap-16">
+          
+//           {/* BAGIAN KIRI: GAMBAR */}
+//           <div className="flex flex-col mb-10 lg:mb-0">
+//             <div
+//               id="product-image"
+//               className="relative flex items-center justify-center p-4 overflow-hidden border border-gray-100 group bg-gray-50/50 rounded-3xl aspect-square md:p-8"
+//             >
+//               {gallery.length > 0 ? (
+//                 <>
+//                   {gallery.map((src, idx) => (
+//                     <img
+//                       key={idx}
+//                       src={src}
+//                       alt={`${product.name} - Varian ${idx}`}
+//                       className={`absolute inset-0 object-contain object-center w-full h-full p-4 md:p-8 transition-opacity duration-300 ease-in-out ${idx === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
+//                     />
+//                   ))}
+                  
+//                   {gallery.length > 1 && (
+//                     <>
+//                       <button
+//                         onClick={prevImage}
+//                         className="absolute z-30 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 left-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100 focus:outline-none"
+//                       >
+//                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+//                         </svg>
+//                       </button>
+                      
+//                       <button
+//                         onClick={nextImage}
+//                         className="absolute z-30 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 right-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100 focus:outline-none"
+//                       >
+//                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+//                         </svg>
+//                       </button>
+                      
+//                       <div className="absolute left-0 right-0 z-30 flex items-center justify-center gap-2 bottom-6">
+//                         {gallery.map((_, idx) => (
+//                           <button
+//                             key={idx}
+//                             onClick={() => setCurrentImageIndex(idx)}
+//                             className={`h-2 rounded-full transition-all shadow-sm focus:outline-none ${idx === currentImageIndex ? "bg-[#006A4E] w-6" : "bg-gray-300 hover:bg-gray-400 w-2"}`}
+//                             aria-label={`Lihat gambar ke-${idx + 1}`}
+//                           />
+//                         ))}
+//                       </div>
+//                     </>
+//                   )}
+//                 </>
+//               ) : (
+//                 <div className="flex items-center justify-center w-full h-full text-gray-400">
+//                   No Image
+//                 </div>
+//               )}
+              
+//               <div className="absolute z-30 top-6 left-6">
+//                 <span className="px-4 py-2 text-sm font-bold text-gray-900 rounded-full shadow-sm bg-white/90 backdrop-blur-md">
+//                   {product.category_name}
+//                 </span>
+//               </div>
+//             </div>
+
+//             {product.variant_video && (
+//               <div className="mt-8">
+//                 <h3 className="mb-3 text-sm font-bold tracking-widest text-gray-900 uppercase">
+//                   Video Demo
+//                 </h3>
+//                 <div className="overflow-hidden bg-black shadow-sm rounded-3xl">
+//                   <video
+//                     src={product.variant_video}
+//                     controls
+//                     className="object-contain w-full h-64 md:h-80"
+//                   />
+//                 </div>
+//               </div>
+//             )}
+//           </div>
+
+//           {/* BAGIAN KANAN: DETAIL PRODUK */}
+//           <div className="flex flex-col justify-center">
+//             <div className="flex items-start justify-between gap-4 mb-2">
+//               <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
+//                 {product.name}
+//               </h1>
+//               <div className="flex items-center gap-2 shrink-0">
+//                 <button
+//                   onClick={handleShare}
+//                   className="flex items-center justify-center w-12 h-12 text-gray-500 transition-colors bg-white border border-gray-200 rounded-full shadow-sm hover:bg-gray-50 hover:text-[#006A4E]"
+//                   title="Bagikan Produk"
+//                 >
+//                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+//                   </svg>
+//                 </button>
+//                 <button
+//                   onClick={handleToggleWishlist}
+//                   className="flex items-center justify-center w-12 h-12 transition-colors bg-white border border-gray-200 rounded-full shadow-sm shrink-0 hover:bg-gray-50"
+//                   title="Simpan ke Favorit"
+//                 >
+//                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-6 h-6 transition-all duration-300 ${isFavorited ? "fill-red-500 text-red-500 scale-110" : "fill-none text-gray-400 hover:text-red-500"}`}>
+//                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+//                   </svg>
+//                 </button>
+//               </div>
+//             </div>
+
+//             {isEtherealBrush && (
+//               <h2 className="mb-4 text-lg font-bold text-[#006A4E]">
+//                 Rambut Lebih Rapi, Halus, dan Mudah Diatur dalam Sekali Sisir ✨
+//               </h2>
+//             )}
+//             {isScalpCare && (
+//               <h2 className="mb-4 text-lg font-bold text-[#006A4E]">
+//                 Scalp Massager untuk Kulit Kepala Lebih Bersih, Nyaman, dan Sehat ✨
+//               </h2>
+//             )}
+
+//             <p className="mb-8 font-mono text-gray-500">SKU: {product.sku}</p>
+//             <div className="mb-8">
+//               {product.discount_price && product.discount_price > 0 ? (
+//                 <div className="flex flex-col">
+//                   <span className="text-2xl text-gray-400 line-through">
+//                     {formatRupiah(product.price)}
+//                   </span>
+//                   <span className="text-4xl font-extrabold text-red-600">
+//                     {formatRupiah(product.discount_price)}
+//                   </span>
+//                 </div>
+//               ) : (
+//                 <p className="text-4xl font-extrabold text-[#006A4E]">
+//                   {formatRupiah(product.price)}
+//                 </p>
+//               )}
+//             </div>
+
+//             <div className="p-6 mb-10 border border-gray-100 bg-gray-50 rounded-2xl">
+//               {siblingColors.length > 0 && (
+//                 <div className="pb-6 mb-6 border-b border-gray-200">
+//                   <h3 className="mb-3 text-sm font-bold text-gray-700">
+//                     Pilih Varian Warna:
+//                   </h3>
+//                   <div className="flex flex-wrap gap-3">
+//                     {siblingColors.map((sibling) => {
+//                       const isCurrentProduct = sibling.id === product.id;
+//                       return (
+//                         <button
+//                           key={sibling.id}
+//                           onClick={() => {
+//                             if (!isCurrentProduct) {
+//                               window.scrollTo({ top: 0, behavior: "smooth" });
+//                               navigate(`/product/${sibling.id}`, {
+//                                 state: { 
+//                                   initialProduct: sibling,
+//                                   allProducts: location.state?.allProducts
+//                                 },
+//                               });
+//                             }
+//                           }}
+//                           className={`flex items-center gap-2 px-3 py-1.5 rounded-full border-2 transition-all shadow-sm ${
+//                             isCurrentProduct
+//                               ? "border-[#006A4E] ring-2 ring-[#006A4E]/30 scale-105 cursor-default"
+//                               : "border-gray-200 hover:border-gray-300 hover:scale-105 cursor-pointer bg-white"
+//                           }`}
+//                           title={`Lihat varian ${extractColorName(sibling.name)}`}
+//                         >
+//                           <span
+//                             className="w-5 h-5 border border-gray-300 rounded-full shadow-inner"
+//                             style={{ backgroundColor: extractColorHex(sibling.name) }}
+//                           ></span>
+//                           <span className={`text-xs font-bold ${isCurrentProduct ? "text-[#006A4E]" : "text-gray-700"}`}>
+//                             {extractColorName(sibling.name)}
+//                           </span>
+//                         </button>
+//                       );
+//                     })}
+//                   </div>
+//                 </div>
+//               )}
+
+//               <div className="flex flex-col gap-4">
+//                 <div className="flex items-center justify-between w-full overflow-hidden bg-white border border-gray-300 h-14 rounded-xl">
+//                   <button
+//                     onClick={() => {
+//                       const newVal = Math.max(1, quantity - 1);
+//                       setQuantityInput(newVal.toString());
+//                     }}
+//                     disabled={isFormDisabled}
+//                     className="flex items-center justify-center h-full text-gray-600 transition-colors w-14 hover:text-[#006A4E] hover:bg-gray-50 disabled:opacity-50 focus:outline-none"
+//                   >
+//                     -
+//                   </button>
+
+//                   <input
+//                     type="text"
+//                     value={quantityInput}
+//                     onChange={handleInputChange}
+//                     onBlur={handleInputBlur}
+//                     disabled={isFormDisabled}
+//                     className="w-full h-full font-bold text-center text-gray-900 bg-transparent outline-none appearance-none focus:ring-0"
+//                   />
+
+//                   <button
+//                     onClick={() => {
+//                       const newVal = Math.min(product.stock, quantity + 1);
+//                       setQuantityInput(newVal.toString());
+//                     }}
+//                     disabled={isFormDisabled}
+//                     className="flex items-center justify-center h-full text-gray-600 transition-colors w-14 hover:text-[#006A4E] hover:bg-gray-50 disabled:opacity-50 focus:outline-none"
+//                   >
+//                     +
+//                   </button>
+//                 </div>
+
+//                 <div className="grid grid-cols-1 gap-4 mt-2 sm:grid-cols-2">
+//                   <button
+//                     onClick={handleAddToCart}
+//                     disabled={isFormDisabled}
+//                     className={`flex items-center justify-center h-14 rounded-xl text-sm md:text-base font-bold tracking-widest uppercase transition-all border-2 focus:outline-none ${
+//                       isOutOfStock
+//                         ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
+//                         : "bg-white border-[#006A4E] text-[#006A4E] hover:bg-emerald-50 active:scale-95"
+//                     }`}
+//                   >
+//                     Add to Cart
+//                   </button>
+
+//                   <button
+//                     onClick={handleBuyItNow}
+//                     disabled={isFormDisabled}
+//                     className={`flex items-center justify-center h-14 rounded-xl text-sm md:text-base font-bold tracking-widest uppercase transition-all focus:outline-none ${
+//                       isOutOfStock
+//                         ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+//                         : "bg-[#006A4E] text-white hover:bg-emerald-900 shadow-[0_4px_14px_0_rgba(0,106,78,0.39)] hover:-translate-y-0.5 active:scale-95"
+//                     }`}
+//                   >
+//                     {isBuyingNow ? "Memproses..." : isOutOfStock ? "Stok Habis" : "Buy it Now"}
+//                   </button>
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* ==============================================================
+//                 BAGIAN TAB (DESCRIPTION | HOW TO USE | FAQ | REVIEW) 
+//             ============================================================== */}
+//             <div className="mt-4">
+//               <div className="flex flex-wrap gap-2 pb-4 mb-6 border-b border-gray-100">
+//                 <button
+//                   onClick={() => setActiveTab("desc")}
+//                   className={`px-5 py-2.5 text-sm font-bold rounded-full transition-colors focus:outline-none ${
+//                     activeTab === "desc" ? "bg-[#006A4E] text-white" : "bg-emerald-50 text-[#006A4E] hover:bg-emerald-100"
+//                   }`}
+//                 >
+//                   Description
+//                 </button>
+//                 <button
+//                   onClick={() => setActiveTab("how-to-use")}
+//                   className={`px-5 py-2.5 text-sm font-bold rounded-full transition-colors focus:outline-none ${
+//                     activeTab === "how-to-use" ? "bg-[#006A4E] text-white" : "bg-emerald-50 text-[#006A4E] hover:bg-emerald-100"
+//                   }`}
+//                 >
+//                   How to Use
+//                 </button>
+//                 <button
+//                   onClick={() => setActiveTab("faq")}
+//                   className={`px-5 py-2.5 text-sm font-bold rounded-full transition-colors focus:outline-none ${
+//                     activeTab === "faq" ? "bg-[#006A4E] text-white" : "bg-emerald-50 text-[#006A4E] hover:bg-emerald-100"
+//                   }`}
+//                 >
+//                   FAQ
+//                 </button>
+//                 <button
+//                   onClick={() => setActiveTab("review")}
+//                   className={`px-5 py-2.5 text-sm font-bold rounded-full transition-colors focus:outline-none ${
+//                     activeTab === "review" ? "bg-[#006A4E] text-white" : "bg-emerald-50 text-[#006A4E] hover:bg-emerald-100"
+//                   }`}
+//                 >
+//                   Review
+//                 </button>
+//               </div>
+
+//               <div className="text-gray-600 prose-sm prose whitespace-pre-wrap sm:prose max-w-none min-h-[200px]">
+                
+//                 {/* KONTEN TAB: DESCRIPTION */}
+//                 {activeTab === "desc" && (
+//                   <div className="space-y-4 animate-fade-in-up">
+//                     {isEtherealBrush ? (
+//                       <>
+//                         <p>
+//                           Kenalin <strong>Ethereal Glow Brush</strong>, hairbrush anti-static dengan teknologi konduktif dan molekul karbon yang dirancang untuk membantu rambut terasa lebih halus, rapi, dan tampak berkilau setiap hari.
+//                         </p>
+//                         <p>
+//                           Dengan desain fleksibel yang mengikuti kontur kepala serta bulu sisir yang lembut di kulit kepala, pengalaman menyisir jadi terasa lebih nyaman tanpa rasa sakit atau tarikan berlebih.
+//                         </p>
+//                         <p>
+//                           Cocok untuk kamu yang ingin rambut tetap terlihat rapi di tengah aktivitas harian — tanpa perlu effort styling yang ribet.
+//                         </p>
+//                         <div className="pt-6 mt-8 border-t border-gray-100">
+//                           <h4 className="mb-4 font-bold text-gray-900 text-md">Kenapa Banyak yang Suka Ethereal Glow Brush?</h4>
+//                           <ul className="space-y-3 list-none">
+//                             <li className="flex gap-2"><span>✨</span> <div><strong>Anti-Static Technology:</strong> Membantu mengurangi rambut mengembang, kusut, dan sulit diatur.</div></li>
+//                             <li className="flex gap-2"><span>✨</span> <div><strong>Membantu Rambut Tampak Lebih Halus & Berkilau:</strong> Setiap sapuan sisir membantu merapikan rambut sekaligus meningkatkan kilau alami.</div></li>
+//                             <li className="flex gap-2"><span>✨</span> <div><strong>Flexible & Soft Bristles:</strong> Lembut di kulit kepala untuk membantu mengurangi rasa sakit dan rambut patah.</div></li>
+//                             <li className="flex gap-2"><span>✨</span> <div><strong>Spiral Comb Design:</strong> Desain spiral mengikuti bentuk kepala dengan lebih nyaman.</div></li>
+//                             <li className="flex gap-2"><span>✨</span> <div><strong>Eco-Friendly Material:</strong> Terbuat dari material Polylactic Acid Fiber yang ramah lingkungan.</div></li>
+//                           </ul>
+//                         </div>
+//                         <div className="grid grid-cols-1 gap-6 pt-6 mt-8 border-t border-gray-100 md:grid-cols-2">
+//                           <div>
+//                             <h4 className="mb-3 font-bold text-gray-900 text-md">Cocok Digunakan Untuk:</h4>
+//                             <ul className="space-y-1 list-disc list-inside">
+//                               <li>Rambut mudah kusut & mengembang</li>
+//                               <li>Rambut yang susah diatur</li>
+//                               <li>Penggunaan sehari-hari</li>
+//                               <li>Semua jenis rambut</li>
+//                             </ul>
+//                           </div>
+//                           <div>
+//                             <h4 className="mb-3 font-bold text-gray-900 text-md">Detail Produk:</h4>
+//                             <ul className="space-y-1 list-disc list-inside">
+//                               <li>Material: Carbon Molecule + Polylactic Acid Fiber</li>
+//                               <li>Size: 25 x 7 cm</li>
+//                               <li>Include: Premium Soft Box</li>
+//                             </ul>
+//                           </div>
+//                         </div>
+//                       </>
+//                     ) : isScalpCare ? (
+//                       <>
+//                         <p>
+//                           Kenalin <strong>Eco Serenity Scalp Care</strong>, scalp massager inovatif dari Gycora yang dirancang untuk membantu membersihkan kulit kepala sekaligus memberikan sensasi pijatan yang menenangkan setiap hari.
+//                         </p>
+//                         <p>
+//                           Dengan desain fleksibel dan 196 teeth dengan ukuran berbeda, Eco Serenity mampu menjangkau area kulit kepala secara lebih menyeluruh untuk membantu mengangkat kotoran, minyak berlebih, dan penumpukan pada kulit kepala tanpa rasa kasar atau iritasi.
+//                         </p>
+//                         <p>
+//                           Bukan cuma nyaman digunakan saat keramas, tapi juga cocok untuk relaksasi di tengah aktivitas yang padat.
+//                         </p>
+//                         <div className="pt-6 mt-8 border-t border-gray-100">
+//                           <h4 className="mb-4 font-bold text-gray-900 text-md">Kenapa Banyak yang Suka Eco Serenity Scalp Care?</h4>
+//                           <ul className="space-y-3 list-none">
+//                             <li className="flex gap-2"><span>✨</span> <div><strong>Triple-Fold Structure Design:</strong> Desain fleksibel yang mengikuti bentuk kepala untuk pijatan nyaman maksimal.</div></li>
+//                             <li className="flex gap-2"><span>✨</span> <div><strong>196 Flexible Teeth:</strong> Membantu membersihkan merata dan memberi sensasi relaxing.</div></li>
+//                             <li className="flex gap-2"><span>✨</span> <div><strong>Membantu Membersihkan Kulit Kepala Lebih Optimal:</strong> Mengangkat minyak dan penumpukan kotoran.</div></li>
+//                             <li className="flex gap-2"><span>✨</span> <div><strong>Relaxing Scalp Massage:</strong> Pijatan lembut bantu melancarkan sirkulasi kulit kepala.</div></li>
+//                             <li className="flex gap-2"><span>✨</span> <div><strong>Anti-Microbial Silver Ion:</strong> Teknologi ion perak menjaga kebersihan alat.</div></li>
+//                             <li className="flex gap-2"><span>✨</span> <div><strong>Ergonomic & Comfortable Grip:</strong> Nyaman digenggam dalam berbagai posisi.</div></li>
+//                             <li className="flex gap-2"><span>✨</span> <div><strong>Multifungsi:</strong> Cocok saat rambut kering (relaksasi) maupun saat keramas (pembersihan ekstra).</div></li>
+//                             <li className="flex gap-2"><span>✨</span> <div><strong>Eco-Friendly Material:</strong> Terbuat dari material yang dapat didaur ulang.</div></li>
+//                           </ul>
+//                         </div>
+//                         <div className="grid grid-cols-1 gap-6 pt-6 mt-8 border-t border-gray-100 md:grid-cols-2">
+//                           <div>
+//                             <h4 className="mb-3 font-bold text-gray-900 text-md">Cocok Digunakan Untuk:</h4>
+//                             <ul className="space-y-1 list-disc list-inside">
+//                               <li>Kulit kepala mudah berminyak</li>
+//                               <li>Kulit kepala dengan penumpukan kotoran</li>
+//                               <li>Pengalaman keramas yang lebih nyaman</li>
+//                               <li>Relaksasi ringan sehari-hari</li>
+//                               <li>Semua jenis rambut</li>
+//                             </ul>
+//                           </div>
+//                           <div>
+//                             <h4 className="mb-3 font-bold text-gray-900 text-md">Detail Produk:</h4>
+//                             <ul className="space-y-1 list-disc list-inside">
+//                               <li>Material: Recyclable Material</li>
+//                               <li>Technology: Anti-Microbial Silver Ion</li>
+//                               <li>Heat Resistance: Up to 80°C</li>
+//                             </ul>
+//                           </div>
+//                         </div>
+//                       </>
+//                     ) : (
+//                       isFetchingFull && !product.description ? (
+//                         <div className="space-y-2 animate-pulse">
+//                           <div className="w-full h-3 bg-gray-200 rounded"></div>
+//                           <div className="w-5/6 h-3 bg-gray-200 rounded"></div>
+//                           <div className="w-4/6 h-3 bg-gray-200 rounded"></div>
+//                         </div>
+//                       ) : (
+//                         product.description || <p className="italic text-gray-400">Deskripsi belum tersedia.</p>
+//                       )
+//                     )}
+//                   </div>
+//                 )}
+
+//                 {/* KONTEN TAB: HOW TO USE */}
+//                 {activeTab === "how-to-use" && (
+//                   <div className="space-y-4 animate-fade-in-up">
+//                     <h4 className="font-bold text-gray-900">Cara Penggunaan yang Tepat</h4>
+//                     {isEtherealBrush ? (
+//                       <ul className="space-y-2 list-decimal list-inside">
+//                         <li>Pastikan rambut dalam keadaan kering atau setengah kering (jangan basah kuyup).</li>
+//                         <li>Sisir perlahan dari bagian tengah atau ujung rambut terlebih dahulu untuk mengurai kusut.</li>
+//                         <li>Setelah bagian bawah rapi, lanjutkan menyisir dari akar hingga ke ujung rambut.</li>
+//                         <li>Gunakan setiap pagi atau kapan pun rambut terasa berantakan/statis.</li>
+//                       </ul>
+//                     ) : isScalpCare ? (
+//                       <ul className="space-y-2 list-decimal list-inside">
+//                         <li><strong>Saat Keramas:</strong> Aplikasikan sampo secara merata, gunakan Scalp Care dengan gerakan melingkar yang lembut untuk membersihkan kulit kepala.</li>
+//                         <li><strong>Saat Rambut Kering:</strong> Gunakan sebagai alat pijat relaksasi di sela-sela aktivitas harian dengan tekanan ringan.</li>
+//                         <li>Bilas Scalp Care dengan air bersih setelah penggunaan bersama produk perawatan rambut.</li>
+//                       </ul>
+//                     ) : (
+//                       <p className="italic text-gray-400">Panduan penggunaan belum tersedia untuk produk ini.</p>
+//                     )}
+//                   </div>
+//                 )}
+
+//                 {/* KONTEN TAB: FAQ */}
+//                 {activeTab === "faq" && (
+//                   <div className="space-y-6 animate-fade-in-up">
+//                     {isEtherealBrush ? (
+//                       <>
+//                         <div>
+//                           <h5 className="font-bold text-gray-900">Q: Apakah aman untuk rambut rontok?</h5>
+//                           <p className="mt-1">A: Ya, bulu sisirnya didesain lembut dan fleksibel sehingga meminimalisir tarikan yang bisa menyebabkan rambut patah/rontok.</p>
+//                         </div>
+//                         <div>
+//                           <h5 className="font-bold text-gray-900">Q: Bagaimana cara membersihkan sisir ini?</h5>
+//                           <p className="mt-1">A: Kamu bisa menggunakan sikat kecil untuk membuang helaian rambut, lalu lap permukaan sisir dengan kain basah/tisu basah. Hindari merendam di dalam air terlalu lama.</p>
+//                         </div>
+//                       </>
+//                     ) : isScalpCare ? (
+//                       <>
+//                         <div>
+//                           <h5 className="font-bold text-gray-900">Q: Apakah alat ini membuat rambut makin kusut saat keramas?</h5>
+//                           <p className="mt-1">A: Tidak, gunakan dengan gerakan memijat ke satu arah atau melingkar kecil. Hindari menggosok maju-mundur secara kasar agar rambut tetap rapi.</p>
+//                         </div>
+//                         <div>
+//                           <h5 className="font-bold text-gray-900">Q: Apakah aman untuk kulit kepala sensitif?</h5>
+//                           <p className="mt-1">A: Sangat aman. Silikon yang digunakan cukup fleksibel sehingga memberikan pijatan tanpa melukai kulit kepala.</p>
+//                         </div>
+//                       </>
+//                     ) : (
+//                       <p className="italic text-gray-400">Belum ada pertanyaan yang sering diajukan untuk produk ini.</p>
+//                     )}
+//                   </div>
+//                 )}
+                
+//                 {/* [BARU] KONTEN TAB: REVIEW (GABUNGAN API + STATIS) */}
+//                 {activeTab === "review" && (
+//                   <div className="space-y-6 animate-fade-in-up">
+//                     {activeReviews.length > 0 ? (
+//                       activeReviews.map((review, index) => (
+//                         <div key={index} className="pb-4 border-b border-gray-100">
+//                           <div className="flex items-center gap-2 mb-2">
+//                             {/* Rendering bintang berdasarkan property rating (default 5 jika kosong) */}
+//                             <div className="flex text-xs text-amber-400">
+//                               {[...Array(review.rating || 5)].map((_, i) => (
+//                                  <span key={i}>★</span>
+//                               ))}
+//                             </div>
+//                             <span className="font-bold text-gray-900">{review.name}</span>
+//                             {review.is_verified && (
+//                               <span className="px-2 py-0.5 ml-2 text-[10px] font-bold text-[#006A4E] bg-emerald-50 rounded-full">
+//                                 Verified Buyer
+//                               </span>
+//                             )}
+//                           </div>
+//                           <p className="text-gray-600 whitespace-pre-line">"{review.text}"</p>
+//                         </div>
+//                       ))
+//                     ) : (
+//                       <p className="italic text-gray-400">Belum ada ulasan untuk produk ini.</p>
+//                     )}
+                    
+//                     {activeReviews.length > 0 && (
+//                       <div className="mt-4 text-center">
+//                         <button className="text-sm font-bold text-[#006A4E] hover:underline focus:outline-none">
+//                           Lihat Semua Ulasan
+//                         </button>
+//                       </div>
+//                     )}
+//                   </div>
+//                 )}
+//               </div>
+//             </div>
+
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
 import { useState, useEffect, useMemo } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -10241,7 +11318,8 @@ interface Product {
 }
 
 export default function ProductDetail() {
-  const { id } = useParams<{ id: string }>();
+  // [PERBAIKAN] Hanya gunakan satu parameter yaitu slug
+  const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -10260,7 +11338,6 @@ export default function ProductDetail() {
   
   const [activeTab, setActiveTab] = useState("desc");
 
-  // [BARU] State untuk menampung review asli dari database
   const [apiReviews, setApiReviews] = useState<any[]>([]);
 
   const { fetchCart, cartItems, addCartItemOptimistically, revertCartItems } = useCart();
@@ -10300,7 +11377,8 @@ export default function ProductDetail() {
     const initialPassedData = location.state?.initialProduct;
     const allPassedProducts = location.state?.allProducts; 
 
-    if (initialPassedData && String(initialPassedData.id) === id) {
+    // [PERBAIKAN] Kondisi verifikasi menggunakan SLUG
+    if (initialPassedData && initialPassedData.slug === slug) {
       setProduct(initialPassedData);
       setLoading(false);
       
@@ -10332,24 +11410,15 @@ export default function ProductDetail() {
 
     const fetchProductAndSiblings = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/api/products/${id}`);
+        // [PERBAIKAN] Menembak endpoint menggunakan slug
+        const res = await fetch(`${BASE_URL}/api/products/${slug}`);
         if (!res.ok) throw new Error("Produk tidak ditemukan");
         const responseData = await res.json();
-
-        // if (isCurrentFetchValid) {
-        //   const productObject = responseData.data ? responseData.data : responseData;
-        //   setProduct(productObject);
-          
-        //   if (!allPassedProducts) {
-        //      await fetchSiblingColorsViaAPI(productObject.name);
-        //   }
-        // }
 
         if (isCurrentFetchValid) {
           const productObject = responseData.data ? responseData.data : responseData;
           setProduct(productObject);
           
-          // [PERBAIKAN] Validasi yang lebih ketat: Cek apakah data benar-benar ada dan panjangnya lebih dari 0
           if (!allPassedProducts || allPassedProducts.length === 0) {
              await fetchSiblingColorsViaAPI(productObject.name);
           }
@@ -10375,54 +11444,30 @@ export default function ProductDetail() {
         });
         if (res.ok) {
           const data = await res.json();
-          const isWished = data.some(
-            (item: any) => item.product_id === Number(id),
-          );
-          
-          if (isCurrentFetchValid) setIsFavorited(isWished);
+          // Hati-hati, wishlist menggunakan ID produk!
+          // Periksa apakah product saat ini sudah di-set
+          if (product && isCurrentFetchValid) {
+            const isWished = data.some(
+              (item: any) => item.product_id === product.id,
+            );
+            setIsFavorited(isWished);
+          }
         }
       } catch (error) {
         if (isCurrentFetchValid) console.error("Gagal memeriksa wishlist:", error);
       }
     };
 
-    // [BARU] Fungsi mengambil review asli dari database
-    // const fetchReviews = async () => {
-    //   try {
-    //     // Sesuaikan URL endpoint ini jika struktur API Review Anda berbeda. 
-    //     // Biasa: GET /api/reviews?product_id={id} atau GET /api/products/{id}/reviews
-    //     // const res = await fetch(`${BASE_URL}/api/reviews?product_id=${id}`, {
-    //     //     headers: { Accept: "application/json" }
-    //     // });
-
-    //     const res = await fetch(`${BASE_URL}/api/products/${id}/reviews`, {
-    //         headers: { Accept: "application/json" }
-    //     });
-    //     if (res.ok) {
-    //         const data = await res.json();
-    //         if (isCurrentFetchValid) {
-    //             // Ambil data array review (tergantung bentuk json response laravel Anda)
-    //             const reviewsArr = data.data ? data.data : data; 
-    //             setApiReviews(reviewsArr);
-    //         }
-    //     }
-    //   } catch (error) {
-    //     console.error("Gagal menarik data ulasan asli:", error);
-    //   }
-    // };
-
-    // [BARU] Fungsi mengambil review asli dari database
+    // [PERBAIKAN] Endpoint Reviews disesuaikan agar menerima parameter $slug
     const fetchReviews = async () => {
       try {
-        // [PERBAIKAN] Disesuaikan dengan endpoint Route::get('/products/{product}/reviews')
-        const res = await fetch(`${BASE_URL}/api/products/${id}/reviews`, {
+        const res = await fetch(`${BASE_URL}/api/products/${slug}/reviews`, {
             headers: { Accept: "application/json" }
         });
         
         if (res.ok) {
             const data = await res.json();
             if (isCurrentFetchValid) {
-                // [PERBAIKAN] Mengambil dari key 'reviews' sesuai controller Backend Anda
                 const reviewsArr = data.reviews ? data.reviews : []; 
                 setApiReviews(reviewsArr);
             }
@@ -10432,7 +11477,7 @@ export default function ProductDetail() {
       }
     };
 
-    if (id) {
+    if (slug) {
       Promise.all([fetchProductAndSiblings(), checkWishlistStatus(), fetchReviews()]).finally(
         () => {
           if (isCurrentFetchValid) {
@@ -10446,8 +11491,7 @@ export default function ProductDetail() {
     return () => {
       isCurrentFetchValid = false;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, navigate]);
+  }, [slug, navigate, product]); // [PERBAIKAN] Tambahkan 'product' dan 'slug' sebagai dependency
 
   const handleToggleWishlist = async () => {
     const token = localStorage.getItem("user_token");
@@ -10476,7 +11520,7 @@ export default function ProductDetail() {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
         },
-        body: JSON.stringify({ product_id: product?.id }),
+        body: JSON.stringify({ product_id: product?.id }), // Tetap menggunakan ID ke API
       });
       if (!res.ok) throw new Error("Gagal");
     } catch (error) {
@@ -10598,7 +11642,7 @@ export default function ProductDetail() {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        product_id: product?.id,
+        product_id: product?.id, // Tetap ID yang dikirim ke Backend
         quantity: quantity,
         color: null,
       }),
@@ -10726,12 +11770,10 @@ export default function ProductDetail() {
   const isEtherealBrush = product.name.toLowerCase().includes("ethereal glow brush");
   const isScalpCare = product.name.toLowerCase().includes("scalp");
 
-  // [BARU] Gabungkan ulasan asli dari user dengan ulasan statis/dummy
-  // Kita map ulasan asli agar struktur object-nya sama dengan ulasan dummy.
   const formattedApiReviews = apiReviews.map((r: any) => ({
       name: r.user?.first_name ? `${r.user.first_name} ${r.user.last_name || ''}` : "Gycora Customer",
       text: r.comment,
-      rating: r.rating || 5, // fallback ke 5 jika tidak ada sistem rating
+      rating: r.rating || 5, 
       is_verified: true
   }));
 
@@ -10749,7 +11791,6 @@ export default function ProductDetail() {
 
   const staticReviews = isEtherealBrush ? brushReviews : isScalpCare ? scalpReviews : [];
   
-  // Array Final yang akan di render: Ulasan User Asli ditaruh di urutan Paling Atas, disusul dummy.
   const activeReviews = [...formattedApiReviews, ...staticReviews];
 
   return (
@@ -10908,7 +11949,8 @@ export default function ProductDetail() {
                           onClick={() => {
                             if (!isCurrentProduct) {
                               window.scrollTo({ top: 0, behavior: "smooth" });
-                              navigate(`/product/${sibling.id}`, {
+                              // [PERBAIKAN] Mengarahkan menggunakan slug
+                              navigate(`/product/${sibling.slug}`, {
                                 state: { 
                                   initialProduct: sibling,
                                   allProducts: location.state?.allProducts

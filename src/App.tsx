@@ -158,7 +158,8 @@ export default function App() {
               <Route path="/profile" element={<UserProfile />} />
               {/* Rute Produk */}
               <Route path="/products" element={<PublicCatalog />} />
-              <Route path="/product/:id" element={<ProductDetail />} />
+              {/* <Route path="/product/:id" element={<ProductDetail />} /> */}
+              <Route path="/product/:slug" element={<ProductDetail />} />
               <Route path="/contact" element={<ContactUs />} />
               <Route path="/orders" element={<OrderPage />} />
               <Route path="/legal/privacy" element={<PrivacyPolicy />} />
