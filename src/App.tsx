@@ -258,7 +258,7 @@ export default function App() {
                 }
               />
               <Route
-                path="/admin/products/:id/edit"
+                path="/admin/products/:slug/edit"
                 element={
                   <AdminLayout>
                     <EditProduct />
@@ -266,7 +266,7 @@ export default function App() {
                 }
               />
               <Route
-                path="/admin/products/:id"
+                path="/admin/products/:slug"
                 element={
                   <AdminLayout>
                     <AdminProductDetail />
