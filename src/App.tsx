@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Home from "./pages/user/Home";
+import HomePage from "./pages/user/HomePage";
 import { CartProvider } from "./context/CartContext";
 import UserLogin from "./pages/user/auth/UserLogin";
 import UserRegister from "./pages/user/auth/UserRegister";
@@ -149,7 +149,7 @@ export default function App() {
                 {/* ========================================== */}
                 {/* RUTE USER PUBLIK & AUTENTIKASI */}
                 {/* ========================================== */}
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<UserLogin />} />
                 <Route path="/register" element={<UserRegister />} />
 
