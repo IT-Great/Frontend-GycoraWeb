@@ -8426,11 +8426,15 @@ import { useCart } from "../context/CartContext";
 import logoGycora from "../assets/gycora_logo.png";
 import { BASE_URL } from "../config/api";
 
-// Fungsi untuk Set Cookie
-const setCookie = (name: string, value: string, days: number) => {
+// --- FUNGSI HELPER UNTUK MENGATUR COOKIE BAHASA (DIPERBAIKI) ---
+const setCookie = (name: string, value: string, days: number, domain?: string) => {
   const expires = new Date();
   expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+  let cookieString = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+  if (domain) {
+    cookieString += `;domain=${domain}`;
+  }
+  document.cookie = cookieString;
 };
 
 // Fungsi untuk Ambil Nilai Cookie
@@ -8461,7 +8465,7 @@ export default function Header() {
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const langDropdownRef = useRef<HTMLDivElement>(null);
   
-  // Baca bahasa saat ini (dari Cookie atau LocalStorage)
+  // Baca bahasa saat ini (dari Cookie)
   const currentGoogTrans = getCookie("googtrans");
   const initLang = currentGoogTrans === "/id/en" ? "en" : "id";
   const [currentLang, setCurrentLang] = useState<"id" | "en">(initLang);
@@ -8517,8 +8521,6 @@ export default function Header() {
 
   // --- EFEK UNTUK MENG-INJECT GOOGLE TRANSLATE ---
   useEffect(() => {
-    // Hanya inject skrip jika cookie menyatakan butuh bahasa Inggris
-    // atau jika belum pernah diinject sama sekali
     if (!document.getElementById("google-translate-script")) {
       const gTranslateContainer = document.createElement("div");
       gTranslateContainer.id = "google_translate_element";
@@ -8542,21 +8544,17 @@ export default function Header() {
     }
   }, []);
 
-  // --- HANDLER UBAH BAHASA (100% AMAN DARI REACT CRASH) ---
+  // --- HANDLER UBAH BAHASA (AMAN) ---
   const handleLanguageChange = (lang: "id" | "en") => {
     if (lang === currentLang) {
       setIsLangMenuOpen(false);
       return;
     }
     
-    // Setel cookie untuk Google Translate
-    // Jika Inggris, maka /id/en. Jika Indonesia, bisa di-set ke /id/id (atau kosongkan untuk reset)
     if (lang === "en") {
       setCookie("googtrans", "/id/en", 30); 
-      // Penting juga set untuk subdomain jika web Anda di hosting (misal vercel)
       setCookie("googtrans", "/id/en", 30, window.location.hostname); 
     } else {
-      // Hapus cookie untuk mengembalikan ke bahasa asli
       document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname};`;
     }
@@ -8565,7 +8563,7 @@ export default function Header() {
     localStorage.setItem("app_lang", lang);
     setIsLangMenuOpen(false);
     
-    // Reload halaman. React akan merender dari awal dengan cookie bahasa yang baru
+    // Reload halaman untuk terapkan terjemahan
     window.location.reload(); 
   };
 
