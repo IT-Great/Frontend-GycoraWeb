@@ -753,20 +753,48 @@ interface GycoraEvent {
 }
 
 // [BARU] Fungsi utilitas untuk menembak API terjemahan publik (Gratis, tanpa Auth)
+// const translateText = async (text: string, langTo: string): Promise<string> => {
+//   if (!text) return "";
+//   try {
+//     // Menggunakan API publik MyMemory (Gratis 500 kata/hari)
+//     const response = await fetch(
+//       `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=id|${langTo}`
+//     );
+//     const data = await response.json();
+//     if (data && data.responseData && data.responseData.translatedText) {
+//       return data.responseData.translatedText;
+//     }
+//     return text; // Fallback ke teks asli jika error/limit habis
+//   } catch (error) {
+//     console.error("Gagal menerjemahkan teks dari API:", error);
+//     return text;
+//   }
+// };
+
+// Fungsi utilitas untuk translasi teks dinamis dari API secara real-time
 const translateText = async (text: string, langTo: string): Promise<string> => {
   if (!text) return "";
   try {
-    // Menggunakan API publik MyMemory (Gratis 500 kata/hari)
+    // Tambahkan parameter email Anda di &de= untuk menambah limit gratis harian
     const response = await fetch(
-      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=id|${langTo}`
+      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=id|${langTo}&de=admin@gycora.com`
     );
     const data = await response.json();
+    
     if (data && data.responseData && data.responseData.translatedText) {
-      return data.responseData.translatedText;
+      const translated = data.responseData.translatedText;
+      
+      // Deteksi jika API mengirimkan pesan warning karena limit habis
+      if (translated.includes("MYMEMORY WARNING")) {
+        console.warn("Limit API Translate habis, fallback ke teks asli.");
+        return text; // Tampilkan teks asli agar web tidak rusak
+      }
+      
+      return translated;
     }
-    return text; // Fallback ke teks asli jika error/limit habis
+    return text;
   } catch (error) {
-    console.error("Gagal menerjemahkan teks dari API:", error);
+    console.error("Gagal menerjemahkan teks API:", error);
     return text;
   }
 };
