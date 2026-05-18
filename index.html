@@ -51,7 +51,7 @@
   </body>
 </html> -->
 
-<!doctype html>
+<!-- <!doctype html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
@@ -65,6 +65,48 @@
       #google_translate_element { display: none !important; }
       font { background-color: transparent !important; box-shadow: none !important; }
     </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html> -->
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/src/assets/gycora_logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gycora - Produk Fashion Premium & Berkualitas</title>
+    
+    <style>
+      body { top: 0 !important; }
+      .skiptranslate { display: none !important; }
+      #google_translate_element { display: none !important; }
+      font { background-color: transparent !important; box-shadow: none !important; }
+    </style>
+
+    <script>
+      if (typeof Node === 'function' && Node.prototype) {
+        const originalRemoveChild = Node.prototype.removeChild;
+        Node.prototype.removeChild = function(child) {
+          if (child.parentNode !== this) {
+            if (console) { console.warn('Pencegahan Crash React vs Google Translate'); }
+            return child;
+          }
+          return originalRemoveChild.apply(this, arguments);
+        };
+        const originalInsertBefore = Node.prototype.insertBefore;
+        Node.prototype.insertBefore = function(newNode, referenceNode) {
+          if (referenceNode && referenceNode.parentNode !== this) {
+            if (console) { console.warn('Pencegahan Crash React vs Google Translate'); }
+            return newNode;
+          }
+          return originalInsertBefore.apply(this, arguments);
+        };
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
