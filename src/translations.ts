@@ -549,6 +549,18 @@ export const translations = {
     about_closing_title: "Self-Care yang Lebih Simpel, untuk Hari-Hari yang Lebih Nyaman",
     about_closing_p1: "Karena kami percaya, rasa percaya diri sering dimulai dari perhatian kecil untuk diri sendiri.",
     about_closing_p2: "Dan Gycora ingin menjadi bagian dari perjalanan itu 🤍",
+
+    // EVENT PAGE [BARU]
+    event_header_title: "Temui Gycora Secara Langsung",
+    event_header_desc1: "Datang dan rasakan langsung pengalaman mencoba produk Gycora di berbagai event dan pop-up market pilihan kami.",
+    event_header_desc2: "Temukan promo spesial, produk favorit, dan pengalaman belanja yang lebih personal bersama Gycora.",
+    upcoming_events_title: "Upcoming Event!",
+    no_upcoming_events: "Belum ada event mendatang. Stay tuned!",
+    visit_event: "Visit Event",
+    upcoming_label: "Upcoming",
+    past_events_title: "Past Events",
+    past_event_label: "Past Event",
+    no_event_image: "Gambar Event Belum Tersedia",
   },
   en: {
     // Nav Menu
@@ -704,6 +716,18 @@ export const translations = {
     about_closing_title: "Simpler Self-Care, for More Comfortable Days",
     about_closing_p1: "Because we believe, confidence often starts from small attention to oneself.",
     about_closing_p2: "And Gycora wants to be part of that journey 🤍",
+
+    // EVENT PAGE [BARU]
+    event_header_title: "Meet Gycora in Person",
+    event_header_desc1: "Come and directly experience trying Gycora products at our selected events and pop-up markets.",
+    event_header_desc2: "Discover special promos, favorite products, and a more personal shopping experience with Gycora.",
+    upcoming_events_title: "Upcoming Events!",
+    no_upcoming_events: "No upcoming events yet. Stay tuned!",
+    visit_event: "Visit Event",
+    upcoming_label: "Upcoming",
+    past_events_title: "Past Events",
+    past_event_label: "Past Event",
+    no_event_image: "Event Image Not Available",
   }
 };
 
