@@ -2394,11 +2394,323 @@
 //   );
 // }
 
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+// import { useState, useEffect, useRef } from "react";
+// import { useNavigate } from "react-router-dom";
+// import Swal from "sweetalert2";
+// import { BASE_URL } from "../../config/api";
+
+// const IconAcne = () => (
+//   <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+//   </svg>
+// );
+// const IconHair = () => (
+//   <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+//   </svg>
+// );
+// const IconSkin = () => (
+//   <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+//   </svg>
+// );
+// const IconBeard = () => (
+//   <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+//   </svg>
+// );
+
+// const consultationCategories = [
+//   { id: 1, title: "Jerawat Remaja", icon: <IconAcne /> },
+//   { id: 2, title: "Jerawat Dewasa", icon: <IconAcne /> },
+//   { id: 3, title: "Kebotakan", icon: <IconHair /> },
+//   { id: 4, title: "Rambut Rontok", icon: <IconHair /> },
+//   { id: 5, title: "Penumbuh Brewok", icon: <IconBeard /> },
+//   { id: 6, title: "Kulit Kusam", icon: <IconSkin /> },
+//   { id: 7, title: "Bekas Jerawat", icon: <IconAcne /> },
+//   { id: 8, title: "Ketombe", icon: <IconHair /> },
+// ];
+
+// export default function ConsultWithUs() {
+//   const navigate = useNavigate();
+  
+//   // Refs untuk navigasi scroll
+//   const categorySectionRef = useRef<HTMLDivElement>(null);
+//   const storeSectionRef = useRef<HTMLDivElement>(null);
+
+//   const [userData] = useState<any>(() => {
+//     const storedUser = localStorage.getItem("user_data");
+//     return storedUser ? JSON.parse(storedUser) : null;
+//   });
+
+//   const [isLoading, setIsLoading] = useState(true);
+//   const ADMIN_WA_NUMBER = "6289517999768";
+
+//   useEffect(() => {
+//     const fetchLandingData = async () => {
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/landing-page/consult`);
+//         if (res.ok) {
+//           // const data = await res.json();
+//           // setClinicTreatments(data.treatments || []);
+//           // setOtcProducts(data.otc_products || []);
+//         }
+//       } catch (e) {
+//         console.error(e);
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     };
+//     fetchLandingData();
+//   }, []);
+
+//   const handleStartConsultation = async (category: string) => {
+//     if (!userData) {
+//       Swal.fire({
+//         title: "Login Diperlukan",
+//         text: "Silakan login atau daftar terlebih dahulu untuk memulai konsultasi.",
+//         icon: "info",
+//         showCancelButton: true,
+//         confirmButtonColor: "#059669",
+//         confirmButtonText: "Login Sekarang",
+//       }).then((result) => {
+//         if (result.isConfirmed) navigate("/login");
+//       });
+//       return;
+//     }
+
+//     const { value: formValues } = await Swal.fire({
+//       title: `<span class="text-xl font-extrabold text-gray-900">Konsultasi ${category}</span>`,
+//       html: `
+//         <div class="text-left mt-4 space-y-4">
+//           <div>
+//             <label class="block mb-1 text-sm font-bold text-gray-700">Metode Konsultasi</label>
+//             <select id="swal-type" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gycora outline-none transition-all">
+//               <option value="Chat WhatsApp">Chat WhatsApp</option>
+//               <option value="Video Call WhatsApp">Video Call WhatsApp</option>
+//             </select>
+//           </div>
+//           <div>
+//             <label class="block mb-1 text-sm font-bold text-gray-700">Pilih Jadwal (Tgl & Waktu)</label>
+//             <input type="datetime-local" id="swal-time" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gycora outline-none transition-all" />
+//           </div>
+//           <div>
+//             <label class="block mb-1 text-sm font-bold text-gray-700">Keluhan Singkat</label>
+//             <textarea id="swal-notes" rows="3" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gycora outline-none resize-none transition-all" placeholder="Ceritakan detail keluhan Anda (Opsional)..."></textarea>
+//           </div>
+//         </div>
+//       `,
+//       customClass: {
+//         popup: "rounded-3xl p-6",
+//         confirmButton: "rounded-xl px-8 py-3 text-sm tracking-wider font-bold",
+//         cancelButton: "rounded-xl px-8 py-3 text-sm font-bold",
+//       },
+//       focusConfirm: false,
+//       showCancelButton: true,
+//       confirmButtonText: "Lanjutkan ke WhatsApp",
+//       cancelButtonText: "Batal",
+//       confirmButtonColor: "#059669",
+//       preConfirm: () => {
+//         const time = (document.getElementById("swal-time") as HTMLInputElement).value;
+//         if (!time) {
+//           Swal.showValidationMessage("Harap lengkapi jadwal konsultasi!");
+//           return false;
+//         }
+//         return {
+//           type: (document.getElementById("swal-type") as HTMLSelectElement).value,
+//           time: time,
+//           notes: (document.getElementById("swal-notes") as HTMLTextAreaElement).value,
+//         };
+//       },
+//     });
+
+//     if (formValues) {
+//       const token = localStorage.getItem("user_token");
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/consultation/log`, {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//             Authorization: `Bearer ${token}`,
+//           },
+//           body: JSON.stringify({
+//             category_title: category,
+//             consultation_type: formValues.type,
+//             consultation_time: formValues.time,
+//             notes: formValues.notes,
+//           }),
+//         });
+
+//         if (res.ok) {
+//           const dateFormatted = new Date(formValues.time).toLocaleString("id-ID", { dateStyle: "full", timeStyle: "short" });
+//           const waMessage = `Halo Gycora Clinic, saya ${userData.first_name}.\n\nSaya ingin melakukan *${formValues.type}* mengenai keluhan *${category}*.\nJadwal Pengajuan: *${dateFormatted}*\nKeluhan: ${formValues.notes || "-"}\n\nMohon konfirmasinya. Terima kasih.`;
+//           const waUrl = `https://wa.me/${ADMIN_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+
+//           Swal.fire({
+//             title: "Mengalihkan...",
+//             text: "Membuka WhatsApp untuk melanjutkan konsultasi Anda.",
+//             icon: "success",
+//             timer: 2000,
+//             showConfirmButton: false,
+//           }).then(() => {
+//             window.open(waUrl, "_blank");
+//           });
+//         } else {
+//           throw new Error("Gagal mengirim.");
+//         }
+//       } catch (err) {
+//         Swal.fire("Error", "Gagal mengirim permintaan.", "error");
+//       }
+//     }
+//   };
+
+//   if (isLoading)
+//     return (
+//       <div className="flex items-center justify-center min-h-screen">
+//         <div className="w-12 h-12 border-4 rounded-full border-emerald-200 border-t-gycora animate-spin"></div>
+//       </div>
+//     );
+
+//   return (
+//     <div className="pb-20 font-sans bg-white">
+      
+//       {/* ================= SECTION 1: HEADING (HERO) ================= */}
+//       <div className="relative py-20 md:py-32 bg-[#F4F9F6] overflow-hidden border-b border-gray-100">
+//         <div className="absolute top-0 right-0 -mt-20 -mr-20 bg-[#006A4E] rounded-full pointer-events-none w-96 h-96 opacity-[0.03] blur-3xl"></div>
+//         <div className="absolute bottom-0 left-0 -mb-20 -ml-20 bg-[#006A4E] rounded-full pointer-events-none w-80 h-80 opacity-[0.03] blur-2xl"></div>
+
+//         <div className="relative z-10 max-w-4xl px-6 mx-auto text-center lg:px-8 animate-fade-in-up">
+//           <h1 className="text-4xl font-black leading-tight tracking-tight text-[#006A4E] sm:text-5xl md:text-6xl drop-shadow-sm">
+//             Perawatan yang Tepat Dimulai dari Konsultasi yang Nyaman
+//           </h1>
+//           <p className="max-w-2xl mx-auto mt-6 text-base text-gray-600 md:text-xl">
+//             Cerita tentang kebutuhan rambutmu dan biarkan tim Gycora membantu menemukan solusi yang paling sesuai untuk rutinitas harianmu.
+//           </p>
+//         </div>
+//       </div>
+
+//       {/* ================= SECTION 2: PILIH KONSULTASI ================= */}
+//       <div className="py-24 border-b border-gray-100 bg-gray-50">
+//         <div className="px-6 mx-auto max-w-7xl lg:px-8">
+//           <div className="mb-16 text-center">
+//             <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+//               Pilih Cara Konsultasi yang Paling Nyaman
+//             </h2>
+//           </div>
+          
+//           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+//             {/* Card Konsultasi Online */}
+//             <div className="flex flex-col h-full p-8 transition-shadow bg-white border border-gray-200 shadow-sm rounded-3xl hover:shadow-md">
+//               <h3 className="mb-4 text-2xl font-extrabold text-[#006A4E]">
+//                 Konsultasi Online
+//               </h3>
+//               <p className="flex-grow mb-8 leading-relaxed text-gray-600">
+//                 Konsultasikan kondisi rambut dan kulit kepala secara online dengan tim Gycora tanpa perlu datang langsung. Praktis, cepat, dan bisa dilakukan dari mana aja.
+//               </p>
+//               <button
+//                 onClick={() => categorySectionRef.current?.scrollIntoView({ behavior: "smooth" })}
+//                 className="w-full py-4 text-sm font-bold tracking-widest uppercase transition-all bg-transparent border-2 rounded-xl text-[#006A4E] border-[#006A4E] hover:bg-[#006A4E] hover:text-white"
+//               >
+//                 Mulai Konsultasi Online
+//               </button>
+//             </div>
+
+//             {/* Card Visit In Store */}
+//             <div className="flex flex-col h-full p-8 transition-shadow bg-white border border-gray-200 shadow-sm rounded-3xl hover:shadow-md">
+//               <h3 className="mb-4 text-2xl font-extrabold text-[#006A4E]">
+//                 Visit In Store
+//               </h3>
+//               <p className="flex-grow mb-8 leading-relaxed text-gray-600">
+//                 Coba langsung produk favorit Gycora dan dapatkan pengalaman konsultasi secara langsung di booth atau store kami. Lebih personal dan nyaman untuk eksplor kebutuhanmu.
+//               </p>
+//               <button
+//                 onClick={() => storeSectionRef.current?.scrollIntoView({ behavior: "smooth" })}
+//                 className="w-full py-4 text-sm font-bold tracking-widest uppercase transition-all bg-transparent border-2 rounded-xl text-[#006A4E] border-[#006A4E] hover:bg-[#006A4E] hover:text-white"
+//               >
+//                 Lihat Lokasi Store
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+
+//        {/* ================= SECTION 3: RELATABLE PROBLEM ================= */}
+//       <div className="py-20 bg-white border-b border-gray-100">
+//         <div className="max-w-4xl px-6 mx-auto text-center lg:px-8">
+//           <h2 className="mb-6 text-3xl font-extrabold leading-tight text-gray-900 sm:text-4xl">
+//             Kami Paham, Kadang Sulit Menentukan Produk yang Cocok
+//           </h2>
+//           <div className="space-y-4 text-base text-gray-600 md:text-lg">
+//             <p>
+//               Setiap orang punya kebutuhan rambut yang berbeda.
+//             </p>
+//             <p>
+//               Mulai dari rambut mudah kusut, sulit diatur, kulit kepala berminyak, hingga rutinitas yang padat dan nggak punya banyak waktu untuk styling.
+//             </p>
+//             <p className="font-medium text-gray-900">
+//               Karena itu, kami hadir untuk membantu kamu menemukan solusi yang lebih sesuai dan nyaman digunakan setiap hari.
+//             </p>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* ================= SECTION 4: WHAT YOU CAN CONSULT (CATEGORIES) ================= */}
+//       <div ref={categorySectionRef} className="px-6 py-24 mx-auto bg-white border-b border-gray-100 max-w-7xl lg:px-8">
+//         <div className="mb-12 text-center">
+//           <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+//             Kamu Bisa Konsultasi Tentang:
+//           </h2>
+//         </div>
+
+//         <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4">
+//           {consultationCategories.map((category) => (
+//             <div
+//               key={category.id}
+//               onClick={() => handleStartConsultation(category.title)}
+//               className="flex flex-col items-center p-6 text-center transition-all border border-gray-100 cursor-pointer bg-gray-50 rounded-3xl hover:border-gycora hover:bg-white hover:shadow-xl hover:-translate-y-1 group"
+//             >
+//               <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 transition-colors bg-white border border-gray-100 rounded-full group-hover:bg-emerald-50">
+//                 {category.icon}
+//               </div>
+//               <p className="text-sm font-bold text-gray-900 transition-colors group-hover:text-gycora">
+//                 {category.title}
+//               </p>
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+
+//       {/* ================= SECTION 5: CTA (CLOSING) ================= */}
+//       <div className="relative py-24 overflow-hidden bg-gray-900">
+//         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
+
+//         <div className="relative max-w-4xl px-6 mx-auto text-center lg:px-8">
+//           <h2 className="text-3xl font-extrabold text-white sm:text-4xl md:text-5xl">
+//             Mulai Konsultasi dengan Gycora ✨
+//           </h2>
+//           <p className="mt-6 mb-10 text-lg leading-relaxed text-gray-400">
+//             Karena self-care terasa lebih nyaman ketika kamu tahu apa yang benar-benar dibutuhkan rambutmu.
+//           </p>
+//           <button
+//             onClick={() => categorySectionRef.current?.scrollIntoView({ behavior: "smooth" })}
+//             className="px-10 py-4 text-lg font-bold text-gray-900 transition-all bg-[#D4FF32] rounded-full hover:bg-[#bce520] hover:shadow-lg hover:shadow-[#D4FF32]/20 hover:-translate-y-0.5"
+//           >
+//             Hubungi Kami Sekarang
+//           </button>
+//         </div>
+//       </div>
+      
+//     </div>
+//   );
+// }
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { BASE_URL } from "../../config/api";
+import { useLanguage } from "../../context/LanguageContext"; // [BARU] Import Language Context
 
 const IconAcne = () => (
   <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -2421,26 +2733,9 @@ const IconBeard = () => (
   </svg>
 );
 
-const consultationCategories = [
-  { id: 1, title: "Jerawat Remaja", icon: <IconAcne /> },
-  { id: 2, title: "Jerawat Dewasa", icon: <IconAcne /> },
-  { id: 3, title: "Kebotakan", icon: <IconHair /> },
-  { id: 4, title: "Rambut Rontok", icon: <IconHair /> },
-  { id: 5, title: "Penumbuh Brewok", icon: <IconBeard /> },
-  { id: 6, title: "Kulit Kusam", icon: <IconSkin /> },
-  { id: 7, title: "Bekas Jerawat", icon: <IconAcne /> },
-  { id: 8, title: "Ketombe", icon: <IconHair /> },
-];
-
-// import logoShopee from "../../assets/shopee.png";
-// import logoTokopedia from "../../assets/tokopedia.png";
-// import logoTiktok from "../../assets/tiktok.png";
-// import logoInstagram from "../../assets/instagram.png";
-
-// const mediaLogos = [logoShopee, logoTokopedia, logoTiktok, logoInstagram];
-
 export default function ConsultWithUs() {
   const navigate = useNavigate();
+  const { t } = useLanguage(); // [BARU] Inisialisasi hook bahasa
   
   // Refs untuk navigasi scroll
   const categorySectionRef = useRef<HTMLDivElement>(null);
@@ -2451,43 +2746,20 @@ export default function ConsultWithUs() {
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
-  // const [activeFaq, setActiveFaq] = useState<number | null>(null);
-  // const [clinicTreatments, setClinicTreatments] = useState<any[]>([]);
-  // const [otcProducts, setOtcProducts] = useState<any[]>([]);
-  
-  // const [faqs] = useState<any[]>([
-  //   {
-  //     q: "Apa itu Ethereal Glow Brush?",
-  //     a: "Ethereal Glow Brush adalah hairbrush anti-static dengan teknologi konduktif dan molekul karbon yang membantu rambut terasa lebih halus, rapi, dan mudah diatur dalam sekali sisir."
-  //   },
-  //   {
-  //     q: "Apakah bulu sisir Ethereal Glow Brush sakit di kulit kepala?",
-  //     a: "Tidak. Bulu sisir dirancang fleksibel dan lembut untuk memberikan pengalaman menyisir yang lebih nyaman tanpa rasa sakit atau tarikan berlebih pada rambut."
-  //   },
-  //   {
-  //     q: "Apa manfaat menggunakan Eco Serenity Scalp Care?",
-  //     a: "Scalp massager membantu membersihkan kulit kepala lebih optimal, membantu mengurangi penumpukan minyak dan kotoran, serta memberikan efek relaksasi yang menenangkan."
-  //   },
-  //   {
-  //     q: "Apakah Eco Serenity bisa digunakan saat rambut kering?",
-  //     a: "Bisa. Selain saat keramas untuk pembersihan maksimal, Eco Serenity juga sangat nyaman digunakan untuk pijatan relaksasi pada kulit kepala saat rambut dalam kondisi kering."
-  //   },
-  //   {
-  //     q: "Apakah produk Gycora original?",
-  //     a: "Ya. Seluruh produk yang dijual melalui official store Gycora merupakan produk 100% original dan telah melalui standar kualitas yang ketat."
-  //   },
-  //   {
-  //     q: "Apakah tersedia pengiriman ke seluruh Indonesia?",
-  //     a: "Ya, Gycora melayani pengiriman ke seluruh wilayah Indonesia menggunakan berbagai pilihan ekspedisi yang tersedia."
-  //   },
-  //   {
-  //     q: "Bagaimana jika produk diterima dalam kondisi rusak?",
-  //     a: "Silakan hubungi tim customer support kami maksimal 1x24 jam setelah produk diterima dengan menyertakan video unboxing dan foto produk untuk proses klaim."
-  //   }
-  // ]);
-
   const [isLoading, setIsLoading] = useState(true);
   const ADMIN_WA_NUMBER = "6289517999768";
+
+  // [BARU] Pindahkan daftar kategori ke dalam komponen agar fungsi t() bisa merender ulang data
+  const consultationCategories = [
+    { id: 1, title: t("cat_teen_acne"), icon: <IconAcne /> },
+    { id: 2, title: t("cat_adult_acne"), icon: <IconAcne /> },
+    { id: 3, title: t("cat_baldness"), icon: <IconHair /> },
+    { id: 4, title: t("cat_hair_loss"), icon: <IconHair /> },
+    { id: 5, title: t("cat_beard_growth"), icon: <IconBeard /> },
+    { id: 6, title: t("cat_dull_skin"), icon: <IconSkin /> },
+    { id: 7, title: t("cat_acne_scars"), icon: <IconAcne /> },
+    { id: 8, title: t("cat_dandruff"), icon: <IconHair /> },
+  ];
 
   useEffect(() => {
     const fetchLandingData = async () => {
@@ -2510,12 +2782,13 @@ export default function ConsultWithUs() {
   const handleStartConsultation = async (category: string) => {
     if (!userData) {
       Swal.fire({
-        title: "Login Diperlukan",
-        text: "Silakan login atau daftar terlebih dahulu untuk memulai konsultasi.",
+        title: t("login_required"),
+        text: t("login_consult_desc"),
         icon: "info",
         showCancelButton: true,
         confirmButtonColor: "#059669",
-        confirmButtonText: "Login Sekarang",
+        confirmButtonText: t("login_now"),
+        cancelButtonText: t("cancel")
       }).then((result) => {
         if (result.isConfirmed) navigate("/login");
       });
@@ -2523,23 +2796,23 @@ export default function ConsultWithUs() {
     }
 
     const { value: formValues } = await Swal.fire({
-      title: `<span class="text-xl font-extrabold text-gray-900">Konsultasi ${category}</span>`,
+      title: `<span class="text-xl font-extrabold text-gray-900">${t("swal_consult_title")} ${category}</span>`,
       html: `
         <div class="text-left mt-4 space-y-4">
           <div>
-            <label class="block mb-1 text-sm font-bold text-gray-700">Metode Konsultasi</label>
+            <label class="block mb-1 text-sm font-bold text-gray-700">${t("swal_method_label")}</label>
             <select id="swal-type" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gycora outline-none transition-all">
               <option value="Chat WhatsApp">Chat WhatsApp</option>
               <option value="Video Call WhatsApp">Video Call WhatsApp</option>
             </select>
           </div>
           <div>
-            <label class="block mb-1 text-sm font-bold text-gray-700">Pilih Jadwal (Tgl & Waktu)</label>
+            <label class="block mb-1 text-sm font-bold text-gray-700">${t("swal_schedule_label")}</label>
             <input type="datetime-local" id="swal-time" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gycora outline-none transition-all" />
           </div>
           <div>
-            <label class="block mb-1 text-sm font-bold text-gray-700">Keluhan Singkat</label>
-            <textarea id="swal-notes" rows="3" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gycora outline-none resize-none transition-all" placeholder="Ceritakan detail keluhan Anda (Opsional)..."></textarea>
+            <label class="block mb-1 text-sm font-bold text-gray-700">${t("swal_notes_label")}</label>
+            <textarea id="swal-notes" rows="3" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gycora outline-none resize-none transition-all" placeholder="${t("swal_notes_placeholder")}"></textarea>
           </div>
         </div>
       `,
@@ -2550,13 +2823,13 @@ export default function ConsultWithUs() {
       },
       focusConfirm: false,
       showCancelButton: true,
-      confirmButtonText: "Lanjutkan ke WhatsApp",
-      cancelButtonText: "Batal",
+      confirmButtonText: t("btn_continue_wa"),
+      cancelButtonText: t("cancel"),
       confirmButtonColor: "#059669",
       preConfirm: () => {
         const time = (document.getElementById("swal-time") as HTMLInputElement).value;
         if (!time) {
-          Swal.showValidationMessage("Harap lengkapi jadwal konsultasi!");
+          Swal.showValidationMessage(t("swal_validation_time"));
           return false;
         }
         return {
@@ -2590,8 +2863,8 @@ export default function ConsultWithUs() {
           const waUrl = `https://wa.me/${ADMIN_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;
 
           Swal.fire({
-            title: "Mengalihkan...",
-            text: "Membuka WhatsApp untuk melanjutkan konsultasi Anda.",
+            title: t("swal_redirect_title"),
+            text: t("swal_redirect_desc"),
             icon: "success",
             timer: 2000,
             showConfirmButton: false,
@@ -2599,101 +2872,13 @@ export default function ConsultWithUs() {
             window.open(waUrl, "_blank");
           });
         } else {
-          throw new Error("Gagal mengirim.");
+          throw new Error(t("swal_send_fail"));
         }
       } catch (err) {
-        Swal.fire("Error", "Gagal mengirim permintaan.", "error");
+        Swal.fire(t("error"), t("swal_req_fail"), "error");
       }
     }
   };
-
-  // const handleBookAppointment = async (treatment: any) => {
-  //   if (!userData) {
-  //     Swal.fire("Login Diperlukan", "Silakan login untuk membuat janji temu.", "info");
-  //     navigate("/login");
-  //     return;
-  //   }
-
-  //   const { value: formValues } = await Swal.fire({
-  //     title: `<span class="text-xl font-extrabold text-gray-900">Reservasi Klinik</span>`,
-  //     html: `
-  //       <div class="text-left mt-4 space-y-4">
-  //         <div class="p-4 bg-emerald-50 border border-emerald-100 rounded-xl mb-2">
-  //           <p class="text-xs text-emerald-600 font-bold uppercase tracking-widest mb-1">Treatment Pilihan</p>
-  //           <p class="text-sm font-black text-gray-900">${treatment.title}</p>
-  //         </div>
-  //         <div>
-  //           <label class="block mb-1 text-sm font-bold text-gray-700">Pilih Tanggal & Waktu Kedatangan</label>
-  //           <input id="swal-date" type="datetime-local" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gycora outline-none transition-all" />
-  //         </div>
-  //         <div>
-  //           <label class="block mb-1 text-sm font-bold text-gray-700">Alasan Kunjungan</label>
-  //           <textarea id="swal-reason" rows="3" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gycora outline-none resize-none transition-all" placeholder="Sebutkan detail keluhan/permintaan Anda..."></textarea>
-  //         </div>
-  //       </div>
-  //     `,
-  //     customClass: {
-  //       popup: "rounded-3xl p-6",
-  //       confirmButton: "rounded-xl px-8 py-3 text-sm tracking-wider font-bold",
-  //       cancelButton: "rounded-xl px-8 py-3 text-sm font-bold",
-  //     },
-  //     showCancelButton: true,
-  //     confirmButtonText: "Konfirmasi Janji",
-  //     cancelButtonText: "Batal",
-  //     confirmButtonColor: "#059669",
-  //     preConfirm: () => {
-  //       const time = (document.getElementById("swal-date") as HTMLInputElement).value;
-  //       const reason = (document.getElementById("swal-reason") as HTMLTextAreaElement).value;
-  //       if (!time || !reason) {
-  //         Swal.showValidationMessage("Harap lengkapi tanggal dan alasan.");
-  //         return false;
-  //       }
-  //       return { time, reason };
-  //     },
-  //   });
-
-  //   if (formValues) {
-  //     const token = localStorage.getItem("user_token");
-  //     try {
-  //       const res = await fetch(`${BASE_URL}/api/clinic/appointment`, {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         body: JSON.stringify({
-  //           treatment_id: treatment.id,
-  //           appointment_time: formValues.time,
-  //           reason: formValues.reason,
-  //         }),
-  //       });
-  //       if (res.ok) {
-  //         Swal.fire({
-  //           title: "Sukses",
-  //           text: "Jadwal Anda telah tercatat. Menunggu konfirmasi admin.",
-  //           icon: "success",
-  //           customClass: { popup: "rounded-3xl" },
-  //         });
-  //       } else {
-  //         throw new Error("Gagal membuat janji.");
-  //       }
-  //     } catch (err) {
-  //       Swal.fire("Error", "Gagal membuat janji temu.", "error");
-  //     }
-  //   }
-  // };
-
-  // const toggleFaq = (index: number) => {
-  //   setActiveFaq(activeFaq === index ? null : index);
-  // };
-
-  // const formatRupiah = (angka: number) => {
-  //   return new Intl.NumberFormat("id-ID", {
-  //     style: "currency",
-  //     currency: "IDR",
-  //     minimumFractionDigits: 0,
-  //   }).format(angka || 0);
-  // };
 
   if (isLoading)
     return (
@@ -2703,7 +2888,7 @@ export default function ConsultWithUs() {
     );
 
   return (
-    <div className="pb-20 font-sans bg-white">
+    <div className="pb-20 font-sans bg-white animate-fade-in">
       
       {/* ================= SECTION 1: HEADING (HERO) ================= */}
       <div className="relative py-20 md:py-32 bg-[#F4F9F6] overflow-hidden border-b border-gray-100">
@@ -2712,10 +2897,10 @@ export default function ConsultWithUs() {
 
         <div className="relative z-10 max-w-4xl px-6 mx-auto text-center lg:px-8 animate-fade-in-up">
           <h1 className="text-4xl font-black leading-tight tracking-tight text-[#006A4E] sm:text-5xl md:text-6xl drop-shadow-sm">
-            Perawatan yang Tepat Dimulai dari Konsultasi yang Nyaman
+            {t("consult_hero_title")}
           </h1>
           <p className="max-w-2xl mx-auto mt-6 text-base text-gray-600 md:text-xl">
-            Cerita tentang kebutuhan rambutmu dan biarkan tim Gycora membantu menemukan solusi yang paling sesuai untuk rutinitas harianmu.
+            {t("consult_hero_desc")}
           </p>
         </div>
       </div>
@@ -2725,7 +2910,7 @@ export default function ConsultWithUs() {
         <div className="px-6 mx-auto max-w-7xl lg:px-8">
           <div className="mb-16 text-center">
             <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-              Pilih Cara Konsultasi yang Paling Nyaman
+              {t("consult_methods_title")}
             </h2>
           </div>
           
@@ -2733,32 +2918,32 @@ export default function ConsultWithUs() {
             {/* Card Konsultasi Online */}
             <div className="flex flex-col h-full p-8 transition-shadow bg-white border border-gray-200 shadow-sm rounded-3xl hover:shadow-md">
               <h3 className="mb-4 text-2xl font-extrabold text-[#006A4E]">
-                Konsultasi Online
+                {t("consult_online_title")}
               </h3>
               <p className="flex-grow mb-8 leading-relaxed text-gray-600">
-                Konsultasikan kondisi rambut dan kulit kepala secara online dengan tim Gycora tanpa perlu datang langsung. Praktis, cepat, dan bisa dilakukan dari mana aja.
+                {t("consult_online_desc")}
               </p>
               <button
                 onClick={() => categorySectionRef.current?.scrollIntoView({ behavior: "smooth" })}
                 className="w-full py-4 text-sm font-bold tracking-widest uppercase transition-all bg-transparent border-2 rounded-xl text-[#006A4E] border-[#006A4E] hover:bg-[#006A4E] hover:text-white"
               >
-                Mulai Konsultasi Online
+                {t("btn_start_online")}
               </button>
             </div>
 
             {/* Card Visit In Store */}
             <div className="flex flex-col h-full p-8 transition-shadow bg-white border border-gray-200 shadow-sm rounded-3xl hover:shadow-md">
               <h3 className="mb-4 text-2xl font-extrabold text-[#006A4E]">
-                Visit In Store
+                {t("consult_store_title")}
               </h3>
               <p className="flex-grow mb-8 leading-relaxed text-gray-600">
-                Coba langsung produk favorit Gycora dan dapatkan pengalaman konsultasi secara langsung di booth atau store kami. Lebih personal dan nyaman untuk eksplor kebutuhanmu.
+                {t("consult_store_desc")}
               </p>
               <button
                 onClick={() => storeSectionRef.current?.scrollIntoView({ behavior: "smooth" })}
                 className="w-full py-4 text-sm font-bold tracking-widest uppercase transition-all bg-transparent border-2 rounded-xl text-[#006A4E] border-[#006A4E] hover:bg-[#006A4E] hover:text-white"
               >
-                Lihat Lokasi Store
+                {t("btn_view_location")}
               </button>
             </div>
           </div>
@@ -2769,18 +2954,12 @@ export default function ConsultWithUs() {
       <div className="py-20 bg-white border-b border-gray-100">
         <div className="max-w-4xl px-6 mx-auto text-center lg:px-8">
           <h2 className="mb-6 text-3xl font-extrabold leading-tight text-gray-900 sm:text-4xl">
-            Kami Paham, Kadang Sulit Menentukan Produk yang Cocok
+            {t("consult_problem_title")}
           </h2>
           <div className="space-y-4 text-base text-gray-600 md:text-lg">
-            <p>
-              Setiap orang punya kebutuhan rambut yang berbeda.
-            </p>
-            <p>
-              Mulai dari rambut mudah kusut, sulit diatur, kulit kepala berminyak, hingga rutinitas yang padat dan nggak punya banyak waktu untuk styling.
-            </p>
-            <p className="font-medium text-gray-900">
-              Karena itu, kami hadir untuk membantu kamu menemukan solusi yang lebih sesuai dan nyaman digunakan setiap hari.
-            </p>
+            <p>{t("consult_problem_p1")}</p>
+            <p>{t("consult_problem_p2")}</p>
+            <p className="font-medium text-gray-900">{t("consult_problem_p3")}</p>
           </div>
         </div>
       </div>
@@ -2789,7 +2968,7 @@ export default function ConsultWithUs() {
       <div ref={categorySectionRef} className="px-6 py-24 mx-auto bg-white border-b border-gray-100 max-w-7xl lg:px-8">
         <div className="mb-12 text-center">
           <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-            Kamu Bisa Konsultasi Tentang:
+            {t("consult_categories_title")}
           </h2>
         </div>
 
@@ -2811,137 +2990,22 @@ export default function ConsultWithUs() {
         </div>
       </div>
 
-      {/* ================= SIGNATURE CLINIC TREATMENTS ================= */}
-      {/* <div ref={storeSectionRef} className="py-24 bg-gray-900">
-        <div className="px-6 mx-auto max-w-7xl lg:px-8">
-          <div className="mb-12">
-            <h2 className="mb-2 text-3xl font-bold text-white">Signature Clinic Treatments</h2>
-            <p className="text-gray-400">Perawatan eksklusif langsung di klinik dengan teknologi mutakhir.</p>
-          </div>
-
-          <div className="flex gap-6 pb-8 overflow-x-auto snap-x snap-mandatory no-scrollbar">
-            {clinicTreatments.map((t) => (
-              <div key={t.id} className="flex flex-col min-w-[280px] w-[280px] bg-white rounded-3xl overflow-hidden shadow-2xl snap-center shrink-0">
-                <img src={t.image_url} alt={t.title} className="object-cover w-full bg-gray-100 h-52" />
-                <div className="flex flex-col flex-1 p-6">
-                  <h4 className="flex-1 mb-2 text-lg font-bold text-gray-900 line-clamp-2">{t.title}</h4>
-                  <p className="mb-6 font-black text-gycora">Rp {parseInt(t.price).toLocaleString("id-ID")}</p>
-                  <button
-                    onClick={() => handleBookAppointment(t)}
-                    className="w-full py-3 font-bold text-white transition-colors bg-gray-900 rounded-xl hover:bg-black"
-                  >
-                    Buat Janji Temu
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div> */}
-
-      {/* ================= OTC / ESSENTIALS PRODUCTS ================= */}
-      {/* <div className="py-24 bg-white border-b border-gray-100">
-        <div className="px-6 mx-auto max-w-7xl lg:px-8">
-          <div className="flex flex-col justify-between gap-4 mb-12 md:flex-row md:items-end">
-            <div>
-              <h2 className="mb-2 text-3xl font-bold text-gray-900">Skip Konsultasi dengan Gycora Essentials</h2>
-              <p className="text-gray-500">Skincare harian (Bebas Beli) yang aman digunakan tanpa resep dokter.</p>
-            </div>
-            <Link to="/products" className="text-sm font-bold transition-colors text-gycora hover:text-gycora-dark">
-              Lihat Semua Produk &rarr;
-            </Link>
-          </div>
-
-          <div className="flex gap-6 pb-8 overflow-x-auto snap-x snap-mandatory no-scrollbar">
-            {otcProducts.map((product) => (
-              <div key={product.id} className="flex flex-col min-w-[240px] w-[240px] overflow-hidden transition-colors bg-white border border-gray-200 snap-center shrink-0 rounded-3xl hover:border-gycora group">
-                <div className="relative flex items-center justify-center p-4 aspect-square bg-gray-50">
-                  <div className="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">
-                    PROMO
-                  </div>
-                  <img src={product.image_url || product.image} alt={product.name || product.title} className="object-contain w-full h-full transition-transform duration-500 group-hover:scale-105" />
-                </div>
-                <div className="flex flex-col flex-1 p-5 border-t border-gray-100">
-                  <h3 className="flex-1 mb-2 text-sm font-bold text-gray-900 line-clamp-2 group-hover:text-gycora">{product.name || product.title}</h3>
-                  <div className="flex items-center gap-2 mb-4">
-                    <span className="text-lg font-black text-gycora">{formatRupiah(product.price)}</span>
-                  </div>
-                  <button
-                    onClick={() => navigate("/products")}
-                    className="w-full py-2.5 text-xs font-bold transition-colors border rounded-xl text-gycora-dark bg-emerald-50 border-emerald-200 hover:bg-gycora hover:text-white"
-                  >
-                    Beli Langsung
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div> */}
-
-      {/* ================= MEDIA COVERAGE / PARTNERS ================= */}
-      {/* <div className="py-12 border-b border-gray-200 bg-gray-50">
-        <div className="px-6 mx-auto max-w-7xl lg:px-8">
-          <h3 className="mb-8 text-sm font-bold tracking-widest text-center text-gray-400 uppercase">Tersedia Juga Di</h3>
-          <div className="flex flex-wrap items-center justify-center gap-8 transition-all duration-500 md:gap-16 opacity-70 grayscale hover:grayscale-0">
-            {mediaLogos.map((logo, idx) => (
-              <img key={idx} src={logo} alt="Partner Logo" className="object-contain h-8 md:h-12" />
-            ))}
-          </div>
-        </div>
-      </div> */}
-
-      {/* ================= FAQ SECTION ================= */}
-      {/* <div className="py-24 bg-white">
-        <div className="max-w-3xl px-6 mx-auto lg:px-8">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-extrabold text-gray-900">Kamu Tanya, Kami Jawab</h2>
-            <p className="text-gray-500">Pertanyaan yang paling sering diajukan oleh pelanggan kami.</p>
-          </div>
-
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <div key={index} className="overflow-hidden transition-all duration-300 border border-gray-200 rounded-2xl">
-                <button
-                  onClick={() => toggleFaq(index)}
-                  className="flex items-center justify-between w-full p-5 text-left transition-colors bg-white hover:bg-gray-50 focus:outline-none"
-                >
-                  <span className="pr-4 text-sm font-bold text-gray-900 md:text-base">{faq.q}</span>
-                  <svg className={`w-5 h-5 text-gycora transform transition-transform duration-300 shrink-0 ${activeFaq === index ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                <div className={`px-5 text-gray-600 text-sm leading-relaxed transition-all duration-300 ease-in-out bg-gray-50 ${activeFaq === index ? "max-h-40 py-5 border-t border-gray-100 opacity-100" : "max-h-0 py-0 opacity-0 pointer-events-none"}`}>
-                  {faq.a}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-12 text-center">
-            <button onClick={() => navigate("/help-center")} className="text-sm font-bold transition-colors text-gycora hover:text-gycora-dark hover:underline">
-              Lihat Pusat Bantuan Lengkap &rarr;
-            </button>
-          </div>
-        </div>
-      </div> */}
-
       {/* ================= SECTION 5: CTA (CLOSING) ================= */}
       <div className="relative py-24 overflow-hidden bg-gray-900">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
 
         <div className="relative max-w-4xl px-6 mx-auto text-center lg:px-8">
           <h2 className="text-3xl font-extrabold text-white sm:text-4xl md:text-5xl">
-            Mulai Konsultasi dengan Gycora ✨
+            {t("consult_cta_title")}
           </h2>
           <p className="mt-6 mb-10 text-lg leading-relaxed text-gray-400">
-            Karena self-care terasa lebih nyaman ketika kamu tahu apa yang benar-benar dibutuhkan rambutmu.
+            {t("consult_cta_desc")}
           </p>
           <button
             onClick={() => categorySectionRef.current?.scrollIntoView({ behavior: "smooth" })}
             className="px-10 py-4 text-lg font-bold text-gray-900 transition-all bg-[#D4FF32] rounded-full hover:bg-[#bce520] hover:shadow-lg hover:shadow-[#D4FF32]/20 hover:-translate-y-0.5"
           >
-            Hubungi Kami Sekarang
+            {t("btn_contact_now")}
           </button>
         </div>
       </div>
