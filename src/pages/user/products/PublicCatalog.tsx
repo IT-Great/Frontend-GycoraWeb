@@ -1,3 +1,5 @@
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // import { useState, useEffect } from "react";
@@ -1472,7 +1474,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { BASE_URL } from "../../../config/api";
 import { useCart } from "../../../context/CartContext";
-import { useLanguage } from "../../../context/LanguageContext"; // [BARU] Import Language Context
+import { useLanguage } from "../../../context/LanguageContext";
 
 interface Product {
   id: number;
@@ -1484,54 +1486,57 @@ interface Product {
   benefits?: string;
   price: number;
   discount_price?: number;
-  voucher_discount_price?: number;
   stock: number;
   image_url: string;
   variant_images?: string[];
   variant_video?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   color?: any; 
-  // [BARU] Field terjemahan dinamis
+  // Field tambahan untuk hasil translasi
   name_en?: string;
   category_en?: string;
 }
 
-// [BARU] Fungsi utilitas translasi API
+// Fungsi utilitas untuk translasi teks dinamis dari API secara real-time
 const translateText = async (text: string, langTo: string): Promise<string> => {
-  if (!text) return "";
+  if (!text || langTo === "id") return text;
   try {
-    const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=id|${langTo}&de=admin@gycora.com`);
-    const data = await res.json();
+    // Menambahkan &de=admin@gycora.com untuk meningkatkan kuota gratis harian
+    const response = await fetch(
+      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=id|${langTo}&de=admin@gycora.com`
+    );
+    const data = await response.json();
     if (data?.responseData?.translatedText && !data.responseData.translatedText.includes("MYMEMORY WARNING")) {
       return data.responseData.translatedText;
     }
     return text;
-  } catch { return text; }
+  } catch (error) {
+    console.error("Gagal menerjemahkan teks:", error);
+    return text;
+  }
 };
 
 export default function PublicCatalog() {
   const navigate = useNavigate();
-  const { t, lang } = useLanguage(); // [BARU] Inisialisasi hook bahasa
+  const { t, lang } = useLanguage();
   const { fetchCart } = useCart() as any;
   
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [wishlistIds, setWishlistIds] = useState<number[]>([]);
-
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("Semua");
-  const [sortBy] = useState("name_asc"); 
   const [addingToCartId, setAddingToCartId] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true);
       try {
         const res = await fetch(`${BASE_URL}/api/products`);
         if (!res.ok) throw new Error("Gagal mengambil data produk");
         const responseData = await res.json();
         let productsArray = (responseData.data ? responseData.data : responseData) || [];
 
-        // [BARU] Translasi dinamis jika bahasa Inggris
+        // Translasi data dinamis jika bahasa Inggris
         if (lang === "en") {
           productsArray = await Promise.all(productsArray.map(async (p: Product) => ({
             ...p,
@@ -1546,33 +1551,104 @@ export default function PublicCatalog() {
         setLoading(false);
       }
     };
+
+    const fetchWishlists = async () => {
+      const token = localStorage.getItem("user_token");
+      if (!token) return; 
+      try {
+        const res = await fetch(`${BASE_URL}/api/wishlists`, {
+          headers: { Authorization: `Bearer ${token}`, Accept: "application/json" }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setWishlistIds(data.map((item: any) => item.product_id));
+        }
+      } catch (error) {
+        console.error("Gagal mengambil wishlist:", error);
+      }
+    };
+
     fetchProducts();
-  }, [lang]); // [BARU] Re-fetch jika bahasa berubah
+    fetchWishlists();
+  }, [lang]); // Re-fetch saat bahasa berubah
 
-  // ... (fungsi handleToggleWishlist & handleQuickAddToCart tetap sama) ...
+  const formatRupiah = (angka: number) => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    }).format(angka);
+  };
 
-  const categories = [t("cat_all"), ...Array.from(new Set(products.map((p) => lang === "en" ? (p.category_en || p.category_name) : p.category_name).filter(Boolean)))];
+  const handleToggleWishlist = async (e: React.MouseEvent, productId: number) => {
+    e.preventDefault(); 
+    const token = localStorage.getItem("user_token");
+    if (!token) {
+      Swal.fire({
+        title: t("login_required"),
+        text: t("login_required_desc"),
+        icon: "info",
+        confirmButtonText: t("to_login_page")
+      }).then((result) => { if (result.isConfirmed) navigate("/login"); });
+      return;
+    }
+
+    const isWished = wishlistIds.includes(productId);
+    isWished ? setWishlistIds(prev => prev.filter(id => id !== productId)) : setWishlistIds(prev => [...prev, productId]);
+
+    try {
+      await fetch(`${BASE_URL}/api/wishlists/toggle`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}`, "Accept": "application/json" },
+        body: JSON.stringify({ product_id: productId })
+      });
+    } catch (error) {
+      isWished ? setWishlistIds(prev => [...prev, productId]) : setWishlistIds(prev => prev.filter(id => id !== productId));
+    }
+  };
+
+  const handleQuickAddToCart = async (e: React.MouseEvent, product: Product) => {
+    e.preventDefault();
+    const token = localStorage.getItem("user_token");
+    if (!token) { navigate("/login"); return; }
+
+    let hasVariants = product.color && (typeof product.color === 'string' ? product.color !== "[]" : product.color.length > 0);
+    if (hasVariants) { navigate(`/product/${product.slug}`); return; }
+
+    setAddingToCartId(product.id);
+    try {
+      const res = await fetch(`${BASE_URL}/api/carts`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ product_id: product.id, quantity: 1 }),
+      });
+      if (res.ok) {
+        Swal.fire({ title: t("added_to_cart"), icon: "success", toast: true, position: "top-end", timer: 1500, showConfirmButton: false });
+        if(fetchCart) fetchCart();
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setAddingToCartId(null);
+    }
+  };
+
+  const categories = useMemo(() => [t("cat_all"), ...Array.from(new Set(products.map((p) => lang === "en" ? (p.category_en || p.category_name) : p.category_name).filter(Boolean)))], [products, lang, t]);
 
   const processedProducts = useMemo(() => {
-    return products
-      .filter((p) => {
+    return products.filter((p) => {
         const catName = lang === "en" ? (p.category_en || p.category_name) : p.category_name;
         const name = lang === "en" ? (p.name_en || p.name) : p.name;
         const matchCategory = activeCategory === t("cat_all") || catName === activeCategory;
         const matchSearch = name.toLowerCase().includes(searchQuery.toLowerCase());
         return matchCategory && matchSearch;
-      })
-      .sort((a, b) => {
-        const nameA = lang === "en" ? (a.name_en || a.name) : a.name;
-        const nameB = lang === "en" ? (b.name_en || b.name) : b.name;
-        if (sortBy === "name_asc") return nameA.localeCompare(nameB);
-        return b.id - a.id; 
       });
-  }, [products, activeCategory, searchQuery, sortBy, lang, t]);
+  }, [products, activeCategory, searchQuery, lang, t]);
 
   return (
     <div className="min-h-screen font-sans bg-gray-50/50">
       <div className="relative py-20 overflow-hidden text-center bg-gray-900 border-b border-gray-800">
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
         <div className="relative z-10 px-4">
           <h1 className="text-4xl font-extrabold tracking-tight text-white md:text-5xl">{t("banner_title")}</h1>
           <p className="max-w-2xl mx-auto mt-4 text-gray-300">{t("banner_desc")}</p>
@@ -1583,11 +1659,7 @@ export default function PublicCatalog() {
         <div className="flex flex-col gap-6 mb-10 md:flex-row md:items-center md:justify-between">
           <div className="flex gap-2 pb-2 overflow-x-auto no-scrollbar md:pb-0">
             {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-5 py-2 text-xs font-bold tracking-widest uppercase transition-all whitespace-nowrap rounded-full border ${activeCategory === cat ? "bg-gray-900 text-white border-gray-900 shadow-md" : "bg-white text-gray-600 border-gray-200 hover:border-gycora hover:text-gycora"}`}
-              >
+              <button key={cat} onClick={() => setActiveCategory(cat)} className={`px-5 py-2 text-xs font-bold tracking-widest uppercase transition-all whitespace-nowrap rounded-full border ${activeCategory === cat ? "bg-gray-900 text-white border-gray-900 shadow-md" : "bg-white text-gray-600 border-gray-200 hover:border-gycora hover:text-gycora"}`}>
                 {cat}
               </button>
             ))}
@@ -1597,8 +1669,51 @@ export default function PublicCatalog() {
           </div>
         </div>
 
-        {/* ... (bagian grid produk gunakan variabel 'name' dan 'category_name' yang sudah dipetakan ke name_en/category_en) ... */}
-        {/* Contoh pemetaan: <h3 className="...">{lang === "en" ? (product.name_en || product.name) : product.name}</h3> */}
+        {loading ? (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 animate-pulse">
+            {[...Array(8)].map((_, i) => <div key={i} className="aspect-[4/5] bg-gray-200 rounded-2xl"></div>)}
+          </div>
+        ) : processedProducts.length === 0 ? (
+          <div className="py-20 text-center bg-white border border-gray-100 border-dashed rounded-3xl">
+            <h3 className="text-xl font-bold text-gray-700">{t("no_product_found")}</h3>
+            <p className="mt-2 text-gray-500">{t("no_product_desc")}</p>
+            <button onClick={() => {setSearchQuery(""); setActiveCategory(t("cat_all"));}} className="mt-6 text-sm font-bold text-gycora hover:underline">{t("reset_filter")}</button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {processedProducts.map((product) => {
+              const isWished = wishlistIds.includes(product.id);
+              const isAdding = addingToCartId === product.id;
+              
+              return (
+                <Link key={product.id} to={`/product/${product.slug}`} state={{ initialProduct: product, allProducts: products }} className="relative flex flex-col overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-sm group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1">
+                  <div className="relative aspect-[4/5] bg-gray-50 overflow-hidden">
+                    <img src={product.image_url} alt={product.name} className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" />
+                    <div className="absolute flex flex-col gap-2 top-3 left-3">
+                      <span className="px-2 py-1 text-[10px] font-bold tracking-widest text-gray-900 uppercase rounded-md shadow-sm bg-white/90 backdrop-blur-sm">{product.category_name}</span>
+                      {product.stock < 5 && product.stock > 0 && <span className="px-2 py-1 text-[10px] font-bold tracking-widest text-white uppercase rounded-md shadow-sm bg-red-500">{t("stock_warning", { stock: product.stock.toString() })}</span>}
+                      {product.stock === 0 && <span className="px-2 py-1 text-[10px] font-bold tracking-widest text-white uppercase rounded-md shadow-sm bg-gray-900">{t("status_out_of_stock")}</span>}
+                    </div>
+                    <button onClick={(e) => handleToggleWishlist(e, product.id)} className="absolute z-10 flex items-center justify-center w-10 h-10 transition-colors bg-white rounded-full shadow-md top-3 right-3 hover:bg-gray-50">
+                      <svg viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-5 h-5 ${isWished ? "fill-red-500 text-red-500" : "fill-none text-gray-400"}`}><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
+                    </button>
+                    <div className="absolute left-0 right-0 px-4 transition-all duration-300 translate-y-full opacity-0 bottom-4 group-hover:translate-y-0 group-hover:opacity-100">
+                      <button disabled={product.stock === 0 || isAdding} onClick={(e) => handleQuickAddToCart(e, product)} className="w-full py-3 text-xs font-bold tracking-widest text-gray-900 uppercase transition-colors bg-white shadow-xl rounded-xl hover:bg-gycora hover:text-white">
+                        {isAdding ? t("btn_processing") : (product.color && product.color.length > 0) ? t("btn_choose_variant") : t("btn_add_to_cart")}
+                      </button>
+                    </div>
+                  </div>
+                  <div className="flex flex-col flex-grow p-5 bg-white">
+                    <h3 className="mb-1 text-sm font-bold text-gray-900 truncate group-hover:text-gycora">{lang === "en" ? (product.name_en || product.name) : product.name}</h3>
+                    <div className="pt-3 mt-auto">
+                      <p className="text-lg font-black text-gray-900">{formatRupiah(product.price)}</p>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
