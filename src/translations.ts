@@ -912,6 +912,12 @@ export const translations = {
     stock_warning: "Sisa {stock}!",
     status_out_of_stock: "Habis",
     no_image_text: "Belum ada gambar",
+
+    // CHAT PAGE [BARU]
+    chat_title: "Hubungi Pakar Kami",
+    chat_subtitle: "Pilih dokter atau staf Gycora untuk memulai konsultasi real-time.",
+    chat_empty_msg: "Mulai obrolan Anda di sini...",
+    chat_input_placeholder: "Ketik pesan...",
   },
   en: {
     // Nav Menu
@@ -1435,6 +1441,12 @@ export const translations = {
     stock_warning: "Only {stock} left!",
     status_out_of_stock: "Out of Stock",
     no_image_text: "No image available",
+
+    // CHAT PAGE [BARU]
+    chat_title: "Contact Our Experts",
+    chat_subtitle: "Choose a Gycora doctor or staff to start a real-time consultation.",
+    chat_empty_msg: "Start your conversation here...",
+    chat_input_placeholder: "Type a message...",
   },
 };
 
