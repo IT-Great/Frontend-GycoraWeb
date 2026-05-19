@@ -895,6 +895,23 @@ export const translations = {
     cart_tax_shipping_note: "Pajak & pengiriman dihitung saat checkout.",
     btn_checkout: "Checkout ({count})",
     cart_processing: "Memproses...",
+
+    cat_all: "Semua",
+    banner_title: "Temukan Favoritmu di Gycora",
+    banner_desc:
+      "Dari hair brush hingga scalp care, eksplor produk pilihan yang bikin rutinitas rambut terasa lebih praktis setiap hari.",
+    search_prod_placeholder: "Cari produk...",
+    no_product_found: "Produk tidak ditemukan",
+    no_product_desc:
+      "Coba ubah kata kunci pencarian atau filter kategori Anda.",
+    reset_filter: "Reset Filter",
+    variant_label_old: "Lama",
+    variant_label_new: "Baru",
+    btn_add_to_cart: "Tambah ke Keranjang",
+    btn_processing: "Memproses...",
+    stock_warning: "Sisa {stock}!",
+    status_out_of_stock: "Habis",
+    no_image_text: "Belum ada gambar",
   },
   en: {
     // Nav Menu
@@ -1402,6 +1419,22 @@ export const translations = {
     cart_tax_shipping_note: "Tax & shipping calculated at checkout.",
     btn_checkout: "Checkout ({count})",
     cart_processing: "Processing...",
+
+    cat_all: "All",
+    banner_title: "Find Your Favorites at Gycora",
+    banner_desc:
+      "From hair brushes to scalp care, explore selected products that make your hair routine more practical every day.",
+    search_prod_placeholder: "Search products...",
+    no_product_found: "Product not found",
+    no_product_desc: "Try changing your search keywords or category filters.",
+    reset_filter: "Reset Filter",
+    variant_label_old: "Old",
+    variant_label_new: "New",
+    btn_add_to_cart: "Add to Cart",
+    btn_processing: "Processing...",
+    stock_warning: "Only {stock} left!",
+    status_out_of_stock: "Out of Stock",
+    no_image_text: "No image available",
   },
 };
 
