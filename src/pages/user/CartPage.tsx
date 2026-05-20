@@ -3685,6 +3685,7 @@ import { useLanguage } from "../../context/LanguageContext"; // [BARU] Import Co
 interface CartItem {
   id: number;
   product_id: number;
+  product_slug: string
   product: Product;
   quantity: number;
   gross_amount: number;
@@ -3951,7 +3952,7 @@ export default function CartPage() {
                         <input type="checkbox" checked={selectedIds.includes(item.id)} onChange={() => handleSelectItem(item.id)} className="w-5 h-5 transition border-gray-300 rounded shadow-sm cursor-pointer text-gycora focus:ring-gycora" />
                       </div>
 
-                      <div className="relative w-24 h-24 overflow-hidden border border-gray-100 cursor-pointer shrink-0 sm:w-40 sm:h-40 rounded-2xl bg-gray-50" onClick={() => navigate(`/product/${item.product.id}`)}>
+                      <div className="relative w-24 h-24 overflow-hidden border border-gray-100 cursor-pointer shrink-0 sm:w-40 sm:h-40 rounded-2xl bg-gray-50" onClick={() => navigate(`/product/${item.product.slug}`)}>
                         <img src={item.product.image_url} alt={item.product.name} className="object-cover w-full h-full transition-transform duration-500 hover:scale-105" />
                         {isDiscounted && (
                           <div className="absolute px-2 py-0.5 text-[9px] font-bold text-white bg-rose-500 top-2 left-2 rounded shadow-sm">{t("cart_sale_badge")}</div>
@@ -3961,7 +3962,7 @@ export default function CartPage() {
                       <div className="flex flex-col justify-between flex-grow min-h-[6rem] sm:min-h-[10rem]">
                         <div>
                           <div className="flex items-start justify-between gap-2">
-                            <h3 className="w-2/3 text-sm font-bold tracking-tight text-gray-900 transition-colors cursor-pointer sm:text-lg hover:text-gycora line-clamp-2" onClick={() => navigate(`/product/${item.product.id}`)}>
+                            <h3 className="w-2/3 text-sm font-bold tracking-tight text-gray-900 transition-colors cursor-pointer sm:text-lg hover:text-gycora line-clamp-2" onClick={() => navigate(`/product/${item.product.slug}`)}>
                               {item.product.name}
                             </h3>
                             <div className="text-right">
@@ -4063,7 +4064,8 @@ export default function CartPage() {
                   const isSugDiscounted = product.discount_price && product.discount_price > 0;
                   return (
                     <div key={product.id} className="flex flex-col group">
-                      <div className="relative mb-3 overflow-hidden border border-gray-100 cursor-pointer aspect-square rounded-2xl bg-gray-50" onClick={() => navigate(`/product/${product.id}`)}>
+                      {/* <div className="relative mb-3 overflow-hidden border border-gray-100 cursor-pointer aspect-square rounded-2xl bg-gray-50" onClick={() => navigate(`/product/${product.id}`)}> */}
+                      <div className="relative mb-3 overflow-hidden border border-gray-100 cursor-pointer aspect-square rounded-2xl bg-gray-50" onClick={() => navigate(`/product/${product.slug}`)}>
                         <img src={product.image_url} alt={product.name} className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" />
                         {isSugDiscounted && (
                           <div className="absolute px-2 py-0.5 text-[9px] font-bold text-white bg-rose-500 top-2 left-2 rounded shadow-sm">{t("cart_sale_badge")}</div>
