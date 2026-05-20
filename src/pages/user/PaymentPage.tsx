@@ -5882,7 +5882,14 @@ import { useCart } from "../../context/CartContext";
 import { BASE_URL } from "../../config/api";
 import { useLanguage } from "../../context/LanguageContext"; // [BARU] Import Context Bahasa
 
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMapEvents,
+  useMap,
+} from "react-leaflet";
 
 interface Address {
   id: number;
@@ -5913,12 +5920,13 @@ export default function PaymentPage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [addresses, setAddresses] = useState<any[]>([]);
 
-    // Default koordinat (Monas, Jakarta)
+  // Default koordinat (Monas, Jakarta)
   const defaultPosition: [number, number] = [-6.175392, 106.827153];
-  const [mapPosition, setMapPosition] = useState<[number, number]>(defaultPosition);
+  const [mapPosition, setMapPosition] =
+    useState<[number, number]>(defaultPosition);
   const [isGettingLocation, setIsGettingLocation] = useState(false);
-  
-    // --- State Modal Alamat ---
+
+  // --- State Modal Alamat ---
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
 
@@ -6004,79 +6012,84 @@ export default function PaymentPage() {
     promoDiscountAmount,
   ]);
 
-    const handleGetCurrentLocation = () => {
-      setIsGettingLocation(true);
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-            setMapPosition([lat, lng]);
-            fetchAddressFromCoords(lat, lng);
-            setIsGettingLocation(false);
-          },
-          () => {
-            Swal.fire("Akses Ditolak", t("warn_location_denied"), "warning");
-            setIsGettingLocation(false);
-          }
-        );
-      } else {
-        Swal.fire("Tidak Mendukung", t("warn_location_unsupported"), "error");
-        setIsGettingLocation(false);
-      }
-    };
+  const handleGetCurrentLocation = () => {
+    setIsGettingLocation(true);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          setMapPosition([lat, lng]);
+          fetchAddressFromCoords(lat, lng);
+          setIsGettingLocation(false);
+        },
+        () => {
+          Swal.fire("Akses Ditolak", t("warn_location_denied"), "warning");
+          setIsGettingLocation(false);
+        },
+      );
+    } else {
+      Swal.fire("Tidak Mendukung", t("warn_location_unsupported"), "error");
+      setIsGettingLocation(false);
+    }
+  };
 
-      // --- Handlers Peta & Geocoding ---
+  // --- Handlers Peta & Geocoding ---
   const fetchAddressFromCoords = async (lat: number, lng: number) => {
     try {
-      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`,
+      );
       const data = await res.json();
-      
+
       if (data && data.address) {
         const { address } = data;
-        
+
         const newCity = address.city || address.town || address.county || "";
-        const newRegion = address.suburb || address.village || address.neighbourhood || "";
+        const newRegion =
+          address.suburb || address.village || address.neighbourhood || "";
         const newProvince = address.state || "";
         const newPostal = address.postcode || "";
-        
+
         const roadName = address.road || "";
         const houseNumber = address.house_number || "";
-        const fullStreet = roadName ? `${roadName} ${houseNumber}`.trim() : data.display_name;
+        const fullStreet = roadName
+          ? `${roadName} ${houseNumber}`.trim()
+          : data.display_name;
 
-        setFormData(prev => ({
+        setFormData((prev) => ({
           ...prev,
           latitude: lat.toString(),
           longitude: lng.toString(),
-          address_location: fullStreet, 
+          address_location: fullStreet,
           city: newCity,
           province: newProvince,
           region: newRegion,
-          postal_code: newPostal
+          postal_code: newPostal,
         }));
       }
     } catch (error) {
       console.error("Reverse Geocoding error:", error);
     }
   };
-  
-    const MapEvents = useCallback(() => {
-      useMapEvents({
-        click(e) {
-          setMapPosition([e.latlng.lat, e.latlng.lng]);
-          fetchAddressFromCoords(e.latlng.lat, e.latlng.lng);
-        },
-      });
-      return null;
-    }, []);
-  
-    const MapCenterUpdater = ({ position }: { position: [number, number] }) => {
-      const map = useMap();
-      useEffect(() => {
-        map.setView(position, map.getZoom());
-      }, [position, map]);
-      return null;
-    };
+
+  const MapEvents = useCallback(() => {
+    useMapEvents({
+      click(e) {
+        setMapPosition([e.latlng.lat, e.latlng.lng]);
+        fetchAddressFromCoords(e.latlng.lat, e.latlng.lng);
+      },
+    });
+    return null;
+  }, []);
+
+  const MapCenterUpdater = ({ position }: { position: [number, number] }) => {
+    const map = useMap();
+    useEffect(() => {
+      map.setView(position, map.getZoom());
+    }, [position, map]);
+    return null;
+  };
 
   const [availablePoints, setAvailablePoints] = useState(0);
   const [pointsInput, setPointsInput] = useState<number | "">("");
@@ -6132,11 +6145,11 @@ export default function PaymentPage() {
     appliedPointDiscount,
   ]);
 
-    // --- Handlers Modal Alamat ---
+  // --- Handlers Modal Alamat ---
   const handleOpenModal = (address: Address | null = null) => {
     if (address) {
       setEditingId(address.id);
-      
+
       const lat = parseFloat(address.details.latitude);
       const lng = parseFloat(address.details.longitude);
       if (!isNaN(lat) && !isNaN(lng)) {
@@ -6162,9 +6175,17 @@ export default function PaymentPage() {
       setEditingId(null);
       setMapPosition(defaultPosition);
       setFormData({
-        region: "", first_name_address: "", last_name_address: "", address_location: "",
-        city: "", province: "", postal_code: "", location_type: "home", 
-        latitude: "", longitude: "", is_default: false,
+        region: "",
+        first_name_address: "",
+        last_name_address: "",
+        address_location: "",
+        city: "",
+        province: "",
+        postal_code: "",
+        location_type: "home",
+        latitude: "",
+        longitude: "",
+        is_default: false,
       });
     }
     setIsModalOpen(true);
@@ -6469,37 +6490,50 @@ export default function PaymentPage() {
   //   }
   // };
 
-    const handleSubmitAddress = async (e: React.FormEvent) => {
-      e.preventDefault();
-      
-      if (!formData.latitude || !formData.longitude) {
-         Swal.fire(t("notification"), t("warn_select_location"), "warning");
-         return;
-      }
-  
-      const token = localStorage.getItem("user_token");
-      const method = editingId ? "PUT" : "POST";
-      const url = editingId ? `${BASE_URL}/api/addresses/${editingId}` : `${BASE_URL}/api/addresses`;
-  
-      try {
-        const res = await fetch(url, {
-          method,
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-          body: JSON.stringify(formData),
+  const handleSubmitAddress = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formData.latitude || !formData.longitude) {
+      Swal.fire(t("notification"), t("warn_select_location"), "warning");
+      return;
+    }
+
+    const token = localStorage.getItem("user_token");
+    const method = editingId ? "PUT" : "POST";
+    const url = editingId
+      ? `${BASE_URL}/api/addresses/${editingId}`
+      : `${BASE_URL}/api/addresses`;
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil!",
+          text: editingId
+            ? t("toast_address_updated")
+            : t("toast_address_added"),
+          timer: 1500,
+          showConfirmButton: false,
         });
-  
-        if (res.ok) {
-          Swal.fire({ icon: "success", title: "Berhasil!", text: editingId ? t("toast_address_updated") : t("toast_address_added"), timer: 1500, showConfirmButton: false });
-          setIsModalOpen(false);
-          fetchAddresses(token!);
-        } else {
-          throw new Error("Gagal menyimpan alamat");
-        }
-      } catch (error) {
-        console.error("Gagal submit alamat:", error);
-        Swal.fire(t("error"), t("server_error"), "error");
+        setIsModalOpen(false);
+        fetchAddresses(token!);
+      } else {
+        throw new Error("Gagal menyimpan alamat");
       }
-    };
+    } catch (error) {
+      console.error("Gagal submit alamat:", error);
+      Swal.fire(t("error"), t("server_error"), "error");
+    }
+  };
 
   const isButtonDisabled =
     isProcessing ||
@@ -6560,7 +6594,8 @@ export default function PaymentPage() {
                 </h2>
               </div>
               {addresses.length > 0 && (
-                <button onClick={() => handleOpenModal}
+                <button
+                  onClick={() => handleOpenModal()}
                   className="text-xs font-bold transition-colors text-emerald-600 hover:text-emerald-800"
                 >
                   {t("pay_add_address")}
@@ -6574,7 +6609,7 @@ export default function PaymentPage() {
                   {t("pay_no_address")}
                 </p>
                 <button
-                  onClick={() => handleOpenModal}
+                  onClick={() => handleOpenModal()}
                   className="px-6 py-2 mt-2 text-xs font-bold tracking-widest text-white uppercase transition-colors rounded-full shadow-md bg-gycora hover:bg-gycora-dark"
                 >
                   {t("pay_new_address")}
@@ -7020,23 +7055,22 @@ export default function PaymentPage() {
         </div>
       </div>
 
-      {/* ADDRESS MODAL IGNORED FOR BREVITY */}
-      {/* ======================================================= */}
-      {/* MODAL FORM ALAMAT */}
-      {/* ======================================================= */}
-      {/* {isAddressModalOpen && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-up">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
-            <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50">
-              <h3 className="text-lg font-bold text-gray-900">
-                Tambah Alamat Baru
+      {/* --- MODAL FORM ALAMAT DENGAN PETA --- */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pt-10 pb-10 overflow-y-auto bg-black/60 backdrop-blur-sm animate-fade-in-up">
+          <div className="flex flex-col w-full max-w-5xl my-auto overflow-hidden bg-white shadow-2xl rounded-3xl">
+            <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50 shrink-0">
+              <h3 className="text-xl font-extrabold tracking-tight text-gray-900">
+                {editingId
+                  ? t("modal_edit_address_title")
+                  : t("modal_add_address_title")}
               </h3>
               <button
-                onClick={() => setIsAddressModalOpen(false)}
-                className="text-gray-400 transition-colors hover:text-gray-900"
+                onClick={() => setIsModalOpen(false)}
+                className="p-2 text-gray-400 transition-colors bg-white border border-gray-200 rounded-full hover:text-gray-900 hover:bg-gray-100"
               >
                 <svg
-                  className="w-6 h-6"
+                  className="w-5 h-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -7050,317 +7084,280 @@ export default function PaymentPage() {
                 </svg>
               </button>
             </div>
-            <form
-              onSubmit={handleSubmitAddress}
-              className="flex-1 p-6 space-y-6 overflow-y-auto"
-            >
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                <div>
-                  <label className="block mb-1 text-sm font-semibold text-gray-700">
-                    Nama Depan Penerima
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={addressFormData.first_name_address}
-                    onChange={(e) =>
-                      setAddressFormData({
-                        ...addressFormData,
-                        first_name_address: e.target.value,
-                      })
-                    }
-                    className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gycora outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1 text-sm font-semibold text-gray-700">
-                    Nama Belakang Penerima
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={addressFormData.last_name_address}
-                    onChange={(e) =>
-                      setAddressFormData({
-                        ...addressFormData,
-                        last_name_address: e.target.value,
-                      })
-                    }
-                    className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gycora outline-none"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block mb-1 text-sm font-semibold text-gray-700">
-                  Label Alamat (Rumah/Kantor)
-                </label>
-                <select
-                  value={addressFormData.location_type}
-                  onChange={(e) =>
-                    setAddressFormData({
-                      ...addressFormData,
-                      location_type: e.target.value,
-                    })
-                  }
-                  className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gycora outline-none bg-white"
+
+            <div className="flex flex-col md:flex-row h-auto md:h-[650px] overflow-hidden">
+              {/* BAGIAN PETA (KIRI) */}
+              <div className="relative w-full bg-gray-100 border-b border-gray-200 h-72 md:h-full md:w-5/12 md:border-b-0 md:border-r shrink-0">
+                <MapContainer
+                  center={mapPosition}
+                  zoom={15}
+                  style={{ height: "100%", width: "100%" }}
+                  scrollWheelZoom={true}
                 >
-                  <option value="home">Rumah</option>
-                  <option value="office">Kantor</option>
-                  <option value="other">Lainnya</option>
-                </select>
-              </div>
-              <div>
-                <label className="block mb-1 text-sm font-semibold text-gray-700">
-                  Alamat Lengkap (Jalan, RT/RW, Patokan)
-                </label>
-                <textarea
-                  required
-                  rows={3}
-                  value={addressFormData.address_location}
-                  onChange={(e) =>
-                    setAddressFormData({
-                      ...addressFormData,
-                      address_location: e.target.value,
-                    })
-                  }
-                  className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gycora outline-none resize-none"
-                ></textarea>
-              </div>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                <div>
-                  <label className="block mb-1 text-sm font-semibold text-gray-700">
-                    Provinsi
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={addressFormData.province}
-                    onChange={(e) =>
-                      setAddressFormData({
-                        ...addressFormData,
-                        province: e.target.value,
-                      })
-                    }
-                    className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gycora outline-none"
+                  <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   />
-                </div>
-                <div>
-                  <label className="block mb-1 text-sm font-semibold text-gray-700">
-                    Kota / Kabupaten
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={addressFormData.city}
-                    onChange={(e) =>
-                      setAddressFormData({
-                        ...addressFormData,
-                        city: e.target.value,
-                      })
-                    }
-                    className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gycora outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1 text-sm font-semibold text-gray-700">
-                    Kecamatan / Region
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={addressFormData.region}
-                    onChange={(e) =>
-                      setAddressFormData({
-                        ...addressFormData,
-                        region: e.target.value,
-                      })
-                    }
-                    className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gycora outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1 text-sm font-semibold text-gray-700">
-                    Kode Pos
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={addressFormData.postal_code}
-                    onChange={(e) =>
-                      setAddressFormData({
-                        ...addressFormData,
-                        postal_code: e.target.value,
-                      })
-                    }
-                    className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gycora outline-none"
-                  />
-                </div>
-              </div>
-              <div className="flex items-center gap-3 p-4 mt-4 border rounded-lg bg-emerald-50 border-emerald-100">
-                <input
-                  type="checkbox"
-                  id="is_default"
-                  checked={addressFormData.is_default}
-                  onChange={(e) =>
-                    setAddressFormData({
-                      ...addressFormData,
-                      is_default: e.target.checked,
-                    })
-                  }
-                  className="w-5 h-5 rounded cursor-pointer text-gycora focus:ring-gycora accent-gycora"
-                />
-                <label
-                  htmlFor="is_default"
-                  className="text-sm font-bold cursor-pointer select-none text-emerald-800"
-                >
-                  Jadikan sebagai alamat utama
-                </label>
-              </div>
-              <div className="flex justify-end gap-3 pt-6 border-t border-gray-100">
+                  <Marker position={mapPosition}>
+                    <Popup>{t("popup_selected_location")}</Popup>
+                  </Marker>
+                  <MapEvents />
+                  <MapCenterUpdater position={mapPosition} />
+                </MapContainer>
+
                 <button
                   type="button"
-                  onClick={() => setIsAddressModalOpen(false)}
-                  className="px-6 py-2.5 text-sm font-bold text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
+                  onClick={handleGetCurrentLocation}
+                  disabled={isGettingLocation}
+                  className="absolute z-[1000] bottom-6 left-1/2 -translate-x-1/2 md:left-auto md:-translate-x-0 md:right-6 flex items-center gap-2 bg-white text-gray-900 px-5 py-2.5 rounded-full shadow-xl font-bold text-xs hover:bg-gray-50 border border-gray-200 transition-all hover:-translate-y-0.5"
                 >
-                  Batal
-                </button>
-                <button
-                  type="submit"
-                  disabled={isSubmittingAddress}
-                  className="px-6 py-2.5 text-sm font-bold text-white bg-gray-900 hover:bg-black disabled:bg-gray-400 rounded-full shadow-lg transition-colors"
-                >
-                  {isSubmittingAddress ? "Menyimpan..." : "Simpan Alamat"}
+                  {isGettingLocation ? (
+                    <span className="w-4 h-4 border-2 rounded-full border-[#006A4E] border-t-transparent animate-spin"></span>
+                  ) : (
+                    <svg
+                      className="w-4 h-4 text-[#006A4E]"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                    </svg>
+                  )}
+                  {t("btn_use_current_location")}
                 </button>
               </div>
-            </form>
+
+              {/* BAGIAN FORM (KANAN) */}
+              <form
+                onSubmit={handleSubmitAddress}
+                className="flex flex-col flex-1 p-6 space-y-6 overflow-y-auto bg-white sm:p-8 custom-scrollbar"
+              >
+                <div className="flex gap-3 p-4 border border-blue-100 rounded-2xl bg-blue-50/50">
+                  <svg
+                    className="w-5 h-5 text-blue-500 shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <p className="text-xs leading-relaxed text-blue-800">
+                    {t("guide_map_text")}
+                  </p>
+                </div>
+
+                <div className="space-y-5">
+                  <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                    <div>
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                        {t("label_first_name")}
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.first_name_address}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            first_name_address: e.target.value,
+                          })
+                        }
+                        className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                        {t("label_last_name")}
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.last_name_address}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            last_name_address: e.target.value,
+                          })
+                        }
+                        className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                      {t("label_address_type")}
+                    </label>
+                    <select
+                      value={formData.location_type}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          location_type: e.target.value,
+                        })
+                      }
+                      className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none bg-white transition-all"
+                    >
+                      <option value="home">{t("option_home")}</option>
+                      <option value="office">{t("option_office")}</option>
+                      <option value="other">{t("option_other")}</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                      {t("label_full_address")}
+                    </label>
+                    <textarea
+                      required
+                      rows={3}
+                      placeholder={t("placeholder_full_address")}
+                      value={formData.address_location}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          address_location: e.target.value,
+                        })
+                      }
+                      className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none resize-none bg-white transition-all"
+                    ></textarea>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                    <div>
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                        {t("label_region")}
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.region}
+                        onChange={(e) =>
+                          setFormData({ ...formData, region: e.target.value })
+                        }
+                        className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                        {t("label_city")}
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.city}
+                        onChange={(e) =>
+                          setFormData({ ...formData, city: e.target.value })
+                        }
+                        className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                        {t("label_province")}
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.province}
+                        onChange={(e) =>
+                          setFormData({ ...formData, province: e.target.value })
+                        }
+                        className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                        {t("label_postal_code")}
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.postal_code}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            postal_code: e.target.value,
+                          })
+                        }
+                        className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <input type="hidden" value={formData.latitude} />
+                  <input type="hidden" value={formData.longitude} />
+
+                  <div
+                    className="flex items-center gap-3 p-4 mt-2 transition-colors border border-gray-200 cursor-pointer rounded-xl bg-gray-50 hover:bg-gray-100"
+                    onClick={() =>
+                      setFormData({
+                        ...formData,
+                        is_default: !formData.is_default,
+                      })
+                    }
+                  >
+                    <input
+                      type="checkbox"
+                      id="is_default"
+                      checked={formData.is_default}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          is_default: e.target.checked,
+                        })
+                      }
+                      className="w-5 h-5 rounded cursor-pointer text-[#006A4E] focus:ring-[#006A4E] accent-[#006A4E]"
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                    <label
+                      htmlFor="is_default"
+                      className="text-sm font-bold text-gray-800 cursor-pointer select-none"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {t("label_set_default_address")}
+                    </label>
+                  </div>
+                </div>
+
+                <div className="flex justify-end gap-3 pt-6 mt-auto border-t border-gray-100">
+                  <button
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="px-6 py-3 text-sm font-bold text-gray-600 transition-colors bg-gray-100 rounded-xl hover:bg-gray-200"
+                  >
+                    {t("btn_cancel")}
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-6 py-3 text-sm font-bold text-white transition-all shadow-md bg-[#006A4E] rounded-xl hover:bg-emerald-900 hover:shadow-lg"
+                  >
+                    {editingId
+                      ? t("btn_update_address")
+                      : t("btn_save_address")}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      )} */}
-            {/* --- MODAL FORM ALAMAT DENGAN PETA --- */}
-            {isModalOpen && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pt-10 pb-10 overflow-y-auto bg-black/60 backdrop-blur-sm animate-fade-in-up">
-                <div className="flex flex-col w-full max-w-5xl my-auto overflow-hidden bg-white shadow-2xl rounded-3xl">
-                  <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50 shrink-0">
-                    <h3 className="text-xl font-extrabold tracking-tight text-gray-900">
-                      {editingId ? t("modal_edit_address_title") : t("modal_add_address_title")}
-                    </h3>
-                    <button onClick={() => setIsModalOpen(false)} className="p-2 text-gray-400 transition-colors bg-white border border-gray-200 rounded-full hover:text-gray-900 hover:bg-gray-100">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                    </button>
-                  </div>
-      
-                  <div className="flex flex-col md:flex-row h-auto md:h-[650px] overflow-hidden">
-                    {/* BAGIAN PETA (KIRI) */}
-                    <div className="relative w-full bg-gray-100 border-b border-gray-200 h-72 md:h-full md:w-5/12 md:border-b-0 md:border-r shrink-0">
-                      <MapContainer center={mapPosition} zoom={15} style={{ height: "100%", width: "100%" }} scrollWheelZoom={true}>
-                        <TileLayer
-                          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <Marker position={mapPosition}>
-                          <Popup>{t("popup_selected_location")}</Popup>
-                        </Marker>
-                        <MapEvents />
-                        <MapCenterUpdater position={mapPosition} />
-                      </MapContainer>
-                      
-                      <button 
-                        type="button"
-                        onClick={handleGetCurrentLocation}
-                        disabled={isGettingLocation}
-                        className="absolute z-[1000] bottom-6 left-1/2 -translate-x-1/2 md:left-auto md:-translate-x-0 md:right-6 flex items-center gap-2 bg-white text-gray-900 px-5 py-2.5 rounded-full shadow-xl font-bold text-xs hover:bg-gray-50 border border-gray-200 transition-all hover:-translate-y-0.5"
-                      >
-                        {isGettingLocation ? (
-                          <span className="w-4 h-4 border-2 rounded-full border-[#006A4E] border-t-transparent animate-spin"></span>
-                        ) : (
-                          <svg className="w-4 h-4 text-[#006A4E]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                        )}
-                        {t("btn_use_current_location")}
-                      </button>
-                    </div>
-      
-                    {/* BAGIAN FORM (KANAN) */}
-                    <form onSubmit={handleSubmitAddress} className="flex flex-col flex-1 p-6 space-y-6 overflow-y-auto bg-white sm:p-8 custom-scrollbar">
-                      
-                      <div className="flex gap-3 p-4 border border-blue-100 rounded-2xl bg-blue-50/50">
-                        <svg className="w-5 h-5 text-blue-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                        <p className="text-xs leading-relaxed text-blue-800">
-                          {t("guide_map_text")}
-                        </p>
-                      </div>
-      
-                      <div className="space-y-5">
-                        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-                          <div>
-                            <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">{t("label_first_name")}</label>
-                            <input type="text" required value={formData.first_name_address} onChange={(e) => setFormData({ ...formData, first_name_address: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
-                          </div>
-                          <div>
-                            <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">{t("label_last_name")}</label>
-                            <input type="text" required value={formData.last_name_address} onChange={(e) => setFormData({ ...formData, last_name_address: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
-                          </div>
-                        </div>
-      
-                        <div>
-                          <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">{t("label_address_type")}</label>
-                          <select value={formData.location_type} onChange={(e) => setFormData({ ...formData, location_type: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none bg-white transition-all">
-                            <option value="home">{t("option_home")}</option>
-                            <option value="office">{t("option_office")}</option>
-                            <option value="other">{t("option_other")}</option>
-                          </select>
-                        </div>
-      
-                        <div>
-                          <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">{t("label_full_address")}</label>
-                          <textarea required rows={3} placeholder={t("placeholder_full_address")} value={formData.address_location} onChange={(e) => setFormData({ ...formData, address_location: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none resize-none bg-white transition-all"></textarea>
-                        </div>
-      
-                        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                          <div>
-                            <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">{t("label_region")}</label>
-                            <input type="text" required value={formData.region} onChange={(e) => setFormData({ ...formData, region: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
-                          </div>
-                          <div>
-                            <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">{t("label_city")}</label>
-                            <input type="text" required value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
-                          </div>
-                          <div>
-                            <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">{t("label_province")}</label>
-                            <input type="text" required value={formData.province} onChange={(e) => setFormData({ ...formData, province: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
-                          </div>
-                          <div>
-                            <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">{t("label_postal_code")}</label>
-                            <input type="text" required value={formData.postal_code} onChange={(e) => setFormData({ ...formData, postal_code: e.target.value })} className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
-                          </div>
-                        </div>
-      
-                        <input type="hidden" value={formData.latitude} />
-                        <input type="hidden" value={formData.longitude} />
-      
-                        <div className="flex items-center gap-3 p-4 mt-2 transition-colors border border-gray-200 cursor-pointer rounded-xl bg-gray-50 hover:bg-gray-100" onClick={() => setFormData({ ...formData, is_default: !formData.is_default })}>
-                          <input type="checkbox" id="is_default" checked={formData.is_default} onChange={(e) => setFormData({ ...formData, is_default: e.target.checked })} className="w-5 h-5 rounded cursor-pointer text-[#006A4E] focus:ring-[#006A4E] accent-[#006A4E]" onClick={(e) => e.stopPropagation()} />
-                          <label htmlFor="is_default" className="text-sm font-bold text-gray-800 cursor-pointer select-none" onClick={(e) => e.stopPropagation()}>
-                            {t("label_set_default_address")}
-                          </label>
-                        </div>
-                      </div>
-      
-                      <div className="flex justify-end gap-3 pt-6 mt-auto border-t border-gray-100">
-                        <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-3 text-sm font-bold text-gray-600 transition-colors bg-gray-100 rounded-xl hover:bg-gray-200">
-                          {t("btn_cancel")}
-                        </button>
-                        <button type="submit" className="px-6 py-3 text-sm font-bold text-white transition-all shadow-md bg-[#006A4E] rounded-xl hover:bg-emerald-900 hover:shadow-lg">
-                          {editingId ? t("btn_update_address") : t("btn_save_address")}
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-      
-                </div>
-              </div>
-            )}
+      )}
     </div>
   );
 }
-
-
