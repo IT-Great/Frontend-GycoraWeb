@@ -16960,6 +16960,7 @@ export default function ProductDetail() {
       color: null,
       product: {
         id: product!.id,
+        slug: product!.slug,
         name: product!.name,
         price: product!.price,
         discount_price: product!.price,
