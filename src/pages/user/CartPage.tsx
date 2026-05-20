@@ -3883,7 +3883,7 @@ export default function CartPage() {
       const res = await fetch(`${BASE_URL}/api/carts`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ product_id: product.id, quantity: 1 }),
+        body: JSON.stringify({ product_id: product.slug, quantity: 1 }),
       });
       if (res.ok) {
         Swal.fire({ title: t("added_to_cart"), icon: "success", toast: true, position: "top-end", timer: 1500, showConfirmButton: false });
