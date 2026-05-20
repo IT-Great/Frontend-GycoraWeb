@@ -3468,7 +3468,7 @@
 
 //   return (
 //     // [PERBAIKAN 1] Menambahkan 'overflow-x-hidden' dan mengatur lebar penuh (w-full) untuk mencegah 'lompatan' scrollbar horizontal
-//     <div className="min-h-screen w-full px-4 py-16 mx-auto font-sans max-w-7xl sm:px-6 lg:px-8 overflow-x-hidden">
+//     <div className="w-full min-h-screen px-4 py-16 mx-auto overflow-x-hidden font-sans max-w-7xl sm:px-6 lg:px-8">
       
 //       <div className="flex items-center gap-4 mb-10 animate-fade-in-up">
 //         <button onClick={() => navigate("/products")} className="p-2 transition bg-white border border-gray-200 rounded-full shadow-sm hover:bg-gray-50">
@@ -3875,7 +3875,7 @@ export default function CartPage() {
     }
 
     if (product.color && product.color.length > 0) {
-        navigate(`/product/${product.id}`); // [PERBAIKAN] Menggunakan slug sesuai permintaan sebelumnya
+        navigate(`/product/${product.slug}`); // [PERBAIKAN] Menggunakan slug sesuai permintaan sebelumnya
         return;
     }
 
@@ -3908,7 +3908,7 @@ export default function CartPage() {
   };
 
   return (
-    <div className="min-h-screen w-full px-4 py-16 mx-auto font-sans max-w-7xl sm:px-6 lg:px-8 overflow-x-hidden">
+    <div className="w-full min-h-screen px-4 py-16 mx-auto overflow-x-hidden font-sans max-w-7xl sm:px-6 lg:px-8">
       
       <div className="flex items-center gap-4 mb-10 animate-fade-in-up">
         <button onClick={() => navigate("/products")} className="p-2 transition bg-white border border-gray-200 rounded-full shadow-sm hover:bg-gray-50">

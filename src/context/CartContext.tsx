@@ -259,6 +259,7 @@ import { BASE_URL } from "../config/api";
 export interface Product {
   color: string;
   id: number;
+  slug: string;
   name: string;
   price: number;
   discount_price: number;
