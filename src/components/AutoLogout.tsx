@@ -29,6 +29,12 @@ export default function AutoLogout({
     const userDataStr = localStorage.getItem("user_data");
     const token = localStorage.getItem("user_token");
 
+    // [TAMBAHAN] Jika tidak ada data, BERHENTI/RETURN
+    // if (!token || !userDataStr) {
+    //     if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    //     return;
+    // }
+
     // Jika user tidak login, tidak perlu menjalankan timer
     if (!token || !userDataStr) return;
 

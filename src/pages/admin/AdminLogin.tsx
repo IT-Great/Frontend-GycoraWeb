@@ -215,11 +215,11 @@ function AdminLoginForm() {
       const data = await res.json();
 
       if (res.ok) {
-        // localStorage.setItem("admin_token", data.access_token);
-        // localStorage.setItem("admin_user", JSON.stringify(data.user));
+        localStorage.setItem("admin_token", data.access_token);
+        localStorage.setItem("admin_user", JSON.stringify(data.user));
 
-        localStorage.setItem("user_token", data.access_token); // Gunakan 'user_token'
-        localStorage.setItem("user_data", JSON.stringify(data.user)); // Gunakan 'user_data'
+        // localStorage.setItem("user_token", data.access_token); // Gunakan 'user_token'
+        // localStorage.setItem("user_data", JSON.stringify(data.user)); // Gunakan 'user_data'
 
         Swal.fire({
           icon: "success",

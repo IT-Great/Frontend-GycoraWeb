@@ -140,8 +140,8 @@
 //       <CartProvider>
 //         <MessageProvider>
 //           <Router>
-//             {/* LETAKKAN DI SINI! 
-//         Setiap kali URL berubah, komponen ini akan mereset scroll ke atas 
+//             {/* LETAKKAN DI SINI!
+//         Setiap kali URL berubah, komponen ini akan mereset scroll ke atas
 //       */}
 //             <ScrollToTop />
 //             <LayoutWrapper>
@@ -564,7 +564,7 @@
 // function AdminRoute({ children }: { children: React.ReactNode }) {
 //   const token = localStorage.getItem("user_token");
 //   const userDataStr = localStorage.getItem("user_data");
-  
+
 //   if (!token || !userDataStr) {
 //     // Belum login sama sekali? Arahkan ke halaman login admin
 //     return <Navigate to="/admin/login" replace />;
@@ -585,7 +585,7 @@
 // // function GuestAdminRoute({ children }: { children: React.ReactNode }) {
 // //   const token = localStorage.getItem("user_token");
 // //   const userDataStr = localStorage.getItem("user_data");
-  
+
 // //   if (token && userDataStr) {
 // //     const user = JSON.parse(userDataStr);
 // //     if (user.usertype === "admin" || user.usertype === "staff") {
@@ -601,10 +601,10 @@
 // function GuestAdminRoute({ children }: { children: React.ReactNode }) {
 //   const token = localStorage.getItem("user_token");
 //   const userDataStr = localStorage.getItem("user_data");
-  
+
 //   if (token && userDataStr) {
 //     const user = JSON.parse(userDataStr);
-    
+
 //     if (user.usertype === "admin" || user.usertype === "staff") {
 //       // Jika sudah login sbg admin, lempar ke dashboard admin
 //       return <Navigate to="/admin/dashboard" replace />;
@@ -694,7 +694,7 @@
 //                 {/* ========================================== */}
 //                 {/* RUTE KHUSUS ADMIN (DILINDUNGI ADMINROUTE) */}
 //                 {/* ========================================== */}
-                
+
 //                 {/* Rute Login Admin (Menggunakan GuestAdminRoute) */}
 //                 <Route
 //                   path="/admin/login"
@@ -1096,9 +1096,12 @@ import AutoLogout from "./components/AutoLogout";
 
 // Melindungi rute yang HANYA BOLEH diakses oleh Admin atau Staff (bukan Customer)
 function AdminRoute({ children }: { children: React.ReactNode }) {
-  const token = localStorage.getItem("user_token");
-  const userDataStr = localStorage.getItem("user_data");
-  
+  // const token = localStorage.getItem("user_token");
+  // const userDataStr = localStorage.getItem("user_data");
+
+  const token = localStorage.getItem("admin_token");
+  const userDataStr = localStorage.getItem("admin_user");
+
   if (!token || !userDataStr) {
     return <Navigate to="/admin/login" replace />;
   }
@@ -1117,10 +1120,10 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
 function GuestAdminRoute({ children }: { children: React.ReactNode }) {
   const token = localStorage.getItem("user_token");
   const userDataStr = localStorage.getItem("user_data");
-  
+
   if (token && userDataStr) {
     const user = JSON.parse(userDataStr);
-    
+
     if (user.usertype === "admin" || user.usertype === "staff") {
       return <Navigate to="/admin/dashboard" replace />;
     } else {
@@ -1178,9 +1181,18 @@ export default function App() {
                   <Route path="/" element={<HomePage />} />
                   <Route path="/login" element={<UserLogin />} />
                   <Route path="/register" element={<UserRegister />} />
-                  <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                  <Route path="/verify-code" element={<CodeVerificationPage />} />
-                  <Route path="/reset-password" element={<ResetPasswordPage />} />
+                  <Route
+                    path="/forgot-password"
+                    element={<ForgotPasswordPage />}
+                  />
+                  <Route
+                    path="/verify-code"
+                    element={<CodeVerificationPage />}
+                  />
+                  <Route
+                    path="/reset-password"
+                    element={<ResetPasswordPage />}
+                  />
                   <Route path="/profile" element={<UserProfile />} />
                   <Route path="/products" element={<PublicCatalog />} />
                   <Route path="/product/:slug" element={<ProductDetail />} />
@@ -1189,13 +1201,19 @@ export default function App() {
                   <Route path="/legal/privacy" element={<PrivacyPolicy />} />
                   <Route path="/returns/request" element={<RequestReturn />} />
                   <Route path="/policies/refund" element={<RefundPolicy />} />
-                  <Route path="/policies/shipping" element={<ShippingPolicy />} />
+                  <Route
+                    path="/policies/shipping"
+                    element={<ShippingPolicy />}
+                  />
                   <Route path="/help-center" element={<HelpCenter />} />
                   <Route path="/legal/terms" element={<TermsOfService />} />
                   <Route path="/faq" element={<FAQPage />} />
                   <Route path="/cart" element={<CartPage />} />
                   <Route path="/checkout" element={<PaymentPage />} />
-                  <Route path="/payment-success" element={<PaymentSuccessPage />} />
+                  <Route
+                    path="/payment-success"
+                    element={<PaymentSuccessPage />}
+                  />
                   <Route path="/tracking/:id" element={<TrackingPage />} />
                   <Route path="/favorites" element={<FavoritePage />} />
                   <Route path="/consult" element={<ConsultWithUs />} />
@@ -1208,7 +1226,7 @@ export default function App() {
                   {/* ========================================== */}
                   {/* RUTE KHUSUS ADMIN (DILINDUNGI ADMINROUTE) */}
                   {/* ========================================== */}
-                  
+
                   {/* Rute Login Admin (Menggunakan GuestAdminRoute) */}
                   <Route
                     path="/admin/login"
@@ -1220,9 +1238,18 @@ export default function App() {
                       </GuestAdminRoute>
                     }
                   />
-                  <Route path="/admin/forgot-password" element={<AdminForgotPasswordPage />} />
-                  <Route path="/admin/verify-code" element={<AdminCodeVerificationPage />} />
-                  <Route path="/admin/reset-password" element={<AdminResetPasswordPage />} />
+                  <Route
+                    path="/admin/forgot-password"
+                    element={<AdminForgotPasswordPage />}
+                  />
+                  <Route
+                    path="/admin/verify-code"
+                    element={<AdminCodeVerificationPage />}
+                  />
+                  <Route
+                    path="/admin/reset-password"
+                    element={<AdminResetPasswordPage />}
+                  />
 
                   {/* AREA DALAM ADMIN */}
                   <Route
