@@ -4,10 +4,16 @@ import { useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 
-export default function AutoLogout({ children }: { children: React.ReactNode }) {
+export default function AutoLogout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const navigate = useNavigate();
   const location = useLocation();
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  //   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  // ✅ Ganti dengan ini
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Waktu idle:
   // - Customer: 1 Jam (3600000 ms)
@@ -28,7 +34,7 @@ export default function AutoLogout({ children }: { children: React.ReactNode }) 
 
     const user = JSON.parse(userDataStr);
     const isAdminArea = user.usertype === "admin" || user.usertype === "staff";
-    
+
     const timeoutDuration = isAdminArea ? ADMIN_TIMEOUT : CUSTOMER_TIMEOUT;
 
     timeoutRef.current = setTimeout(() => {
@@ -65,20 +71,24 @@ export default function AutoLogout({ children }: { children: React.ReactNode }) 
   useEffect(() => {
     // Event listener untuk mendeteksi aktivitas pengguna
     const events = ["mousemove", "keydown", "scroll", "click", "touchstart"];
-    
+
     // Inisialisasi timer saat pertama kali load
     resetTimer();
 
     // Pasang listener
     const handleUserActivity = () => resetTimer();
-    events.forEach((event) => window.addEventListener(event, handleUserActivity));
+    events.forEach((event) =>
+      window.addEventListener(event, handleUserActivity),
+    );
 
     // Bersihkan listener saat komponen dilepas (unmount)
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      events.forEach((event) => window.removeEventListener(event, handleUserActivity));
+      events.forEach((event) =>
+        window.removeEventListener(event, handleUserActivity),
+      );
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]); // Timer direset juga setiap kali pindah rute
 
   return <>{children}</>;
