@@ -582,18 +582,39 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
 }
 
 // Melindungi halaman Login Admin: Jika admin sudah login, jangan izinkan buka /admin/login lagi
+// function GuestAdminRoute({ children }: { children: React.ReactNode }) {
+//   const token = localStorage.getItem("user_token");
+//   const userDataStr = localStorage.getItem("user_data");
+  
+//   if (token && userDataStr) {
+//     const user = JSON.parse(userDataStr);
+//     if (user.usertype === "admin" || user.usertype === "staff") {
+//       // Jika sudah login sbg admin, lempar ke dashboard
+//       return <Navigate to="/admin/dashboard" replace />;
+//     }
+//   }
+
+//   return <>{children}</>;
+// }
+
+// Melindungi halaman Login Admin: Jika user sudah login, jangan izinkan buka /admin/login
 function GuestAdminRoute({ children }: { children: React.ReactNode }) {
   const token = localStorage.getItem("user_token");
   const userDataStr = localStorage.getItem("user_data");
   
   if (token && userDataStr) {
     const user = JSON.parse(userDataStr);
+    
     if (user.usertype === "admin" || user.usertype === "staff") {
-      // Jika sudah login sbg admin, lempar ke dashboard
+      // Jika sudah login sbg admin, lempar ke dashboard admin
       return <Navigate to="/admin/dashboard" replace />;
+    } else {
+      // Jika sudah login sbg customer biasa, lempar ke beranda
+      return <Navigate to="/" replace />;
     }
   }
 
+  // Hanya izinkan pengguna yang BENAR-BENAR BELUM LOGIN untuk melihat form Login Admin
   return <>{children}</>;
 }
 
