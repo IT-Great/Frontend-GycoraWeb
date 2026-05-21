@@ -1118,8 +1118,8 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
 
 // Melindungi halaman Login Admin: Jika user sudah login, jangan izinkan buka /admin/login
 function GuestAdminRoute({ children }: { children: React.ReactNode }) {
-  const token = localStorage.getItem("user_token");
-  const userDataStr = localStorage.getItem("user_data");
+  const token = localStorage.getItem("admin_token");
+  const userDataStr = localStorage.getItem("admin_user");
 
   if (token && userDataStr) {
     const user = JSON.parse(userDataStr);
