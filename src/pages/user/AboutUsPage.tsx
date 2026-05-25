@@ -990,37 +990,41 @@ export default function AboutUsPage() {
         </section> */}
 
         <section
-          className="relative overflow-hidden rounded-[3rem] p-10 md:p-20 scroll-mt-32 border border-emerald-100"
-          style={{ backgroundColor: "#FDFBF7" }} // Warna Cream Lembut (Background)
+          className="relative overflow-hidden rounded-[3rem] p-10 md:p-20 scroll-mt-32 border border-emerald-200"
+          style={{ backgroundColor: "#F2F0E6" }} // Nuansa Cream yang lebih hangat & dalam
           id="vision-mission"
         >
-          {/* Dekorasi Latar Belakang (Aksen Emas Muted) */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A059] rounded-full blur-[100px] opacity-10"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#8A9A5B] rounded-full blur-[100px] opacity-10"></div>
+          {/* Dekorasi Latar Belakang (Aksen Emas Muted yang lebih tajam) */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#A6823F] rounded-full blur-[100px] opacity-15"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#6B7A41] rounded-full blur-[100px] opacity-15"></div>
 
-          <h2 className="relative z-10 inline-block pb-4 mb-12 text-sm font-bold tracking-widest uppercase border-b border-[#8A9A5B]/30 text-[#8A9A5B]">
+          <h2 className="relative z-10 inline-block pb-4 mb-12 text-sm font-bold tracking-widest uppercase border-b border-[#6B7A41]/40 text-[#6B7A41]">
             {t("about_vm_label")}
           </h2>
 
           <div className="relative z-10 grid grid-cols-1 gap-16 lg:grid-cols-2">
             <div>
-              <h3 className="mb-6 text-3xl font-bold text-[#2D3A26]">
+              <h3 className="mb-6 text-3xl font-bold text-[#1E291B]">
+                {" "}
+                {/* Hijau Sage Gelap */}
                 {t("about_vision_title")}
               </h3>
-              <p className="text-xl leading-relaxed text-gray-700">
+              <p className="text-xl leading-relaxed text-gray-800">
+                {" "}
+                {/* Lebih gelap */}
                 {t("about_vision_desc")}
               </p>
             </div>
 
             <div>
-              <h3 className="mb-6 text-3xl font-bold text-[#2D3A26]">
+              <h3 className="mb-6 text-3xl font-bold text-[#1E291B]">
                 {t("about_mission_title")}
               </h3>
-              <ul className="space-y-4 text-lg text-gray-700">
+              <ul className="space-y-4 text-lg text-gray-800">
                 {[1, 2, 3, 4].map((i) => (
                   <li key={i} className="flex items-start gap-3">
-                    {/* Ikon Emas Muted */}
-                    <span className="text-[#C5A059] mt-1 font-bold">✦</span>
+                    {/* Emas Muted yang lebih tegas */}
+                    <span className="text-[#A6823F] mt-1 font-bold">✦</span>
                     <span>{t(`about_mission_item${i}` as any)}</span>
                   </li>
                 ))}
