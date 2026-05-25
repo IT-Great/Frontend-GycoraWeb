@@ -3079,15 +3079,58 @@ export default function ConsultWithUs() {
   //   { id: 8, title: t("cat_baby_hair"), icon: <IconFrizz /> },
   // ];
 
+  // const consultationCategories = [
+  //   { id: 1, title: t("cat_frizzy"), icon: <img src={img1} alt="Frizzy" className="object-contain w-10 h-10" /> },
+  //   { id: 2, title: t("cat_tangled"), icon: <img src={img2} alt="Tangled" className="object-contain w-10 h-10" /> },
+  //   { id: 3, title: t("cat_dry_coarse"), icon: <img src={img3} alt="Dry Coarse" className="object-contain w-10 h-10" /> },
+  //   { id: 4, title: t("cat_damaged"), icon: <img src={img4} alt="Damaged" className="object-contain w-10 h-10" /> },
+  //   { id: 5, title: t("cat_hairfall"), icon: <img src={img5} alt="Hairfall" className="object-contain w-10 h-10" /> },
+  //   { id: 6, title: t("cat_oily_scalp"), icon: <img src={img6} alt="Oily Scalp" className="object-contain w-10 h-10" /> },
+  //   { id: 7, title: t("cat_sensitive_scalp"), icon: <img src={img7} alt="Sensitive Scalp" className="object-contain w-10 h-10" /> },
+  //   { id: 8, title: t("cat_baby_hair"), icon: <img src={img8} alt="Baby Hair" className="object-contain w-10 h-10" /> },
+  // ];
+
   const consultationCategories = [
-    { id: 1, title: t("cat_frizzy"), icon: <img src={img1} alt="Frizzy" className="object-contain w-10 h-10" /> },
-    { id: 2, title: t("cat_tangled"), icon: <img src={img2} alt="Tangled" className="object-contain w-10 h-10" /> },
-    { id: 3, title: t("cat_dry_coarse"), icon: <img src={img3} alt="Dry Coarse" className="object-contain w-10 h-10" /> },
-    { id: 4, title: t("cat_damaged"), icon: <img src={img4} alt="Damaged" className="object-contain w-10 h-10" /> },
-    { id: 5, title: t("cat_hairfall"), icon: <img src={img5} alt="Hairfall" className="object-contain w-10 h-10" /> },
-    { id: 6, title: t("cat_oily_scalp"), icon: <img src={img6} alt="Oily Scalp" className="object-contain w-10 h-10" /> },
-    { id: 7, title: t("cat_sensitive_scalp"), icon: <img src={img7} alt="Sensitive Scalp" className="object-contain w-10 h-10" /> },
-    { id: 8, title: t("cat_baby_hair"), icon: <img src={img8} alt="Baby Hair" className="object-contain w-10 h-10" /> },
+    { 
+      id: 1, 
+      title: t("cat_frizzy"), 
+      icon: <img src={img1} alt="Frizzy" className="object-cover w-16 h-16 shadow-sm rounded-2xl" /> 
+    },
+    { 
+      id: 2, 
+      title: t("cat_tangled"), 
+      icon: <img src={img2} alt="Tangled" className="object-cover w-16 h-16 shadow-sm rounded-2xl" /> 
+    },
+    { 
+      id: 3, 
+      title: t("cat_dry_coarse"), 
+      icon: <img src={img3} alt="Dry Coarse" className="object-cover w-16 h-16 shadow-sm rounded-2xl" /> 
+    },
+    { 
+      id: 4, 
+      title: t("cat_damaged"), 
+      icon: <img src={img4} alt="Damaged" className="object-cover w-16 h-16 shadow-sm rounded-2xl" /> 
+    },
+    { 
+      id: 5, 
+      title: t("cat_hairfall"), 
+      icon: <img src={img5} alt="Hairfall" className="object-cover w-16 h-16 shadow-sm rounded-2xl" /> 
+    },
+    { 
+      id: 6, 
+      title: t("cat_oily_scalp"), 
+      icon: <img src={img6} alt="Oily Scalp" className="object-cover w-16 h-16 shadow-sm rounded-2xl" /> 
+    },
+    { 
+      id: 7, 
+      title: t("cat_sensitive_scalp"), 
+      icon: <img src={img7} alt="Sensitive Scalp" className="object-cover w-16 h-16 shadow-sm rounded-2xl" /> 
+    },
+    { 
+      id: 8, 
+      title: t("cat_baby_hair"), 
+      icon: <img src={img8} alt="Baby Hair" className="object-cover w-16 h-16 shadow-sm rounded-2xl" /> 
+    },
   ];
 
   useEffect(() => {
