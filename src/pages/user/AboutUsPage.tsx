@@ -553,7 +553,7 @@ import { useLocation } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageContext";
 
 // Import gambar aset lokal
-import imgStory1 from "../../assets/DD_00067.jpg";
+import imgStory1 from "../../assets/DD_00067.jpg"
 import imgStory2 from "../../assets/DD_00229.jpg";
 
 export default function AboutUsPage() {
