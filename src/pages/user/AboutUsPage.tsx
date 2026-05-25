@@ -1005,23 +1005,23 @@ export default function AboutUsPage() {
 
           <div className="relative z-10 grid grid-cols-1 gap-16 lg:grid-cols-2">
             <div>
-              <h3 className="mb-6 text-3xl font-black text-[#2D4233]">
+              <h3 className="mb-6 text-3xl font-black text-[#ffffff]">
                 {t("about_vision_title")}
               </h3>
-              <p className="text-xl leading-relaxed text-[#2D3A26] font-medium">
+              <p className="text-xl leading-relaxed text-[#ffffff] font-medium">
                 {t("about_vision_desc")}
               </p>
             </div>
 
             <div>
-              <h3 className="mb-6 text-3xl font-black text-[#2D4233]">
+              <h3 className="mb-6 text-3xl font-black text-[#ffffff]">
                 {t("about_mission_title")}
               </h3>
-              <ul className="space-y-4 text-lg text-[#2D3A26]">
+              <ul className="space-y-4 text-lg text-[#ffffff]">
                 {[1, 2, 3, 4].map((i) => (
                   <li key={i} className="flex items-start gap-3">
                     {/* Menggunakan warna Gold yang lebih dominan dari palet Anda */}
-                    <span className="text-[#C8AD55] mt-1 font-black text-xl">
+                    <span className="text-[#ffe79d] mt-1 font-black text-xl">
                       ✦
                     </span>
                     <span className="font-medium">
