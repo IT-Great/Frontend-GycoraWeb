@@ -991,8 +991,8 @@ export default function AboutUsPage() {
         </section> */}
 
         <section
-          className="relative overflow-hidden rounded-[3rem] p-10 md:p-20 scroll-mt-32 border border-[#EBE7DE]"
-          style={{ backgroundColor: "#FBF9F2" }} // Warna Cream yang lebih hangat & kaya
+          className="relative overflow-hidden rounded-[3rem] p-10 md:p-20 scroll-mt-32 border border-[#cab073]"
+          style={{ backgroundColor: "#B8A563" }} // Warna Cream yang lebih hangat & kaya
           id="vision-mission"
         >
           {/* Dekorasi Latar Belakang (Menggunakan warna dari aset Anda) */}
