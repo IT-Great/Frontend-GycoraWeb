@@ -37,7 +37,7 @@
 //       </div>
 
 //       <div className="max-w-4xl px-4 mx-auto mt-20 space-y-32 sm:px-6 lg:px-8">
-        
+
 //         {/* WHO WE ARE */}
 //         <section className="scroll-mt-32" id="who-we-are">
 //           <h2 className="mb-4 text-sm font-bold tracking-widest text-gray-400 uppercase">WHO WE ARE</h2>
@@ -80,7 +80,7 @@
 //         <section className="scroll-mt-32" id="our-purpose">
 //           <h2 className="mb-4 text-sm font-bold tracking-widest text-gray-400 uppercase">WHY GYCORA</h2>
 //           <h3 className="mb-10 text-3xl font-extrabold text-gray-900">Kenapa Gycora?</h3>
-          
+
 //           <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
 //             <div>
 //               <h4 className="flex items-center gap-2 mb-3 text-xl font-bold text-gray-900">
@@ -131,7 +131,7 @@
 //         {/* VISION & MISSION */}
 //         <section className="p-10 bg-emerald-50 rounded-3xl lg:p-16 scroll-mt-32" id="vision-mission">
 //           <h2 className="mb-8 text-sm font-bold tracking-widest uppercase text-emerald-800">VISION & MISSION</h2>
-          
+
 //           <div className="mb-12">
 //             <h3 className="mb-4 text-2xl font-bold text-gray-900">Visi Kami</h3>
 //             <p className="text-lg text-gray-700">
@@ -210,7 +210,7 @@
 //       </div>
 
 //       <div className="max-w-4xl px-4 mx-auto mt-20 space-y-32 sm:px-6 lg:px-8">
-        
+
 //         {/* WHO WE ARE */}
 //         <section className="scroll-mt-32" id="who-we-are">
 //           <h2 className="mb-4 text-sm font-bold tracking-widest text-gray-400 uppercase">{t("about_who_we_are_label")}</h2>
@@ -253,7 +253,7 @@
 //         <section className="scroll-mt-32" id="our-purpose">
 //           <h2 className="mb-4 text-sm font-bold tracking-widest text-gray-400 uppercase">{t("about_why_label")}</h2>
 //           <h3 className="mb-10 text-3xl font-extrabold text-gray-900">{t("about_why_title")}</h3>
-          
+
 //           <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
 //             <div>
 //               <h4 className="flex items-center gap-2 mb-3 text-xl font-bold text-gray-900">
@@ -304,7 +304,7 @@
 //         {/* VISION & MISSION */}
 //         <section className="p-10 bg-emerald-50 rounded-3xl lg:p-16 scroll-mt-32" id="vision-mission">
 //           <h2 className="mb-8 text-sm font-bold tracking-widest uppercase text-emerald-800">{t("about_vm_label")}</h2>
-          
+
 //           <div className="mb-12">
 //             <h3 className="mb-4 text-2xl font-bold text-gray-900">{t("about_vision_title")}</h3>
 //             <p className="text-lg text-gray-700">
@@ -365,13 +365,13 @@
 
 //   return (
 //     <div className="min-h-screen pb-24 overflow-hidden font-sans bg-white">
-      
+
 //       {/* ================= HEADER SECTION (HERO) ================= */}
 //       <div className="relative bg-[#006A4E] py-32 text-center px-4 overflow-hidden">
 //         {/* Dekorasi Latar Belakang */}
 //         <div className="absolute top-0 left-0 w-64 h-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-400 mix-blend-multiply filter blur-3xl opacity-30"></div>
 //         <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#D4FF32] rounded-full mix-blend-multiply filter blur-3xl opacity-20 translate-x-1/3 translate-y-1/3"></div>
-        
+
 //         <div className="relative z-10 max-w-4xl mx-auto animate-fade-in-up">
 //           <h1 className="mb-6 text-4xl font-black tracking-tight text-white md:text-6xl drop-shadow-sm">
 //             {t("about_header_title")}
@@ -386,7 +386,7 @@
 //       </div>
 
 //       <div className="max-w-6xl px-4 mx-auto mt-24 space-y-32 sm:px-6 lg:px-8">
-        
+
 //         {/* ================= WHO WE ARE (Teks Kiri, Gambar Kanan) ================= */}
 //         <section className="flex flex-col items-center gap-16 scroll-mt-32 lg:flex-row" id="who-we-are">
 //           <div className="lg:w-1/2 animate-fade-in-left">
@@ -404,9 +404,9 @@
 //           </div>
 //           <div className="relative lg:w-1/2">
 //             <div className="absolute inset-0 translate-x-4 translate-y-4 bg-emerald-100 rounded-3xl -z-10"></div>
-//             <img 
-//               src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=800&auto=format&fit=crop" 
-//               alt="Who we are" 
+//             <img
+//               src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=800&auto=format&fit=crop"
+//               alt="Who we are"
 //               className="w-full h-[400px] object-cover rounded-3xl shadow-xl border border-gray-100"
 //             />
 //           </div>
@@ -416,9 +416,9 @@
 //         <section className="flex flex-col-reverse items-center gap-16 scroll-mt-32 lg:flex-row" id="our-story">
 //           <div className="relative lg:w-1/2">
 //             <div className="absolute inset-0 -translate-x-4 translate-y-4 bg-gray-100 rounded-3xl -z-10"></div>
-//             <img 
-//               src="https://images.unsplash.com/photo-1596462502278-27bf85033e5a?q=80&w=800&auto=format&fit=crop" 
-//               alt="Our Story" 
+//             <img
+//               src="https://images.unsplash.com/photo-1596462502278-27bf85033e5a?q=80&w=800&auto=format&fit=crop"
+//               alt="Our Story"
 //               className="w-full h-[450px] object-cover rounded-3xl shadow-lg border border-gray-100"
 //             />
 //           </div>
@@ -449,7 +449,7 @@
 //             </h2>
 //             <h3 className="text-3xl font-black text-gray-900 md:text-4xl">{t("about_why_title")}</h3>
 //           </div>
-          
+
 //           <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
 //             <div className="p-8 transition-shadow bg-white border border-gray-100 shadow-sm rounded-3xl hover:shadow-md">
 //               <div className="w-12 h-12 bg-emerald-100 text-[#006A4E] rounded-full flex items-center justify-center mb-6 text-xl">✨</div>
@@ -492,11 +492,11 @@
 //         {/* ================= VISION & MISSION ================= */}
 //         <section className="relative overflow-hidden bg-gray-900 rounded-[3rem] p-10 md:p-20 scroll-mt-32" id="vision-mission">
 //           <div className="absolute top-0 right-0 w-64 h-64 bg-[#006A4E] rounded-full blur-[80px] opacity-40"></div>
-          
+
 //           <h2 className="relative z-10 inline-block pb-4 mb-12 text-sm font-bold tracking-widest uppercase border-b border-gray-700 text-emerald-400">
 //             {t("about_vm_label")}
 //           </h2>
-          
+
 //           <div className="relative z-10 grid grid-cols-1 gap-16 lg:grid-cols-2">
 //             <div>
 //               <h3 className="mb-6 text-3xl font-bold text-white">{t("about_vision_title")}</h3>
@@ -509,19 +509,19 @@
 //               <h3 className="mb-6 text-3xl font-bold text-white">{t("about_mission_title")}</h3>
 //               <ul className="space-y-4 text-lg text-gray-300">
 //                 <li className="flex items-start gap-3">
-//                   <span className="text-[#D4FF32] mt-1">✔</span> 
+//                   <span className="text-[#D4FF32] mt-1">✔</span>
 //                   <span>{t("about_mission_item1")}</span>
 //                 </li>
 //                 <li className="flex items-start gap-3">
-//                   <span className="text-[#D4FF32] mt-1">✔</span> 
+//                   <span className="text-[#D4FF32] mt-1">✔</span>
 //                   <span>{t("about_mission_item2")}</span>
 //                 </li>
 //                 <li className="flex items-start gap-3">
-//                   <span className="text-[#D4FF32] mt-1">✔</span> 
+//                   <span className="text-[#D4FF32] mt-1">✔</span>
 //                   <span>{t("about_mission_item3")}</span>
 //                 </li>
 //                 <li className="flex items-start gap-3">
-//                   <span className="text-[#D4FF32] mt-1">✔</span> 
+//                   <span className="text-[#D4FF32] mt-1">✔</span>
 //                   <span>{t("about_mission_item4")}</span>
 //                 </li>
 //               </ul>
@@ -575,13 +575,13 @@
 
 //   return (
 //     <div className="min-h-screen pb-24 overflow-hidden font-sans bg-white">
-      
+
 //       {/* ================= HEADER SECTION (HERO) ================= */}
 //       <div className="relative bg-[#006A4E] py-32 text-center px-4 overflow-hidden">
 //         {/* Dekorasi Latar Belakang */}
 //         <div className="absolute top-0 left-0 w-64 h-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-400 mix-blend-multiply filter blur-3xl opacity-30"></div>
 //         <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#D4FF32] rounded-full mix-blend-multiply filter blur-3xl opacity-20 translate-x-1/3 translate-y-1/3"></div>
-        
+
 //         <div className="relative z-10 max-w-4xl mx-auto animate-fade-in-up">
 //           <h1 className="mb-6 text-4xl font-black tracking-tight text-white md:text-6xl drop-shadow-sm">
 //             {t("about_header_title")}
@@ -596,7 +596,7 @@
 //       </div>
 
 //       <div className="max-w-6xl px-4 mx-auto mt-24 space-y-32 sm:px-6 lg:px-8">
-        
+
 //         {/* ================= WHO WE ARE (Teks Kiri, Gambar Kanan) ================= */}
 //         <section className="flex flex-col items-center gap-16 scroll-mt-32 lg:flex-row" id="who-we-are">
 //           <div className="lg:w-1/2 animate-fade-in-left">
@@ -614,9 +614,9 @@
 //           </div>
 //           <div className="relative lg:w-1/2">
 //             <div className="absolute inset-0 translate-x-4 translate-y-4 bg-emerald-100 rounded-3xl -z-10"></div>
-//             <img 
-//               src={imgStory1} 
-//               alt="Who we are" 
+//             <img
+//               src={imgStory1}
+//               alt="Who we are"
 //               className="w-full h-[400px] object-cover rounded-3xl shadow-xl border border-gray-100"
 //             />
 //           </div>
@@ -626,9 +626,9 @@
 //         <section className="flex flex-col-reverse items-center gap-16 scroll-mt-32 lg:flex-row" id="our-story">
 //           <div className="relative lg:w-1/2">
 //             <div className="absolute inset-0 -translate-x-4 translate-y-4 bg-gray-100 rounded-3xl -z-10"></div>
-//             <img 
-//               src={imgStory2} 
-//               alt="Our Story" 
+//             <img
+//               src={imgStory2}
+//               alt="Our Story"
 //               className="w-full h-[450px] object-cover rounded-3xl shadow-lg border border-gray-100"
 //             />
 //           </div>
@@ -659,7 +659,7 @@
 //             </h2>
 //             <h3 className="text-3xl font-black text-gray-900 md:text-4xl">{t("about_why_title")}</h3>
 //           </div>
-          
+
 //           <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
 //             <div className="p-8 transition-shadow bg-white border border-gray-100 shadow-sm rounded-3xl hover:shadow-md">
 //               <div className="w-12 h-12 bg-emerald-100 text-[#006A4E] rounded-full flex items-center justify-center mb-6 text-xl">✨</div>
@@ -702,11 +702,11 @@
 //         {/* ================= VISION & MISSION ================= */}
 //         <section className="relative overflow-hidden bg-gray-900 rounded-[3rem] p-10 md:p-20 scroll-mt-32" id="vision-mission">
 //           <div className="absolute top-0 right-0 w-64 h-64 bg-[#006A4E] rounded-full blur-[80px] opacity-40"></div>
-          
+
 //           <h2 className="relative z-10 inline-block pb-4 mb-12 text-sm font-bold tracking-widest uppercase border-b border-gray-700 text-emerald-400">
 //             {t("about_vm_label")}
 //           </h2>
-          
+
 //           <div className="relative z-10 grid grid-cols-1 gap-16 lg:grid-cols-2">
 //             <div>
 //               <h3 className="mb-6 text-3xl font-bold text-white">{t("about_vision_title")}</h3>
@@ -719,19 +719,19 @@
 //               <h3 className="mb-6 text-3xl font-bold text-white">{t("about_mission_title")}</h3>
 //               <ul className="space-y-4 text-lg text-gray-300">
 //                 <li className="flex items-start gap-3">
-//                   <span className="text-[#D4FF32] mt-1">✔</span> 
+//                   <span className="text-[#D4FF32] mt-1">✔</span>
 //                   <span>{t("about_mission_item1")}</span>
 //                 </li>
 //                 <li className="flex items-start gap-3">
-//                   <span className="text-[#D4FF32] mt-1">✔</span> 
+//                   <span className="text-[#D4FF32] mt-1">✔</span>
 //                   <span>{t("about_mission_item2")}</span>
 //                 </li>
 //                 <li className="flex items-start gap-3">
-//                   <span className="text-[#D4FF32] mt-1">✔</span> 
+//                   <span className="text-[#D4FF32] mt-1">✔</span>
 //                   <span>{t("about_mission_item3")}</span>
 //                 </li>
 //                 <li className="flex items-start gap-3">
-//                   <span className="text-[#D4FF32] mt-1">✔</span> 
+//                   <span className="text-[#D4FF32] mt-1">✔</span>
 //                   <span>{t("about_mission_item4")}</span>
 //                 </li>
 //               </ul>
@@ -785,13 +785,12 @@ export default function AboutUsPage() {
 
   return (
     <div className="min-h-screen pb-24 overflow-hidden font-sans bg-white">
-      
       {/* ================= HEADER SECTION (HERO) ================= */}
       <div className="relative bg-[#006A4E] py-32 text-center px-4 overflow-hidden">
         {/* Dekorasi Latar Belakang */}
         <div className="absolute top-0 left-0 w-64 h-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-400 mix-blend-multiply filter blur-3xl opacity-30"></div>
         <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#D4FF32] rounded-full mix-blend-multiply filter blur-3xl opacity-20 translate-x-1/3 translate-y-1/3"></div>
-        
+
         <div className="relative z-10 max-w-4xl mx-auto animate-fade-in-up">
           <h1 className="mb-6 text-4xl font-black tracking-tight text-white md:text-6xl drop-shadow-sm">
             {t("about_header_title")}
@@ -806,9 +805,11 @@ export default function AboutUsPage() {
       </div>
 
       <div className="max-w-6xl px-4 mx-auto mt-24 space-y-32 sm:px-6 lg:px-8">
-        
         {/* ================= WHO WE ARE (Teks Kiri, Gambar Kanan) ================= */}
-        <section className="flex flex-col items-center gap-12 scroll-mt-32 lg:flex-row lg:gap-16" id="who-we-are">
+        <section
+          className="flex flex-col items-center gap-12 scroll-mt-32 lg:flex-row lg:gap-16"
+          id="who-we-are"
+        >
           <div className="lg:w-1/2 animate-fade-in-left">
             <h2 className="mb-4 text-sm font-bold tracking-widest text-[#006A4E] uppercase flex items-center gap-2">
               <span className="w-8 h-0.5 bg-[#006A4E]"></span>
@@ -825,22 +826,25 @@ export default function AboutUsPage() {
           {/* [PERBAIKAN GAMBAR 1] - Rasio 2:3 */}
           <div className="relative w-full max-w-md mx-auto lg:w-1/2 lg:mx-0">
             <div className="absolute inset-0 translate-x-4 translate-y-4 bg-emerald-100 rounded-3xl -z-10"></div>
-            <img 
-              src={imgStory1} 
-              alt="Who we are" 
+            <img
+              src={imgStory1}
+              alt="Who we are"
               className="w-full aspect-[2/3] object-cover rounded-3xl shadow-xl border border-gray-100"
             />
           </div>
         </section>
 
         {/* ================= OUR STORY (Gambar Kiri, Teks Kanan) ================= */}
-        <section className="flex flex-col-reverse items-center gap-12 scroll-mt-32 lg:flex-row lg:gap-16" id="our-story">
+        <section
+          className="flex flex-col-reverse items-center gap-12 scroll-mt-32 lg:flex-row lg:gap-16"
+          id="our-story"
+        >
           {/* [PERBAIKAN GAMBAR 2] - Rasio 2:3 */}
           <div className="relative w-full max-w-md mx-auto lg:w-1/2 lg:mx-0">
             <div className="absolute inset-0 -translate-x-4 translate-y-4 bg-gray-100 rounded-3xl -z-10"></div>
-            <img 
-              src={imgStory2} 
-              alt="Our Story" 
+            <img
+              src={imgStory2}
+              alt="Our Story"
               className="w-full aspect-[2/3] object-cover rounded-3xl shadow-lg border border-gray-100"
             />
           </div>
@@ -864,41 +868,75 @@ export default function AboutUsPage() {
         </section>
 
         {/* ================= WHY GYCORA (OUR PURPOSE) ================= */}
-        <section className="scroll-mt-32 bg-[#F9FAF9] rounded-[3rem] p-10 md:p-16 border border-emerald-50" id="our-purpose">
+        <section
+          className="scroll-mt-32 bg-[#F9FAF9] rounded-[3rem] p-10 md:p-16 border border-emerald-50"
+          id="our-purpose"
+        >
           <div className="mb-16 text-center">
             <h2 className="mb-4 text-sm font-bold tracking-widest text-[#006A4E] uppercase inline-block border-b-2 border-[#006A4E] pb-1">
               {t("about_why_label")}
             </h2>
-            <h3 className="text-3xl font-black text-gray-900 md:text-4xl">{t("about_why_title")}</h3>
+            <h3 className="text-3xl font-black text-gray-900 md:text-4xl">
+              {t("about_why_title")}
+            </h3>
           </div>
-          
+
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
             <div className="p-8 transition-shadow bg-white border border-gray-100 shadow-sm rounded-3xl hover:shadow-md">
-              <div className="w-12 h-12 bg-emerald-100 text-[#006A4E] rounded-full flex items-center justify-center mb-6 text-xl">✨</div>
-              <h4 className="mb-3 text-xl font-bold text-gray-900">{t("about_purpose1_title")}</h4>
-              <p className="leading-relaxed text-gray-600">{t("about_purpose1_desc")}</p>
+              <div className="w-12 h-12 bg-emerald-100 text-[#006A4E] rounded-full flex items-center justify-center mb-6 text-xl">
+                ✨
+              </div>
+              <h4 className="mb-3 text-xl font-bold text-gray-900">
+                {t("about_purpose1_title")}
+              </h4>
+              <p className="leading-relaxed text-gray-600">
+                {t("about_purpose1_desc")}
+              </p>
             </div>
             <div className="p-8 transition-shadow bg-white border border-gray-100 shadow-sm rounded-3xl hover:shadow-md">
-              <div className="w-12 h-12 bg-emerald-100 text-[#006A4E] rounded-full flex items-center justify-center mb-6 text-xl">💡</div>
-              <h4 className="mb-3 text-xl font-bold text-gray-900">{t("about_purpose2_title")}</h4>
-              <p className="leading-relaxed text-gray-600">{t("about_purpose2_desc")}</p>
+              <div className="w-12 h-12 bg-emerald-100 text-[#006A4E] rounded-full flex items-center justify-center mb-6 text-xl">
+                💡
+              </div>
+              <h4 className="mb-3 text-xl font-bold text-gray-900">
+                {t("about_purpose2_title")}
+              </h4>
+              <p className="leading-relaxed text-gray-600">
+                {t("about_purpose2_desc")}
+              </p>
             </div>
             <div className="p-8 transition-shadow bg-white border border-gray-100 shadow-sm rounded-3xl hover:shadow-md">
-              <div className="w-12 h-12 bg-emerald-100 text-[#006A4E] rounded-full flex items-center justify-center mb-6 text-xl">🎨</div>
-              <h4 className="mb-3 text-xl font-bold text-gray-900">{t("about_purpose3_title")}</h4>
-              <p className="leading-relaxed text-gray-600">{t("about_purpose3_desc")}</p>
+              <div className="w-12 h-12 bg-emerald-100 text-[#006A4E] rounded-full flex items-center justify-center mb-6 text-xl">
+                🎨
+              </div>
+              <h4 className="mb-3 text-xl font-bold text-gray-900">
+                {t("about_purpose3_title")}
+              </h4>
+              <p className="leading-relaxed text-gray-600">
+                {t("about_purpose3_desc")}
+              </p>
             </div>
             <div className="p-8 transition-shadow bg-white border border-gray-100 shadow-sm rounded-3xl hover:shadow-md">
-              <div className="w-12 h-12 bg-emerald-100 text-[#006A4E] rounded-full flex items-center justify-center mb-6 text-xl">🌱</div>
-              <h4 className="mb-3 text-xl font-bold text-gray-900">{t("about_purpose4_title")}</h4>
-              <p className="leading-relaxed text-gray-600">{t("about_purpose4_desc")}</p>
+              <div className="w-12 h-12 bg-emerald-100 text-[#006A4E] rounded-full flex items-center justify-center mb-6 text-xl">
+                🌱
+              </div>
+              <h4 className="mb-3 text-xl font-bold text-gray-900">
+                {t("about_purpose4_title")}
+              </h4>
+              <p className="leading-relaxed text-gray-600">
+                {t("about_purpose4_desc")}
+              </p>
             </div>
           </div>
         </section>
 
         {/* ================= INNOVATION & SUSTAINABILITY ================= */}
-        <section className="max-w-3xl mx-auto text-center scroll-mt-32" id="our-innovation">
-          <h2 className="mb-4 text-sm font-bold tracking-widest text-[#006A4E] uppercase">{t("about_innov_label")}</h2>
+        <section
+          className="max-w-3xl mx-auto text-center scroll-mt-32"
+          id="our-innovation"
+        >
+          <h2 className="mb-4 text-sm font-bold tracking-widest text-[#006A4E] uppercase">
+            {t("about_innov_label")}
+          </h2>
           <h3 className="mb-8 text-3xl font-extrabold text-gray-900 md:text-4xl">
             {t("about_innov_title")}
           </h3>
@@ -912,7 +950,7 @@ export default function AboutUsPage() {
         </section>
 
         {/* ================= VISION & MISSION ================= */}
-        <section className="relative overflow-hidden bg-gray-900 rounded-[3rem] p-10 md:p-20 scroll-mt-32" id="vision-mission">
+        {/* <section className="relative overflow-hidden bg-gray-900 rounded-[3rem] p-10 md:p-20 scroll-mt-32" id="vision-mission">
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#006A4E] rounded-full blur-[80px] opacity-40"></div>
           
           <h2 className="relative z-10 inline-block pb-4 mb-12 text-sm font-bold tracking-widest uppercase border-b border-gray-700 text-emerald-400">
@@ -949,22 +987,61 @@ export default function AboutUsPage() {
               </ul>
             </div>
           </div>
+        </section> */}
+
+        <section
+          className="relative overflow-hidden rounded-[3rem] p-10 md:p-20 scroll-mt-32 border border-emerald-100"
+          style={{ backgroundColor: "#FDFBF7" }} // Warna Cream Lembut (Background)
+          id="vision-mission"
+        >
+          {/* Dekorasi Latar Belakang (Aksen Emas Muted) */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A059] rounded-full blur-[100px] opacity-10"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#8A9A5B] rounded-full blur-[100px] opacity-10"></div>
+
+          <h2 className="relative z-10 inline-block pb-4 mb-12 text-sm font-bold tracking-widest uppercase border-b border-[#8A9A5B]/30 text-[#8A9A5B]">
+            {t("about_vm_label")}
+          </h2>
+
+          <div className="relative z-10 grid grid-cols-1 gap-16 lg:grid-cols-2">
+            <div>
+              <h3 className="mb-6 text-3xl font-bold text-[#2D3A26]">
+                {t("about_vision_title")}
+              </h3>
+              <p className="text-xl leading-relaxed text-gray-700">
+                {t("about_vision_desc")}
+              </p>
+            </div>
+
+            <div>
+              <h3 className="mb-6 text-3xl font-bold text-[#2D3A26]">
+                {t("about_mission_title")}
+              </h3>
+              <ul className="space-y-4 text-lg text-gray-700">
+                {[1, 2, 3, 4].map((i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    {/* Ikon Emas Muted */}
+                    <span className="text-[#C5A059] mt-1 font-bold">✦</span>
+                    <span>{t(`about_mission_item${i}` as any)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </section>
 
         {/* ================= CLOSING SECTION ================= */}
         <section className="pt-20 pb-10 text-center">
-          <h2 className="mb-4 text-sm font-bold tracking-widest text-gray-400 uppercase">{t("about_closing_label")}</h2>
+          <h2 className="mb-4 text-sm font-bold tracking-widest text-gray-400 uppercase">
+            {t("about_closing_label")}
+          </h2>
           <h3 className="text-3xl md:text-5xl font-black text-[#006A4E] mb-8 leading-tight max-w-3xl mx-auto">
             {t("about_closing_title")}
           </h3>
-          <p className="mb-4 text-xl text-gray-600">
-            {t("about_closing_p1")}
-          </p>
+          <p className="mb-4 text-xl text-gray-600">{t("about_closing_p1")}</p>
           <p className="text-xl font-bold text-gray-900">
             {t("about_closing_p2")}
           </p>
         </section>
-
       </div>
     </div>
   );
