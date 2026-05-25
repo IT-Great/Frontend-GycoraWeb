@@ -3973,7 +3973,7 @@ export default function CartPage() {
   };
 
   return (
-    <div className="w-full min-h-screen px-4 py-16 mx-auto overflow-x-hidden font-sans max-w-7xl sm:px-6 lg:px-8">
+    <div className="w-full min-h-screen px-4 py-16 mx-auto overflow-x-hidden font-sans bg-gray-100 max-w-7xl sm:px-6 lg:px-8">
       <div className="flex items-center gap-4 mb-10 animate-fade-in-up">
         <button
           onClick={() => navigate("/products")}
