@@ -785,7 +785,7 @@ export default function AboutUsPage() {
   }, [location]);
 
   return (
-    <div className="min-h-screen pb-24 overflow-hidden font-sans bg-white">
+    <div className="min-h-screen pb-24 overflow-hidden font-sans bg-gray-300">
       {/* ================= HEADER SECTION (HERO) ================= */}
       <div className="relative bg-[#006A4E] py-32 text-center px-4 overflow-hidden">
         {/* Dekorasi Latar Belakang */}

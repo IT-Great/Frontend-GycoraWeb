@@ -115,7 +115,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="pt-16 pb-8 text-gray-900 bg-green-200 border-t border-green-300">
+    <footer className="pt-16 pb-8 text-gray-900 bg-green-500 border-t border-green-600">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-12 mb-12 md:grid-cols-2 lg:grid-cols-4">
           
