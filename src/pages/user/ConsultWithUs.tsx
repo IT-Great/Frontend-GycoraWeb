@@ -3021,27 +3021,36 @@ import Swal from "sweetalert2";
 import { BASE_URL } from "../../config/api";
 import { useLanguage } from "../../context/LanguageContext";
 
+import img1 from "../../assets/img1.png";
+import img2 from "../../assets/img2.png";
+import img3 from "../../assets/img3.png";
+import img4 from "../../assets/img4.png";
+import img5 from "../../assets/img5.png";
+import img6 from "../../assets/img6.png";
+import img7 from "../../assets/img7.png";
+import img8 from "../../assets/img8.png";
+
 // [PERBAIKAN IKON KONSULTASI]
-const IconFrizz = () => (
-  <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
-  </svg>
-);
-const IconTangled = () => (
-  <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-  </svg>
-);
-const IconHair = () => (
-  <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-  </svg>
-);
-const IconScalp = () => (
-  <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-  </svg>
-);
+// const IconFrizz = () => (
+//   <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+//   </svg>
+// );
+// const IconTangled = () => (
+//   <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+//   </svg>
+// );
+// const IconHair = () => (
+//   <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+//   </svg>
+// );
+// const IconScalp = () => (
+//   <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+//   </svg>
+// );
 
 export default function ConsultWithUs() {
   const navigate = useNavigate();
@@ -3059,15 +3068,26 @@ export default function ConsultWithUs() {
   const ADMIN_WA_NUMBER = "6289517999768";
 
   // [PERBAIKAN] Menggunakan kategori dan key terjemahan terbaru
+  // const consultationCategories = [
+  //   { id: 1, title: t("cat_frizzy"), icon: <IconFrizz /> },
+  //   { id: 2, title: t("cat_tangled"), icon: <IconTangled /> },
+  //   { id: 3, title: t("cat_dry_coarse"), icon: <IconHair /> },
+  //   { id: 4, title: t("cat_damaged"), icon: <IconHair /> },
+  //   { id: 5, title: t("cat_hairfall"), icon: <IconHair /> },
+  //   { id: 6, title: t("cat_oily_scalp"), icon: <IconScalp /> },
+  //   { id: 7, title: t("cat_sensitive_scalp"), icon: <IconScalp /> },
+  //   { id: 8, title: t("cat_baby_hair"), icon: <IconFrizz /> },
+  // ];
+
   const consultationCategories = [
-    { id: 1, title: t("cat_frizzy"), icon: <IconFrizz /> },
-    { id: 2, title: t("cat_tangled"), icon: <IconTangled /> },
-    { id: 3, title: t("cat_dry_coarse"), icon: <IconHair /> },
-    { id: 4, title: t("cat_damaged"), icon: <IconHair /> },
-    { id: 5, title: t("cat_hairfall"), icon: <IconHair /> },
-    { id: 6, title: t("cat_oily_scalp"), icon: <IconScalp /> },
-    { id: 7, title: t("cat_sensitive_scalp"), icon: <IconScalp /> },
-    { id: 8, title: t("cat_baby_hair"), icon: <IconFrizz /> },
+    { id: 1, title: t("cat_frizzy"), icon: <img src={img1} alt="Frizzy" className="object-contain w-10 h-10" /> },
+    { id: 2, title: t("cat_tangled"), icon: <img src={img2} alt="Tangled" className="object-contain w-10 h-10" /> },
+    { id: 3, title: t("cat_dry_coarse"), icon: <img src={img3} alt="Dry Coarse" className="object-contain w-10 h-10" /> },
+    { id: 4, title: t("cat_damaged"), icon: <img src={img4} alt="Damaged" className="object-contain w-10 h-10" /> },
+    { id: 5, title: t("cat_hairfall"), icon: <img src={img5} alt="Hairfall" className="object-contain w-10 h-10" /> },
+    { id: 6, title: t("cat_oily_scalp"), icon: <img src={img6} alt="Oily Scalp" className="object-contain w-10 h-10" /> },
+    { id: 7, title: t("cat_sensitive_scalp"), icon: <img src={img7} alt="Sensitive Scalp" className="object-contain w-10 h-10" /> },
+    { id: 8, title: t("cat_baby_hair"), icon: <img src={img8} alt="Baby Hair" className="object-contain w-10 h-10" /> },
   ];
 
   useEffect(() => {
