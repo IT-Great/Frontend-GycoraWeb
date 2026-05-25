@@ -2705,16 +2705,331 @@
 //   );
 // }
 
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+// import { useState, useEffect, useRef } from "react";
+// import { useNavigate } from "react-router-dom";
+// import Swal from "sweetalert2";
+// import { BASE_URL } from "../../config/api";
+// import { useLanguage } from "../../context/LanguageContext"; // [BARU] Import Language Context
+
+// const IconAcne = () => (
+//   <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+//   </svg>
+// );
+// const IconHair = () => (
+//   <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+//   </svg>
+// );
+// const IconSkin = () => (
+//   <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+//   </svg>
+// );
+// const IconBeard = () => (
+//   <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+//   </svg>
+// );
+
+// export default function ConsultWithUs() {
+//   const navigate = useNavigate();
+//   const { t } = useLanguage(); // [BARU] Inisialisasi hook bahasa
+  
+//   // Refs untuk navigasi scroll
+//   const categorySectionRef = useRef<HTMLDivElement>(null);
+//   const storeSectionRef = useRef<HTMLDivElement>(null);
+
+//   const [userData] = useState<any>(() => {
+//     const storedUser = localStorage.getItem("user_data");
+//     return storedUser ? JSON.parse(storedUser) : null;
+//   });
+
+//   const [isLoading, setIsLoading] = useState(true);
+//   const ADMIN_WA_NUMBER = "6289517999768";
+
+//   // [BARU] Pindahkan daftar kategori ke dalam komponen agar fungsi t() bisa merender ulang data
+//   const consultationCategories = [
+//     { id: 1, title: t("cat_teen_acne"), icon: <IconAcne /> },
+//     { id: 2, title: t("cat_adult_acne"), icon: <IconAcne /> },
+//     { id: 3, title: t("cat_baldness"), icon: <IconHair /> },
+//     { id: 4, title: t("cat_hair_loss"), icon: <IconHair /> },
+//     { id: 5, title: t("cat_beard_growth"), icon: <IconBeard /> },
+//     { id: 6, title: t("cat_dull_skin"), icon: <IconSkin /> },
+//     { id: 7, title: t("cat_acne_scars"), icon: <IconAcne /> },
+//     { id: 8, title: t("cat_dandruff"), icon: <IconHair /> },
+//   ];
+
+//   useEffect(() => {
+//     const fetchLandingData = async () => {
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/landing-page/consult`);
+//         if (res.ok) {
+//           // const data = await res.json();
+//           // setClinicTreatments(data.treatments || []);
+//           // setOtcProducts(data.otc_products || []);
+//         }
+//       } catch (e) {
+//         console.error(e);
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     };
+//     fetchLandingData();
+//   }, []);
+
+//   const handleStartConsultation = async (category: string) => {
+//     if (!userData) {
+//       Swal.fire({
+//         title: t("login_required"),
+//         text: t("login_consult_desc"),
+//         icon: "info",
+//         showCancelButton: true,
+//         confirmButtonColor: "#059669",
+//         confirmButtonText: t("login_now"),
+//         cancelButtonText: t("cancel")
+//       }).then((result) => {
+//         if (result.isConfirmed) navigate("/login");
+//       });
+//       return;
+//     }
+
+//     const { value: formValues } = await Swal.fire({
+//       title: `<span class="text-xl font-extrabold text-gray-900">${t("swal_consult_title")} ${category}</span>`,
+//       html: `
+//         <div class="text-left mt-4 space-y-4">
+//           <div>
+//             <label class="block mb-1 text-sm font-bold text-gray-700">${t("swal_method_label")}</label>
+//             <select id="swal-type" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gycora outline-none transition-all">
+//               <option value="Chat WhatsApp">Chat WhatsApp</option>
+//               <option value="Video Call WhatsApp">Video Call WhatsApp</option>
+//             </select>
+//           </div>
+//           <div>
+//             <label class="block mb-1 text-sm font-bold text-gray-700">${t("swal_schedule_label")}</label>
+//             <input type="datetime-local" id="swal-time" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gycora outline-none transition-all" />
+//           </div>
+//           <div>
+//             <label class="block mb-1 text-sm font-bold text-gray-700">${t("swal_notes_label")}</label>
+//             <textarea id="swal-notes" rows="3" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gycora outline-none resize-none transition-all" placeholder="${t("swal_notes_placeholder")}"></textarea>
+//           </div>
+//         </div>
+//       `,
+//       customClass: {
+//         popup: "rounded-3xl p-6",
+//         confirmButton: "rounded-xl px-8 py-3 text-sm tracking-wider font-bold",
+//         cancelButton: "rounded-xl px-8 py-3 text-sm font-bold",
+//       },
+//       focusConfirm: false,
+//       showCancelButton: true,
+//       confirmButtonText: t("btn_continue_wa"),
+//       cancelButtonText: t("cancel"),
+//       confirmButtonColor: "#059669",
+//       preConfirm: () => {
+//         const time = (document.getElementById("swal-time") as HTMLInputElement).value;
+//         if (!time) {
+//           Swal.showValidationMessage(t("swal_validation_time"));
+//           return false;
+//         }
+//         return {
+//           type: (document.getElementById("swal-type") as HTMLSelectElement).value,
+//           time: time,
+//           notes: (document.getElementById("swal-notes") as HTMLTextAreaElement).value,
+//         };
+//       },
+//     });
+
+//     if (formValues) {
+//       const token = localStorage.getItem("user_token");
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/consultation/log`, {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//             Authorization: `Bearer ${token}`,
+//           },
+//           body: JSON.stringify({
+//             category_title: category,
+//             consultation_type: formValues.type,
+//             consultation_time: formValues.time,
+//             notes: formValues.notes,
+//           }),
+//         });
+
+//         if (res.ok) {
+//           const dateFormatted = new Date(formValues.time).toLocaleString("id-ID", { dateStyle: "full", timeStyle: "short" });
+//           const waMessage = `Halo Gycora Clinic, saya ${userData.first_name}.\n\nSaya ingin melakukan *${formValues.type}* mengenai keluhan *${category}*.\nJadwal Pengajuan: *${dateFormatted}*\nKeluhan: ${formValues.notes || "-"}\n\nMohon konfirmasinya. Terima kasih.`;
+//           const waUrl = `https://wa.me/${ADMIN_WA_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+
+//           Swal.fire({
+//             title: t("swal_redirect_title"),
+//             text: t("swal_redirect_desc"),
+//             icon: "success",
+//             timer: 2000,
+//             showConfirmButton: false,
+//           }).then(() => {
+//             window.open(waUrl, "_blank");
+//           });
+//         } else {
+//           throw new Error(t("swal_send_fail"));
+//         }
+//       } catch (err) {
+//         Swal.fire(t("error"), t("swal_req_fail"), "error");
+//       }
+//     }
+//   };
+
+//   if (isLoading)
+//     return (
+//       <div className="flex items-center justify-center min-h-screen">
+//         <div className="w-12 h-12 border-4 rounded-full border-emerald-200 border-t-gycora animate-spin"></div>
+//       </div>
+//     );
+
+//   return (
+//     <div className="pb-20 font-sans bg-white animate-fade-in">
+      
+//       {/* ================= SECTION 1: HEADING (HERO) ================= */}
+//       <div className="relative py-20 md:py-32 bg-[#F4F9F6] overflow-hidden border-b border-gray-100">
+//         <div className="absolute top-0 right-0 -mt-20 -mr-20 bg-[#006A4E] rounded-full pointer-events-none w-96 h-96 opacity-[0.03] blur-3xl"></div>
+//         <div className="absolute bottom-0 left-0 -mb-20 -ml-20 bg-[#006A4E] rounded-full pointer-events-none w-80 h-80 opacity-[0.03] blur-2xl"></div>
+
+//         <div className="relative z-10 max-w-4xl px-6 mx-auto text-center lg:px-8 animate-fade-in-up">
+//           <h1 className="text-4xl font-black leading-tight tracking-tight text-[#006A4E] sm:text-5xl md:text-6xl drop-shadow-sm">
+//             {t("consult_hero_title")}
+//           </h1>
+//           <p className="max-w-2xl mx-auto mt-6 text-base text-gray-600 md:text-xl">
+//             {t("consult_hero_desc")}
+//           </p>
+//         </div>
+//       </div>
+
+//       {/* ================= SECTION 2: PILIH KONSULTASI ================= */}
+//       <div className="py-24 border-b border-gray-100 bg-gray-50">
+//         <div className="px-6 mx-auto max-w-7xl lg:px-8">
+//           <div className="mb-16 text-center">
+//             <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+//               {t("consult_methods_title")}
+//             </h2>
+//           </div>
+          
+//           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+//             {/* Card Konsultasi Online */}
+//             <div className="flex flex-col h-full p-8 transition-shadow bg-white border border-gray-200 shadow-sm rounded-3xl hover:shadow-md">
+//               <h3 className="mb-4 text-2xl font-extrabold text-[#006A4E]">
+//                 {t("consult_online_title")}
+//               </h3>
+//               <p className="flex-grow mb-8 leading-relaxed text-gray-600">
+//                 {t("consult_online_desc")}
+//               </p>
+//               <button
+//                 onClick={() => categorySectionRef.current?.scrollIntoView({ behavior: "smooth" })}
+//                 className="w-full py-4 text-sm font-bold tracking-widest uppercase transition-all bg-transparent border-2 rounded-xl text-[#006A4E] border-[#006A4E] hover:bg-[#006A4E] hover:text-white"
+//               >
+//                 {t("btn_start_online")}
+//               </button>
+//             </div>
+
+//             {/* Card Visit In Store */}
+//             <div className="flex flex-col h-full p-8 transition-shadow bg-white border border-gray-200 shadow-sm rounded-3xl hover:shadow-md">
+//               <h3 className="mb-4 text-2xl font-extrabold text-[#006A4E]">
+//                 {t("consult_store_title")}
+//               </h3>
+//               <p className="flex-grow mb-8 leading-relaxed text-gray-600">
+//                 {t("consult_store_desc")}
+//               </p>
+//               <button
+//                 onClick={() => storeSectionRef.current?.scrollIntoView({ behavior: "smooth" })}
+//                 className="w-full py-4 text-sm font-bold tracking-widest uppercase transition-all bg-transparent border-2 rounded-xl text-[#006A4E] border-[#006A4E] hover:bg-[#006A4E] hover:text-white"
+//               >
+//                 {t("btn_view_location")}
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+
+//        {/* ================= SECTION 3: RELATABLE PROBLEM ================= */}
+//       <div className="py-20 bg-white border-b border-gray-100">
+//         <div className="max-w-4xl px-6 mx-auto text-center lg:px-8">
+//           <h2 className="mb-6 text-3xl font-extrabold leading-tight text-gray-900 sm:text-4xl">
+//             {t("consult_problem_title")}
+//           </h2>
+//           <div className="space-y-4 text-base text-gray-600 md:text-lg">
+//             <p>{t("consult_problem_p1")}</p>
+//             <p>{t("consult_problem_p2")}</p>
+//             <p className="font-medium text-gray-900">{t("consult_problem_p3")}</p>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* ================= SECTION 4: WHAT YOU CAN CONSULT (CATEGORIES) ================= */}
+//       <div ref={categorySectionRef} className="px-6 py-24 mx-auto bg-white border-b border-gray-100 max-w-7xl lg:px-8">
+//         <div className="mb-12 text-center">
+//           <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+//             {t("consult_categories_title")}
+//           </h2>
+//         </div>
+
+//         <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4">
+//           {consultationCategories.map((category) => (
+//             <div
+//               key={category.id}
+//               onClick={() => handleStartConsultation(category.title)}
+//               className="flex flex-col items-center p-6 text-center transition-all border border-gray-100 cursor-pointer bg-gray-50 rounded-3xl hover:border-gycora hover:bg-white hover:shadow-xl hover:-translate-y-1 group"
+//             >
+//               <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 transition-colors bg-white border border-gray-100 rounded-full group-hover:bg-emerald-50">
+//                 {category.icon}
+//               </div>
+//               <p className="text-sm font-bold text-gray-900 transition-colors group-hover:text-gycora">
+//                 {category.title}
+//               </p>
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+
+//       {/* ================= SECTION 5: CTA (CLOSING) ================= */}
+//       <div className="relative py-24 overflow-hidden bg-gray-900">
+//         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gycora rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
+
+//         <div className="relative max-w-4xl px-6 mx-auto text-center lg:px-8">
+//           <h2 className="text-3xl font-extrabold text-white sm:text-4xl md:text-5xl">
+//             {t("consult_cta_title")}
+//           </h2>
+//           <p className="mt-6 mb-10 text-lg leading-relaxed text-gray-400">
+//             {t("consult_cta_desc")}
+//           </p>
+//           <button
+//             onClick={() => categorySectionRef.current?.scrollIntoView({ behavior: "smooth" })}
+//             className="px-10 py-4 text-lg font-bold text-gray-900 transition-all bg-[#D4FF32] rounded-full hover:bg-[#bce520] hover:shadow-lg hover:shadow-[#D4FF32]/20 hover:-translate-y-0.5"
+//           >
+//             {t("btn_contact_now")}
+//           </button>
+//         </div>
+//       </div>
+      
+//     </div>
+//   );
+// }
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { BASE_URL } from "../../config/api";
-import { useLanguage } from "../../context/LanguageContext"; // [BARU] Import Language Context
+import { useLanguage } from "../../context/LanguageContext";
 
-const IconAcne = () => (
+// [PERBAIKAN IKON KONSULTASI]
+const IconFrizz = () => (
   <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+  </svg>
+);
+const IconTangled = () => (
+  <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
   </svg>
 );
 const IconHair = () => (
@@ -2722,22 +3037,16 @@ const IconHair = () => (
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
   </svg>
 );
-const IconSkin = () => (
+const IconScalp = () => (
   <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-  </svg>
-);
-const IconBeard = () => (
-  <svg className="w-8 h-8 text-gycora" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
   </svg>
 );
 
 export default function ConsultWithUs() {
   const navigate = useNavigate();
-  const { t } = useLanguage(); // [BARU] Inisialisasi hook bahasa
+  const { t } = useLanguage();
   
-  // Refs untuk navigasi scroll
   const categorySectionRef = useRef<HTMLDivElement>(null);
   const storeSectionRef = useRef<HTMLDivElement>(null);
 
@@ -2749,16 +3058,16 @@ export default function ConsultWithUs() {
   const [isLoading, setIsLoading] = useState(true);
   const ADMIN_WA_NUMBER = "6289517999768";
 
-  // [BARU] Pindahkan daftar kategori ke dalam komponen agar fungsi t() bisa merender ulang data
+  // [PERBAIKAN] Menggunakan kategori dan key terjemahan terbaru
   const consultationCategories = [
-    { id: 1, title: t("cat_teen_acne"), icon: <IconAcne /> },
-    { id: 2, title: t("cat_adult_acne"), icon: <IconAcne /> },
-    { id: 3, title: t("cat_baldness"), icon: <IconHair /> },
-    { id: 4, title: t("cat_hair_loss"), icon: <IconHair /> },
-    { id: 5, title: t("cat_beard_growth"), icon: <IconBeard /> },
-    { id: 6, title: t("cat_dull_skin"), icon: <IconSkin /> },
-    { id: 7, title: t("cat_acne_scars"), icon: <IconAcne /> },
-    { id: 8, title: t("cat_dandruff"), icon: <IconHair /> },
+    { id: 1, title: t("cat_frizzy"), icon: <IconFrizz /> },
+    { id: 2, title: t("cat_tangled"), icon: <IconTangled /> },
+    { id: 3, title: t("cat_dry_coarse"), icon: <IconHair /> },
+    { id: 4, title: t("cat_damaged"), icon: <IconHair /> },
+    { id: 5, title: t("cat_hairfall"), icon: <IconHair /> },
+    { id: 6, title: t("cat_oily_scalp"), icon: <IconScalp /> },
+    { id: 7, title: t("cat_sensitive_scalp"), icon: <IconScalp /> },
+    { id: 8, title: t("cat_baby_hair"), icon: <IconFrizz /> },
   ];
 
   useEffect(() => {
@@ -2766,9 +3075,7 @@ export default function ConsultWithUs() {
       try {
         const res = await fetch(`${BASE_URL}/api/landing-page/consult`);
         if (res.ok) {
-          // const data = await res.json();
-          // setClinicTreatments(data.treatments || []);
-          // setOtcProducts(data.otc_products || []);
+          // Data dinamis jika ada
         }
       } catch (e) {
         console.error(e);
@@ -2915,7 +3222,6 @@ export default function ConsultWithUs() {
           </div>
           
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-            {/* Card Konsultasi Online */}
             <div className="flex flex-col h-full p-8 transition-shadow bg-white border border-gray-200 shadow-sm rounded-3xl hover:shadow-md">
               <h3 className="mb-4 text-2xl font-extrabold text-[#006A4E]">
                 {t("consult_online_title")}
@@ -2931,7 +3237,6 @@ export default function ConsultWithUs() {
               </button>
             </div>
 
-            {/* Card Visit In Store */}
             <div className="flex flex-col h-full p-8 transition-shadow bg-white border border-gray-200 shadow-sm rounded-3xl hover:shadow-md">
               <h3 className="mb-4 text-2xl font-extrabold text-[#006A4E]">
                 {t("consult_store_title")}
