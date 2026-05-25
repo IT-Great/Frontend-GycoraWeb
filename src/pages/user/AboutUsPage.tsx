@@ -991,15 +991,15 @@ export default function AboutUsPage() {
         </section> */}
 
         <section
-          className="relative overflow-hidden rounded-[3rem] p-10 md:p-20 scroll-mt-32 border border-[#cab073]"
-          style={{ backgroundColor: "#B8A563" }} // Warna Cream yang lebih hangat & kaya
+          className="relative overflow-hidden rounded-[3rem] p-10 md:p-20 scroll-mt-32 border border-[#8b6f2e]"
+          style={{ backgroundColor: "#978131" }} // Warna Cream yang lebih hangat & kaya
           id="vision-mission"
         >
           {/* Dekorasi Latar Belakang (Menggunakan warna dari aset Anda) */}
           <div className="absolute top-0 right-0 w-72 h-72 bg-[#C8AD55] rounded-full blur-[120px] opacity-20"></div>
           <div className="absolute bottom-0 left-0 w-72 h-72 bg-[#3A5A40] rounded-full blur-[120px] opacity-15"></div>
 
-          <h2 className="relative z-10 inline-block pb-4 mb-12 text-sm font-bold tracking-widest uppercase border-b-2 border-[#3A5A40] text-[#3A5A40]">
+          <h2 className="relative z-10 inline-block pb-4 mb-12 text-sm font-bold tracking-widest uppercase border-b-2 border-[#ffffff] text-[#ffffff]">
             {t("about_vm_label")}
           </h2>
 
