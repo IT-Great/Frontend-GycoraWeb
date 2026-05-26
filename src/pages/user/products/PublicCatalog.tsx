@@ -2077,7 +2077,7 @@ export default function PublicCatalog() {
 
     if (hasVariants) {
       // [PERBAIKAN]: Tambahkan prefix bahasa
-      navigate(`/${lang}/product/${product.slug}`);
+      navigate(`/${lang}/page/${product.slug}`);
       return;
     }
 
@@ -2211,7 +2211,7 @@ export default function PublicCatalog() {
                 // [PERBAIKAN]: Menambahkan `/${lang}` di prop `to`
                 <Link 
                   key={product.id} 
-                  to={`/${lang}/product/${product.slug}`} 
+                  to={`/${lang}/products/${product.slug}`} 
                   state={{ 
                     initialProduct: product,
                     allProducts: products

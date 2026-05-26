@@ -11335,7 +11335,7 @@
 
 //       {/* FEATURED PRODUCT SECTION */}
 //       {/* [PERBAIKAN] Mengubah bg warna section ini sedikit kontras (putih bersih) agar pemisahnya terlihat jelas */}
-//       <div id="featured" className="py-24 bg-white border-y border-gray-100">
+//       <div id="featured" className="py-24 bg-white border-gray-100 border-y">
 //         <div className="px-6 mx-auto max-w-[1536px] sm:px-10 lg:px-16">
 //           <div className="flex flex-col items-center justify-between mb-10 text-center md:items-end md:flex-row md:text-left">
 //             <div className="w-full md:w-1/2">
@@ -11360,7 +11360,7 @@
 //           {isLoadingProducts ? (
 //             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
 //               {[1, 2, 3].map((i) => (
-//                 <div key={i} className="flex flex-row p-4 bg-gray-50 border border-gray-100 shadow-sm rounded-3xl animate-pulse">
+//                 <div key={i} className="flex flex-row p-4 border border-gray-100 shadow-sm bg-gray-50 rounded-3xl animate-pulse">
 //                   <div className="w-2/5 bg-gray-200 rounded-2xl h-36"></div>
 //                   <div className="w-3/5 pl-4 space-y-3">
 //                     <div className="w-full h-4 bg-gray-200 rounded"></div>
@@ -11394,18 +11394,18 @@
 //                       </svg>
 //                     </button>
 
-//                     <div className="flex items-center justify-center w-2/5 shrink-0 bg-white rounded-2xl p-2">
+//                     <div className="flex items-center justify-center w-2/5 p-2 bg-white shrink-0 rounded-2xl">
 //                       <img src={product.image_url} alt={product.name} className="object-contain w-full h-28 md:h-32 drop-shadow-sm" />
 //                     </div>
 
 //                     <div className="flex flex-col justify-center w-3/5 pl-4 pr-2" onClick={() => navigate(`/product/${product.id}`)}>
 //                       <h3 className="text-sm font-extrabold leading-tight text-[#006A4E] line-clamp-2">{product.name}</h3>
-//                       <p className="mt-1 leading-relaxed text-gray-500 text-xs md:text-sm line-clamp-3">{customDesc}</p>
+//                       <p className="mt-1 text-xs leading-relaxed text-gray-500 md:text-sm line-clamp-3">{customDesc}</p>
 //                       <div className="mt-3">
 //                         {product.discount_price && product.discount_price > 0 ? (
 //                           <>
 //                             <span className="block text-[10px] font-medium text-gray-400 line-through">{formatRupiah(product.price)}</span>
-//                             <span className="block text-base md:text-lg font-black leading-none text-rose-500">{formatRupiah(product.discount_price)}</span>
+//                             <span className="block text-base font-black leading-none md:text-lg text-rose-500">{formatRupiah(product.discount_price)}</span>
 //                           </>
 //                         ) : (
 //                           <span className="block text-base md:text-lg font-black leading-none text-[#006A4E]">{formatRupiah(product.price)}</span>
@@ -11427,35 +11427,35 @@
 
 //       {/* RELATABLE PROBLEM & SOLUTION SECTION */}
 //       {/* [PERBAIKAN] Sedikit kontras abu-abu pada latar ini untuk estetika "tidak terlalu putih" */}
-//       <div className="py-24 bg-gray-50 border-gray-100 border-b">
+//       <div className="py-24 border-b border-gray-100 bg-gray-50">
 //         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 //           <div className="flex flex-col gap-16 lg:flex-row lg:items-center">
 //             <div className="flex-1 space-y-6">
 //               <h2 className="text-3xl font-extrabold text-[#006A4E] sm:text-4xl">Pernah Ngerasa Kayak Gini?</h2>
 //               <ul className="space-y-4 text-lg text-gray-600">
 //                 <li className="flex items-start gap-3">
-//                   <span className="mt-1 text-red-500 font-bold">✕</span>
+//                   <span className="mt-1 font-bold text-red-500">✕</span>
 //                   <span>Rambut tiba-tiba kusut di momen penting</span>
 //                 </li>
 //                 <li className="flex items-start gap-3">
-//                   <span className="mt-1 text-red-500 font-bold">✕</span>
+//                   <span className="mt-1 font-bold text-red-500">✕</span>
 //                   <span>Udah rapi dari rumah, tapi berantakan di jalan</span>
 //                 </li>
 //                 <li className="flex items-start gap-3">
-//                   <span className="mt-1 text-red-500 font-bold">✕</span>
+//                   <span className="mt-1 font-bold text-red-500">✕</span>
 //                   <span>Habis pakai helm, kena angin, atau aktivitas seharian</span>
 //                 </li>
 //                 <li className="flex items-start gap-3">
-//                   <span className="mt-1 text-red-500 font-bold">✕</span>
+//                   <span className="mt-1 font-bold text-red-500">✕</span>
 //                   <span>Nggak punya banyak waktu buat styling ulang</span>
 //                 </li>
 //               </ul>
 //               <p className="pt-4 font-medium text-gray-900 text-md">Padahal kamu cuma butuh cara cepat buat balik rapi lagi.</p>
 //             </div>
 
-//             <div className="flex-1 p-8 bg-white border border-gray-200 shadow-xl rounded-3xl lg:p-12 relative overflow-hidden">
+//             <div className="relative flex-1 p-8 overflow-hidden bg-white border border-gray-200 shadow-xl rounded-3xl lg:p-12">
 //               {/* Ornamen Abstrak Halus */}
-//               <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-bl-full -z-0 opacity-50"></div>
+//               <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-full opacity-50 bg-emerald-50 -z-0"></div>
 
 //               <div className="relative z-10">
 //                 <div className="inline-flex items-center px-4 py-1.5 mb-6 rounded-full text-xs font-bold tracking-wide text-emerald-800 bg-emerald-100 uppercase">
@@ -11487,7 +11487,7 @@
 //             <p className="mt-4 text-gray-500">Perbedaan nyata sebelum dan sesudah menggunakan Gycora.</p>
 //           </div>
 
-//           <div className="relative flex flex-col max-w-4xl mx-auto overflow-hidden bg-gray-50 border border-gray-200 shadow-xl group rounded-3xl">
+//           <div className="relative flex flex-col max-w-4xl mx-auto overflow-hidden border border-gray-200 shadow-xl bg-gray-50 group rounded-3xl">
 //             <img
 //               src={beforeAfterImg}
 //               alt="Before After Hair Treatment"
@@ -11498,7 +11498,7 @@
 //       </div>
 
 //       {/* KEY BENEFITS */}
-//       <div className="py-24 bg-gray-50 border-b border-gray-100">
+//       <div className="py-24 border-b border-gray-100 bg-gray-50">
 //         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 //           <div className="mb-16 text-center">
 //             <h2 className="text-3xl font-extrabold text-[#006A4E] sm:text-4xl">Kenapa Banyak yang Pilih Gycora?</h2>
@@ -11507,7 +11507,7 @@
 //             {keyBenefits.map((benefit, idx) => (
 //               <div
 //                 key={idx}
-//                 className="p-8 transition-colors border border-transparent shadow-sm bg-white rounded-3xl hover:border-emerald-200 hover:shadow-md"
+//                 className="p-8 transition-colors bg-white border border-transparent shadow-sm rounded-3xl hover:border-emerald-200 hover:shadow-md"
 //               >
 //                 <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 rounded-2xl bg-emerald-100 text-[#006A4E]">
 //                   {benefit.icon}
@@ -11561,7 +11561,7 @@
 //                     <h4 className="text-sm font-bold text-gray-900 truncate">
 //                       {review.name}
 //                     </h4>
-//                     <p className="text-xs tracking-widest text-emerald-700 uppercase">{review.role}</p>
+//                     <p className="text-xs tracking-widest uppercase text-emerald-700">{review.role}</p>
 //                   </div>
 //                 </div>
 //               </div>
@@ -12125,7 +12125,7 @@
 //       </div>
 
 //       {/* FEATURED PRODUCT SECTION */}
-//       <div id="featured" className="py-24 bg-white border-y border-gray-100">
+//       <div id="featured" className="py-24 bg-white border-gray-100 border-y">
 //         <div className="px-6 mx-auto max-w-[1536px] sm:px-10 lg:px-16">
 //           <div className="flex flex-col items-center justify-between mb-10 text-center md:items-end md:flex-row md:text-left">
 //             <div className="w-full md:w-1/2">
@@ -12163,7 +12163,7 @@
 //               {[1, 2, 3].map((i) => (
 //                 <div
 //                   key={i}
-//                   className="flex flex-row p-4 bg-gray-50 border border-gray-100 shadow-sm rounded-3xl animate-pulse"
+//                   className="flex flex-row p-4 border border-gray-100 shadow-sm bg-gray-50 rounded-3xl animate-pulse"
 //                 >
 //                   <div className="w-2/5 bg-gray-200 rounded-2xl h-36"></div>
 //                   <div className="w-3/5 pl-4 space-y-3">
@@ -12214,7 +12214,7 @@
 //                       </svg>
 //                     </button>
 
-//                     <div className="flex items-center justify-center w-2/5 shrink-0 bg-white rounded-2xl p-2">
+//                     <div className="flex items-center justify-center w-2/5 p-2 bg-white shrink-0 rounded-2xl">
 //                       <img
 //                         src={product.image_url}
 //                         alt={product.name}
@@ -12226,7 +12226,7 @@
 //                       <h3 className="text-sm font-extrabold leading-tight text-[#006A4E] line-clamp-2">
 //                         {product.name}
 //                       </h3>
-//                       <p className="mt-1 leading-relaxed text-gray-500 text-xs md:text-sm line-clamp-3">
+//                       <p className="mt-1 text-xs leading-relaxed text-gray-500 md:text-sm line-clamp-3">
 //                         {customDesc}
 //                       </p>
 //                       <div className="mt-3">
@@ -12236,7 +12236,7 @@
 //                             <span className="block text-[10px] font-medium text-gray-400 line-through">
 //                               {formatRupiah(product.price)}
 //                             </span>
-//                             <span className="block text-base md:text-lg font-black leading-none text-rose-500">
+//                             <span className="block text-base font-black leading-none md:text-lg text-rose-500">
 //                               {formatRupiah(product.discount_price)}
 //                             </span>
 //                           </>
@@ -12263,7 +12263,7 @@
 //       </div>
 
 //       {/* RELATABLE PROBLEM & SOLUTION SECTION */}
-//       <div className="py-24 bg-gray-50 border-gray-100 border-b">
+//       <div className="py-24 border-b border-gray-100 bg-gray-50">
 //         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 //           <div className="flex flex-col gap-16 lg:flex-row lg:items-center">
 //             <div className="flex-1 space-y-6">
@@ -12272,21 +12272,21 @@
 //               </h2>
 //               <ul className="space-y-4 text-lg text-gray-600">
 //                 <li className="flex items-start gap-3">
-//                   <span className="mt-1 text-red-500 font-bold">✕</span>
+//                   <span className="mt-1 font-bold text-red-500">✕</span>
 //                   <span>Rambut tiba-tiba kusut di momen penting</span>
 //                 </li>
 //                 <li className="flex items-start gap-3">
-//                   <span className="mt-1 text-red-500 font-bold">✕</span>
+//                   <span className="mt-1 font-bold text-red-500">✕</span>
 //                   <span>Udah rapi dari rumah, tapi berantakan di jalan</span>
 //                 </li>
 //                 <li className="flex items-start gap-3">
-//                   <span className="mt-1 text-red-500 font-bold">✕</span>
+//                   <span className="mt-1 font-bold text-red-500">✕</span>
 //                   <span>
 //                     Habis pakai helm, kena angin, atau aktivitas seharian
 //                   </span>
 //                 </li>
 //                 <li className="flex items-start gap-3">
-//                   <span className="mt-1 text-red-500 font-bold">✕</span>
+//                   <span className="mt-1 font-bold text-red-500">✕</span>
 //                   <span>Nggak punya banyak waktu buat styling ulang</span>
 //                 </li>
 //               </ul>
@@ -12295,9 +12295,9 @@
 //               </p>
 //             </div>
 
-//             <div className="flex-1 p-8 bg-white border border-gray-200 shadow-xl rounded-3xl lg:p-12 relative overflow-hidden">
+//             <div className="relative flex-1 p-8 overflow-hidden bg-white border border-gray-200 shadow-xl rounded-3xl lg:p-12">
 //               {/* Ornamen Abstrak Halus */}
-//               <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-bl-full -z-0 opacity-50"></div>
+//               <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-full opacity-50 bg-emerald-50 -z-0"></div>
 
 //               <div className="relative z-10">
 //                 <div className="inline-flex items-center px-4 py-1.5 mb-6 rounded-full text-xs font-bold tracking-wide text-emerald-800 bg-emerald-100 uppercase">
@@ -12339,7 +12339,7 @@
 //             </p>
 //           </div>
 
-//           <div className="relative flex flex-col max-w-4xl mx-auto overflow-hidden bg-gray-50 border border-gray-200 shadow-xl group rounded-3xl">
+//           <div className="relative flex flex-col max-w-4xl mx-auto overflow-hidden border border-gray-200 shadow-xl bg-gray-50 group rounded-3xl">
 //             <img
 //               src={beforeAfterImg}
 //               alt="Before After Hair Treatment"
@@ -12350,7 +12350,7 @@
 //       </div>
 
 //       {/* KEY BENEFITS */}
-//       <div className="py-24 bg-gray-50 border-b border-gray-100">
+//       <div className="py-24 border-b border-gray-100 bg-gray-50">
 //         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 //           <div className="mb-16 text-center">
 //             <h2 className="text-3xl font-extrabold text-[#006A4E] sm:text-4xl">
@@ -12361,7 +12361,7 @@
 //             {keyBenefits.map((benefit, idx) => (
 //               <div
 //                 key={idx}
-//                 className="p-8 transition-colors border border-transparent shadow-sm bg-white rounded-3xl hover:border-emerald-200 hover:shadow-md"
+//                 className="p-8 transition-colors bg-white border border-transparent shadow-sm rounded-3xl hover:border-emerald-200 hover:shadow-md"
 //               >
 //                 <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 rounded-2xl bg-emerald-100 text-[#006A4E]">
 //                   {benefit.icon}
@@ -12426,7 +12426,7 @@
 //                     <h4 className="text-sm font-bold text-gray-900 truncate">
 //                       {review.name}
 //                     </h4>
-//                     <p className="text-xs tracking-widest text-emerald-700 uppercase">
+//                     <p className="text-xs tracking-widest uppercase text-emerald-700">
 //                       {review.role}
 //                     </p>
 //                   </div>
@@ -12528,7 +12528,6 @@ const displayReviews = [
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { t } = useLanguage(); // [BARU] Panggil fungsi t()
   
   const [currentSlide, setCurrentSlide] = useState(0);
   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
@@ -12537,6 +12536,7 @@ export default function HomePage() {
   const [showPromoModal, setShowPromoModal] = useState(false);
   const [promoEmail, setPromoEmail] = useState("");
   const [isSubscribing, setIsSubscribing] = useState(false);
+  const { t, lang } = useLanguage(); 
 
   // [BARU] Pindahkan keyBenefits ke dalam komponen agar bisa menggunakan t()
   const keyBenefits = [
@@ -12938,7 +12938,7 @@ export default function HomePage() {
       </div>
 
       {/* FEATURED PRODUCT SECTION */}
-      <div id="featured" className="py-24 bg-white border-y border-gray-100">
+      <div id="featured" className="py-24 bg-white border-gray-100 border-y">
         <div className="px-6 mx-auto max-w-[1536px] sm:px-10 lg:px-16">
           <div className="flex flex-col items-center justify-between mb-10 text-center md:items-end md:flex-row md:text-left">
             <div className="w-full md:w-1/2">
@@ -12975,7 +12975,7 @@ export default function HomePage() {
               {[1, 2, 3].map((i) => (
                 <div
                   key={i}
-                  className="flex flex-row p-4 bg-gray-50 border border-gray-100 shadow-sm rounded-3xl animate-pulse"
+                  className="flex flex-row p-4 border border-gray-100 shadow-sm bg-gray-50 rounded-3xl animate-pulse"
                 >
                   <div className="w-2/5 bg-gray-200 rounded-2xl h-36"></div>
                   <div className="w-3/5 pl-4 space-y-3">
@@ -12999,7 +12999,7 @@ export default function HomePage() {
                     key={product.id}
                     className="relative flex flex-row p-4 transition-all duration-300 bg-gray-50 border border-gray-100 shadow-sm cursor-pointer rounded-3xl hover:shadow-lg hover:-translate-y-1 hover:border-[#006A4E]/30"
                     onClick={() =>
-                      navigate(`/product/${product.slug}`, {
+                      navigate(`/${lang}/products/${product.slug}`, {
                         state: {
                           initialProduct: product,
                           allProducts: featuredProducts,
@@ -13023,7 +13023,7 @@ export default function HomePage() {
                       </svg>
                     </button>
 
-                    <div className="flex items-center justify-center w-2/5 shrink-0 bg-white rounded-2xl p-2">
+                    <div className="flex items-center justify-center w-2/5 p-2 bg-white shrink-0 rounded-2xl">
                       <img
                         src={product.image_url}
                         alt={product.name}
@@ -13035,7 +13035,7 @@ export default function HomePage() {
                       <h3 className="text-sm font-extrabold leading-tight text-[#006A4E] line-clamp-2">
                         {product.name}
                       </h3>
-                      <p className="mt-1 leading-relaxed text-gray-500 text-xs md:text-sm line-clamp-3">
+                      <p className="mt-1 text-xs leading-relaxed text-gray-500 md:text-sm line-clamp-3">
                         {customDesc}
                       </p>
                       <div className="mt-3">
@@ -13045,7 +13045,7 @@ export default function HomePage() {
                             <span className="block text-[10px] font-medium text-gray-400 line-through">
                               {formatRupiah(product.price)}
                             </span>
-                            <span className="block text-base md:text-lg font-black leading-none text-rose-500">
+                            <span className="block text-base font-black leading-none md:text-lg text-rose-500">
                               {formatRupiah(product.discount_price)}
                             </span>
                           </>
@@ -13072,7 +13072,7 @@ export default function HomePage() {
       </div>
 
       {/* RELATABLE PROBLEM & SOLUTION SECTION */}
-      <div className="py-24 bg-gray-50 border-gray-100 border-b">
+      <div className="py-24 border-b border-gray-100 bg-gray-50">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex flex-col gap-16 lg:flex-row lg:items-center">
             <div className="flex-1 space-y-6">
@@ -13081,19 +13081,19 @@ export default function HomePage() {
               </h2>
               <ul className="space-y-4 text-lg text-gray-600">
                 <li className="flex items-start gap-3">
-                  <span className="mt-1 text-red-500 font-bold">✕</span>
+                  <span className="mt-1 font-bold text-red-500">✕</span>
                   <span>{t("problem_1")}</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="mt-1 text-red-500 font-bold">✕</span>
+                  <span className="mt-1 font-bold text-red-500">✕</span>
                   <span>{t("problem_2")}</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="mt-1 text-red-500 font-bold">✕</span>
+                  <span className="mt-1 font-bold text-red-500">✕</span>
                   <span>{t("problem_3")}</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="mt-1 text-red-500 font-bold">✕</span>
+                  <span className="mt-1 font-bold text-red-500">✕</span>
                   <span>{t("problem_4")}</span>
                 </li>
               </ul>
@@ -13102,9 +13102,9 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="flex-1 p-8 bg-white border border-gray-200 shadow-xl rounded-3xl lg:p-12 relative overflow-hidden">
+            <div className="relative flex-1 p-8 overflow-hidden bg-white border border-gray-200 shadow-xl rounded-3xl lg:p-12">
               {/* Ornamen Abstrak Halus */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-bl-full -z-0 opacity-50"></div>
+              <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-full opacity-50 bg-emerald-50 -z-0"></div>
 
               <div className="relative z-10">
                 <div className="inline-flex items-center px-4 py-1.5 mb-6 rounded-full text-xs font-bold tracking-wide text-emerald-800 bg-emerald-100 uppercase">
@@ -13143,7 +13143,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="relative flex flex-col max-w-4xl mx-auto overflow-hidden bg-gray-50 border border-gray-200 shadow-xl group rounded-3xl">
+          <div className="relative flex flex-col max-w-4xl mx-auto overflow-hidden border border-gray-200 shadow-xl bg-gray-50 group rounded-3xl">
             <img
               src={beforeAfterImg}
               alt="Before After Hair Treatment"
@@ -13154,7 +13154,7 @@ export default function HomePage() {
       </div>
 
       {/* KEY BENEFITS */}
-      <div className="py-24 bg-gray-50 border-b border-gray-100">
+      <div className="py-24 border-b border-gray-100 bg-gray-50">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="mb-16 text-center">
             <h2 className="text-3xl font-extrabold text-[#006A4E] sm:text-4xl">
@@ -13165,7 +13165,7 @@ export default function HomePage() {
             {keyBenefits.map((benefit, idx) => (
               <div
                 key={idx}
-                className="p-8 transition-colors border border-transparent shadow-sm bg-white rounded-3xl hover:border-emerald-200 hover:shadow-md"
+                className="p-8 transition-colors bg-white border border-transparent shadow-sm rounded-3xl hover:border-emerald-200 hover:shadow-md"
               >
                 <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 rounded-2xl bg-emerald-100 text-[#006A4E]">
                   {benefit.icon}
@@ -13229,7 +13229,7 @@ export default function HomePage() {
                     <h4 className="text-sm font-bold text-gray-900 truncate">
                       {review.name}
                     </h4>
-                    <p className="text-xs tracking-widest text-emerald-700 uppercase">
+                    <p className="text-xs tracking-widest uppercase text-emerald-700">
                       {review.role}
                     </p>
                   </div>
@@ -13254,7 +13254,7 @@ export default function HomePage() {
             {t("cta_desc2")}
           </p>
           <button
-            onClick={() => navigate("/products")}
+            onClick={() => navigate("/collections/all")}
             className="px-10 py-4 text-lg font-bold text-[#006A4E] transition-all bg-white rounded-full hover:bg-gray-50 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
           >
             {t("shop_now")}

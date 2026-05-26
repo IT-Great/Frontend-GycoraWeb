@@ -1765,7 +1765,8 @@ export default function App() {
                     
                     {/* Halaman Produk & Info */}
                     <Route path="collections/all" element={<PublicCatalog />} />
-                    <Route path="product/:slug" element={<ProductDetail />} />
+                    <Route path="collections/frontpage" element={<PublicCatalog />} />
+                    <Route path="products/:slug" element={<ProductDetail />} />
                     <Route path="contact" element={<ContactUs />} />
                     <Route path="consult" element={<ConsultWithUs />} />
                     <Route path="about" element={<AboutUsPage />} />
