@@ -12844,7 +12844,7 @@ export default function HomePage() {
 
             <div className="flex flex-col justify-center gap-3 mt-6 sm:flex-row md:justify-start md:gap-4 md:mt-8">
               <Link
-                to="/products"
+                to="/collections/all"
                 className="px-6 py-3 md:px-8 md:py-3.5 text-xs md:text-sm font-bold tracking-wider text-center text-white uppercase transition-colors rounded-full shadow-lg bg-[#006A4E] hover:bg-emerald-900"
               >
                 {t("shop_now")}
@@ -13254,7 +13254,7 @@ export default function HomePage() {
             {t("cta_desc2")}
           </p>
           <button
-            onClick={() => navigate(`/${lang}/collections/all`)}
+            onClick={() => navigate(`/collections/all`)}
             className="px-10 py-4 text-lg font-bold text-[#006A4E] transition-all bg-white rounded-full hover:bg-gray-50 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
           >
             {t("shop_now")}
