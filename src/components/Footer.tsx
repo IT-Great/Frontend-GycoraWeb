@@ -193,7 +193,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { BASE_URL } from "../config/api"; 
-import { useLanguage } from "../context/LanguageContext"; // [BARU] Import Context Bahasa
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
