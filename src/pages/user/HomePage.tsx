@@ -13254,7 +13254,7 @@ export default function HomePage() {
             {t("cta_desc2")}
           </p>
           <button
-            onClick={() => navigate("/collections/all")}
+            onClick={() => navigate(`/${lang}/collections/all`)}
             className="px-10 py-4 text-lg font-bold text-[#006A4E] transition-all bg-white rounded-full hover:bg-gray-50 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
           >
             {t("shop_now")}
