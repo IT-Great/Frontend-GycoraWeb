@@ -12844,7 +12844,7 @@ export default function HomePage() {
 
             <div className="flex flex-col justify-center gap-3 mt-6 sm:flex-row md:justify-start md:gap-4 md:mt-8">
               <Link
-                to="/collections/all"
+                to={`/${lang}/collections/all`}
                 className="px-6 py-3 md:px-8 md:py-3.5 text-xs md:text-sm font-bold tracking-wider text-center text-white uppercase transition-colors rounded-full shadow-lg bg-[#006A4E] hover:bg-emerald-900"
               >
                 {t("shop_now")}
