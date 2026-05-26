@@ -1764,7 +1764,7 @@ export default function App() {
                     <Route path="chat" element={<ChatListPage />} />
                     
                     {/* Halaman Produk & Info */}
-                    <Route path="products" element={<PublicCatalog />} />
+                    <Route path="collections/all" element={<PublicCatalog />} />
                     <Route path="product/:slug" element={<ProductDetail />} />
                     <Route path="contact" element={<ContactUs />} />
                     <Route path="consult" element={<ConsultWithUs />} />
