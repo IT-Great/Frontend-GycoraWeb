@@ -13120,7 +13120,7 @@ export default function HomePage() {
                   {t("solution_desc2")}
                 </p>
                 <Link
-                  to="/products"
+                  to="/collections/all"
                   className="inline-block px-8 py-4 text-base font-bold text-white transition-all bg-[#006A4E] rounded-full shadow-lg hover:bg-emerald-900 hover:shadow-xl hover:-translate-y-0.5"
                 >
                   {t("explore_product")}
