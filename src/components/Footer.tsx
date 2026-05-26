@@ -271,8 +271,8 @@ export default function Footer() {
             <ul className="space-y-3">
               {/* [PERBAIKAN] Tambahkan prefix `/${lang}` di setiap Link */}
               <li><Link to={`/${lang}/help-center`} className="text-sm font-medium hover:text-gray-700">Help Center</Link></li>
-              <li><Link to={`/${lang}/faq`} className="text-sm font-medium hover:text-gray-700">FAQ</Link></li>
-              <li><Link to={`/${lang}/contact`} className="text-sm font-medium hover:text-gray-700">Contact Us</Link></li>
+              <li><Link to={`/${lang}/pages/faq`} className="text-sm font-medium hover:text-gray-700">FAQ</Link></li>
+              <li><Link to={`/${lang}/pages/contact-us`} className="text-sm font-medium hover:text-gray-700">Contact Us</Link></li>
               <li><Link to={`/${lang}/returns/request`} className="text-sm font-medium hover:text-gray-700">Request a Return</Link></li>
               <li><Link to={`/${lang}/policies/refund`} className="text-sm font-medium hover:text-gray-700">Refund Policy</Link></li>
               <li><Link to={`/${lang}/policies/shipping`} className="text-sm font-medium hover:text-gray-700">Shipping Policy</Link></li>

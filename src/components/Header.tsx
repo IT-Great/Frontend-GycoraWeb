@@ -10428,7 +10428,7 @@ export default function Header() {
                 onMouseEnter={() => setIsAboutMenuOpen(true)}
                 onMouseLeave={() => setIsAboutMenuOpen(false)}
               >
-                <Link to={`/${lang}/about`} className="flex items-center gap-1 transition-colors hover:text-gycora">
+                <Link to={`/${lang}/pages/about-us`} className="flex items-center gap-1 transition-colors hover:text-gycora">
                   {t("about_us")}
                   <svg
                     className={`w-4 h-4 transition-transform duration-200 ${isAboutMenuOpen ? "rotate-180" : ""}`}
