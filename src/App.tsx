@@ -1767,13 +1767,16 @@ export default function App() {
                     <Route path="collections/all" element={<PublicCatalog />} />
                     <Route path="collections/frontpage" element={<PublicCatalog />} />
                     <Route path="products/:slug" element={<ProductDetail />} />
-                    <Route path="contact" element={<ContactUs />} />
+                    <Route path="pages/contact-us" element={<ContactUs />} />
                     <Route path="consult" element={<ConsultWithUs />} />
-                    <Route path="about" element={<AboutUsPage />} />
+                    <Route path="pages/about-us" element={<AboutUsPage />} />
+                    <Route path="pages/our-story" element={<AboutUsPage />} />
+                    <Route path="pages/our-purpose" element={<AboutUsPage />} />
+                    <Route path="pages/vission-and-mission" element={<AboutUsPage />} />
                     <Route path="events" element={<EventPage />} />
                     <Route path="product-one" element={<ProductOnePage />} />
                     <Route path="product-two" element={<ProductTwoPage />} />
-                    <Route path="faq" element={<FAQPage />} />
+                    <Route path="pages/faq" element={<FAQPage />} />
 
                     {/* Halaman Legal & Kebijakan */}
                     <Route path="legal/privacy" element={<PrivacyPolicy />} />
