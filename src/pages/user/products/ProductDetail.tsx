@@ -17614,6 +17614,17 @@ import { useCart } from "../../../context/CartContext";
 import { BASE_URL } from "../../../config/api";
 import { useLanguage } from "../../../context/LanguageContext";
 
+  // =========================================================
+  // [BARU] LOGIKA PREFIX URL PINTAR
+  // Membaca URL saat ini untuk menentukan prefix navigasi
+  // =========================================================
+  const getUrlPrefix = () => {
+    if (location.pathname.startsWith('/id')) return '/id';
+    if (location.pathname.startsWith('/en')) return '/en';
+    return ''; // Tanpa prefix
+  };
+  const urlPrefix = getUrlPrefix();
+
 const colorMapHex: Record<string, string> = {
   Black: "#000000", White: "#FFFFFF", Brown: "#8B4513", Beige: "#F5F5DC",
   Red: "#8B0000", Navy: "#000080", Green: "#008000", Grey: "#808080",
@@ -17871,7 +17882,7 @@ export default function ProductDetail() {
       } catch (error) {
         if (isCurrentFetchValid) {
           console.error("Gagal memuat produk:", error);
-          navigate("/products");
+          navigate(`${urlPrefix}/products`);
         }
       } finally {
         // [PERBAIKAN MUTLAK] Pastikan loading mati bagaimanapun keadaannya
@@ -17901,7 +17912,7 @@ export default function ProductDetail() {
         confirmButtonText: t("to_login_page"),
         cancelButtonText: t("cancel"),
       }).then((result) => {
-        if (result.isConfirmed) navigate("/login");
+        if (result.isConfirmed) navigate(`${urlPrefix}/login`);
       });
       return;
     }
@@ -17991,7 +18002,7 @@ export default function ProductDetail() {
         icon: "info",
         confirmButtonColor: "#059669",
         confirmButtonText: t("to_login_page"),
-      }).then(() => navigate("/login"));
+      }).then(() => navigate(`${urlPrefix}/login`));
       return;
     }
 
@@ -18060,7 +18071,7 @@ export default function ProductDetail() {
         title: t("login_required"),
         icon: "info",
         confirmButtonColor: "#059669",
-      }).then(() => navigate("/login"));
+      }).then(() => navigate(`${urlPrefix}/login`));
       return;
     }
 
@@ -18082,7 +18093,7 @@ export default function ProductDetail() {
 
       if (res.ok && data.cart_id) {
         fetchCart();
-        navigate("/checkout", { state: { selectedIds: [data.cart_id] } });
+        navigate(`${urlPrefix}/checkout`, { state: { selectedIds: [data.cart_id] } });
       } else {
         Swal.fire("Gagal", data.message || "Terjadi kesalahan", "error");
       }
@@ -18336,7 +18347,7 @@ export default function ProductDetail() {
                           onClick={() => {
                             if (!isCurrentProduct) {
                               window.scrollTo({ top: 0, behavior: "smooth" });
-                              navigate(`/product/${sibling.slug}`, {
+                              navigate(`${urlPrefix}/product/${sibling.slug}`, {
                                   state: { 
                                     initialProduct: sibling,
                                     allProducts: location.state?.allProducts || siblingColors
