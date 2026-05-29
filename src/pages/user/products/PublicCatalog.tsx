@@ -2211,7 +2211,7 @@ export default function PublicCatalog() {
                 // [PERBAIKAN]: Menambahkan `/${lang}` di prop `to`
                 <Link 
                   key={product.id} 
-                  to={`/${lang}/products/${product.slug}`} 
+                  to={`/${lang}/product/${product.slug}`} 
                   state={{ 
                     initialProduct: product,
                     allProducts: products

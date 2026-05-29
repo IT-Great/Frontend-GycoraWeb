@@ -2032,7 +2032,7 @@ const publicRoutes = (
     
     <Route path="collections/all" element={<PublicCatalog />} />
     <Route path="collections/frontpage" element={<PublicCatalog />} />
-    <Route path="products/:slug" element={<ProductDetail />} />
+    <Route path="product/:slug" element={<ProductDetail />} />
     <Route path="pages/contact-us" element={<ContactUs />} />
     <Route path="consult" element={<ConsultWithUs />} />
     <Route path="pages/about-us" element={<AboutUsPage />} />

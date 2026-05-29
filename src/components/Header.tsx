@@ -11087,7 +11087,7 @@ export default function Header() {
                       <button 
                         onClick={() => {
                           const targetProduct = allProducts.find(p => p.slug === menuIds.pinkBrush);
-                          navigate(menuIds.pinkBrush ? `${urlPrefix}/products/${menuIds.pinkBrush}` : `${urlPrefix}/collections/all`, { 
+                          navigate(menuIds.pinkBrush ? `${urlPrefix}/product/${menuIds.pinkBrush}` : `${urlPrefix}/collections/all`, { 
                             state: { initialProduct: targetProduct, allProducts } 
                           });
                         }} 
@@ -11098,7 +11098,7 @@ export default function Header() {
                       <button 
                         onClick={() => {
                           const targetProduct = allProducts.find(p => p.slug === menuIds.blackBrush);
-                          navigate(menuIds.blackBrush ? `${urlPrefix}/products/${menuIds.blackBrush}` : `${urlPrefix}/collections/all`, { 
+                          navigate(menuIds.blackBrush ? `${urlPrefix}/product/${menuIds.blackBrush}` : `${urlPrefix}/collections/all`, { 
                             state: { initialProduct: targetProduct, allProducts } 
                           });
                         }} 
@@ -11109,7 +11109,7 @@ export default function Header() {
                       <button 
                         onClick={() => {
                           const targetProduct = allProducts.find(p => p.slug === menuIds.scalpCare);
-                          navigate(menuIds.scalpCare ? `${urlPrefix}/products/${menuIds.scalpCare}` : `${urlPrefix}/collections/all`, { 
+                          navigate(menuIds.scalpCare ? `${urlPrefix}/product/${menuIds.scalpCare}` : `${urlPrefix}/collections/all`, { 
                             state: { initialProduct: targetProduct, allProducts } 
                           });
                         }} 
@@ -11254,17 +11254,17 @@ export default function Header() {
                          <button className="text-left" onClick={() => { 
                            setIsMobileMenuOpen(false); 
                            const targetProduct = allProducts.find(p => p.slug === menuIds.pinkBrush);
-                           navigate(menuIds.pinkBrush ? `${urlPrefix}/products/${menuIds.pinkBrush}` : `${urlPrefix}/collections/all`, { state: { initialProduct: targetProduct, allProducts } }); 
+                           navigate(menuIds.pinkBrush ? `${urlPrefix}/product/${menuIds.pinkBrush}` : `${urlPrefix}/collections/all`, { state: { initialProduct: targetProduct, allProducts } }); 
                          }}>Ethereal Glow Brush Pink</button>
                          <button className="text-left" onClick={() => { 
                            setIsMobileMenuOpen(false); 
                            const targetProduct = allProducts.find(p => p.slug === menuIds.blackBrush);
-                           navigate(menuIds.blackBrush ? `${urlPrefix}/products/${menuIds.blackBrush}` : `${urlPrefix}/collections/all`, { state: { initialProduct: targetProduct, allProducts } }); 
+                           navigate(menuIds.blackBrush ? `${urlPrefix}/product/${menuIds.blackBrush}` : `${urlPrefix}/collections/all`, { state: { initialProduct: targetProduct, allProducts } }); 
                          }}>Ethereal Glow Brush Black</button>
                          <button className="text-left" onClick={() => { 
                            setIsMobileMenuOpen(false); 
                            const targetProduct = allProducts.find(p => p.slug === menuIds.scalpCare);
-                           navigate(menuIds.scalpCare ? `${urlPrefix}/products/${menuIds.scalpCare}` : `${urlPrefix}/collections/all`, { state: { initialProduct: targetProduct, allProducts } }); 
+                           navigate(menuIds.scalpCare ? `${urlPrefix}/product/${menuIds.scalpCare}` : `${urlPrefix}/collections/all`, { state: { initialProduct: targetProduct, allProducts } }); 
                          }}>Eco Serenity Scalp Care</button>
                       </div>
                    )}
@@ -11364,7 +11364,7 @@ export default function Header() {
                         {searchResults.products.map((product: any) => (
                           <div
                             key={`prod-${product.id}`}
-                            onClick={() => { closeSearchModal(); navigate(`${urlPrefix}/products/${product.slug}`); }}
+                            onClick={() => { closeSearchModal(); navigate(`${urlPrefix}/product/${product.slug}`); }}
                             className="flex items-center gap-3 p-3 transition-colors border border-gray-100 cursor-pointer rounded-xl hover:bg-emerald-50/50 hover:border-emerald-200 group"
                           >
                             <img src={product.image_url} alt={product.name} className="object-cover w-12 h-12 rounded-lg bg-gray-50 shrink-0" />
