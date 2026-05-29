@@ -3718,6 +3718,17 @@ export default function CartPage() {
     [key: number]: ReturnType<typeof setTimeout>;
   }>({});
 
+  // =========================================================
+  // [BARU] LOGIKA PREFIX URL PINTAR
+  // Membaca URL saat ini untuk menentukan prefix navigasi
+  // =========================================================
+  const getUrlPrefix = () => {
+    if (location.pathname.startsWith("/id")) return "/id";
+    if (location.pathname.startsWith("/en")) return "/en";
+    return ""; // Tanpa prefix
+  };
+  const urlPrefix = getUrlPrefix();
+
   useEffect(() => {
     setLocalCartItems(contextCartItems);
     // Inisialisasi state input berdasarkan data asli
@@ -3920,12 +3931,12 @@ export default function CartPage() {
   const addSuggestedProduct = async (product: Product) => {
     const token = localStorage.getItem("user_token");
     if (!token) {
-      navigate("/login");
+      navigate(`${urlPrefix}/login`);
       return;
     }
 
     if (product.color && product.color.length > 0) {
-      navigate(`/product/${product.slug}`); // [PERBAIKAN] Menggunakan slug sesuai permintaan sebelumnya
+      navigate(`${urlPrefix}/product/${product.slug}`); // [PERBAIKAN] Menggunakan slug sesuai permintaan sebelumnya
       return;
     }
 
@@ -3960,7 +3971,7 @@ export default function CartPage() {
     setIsProcessingCheckout(true);
     setTimeout(() => {
       setIsProcessingCheckout(false);
-      navigate("/checkout", { state: { selectedIds: selectedIds } });
+      navigate(`${navigate}/checkout`, { state: { selectedIds: selectedIds } });
     }, 800);
   };
 
@@ -3976,7 +3987,7 @@ export default function CartPage() {
     <div className="w-full min-h-screen px-4 py-16 mx-auto overflow-x-hidden font-sans bg-gray-100 max-w-7xl sm:px-6 lg:px-8">
       <div className="flex items-center gap-4 mb-10 animate-fade-in-up">
         <button
-          onClick={() => navigate("/products")}
+          onClick={() => navigate(`${urlPrefix}/products`)}
           className="p-2 transition bg-white border border-gray-200 rounded-full shadow-sm hover:bg-gray-50"
         >
           <svg
@@ -4012,7 +4023,7 @@ export default function CartPage() {
                 {t("cart_empty_title")}
               </p>
               <button
-                onClick={() => navigate("/products")}
+                onClick={() => navigate(`${urlPrefix}/products`)}
                 className="px-8 py-4 text-sm font-bold tracking-widest text-white uppercase transition bg-gray-900 rounded-full shadow-xl hover:bg-black shadow-gray-200"
               >
                 {t("btn_start_shopping")}
@@ -4063,7 +4074,7 @@ export default function CartPage() {
                       <div
                         className="relative w-24 h-24 overflow-hidden border border-gray-100 cursor-pointer shrink-0 sm:w-40 sm:h-40 rounded-2xl bg-gray-50"
                         onClick={() =>
-                          navigate(`/product/${item.product.slug}`)
+                          navigate(`${urlPrefix}/product/${item.product.slug}`)
                         }
                       >
                         <img
@@ -4084,7 +4095,7 @@ export default function CartPage() {
                             <h3
                               className="w-2/3 text-sm font-bold tracking-tight text-gray-900 transition-colors cursor-pointer sm:text-lg hover:text-gycora line-clamp-2"
                               onClick={() =>
-                                navigate(`/product/${item.product.slug}`)
+                                navigate(`${urlPrefix}/product/${item.product.slug}`)
                               }
                             >
                               {item.product.name}
@@ -4257,7 +4268,7 @@ export default function CartPage() {
                       <div
                         className="relative mb-3 overflow-hidden border border-gray-100 cursor-pointer aspect-square rounded-2xl bg-gray-50"
                         onClick={() =>
-                          navigate(`/product/${product.slug}`, {
+                          navigate(`${urlPrefix}/product/${product.slug}`, {
                             state: {
                               initialProduct: product, // Lempar data secara eksplisit
                               allProducts: suggestedProducts,
