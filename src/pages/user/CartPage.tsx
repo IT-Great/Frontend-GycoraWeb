@@ -3971,7 +3971,7 @@ export default function CartPage() {
     setIsProcessingCheckout(true);
     setTimeout(() => {
       setIsProcessingCheckout(false);
-      navigate(`${navigate}/checkout`, { state: { selectedIds: selectedIds } });
+      navigate(`${urlPrefix}/checkout`, { state: { selectedIds: selectedIds } });
     }, 800);
   };
 
