@@ -1942,7 +1942,7 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
   const isAuthorized = user.usertype === "admin" || user.usertype === "staff";
 
   if (!isAuthorized) {
-    return <Navigate to="/" replace />; // [PERBAIKAN] Kembali ke root asli
+    return <Navigate to="/" replace />; // [PERBAIKAN] Kembali ke root tanpa /id
   }
 
   return <>{children}</>;
@@ -1958,7 +1958,7 @@ function GuestAdminRoute({ children }: { children: React.ReactNode }) {
     if (user.usertype === "admin" || user.usertype === "staff") {
       return <Navigate to="/admin/dashboard" replace />;
     } else {
-      return <Navigate to="/" replace />; // [PERBAIKAN] Kembali ke root asli
+      return <Navigate to="/" replace />; // [PERBAIKAN] Kembali ke root tanpa /id
     }
   }
 
@@ -1966,13 +1966,12 @@ function GuestAdminRoute({ children }: { children: React.ReactNode }) {
 }
 
 // ==========================================================
-// [BARU] LANGUAGE WRAPPER UNTUK MENENTUKAN STATE BAHASA
+// LANGUAGE WRAPPER UNTUK MENENTUKAN STATE BAHASA
 // ==========================================================
 function LanguageWrapper({ langCode }: { langCode: "id" | "en" }) {
   const { setLang } = useLanguage();
 
   useEffect(() => {
-    // Sinkronkan State Context saat rute ini dipanggil
     setLang(langCode);
   }, [langCode, setLang]);
 
@@ -1993,7 +1992,6 @@ function LayoutWrapper({ children }: { children: React.ReactNode }) {
     "/reset-password",
   ];
 
-  // Hapus prefix bahasa dari URL saat memeriksa halaman autentikasi (agar Header/Footer tetap hilang)
   const pathWithoutLang = location.pathname.replace(/^\/(id|en)/, "");
   const isAuthPage = authPaths.includes(pathWithoutLang);
 
@@ -2012,7 +2010,7 @@ function LayoutWrapper({ children }: { children: React.ReactNode }) {
 }
 
 // ==========================================================
-// KUMPULAN RUTE USER PUBLIK (Digunakan di berbagai parent)
+// [PERBAIKAN] KUMPULAN RUTE USER PUBLIK (Digunakan Berulang)
 // ==========================================================
 const publicRoutes = (
   <>
@@ -2065,28 +2063,27 @@ export default function App() {
               <ScrollToTop />
               <LayoutWrapper>
                 <Routes>
-
                   {/* ========================================== */}
-                  {/* RUTE USER PUBLIK (MULTI-PATH SEO FRIENDLY) */}
+                  {/* LOGIKA ROUTING BARU SESUAI PERMINTAAN BOS  */}
                   {/* ========================================== */}
                   
-                  {/* 1. RUTE DASAR TANPA PREFIX (Contoh: /collections/all) */}
+                  {/* 1. Akses Root / Tanpa Prefix (Default ID, SEO Terjaga) */}
                   <Route path="/" element={<LanguageWrapper langCode="id" />}>
                     {publicRoutes}
                   </Route>
 
-                  {/* 2. RUTE DENGAN PREFIX /id (Contoh: /id/collections/all) */}
+                  {/* 2. Akses dengan Prefix /id (Untuk SEO lama Shopify) */}
                   <Route path="/id" element={<LanguageWrapper langCode="id" />}>
                     {publicRoutes}
                   </Route>
 
-                  {/* 3. RUTE DENGAN PREFIX /en (Contoh: /en/collections/all) */}
+                  {/* 3. Akses dengan Prefix /en (Untuk Bahasa Inggris) */}
                   <Route path="/en" element={<LanguageWrapper langCode="en" />}>
                     {publicRoutes}
                   </Route>
 
                   {/* ========================================== */}
-                  {/* RUTE KHUSUS ADMIN (DILUAR /:lang PREFIX) */}
+                  {/* RUTE KHUSUS ADMIN (DILUAR /:lang PREFIX)   */}
                   {/* ========================================== */}
                   <Route
                     path="/admin/login"
