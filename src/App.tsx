@@ -1552,14 +1552,307 @@
 //   );
 // }
 
-import { useEffect } from "react"; // [BARU] Tambahkan useEffect
+// import { useEffect } from "react"; // [BARU] Tambahkan useEffect
+// import {
+//   BrowserRouter as Router,
+//   Routes,
+//   Route,
+//   useLocation,
+//   Navigate,
+//   useParams, // [BARU] Import useParams dan Outlet
+//   Outlet,
+// } from "react-router-dom";
+// import Header from "./components/Header";
+// import Footer from "./components/Footer";
+// import HomePage from "./pages/user/HomePage";
+// import { CartProvider } from "./context/CartContext";
+// import UserLogin from "./pages/user/auth/UserLogin";
+// import UserRegister from "./pages/user/auth/UserRegister";
+// import PublicCatalog from "./pages/user/products/PublicCatalog";
+// import ProductDetail from "./pages/user/products/ProductDetail";
+// import ContactUs from "./pages/user/ContactUs";
+// import UserProfile from "./pages/user/UserProfile";
+// import PrivacyPolicy from "./pages/user/legal/PrivacyPolicy";
+// import AdminLayout from "./pages/admin/AdminLayout";
+// import AdminCategories from "./pages/admin/AdminCategories";
+// import AdminLogin from "./pages/admin/AdminLogin";
+// import AdminDashboard from "./pages/admin/AdminDashboard";
+// import AdminProducts from "./pages/admin/AdminProducts";
+// import AddProduct from "./pages/admin/AddProduct";
+// import EditProduct from "./pages/admin/EditProduct";
+// import AdminProductDetail from "./pages/admin/AdminProductDetail";
+// import AdminUsersList from "./pages/admin/AdminUserList";
+// import OrderPage from "./pages/user/OrderPage";
+// import RequestReturn from "./pages/user/RequestReturn";
+// import RefundPolicy from "./pages/user/RefundPolicy";
+// import ShippingPolicy from "./pages/user/ShippingPolicy";
+// import HelpCenter from "./pages/user/HelpCenter";
+// import TermsOfService from "./pages/user/TermsOfService";
+// import FAQPage from "./pages/user/FAQPage";
+// import CartPage from "./pages/user/CartPage";
+// import PaymentPage from "./pages/user/PaymentPage";
+// import AdminProductStock from "./pages/admin/AdminProductStock";
+// import TrackingPage from "./pages/user/TrackingPage";
+// import TransactionPage from "./pages/admin/TransactionPage";
+// import TransactionDetailPage from "./pages/admin/TransactionDetailPage";
+// import SalesReportPage from "./pages/admin/SalesReportPage";
+// import PaymentSuccessPage from "./pages/user/PaymentSuccessPage";
+// import InactiveProductPage from "./pages/admin/InactiveProductPage";
+// import SubscriberPage from "./pages/admin/SubscriberPage";
+// import AdminProfilePage from "./pages/admin/AdminProfilePage";
+// import MessageViewPage from "./pages/admin/MessageViewPage";
+// import DetailMessageViewPage from "./pages/admin/DetailMessageViewPage";
+// import FavoritePage from "./pages/user/FavoritePage";
+// import CategoryCoaPage from "./pages/admin/CategoryCoaPage";
+// import CoaPage from "./pages/admin/CoaPage";
+// import TransferReceivePage from "./pages/admin/TransferReceivePage";
+// import SupplierPage from "./pages/admin/SupplierPage";
+// import InvoicePage from "./pages/admin/InvoicePage";
+// import ScrollToTop from "./components/ScrollToTop";
+// import WhatsAppButton from "./components/WhatsAppButton";
+// import ConsultWithUs from "./pages/user/ConsultWithUs";
+// import AdminTreatments from "./pages/admin/AdminTreatments";
+// import ForgotPasswordPage from "./pages/user/auth/ForgotPasswordPage";
+// import CodeVerificationPage from "./pages/user/auth/CodeVerificationPage";
+// import ResetPasswordPage from "./pages/user/auth/ResetPasswordPage";
+// import AdminForgotPasswordPage from "./pages/admin/AdminForgotPasswordPage";
+// import AdminCodeVerificationPage from "./pages/admin/AdminCodeVerificationPage";
+// import AdminResetPasswordPage from "./pages/admin/AdminResetPasswordPage";
+// import AdminReviews from "./pages/admin/AdminReviews";
+// import ChatListPage from "./pages/user/ChatListPage";
+// import UserDetailPage from "./pages/admin/UserDetailPage";
+// import AdminAuditLogPage from "./pages/admin/AdminAuditLogPage";
+// import { MessageProvider } from "./context/MessageContext";
+// import ProductOnePage from "./pages/user/ProductOnePage";
+// import ProductTwoPage from "./pages/user/ProductTwoPage";
+// import AboutUsPage from "./pages/user/AboutUsPage";
+// import AdminEventList from "./pages/admin/AdminEventList";
+// import AdminEventForm from "./pages/admin/AdminEventForm";
+// import AdminEventDetail from "./pages/admin/AdminEventDetail";
+// import EventPage from "./pages/user/EventPage";
+// import { LanguageProvider, useLanguage } from "./context/LanguageContext"; // [BARU] Import useLanguage
+// import AutoLogout from "./components/AutoLogout";
+
+// // ==========================================================
+// // FUNGSI PENJAGA RUTE (ROUTE GUARDS)
+// // ==========================================================
+
+// function AdminRoute({ children }: { children: React.ReactNode }) {
+//   const token = localStorage.getItem("admin_token");
+//   const userDataStr = localStorage.getItem("admin_user");
+
+//   if (!token || !userDataStr) {
+//     return <Navigate to="/admin/login" replace />;
+//   }
+
+//   const user = JSON.parse(userDataStr);
+//   const isAuthorized = user.usertype === "admin" || user.usertype === "staff";
+
+//   if (!isAuthorized) {
+//     return <Navigate to="/id" replace />;
+//   }
+
+//   return <>{children}</>;
+// }
+
+// function GuestAdminRoute({ children }: { children: React.ReactNode }) {
+//   const token = localStorage.getItem("user_token");
+//   const userDataStr = localStorage.getItem("user_data");
+
+//   if (token && userDataStr) {
+//     const user = JSON.parse(userDataStr);
+
+//     if (user.usertype === "admin" || user.usertype === "staff") {
+//       return <Navigate to="/admin/dashboard" replace />;
+//     } else {
+//       return <Navigate to="/id" replace />;
+//     }
+//   }
+
+//   return <>{children}</>;
+// }
+
+// // ==========================================================
+// // [BARU] LANGUAGE WRAPPER UNTUK MENGELOLA /:lang
+// // ==========================================================
+// function LanguageWrapper() {
+//   const { lang } = useParams<{ lang: string }>();
+//   const { setLang } = useLanguage();
+
+//   useEffect(() => {
+//     // Sinkronkan URL dengan State Context
+//     if (lang === "id" || lang === "en") {
+//       setLang(lang as "id" | "en");
+//     }
+//   }, [lang, setLang]);
+
+//   // Jika user mengetik bahasa asing yang tidak dikenali, redirect ke /id
+//   if (lang !== "id" && lang !== "en") {
+//     return <Navigate to="/id" replace />;
+//   }
+
+//   return <Outlet />;
+// }
+
+// // ==========================================================
+
+// function LayoutWrapper({ children }: { children: React.ReactNode }) {
+//   const location = useLocation();
+//   const isAdminArea = location.pathname.startsWith("/admin");
+
+//   const authPaths = [
+//     "/login",
+//     "/register",
+//     "/forgot-password",
+//     "/verify-code",
+//     "/reset-password",
+//   ];
+
+//   // [PERBAIKAN] Hapus prefix bahasa dari URL saat memeriksa halaman autentikasi
+//   const pathWithoutLang = location.pathname.replace(/^\/(id|en)/, "");
+//   const isAuthPage = authPaths.includes(pathWithoutLang);
+
+//   if (isAdminArea) return <>{children}</>;
+
+//   const shouldShowHeaderFooter = !isAuthPage;
+
+//   return (
+//     <div className="flex flex-col min-h-screen font-sans text-gray-900 bg-white">
+//       {shouldShowHeaderFooter && <Header />}
+//       <main className="flex flex-col flex-1">{children}</main>
+//       {shouldShowHeaderFooter && <Footer />}
+//       {shouldShowHeaderFooter && <WhatsAppButton />}
+//     </div>
+//   );
+// }
+
+// export default function App() {
+//   return (
+//     <LanguageProvider>
+//       <CartProvider>
+//         <MessageProvider>
+//           <Router>
+//             <AutoLogout>
+//               <ScrollToTop />
+//               <LayoutWrapper>
+//                 <Routes>
+//                   {/* REDIRECT ROOT KE BAHASA DEFAULT (/id) */}
+//                   <Route path="/" element={<Navigate to="/id" replace />} />
+
+//                   {/* ========================================== */}
+//                   {/* RUTE USER PUBLIK DIBUNGKUS LANGUAGE WRAPPER */}
+//                   {/* ========================================== */}
+//                   <Route path="/:lang" element={<LanguageWrapper />}>
+//                     {/* Path dikosongkan agar merespon /id atau /en */}
+//                     <Route path="" element={<HomePage />} />
+                    
+//                     {/* Halaman Autentikasi */}
+//                     <Route path="login" element={<UserLogin />} />
+//                     <Route path="register" element={<UserRegister />} />
+//                     <Route path="forgot-password" element={<ForgotPasswordPage />} />
+//                     <Route path="verify-code" element={<CodeVerificationPage />} />
+//                     <Route path="reset-password" element={<ResetPasswordPage />} />
+                    
+//                     {/* Halaman User & Transaksi */}
+//                     <Route path="profile" element={<UserProfile />} />
+//                     <Route path="orders" element={<OrderPage />} />
+//                     <Route path="cart" element={<CartPage />} />
+//                     <Route path="checkout" element={<PaymentPage />} />
+//                     <Route path="payment-success" element={<PaymentSuccessPage />} />
+//                     <Route path="tracking/:id" element={<TrackingPage />} />
+//                     <Route path="favorites" element={<FavoritePage />} />
+//                     <Route path="chat" element={<ChatListPage />} />
+                    
+//                     {/* Halaman Produk & Info */}
+//                     <Route path="collections/all" element={<PublicCatalog />} />
+//                     <Route path="collections/frontpage" element={<PublicCatalog />} />
+//                     <Route path="products/:slug" element={<ProductDetail />} />
+//                     <Route path="pages/contact-us" element={<ContactUs />} />
+//                     <Route path="consult" element={<ConsultWithUs />} />
+//                     <Route path="pages/about-us" element={<AboutUsPage />} />
+//                     <Route path="pages/our-story" element={<AboutUsPage />} />
+//                     <Route path="pages/our-purpose" element={<AboutUsPage />} />
+//                     <Route path="pages/vission-and-mission" element={<AboutUsPage />} />
+//                     <Route path="events" element={<EventPage />} />
+//                     <Route path="product-one" element={<ProductOnePage />} />
+//                     <Route path="product-two" element={<ProductTwoPage />} />
+//                     <Route path="pages/faq" element={<FAQPage />} />
+
+//                     {/* Halaman Legal & Kebijakan */}
+//                     <Route path="legal/privacy" element={<PrivacyPolicy />} />
+//                     <Route path="returns/request" element={<RequestReturn />} />
+//                     <Route path="policies/refund" element={<RefundPolicy />} />
+//                     <Route path="policies/shipping" element={<ShippingPolicy />} />
+//                     <Route path="help-center" element={<HelpCenter />} />
+//                     <Route path="legal/terms" element={<TermsOfService />} />
+//                   </Route>
+
+//                   {/* ========================================== */}
+//                   {/* RUTE KHUSUS ADMIN (DILUAR /:lang PREFIX) */}
+//                   {/* ========================================== */}
+
+//                   {/* Rute Login Admin */}
+//                   <Route
+//                     path="/admin/login"
+//                     element={
+//                       <GuestAdminRoute>
+//                         <AdminLayout>
+//                           <AdminLogin />
+//                         </AdminLayout>
+//                       </GuestAdminRoute>
+//                     }
+//                   />
+//                   <Route path="/admin/forgot-password" element={<AdminForgotPasswordPage />} />
+//                   <Route path="/admin/verify-code" element={<AdminCodeVerificationPage />} />
+//                   <Route path="/admin/reset-password" element={<AdminResetPasswordPage />} />
+
+//                   {/* AREA DALAM ADMIN */}
+//                   <Route path="/admin/dashboard" element={<AdminRoute><AdminLayout><AdminDashboard /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/categories" element={<AdminRoute><AdminLayout><AdminCategories /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/products" element={<AdminRoute><AdminLayout><AdminProducts /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/products/create" element={<AdminRoute><AdminLayout><AddProduct /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/products/:slug/edit" element={<AdminRoute><AdminLayout><EditProduct /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/products/:slug" element={<AdminRoute><AdminLayout><AdminProductDetail /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/stocks" element={<AdminRoute><AdminLayout><AdminProductStock /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/transactions" element={<AdminRoute><AdminLayout><TransactionPage /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/transactions/:id" element={<AdminRoute><AdminLayout><TransactionDetailPage /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/users" element={<AdminRoute><AdminLayout><AdminUsersList /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/users/:id" element={<AdminRoute><AdminLayout><UserDetailPage /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/sales-report" element={<AdminRoute><AdminLayout><SalesReportPage /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/products/inactive" element={<AdminRoute><AdminLayout><InactiveProductPage /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/subscribers" element={<AdminRoute><AdminLayout><SubscriberPage /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/profile" element={<AdminRoute><AdminLayout><AdminProfilePage /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/messages" element={<AdminRoute><AdminLayout><MessageViewPage /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/messages/:id" element={<AdminRoute><AdminLayout><DetailMessageViewPage /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/category-coas" element={<AdminRoute><AdminLayout><CategoryCoaPage /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/coas" element={<AdminRoute><AdminLayout><CoaPage /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/transfer-receive" element={<AdminRoute><AdminLayout><TransferReceivePage /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/suppliers" element={<AdminRoute><AdminLayout><SupplierPage /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/invoices" element={<AdminRoute><AdminLayout><InvoicePage /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/treatments" element={<AdminRoute><AdminLayout><AdminTreatments /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/reviews" element={<AdminRoute><AdminLayout><AdminReviews /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/audit-logs" element={<AdminRoute><AdminLayout><AdminAuditLogPage /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/events" element={<AdminRoute><AdminLayout><AdminEventList /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/events/create" element={<AdminRoute><AdminLayout><AdminEventForm /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/events/edit/:id" element={<AdminRoute><AdminLayout><AdminEventForm /></AdminLayout></AdminRoute>} />
+//                   <Route path="/admin/events/:id" element={<AdminRoute><AdminLayout><AdminEventDetail /></AdminLayout></AdminRoute>} />
+//                 </Routes>
+//               </LayoutWrapper>
+//             </AutoLogout>
+//           </Router>
+//         </MessageProvider>
+//       </CartProvider>
+//     </LanguageProvider>
+//   );
+// }
+
+import { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   useLocation,
   Navigate,
-  useParams, // [BARU] Import useParams dan Outlet
   Outlet,
 } from "react-router-dom";
 import Header from "./components/Header";
@@ -1630,7 +1923,7 @@ import AdminEventList from "./pages/admin/AdminEventList";
 import AdminEventForm from "./pages/admin/AdminEventForm";
 import AdminEventDetail from "./pages/admin/AdminEventDetail";
 import EventPage from "./pages/user/EventPage";
-import { LanguageProvider, useLanguage } from "./context/LanguageContext"; // [BARU] Import useLanguage
+import { LanguageProvider, useLanguage } from "./context/LanguageContext";
 import AutoLogout from "./components/AutoLogout";
 
 // ==========================================================
@@ -1649,7 +1942,7 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
   const isAuthorized = user.usertype === "admin" || user.usertype === "staff";
 
   if (!isAuthorized) {
-    return <Navigate to="/id" replace />;
+    return <Navigate to="/" replace />; // [PERBAIKAN] Kembali ke root asli
   }
 
   return <>{children}</>;
@@ -1665,7 +1958,7 @@ function GuestAdminRoute({ children }: { children: React.ReactNode }) {
     if (user.usertype === "admin" || user.usertype === "staff") {
       return <Navigate to="/admin/dashboard" replace />;
     } else {
-      return <Navigate to="/id" replace />;
+      return <Navigate to="/" replace />; // [PERBAIKAN] Kembali ke root asli
     }
   }
 
@@ -1673,23 +1966,15 @@ function GuestAdminRoute({ children }: { children: React.ReactNode }) {
 }
 
 // ==========================================================
-// [BARU] LANGUAGE WRAPPER UNTUK MENGELOLA /:lang
+// [BARU] LANGUAGE WRAPPER UNTUK MENENTUKAN STATE BAHASA
 // ==========================================================
-function LanguageWrapper() {
-  const { lang } = useParams<{ lang: string }>();
+function LanguageWrapper({ langCode }: { langCode: "id" | "en" }) {
   const { setLang } = useLanguage();
 
   useEffect(() => {
-    // Sinkronkan URL dengan State Context
-    if (lang === "id" || lang === "en") {
-      setLang(lang as "id" | "en");
-    }
-  }, [lang, setLang]);
-
-  // Jika user mengetik bahasa asing yang tidak dikenali, redirect ke /id
-  if (lang !== "id" && lang !== "en") {
-    return <Navigate to="/id" replace />;
-  }
+    // Sinkronkan State Context saat rute ini dipanggil
+    setLang(langCode);
+  }, [langCode, setLang]);
 
   return <Outlet />;
 }
@@ -1708,7 +1993,7 @@ function LayoutWrapper({ children }: { children: React.ReactNode }) {
     "/reset-password",
   ];
 
-  // [PERBAIKAN] Hapus prefix bahasa dari URL saat memeriksa halaman autentikasi
+  // Hapus prefix bahasa dari URL saat memeriksa halaman autentikasi (agar Header/Footer tetap hilang)
   const pathWithoutLang = location.pathname.replace(/^\/(id|en)/, "");
   const isAuthPage = authPaths.includes(pathWithoutLang);
 
@@ -1726,6 +2011,50 @@ function LayoutWrapper({ children }: { children: React.ReactNode }) {
   );
 }
 
+// ==========================================================
+// KUMPULAN RUTE USER PUBLIK (Digunakan di berbagai parent)
+// ==========================================================
+const publicRoutes = (
+  <>
+    <Route path="" element={<HomePage />} />
+    <Route path="login" element={<UserLogin />} />
+    <Route path="register" element={<UserRegister />} />
+    <Route path="forgot-password" element={<ForgotPasswordPage />} />
+    <Route path="verify-code" element={<CodeVerificationPage />} />
+    <Route path="reset-password" element={<ResetPasswordPage />} />
+    
+    <Route path="profile" element={<UserProfile />} />
+    <Route path="orders" element={<OrderPage />} />
+    <Route path="cart" element={<CartPage />} />
+    <Route path="checkout" element={<PaymentPage />} />
+    <Route path="payment-success" element={<PaymentSuccessPage />} />
+    <Route path="tracking/:id" element={<TrackingPage />} />
+    <Route path="favorites" element={<FavoritePage />} />
+    <Route path="chat" element={<ChatListPage />} />
+    
+    <Route path="collections/all" element={<PublicCatalog />} />
+    <Route path="collections/frontpage" element={<PublicCatalog />} />
+    <Route path="products/:slug" element={<ProductDetail />} />
+    <Route path="pages/contact-us" element={<ContactUs />} />
+    <Route path="consult" element={<ConsultWithUs />} />
+    <Route path="pages/about-us" element={<AboutUsPage />} />
+    <Route path="pages/our-story" element={<AboutUsPage />} />
+    <Route path="pages/our-purpose" element={<AboutUsPage />} />
+    <Route path="pages/vission-and-mission" element={<AboutUsPage />} />
+    <Route path="events" element={<EventPage />} />
+    <Route path="product-one" element={<ProductOnePage />} />
+    <Route path="product-two" element={<ProductTwoPage />} />
+    <Route path="pages/faq" element={<FAQPage />} />
+
+    <Route path="legal/privacy" element={<PrivacyPolicy />} />
+    <Route path="returns/request" element={<RequestReturn />} />
+    <Route path="policies/refund" element={<RefundPolicy />} />
+    <Route path="policies/shipping" element={<ShippingPolicy />} />
+    <Route path="help-center" element={<HelpCenter />} />
+    <Route path="legal/terms" element={<TermsOfService />} />
+  </>
+);
+
 export default function App() {
   return (
     <LanguageProvider>
@@ -1736,62 +2065,29 @@ export default function App() {
               <ScrollToTop />
               <LayoutWrapper>
                 <Routes>
-                  {/* REDIRECT ROOT KE BAHASA DEFAULT (/id) */}
-                  <Route path="/" element={<Navigate to="/id" replace />} />
 
                   {/* ========================================== */}
-                  {/* RUTE USER PUBLIK DIBUNGKUS LANGUAGE WRAPPER */}
+                  {/* RUTE USER PUBLIK (MULTI-PATH SEO FRIENDLY) */}
                   {/* ========================================== */}
-                  <Route path="/:lang" element={<LanguageWrapper />}>
-                    {/* Path dikosongkan agar merespon /id atau /en */}
-                    <Route path="" element={<HomePage />} />
-                    
-                    {/* Halaman Autentikasi */}
-                    <Route path="login" element={<UserLogin />} />
-                    <Route path="register" element={<UserRegister />} />
-                    <Route path="forgot-password" element={<ForgotPasswordPage />} />
-                    <Route path="verify-code" element={<CodeVerificationPage />} />
-                    <Route path="reset-password" element={<ResetPasswordPage />} />
-                    
-                    {/* Halaman User & Transaksi */}
-                    <Route path="profile" element={<UserProfile />} />
-                    <Route path="orders" element={<OrderPage />} />
-                    <Route path="cart" element={<CartPage />} />
-                    <Route path="checkout" element={<PaymentPage />} />
-                    <Route path="payment-success" element={<PaymentSuccessPage />} />
-                    <Route path="tracking/:id" element={<TrackingPage />} />
-                    <Route path="favorites" element={<FavoritePage />} />
-                    <Route path="chat" element={<ChatListPage />} />
-                    
-                    {/* Halaman Produk & Info */}
-                    <Route path="collections/all" element={<PublicCatalog />} />
-                    <Route path="collections/frontpage" element={<PublicCatalog />} />
-                    <Route path="products/:slug" element={<ProductDetail />} />
-                    <Route path="pages/contact-us" element={<ContactUs />} />
-                    <Route path="consult" element={<ConsultWithUs />} />
-                    <Route path="pages/about-us" element={<AboutUsPage />} />
-                    <Route path="pages/our-story" element={<AboutUsPage />} />
-                    <Route path="pages/our-purpose" element={<AboutUsPage />} />
-                    <Route path="pages/vission-and-mission" element={<AboutUsPage />} />
-                    <Route path="events" element={<EventPage />} />
-                    <Route path="product-one" element={<ProductOnePage />} />
-                    <Route path="product-two" element={<ProductTwoPage />} />
-                    <Route path="pages/faq" element={<FAQPage />} />
+                  
+                  {/* 1. RUTE DASAR TANPA PREFIX (Contoh: /collections/all) */}
+                  <Route path="/" element={<LanguageWrapper langCode="id" />}>
+                    {publicRoutes}
+                  </Route>
 
-                    {/* Halaman Legal & Kebijakan */}
-                    <Route path="legal/privacy" element={<PrivacyPolicy />} />
-                    <Route path="returns/request" element={<RequestReturn />} />
-                    <Route path="policies/refund" element={<RefundPolicy />} />
-                    <Route path="policies/shipping" element={<ShippingPolicy />} />
-                    <Route path="help-center" element={<HelpCenter />} />
-                    <Route path="legal/terms" element={<TermsOfService />} />
+                  {/* 2. RUTE DENGAN PREFIX /id (Contoh: /id/collections/all) */}
+                  <Route path="/id" element={<LanguageWrapper langCode="id" />}>
+                    {publicRoutes}
+                  </Route>
+
+                  {/* 3. RUTE DENGAN PREFIX /en (Contoh: /en/collections/all) */}
+                  <Route path="/en" element={<LanguageWrapper langCode="en" />}>
+                    {publicRoutes}
                   </Route>
 
                   {/* ========================================== */}
                   {/* RUTE KHUSUS ADMIN (DILUAR /:lang PREFIX) */}
                   {/* ========================================== */}
-
-                  {/* Rute Login Admin */}
                   <Route
                     path="/admin/login"
                     element={
