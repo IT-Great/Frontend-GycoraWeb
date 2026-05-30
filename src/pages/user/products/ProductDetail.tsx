@@ -17899,6 +17899,26 @@ export default function ProductDetail() {
     };
   }, [slug, navigate, location.state, lang]); 
 
+  useEffect(() => {
+    if (product) {
+      const activePrice = product.discount_price > 0 ? product.discount_price : product.price;
+      (window as any).dataLayer = (window as any).dataLayer || [];
+      (window as any).dataLayer.push({
+        event: "view_item",
+        ecommerce: {
+          currency: "IDR",
+          value: activePrice,
+          items: [{
+            item_id: product.id,
+            item_name: product.name,
+            price: activePrice,
+            item_category: product.category_name
+          }]
+        }
+      });
+    }
+  }, [product?.id]);
+
   const handleToggleWishlist = async () => {
     const token = localStorage.getItem("user_token");
     if (!token) {
@@ -18028,6 +18048,25 @@ export default function ProductDetail() {
 
     addCartItemOptimistically(optimisticItem);
     triggerFlyingAnimation();
+
+    // [BARU] 2. GTM Event: add_to_cart (Sisipkan di sini)
+    const activePrice = product!.discount_price > 0 ? product!.discount_price : product!.price;
+    (window as any).dataLayer = (window as any).dataLayer || [];
+    (window as any).dataLayer.push({
+      event: "add_to_cart",
+      ecommerce: {
+        currency: "IDR",
+        value: activePrice * quantity,
+        items: [{
+          item_id: product!.id,
+          item_name: product!.name,
+          price: activePrice,
+          quantity: quantity,
+          item_category: product!.category_name
+        }]
+      }
+    });
+
     Swal.fire({
       title: t("added_to_cart"),
       icon: "success",

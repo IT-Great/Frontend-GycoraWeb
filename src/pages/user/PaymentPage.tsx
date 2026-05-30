@@ -6407,6 +6407,26 @@ export default function PaymentPage() {
       const data = await res.json();
 
       if (res.ok && data.checkout_url) {
+        // [BARU] GTM Event: add_payment_info
+        (window as any).dataLayer = (window as any).dataLayer || [];
+        (window as any).dataLayer.push({
+          event: "add_payment_info",
+          ecommerce: {
+        currency: "IDR",
+            value: grandTotal,
+            items: checkoutItems.map((item: any) => {
+              const itemPrice = item.product.discount_price > 0 ? item.product.discount_price : item.product.price;
+              return {
+                item_id: item.product.id,
+                item_name: item.product.name,
+                price: itemPrice,
+                quantity: item.quantity
+              };
+            })
+          }
+        });
+
+        // Eksekusi redirect ke payment gateway
         window.location.href = data.checkout_url;
       } else {
         throw new Error(data.message || "Gagal membuat tagihan");

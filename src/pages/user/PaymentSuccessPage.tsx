@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function PaymentSuccessPage() {
@@ -7,6 +9,23 @@ export default function PaymentSuccessPage() {
   // Mengambil parameter dari URL (misal: ?external_id=PAY-123&order_id=ORD-456)
   const externalId = searchParams.get("external_id");
   const orderId = searchParams.get("order_id");
+
+  // [BARU] GTM Event: purchase
+  useEffect(() => {
+    if (orderId) {
+      (window as any).dataLayer = (window as any).dataLayer || [];
+      (window as any).dataLayer.push({
+        event: "purchase",
+        ecommerce: {
+          transaction_id: orderId,
+          currency: "IDR",
+          // Catatan: Karena halaman ini tidak memiliki akses ke state keranjang/total harga, 
+          // kita mengirimkan transaction_id saja. Meta akan tetap mencatat konversi (event), 
+          // namun total nilai pendapatan (ROAS) lebih disarankan dicatat melalui Conversions API (Backend) Anda.
+        }
+      });
+    }
+  }, [orderId]);
 
   return (
     <div className="flex items-center justify-center min-h-screen px-4 font-sans bg-gray-50 animate-fade-in">
