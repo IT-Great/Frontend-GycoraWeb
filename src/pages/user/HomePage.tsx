@@ -12950,7 +12950,7 @@ export default function HomePage() {
               </p>
             </div>
             <Link
-              to="/products"
+              to="/collections/all"
               className="flex items-center justify-center gap-2 mt-4 font-bold text-gray-600 transition-colors md:justify-start md:mt-0 hover:text-[#006A4E]"
             >
               {t("see_all_products")}
@@ -12999,7 +12999,7 @@ export default function HomePage() {
                     key={product.id}
                     className="relative flex flex-row p-4 transition-all duration-300 bg-gray-50 border border-gray-100 shadow-sm cursor-pointer rounded-3xl hover:shadow-lg hover:-translate-y-1 hover:border-[#006A4E]/30"
                     onClick={() =>
-                      navigate(`/${lang}/products/${product.slug}`, {
+                      navigate(`/${lang}/product/${product.slug}`, {
                         state: {
                           initialProduct: product,
                           allProducts: featuredProducts,
