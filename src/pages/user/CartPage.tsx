@@ -4023,7 +4023,7 @@ export default function CartPage() {
                 {t("cart_empty_title")}
               </p>
               <button
-                onClick={() => navigate(`${urlPrefix}/products`)}
+                onClick={() => navigate(`${urlPrefix}/collections/all`)}
                 className="px-8 py-4 text-sm font-bold tracking-widest text-white uppercase transition bg-gray-900 rounded-full shadow-xl hover:bg-black shadow-gray-200"
               >
                 {t("btn_start_shopping")}
