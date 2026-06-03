@@ -4,6 +4,7 @@ import { BASE_URL } from "../../config/api";
 
 interface Product {
   id: number;
+  slug: string;
   category_name: string;
   sku: string;
   name: string;
@@ -179,7 +180,7 @@ export default function FavoritePage() {
               return (
                 <Link 
                   key={item.id} 
-                  to={`/products/${item.product.id}`} 
+                  to={`/products/${item.product.slug}`} 
                   className="relative flex flex-col overflow-hidden transition-all duration-300 bg-white border border-transparent group rounded-2xl hover:shadow-xl hover:border-gycora/20"
                 >
                   {/* Product Image Area */}
