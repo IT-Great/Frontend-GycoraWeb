@@ -2202,11 +2202,11 @@ export default function PublicCatalog() {
               const displayCategory = lang === "en" ? (product.category_en || product.category_name) : product.category_name;
               const displayName = lang === "en" ? (product.name_en || product.name) : product.name;
               
-              let hasColors = false;
-              if (product.color) {
-                if (Array.isArray(product.color) && product.color.length > 0) hasColors = true;
-                else if (typeof product.color === 'string' && product.color.length > 0 && product.color !== "[]") hasColors = true;
-              }
+              // let hasColors = false;
+              // if (product.color) {
+              //   if (Array.isArray(product.color) && product.color.length > 0) hasColors = true;
+              //   else if (typeof product.color === 'string' && product.color.length > 0 && product.color !== "[]") hasColors = true;
+              // }
 
               return (
                 // [PERBAIKAN]: Menambahkan `/${lang}` di prop `to`
