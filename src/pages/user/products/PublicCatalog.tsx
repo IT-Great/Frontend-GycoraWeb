@@ -1890,7 +1890,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom"; 
 import Swal from "sweetalert2";
 import { BASE_URL } from "../../../config/api";
-import { useCart } from "../../../context/CartContext";
+// import { useCart } from "../../../context/CartContext";
 import { useLanguage } from "../../../context/LanguageContext";
 
 interface Product {
@@ -2197,7 +2197,7 @@ export default function PublicCatalog() {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {processedProducts.map((product) => {
               const isWished = wishlistIds.includes(product.id);
-              const isAdding = addingToCartId === product.id;
+              // const isAdding = addingToCartId === product.id;
               
               const displayCategory = lang === "en" ? (product.category_en || product.category_name) : product.category_name;
               const displayName = lang === "en" ? (product.name_en || product.name) : product.name;
