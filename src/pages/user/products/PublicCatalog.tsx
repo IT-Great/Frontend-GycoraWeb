@@ -2055,52 +2055,52 @@ export default function PublicCatalog() {
     }
   };
 
-  const handleQuickAddToCart = async (e: React.MouseEvent, product: Product) => {
-    e.preventDefault();
+  // const handleQuickAddToCart = async (e: React.MouseEvent, product: Product) => {
+  //   e.preventDefault();
     
-    const token = localStorage.getItem("user_token");
-    if (!token) {
-      Swal.fire({ title: t("login_required"), text: t("login_required_desc"), icon: "info" });
-      // [PERBAIKAN]: Tambahkan prefix bahasa
-      navigate(`/${lang}/login`);
-      return;
-    }
+  //   const token = localStorage.getItem("user_token");
+  //   if (!token) {
+  //     Swal.fire({ title: t("login_required"), text: t("login_required_desc"), icon: "info" });
+  //     // [PERBAIKAN]: Tambahkan prefix bahasa
+  //     navigate(`/${lang}/login`);
+  //     return;
+  //   }
 
-    let hasVariants = false;
-    if (product.color) {
-      if (Array.isArray(product.color) && product.color.length > 0) {
-        hasVariants = true;
-      } else if (typeof product.color === 'string' && product.color.length > 0 && product.color !== "[]") {
-        hasVariants = true;
-      }
-    }
+  //   let hasVariants = false;
+  //   if (product.color) {
+  //     if (Array.isArray(product.color) && product.color.length > 0) {
+  //       hasVariants = true;
+  //     } else if (typeof product.color === 'string' && product.color.length > 0 && product.color !== "[]") {
+  //       hasVariants = true;
+  //     }
+  //   }
 
-    if (hasVariants) {
-      // [PERBAIKAN]: Tambahkan prefix bahasa
-      navigate(`/${lang}/page/${product.slug}`);
-      return;
-    }
+  //   if (hasVariants) {
+  //     // [PERBAIKAN]: Tambahkan prefix bahasa
+  //     navigate(`/${lang}/page/${product.slug}`);
+  //     return;
+  //   }
 
-    setAddingToCartId(product.id);
-    try {
-      const res = await fetch(`${BASE_URL}/api/carts`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ product_id: product.id, quantity: 1 }),
-      });
-      if (res.ok) {
-        Swal.fire({ title: "Berhasil", text: t("added_to_cart"), icon: "success", toast: true, position: "top-end", timer: 1500, showConfirmButton: false });
-        if(fetchCart) fetchCart();
-      } else {
-        const err = await res.json();
-        Swal.fire("Peringatan", err.message || "Gagal menambahkan produk", "warning");
-      }
-    } catch (error) {
-      Swal.fire("Error", "Terjadi kesalahan koneksi.", "error");
-    } finally {
-      setAddingToCartId(null);
-    }
-  };
+  //   setAddingToCartId(product.id);
+  //   try {
+  //     const res = await fetch(`${BASE_URL}/api/carts`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json", Accept: "application/json", Authorization: `Bearer ${token}` },
+  //       body: JSON.stringify({ product_id: product.id, quantity: 1 }),
+  //     });
+  //     if (res.ok) {
+  //       Swal.fire({ title: "Berhasil", text: t("added_to_cart"), icon: "success", toast: true, position: "top-end", timer: 1500, showConfirmButton: false });
+  //       if(fetchCart) fetchCart();
+  //     } else {
+  //       const err = await res.json();
+  //       Swal.fire("Peringatan", err.message || "Gagal menambahkan produk", "warning");
+  //     }
+  //   } catch (error) {
+  //     Swal.fire("Error", "Terjadi kesalahan koneksi.", "error");
+  //   } finally {
+  //     setAddingToCartId(null);
+  //   }
+  // };
 
   const categories = [t("cat_all"), ...Array.from(new Set(products.map((p) => lang === "en" ? (p.category_en || p.category_name) : p.category_name).filter(Boolean)))];
 
