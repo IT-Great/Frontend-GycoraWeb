@@ -1943,7 +1943,7 @@ export default function PublicCatalog() {
   const [activeCategory, setActiveCategory] = useState(t("cat_all"));
   const [sortBy] = useState("name_asc"); 
   // const [addingToCartId, setAddingToCartId] = useState<number | null>(null);
-  const [addingToCartId] = useState<number | null>(null);
+  // const [addingToCartId] = useState<number | null>(null);
 
   useEffect(() => {
     setActiveCategory(t("cat_all"));
