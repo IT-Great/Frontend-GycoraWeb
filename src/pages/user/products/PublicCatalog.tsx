@@ -2265,13 +2265,13 @@ export default function PublicCatalog() {
                     </button>
 
                     <div className="absolute left-0 right-0 px-4 transition-all duration-300 translate-y-full opacity-0 bottom-4 group-hover:translate-y-0 group-hover:opacity-100">
-                      <button 
+                      {/* <button 
                         disabled={product.stock === 0 || isAdding}
                         onClick={(e) => handleQuickAddToCart(e, product)}
                         className="w-full py-3 text-xs font-bold tracking-widest text-gray-900 uppercase transition-colors bg-white shadow-xl rounded-xl hover:bg-gycora hover:text-white disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
                       >
                         {isAdding ? t("btn_processing") : hasColors ? t("btn_choose_variant") : t("btn_add_to_cart")}
-                      </button>
+                      </button> */}
                     </div>
                   </div>
 
