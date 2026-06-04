@@ -1933,7 +1933,7 @@ export default function PublicCatalog() {
   // [PERBAIKAN]: Ambil lang dari Context
   const { t, lang } = useLanguage(); 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { fetchCart } = useCart() as any;
+  // const { fetchCart } = useCart() as any;
   
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -1942,7 +1942,8 @@ export default function PublicCatalog() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState(t("cat_all"));
   const [sortBy] = useState("name_asc"); 
-  const [addingToCartId, setAddingToCartId] = useState<number | null>(null);
+  // const [addingToCartId, setAddingToCartId] = useState<number | null>(null);
+  const [addingToCartId] = useState<number | null>(null);
 
   useEffect(() => {
     setActiveCategory(t("cat_all"));
