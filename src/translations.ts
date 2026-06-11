@@ -1003,6 +1003,43 @@ export const translations = {
     order_orders: "orders",
     order_prev: "Previous",
     order_next: "Next",
+
+    // HELP CENTER / FAQ PAGE
+    hc_hero_title: "Hi, ada yang bisa kami bantu?",
+    hc_hero_desc: "Temukan jawaban untuk pertanyaan seputar pesanan, pengiriman, dan produk Gycora.",
+    hc_search_placeholder: "Cari pertanyaan... (misal: cara lacak pesanan)",
+    hc_no_result_title: "Oops! Tidak ada hasil.",
+    hc_no_result_desc: "Kami tidak dapat menemukan jawaban untuk",
+    hc_btn_view_all: "Lihat Semua Pertanyaan",
+    
+    // FAQ Category: Pemesanan & Pembayaran
+    hc_cat_order: "Pemesanan & Pembayaran",
+    hc_q_order_1: "Bagaimana cara melacak pesanan saya?",
+    hc_a_order_1: "Setelah pesanan Anda dikirim, Anda akan menerima email berisi nomor resi. Anda juga dapat melacaknya secara langsung melalui menu 'Order' di akun Anda.",
+    hc_q_order_2: "Metode pembayaran apa saja yang didukung Gycora?",
+    hc_a_order_2: "Kami menerima pembayaran melalui Transfer Bank (BCA, Mandiri, BNI, BRI), Kartu Kredit/Debit, GoPay, OVO, ShopeePay, dan QRIS.",
+    hc_q_order_3: "Bisakah saya membatalkan atau mengubah pesanan?",
+    hc_a_order_3: "Pesanan yang sudah dibayar dan masuk ke sistem kami akan langsung diproses. Jika Anda ingin membatalkan atau mengubah pesanan, harap segera hubungi Customer Service kami dalam waktu maksimal 1 jam setelah pembayaran.",
+
+    // FAQ Category: Pengiriman
+    hc_cat_shipping: "Pengiriman",
+    hc_q_ship_1: "Berapa lama waktu pengiriman?",
+    hc_a_ship_1: "Untuk wilayah Jabodetabek biasanya memakan waktu 1-3 hari kerja. Untuk wilayah di luar Jawa, estimasi pengiriman adalah 3-7 hari kerja tergantung ekspedisi yang dipilih.",
+    hc_q_ship_2: "Apakah Gycora melayani pengiriman internasional?",
+    hc_a_ship_2: "Saat ini kami hanya melayani pengiriman ke seluruh wilayah di Indonesia. Kami sedang berusaha memperluas jangkauan kami ke negara lain di masa mendatang!",
+
+    // FAQ Category: Produk & Retur
+    hc_cat_product: "Produk & Retur",
+    hc_q_prod_1: "Apakah produk Gycora aman untuk ibu hamil dan menyusui?",
+    hc_a_prod_1: "Ya, semua produk kami diformulasikan tanpa bahan kimia berbahaya seperti Paraben dan SLS. Namun, kami selalu menyarankan Anda untuk berkonsultasi dengan dokter kandungan sebelum mencoba produk perawatan baru.",
+    hc_q_prod_2: "Bagaimana kebijakan pengembalian barang (Retur)?",
+    hc_a_prod_2: "Anda dapat mengajukan pengembalian barang dalam waktu 14 hari sejak barang diterima jika barang rusak, cacat, atau tidak sesuai pesanan. Syarat lengkap dapat dibaca di halaman Return Policy kami.",
+
+    // CTA Section
+    hc_cta_title: "Masih butuh bantuan?",
+    hc_cta_desc: "Tim Customer Care kami selalu siap membantu menyelesaikan kendala Anda. Jangan ragu untuk menghubungi kami.",
+    hc_btn_contact: "Hubungi Kami",
+    hc_btn_return: "Ajukan Retur",
   },
   en: {
     // Nav Menu
@@ -1616,6 +1653,43 @@ export const translations = {
     order_orders: "orders",
     order_prev: "Previous",
     order_next: "Next",
+
+    // HELP CENTER / FAQ PAGE
+    hc_hero_title: "Hi, how can we help you?",
+    hc_hero_desc: "Find answers to questions about your orders, shipping, and Gycora products.",
+    hc_search_placeholder: "Search questions... (e.g., track order)",
+    hc_no_result_title: "Oops! No results found.",
+    hc_no_result_desc: "We couldn't find an answer for",
+    hc_btn_view_all: "View All Questions",
+    
+    // FAQ Category: Orders & Payment
+    hc_cat_order: "Orders & Payment",
+    hc_q_order_1: "How do I track my order?",
+    hc_a_order_1: "Once your order has shipped, you will receive an email containing a tracking number. You can also track it directly via the 'Orders' menu in your account.",
+    hc_q_order_2: "What payment methods does Gycora support?",
+    hc_a_order_2: "We accept payments via Bank Transfer, Credit/Debit Cards, GoPay, OVO, ShopeePay, and QRIS.",
+    hc_q_order_3: "Can I cancel or change my order?",
+    hc_a_order_3: "Orders that have been paid and entered our system will be processed immediately. If you wish to cancel or change your order, please contact our Customer Service within a maximum of 1 hour after payment.",
+
+    // FAQ Category: Shipping
+    hc_cat_shipping: "Shipping",
+    hc_q_ship_1: "How long does shipping take?",
+    hc_a_ship_1: "For the Greater Jakarta area, it usually takes 1-3 business days. For areas outside Java, estimated shipping is 3-7 business days depending on the selected courier.",
+    hc_q_ship_2: "Does Gycora offer international shipping?",
+    hc_a_ship_2: "Currently, we only ship to all regions within Indonesia. We are working on expanding our reach to other countries in the future!",
+
+    // FAQ Category: Products & Returns
+    hc_cat_product: "Products & Returns",
+    hc_q_prod_1: "Are Gycora products safe for pregnant and nursing mothers?",
+    hc_a_prod_1: "Yes, all our products are formulated without harmful chemicals like Parabens and SLS. However, we always recommend consulting with your obstetrician before trying new skincare products.",
+    hc_q_prod_2: "What is the return policy?",
+    hc_a_prod_2: "You can request a return within 14 days of receiving the item if it is damaged, defective, or incorrect. Full terms can be read on our Return Policy page.",
+
+    // CTA Section
+    hc_cta_title: "Still need help?",
+    hc_cta_desc: "Our Customer Care team is always ready to help resolve your issues. Please don't hesitate to contact us.",
+    hc_btn_contact: "Contact Us",
+    hc_btn_return: "Request Return",
   },
 };
 
