@@ -924,7 +924,8 @@ export const translations = {
 
     // CHAT PAGE [BARU]
     chat_title: "Hubungi Pakar Kami",
-    chat_subtitle: "Pilih dokter atau staf Gycora untuk memulai konsultasi real-time.",
+    chat_subtitle:
+      "Pilih dokter atau staf Gycora untuk memulai konsultasi real-time.",
     chat_empty_msg: "Mulai obrolan Anda di sini...",
     chat_input_placeholder: "Ketik pesan...",
 
@@ -964,7 +965,7 @@ export const translations = {
     pay_btn_processing: "Memproses...",
     pay_alert_no_address: "* Silakan pilih alamat pengiriman",
     pay_alert_no_courier: "* Silakan pilih kurir pengiriman",
-    
+
     // ORDER PAGE
     order_track_title: "Track My Orders",
     order_tab_all: "Semua Pesanan",
@@ -1006,114 +1007,149 @@ export const translations = {
 
     // HELP CENTER / FAQ PAGE
     hc_hero_title: "Hi, ada yang bisa kami bantu?",
-    hc_hero_desc: "Temukan jawaban untuk pertanyaan seputar pesanan, pengiriman, dan produk Gycora.",
+    hc_hero_desc:
+      "Temukan jawaban untuk pertanyaan seputar pesanan, pengiriman, dan produk Gycora.",
     hc_search_placeholder: "Cari pertanyaan... (misal: cara lacak pesanan)",
     hc_no_result_title: "Oops! Tidak ada hasil.",
     hc_no_result_desc: "Kami tidak dapat menemukan jawaban untuk",
     hc_btn_view_all: "Lihat Semua Pertanyaan",
-    
+
     // FAQ Category: Pemesanan & Pembayaran
     hc_cat_order: "Pemesanan & Pembayaran",
     hc_q_order_1: "Bagaimana cara melacak pesanan saya?",
-    hc_a_order_1: "Setelah pesanan Anda dikirim, Anda akan menerima email berisi nomor resi. Anda juga dapat melacaknya secara langsung melalui menu 'Order' di akun Anda.",
+    hc_a_order_1:
+      "Setelah pesanan Anda dikirim, Anda akan menerima email berisi nomor resi. Anda juga dapat melacaknya secara langsung melalui menu 'Order' di akun Anda.",
     hc_q_order_2: "Metode pembayaran apa saja yang didukung Gycora?",
-    hc_a_order_2: "Kami menerima pembayaran melalui Transfer Bank (BCA, Mandiri, BNI, BRI), Kartu Kredit/Debit, GoPay, OVO, ShopeePay, dan QRIS.",
+    hc_a_order_2:
+      "Kami menerima pembayaran melalui Transfer Bank (BCA, Mandiri, BNI, BRI), Kartu Kredit/Debit, GoPay, OVO, ShopeePay, dan QRIS.",
     hc_q_order_3: "Bisakah saya membatalkan atau mengubah pesanan?",
-    hc_a_order_3: "Pesanan yang sudah dibayar dan masuk ke sistem kami akan langsung diproses. Jika Anda ingin membatalkan atau mengubah pesanan, harap segera hubungi Customer Service kami dalam waktu maksimal 1 jam setelah pembayaran.",
+    hc_a_order_3:
+      "Pesanan yang sudah dibayar dan masuk ke sistem kami akan langsung diproses. Jika Anda ingin membatalkan atau mengubah pesanan, harap segera hubungi Customer Service kami dalam waktu maksimal 1 jam setelah pembayaran.",
 
     // FAQ Category: Pengiriman
     hc_cat_shipping: "Pengiriman",
     hc_q_ship_1: "Berapa lama waktu pengiriman?",
-    hc_a_ship_1: "Untuk wilayah Jabodetabek biasanya memakan waktu 1-3 hari kerja. Untuk wilayah di luar Jawa, estimasi pengiriman adalah 3-7 hari kerja tergantung ekspedisi yang dipilih.",
+    hc_a_ship_1:
+      "Untuk wilayah Jabodetabek biasanya memakan waktu 1-3 hari kerja. Untuk wilayah di luar Jawa, estimasi pengiriman adalah 3-7 hari kerja tergantung ekspedisi yang dipilih.",
     hc_q_ship_2: "Apakah Gycora melayani pengiriman internasional?",
-    hc_a_ship_2: "Saat ini kami hanya melayani pengiriman ke seluruh wilayah di Indonesia. Kami sedang berusaha memperluas jangkauan kami ke negara lain di masa mendatang!",
+    hc_a_ship_2:
+      "Saat ini kami hanya melayani pengiriman ke seluruh wilayah di Indonesia. Kami sedang berusaha memperluas jangkauan kami ke negara lain di masa mendatang!",
 
     // FAQ Category: Produk & Retur
     hc_cat_product: "Produk & Retur",
     hc_q_prod_1: "Apakah produk Gycora aman untuk ibu hamil dan menyusui?",
-    hc_a_prod_1: "Ya, semua produk kami diformulasikan tanpa bahan kimia berbahaya seperti Paraben dan SLS. Namun, kami selalu menyarankan Anda untuk berkonsultasi dengan dokter kandungan sebelum mencoba produk perawatan baru.",
+    hc_a_prod_1:
+      "Ya, semua produk kami diformulasikan tanpa bahan kimia berbahaya seperti Paraben dan SLS. Namun, kami selalu menyarankan Anda untuk berkonsultasi dengan dokter kandungan sebelum mencoba produk perawatan baru.",
     hc_q_prod_2: "Bagaimana kebijakan pengembalian barang (Retur)?",
-    hc_a_prod_2: "Anda dapat mengajukan pengembalian barang dalam waktu 14 hari sejak barang diterima jika barang rusak, cacat, atau tidak sesuai pesanan. Syarat lengkap dapat dibaca di halaman Return Policy kami.",
+    hc_a_prod_2:
+      "Anda dapat mengajukan pengembalian barang dalam waktu 14 hari sejak barang diterima jika barang rusak, cacat, atau tidak sesuai pesanan. Syarat lengkap dapat dibaca di halaman Return Policy kami.",
 
     // CTA Section
     hc_cta_title: "Masih butuh bantuan?",
-    hc_cta_desc: "Tim Customer Care kami selalu siap membantu menyelesaikan kendala Anda. Jangan ragu untuk menghubungi kami.",
+    hc_cta_desc:
+      "Tim Customer Care kami selalu siap membantu menyelesaikan kendala Anda. Jangan ragu untuk menghubungi kami.",
     hc_btn_contact: "Hubungi Kami",
     hc_btn_return: "Ajukan Retur",
 
     // FAQ PAGE - HEADER & FOOTER
     faq_page_subtitle: "FAQ Page",
     faq_page_title: "Frequently Asked Questions",
-    faq_page_desc1: "Temukan jawaban dari pertanyaan yang paling sering ditanyakan tentang produk, penggunaan, pengiriman, hingga pengalaman belanja di Gycora.",
-    faq_page_desc2: "Masih butuh bantuan? Tim kami siap membantu kamu kapan aja 🤍",
+    faq_page_desc1:
+      "Temukan jawaban dari pertanyaan yang paling sering ditanyakan tentang produk, penggunaan, pengiriman, hingga pengalaman belanja di Gycora.",
+    faq_page_desc2:
+      "Masih butuh bantuan? Tim kami siap membantu kamu kapan aja 🤍",
     faq_support_title: "Masih punya pertanyaan?",
-    faq_support_desc: "Tidak menemukan jawaban yang kamu cari? Silakan chat dengan tim kami yang ramah.",
+    faq_support_desc:
+      "Tidak menemukan jawaban yang kamu cari? Silakan chat dengan tim kami yang ramah.",
     faq_support_btn: "Hubungi Bantuan",
 
     // FAQ CATEGORY 1: Ethereal Glow Brush
     faq_cat1_title: "Tentang Ethereal Glow Brush",
     faq_c1_q1: "Apa itu Ethereal Glow Brush?",
-    faq_c1_a1: "Ethereal Glow Brush adalah hairbrush anti-static dengan teknologi konduktif dan molekul karbon yang membantu rambut terasa lebih halus, rapi, dan mudah diatur dalam sekali sisir.",
+    faq_c1_a1:
+      "Ethereal Glow Brush adalah hairbrush anti-static dengan teknologi konduktif dan molekul karbon yang membantu rambut terasa lebih halus, rapi, dan mudah diatur dalam sekali sisir.",
     faq_c1_q2: "Apa manfaat utama Ethereal Glow Brush?",
-    faq_c1_a2: "Ethereal Glow Brush membantu mengurangi rambut kusut, mengembang, dan sulit diatur, sekaligus memberikan pengalaman menyisir yang lebih nyaman untuk penggunaan sehari-hari.",
+    faq_c1_a2:
+      "Ethereal Glow Brush membantu mengurangi rambut kusut, mengembang, dan sulit diatur, sekaligus memberikan pengalaman menyisir yang lebih nyaman untuk penggunaan sehari-hari.",
     faq_c1_q3: "Apakah Ethereal Glow Brush cocok untuk semua jenis rambut?",
-    faq_c1_a3: "Ya, Ethereal Glow Brush dirancang untuk berbagai jenis rambut, mulai dari lurus, bergelombang, hingga rambut yang mudah kusut dan mengembang.",
+    faq_c1_a3:
+      "Ya, Ethereal Glow Brush dirancang untuk berbagai jenis rambut, mulai dari lurus, bergelombang, hingga rambut yang mudah kusut dan mengembang.",
     faq_c1_q4: "Apakah sisir ini bisa digunakan setiap hari?",
-    faq_c1_a4: "Tentu. Ethereal Glow Brush aman dan nyaman digunakan setiap hari untuk membantu menjaga rambut tetap rapi dan mudah diatur.",
+    faq_c1_a4:
+      "Tentu. Ethereal Glow Brush aman dan nyaman digunakan setiap hari untuk membantu menjaga rambut tetap rapi dan mudah diatur.",
     faq_c1_q5: "Apa bedanya dengan sisir biasa?",
-    faq_c1_a5: "Ethereal Glow Brush menggunakan teknologi anti-static yang membantu mengurangi listrik statis pada rambut, sehingga rambut terasa lebih halus dan tidak mudah mengembang.",
+    faq_c1_a5:
+      "Ethereal Glow Brush menggunakan teknologi anti-static yang membantu mengurangi listrik statis pada rambut, sehingga rambut terasa lebih halus dan tidak mudah mengembang.",
     faq_c1_q6: "Apakah bulu sisirnya sakit di kulit kepala?",
-    faq_c1_a6: "Tidak. Bulu sisir dirancang fleksibel dan lembut untuk memberikan pengalaman menyisir yang lebih nyaman tanpa rasa sakit atau tarikan berlebih.",
-    faq_c1_q7: "Apakah Ethereal Glow Brush bisa membantu mengurangi rambut patah?",
-    faq_c1_a7: "Bulu sisir yang fleksibel membantu mengurangi gesekan berlebih saat menyisir sehingga membantu meminimalkan risiko rambut patah.",
+    faq_c1_a6:
+      "Tidak. Bulu sisir dirancang fleksibel dan lembut untuk memberikan pengalaman menyisir yang lebih nyaman tanpa rasa sakit atau tarikan berlebih.",
+    faq_c1_q7:
+      "Apakah Ethereal Glow Brush bisa membantu mengurangi rambut patah?",
+    faq_c1_a7:
+      "Bulu sisir yang fleksibel membantu mengurangi gesekan berlebih saat menyisir sehingga membantu meminimalkan risiko rambut patah.",
 
     // FAQ CATEGORY 2: Eco Serenity Scalp Care
     faq_cat2_title: "Tentang Eco Serenity Scalp Care",
     faq_c2_q1: "Apa itu Eco Serenity Scalp Care?",
-    faq_c2_a1: "Eco Serenity Scalp Care adalah scalp massager yang dirancang untuk membantu membersihkan kulit kepala sekaligus memberikan sensasi pijatan yang nyaman dan relaxing.",
+    faq_c2_a1:
+      "Eco Serenity Scalp Care adalah scalp massager yang dirancang untuk membantu membersihkan kulit kepala sekaligus memberikan sensasi pijatan yang nyaman dan relaxing.",
     faq_c2_q2: "Apa manfaat menggunakan scalp massager?",
-    faq_c2_a2: "Scalp massager membantu membersihkan kulit kepala lebih optimal, membantu mengurangi penumpukan minyak dan kotoran, serta memberikan efek relaksasi saat digunakan.",
+    faq_c2_a2:
+      "Scalp massager membantu membersihkan kulit kepala lebih optimal, membantu mengurangi penumpukan minyak dan kotoran, serta memberikan efek relaksasi saat digunakan.",
     faq_c2_q3: "Apakah Eco Serenity bisa digunakan saat keramas?",
-    faq_c2_a3: "Ya. Eco Serenity dapat digunakan saat keramas untuk membantu membersihkan kulit kepala dengan lebih maksimal.",
+    faq_c2_a3:
+      "Ya. Eco Serenity dapat digunakan saat keramas untuk membantu membersihkan kulit kepala dengan lebih maksimal.",
     faq_c2_q4: "Apakah bisa digunakan saat rambut kering?",
-    faq_c2_a4: "Bisa. Selain saat keramas, Eco Serenity juga cocok digunakan untuk pijatan relaksasi pada kulit kepala saat rambut kering.",
+    faq_c2_a4:
+      "Bisa. Selain saat keramas, Eco Serenity juga cocok digunakan untuk pijatan relaksasi pada kulit kepala saat rambut kering.",
     faq_c2_q5: "Apakah scalp massager ini aman untuk kulit kepala sensitif?",
-    faq_c2_a5: "Eco Serenity dirancang dengan teeth yang lembut dan fleksibel agar tetap nyaman digunakan pada berbagai kondisi kulit kepala.",
+    faq_c2_a5:
+      "Eco Serenity dirancang dengan teeth yang lembut dan fleksibel agar tetap nyaman digunakan pada berbagai kondisi kulit kepala.",
 
     // FAQ CATEGORY 3: Pengiriman & Pemesanan
     faq_cat3_title: "Pengiriman & Pemesanan",
     faq_c3_q1: "Berapa lama proses pengiriman?",
-    faq_c3_a1: "Waktu pengiriman menyesuaikan lokasi tujuan dan ekspedisi yang dipilih saat checkout.",
+    faq_c3_a1:
+      "Waktu pengiriman menyesuaikan lokasi tujuan dan ekspedisi yang dipilih saat checkout.",
     faq_c3_q2: "Apakah tersedia pengiriman ke seluruh Indonesia?",
     faq_c3_a2: "Ya, Gycora melayani pengiriman ke seluruh Indonesia.",
     faq_c3_q3: "Bagaimana cara melacak pesanan saya?",
-    faq_c3_a3: "Setelah pesanan diproses, kamu akan menerima nomor resi untuk melacak status pengiriman pesananmu.",
+    faq_c3_a3:
+      "Setelah pesanan diproses, kamu akan menerima nomor resi untuk melacak status pengiriman pesananmu.",
     faq_c3_q4: "Apakah produk Gycora original?",
-    faq_c3_a4: "Ya. Seluruh produk yang dijual melalui official store Gycora merupakan produk original.",
+    faq_c3_a4:
+      "Ya. Seluruh produk yang dijual melalui official store Gycora merupakan produk original.",
     faq_c3_q5: "Bagaimana jika produk diterima dalam kondisi rusak?",
-    faq_c3_a5: "Silakan hubungi tim customer support kami maksimal 1x24 jam setelah produk diterima dengan menyertakan video unboxing dan foto produk.",
+    faq_c3_a5:
+      "Silakan hubungi tim customer support kami maksimal 1x24 jam setelah produk diterima dengan menyertakan video unboxing dan foto produk.",
 
     // FAQ CATEGORY 4: Penggunaan & Perawatan
     faq_cat4_title: "Penggunaan & Perawatan",
     faq_c4_q1: "Bagaimana cara membersihkan Ethereal Glow Brush?",
-    faq_c4_a1: "Bersihkan secara berkala menggunakan air dan sabun lembut, lalu keringkan sebelum digunakan kembali.",
+    faq_c4_a1:
+      "Bersihkan secara berkala menggunakan air dan sabun lembut, lalu keringkan sebelum digunakan kembali.",
     faq_c4_q2: "Bagaimana cara membersihkan Eco Serenity Scalp Care?",
-    faq_c4_a2: "Cukup bilas menggunakan air bersih setelah digunakan dan simpan di tempat kering.",
+    faq_c4_a2:
+      "Cukup bilas menggunakan air bersih setelah digunakan dan simpan di tempat kering.",
     faq_c4_q3: "Apakah produk Gycora aman digunakan setiap hari?",
-    faq_c4_a3: "Ya, seluruh produk dirancang untuk penggunaan rutin sehari-hari sesuai kebutuhan.",
+    faq_c4_a3:
+      "Ya, seluruh produk dirancang untuk penggunaan rutin sehari-hari sesuai kebutuhan.",
 
     // CONTACT US PAGE
     contact_login_req_title: "Login Diperlukan",
-    contact_login_req_desc: "Silakan login terlebih dahulu untuk mengirim pesan ke layanan pelanggan kami.",
+    contact_login_req_desc:
+      "Silakan login terlebih dahulu untuk mengirim pesan ke layanan pelanggan kami.",
     contact_sent_title: "Terkirim!",
     contact_sent_desc: "Pesan Anda berhasil dikirim.",
     contact_err_send: "Gagal mengirim pesan",
     contact_err_server: "Terjadi kesalahan pada server.",
     contact_history_btn: "Riwayat Pesan Saya",
     contact_hero_title: "Get in Touch",
-    contact_hero_desc: "Punya pertanyaan seputar produk, pesanan, atau kolaborasi? Tim Gycora siap membantu Anda.",
+    contact_hero_desc:
+      "Punya pertanyaan seputar produk, pesanan, atau kolaborasi? Tim Gycora siap membantu Anda.",
     contact_info_title: "Contact Information",
-    contact_info_desc: "Isi formulir di samping dan tim Customer Care kami akan merespons dalam waktu 1x24 jam kerja.",
+    contact_info_desc:
+      "Isi formulir di samping dan tim Customer Care kami akan merespons dalam waktu 1x24 jam kerja.",
     contact_label_email: "Email",
     contact_label_phone: "Phone",
     contact_label_office: "Office",
@@ -1124,7 +1160,8 @@ export const translations = {
     contact_form_phone: "Nomor Telepon",
     contact_form_phone_empty: "Nomor telepon belum diatur di profil",
     contact_form_message: "Detail Pesan",
-    contact_form_message_placeholder: "Jelaskan kendala atau pertanyaan Anda secara detail di sini...",
+    contact_form_message_placeholder:
+      "Jelaskan kendala atau pertanyaan Anda secara detail di sini...",
     contact_btn_sending: "Mengirim...",
     contact_btn_send: "Kirim Pesan",
     contact_modal_title: "Riwayat Pesan",
@@ -1132,13 +1169,16 @@ export const translations = {
     contact_modal_empty: "Anda belum pernah mengirim pesan.",
     contact_status_waiting: "Menunggu Balasan",
     contact_status_replied: "Telah Dibalas",
-    contact_admin_unreplied: "Admin belum membalas pesan ini. Silakan periksa kembali nanti.",
+    contact_admin_unreplied:
+      "Admin belum membalas pesan ini. Silakan periksa kembali nanti.",
 
     // REQUEST RETURN PAGE
     rr_swal_title: "Permintaan Retur Terkirim",
-    rr_swal_desc: "Tim Customer Care kami akan segera meninjau permintaan Anda dan mengirimkan instruksi selanjutnya melalui email.",
+    rr_swal_desc:
+      "Tim Customer Care kami akan segera meninjau permintaan Anda dan mengirimkan instruksi selanjutnya melalui email.",
     rr_title: "Request a Return",
-    rr_desc: "Tidak puas dengan pesanan Anda? Silakan isi formulir di bawah ini untuk memulai proses pengembalian barang.",
+    rr_desc:
+      "Tidak puas dengan pesanan Anda? Silakan isi formulir di bawah ini untuk memulai proses pengembalian barang.",
     rr_policy_prefix: "Pastikan Anda telah membaca ",
     rr_policy_link: "Return Policy",
     rr_policy_suffix: " kami sebelum mengajukan.",
@@ -1155,7 +1195,8 @@ export const translations = {
     rr_opt_allergic: "Reaksi alergi/tidak cocok di kulit kepala",
     rr_opt_other: "Alasan lainnya",
     rr_lbl_detail: "Jelaskan Detail Masalah",
-    rr_ph_detail: "Berikan informasi lebih lanjut mengenai kondisi barang yang Anda terima...",
+    rr_ph_detail:
+      "Berikan informasi lebih lanjut mengenai kondisi barang yang Anda terima...",
     rr_btn_submitting: "Mengirim Permintaan...",
     rr_btn_submit: "Kirim Permintaan Retur",
 
@@ -1165,18 +1206,26 @@ export const translations = {
     ref_last_updated: "Terakhir diperbarui:",
     ref_lead_p1: "Kami memiliki ",
     ref_lead_strong: "kebijakan pengembalian 3 hari",
-    ref_lead_p2: " setelah barang diterima. Untuk memulai retur, Anda harus memberikan video unboxing barang tanpa editan dan mengirimkannya kepada kami di ",
-    ref_lead_p3: ". Semua biaya pengiriman barang retur ditanggung oleh pembeli.",
+    ref_lead_p2:
+      " setelah barang diterima. Untuk memulai retur, Anda harus memberikan video unboxing barang tanpa editan dan mengirimkannya kepada kami di ",
+    ref_lead_p3:
+      ". Semua biaya pengiriman barang retur ditanggung oleh pembeli.",
     ref_dmg_title: "Kerusakan dan Masalah",
-    ref_dmg_p1: "Harap periksa pesanan Anda saat diterima dan segera hubungi kami di ",
-    ref_dmg_p2: " jika barang cacat, rusak, atau jika Anda menerima barang yang salah, sehingga kami dapat mengevaluasi masalah tersebut dan memperbaikinya.",
+    ref_dmg_p1:
+      "Harap periksa pesanan Anda saat diterima dan segera hubungi kami di ",
+    ref_dmg_p2:
+      " jika barang cacat, rusak, atau jika Anda menerima barang yang salah, sehingga kami dapat mengevaluasi masalah tersebut dan memperbaikinya.",
     ref_exch_title: "Penukaran",
-    ref_exch_p1: "Cara tercepat untuk memastikan Anda mendapatkan apa yang Anda inginkan adalah dengan mengembalikan barang yang Anda miliki, dan setelah retur diterima, lakukan pembelian terpisah untuk barang baru.",
+    ref_exch_p1:
+      "Cara tercepat untuk memastikan Anda mendapatkan apa yang Anda inginkan adalah dengan mengembalikan barang yang Anda miliki, dan setelah retur diterima, lakukan pembelian terpisah untuk barang baru.",
     ref_ref_title: "Pengembalian Dana",
-    ref_ref_p1: "Kami akan memberi tahu Anda setelah kami menerima dan memeriksa retur Anda, dan memberi tahu Anda apakah pengembalian dana disetujui atau tidak. Jika disetujui, dana Anda akan otomatis dikembalikan ke metode pembayaran asli Anda dalam waktu ",
+    ref_ref_p1:
+      "Kami akan memberi tahu Anda setelah kami menerima dan memeriksa retur Anda, dan memberi tahu Anda apakah pengembalian dana disetujui atau tidak. Jika disetujui, dana Anda akan otomatis dikembalikan ke metode pembayaran asli Anda dalam waktu ",
     ref_ref_strong: "30 hari kerja",
-    ref_ref_p2: ". Harap diingat bahwa mungkin perlu beberapa saat bagi bank atau perusahaan kartu kredit Anda untuk memproses dan membukukan pengembalian dana tersebut.",
-    ref_ref_p3: "Jika lebih dari 15 hari kerja telah berlalu sejak kami menyetujui retur Anda, silakan hubungi kami di ",
+    ref_ref_p2:
+      ". Harap diingat bahwa mungkin perlu beberapa saat bagi bank atau perusahaan kartu kredit Anda untuk memproses dan membukukan pengembalian dana tersebut.",
+    ref_ref_p3:
+      "Jika lebih dari 15 hari kerja telah berlalu sejak kami menyetujui retur Anda, silakan hubungi kami di ",
     ref_ref_p4: ".",
 
     // SHIPPING POLICY PAGE
@@ -1186,26 +1235,35 @@ export const translations = {
     sp_sec1_title: "1. Waktu Proses",
     sp_sec1_p1: "Semua pesanan diproses dalam waktu ",
     sp_sec1_strong: "1 hari kerja",
-    sp_sec1_p2: " (tidak termasuk akhir pekan dan hari libur) setelah menerima email konfirmasi pesanan Anda. Anda akan menerima pemberitahuan lain ketika pesanan Anda telah dikirim.",
+    sp_sec1_p2:
+      " (tidak termasuk akhir pekan dan hari libur) setelah menerima email konfirmasi pesanan Anda. Anda akan menerima pemberitahuan lain ketika pesanan Anda telah dikirim.",
     sp_sec2_title: "2. Tarif dan Estimasi Pengiriman Domestik",
-    sp_sec2_p1: "Kami menawarkan opsi pengiriman berikut untuk pesanan domestik:",
+    sp_sec2_p1:
+      "Kami menawarkan opsi pengiriman berikut untuk pesanan domestik:",
     sp_sec2_li1_strong: "Pengiriman Standar:",
     sp_sec2_li1_text: " [menyesuaikan tarif dan waktu ekspedisi]",
     sp_sec2_li2_strong: "Pengiriman Ekspres:",
     sp_sec2_li2_text: " [menyesuaikan tarif dan waktu ekspedisi]",
-    sp_sec2_p2: "Biaya pengiriman untuk pesanan Anda akan dihitung secara otomatis dan ditampilkan pada saat checkout.",
+    sp_sec2_p2:
+      "Biaya pengiriman untuk pesanan Anda akan dihitung secara otomatis dan ditampilkan pada saat checkout.",
     sp_sec3_title: "3. Pengiriman Internasional",
-    sp_sec3_p1: "Kami melayani pengiriman internasional dan tarif pengiriman bervariasi tergantung pada negara tujuan. Silakan hubungi kami di ",
+    sp_sec3_p1:
+      "Kami melayani pengiriman internasional dan tarif pengiriman bervariasi tergantung pada negara tujuan. Silakan hubungi kami di ",
     sp_sec3_p2: " untuk mengetahui tarif ke negara Anda.",
-    sp_sec3_p3: "Harap diperhatikan bahwa pesanan internasional mungkin dikenakan bea, pajak, atau biaya bea cukai tambahan, yang sepenuhnya merupakan tanggung jawab pelanggan.",
+    sp_sec3_p3:
+      "Harap diperhatikan bahwa pesanan internasional mungkin dikenakan bea, pajak, atau biaya bea cukai tambahan, yang sepenuhnya merupakan tanggung jawab pelanggan.",
     sp_sec4_title: "4. Pelacakan Pesanan",
-    sp_sec4_p1: "Anda akan menerima nomor resi (pelacakan) melalui email setelah pesanan Anda dikirim. Harap tunggu 1x24 jam hingga informasi pelacakan tersedia di sistem.",
+    sp_sec4_p1:
+      "Anda akan menerima nomor resi (pelacakan) melalui email setelah pesanan Anda dikirim. Harap tunggu 1x24 jam hingga informasi pelacakan tersedia di sistem.",
     sp_sec5_title: "5. Keterlambatan Pengiriman",
-    sp_sec5_p1: "Harap diperhatikan bahwa waktu pengiriman mungkin tertunda karena keadaan yang tidak terduga seperti hari libur, kondisi cuaca, atau peristiwa global lainnya. Kami akan memberi tahu Anda sesegera mungkin jika ada penundaan yang signifikan pada pesanan Anda.",
+    sp_sec5_p1:
+      "Harap diperhatikan bahwa waktu pengiriman mungkin tertunda karena keadaan yang tidak terduga seperti hari libur, kondisi cuaca, atau peristiwa global lainnya. Kami akan memberi tahu Anda sesegera mungkin jika ada penundaan yang signifikan pada pesanan Anda.",
     sp_sec6_title: "6. Paket Hilang atau Rusak",
-    sp_sec6_p1: "Kami tidak bertanggung jawab atas paket yang hilang atau rusak selama pengiriman oleh pihak ketiga. Jika paket Anda tiba dalam keadaan rusak atau jika Anda yakin paket Anda hilang, silakan hubungi pihak ekspedisi pengiriman terkait untuk mengajukan klaim.",
+    sp_sec6_p1:
+      "Kami tidak bertanggung jawab atas paket yang hilang atau rusak selama pengiriman oleh pihak ketiga. Jika paket Anda tiba dalam keadaan rusak atau jika Anda yakin paket Anda hilang, silakan hubungi pihak ekspedisi pengiriman terkait untuk mengajukan klaim.",
     sp_sec7_title: "7. Pertanyaan Tentang Pesanan Anda?",
-    sp_sec7_p1: "Jika Anda memiliki pertanyaan tentang pesanan Anda, waktu pengiriman, atau pelacakan, jangan ragu untuk menghubungi tim customer service kami di ",
+    sp_sec7_p1:
+      "Jika Anda memiliki pertanyaan tentang pesanan Anda, waktu pengiriman, atau pelacakan, jangan ragu untuk menghubungi tim customer service kami di ",
 
     // PRIVACY POLICY PAGE
     pp_nav_home: "Beranda",
@@ -1213,45 +1271,223 @@ export const translations = {
     pp_title: "Kebijakan Privasi",
     pp_last_updated: "Terakhir diperbarui:",
     pp_s1_title: "1. Pendahuluan",
-    pp_s1_p1: " menghormati privasi Anda dan berkomitmen untuk melindungi data pribadi pelanggan kami sesuai dengan Undang-Undang Perlindungan Data Pribadi (UU PDP) Indonesia. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, membagikan, dan melindungi data pribadi Anda saat Anda mengunjungi situs web kami.",
+    pp_s1_p1:
+      " menghormati privasi Anda dan berkomitmen untuk melindungi data pribadi pelanggan kami sesuai dengan Undang-Undang Perlindungan Data Pribadi (UU PDP) Indonesia. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, membagikan, dan melindungi data pribadi Anda saat Anda mengunjungi situs web kami.",
     pp_s2_title: "2. Pengumpulan Data",
     pp_s2_p1: "Kami dapat mengumpulkan data pribadi berikut:",
     pp_s2_l1_strong: "Informasi Pribadi:",
-    pp_s2_l1_text: " nama, alamat email, nomor telepon, alamat pos, detail pembayaran, dan informasi lain yang diberikan selama pendaftaran, pemrosesan pesanan, atau pertanyaan layanan pelanggan.",
+    pp_s2_l1_text:
+      " nama, alamat email, nomor telepon, alamat pos, detail pembayaran, dan informasi lain yang diberikan selama pendaftaran, pemrosesan pesanan, atau pertanyaan layanan pelanggan.",
     pp_s2_l2_strong: "Informasi Perangkat dan Penggunaan:",
-    pp_s2_l2_text: " alamat IP, jenis browser, pengidentifikasi perangkat, dan informasi teknis lainnya melalui cookie dan teknologi pelacakan serupa.",
+    pp_s2_l2_text:
+      " alamat IP, jenis browser, pengidentifikasi perangkat, dan informasi teknis lainnya melalui cookie dan teknologi pelacakan serupa.",
     pp_s3_title: "3. Tujuan Pengumpulan Data",
-    pp_s3_p1: "Kami menggunakan data Anda untuk tujuan yang diizinkan oleh UU PDP, termasuk:",
+    pp_s3_p1:
+      "Kami menggunakan data Anda untuk tujuan yang diizinkan oleh UU PDP, termasuk:",
     pp_s3_l1: "Memproses dan memenuhi pesanan Anda.",
     pp_s3_l2: "Meningkatkan fungsionalitas situs web dan pengalaman pelanggan.",
-    pp_s3_l3: "Mengirimkan pembaruan pesanan, penawaran pemasaran (dengan persetujuan Anda), dan menanggapi pertanyaan Anda.",
+    pp_s3_l3:
+      "Mengirimkan pembaruan pesanan, penawaran pemasaran (dengan persetujuan Anda), dan menanggapi pertanyaan Anda.",
     pp_s3_l4: "Mematuhi kewajiban hukum dan peraturan.",
     pp_s4_title: "4. Dasar Hukum Pemrosesan",
-    pp_s4_p1: "Kami hanya mengumpulkan dan memproses data Anda jika diizinkan oleh hukum, seperti untuk pemenuhan pesanan, berdasarkan persetujuan Anda, atau untuk mematuhi persyaratan hukum.",
+    pp_s4_p1:
+      "Kami hanya mengumpulkan dan memproses data Anda jika diizinkan oleh hukum, seperti untuk pemenuhan pesanan, berdasarkan persetujuan Anda, atau untuk mematuhi persyaratan hukum.",
     pp_s5_title: "5. Pembagian Data Pribadi",
-    pp_s5_p1: "Data pribadi Anda dapat dibagikan dengan pihak ketiga tepercaya, termasuk:",
+    pp_s5_p1:
+      "Data pribadi Anda dapat dibagikan dengan pihak ketiga tepercaya, termasuk:",
     pp_s5_l1_strong: "Penyedia Layanan:",
-    pp_s5_l1_text: " seperti pemroses pembayaran, layanan pengiriman, dan platform pemasaran email untuk memfasilitasi layanan atas nama kami.",
+    pp_s5_l1_text:
+      " seperti pemroses pembayaran, layanan pengiriman, dan platform pemasaran email untuk memfasilitasi layanan atas nama kami.",
     pp_s5_l2_strong: "Kewajiban Hukum:",
-    pp_s5_l2_text: " jika diwajibkan oleh hukum Indonesia atau atas permintaan pemerintah yang sah.",
-    pp_s5_p2: "Semua pihak ketiga yang menerima data harus menanganinya dengan tingkat keamanan dan kerahasiaan yang sama seperti yang diwajibkan berdasarkan UU PDP.",
+    pp_s5_l2_text:
+      " jika diwajibkan oleh hukum Indonesia atau atas permintaan pemerintah yang sah.",
+    pp_s5_p2:
+      "Semua pihak ketiga yang menerima data harus menanganinya dengan tingkat keamanan dan kerahasiaan yang sama seperti yang diwajibkan berdasarkan UU PDP.",
     pp_s6_title: "6. Keamanan Data",
-    pp_s6_p1: "Kami menerapkan langkah-langkah teknis dan organisasi yang wajar untuk melindungi data Anda dari akses, perubahan, atau pengungkapan yang tidak sah. Terlepas dari upaya kami, tidak ada sistem yang sepenuhnya aman, jadi harap berhati-hati saat membagikan informasi secara online.",
+    pp_s6_p1:
+      "Kami menerapkan langkah-langkah teknis dan organisasi yang wajar untuk melindungi data Anda dari akses, perubahan, atau pengungkapan yang tidak sah. Terlepas dari upaya kami, tidak ada sistem yang sepenuhnya aman, jadi harap berhati-hati saat membagikan informasi secara online.",
     pp_s7_title: "7. Penyimpanan Data",
-    pp_s7_p1: "Kami menyimpan data pribadi Anda hanya selama diperlukan untuk memenuhi tujuan pengumpulannya atau sebagaimana diwajibkan oleh hukum. Setelah mencapai akhir masa simpannya, kami akan menghapus atau menganonimkan data Anda secara aman.",
+    pp_s7_p1:
+      "Kami menyimpan data pribadi Anda hanya selama diperlukan untuk memenuhi tujuan pengumpulannya atau sebagaimana diwajibkan oleh hukum. Setelah mencapai akhir masa simpannya, kami akan menghapus atau menganonimkan data Anda secara aman.",
     pp_s8_title: "8. Hak Anda Berdasarkan Hukum Indonesia",
     pp_s8_p1: "Berdasarkan UU PDP, Anda berhak untuk:",
     pp_s8_l1: "Mengakses, memperbarui, atau mengoreksi data pribadi Anda.",
     pp_s8_l2: "Menarik persetujuan Anda kapan saja.",
-    pp_s8_l3: "Meminta penghapusan data Anda jika tidak lagi diperlukan untuk tujuan pengumpulannya.",
+    pp_s8_l3:
+      "Meminta penghapusan data Anda jika tidak lagi diperlukan untuk tujuan pengumpulannya.",
     pp_s8_p2: "Untuk menggunakan hak-hak ini, silakan hubungi kami di ",
     pp_s9_title: "9. Cookie dan Pelacakan",
-    pp_s9_p1: "Kami menggunakan cookie untuk meningkatkan pengalaman Anda di situs web kami. Anda dapat menyesuaikan pengaturan browser Anda untuk menonaktifkan cookie, namun perlu diingat bahwa ini dapat membatasi akses Anda ke fitur-fitur tertentu.",
+    pp_s9_p1:
+      "Kami menggunakan cookie untuk meningkatkan pengalaman Anda di situs web kami. Anda dapat menyesuaikan pengaturan browser Anda untuk menonaktifkan cookie, namun perlu diingat bahwa ini dapat membatasi akses Anda ke fitur-fitur tertentu.",
     pp_s10_title: "10. Perubahan Kebijakan Privasi Kami",
-    pp_s10_p1: "Kami dapat memperbarui Kebijakan Privasi kami sesuai dengan UU PDP. Kami akan memberi tahu Anda tentang perubahan signifikan apa pun melalui situs web kami atau melalui email.",
+    pp_s10_p1:
+      "Kami dapat memperbarui Kebijakan Privasi kami sesuai dengan UU PDP. Kami akan memberi tahu Anda tentang perubahan signifikan apa pun melalui situs web kami atau melalui email.",
     pp_s11_title: "11. Hubungi Kami",
-    pp_s11_p1: "Jika Anda memiliki pertanyaan tentang Kebijakan Privasi ini atau ingin menggunakan hak Anda berdasarkan UU PDP, silakan hubungi kami di:",
+    pp_s11_p1:
+      "Jika Anda memiliki pertanyaan tentang Kebijakan Privasi ini atau ingin menggunakan hak Anda berdasarkan UU PDP, silakan hubungi kami di:",
     pp_s11_address: "Alamat: Indonesia, Surabaya, Jawa Timur 60226, Indonesia",
+
+    // TERMS OF SERVICE
+    legal_and_policies: "Legal & Kebijakan",
+    terms_of_service: "Syarat & Ketentuan Layanan",
+    last_updated: "Terakhir diperbarui:",
+    overview: "GAMBARAN UMUM",
+    overview_1_1:
+      "Situs web ini dioperasikan oleh My Store. Di seluruh situs ini, istilah 'kami', 'milik kami', dan 'kita' mengacu pada My Store. My Store menyediakan situs web ini, termasuk seluruh informasi, alat, dan Layanan yang tersedia di situs ini kepada Anda sebagai pengguna, dengan syarat Anda menerima seluruh ketentuan, syarat, kebijakan, dan pemberitahuan yang tercantum di sini.",
+    overview_1_2:
+      "Dengan mengunjungi situs kami dan/atau membeli sesuatu dari kami, Anda menggunakan 'Layanan' kami dan setuju untuk terikat oleh syarat dan ketentuan berikut ('Syarat & Ketentuan Layanan', 'Syarat'), termasuk syarat tambahan serta kebijakan yang dirujuk di dalamnya dan/atau tersedia melalui tautan. Syarat & Ketentuan Layanan ini berlaku untuk semua pengguna situs, termasuk namun tidak terbatas pada pengunjung, vendor, pelanggan, pedagang, dan/atau kontributor konten.",
+    overview_1_3:
+      "Harap baca Syarat & Ketentuan Layanan ini dengan saksama sebelum mengakses atau menggunakan situs web kami. Dengan mengakses atau menggunakan bagian apa pun dari situs ini, Anda setuju untuk terikat oleh Syarat & Ketentuan Layanan ini. Jika Anda tidak menyetujui seluruh syarat dan ketentuan dalam perjanjian ini, maka Anda tidak diperkenankan mengakses situs web atau menggunakan Layanan apa pun. Jika Syarat & Ketentuan Layanan ini dianggap sebagai suatu penawaran, maka penerimaan secara tegas dibatasi hanya pada Syarat & Ketentuan Layanan ini.",
+    overview_1_4:
+      "Setiap fitur atau alat baru yang ditambahkan ke toko saat ini juga akan tunduk pada Syarat & Ketentuan Layanan ini. Anda dapat meninjau versi terbaru dari Syarat & Ketentuan Layanan kapan saja di halaman ini. Kami berhak untuk memperbarui, mengubah, atau mengganti bagian apa pun dari Syarat & Ketentuan Layanan ini dengan memposting pembaruan dan/atau perubahan di situs web kami. Menjadi tanggung jawab Anda untuk memeriksa halaman ini secara berkala terhadap perubahan. Penggunaan atau akses Anda yang berkelanjutan ke situs web setelah perubahan dipublikasikan dianggap sebagai penerimaan terhadap perubahan tersebut.",
+    overview_1_5:
+      "Toko kami dihosting oleh Shopify Inc. Mereka menyediakan platform e-commerce online yang memungkinkan kami menjual produk dan Layanan kami kepada Anda.",
+
+    section_1: "BAGIAN 1 - KETENTUAN TOKO ONLINE",
+    section_1_1:
+      "Dengan menyetujui Syarat & Ketentuan Layanan ini, Anda menyatakan bahwa Anda telah mencapai usia dewasa menurut hukum di negara bagian atau provinsi tempat tinggal Anda, atau bahwa Anda telah mencapai usia dewasa menurut hukum dan telah memberikan izin kepada kami untuk memperbolehkan tanggungan Anda yang masih di bawah umur menggunakan situs ini.",
+    section_1_2:
+      "Anda tidak boleh menggunakan produk kami untuk tujuan yang melanggar hukum atau tidak sah, maupun melanggar hukum apa pun yang berlaku di yurisdiksi Anda (termasuk namun tidak terbatas pada undang-undang hak cipta) saat menggunakan Layanan ini.",
+    section_1_3:
+      "Anda tidak boleh mengirimkan worm, virus, atau kode apa pun yang bersifat merusak.",
+    section_1_4:
+      "Pelanggaran terhadap salah satu Syarat akan mengakibatkan penghentian Layanan Anda secara langsung.",
+
+    section_2: "BAGIAN 2 - KETENTUAN UMUM",
+    section_2_1:
+      "Kami berhak menolak memberikan Layanan kepada siapa pun dengan alasan apa pun dan kapan pun.",
+    section_2_2:
+      "Anda memahami bahwa konten Anda (tidak termasuk informasi kartu kredit) dapat ditransfer tanpa enkripsi dan melibatkan (a) transmisi melalui berbagai jaringan; dan (b) perubahan untuk menyesuaikan dengan persyaratan teknis jaringan atau perangkat yang terhubung. Informasi kartu kredit selalu dienkripsi selama proses transfer melalui jaringan.",
+    section_2_3:
+      "Anda setuju untuk tidak mereproduksi, menggandakan, menyalin, menjual, menjual kembali, atau memanfaatkan bagian apa pun dari Layanan, penggunaan Layanan, akses ke Layanan, atau kontak apa pun di situs web tempat Layanan disediakan tanpa izin tertulis dari kami.",
+    section_2_4:
+      "Judul bagian yang digunakan dalam perjanjian ini hanya disertakan untuk kemudahan referensi dan tidak akan membatasi atau memengaruhi Syarat ini.",
+
+    section_3: "BAGIAN 3 - AKURASI, KELENGKAPAN, DAN KETEPATAN WAKTU INFORMASI",
+    section_3_1:
+      "Kami tidak bertanggung jawab apabila informasi yang tersedia di situs ini tidak akurat, lengkap, atau terkini. Materi di situs ini disediakan hanya untuk informasi umum dan tidak boleh dijadikan satu-satunya dasar dalam pengambilan keputusan tanpa berkonsultasi dengan sumber informasi utama yang lebih akurat, lengkap, dan terbaru. Segala bentuk ketergantungan terhadap materi di situs ini menjadi risiko Anda sendiri.",
+    section_3_2:
+      "Situs ini dapat berisi informasi historis tertentu. Informasi historis pada dasarnya bukan informasi terkini dan disediakan hanya sebagai referensi Anda. Kami berhak mengubah isi situs ini kapan saja, namun kami tidak berkewajiban memperbarui informasi apa pun di situs kami. Anda setuju bahwa menjadi tanggung jawab Anda untuk memantau perubahan pada situs kami.",
+
+    section_4: "BAGIAN 4 - PERUBAHAN TERHADAP LAYANAN DAN HARGA",
+    section_4_1:
+      "Harga produk kami dapat berubah sewaktu-waktu tanpa pemberitahuan sebelumnya.",
+    section_4_2:
+      "Kami berhak kapan saja untuk mengubah atau menghentikan Layanan (atau bagian maupun isi dari Layanan tersebut) tanpa pemberitahuan sebelumnya.",
+    section_4_3:
+      "Kami tidak bertanggung jawab kepada Anda maupun pihak ketiga atas setiap perubahan, perubahan harga, penangguhan, atau penghentian Layanan.",
+
+    section_5: "BAGIAN 5 - PRODUK ATAU LAYANAN (JIKA BERLAKU)",
+    section_5_1:
+      "Produk atau Layanan tertentu mungkin hanya tersedia secara eksklusif melalui situs web. Produk atau Layanan tersebut mungkin memiliki jumlah terbatas dan hanya dapat dikembalikan atau ditukar sesuai dengan",
+    section_5_2: "Kebijakan Pengembalian Dana",
+    section_5_3:
+      "Kami telah berupaya semaksimal mungkin untuk menampilkan warna dan gambar produk kami seakurat mungkin sebagaimana ditampilkan di toko. Namun, kami tidak dapat menjamin bahwa tampilan warna pada monitor komputer Anda akan sepenuhnya akurat.",
+    section_5_4:
+      "Kami berhak, namun tidak berkewajiban, untuk membatasi penjualan produk atau Layanan kami kepada individu, wilayah geografis, atau yurisdiksi tertentu. Kami dapat menggunakan hak ini berdasarkan pertimbangan kasus per kasus. Kami juga berhak membatasi jumlah produk atau Layanan yang kami tawarkan. Semua deskripsi produk atau harga produk dapat berubah sewaktu-waktu tanpa pemberitahuan sebelumnya, sesuai kebijakan kami. Kami berhak menghentikan penawaran produk apa pun kapan saja. Setiap penawaran produk atau Layanan yang dibuat di situs ini menjadi tidak berlaku apabila dilarang oleh hukum yang berlaku.",
+    section_5_5:
+      "Kami tidak menjamin bahwa kualitas produk, Layanan, informasi, atau materi lain yang Anda beli atau peroleh akan memenuhi harapan Anda, maupun bahwa setiap kesalahan dalam Layanan akan diperbaiki.",
+    section_6: "BAGIAN 6 - AKURASI INFORMASI PENAGIHAN DAN AKUN",
+    section_6_1:
+      "Kami berhak menolak pesanan apa pun yang Anda lakukan kepada kami. Atas kebijakan kami sendiri, kami dapat membatasi atau membatalkan jumlah pembelian per individu, per rumah tangga, atau per pesanan. Pembatasan ini dapat mencakup pesanan yang dilakukan melalui akun pelanggan yang sama, kartu kredit yang sama, dan/atau menggunakan alamat penagihan maupun pengiriman yang sama. Jika kami melakukan perubahan atau pembatalan terhadap suatu pesanan, kami dapat mencoba memberi tahu Anda dengan menghubungi alamat email dan/atau alamat penagihan atau nomor telepon yang diberikan saat pesanan dibuat. Kami juga berhak membatasi atau melarang pesanan yang menurut penilaian kami tampak dilakukan oleh dealer, pengecer kembali, atau distributor.",
+    section_6_2:
+      "Anda setuju untuk memberikan informasi pembelian dan akun yang terkini, lengkap, dan akurat untuk setiap pembelian yang dilakukan di toko kami. Anda juga setuju untuk segera memperbarui akun dan informasi lainnya, termasuk alamat email, nomor kartu kredit, serta tanggal kedaluwarsa kartu kredit Anda, agar kami dapat menyelesaikan transaksi dan menghubungi Anda bila diperlukan.",
+
+    for_more_details: "Untuk informasi lebih lanjut, silakan tinjau",
+    refund_policy: "Kebijakan Pengembalian Dana",
+
+    section_7: "BAGIAN 7 - ALAT OPSIONAL",
+    section_7_1:
+      "Kami dapat menyediakan akses kepada Anda untuk menggunakan alat pihak ketiga yang tidak kami pantau, kendalikan, maupun kelola.",
+    section_7_2:
+      "Anda mengakui dan menyetujui bahwa kami menyediakan akses ke alat tersebut 'sebagaimana adanya' dan 'sebagaimana tersedia' tanpa jaminan, pernyataan, atau syarat apa pun serta tanpa dukungan atau rekomendasi dari kami. Kami tidak bertanggung jawab atas segala hal yang timbul dari atau terkait dengan penggunaan alat opsional pihak ketiga tersebut oleh Anda.",
+    section_7_3:
+      "Setiap penggunaan alat opsional yang tersedia melalui situs ini sepenuhnya menjadi risiko dan kebijakan Anda sendiri. Anda harus memastikan bahwa Anda memahami dan menyetujui syarat penggunaan yang ditetapkan oleh penyedia pihak ketiga terkait.",
+    section_7_4:
+      "Di masa mendatang, kami juga dapat menawarkan Layanan dan/atau fitur baru melalui situs web ini (termasuk peluncuran alat dan sumber daya baru). Fitur dan/atau Layanan baru tersebut juga akan tunduk pada Syarat & Ketentuan Layanan ini.",
+
+    section_8: "BAGIAN 8 - TAUTAN PIHAK KETIGA",
+    section_8_1:
+      "Beberapa konten, produk, dan Layanan yang tersedia melalui Layanan kami dapat mencakup materi dari pihak ketiga.",
+    section_8_2:
+      "Tautan pihak ketiga di situs ini dapat mengarahkan Anda ke situs web pihak ketiga yang tidak berafiliasi dengan kami. Kami tidak bertanggung jawab untuk memeriksa atau mengevaluasi isi maupun keakuratan informasi tersebut, dan kami tidak memberikan jaminan serta tidak memiliki tanggung jawab atas materi atau situs web pihak ketiga, maupun produk, materi, atau Layanan lain yang disediakan oleh pihak ketiga.",
+    section_8_3:
+      "Kami tidak bertanggung jawab atas kerugian atau kerusakan apa pun yang berkaitan dengan pembelian atau penggunaan barang, Layanan, sumber daya, konten, atau transaksi lain yang dilakukan melalui situs web pihak ketiga. Harap tinjau dengan saksama kebijakan dan praktik pihak ketiga tersebut serta pastikan Anda memahaminya sebelum melakukan transaksi apa pun. Keluhan, klaim, kekhawatiran, atau pertanyaan terkait produk pihak ketiga harus ditujukan langsung kepada pihak ketiga yang bersangkutan.",
+
+    section_9: "BAGIAN 9 - KOMENTAR PENGGUNA, MASUKAN, DAN KIRIMAN LAINNYA",
+    section_9_1:
+      "Jika atas permintaan kami Anda mengirimkan kiriman tertentu (misalnya entri kontes), atau tanpa permintaan dari kami Anda mengirimkan ide kreatif, saran, proposal, rencana, atau materi lainnya, baik secara online, melalui email, surat, maupun cara lainnya (secara bersama-sama disebut sebagai 'komentar'), maka Anda setuju bahwa kami dapat, kapan saja dan tanpa batasan, mengedit, menyalin, menerbitkan, mendistribusikan, menerjemahkan, dan menggunakan komentar yang Anda kirimkan kepada kami dalam media apa pun. Kami tidak berkewajiban untuk (1) menjaga kerahasiaan komentar apa pun; (2) memberikan kompensasi atas komentar apa pun; atau (3) memberikan tanggapan terhadap komentar apa pun.",
+    section_9_2:
+      "Kami dapat, namun tidak berkewajiban untuk, memantau, mengedit, atau menghapus konten yang menurut kebijakan kami sendiri bersifat melanggar hukum, menyinggung, mengancam, memfitnah, mencemarkan nama baik, pornografis, tidak senonoh, atau dianggap tidak pantas, maupun yang melanggar hak kekayaan intelektual pihak mana pun atau Syarat & Ketentuan Layanan ini.",
+    section_9_3:
+      "Anda setuju bahwa komentar yang Anda kirimkan tidak akan melanggar hak pihak ketiga mana pun, termasuk hak cipta, merek dagang, privasi, hak personalitas, atau hak pribadi maupun hak kepemilikan lainnya. Anda juga setuju bahwa komentar Anda tidak akan mengandung materi yang memfitnah, melanggar hukum, bersifat kasar, atau tidak senonoh, serta tidak mengandung virus komputer atau malware lain yang dapat memengaruhi operasional Layanan atau situs web terkait. Anda tidak diperkenankan menggunakan alamat email palsu, menyamar sebagai orang lain, atau dengan cara apa pun menyesatkan kami maupun pihak ketiga mengenai asal-usul komentar tersebut. Anda bertanggung jawab sepenuhnya atas komentar yang Anda buat dan keakuratannya. Kami tidak bertanggung jawab dan tidak menerima tanggung jawab apa pun atas komentar yang dipublikasikan oleh Anda maupun pihak ketiga.",
+
+    section_10: "BAGIAN 10 - INFORMASI PRIBADI",
+    section_10_1:
+      "Pengiriman informasi pribadi Anda melalui toko ini diatur oleh Kebijakan Privasi kami, yang dapat dilihat di sini:",
+    privacy_policy: "Kebijakan Privasi",
+
+    section_11: "BAGIAN 11 - KESALAHAN, KETIDAKAKURATAN, DAN KELALAIAN",
+    section_11_1:
+      "Terkadang mungkin terdapat informasi di situs kami atau dalam Layanan yang mengandung kesalahan pengetikan, ketidakakuratan, atau kelalaian yang berkaitan dengan deskripsi produk, harga, promosi, penawaran, biaya pengiriman produk, waktu pengiriman, dan ketersediaan produk. Kami berhak untuk memperbaiki setiap kesalahan, ketidakakuratan, atau kelalaian tersebut, serta mengubah atau memperbarui informasi maupun membatalkan pesanan apabila informasi dalam Layanan atau situs web terkait tidak akurat kapan saja tanpa pemberitahuan sebelumnya (termasuk setelah Anda mengirimkan pesanan).",
+    section_11_2:
+      "Kami tidak memiliki kewajiban untuk memperbarui, mengubah, atau memperjelas informasi dalam Layanan maupun situs web terkait, termasuk namun tidak terbatas pada informasi harga, kecuali jika diwajibkan oleh hukum yang berlaku. Tidak adanya tanggal pembaruan atau penyegaran tertentu dalam Layanan atau situs web terkait tidak dapat dianggap sebagai indikasi bahwa seluruh informasi di dalamnya telah dimodifikasi atau diperbarui.",
+
+    section_12: "BAGIAN 12 - PENGGUNAAN YANG DILARANG",
+    section_12_1:
+      "Selain larangan lain yang telah ditetapkan dalam Syarat & Ketentuan Layanan ini, Anda dilarang menggunakan situs atau kontennya untuk: (a) tujuan yang melanggar hukum; (b) mengajak atau mendorong orang lain untuk melakukan tindakan yang melanggar hukum; (c) melanggar peraturan, ketentuan, undang-undang, atau peraturan daerah yang berlaku baik di tingkat internasional, nasional, provinsi, maupun wilayah setempat; (d) melanggar atau menyalahgunakan hak kekayaan intelektual kami maupun pihak lain; (e) melakukan pelecehan, penghinaan, intimidasi, diskriminasi, pencemaran nama baik, atau tindakan merugikan lainnya berdasarkan jenis kelamin, orientasi seksual, agama, etnis, ras, usia, asal kebangsaan, atau disabilitas; (f) memberikan informasi yang salah atau menyesatkan; (g) mengunggah atau mengirim virus maupun kode berbahaya lainnya yang dapat memengaruhi fungsi atau operasional Layanan, situs web terkait, situs web lain, atau internet; (h) mengumpulkan atau melacak informasi pribadi orang lain; (i) melakukan spam, phishing, pharming, pretexting, spidering, crawling, atau scraping; (j) tujuan yang tidak senonoh atau tidak bermoral; atau (k) mengganggu atau mencoba menghindari fitur keamanan dari Layanan, situs web terkait, situs web lain, maupun internet. Kami berhak menghentikan penggunaan Layanan atau situs web terkait oleh Anda apabila melanggar salah satu ketentuan penggunaan yang dilarang tersebut.",
+
+    section_13: "BAGIAN 13 - PENAFIAN JAMINAN; BATASAN TANGGUNG JAWAB",
+    section_13_1:
+      "Kami tidak menjamin, menyatakan, atau memberikan garansi bahwa penggunaan Layanan kami oleh Anda akan berlangsung tanpa gangguan, tepat waktu, aman, atau bebas dari kesalahan.",
+    section_13_2:
+      "Kami tidak menjamin bahwa hasil yang diperoleh dari penggunaan Layanan akan akurat atau dapat diandalkan.",
+    section_13_3:
+      "Anda setuju bahwa sewaktu-waktu kami dapat menghentikan sementara Layanan untuk jangka waktu yang tidak ditentukan atau membatalkan Layanan kapan saja tanpa pemberitahuan kepada Anda.",
+    section_13_4:
+      "Anda secara tegas setuju bahwa penggunaan atau ketidakmampuan Anda untuk menggunakan Layanan sepenuhnya menjadi risiko Anda sendiri. Layanan dan seluruh produk maupun Layanan yang diberikan kepada Anda melalui Layanan ini (kecuali dinyatakan lain secara tegas oleh kami) disediakan 'sebagaimana adanya' dan 'sebagaimana tersedia' untuk digunakan oleh Anda tanpa pernyataan, jaminan, atau syarat apa pun, baik yang tersurat maupun tersirat, termasuk namun tidak terbatas pada jaminan atau syarat tersirat mengenai kelayakan jual, kualitas yang layak diperdagangkan, kesesuaian untuk tujuan tertentu, daya tahan, kepemilikan, dan tidak adanya pelanggaran hak pihak lain.",
+    section_13_5:
+      "Dalam keadaan apa pun, My Store, direktur, pejabat, karyawan, afiliasi, agen, kontraktor, peserta magang, pemasok, penyedia Layanan, atau pemberi lisensi kami tidak bertanggung jawab atas cedera, kerugian, klaim, maupun kerusakan langsung, tidak langsung, insidental, hukuman, khusus, atau konsekuensial dalam bentuk apa pun, termasuk namun tidak terbatas pada kehilangan keuntungan, kehilangan pendapatan, kehilangan tabungan, kehilangan data, biaya penggantian, atau kerugian serupa lainnya, baik berdasarkan kontrak, perbuatan melawan hukum (termasuk kelalaian), tanggung jawab mutlak, maupun dasar hukum lainnya, yang timbul dari penggunaan Layanan atau produk yang diperoleh melalui Layanan, maupun klaim lain yang berkaitan dengan penggunaan Layanan atau produk oleh Anda, termasuk namun tidak terbatas pada kesalahan atau kelalaian dalam konten apa pun, atau kerugian maupun kerusakan yang timbul akibat penggunaan Layanan atau konten (atau produk) yang dipublikasikan, dikirimkan, atau tersedia melalui Layanan, meskipun kami telah diberitahukan mengenai kemungkinan terjadinya kerugian tersebut. Karena beberapa yurisdiksi tidak mengizinkan pengecualian atau pembatasan tanggung jawab atas kerusakan insidental atau konsekuensial, maka di yurisdiksi tersebut tanggung jawab kami akan dibatasi sejauh yang diizinkan oleh hukum yang berlaku.",
+
+    section_14: "BAGIAN 14 - GANTI RUGI (INDEMNIFIKASI)",
+    section_14_1:
+      "Anda setuju untuk memberikan ganti rugi, membela, dan membebaskan My Store beserta perusahaan induk, anak perusahaan, afiliasi, mitra, pejabat, direktur, agen, kontraktor, pemberi lisensi, penyedia Layanan, subkontraktor, pemasok, peserta magang, dan karyawan kami dari setiap klaim atau tuntutan, termasuk biaya pengacara yang wajar, yang diajukan oleh pihak ketiga akibat atau sehubungan dengan pelanggaran Anda terhadap Syarat & Ketentuan Layanan ini maupun dokumen yang menjadi bagian darinya melalui referensi, atau akibat pelanggaran Anda terhadap hukum maupun hak pihak ketiga.",
+
+    section_15: "BAGIAN 15 - KETERPISAHAN KETENTUAN",
+    section_15_1:
+      "Apabila suatu ketentuan dalam Syarat & Ketentuan Layanan ini dinyatakan melanggar hukum, batal, atau tidak dapat diberlakukan, maka ketentuan tersebut tetap akan diberlakukan sejauh yang diizinkan oleh hukum yang berlaku, dan bagian yang tidak dapat diberlakukan tersebut dianggap dipisahkan dari Syarat & Ketentuan Layanan ini. Penetapan tersebut tidak akan memengaruhi keabsahan maupun keberlakuan ketentuan lainnya yang masih berlaku.",
+    section_16: "BAGIAN 16 - PENGAKHIRAN",
+    section_16_1:
+      "Kewajiban dan tanggung jawab para pihak yang telah timbul sebelum tanggal pengakhiran akan tetap berlaku setelah berakhirnya perjanjian ini untuk segala tujuan.",
+    section_16_2:
+      "Syarat & Ketentuan Layanan ini berlaku sampai diakhiri oleh Anda atau oleh kami. Anda dapat mengakhiri Syarat & Ketentuan Layanan ini kapan saja dengan memberi tahu kami bahwa Anda tidak lagi ingin menggunakan Layanan kami, atau ketika Anda berhenti menggunakan situs kami.",
+    section_16_3:
+      "Jika menurut penilaian kami Anda gagal, atau kami menduga bahwa Anda gagal, mematuhi salah satu syarat atau ketentuan dalam Syarat & Ketentuan Layanan ini, maka kami dapat mengakhiri perjanjian ini kapan saja tanpa pemberitahuan sebelumnya. Anda tetap bertanggung jawab atas seluruh kewajiban pembayaran yang terutang hingga tanggal pengakhiran, dan/atau kami dapat menolak akses Anda ke Layanan kami (atau sebagian darinya).",
+
+    section_17: "BAGIAN 17 - KESELURUHAN PERJANJIAN",
+    section_17_1:
+      "Kegagalan kami untuk melaksanakan atau menegakkan hak maupun ketentuan apa pun dalam Syarat & Ketentuan Layanan ini tidak dapat dianggap sebagai pengesampingan terhadap hak atau ketentuan tersebut.",
+    section_17_2:
+      "Syarat & Ketentuan Layanan ini beserta setiap kebijakan atau aturan operasional yang kami publikasikan di situs ini atau yang berkaitan dengan Layanan merupakan keseluruhan perjanjian dan pemahaman antara Anda dan kami, serta mengatur penggunaan Layanan oleh Anda. Ketentuan ini menggantikan seluruh perjanjian, komunikasi, dan proposal sebelumnya maupun yang terjadi pada waktu yang sama, baik secara lisan maupun tertulis, antara Anda dan kami (termasuk namun tidak terbatas pada versi sebelumnya dari Syarat & Ketentuan Layanan).",
+    section_17_3:
+      "Setiap ketidakjelasan dalam penafsiran Syarat & Ketentuan Layanan ini tidak boleh ditafsirkan merugikan pihak yang menyusunnya.",
+
+    section_18: "BAGIAN 18 - HUKUM YANG BERLAKU",
+    section_18_1:
+      "Syarat & Ketentuan Layanan ini serta setiap perjanjian terpisah yang mengatur penyediaan Layanan kepada Anda akan diatur dan ditafsirkan sesuai dengan hukum yang berlaku di Indonesia.",
+
+    section_19: "BAGIAN 19 - PERUBAHAN TERHADAP SYARAT & KETENTUAN LAYANAN",
+    section_19_1:
+      "Anda dapat meninjau versi terbaru dari Syarat & Ketentuan Layanan kapan saja melalui halaman ini.",
+    section_19_2:
+      "Kami berhak, atas kebijakan kami sendiri, untuk memperbarui, mengubah, atau mengganti bagian apa pun dari Syarat & Ketentuan Layanan ini dengan mempublikasikan pembaruan dan perubahan di situs web kami. Menjadi tanggung jawab Anda untuk memeriksa situs web kami secara berkala terhadap perubahan. Penggunaan atau akses Anda yang berkelanjutan terhadap situs web maupun Layanan kami setelah perubahan tersebut dipublikasikan dianggap sebagai persetujuan Anda terhadap perubahan tersebut.",
+
+    section_20: "BAGIAN 20 - INFORMASI KONTAK",
+    section_20_1:
+      "Pertanyaan mengenai Syarat & Ketentuan Layanan dapat dikirimkan kepada kami melalui",
+
+    trade_name: "Nama Dagang:",
+    physical_address: "Alamat Fisik:",
   },
   en: {
     // Nav Menu
@@ -1786,7 +2022,8 @@ export const translations = {
 
     // CHAT PAGE [BARU]
     chat_title: "Contact Our Experts",
-    chat_subtitle: "Choose a Gycora doctor or staff to start a real-time consultation.",
+    chat_subtitle:
+      "Choose a Gycora doctor or staff to start a real-time consultation.",
     chat_empty_msg: "Start your conversation here...",
     chat_input_placeholder: "Type a message...",
 
@@ -1826,7 +2063,7 @@ export const translations = {
     pay_btn_processing: "Processing...",
     pay_alert_no_address: "* Please select a shipping address",
     pay_alert_no_courier: "* Please select a courier",
-    
+
     // ORDER PAGE
     order_track_title: "Track My Orders",
     order_tab_all: "All Orders",
@@ -1868,114 +2105,148 @@ export const translations = {
 
     // HELP CENTER / FAQ PAGE
     hc_hero_title: "Hi, how can we help you?",
-    hc_hero_desc: "Find answers to questions about your orders, shipping, and Gycora products.",
+    hc_hero_desc:
+      "Find answers to questions about your orders, shipping, and Gycora products.",
     hc_search_placeholder: "Search questions... (e.g., track order)",
     hc_no_result_title: "Oops! No results found.",
     hc_no_result_desc: "We couldn't find an answer for",
     hc_btn_view_all: "View All Questions",
-    
+
     // FAQ Category: Orders & Payment
     hc_cat_order: "Orders & Payment",
     hc_q_order_1: "How do I track my order?",
-    hc_a_order_1: "Once your order has shipped, you will receive an email containing a tracking number. You can also track it directly via the 'Orders' menu in your account.",
+    hc_a_order_1:
+      "Once your order has shipped, you will receive an email containing a tracking number. You can also track it directly via the 'Orders' menu in your account.",
     hc_q_order_2: "What payment methods does Gycora support?",
-    hc_a_order_2: "We accept payments via Bank Transfer, Credit/Debit Cards, GoPay, OVO, ShopeePay, and QRIS.",
+    hc_a_order_2:
+      "We accept payments via Bank Transfer, Credit/Debit Cards, GoPay, OVO, ShopeePay, and QRIS.",
     hc_q_order_3: "Can I cancel or change my order?",
-    hc_a_order_3: "Orders that have been paid and entered our system will be processed immediately. If you wish to cancel or change your order, please contact our Customer Service within a maximum of 1 hour after payment.",
+    hc_a_order_3:
+      "Orders that have been paid and entered our system will be processed immediately. If you wish to cancel or change your order, please contact our Customer Service within a maximum of 1 hour after payment.",
 
     // FAQ Category: Shipping
     hc_cat_shipping: "Shipping",
     hc_q_ship_1: "How long does shipping take?",
-    hc_a_ship_1: "For the Greater Jakarta area, it usually takes 1-3 business days. For areas outside Java, estimated shipping is 3-7 business days depending on the selected courier.",
+    hc_a_ship_1:
+      "For the Greater Jakarta area, it usually takes 1-3 business days. For areas outside Java, estimated shipping is 3-7 business days depending on the selected courier.",
     hc_q_ship_2: "Does Gycora offer international shipping?",
-    hc_a_ship_2: "Currently, we only ship to all regions within Indonesia. We are working on expanding our reach to other countries in the future!",
+    hc_a_ship_2:
+      "Currently, we only ship to all regions within Indonesia. We are working on expanding our reach to other countries in the future!",
 
     // FAQ Category: Products & Returns
     hc_cat_product: "Products & Returns",
     hc_q_prod_1: "Are Gycora products safe for pregnant and nursing mothers?",
-    hc_a_prod_1: "Yes, all our products are formulated without harmful chemicals like Parabens and SLS. However, we always recommend consulting with your obstetrician before trying new skincare products.",
+    hc_a_prod_1:
+      "Yes, all our products are formulated without harmful chemicals like Parabens and SLS. However, we always recommend consulting with your obstetrician before trying new skincare products.",
     hc_q_prod_2: "What is the return policy?",
-    hc_a_prod_2: "You can request a return within 14 days of receiving the item if it is damaged, defective, or incorrect. Full terms can be read on our Return Policy page.",
+    hc_a_prod_2:
+      "You can request a return within 14 days of receiving the item if it is damaged, defective, or incorrect. Full terms can be read on our Return Policy page.",
 
     // CTA Section
     hc_cta_title: "Still need help?",
-    hc_cta_desc: "Our Customer Care team is always ready to help resolve your issues. Please don't hesitate to contact us.",
+    hc_cta_desc:
+      "Our Customer Care team is always ready to help resolve your issues. Please don't hesitate to contact us.",
     hc_btn_contact: "Contact Us",
     hc_btn_return: "Request Return",
 
     // FAQ PAGE - HEADER & FOOTER
     faq_page_subtitle: "FAQ Page",
     faq_page_title: "Frequently Asked Questions",
-    faq_page_desc1: "Find answers to the most frequently asked questions about our products, usage, shipping, and shopping experience at Gycora.",
-    faq_page_desc2: "Still need help? Our team is ready to assist you anytime 🤍",
+    faq_page_desc1:
+      "Find answers to the most frequently asked questions about our products, usage, shipping, and shopping experience at Gycora.",
+    faq_page_desc2:
+      "Still need help? Our team is ready to assist you anytime 🤍",
     faq_support_title: "Still have questions?",
-    faq_support_desc: "Can't find the answer you're looking for? Please chat with our friendly team.",
+    faq_support_desc:
+      "Can't find the answer you're looking for? Please chat with our friendly team.",
     faq_support_btn: "Contact Support",
 
     // FAQ CATEGORY 1: Ethereal Glow Brush
     faq_cat1_title: "About Ethereal Glow Brush",
     faq_c1_q1: "What is the Ethereal Glow Brush?",
-    faq_c1_a1: "The Ethereal Glow Brush is an anti-static hairbrush featuring conductive technology and carbon molecules that help your hair feel smoother, neater, and more manageable in just one stroke.",
+    faq_c1_a1:
+      "The Ethereal Glow Brush is an anti-static hairbrush featuring conductive technology and carbon molecules that help your hair feel smoother, neater, and more manageable in just one stroke.",
     faq_c1_q2: "What are the main benefits of the Ethereal Glow Brush?",
-    faq_c1_a2: "It helps reduce frizz, flyaways, and unmanageable hair, while providing a more comfortable brushing experience for everyday use.",
+    faq_c1_a2:
+      "It helps reduce frizz, flyaways, and unmanageable hair, while providing a more comfortable brushing experience for everyday use.",
     faq_c1_q3: "Is the Ethereal Glow Brush suitable for all hair types?",
-    faq_c1_a3: "Yes, the Ethereal Glow Brush is designed for various hair types, from straight to wavy, to easily tangled and frizzy hair.",
+    faq_c1_a3:
+      "Yes, the Ethereal Glow Brush is designed for various hair types, from straight to wavy, to easily tangled and frizzy hair.",
     faq_c1_q4: "Can this brush be used every day?",
-    faq_c1_a4: "Absolutely. The Ethereal Glow Brush is safe and comfortable for daily use to help keep your hair neat and easy to manage.",
+    faq_c1_a4:
+      "Absolutely. The Ethereal Glow Brush is safe and comfortable for daily use to help keep your hair neat and easy to manage.",
     faq_c1_q5: "What makes it different from a regular comb?",
-    faq_c1_a5: "The Ethereal Glow Brush uses anti-static technology that helps reduce static electricity in the hair, making it feel smoother and less frizzy.",
+    faq_c1_a5:
+      "The Ethereal Glow Brush uses anti-static technology that helps reduce static electricity in the hair, making it feel smoother and less frizzy.",
     faq_c1_q6: "Do the bristles hurt the scalp?",
-    faq_c1_a6: "No. The bristles are designed to be flexible and soft, providing a more comfortable brushing experience without pain or excessive pulling.",
+    faq_c1_a6:
+      "No. The bristles are designed to be flexible and soft, providing a more comfortable brushing experience without pain or excessive pulling.",
     faq_c1_q7: "Can the Ethereal Glow Brush help reduce hair breakage?",
-    faq_c1_a7: "The flexible bristles help reduce excessive friction while brushing, which helps minimize the risk of hair breakage.",
+    faq_c1_a7:
+      "The flexible bristles help reduce excessive friction while brushing, which helps minimize the risk of hair breakage.",
 
     // FAQ CATEGORY 2: Eco Serenity Scalp Care
     faq_cat2_title: "About Eco Serenity Scalp Care",
     faq_c2_q1: "What is Eco Serenity Scalp Care?",
-    faq_c2_a1: "Eco Serenity Scalp Care is a scalp massager designed to help cleanse the scalp while providing a comfortable and relaxing massage sensation.",
+    faq_c2_a1:
+      "Eco Serenity Scalp Care is a scalp massager designed to help cleanse the scalp while providing a comfortable and relaxing massage sensation.",
     faq_c2_q2: "What are the benefits of using a scalp massager?",
-    faq_c2_a2: "A scalp massager helps cleanse the scalp more optimally, reduces the buildup of oil and dirt, and provides a relaxing effect when used.",
+    faq_c2_a2:
+      "A scalp massager helps cleanse the scalp more optimally, reduces the buildup of oil and dirt, and provides a relaxing effect when used.",
     faq_c2_q3: "Can Eco Serenity be used while washing hair?",
-    faq_c2_a3: "Yes. Eco Serenity can be used while shampooing to help cleanse the scalp more thoroughly.",
+    faq_c2_a3:
+      "Yes. Eco Serenity can be used while shampooing to help cleanse the scalp more thoroughly.",
     faq_c2_q4: "Can it be used on dry hair?",
-    faq_c2_a4: "Yes. Besides during shampooing, Eco Serenity is also suitable for a relaxing scalp massage when the hair is dry.",
+    faq_c2_a4:
+      "Yes. Besides during shampooing, Eco Serenity is also suitable for a relaxing scalp massage when the hair is dry.",
     faq_c2_q5: "Is this scalp massager safe for sensitive scalps?",
-    faq_c2_a5: "Eco Serenity is designed with soft and flexible teeth to ensure it remains comfortable for various scalp conditions.",
+    faq_c2_a5:
+      "Eco Serenity is designed with soft and flexible teeth to ensure it remains comfortable for various scalp conditions.",
 
     // FAQ CATEGORY 3: Pengiriman & Pemesanan
     faq_cat3_title: "Shipping & Ordering",
     faq_c3_q1: "How long does shipping take?",
-    faq_c3_a1: "Delivery time depends on the destination location and the courier selected at checkout.",
+    faq_c3_a1:
+      "Delivery time depends on the destination location and the courier selected at checkout.",
     faq_c3_q2: "Is shipping available throughout Indonesia?",
     faq_c3_a2: "Yes, Gycora ships all across Indonesia.",
     faq_c3_q3: "How do I track my order?",
-    faq_c3_a3: "Once your order is processed, you will receive a tracking number to monitor your shipment status.",
+    faq_c3_a3:
+      "Once your order is processed, you will receive a tracking number to monitor your shipment status.",
     faq_c3_q4: "Are Gycora products original?",
-    faq_c3_a4: "Yes. All products sold through the official Gycora store are 100% original.",
+    faq_c3_a4:
+      "Yes. All products sold through the official Gycora store are 100% original.",
     faq_c3_q5: "What if the product is received in a damaged condition?",
-    faq_c3_a5: "Please contact our customer support team within a maximum of 1x24 hours after receiving the product, including an unboxing video and photos of the product.",
+    faq_c3_a5:
+      "Please contact our customer support team within a maximum of 1x24 hours after receiving the product, including an unboxing video and photos of the product.",
 
     // FAQ CATEGORY 4: Penggunaan & Perawatan
     faq_cat4_title: "Usage & Care",
     faq_c4_q1: "How do I clean the Ethereal Glow Brush?",
-    faq_c4_a1: "Clean it regularly using water and mild soap, then dry it completely before using it again.",
+    faq_c4_a1:
+      "Clean it regularly using water and mild soap, then dry it completely before using it again.",
     faq_c4_q2: "How do I clean the Eco Serenity Scalp Care?",
-    faq_c4_a2: "Simply rinse it with clean water after use and store it in a dry place.",
+    faq_c4_a2:
+      "Simply rinse it with clean water after use and store it in a dry place.",
     faq_c4_q3: "Are Gycora products safe for daily use?",
-    faq_c4_a3: "Yes, all products are designed for routine daily use as needed.",
+    faq_c4_a3:
+      "Yes, all products are designed for routine daily use as needed.",
 
     // CONTACT US PAGE
     contact_login_req_title: "Login Required",
-    contact_login_req_desc: "Please login first to send a message to our customer service.",
+    contact_login_req_desc:
+      "Please login first to send a message to our customer service.",
     contact_sent_title: "Sent!",
     contact_sent_desc: "Your message has been sent successfully.",
     contact_err_send: "Failed to send message",
     contact_err_server: "A server error occurred.",
     contact_history_btn: "My Message History",
     contact_hero_title: "Get in Touch",
-    contact_hero_desc: "Have questions about our products, orders, or collaborations? The Gycora team is ready to help.",
+    contact_hero_desc:
+      "Have questions about our products, orders, or collaborations? The Gycora team is ready to help.",
     contact_info_title: "Contact Information",
-    contact_info_desc: "Fill out the form and our Customer Care team will respond within 1x24 business hours.",
+    contact_info_desc:
+      "Fill out the form and our Customer Care team will respond within 1x24 business hours.",
     contact_label_email: "Email",
     contact_label_phone: "Phone",
     contact_label_office: "Office",
@@ -1986,7 +2257,8 @@ export const translations = {
     contact_form_phone: "Phone Number",
     contact_form_phone_empty: "Phone number is not set in your profile",
     contact_form_message: "Message Details",
-    contact_form_message_placeholder: "Explain your issue or question in detail here...",
+    contact_form_message_placeholder:
+      "Explain your issue or question in detail here...",
     contact_btn_sending: "Sending...",
     contact_btn_send: "Send Message",
     contact_modal_title: "Message History",
@@ -1994,13 +2266,16 @@ export const translations = {
     contact_modal_empty: "You have not sent any messages yet.",
     contact_status_waiting: "Waiting for Reply",
     contact_status_replied: "Replied",
-    contact_admin_unreplied: "Admin has not replied to this message yet. Please check back later.",
-    
+    contact_admin_unreplied:
+      "Admin has not replied to this message yet. Please check back later.",
+
     // REQUEST RETURN PAGE
     rr_swal_title: "Return Request Sent",
-    rr_swal_desc: "Our Customer Care team will review your request shortly and send further instructions via email.",
+    rr_swal_desc:
+      "Our Customer Care team will review your request shortly and send further instructions via email.",
     rr_title: "Request a Return",
-    rr_desc: "Not satisfied with your order? Please fill out the form below to start the return process.",
+    rr_desc:
+      "Not satisfied with your order? Please fill out the form below to start the return process.",
     rr_policy_prefix: "Please make sure you have read our ",
     rr_policy_link: "Return Policy",
     rr_policy_suffix: " before submitting.",
@@ -2017,7 +2292,8 @@ export const translations = {
     rr_opt_allergic: "Allergic reaction / unsuitable for scalp",
     rr_opt_other: "Other reasons",
     rr_lbl_detail: "Explain Issue Details",
-    rr_ph_detail: "Provide further information regarding the condition of the item you received...",
+    rr_ph_detail:
+      "Provide further information regarding the condition of the item you received...",
     rr_btn_submitting: "Sending Request...",
     rr_btn_submit: "Submit Return Request",
 
@@ -2027,18 +2303,26 @@ export const translations = {
     ref_last_updated: "Last updated:",
     ref_lead_p1: "We have a ",
     ref_lead_strong: "3-days return policy",
-    ref_lead_p2: ", after goods received. To start a return, you must provide an unboxing video of the goods without any editing and send it to us at ",
-    ref_lead_p3: ". All return goods, shipping fees are being borne by the buyer.",
+    ref_lead_p2:
+      ", after goods received. To start a return, you must provide an unboxing video of the goods without any editing and send it to us at ",
+    ref_lead_p3:
+      ". All return goods, shipping fees are being borne by the buyer.",
     ref_dmg_title: "Damages and issues",
-    ref_dmg_p1: "Please inspect your order upon reception and contact us immediately at ",
-    ref_dmg_p2: " if the item is defective, damaged, or if you receive the wrong item, so that we can evaluate the issue and make it right.",
+    ref_dmg_p1:
+      "Please inspect your order upon reception and contact us immediately at ",
+    ref_dmg_p2:
+      " if the item is defective, damaged, or if you receive the wrong item, so that we can evaluate the issue and make it right.",
     ref_exch_title: "Exchanges",
-    ref_exch_p1: "The fastest way to ensure you get what you want is to return the item you have, and once the return is accepted, make a separate purchase for the new item.",
+    ref_exch_p1:
+      "The fastest way to ensure you get what you want is to return the item you have, and once the return is accepted, make a separate purchase for the new item.",
     ref_ref_title: "Refunds",
-    ref_ref_p1: "We will notify you once we’ve received and inspected your return, and let you know if the refund was approved or not. If approved, you’ll be automatically refunded on your original payment method within ",
+    ref_ref_p1:
+      "We will notify you once we’ve received and inspected your return, and let you know if the refund was approved or not. If approved, you’ll be automatically refunded on your original payment method within ",
     ref_ref_strong: "30 business days",
-    ref_ref_p2: ". Please remember it can take some time for your bank or credit card company to process and post the refund too.",
-    ref_ref_p3: "If more than 15 business days have passed since we’ve approved your return, please contact us at ",
+    ref_ref_p2:
+      ". Please remember it can take some time for your bank or credit card company to process and post the refund too.",
+    ref_ref_p3:
+      "If more than 15 business days have passed since we’ve approved your return, please contact us at ",
     ref_ref_p4: ".",
 
     // SHIPPING POLICY PAGE
@@ -2048,26 +2332,34 @@ export const translations = {
     sp_sec1_title: "1. Processing Time",
     sp_sec1_p1: "All orders are processed within ",
     sp_sec1_strong: "1 business day",
-    sp_sec1_p2: " (excluding weekends and holidays) after receiving your order confirmation email. You will receive another notification when your order has shipped.",
+    sp_sec1_p2:
+      " (excluding weekends and holidays) after receiving your order confirmation email. You will receive another notification when your order has shipped.",
     sp_sec2_title: "2. Domestic Shipping Rates and Estimates",
     sp_sec2_p1: "We offer the following shipping options for domestic orders:",
     sp_sec2_li1_strong: "Standard Shipping:",
     sp_sec2_li1_text: " [insert cost and delivery time]",
     sp_sec2_li2_strong: "Expedited Shipping:",
     sp_sec2_li2_text: " [insert cost and delivery time]",
-    sp_sec2_p2: "Shipping charges for your order will be calculated and displayed at checkout.",
+    sp_sec2_p2:
+      "Shipping charges for your order will be calculated and displayed at checkout.",
     sp_sec3_title: "3. International Shipping",
-    sp_sec3_p1: "We do offer international shipping and shipping rates vary depending on the destination country. Please contact us at ",
+    sp_sec3_p1:
+      "We do offer international shipping and shipping rates vary depending on the destination country. Please contact us at ",
     sp_sec3_p2: " for the rates to your country.",
-    sp_sec3_p3: "Please note that international orders may be subject to additional duties, taxes, or customs fees, which are the responsibility of the customer.",
+    sp_sec3_p3:
+      "Please note that international orders may be subject to additional duties, taxes, or customs fees, which are the responsibility of the customer.",
     sp_sec4_title: "4. Order Tracking",
-    sp_sec4_p1: "You will receive a tracking number via email once your order has been shipped. Please allow 24 hours for the tracking information to become available.",
+    sp_sec4_p1:
+      "You will receive a tracking number via email once your order has been shipped. Please allow 24 hours for the tracking information to become available.",
     sp_sec5_title: "5. Shipping Delays",
-    sp_sec5_p1: "Please note that shipping times may be delayed due to unforeseen circumstances such as holidays, weather conditions, or global events. We will notify you as soon as possible if there are significant delays with your order.",
+    sp_sec5_p1:
+      "Please note that shipping times may be delayed due to unforeseen circumstances such as holidays, weather conditions, or global events. We will notify you as soon as possible if there are significant delays with your order.",
     sp_sec6_title: "6. Lost or Damaged Packages",
-    sp_sec6_p1: "We are not responsible for lost or damaged packages during shipping. If your package arrives damaged or if you believe your package is lost, please contact the shipping carrier to file a claim.",
+    sp_sec6_p1:
+      "We are not responsible for lost or damaged packages during shipping. If your package arrives damaged or if you believe your package is lost, please contact the shipping carrier to file a claim.",
     sp_sec7_title: "7. Questions About Your Order?",
-    sp_sec7_p1: "If you have any questions about your order, shipping times, or tracking, feel free to contact our customer service team at ",
+    sp_sec7_p1:
+      "If you have any questions about your order, shipping times, or tracking, feel free to contact our customer service team at ",
 
     // PRIVACY POLICY PAGE
     pp_nav_home: "Home",
@@ -2075,45 +2367,204 @@ export const translations = {
     pp_title: "Privacy Policy",
     pp_last_updated: "Last updated:",
     pp_s1_title: "1. Introduction",
-    pp_s1_p1: " respects your privacy and is committed to protecting the personal data of our customers in compliance with Indonesia's Personal Data Protection Law (PDPL). This Privacy Policy explains how we collect, use, share, and protect your personal data when you visit our website.",
+    pp_s1_p1:
+      " respects your privacy and is committed to protecting the personal data of our customers in compliance with Indonesia's Personal Data Protection Law (PDPL). This Privacy Policy explains how we collect, use, share, and protect your personal data when you visit our website.",
     pp_s2_title: "2. Data Collection",
     pp_s2_p1: "We may collect the following personal data:",
     pp_s2_l1_strong: "Personal Information:",
-    pp_s2_l1_text: " name, email address, phone number, postal address, payment details, and other information provided during registration, order processing, or customer service inquiries.",
+    pp_s2_l1_text:
+      " name, email address, phone number, postal address, payment details, and other information provided during registration, order processing, or customer service inquiries.",
     pp_s2_l2_strong: "Device and Usage Information:",
-    pp_s2_l2_text: " IP address, browser type, device identifiers, and other technical information through cookies and similar tracking technologies.",
+    pp_s2_l2_text:
+      " IP address, browser type, device identifiers, and other technical information through cookies and similar tracking technologies.",
     pp_s3_title: "3. Purpose of Data Collection",
     pp_s3_p1: "We use your data for purposes permitted by PDPL, including:",
     pp_s3_l1: "Processing and fulfilling your orders.",
     pp_s3_l2: "Improving website functionality and customer experience.",
-    pp_s3_l3: "Sending order updates, marketing offers (with your consent), and responding to your inquiries.",
+    pp_s3_l3:
+      "Sending order updates, marketing offers (with your consent), and responding to your inquiries.",
     pp_s3_l4: "Complying with legal and regulatory obligations.",
     pp_s4_title: "4. Legal Basis for Processing",
-    pp_s4_p1: "We only collect and process your data where permitted by law, such as for order fulfillment, based on your consent, or to comply with legal requirements.",
+    pp_s4_p1:
+      "We only collect and process your data where permitted by law, such as for order fulfillment, based on your consent, or to comply with legal requirements.",
     pp_s5_title: "5. Sharing of Personal Data",
-    pp_s5_p1: "Your personal data may be shared with trusted third parties, including:",
+    pp_s5_p1:
+      "Your personal data may be shared with trusted third parties, including:",
     pp_s5_l1_strong: "Service Providers:",
-    pp_s5_l1_text: " such as payment processors, delivery services, and email marketing platforms to facilitate services on our behalf.",
+    pp_s5_l1_text:
+      " such as payment processors, delivery services, and email marketing platforms to facilitate services on our behalf.",
     pp_s5_l2_strong: "Legal Obligations:",
-    pp_s5_l2_text: " if required by Indonesian law or by lawful government request.",
-    pp_s5_p2: "All third parties receiving data must handle it with the same level of security and confidentiality as required under PDPL.",
+    pp_s5_l2_text:
+      " if required by Indonesian law or by lawful government request.",
+    pp_s5_p2:
+      "All third parties receiving data must handle it with the same level of security and confidentiality as required under PDPL.",
     pp_s6_title: "6. Data Security",
-    pp_s6_p1: "We implement reasonable technical and organizational measures to protect your data from unauthorized access, alteration, or disclosure. Despite our efforts, no system is fully secure, so please also take precautions when sharing information online.",
+    pp_s6_p1:
+      "We implement reasonable technical and organizational measures to protect your data from unauthorized access, alteration, or disclosure. Despite our efforts, no system is fully secure, so please also take precautions when sharing information online.",
     pp_s7_title: "7. Data Retention",
-    pp_s7_p1: "We retain your personal data only for as long as necessary to fulfill the purposes for which it was collected or as required by law. Upon reaching the end of its retention period, we will securely delete or anonymize your data.",
+    pp_s7_p1:
+      "We retain your personal data only for as long as necessary to fulfill the purposes for which it was collected or as required by law. Upon reaching the end of its retention period, we will securely delete or anonymize your data.",
     pp_s8_title: "8. Your Rights Under Indonesian Law",
     pp_s8_p1: "Under PDPL, you have the right to:",
     pp_s8_l1: "Access, update, or correct your personal data.",
     pp_s8_l2: "Withdraw your consent at any time.",
-    pp_s8_l3: "Request deletion of your data if it is no longer necessary for the purpose it was collected.",
+    pp_s8_l3:
+      "Request deletion of your data if it is no longer necessary for the purpose it was collected.",
     pp_s8_p2: "To exercise these rights, please contact us at ",
     pp_s9_title: "9. Cookies and Tracking",
-    pp_s9_p1: "We use cookies to enhance your experience on our website. You may adjust your browser settings to disable cookies, but please note this may limit your access to certain features.",
+    pp_s9_p1:
+      "We use cookies to enhance your experience on our website. You may adjust your browser settings to disable cookies, but please note this may limit your access to certain features.",
     pp_s10_title: "10. Changes to Our Privacy Policy",
-    pp_s10_p1: "We may update our Privacy Policy in compliance with PDPL. We will notify you of any significant changes through our website or by email.",
+    pp_s10_p1:
+      "We may update our Privacy Policy in compliance with PDPL. We will notify you of any significant changes through our website or by email.",
     pp_s11_title: "11. Contact Us",
-    pp_s11_p1: "If you have questions about this Privacy Policy or wish to exercise your rights under PDPL, please contact us at:",
+    pp_s11_p1:
+      "If you have questions about this Privacy Policy or wish to exercise your rights under PDPL, please contact us at:",
     pp_s11_address: "Address: Indonesia, Surabaya, East Java 60226, Indonesia",
+
+    // TERMS OF SERVICE
+    legal_and_policies: "Legal & Policies",
+    terms_of_service: "Terms of Service",
+    last_updated: "Last updated:",
+    overview: "OVERVIEW",
+    overview_1_1:
+      "This website is operated by My Store. Throughout the site, the terms “we”, “us” and “our” refer to My Store. My Store offers this website, including all information, tools and Services available from this site to you, the user, conditioned upon your acceptance of all terms, conditions, policies and notices stated here.",
+    overview_1_2:
+      "By visiting our site and/ or purchasing something from us, you engage in our “Service” and agree to be bound by the following terms and conditions (“Terms of Service”, “Terms”), including those additional terms and conditions and policies referenced herein and/or available by hyperlink. These Terms of Service apply to all users of the site, including without limitation users who are browsers, vendors, customers, merchants, and/ or contributors of content.",
+    overview_1_3:
+      "Please read these Terms of Service carefully before accessing or using our website. By accessing or using any part of the site, you agree to be bound by these Terms of Service. If you do not agree to all the terms and conditions of this agreement, then you may not access the website or use any Services. If these Terms of Service are considered an offer, acceptance is expressly limited to these Terms of Service.",
+    overview_1_4:
+      "Any new features or tools which are added to the current store shall also be subject to the Terms of Service. You can review the most current version of the Terms of Service at any time on this page. We reserve the right to update, change or replace any part of these Terms of Service by posting updates and/or changes to our website. It is your responsibility to check this page periodically for changes. Your continued use of or access to the website following the posting of any changes constitutes acceptance of those changes.",
+    overview_1_5:
+      "Our store is hosted on Shopify Inc. They provide us with the online e-commerce platform that allows us to sell our products and Services to you.",
+    section_1: "SECTION 1 - ONLINE STORE TERMS",
+    section_1_1:
+      "By agreeing to these Terms of Service, you represent that you are at least the age of majority in your state or province of residence, or that you are the age of majority in your state or province of residence and you have given us your consent to allow any of your minor dependents to use this site.",
+    section_1_2:
+      "You may not use our products for any illegal or unauthorized purpose nor may you, in the use of the Service, violate any laws in your jurisdiction (including but not limited to copyright laws).",
+    section_1_3:
+      "You must not transmit any worms or viruses or any code of a destructive nature.",
+    section_1_4:
+      "A breach or violation of any of the Terms will result in an immediate termination of your Services.",
+    section_2: "SECTION 2 - GENERAL CONDITIONS",
+    section_2_1:
+      "We reserve the right to refuse Service to anyone for any reason at any time.",
+    section_2_2:
+      "You understand that your content (not including credit card information), may be transferred unencrypted and involve (a) transmissions over various networks; and (b) changes to conform and adapt to technical requirements of connecting networks or devices. Credit card information is always encrypted during transfer over networks.",
+    section_2_3:
+      "You agree not to reproduce, duplicate, copy, sell, resell or exploit any portion of the Service, use of the Service, or access to the Service or any contact on the website through which the Service is provided, without express written permission by us.",
+    section_2_4:
+      "The headings used in this agreement are included for convenience only and will not limit or otherwise affect these Terms.",
+    section_3:
+      "SECTION 3 - ACCURACY, COMPLETENESS AND TIMELINESS OF INFORMATION",
+    section_3_1:
+      "We are not responsible if information made available on this site is not accurate, complete or current. The material on this site is provided for general information only and should not be relied upon or used as the sole basis for making decisions without consulting primary, more accurate, more complete or more timely sources of information. Any reliance on the material on this site is at your own risk.",
+    section_3_2:
+      "This site may contain certain historical information. Historical information, necessarily, is not current and is provided for your reference only. We reserve the right to modify the contents of this site at any time, but we have no obligation to update any information on our site. You agree that it is your responsibility to monitor changes to our site.",
+    section_4: "SECTION 4 - MODIFICATIONS TO THE SERVICE AND PRICES",
+    section_4_1:
+      "Prices for our products are subject to change without notice.",
+    section_4_2:
+      "We reserve the right at any time to modify or discontinue the Service (or any part or content thereof) without notice at any time.",
+    section_4_3:
+      "We shall not be liable to you or to any third-party for any modification, price change, suspension or discontinuance of the Service.",
+    section_5: "SECTION 5 - PRODUCTS OR SERVICES (if applicable)",
+    section_5_1:
+      "Certain products or Services may be available exclusively online through the website. These products or Services may have limited quantities and are subject to return or exchange only according to our",
+    section_5_2: "Refund Policy",
+    section_5_3:
+      "We have made every effort to display as accurately as possible the colors and images of our products that appear at the store. We cannot guarantee that your computer monitor's display of any color will be accurate.",
+    section_5_4:
+      "We reserve the right, but are not obligated, to limit the sales of our products or Services to any person, geographic region or jurisdiction. We may exercise this right on a case-by-case basis. We reserve the right to limit the quantities of any products or Services that we offer. All descriptions of products or product pricing are subject to change at anytime without notice, at the sole discretion of us. We reserve the right to discontinue any product at any time. Any offer for any product or Service made on this site is void where prohibited.",
+    section_5_5:
+      "We do not warrant that the quality of any products, Services, information, or other material purchased or obtained by you will meet your expectations, or that any errors in the Service will be corrected.",
+    section_6: "SECTION 6 - ACCURACY OF BILLING AND ACCOUNT INFORMATION",
+    section_6_1:
+      "We reserve the right to refuse any order you place with us. We may, in our sole discretion, limit or cancel quantities purchased per person, per household or per order. These restrictions may include orders placed by or under the same customer account, the same credit card, and/or orders that use the same billing and/or shipping address. In the event that we make a change to or cancel an order, we may attempt to notify you by contacting the e‑mail and/or billing address/phone number provided at the time the order was made. We reserve the right to limit or prohibit orders that, in our sole judgment, appear to be placed by dealers, resellers or distributors.",
+    section_6_2:
+      "You agree to provide current, complete and accurate purchase and account information for all purchases made at our store. You agree to promptly update your account and other information, including your email address and credit card numbers and expiration dates, so that we can complete your transactions and contact you as needed.",
+    for_more_details: "For more details, please review our",
+    refund_policy: "Refund Policy",
+    section_7: "SECTION 7 - OPTIONAL TOOLS",
+    section_7_1:
+      "We may provide you with access to third-party tools over which we neither monitor nor have any control nor input.",
+    section_7_2:
+      "You acknowledge and agree that we provide access to such tools ”as is” and “as available” without any warranties, representations or conditions of any kind and without any endorsement. We shall have no liability whatsoever arising from or relating to your use of optional third-party tools.",
+    section_7_3:
+      "Any use by you of the optional tools offered through the site is entirely at your own risk and discretion and you should ensure that you are familiar with and approve of the terms on which tools are provided by the relevant third-party provider(s).",
+    section_7_4:
+      "We may also, in the future, offer new Services and/or features through the website (including the release of new tools and resources). Such new features and/or Services shall also be subject to these Terms of Service.",
+    section_8: "SECTION 8 - THIRD-PARTY LINKS",
+    section_8_1:
+      "Certain content, products and Services available via our Service may include materials from third-parties.",
+    section_8_2:
+      "Third-party links on this site may direct you to third-party websites that are not affiliated with us. We are not responsible for examining or evaluating the content or accuracy and we do not warrant and will not have any liability or responsibility for any third-party materials or websites, or for any other materials, products, or Services of third-parties.",
+    section_8_3:
+      "We are not liable for any harm or damages related to the purchase or use of goods, Services, resources, content, or any other transactions made in connection with any third-party websites. Please review carefully the third-party's policies and practices and make sure you understand them before you engage in any transaction. Complaints, claims, concerns, or questions regarding third-party products should be directed to the third-party.",
+    section_9: "SECTION 9 - USER COMMENTS, FEEDBACK AND OTHER SUBMISSIONS",
+    section_9_1:
+      "If, at our request, you send certain specific submissions (for example contest entries) or without a request from us, you send creative ideas, suggestions, proposals, plans, or other materials, whether online, by email, by postal mail, or otherwise (collectively, 'comments'), you agree that we may, at any time, without restriction, edit, copy, publish, distribute, translate and otherwise use in any medium any comments that you forward to us. We are and shall be under no obligation (1) to maintain any comments in confidence; (2) to pay compensation for any comments; or (3) to respond to any comments.",
+    section_9_2:
+      "We may, but have no obligation to, monitor, edit or remove content that we determine in our sole discretion to be unlawful, offensive, threatening, libelous, defamatory, pornographic, obscene or otherwise objectionable or violates any party’s intellectual property or these Terms of Service.",
+    section_9_3:
+      "You agree that your comments will not violate any right of any third-party, including copyright, trademark, privacy, personality or other personal or proprietary right. You further agree that your comments will not contain libelous or otherwise unlawful, abusive or obscene material, or contain any computer virus or other malware that could in any way affect the operation of the Service or any related website. You may not use a false e‑mail address, pretend to be someone other than yourself, or otherwise mislead us or third-parties as to the origin of any comments. You are solely responsible for any comments you make and their accuracy. We take no responsibility and assume no liability for any comments posted by you or any third-party.",
+    section_10: "SECTION 10 - PERSONAL INFORMATION",
+    section_10_1:
+      "Your submission of personal information through the store is governed by our Privacy Policy, which can be viewed here:",
+    privacy_policy: "Privacy Policy",
+    section_11: "SECTION 11 - ERRORS, INACCURACIES AND OMISSIONS",
+    section_11_1:
+      "Occasionally there may be information on our site or in the Service that contains typographical errors, inaccuracies or omissions that may relate to product descriptions, pricing, promotions, offers, product shipping charges, transit times and availability. We reserve the right to correct any errors, inaccuracies or omissions, and to change or update information or cancel orders if any information in the Service or on any related website is inaccurate at any time without prior notice (including after you have submitted your order).",
+    section_11_2:
+      "We undertake no obligation to update, amend or clarify information in the Service or on any related website, including without limitation, pricing information, except as required by law. No specified update or refresh date applied in the Service or on any related website, should be taken to indicate that all information in the Service or on any related website has been modified or updated.",
+    section_12: "SECTION 12 - PROHIBITED USES",
+    section_12_1:
+      "In addition to other prohibitions as set forth in the Terms of Service, you are prohibited from using the site or its content: (a) for any unlawful purpose; (b) to solicit others to perform or participate in any unlawful acts; (c) to violate any international, federal, provincial or state regulations, rules, laws, or local ordinances; (d) to infringe upon or violate our intellectual property rights or the intellectual property rights of others; (e) to harass, abuse, insult, harm, defame, slander, disparage, intimidate, or discriminate based on gender, sexual orientation, religion, ethnicity, race, age, national origin, or disability; (f) to submit false or misleading information; (g) to upload or transmit viruses or any other type of malicious code that will or may be used in any way that will affect the functionality or operation of the Service or of any related website, other websites, or the Internet; (h) to collect or track the personal information of others; (i) to spam, phish, pharm, pretext, spider, crawl, or scrape; (j) for any obscene or immoral purpose; or (k) to interfere with or circumvent the security features of the Service or any related website, other websites, or the Internet. We reserve the right to terminate your use of the Service or any related website for violating any of the prohibited uses.",
+    section_13:
+      "SECTION 13 - DISCLAIMER OF WARRANTIES; LIMITATION OF LIABILITY",
+    section_13_1:
+      "We do not guarantee, represent or warrant that your use of our Service will be uninterrupted, timely, secure or error-free.",
+    section_13_2:
+      "We do not warrant that the results that may be obtained from the use of the Service will be accurate or reliable.",
+    section_13_3:
+      "You agree that from time to time we may remove the Service for indefinite periods of time or cancel the Service at any time, without notice to you.",
+    section_13_4:
+      "You expressly agree that your use of, or inability to use, the Service is at your sole risk. The Service and all products and Services delivered to you through the Service are (except as expressly stated by us) provided 'as is' and 'as available' for your use, without any representation, warranties or conditions of any kind, either express or implied, including all implied warranties or conditions of merchantability, merchantable quality, fitness for a particular purpose, durability, title, and non-infringement.",
+    section_13_5:
+      "In no case shall My Store, our directors, officers, employees, affiliates, agents, contractors, interns, suppliers, Service providers or licensors be liable for any injury, loss, claim, or any direct, indirect, incidental, punitive, special, or consequential damages of any kind, including, without limitation lost profits, lost revenue, lost savings, loss of data, replacement costs, or any similar damages, whether based in contract, tort (including negligence), strict liability or otherwise, arising from your use of any of the Service or any products procured using the Service, or for any other claim related in any way to your use of the Service or any product, including, but not limited to, any errors or omissions in any content, or any loss or damage of any kind incurred as a result of the use of the Service or any content (or product) posted, transmitted, or otherwise made available via the Service, even if advised of their possibility. Because some states or jurisdictions do not allow the exclusion or the limitation of liability for consequential or incidental damages, in such states or jurisdictions, our liability shall be limited to the maximum extent permitted by law.",
+    section_14: "SECTION 14 - INDEMNIFICATION",
+    section_14_1:
+      "You agree to indemnify, defend and hold harmless My Store and our parent, subsidiaries, affiliates, partners, officers, directors, agents, contractors, licensors, Service providers, subcontractors, suppliers, interns and employees, harmless from any claim or demand, including reasonable attorneys’ fees, made by any third-party due to or arising out of your breach of these Terms of Service or the documents they incorporate by reference, or your violation of any law or the rights of a third-party.",
+    section_15: "SECTION 15 - SEVERABILITY",
+    section_15_1:
+      "In the event that any provision of these Terms of Service is determined to be unlawful, void or unenforceable, such provision shall nonetheless be enforceable to the fullest extent permitted by applicable law, and the unenforceable portion shall be deemed to be severed from these Terms of Service, such determination shall not affect the validity and enforceability of any other remaining provisions.",
+    section_16: "SECTION 16 - TERMINATION",
+    section_16_1:
+      "The obligations and liabilities of the parties incurred prior to the termination date shall survive the termination of this agreement for all purposes.",
+    section_16_2:
+      "These Terms of Service are effective unless and until terminated by either you or us. You may terminate these Terms of Service at any time by notifying us that you no longer wish to use our Services, or when you cease using our site.",
+    section_16_3:
+      "If in our sole judgment you fail, or we suspect that you have failed, to comply with any term or provision of these Terms of Service, we also may terminate this agreement at any time without notice and you will remain liable for all amounts due up to and including the date of termination; and/or accordingly may deny you access to our Services (or any part thereof).",
+    section_17: "SECTION 17 - ENTIRE AGREEMENT",
+    section_17_1:
+      "The failure of us to exercise or enforce any right or provision of these Terms of Service shall not constitute a waiver of such right or provision.",
+    section_17_2:
+      "These Terms of Service and any policies or operating rules posted by us on this site or in respect to the Service constitutes the entire agreement and understanding between you and us and governs your use of the Service, superseding any prior or contemporaneous agreements, communications and proposals, whether oral or written, between you and us (including, but not limited to, any prior versions of the Terms of Service).",
+    section_17_3:
+      "Any ambiguities in the interpretation of these Terms of Service shall not be construed against the drafting party.",
+    section_18: "SECTION 18 - GOVERNING LAW",
+    section_18_1:
+      "These Terms of Service and any separate agreements whereby we provide you Services shall be governed by and construed in accordance with the laws of Indonesia.",
+    section_19: "SECTION 19 - CHANGES TO TERMS OF SERVICE",
+    section_19_1:
+      "You can review the most current version of the Terms of Service at any time at this page.",
+    section_19_2:
+      "We reserve the right, at our sole discretion, to update, change or replace any part of these Terms of Service by posting updates and changes to our website. It is your responsibility to check our website periodically for changes. Your continued use of or access to our website or the Service following the posting of any changes to these Terms of Service constitutes acceptance of those changes.",
+    section_20: "SECTION 20 - CONTACT INFORMATION",
+    section_20_1:
+      "Questions about the Terms of Service should be sent to us at",
+    trade_name: "Trade name:",
+    physical_address: "Physical address:",
   },
 };
 
