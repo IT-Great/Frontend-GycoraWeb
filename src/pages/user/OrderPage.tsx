@@ -5630,10 +5630,12 @@ import Swal from "sweetalert2";
 import { BASE_URL } from "../../config/api";
 import ReviewModal from "../../components/ReviewModal";
 import { useLanguage } from "../../context/LanguageContext"; // [BARU] Import Context Bahasa
+import { useCurrency } from "../../context/CurrencyContext";
 
 export default function OrderPage() {
   const navigate = useNavigate();
   const { t } = useLanguage(); // [BARU] Inisialisasi hook bahasa
+  const { formatPrice } = useCurrency();
 
   const [userData, setUserData] = useState<any>(null);
   const [transactions, setTransactions] = useState<any[]>([]);
@@ -5665,12 +5667,12 @@ export default function OrderPage() {
   ];
 
   // --- HELPERS ---
-  const formatPrice = (v: number) =>
-    new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(v);
+  // const formatPrice = (v: number) =>
+  //   new Intl.NumberFormat("id-ID", {
+  //     style: "currency",
+  //     currency: "IDR",
+  //     minimumFractionDigits: 0,
+  //   }).format(v);
 
   const formatDateTime = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("id-ID", {

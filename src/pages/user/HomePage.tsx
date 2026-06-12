@@ -12468,6 +12468,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../config/api";
 import Swal from "sweetalert2";
 import { useLanguage } from "../../context/LanguageContext"; // [BARU] Import Language Context
+import { useCurrency } from "../../context/CurrencyContext";
 
 // --- IMPORT GAMBAR DARI LOKAL UNTUK SLIDER & ASET ---
 import slide1 from "/landing_page_images/hero_slide_1.jpg";
@@ -12537,6 +12538,8 @@ export default function HomePage() {
   const [promoEmail, setPromoEmail] = useState("");
   const [isSubscribing, setIsSubscribing] = useState(false);
   const { t, lang } = useLanguage(); 
+
+  const { formatPrice } = useCurrency();
 
   // [BARU] Pindahkan keyBenefits ke dalam komponen agar bisa menggunakan t()
   const keyBenefits = [
@@ -12630,13 +12633,13 @@ export default function HomePage() {
     return () => clearInterval(slideInterval);
   }, []);
 
-  const formatRupiah = (angka: number) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(angka || 0);
-  };
+//   const formatRupiah = (angka: number) => {
+//     return new Intl.NumberFormat("id-ID", {
+//       style: "currency",
+//       currency: "IDR",
+//       minimumFractionDigits: 0,
+//     }).format(angka || 0);
+//   };
 
   const closePromoModal = () => {
     setShowPromoModal(false);
@@ -13043,15 +13046,15 @@ export default function HomePage() {
                         product.discount_price > 0 ? (
                           <>
                             <span className="block text-[10px] font-medium text-gray-400 line-through">
-                              {formatRupiah(product.price)}
+                              {formatPrice(product.price)}
                             </span>
                             <span className="block text-base font-black leading-none md:text-lg text-rose-500">
-                              {formatRupiah(product.discount_price)}
+                              {formatPrice(product.discount_price)}
                             </span>
                           </>
                         ) : (
                           <span className="block text-base md:text-lg font-black leading-none text-[#006A4E]">
-                            {formatRupiah(product.price)}
+                            {formatPrice(product.price)}
                           </span>
                         )}
                       </div>

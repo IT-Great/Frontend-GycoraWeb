@@ -3681,6 +3681,7 @@ import Swal from "sweetalert2";
 import { useCart, type Product } from "../../context/CartContext";
 import { BASE_URL } from "../../config/api";
 import { useLanguage } from "../../context/LanguageContext"; // [BARU] Import Context Bahasa
+import { useCurrency } from "../../context/CurrencyContext";
 
 interface CartItem {
   id: number;
@@ -3695,6 +3696,7 @@ interface CartItem {
 export default function CartPage() {
   const navigate = useNavigate();
   const { t } = useLanguage(); // [BARU] Inisialisasi hook bahasa
+  const { formatPrice } = useCurrency();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const {
@@ -3975,13 +3977,13 @@ export default function CartPage() {
     }, 800);
   };
 
-  const formatPrice = (angka: number) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(angka);
-  };
+  // const formatPrice = (angka: number) => {
+  //   return new Intl.NumberFormat("id-ID", {
+  //     style: "currency",
+  //     currency: "IDR",
+  //     minimumFractionDigits: 0,
+  //   }).format(angka);
+  // };
 
   return (
     <div className="w-full min-h-screen px-4 py-16 mx-auto overflow-x-hidden font-sans bg-gray-100 max-w-7xl sm:px-6 lg:px-8">

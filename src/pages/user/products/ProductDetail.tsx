@@ -5736,7 +5736,7 @@
 //           const isWished = data.some(
 //             (item: any) => item.product_id === Number(id),
 //           );
-          
+
 //           if (isCurrentFetchValid) setIsFavorited(isWished);
 //         }
 //       } catch (error) {
@@ -5759,7 +5759,7 @@
 //     return () => {
 //       isCurrentFetchValid = false;
 //     };
-    
+
 //     // Sengaja tidak memasukkan 'location.state' agar tidak loop render
 //     // eslint-disable-next-line react-hooks/exhaustive-deps
 //   }, [id, navigate]);
@@ -6498,7 +6498,7 @@
 //     if (initialPassedData && String(initialPassedData.id) === id) {
 //       setProduct(initialPassedData);
 //       setLoading(false);
-      
+
 //       // 2. SET WARNA SIBLING INSTAN SECARA LOKAL (TANPA API)
 //       if (allPassedProducts && allPassedProducts.length > 0) {
 //         const words = initialPassedData.name.trim().split(" ");
@@ -6534,7 +6534,7 @@
 //         if (isCurrentFetchValid) {
 //           const productObject = responseData.data ? responseData.data : responseData;
 //           setProduct(productObject);
-          
+
 //           // JIKA user masuk dari luar (langsung ketik URL), barulah kita paksa tembak API buat cari warna
 //           if (!allPassedProducts) {
 //              await fetchSiblingColorsViaAPI(productObject.name);
@@ -6565,7 +6565,7 @@
 //           const isWished = data.some(
 //             (item: any) => item.product_id === Number(id),
 //           );
-          
+
 //           if (isCurrentFetchValid) setIsFavorited(isWished);
 //         }
 //       } catch (error) {
@@ -7046,7 +7046,7 @@
 //                               window.scrollTo({ top: 0, behavior: "smooth" });
 //                               // [PERBAIKAN] Pastikan allProducts ikut dilempar lagi saat ganti warna
 //                               navigate(`/product/${sibling.id}`, {
-//                                 state: { 
+//                                 state: {
 //                                   initialProduct: sibling,
 //                                   allProducts: location.state?.allProducts
 //                                 },
@@ -7312,17 +7312,17 @@
 //     let isCurrentFetchValid = true;
 
 //     const initialPassedData = location.state?.initialProduct;
-//     const allPassedProducts = location.state?.allProducts; 
+//     const allPassedProducts = location.state?.allProducts;
 
 //     if (initialPassedData && String(initialPassedData.id) === id) {
 //       setProduct(initialPassedData);
 //       setLoading(false);
-      
+
 //       if (allPassedProducts && allPassedProducts.length > 0) {
 //         const words = initialPassedData.name.trim().split(" ");
 //         let rootName = initialPassedData.name;
 //         if (words.length > 1) {
-//           words.pop(); 
+//           words.pop();
 //           rootName = words.join(" ");
 //         }
 
@@ -7352,7 +7352,7 @@
 //         if (isCurrentFetchValid) {
 //           const productObject = responseData.data ? responseData.data : responseData;
 //           setProduct(productObject);
-          
+
 //           if (!allPassedProducts) {
 //              await fetchSiblingColorsViaAPI(productObject.name);
 //           }
@@ -7382,7 +7382,7 @@
 //           const isWished = data.some(
 //             (item: any) => item.product_id === Number(id),
 //           );
-          
+
 //           if (isCurrentFetchValid) setIsFavorited(isWished);
 //         }
 //       } catch (error) {
@@ -7873,7 +7873,7 @@
 //                               window.scrollTo({ top: 0, behavior: "smooth" });
 //                               // [PERBAIKAN] Pastikan allProducts ikut dilempar lagi saat ganti warna
 //                               navigate(`/product/${sibling.id}`, {
-//                                 state: { 
+//                                 state: {
 //                                   initialProduct: sibling,
 //                                   allProducts: location.state?.allProducts
 //                                 },
@@ -7989,7 +7989,7 @@
 //                       <p>
 //                         Cocok untuk kamu yang ingin rambut tetap terlihat rapi di tengah aktivitas harian — tanpa perlu effort styling yang ribet.
 //                       </p>
-                      
+
 //                       <div className="pt-6 mt-8 border-t border-gray-100">
 //                         <h4 className="mb-4 font-bold text-gray-900 text-md">Kenapa Banyak yang Suka Ethereal Glow Brush?</h4>
 //                         <ul className="space-y-3 list-none">
@@ -8169,17 +8169,17 @@
 //     let isCurrentFetchValid = true;
 
 //     const initialPassedData = location.state?.initialProduct;
-//     const allPassedProducts = location.state?.allProducts; 
+//     const allPassedProducts = location.state?.allProducts;
 
 //     if (initialPassedData && String(initialPassedData.id) === id) {
 //       setProduct(initialPassedData);
 //       setLoading(false);
-      
+
 //       if (allPassedProducts && allPassedProducts.length > 0) {
 //         const words = initialPassedData.name.trim().split(" ");
 //         let rootName = initialPassedData.name;
 //         if (words.length > 1) {
-//           words.pop(); 
+//           words.pop();
 //           rootName = words.join(" ");
 //         }
 
@@ -8209,7 +8209,7 @@
 //         if (isCurrentFetchValid) {
 //           const productObject = responseData.data ? responseData.data : responseData;
 //           setProduct(productObject);
-          
+
 //           if (!allPassedProducts) {
 //              await fetchSiblingColorsViaAPI(productObject.name);
 //           }
@@ -8239,7 +8239,7 @@
 //           const isWished = data.some(
 //             (item: any) => item.product_id === Number(id),
 //           );
-          
+
 //           if (isCurrentFetchValid) setIsFavorited(isWished);
 //         }
 //       } catch (error) {
@@ -8727,7 +8727,7 @@
 //               </div>
 //             )}
 //           </div> */}
-          
+
 //           <div className="flex flex-col mb-10 lg:mb-0">
 //             {/* [PERBAIKAN] Kontainer utama gambar. Pastikan relative dan overflow-hidden */}
 //             <div
@@ -8744,7 +8744,7 @@
 //                       className={`absolute inset-0 object-contain object-center w-full h-full p-4 md:p-8 transition-opacity duration-300 ease-in-out ${idx === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
 //                     />
 //                   ))}
-                  
+
 //                   {/* Panah Navigasi Kiri & Kanan */}
 //                   {gallery.length > 1 && (
 //                     <>
@@ -8763,7 +8763,7 @@
 //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
 //                         </svg>
 //                       </button>
-                      
+
 //                       <button
 //                         onClick={nextImage}
 //                         // [PERBAIKAN] Tambahkan z-30
@@ -8779,7 +8779,7 @@
 //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
 //                         </svg>
 //                       </button>
-                      
+
 //                       {/* [PERBAIKAN] Wadah Bulatan Navigasi (Dots). Pastikan letaknya di tengah bawah. */}
 //                       <div className="absolute left-0 right-0 z-30 flex items-center justify-center gap-2 bottom-6">
 //                         {gallery.map((_, idx) => (
@@ -8800,7 +8800,7 @@
 //                   No Image
 //                 </div>
 //               )}
-              
+
 //               {/* Badge Kategori */}
 //               <div className="absolute z-30 top-6 left-6">
 //                 <span className="px-4 py-2 text-sm font-bold text-gray-900 rounded-full shadow-sm bg-white/90 backdrop-blur-md">
@@ -8922,7 +8922,7 @@
 //                             if (!isCurrentProduct) {
 //                               window.scrollTo({ top: 0, behavior: "smooth" });
 //                               navigate(`/product/${sibling.id}`, {
-//                                 state: { 
+//                                 state: {
 //                                   initialProduct: sibling,
 //                                   allProducts: location.state?.allProducts
 //                                 },
@@ -9038,7 +9038,7 @@
 //                       <p>
 //                         Cocok untuk kamu yang ingin rambut tetap terlihat rapi di tengah aktivitas harian — tanpa perlu effort styling yang ribet.
 //                       </p>
-                      
+
 //                       <div className="pt-6 mt-8 border-t border-gray-100">
 //                         <h4 className="mb-4 font-bold text-gray-900 text-md">Kenapa Banyak yang Suka Ethereal Glow Brush?</h4>
 //                         <ul className="space-y-3 list-none">
@@ -9082,7 +9082,7 @@
 //                       <p>
 //                         Bukan cuma nyaman digunakan saat keramas, tapi juga cocok untuk relaksasi di tengah aktivitas yang padat.
 //                       </p>
-                      
+
 //                       <div className="pt-6 mt-8 border-t border-gray-100">
 //                         <h4 className="mb-4 font-bold text-gray-900 text-md">Kenapa Banyak yang Suka Eco Serenity Scalp Care?</h4>
 //                         <ul className="space-y-3 list-none">
@@ -9230,7 +9230,7 @@
 
 //   const [siblingColors, setSiblingColors] = useState<Product[]>([]);
 //   const [isFavorited, setIsFavorited] = useState(false);
-  
+
 //   // [BARU] State untuk Tab Aktif
 //   const [activeTab, setActiveTab] = useState("desc");
 
@@ -9269,17 +9269,17 @@
 //     let isCurrentFetchValid = true;
 
 //     const initialPassedData = location.state?.initialProduct;
-//     const allPassedProducts = location.state?.allProducts; 
+//     const allPassedProducts = location.state?.allProducts;
 
 //     if (initialPassedData && String(initialPassedData.id) === id) {
 //       setProduct(initialPassedData);
 //       setLoading(false);
-      
+
 //       if (allPassedProducts && allPassedProducts.length > 0) {
 //         const words = initialPassedData.name.trim().split(" ");
 //         let rootName = initialPassedData.name;
 //         if (words.length > 1) {
-//           words.pop(); 
+//           words.pop();
 //           rootName = words.join(" ");
 //         }
 
@@ -9310,7 +9310,7 @@
 //         if (isCurrentFetchValid) {
 //           const productObject = responseData.data ? responseData.data : responseData;
 //           setProduct(productObject);
-          
+
 //           if (!allPassedProducts) {
 //              await fetchSiblingColorsViaAPI(productObject.name);
 //           }
@@ -9340,7 +9340,7 @@
 //           const isWished = data.some(
 //             (item: any) => item.product_id === Number(id),
 //           );
-          
+
 //           if (isCurrentFetchValid) setIsFavorited(isWished);
 //         }
 //       } catch (error) {
@@ -9663,7 +9663,7 @@
 //     <div className="min-h-screen py-12 font-sans bg-white">
 //       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 //         <div className="lg:grid lg:grid-cols-2 lg:gap-16">
-          
+
 //           {/* BAGIAN KIRI: GAMBAR */}
 //           <div className="flex flex-col mb-10 lg:mb-0">
 //             <div
@@ -9680,7 +9680,7 @@
 //                       className={`absolute inset-0 object-contain object-center w-full h-full p-4 md:p-8 transition-opacity duration-300 ease-in-out ${idx === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
 //                     />
 //                   ))}
-                  
+
 //                   {gallery.length > 1 && (
 //                     <>
 //                       <button
@@ -9691,7 +9691,7 @@
 //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
 //                         </svg>
 //                       </button>
-                      
+
 //                       <button
 //                         onClick={nextImage}
 //                         className="absolute z-30 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 right-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100 focus:outline-none"
@@ -9700,7 +9700,7 @@
 //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
 //                         </svg>
 //                       </button>
-                      
+
 //                       <div className="absolute left-0 right-0 z-30 flex items-center justify-center gap-2 bottom-6">
 //                         {gallery.map((_, idx) => (
 //                           <button
@@ -9719,7 +9719,7 @@
 //                   No Image
 //                 </div>
 //               )}
-              
+
 //               <div className="absolute z-30 top-6 left-6">
 //                 <span className="px-4 py-2 text-sm font-bold text-gray-900 rounded-full shadow-sm bg-white/90 backdrop-blur-md">
 //                   {product.category_name}
@@ -9816,7 +9816,7 @@
 //                             if (!isCurrentProduct) {
 //                               window.scrollTo({ top: 0, behavior: "smooth" });
 //                               navigate(`/product/${sibling.id}`, {
-//                                 state: { 
+//                                 state: {
 //                                   initialProduct: sibling,
 //                                   allProducts: location.state?.allProducts
 //                                 },
@@ -9907,7 +9907,7 @@
 //             </div>
 
 //             {/* ==============================================================
-//                 BAGIAN TAB (DESCRIPTION | HOW TO USE | FAQ | REVIEW) 
+//                 BAGIAN TAB (DESCRIPTION | HOW TO USE | FAQ | REVIEW)
 //             ============================================================== */}
 //             <div className="mt-4">
 //               <div className="flex flex-wrap gap-2 pb-4 mb-6 border-b border-gray-100">
@@ -9946,7 +9946,7 @@
 //               </div>
 
 //               <div className="text-gray-600 prose-sm prose whitespace-pre-wrap sm:prose max-w-none min-h-[200px]">
-                
+
 //                 {/* KONTEN TAB: DESCRIPTION */}
 //                 {activeTab === "desc" && (
 //                   <div className="space-y-4 animate-fade-in-up">
@@ -10128,7 +10128,7 @@
 //                     </div>
 //                   </div>
 //                 )} */}
-                
+
 //                 {activeTab === "review" && (
 //                   <div className="space-y-6 animate-fade-in-up">
 //                     {activeReviews.length > 0 ? (
@@ -10147,7 +10147,7 @@
 //                     ) : (
 //                       <p className="italic text-gray-400">Belum ada ulasan untuk produk ini.</p>
 //                     )}
-                    
+
 //                     {activeReviews.length > 0 && (
 //                       <div className="mt-4 text-center">
 //                         <button className="text-sm font-bold text-[#006A4E] hover:underline focus:outline-none">
@@ -10258,7 +10258,7 @@
 
 //   const [siblingColors, setSiblingColors] = useState<Product[]>([]);
 //   const [isFavorited, setIsFavorited] = useState(false);
-  
+
 //   const [activeTab, setActiveTab] = useState("desc");
 
 //   // [BARU] State untuk menampung review asli dari database
@@ -10299,17 +10299,17 @@
 //     let isCurrentFetchValid = true;
 
 //     const initialPassedData = location.state?.initialProduct;
-//     const allPassedProducts = location.state?.allProducts; 
+//     const allPassedProducts = location.state?.allProducts;
 
 //     if (initialPassedData && String(initialPassedData.id) === id) {
 //       setProduct(initialPassedData);
 //       setLoading(false);
-      
+
 //       if (allPassedProducts && allPassedProducts.length > 0) {
 //         const words = initialPassedData.name.trim().split(" ");
 //         let rootName = initialPassedData.name;
 //         if (words.length > 1) {
-//           words.pop(); 
+//           words.pop();
 //           rootName = words.join(" ");
 //         }
 
@@ -10340,7 +10340,7 @@
 //         // if (isCurrentFetchValid) {
 //         //   const productObject = responseData.data ? responseData.data : responseData;
 //         //   setProduct(productObject);
-          
+
 //         //   if (!allPassedProducts) {
 //         //      await fetchSiblingColorsViaAPI(productObject.name);
 //         //   }
@@ -10349,7 +10349,7 @@
 //         if (isCurrentFetchValid) {
 //           const productObject = responseData.data ? responseData.data : responseData;
 //           setProduct(productObject);
-          
+
 //           // [PERBAIKAN] Validasi yang lebih ketat: Cek apakah data benar-benar ada dan panjangnya lebih dari 0
 //           if (!allPassedProducts || allPassedProducts.length === 0) {
 //              await fetchSiblingColorsViaAPI(productObject.name);
@@ -10379,7 +10379,7 @@
 //           const isWished = data.some(
 //             (item: any) => item.product_id === Number(id),
 //           );
-          
+
 //           if (isCurrentFetchValid) setIsFavorited(isWished);
 //         }
 //       } catch (error) {
@@ -10390,7 +10390,7 @@
 //     // [BARU] Fungsi mengambil review asli dari database
 //     // const fetchReviews = async () => {
 //     //   try {
-//     //     // Sesuaikan URL endpoint ini jika struktur API Review Anda berbeda. 
+//     //     // Sesuaikan URL endpoint ini jika struktur API Review Anda berbeda.
 //     //     // Biasa: GET /api/reviews?product_id={id} atau GET /api/products/{id}/reviews
 //     //     // const res = await fetch(`${BASE_URL}/api/reviews?product_id=${id}`, {
 //     //     //     headers: { Accept: "application/json" }
@@ -10403,7 +10403,7 @@
 //     //         const data = await res.json();
 //     //         if (isCurrentFetchValid) {
 //     //             // Ambil data array review (tergantung bentuk json response laravel Anda)
-//     //             const reviewsArr = data.data ? data.data : data; 
+//     //             const reviewsArr = data.data ? data.data : data;
 //     //             setApiReviews(reviewsArr);
 //     //         }
 //     //     }
@@ -10419,12 +10419,12 @@
 //         const res = await fetch(`${BASE_URL}/api/products/${id}/reviews`, {
 //             headers: { Accept: "application/json" }
 //         });
-        
+
 //         if (res.ok) {
 //             const data = await res.json();
 //             if (isCurrentFetchValid) {
 //                 // [PERBAIKAN] Mengambil dari key 'reviews' sesuai controller Backend Anda
-//                 const reviewsArr = data.reviews ? data.reviews : []; 
+//                 const reviewsArr = data.reviews ? data.reviews : [];
 //                 setApiReviews(reviewsArr);
 //             }
 //         }
@@ -10749,7 +10749,7 @@
 //   ];
 
 //   const staticReviews = isEtherealBrush ? brushReviews : isScalpCare ? scalpReviews : [];
-  
+
 //   // Array Final yang akan di render: Ulasan User Asli ditaruh di urutan Paling Atas, disusul dummy.
 //   const activeReviews = [...formattedApiReviews, ...staticReviews];
 
@@ -10757,7 +10757,7 @@
 //     <div className="min-h-screen py-12 font-sans bg-white">
 //       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 //         <div className="lg:grid lg:grid-cols-2 lg:gap-16">
-          
+
 //           {/* BAGIAN KIRI: GAMBAR */}
 //           <div className="flex flex-col mb-10 lg:mb-0">
 //             <div
@@ -10774,7 +10774,7 @@
 //                       className={`absolute inset-0 object-contain object-center w-full h-full p-4 md:p-8 transition-opacity duration-300 ease-in-out ${idx === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
 //                     />
 //                   ))}
-                  
+
 //                   {gallery.length > 1 && (
 //                     <>
 //                       <button
@@ -10785,7 +10785,7 @@
 //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
 //                         </svg>
 //                       </button>
-                      
+
 //                       <button
 //                         onClick={nextImage}
 //                         className="absolute z-30 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 right-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100 focus:outline-none"
@@ -10794,7 +10794,7 @@
 //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
 //                         </svg>
 //                       </button>
-                      
+
 //                       <div className="absolute left-0 right-0 z-30 flex items-center justify-center gap-2 bottom-6">
 //                         {gallery.map((_, idx) => (
 //                           <button
@@ -10813,7 +10813,7 @@
 //                   No Image
 //                 </div>
 //               )}
-              
+
 //               <div className="absolute z-30 top-6 left-6">
 //                 <span className="px-4 py-2 text-sm font-bold text-gray-900 rounded-full shadow-sm bg-white/90 backdrop-blur-md">
 //                   {product.category_name}
@@ -10910,7 +10910,7 @@
 //                             if (!isCurrentProduct) {
 //                               window.scrollTo({ top: 0, behavior: "smooth" });
 //                               navigate(`/product/${sibling.id}`, {
-//                                 state: { 
+//                                 state: {
 //                                   initialProduct: sibling,
 //                                   allProducts: location.state?.allProducts
 //                                 },
@@ -11001,7 +11001,7 @@
 //             </div>
 
 //             {/* ==============================================================
-//                 BAGIAN TAB (DESCRIPTION | HOW TO USE | FAQ | REVIEW) 
+//                 BAGIAN TAB (DESCRIPTION | HOW TO USE | FAQ | REVIEW)
 //             ============================================================== */}
 //             <div className="mt-4">
 //               <div className="flex flex-wrap gap-2 pb-4 mb-6 border-b border-gray-100">
@@ -11040,7 +11040,7 @@
 //               </div>
 
 //               <div className="text-gray-600 prose-sm prose whitespace-pre-wrap sm:prose max-w-none min-h-[200px]">
-                
+
 //                 {/* KONTEN TAB: DESCRIPTION */}
 //                 {activeTab === "desc" && (
 //                   <div className="space-y-4 animate-fade-in-up">
@@ -11197,7 +11197,7 @@
 //                     )}
 //                   </div>
 //                 )}
-                
+
 //                 {/* [BARU] KONTEN TAB: REVIEW (GABUNGAN API + STATIS) */}
 //                 {activeTab === "review" && (
 //                   <div className="space-y-6 animate-fade-in-up">
@@ -11224,7 +11224,7 @@
 //                     ) : (
 //                       <p className="italic text-gray-400">Belum ada ulasan untuk produk ini.</p>
 //                     )}
-                    
+
 //                     {activeReviews.length > 0 && (
 //                       <div className="mt-4 text-center">
 //                         <button className="text-sm font-bold text-[#006A4E] hover:underline focus:outline-none">
@@ -11335,7 +11335,7 @@
 
 //   const [siblingColors, setSiblingColors] = useState<Product[]>([]);
 //   const [isFavorited, setIsFavorited] = useState(false);
-  
+
 //   const [activeTab, setActiveTab] = useState("desc");
 
 //   const [apiReviews, setApiReviews] = useState<any[]>([]);
@@ -11375,18 +11375,18 @@
 // //     let isCurrentFetchValid = true;
 
 // //     const initialPassedData = location.state?.initialProduct;
-// //     const allPassedProducts = location.state?.allProducts; 
+// //     const allPassedProducts = location.state?.allProducts;
 
 // //     // [PERBAIKAN] Kondisi verifikasi menggunakan SLUG
 // //     if (initialPassedData && initialPassedData.slug === slug) {
 // //       setProduct(initialPassedData);
 // //       setLoading(false);
-      
+
 // //       if (allPassedProducts && allPassedProducts.length > 0) {
 // //         const words = initialPassedData.name.trim().split(" ");
 // //         let rootName = initialPassedData.name;
 // //         if (words.length > 1) {
-// //           words.pop(); 
+// //           words.pop();
 // //           rootName = words.join(" ");
 // //         }
 
@@ -11418,7 +11418,7 @@
 // //         if (isCurrentFetchValid) {
 // //           const productObject = responseData.data ? responseData.data : responseData;
 // //           setProduct(productObject);
-          
+
 // //           if (!allPassedProducts || allPassedProducts.length === 0) {
 // //              await fetchSiblingColorsViaAPI(productObject.name);
 // //           }
@@ -11464,11 +11464,11 @@
 // //         const res = await fetch(`${BASE_URL}/api/products/${slug}/reviews`, {
 // //             headers: { Accept: "application/json" }
 // //         });
-        
+
 // //         if (res.ok) {
 // //             const data = await res.json();
 // //             if (isCurrentFetchValid) {
-// //                 const reviewsArr = data.reviews ? data.reviews : []; 
+// //                 const reviewsArr = data.reviews ? data.reviews : [];
 // //                 setApiReviews(reviewsArr);
 // //             }
 // //         }
@@ -11533,7 +11533,7 @@
 //             await fetchSiblingColorsViaAPI(activeProduct!.name);
 //           }
 //         }
-//       } 
+//       }
 //       // 2. FETCH DARI API (Jika buka URL langsung)
 //       else {
 //         if (isCurrentFetchValid) {
@@ -11903,7 +11903,7 @@
 //   const formattedApiReviews = apiReviews.map((r: any) => ({
 //       name: r.user?.first_name ? `${r.user.first_name} ${r.user.last_name || ''}` : "Gycora Customer",
 //       text: r.comment,
-//       rating: r.rating || 5, 
+//       rating: r.rating || 5,
 //       is_verified: true
 //   }));
 
@@ -11920,14 +11920,14 @@
 //   ];
 
 //   const staticReviews = isEtherealBrush ? brushReviews : isScalpCare ? scalpReviews : [];
-  
+
 //   const activeReviews = [...formattedApiReviews, ...staticReviews];
 
 //   return (
 //     <div className="min-h-screen py-12 font-sans bg-white">
 //       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 //         <div className="lg:grid lg:grid-cols-2 lg:gap-16">
-          
+
 //           {/* BAGIAN KIRI: GAMBAR */}
 //           <div className="flex flex-col mb-10 lg:mb-0">
 //             <div
@@ -11944,7 +11944,7 @@
 //                       className={`absolute inset-0 object-contain object-center w-full h-full p-4 md:p-8 transition-opacity duration-300 ease-in-out ${idx === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
 //                     />
 //                   ))}
-                  
+
 //                   {gallery.length > 1 && (
 //                     <>
 //                       <button
@@ -11955,7 +11955,7 @@
 //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
 //                         </svg>
 //                       </button>
-                      
+
 //                       <button
 //                         onClick={nextImage}
 //                         className="absolute z-30 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 right-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100 focus:outline-none"
@@ -11964,7 +11964,7 @@
 //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
 //                         </svg>
 //                       </button>
-                      
+
 //                       <div className="absolute left-0 right-0 z-30 flex items-center justify-center gap-2 bottom-6">
 //                         {gallery.map((_, idx) => (
 //                           <button
@@ -11983,7 +11983,7 @@
 //                   No Image
 //                 </div>
 //               )}
-              
+
 //               <div className="absolute z-30 top-6 left-6">
 //                 <span className="px-4 py-2 text-sm font-bold text-gray-900 rounded-full shadow-sm bg-white/90 backdrop-blur-md">
 //                   {product.category_name}
@@ -12081,7 +12081,7 @@
 //                               window.scrollTo({ top: 0, behavior: "smooth" });
 //                               // [PERBAIKAN] Mengarahkan menggunakan slug
 //                               navigate(`/product/${sibling.slug}`, {
-//                                 state: { 
+//                                 state: {
 //                                   initialProduct: sibling,
 //                                   allProducts: location.state?.allProducts
 //                                 },
@@ -12172,7 +12172,7 @@
 //             </div>
 
 //             {/* ==============================================================
-//                 BAGIAN TAB (DESCRIPTION | HOW TO USE | FAQ | REVIEW) 
+//                 BAGIAN TAB (DESCRIPTION | HOW TO USE | FAQ | REVIEW)
 //             ============================================================== */}
 //             <div className="mt-4">
 //               <div className="flex flex-wrap gap-2 pb-4 mb-6 border-b border-gray-100">
@@ -12211,7 +12211,7 @@
 //               </div>
 
 //               <div className="text-gray-600 prose-sm prose whitespace-pre-wrap sm:prose max-w-none min-h-[200px]">
-                
+
 //                 {/* KONTEN TAB: DESCRIPTION */}
 //                 {activeTab === "desc" && (
 //                   <div className="space-y-4 animate-fade-in-up">
@@ -12368,7 +12368,7 @@
 //                     )}
 //                   </div>
 //                 )}
-                
+
 //                 {/* [BARU] KONTEN TAB: REVIEW (GABUNGAN API + STATIS) */}
 //                 {activeTab === "review" && (
 //                   <div className="space-y-6 animate-fade-in-up">
@@ -12395,7 +12395,7 @@
 //                     ) : (
 //                       <p className="italic text-gray-400">Belum ada ulasan untuk produk ini.</p>
 //                     )}
-                    
+
 //                     {activeReviews.length > 0 && (
 //                       <div className="mt-4 text-center">
 //                         <button className="text-sm font-bold text-[#006A4E] hover:underline focus:outline-none">
@@ -12497,7 +12497,7 @@
 //   // [PERBAIKAN] Langsung gunakan state dari location sebagai nilai awal jika ada
 //   const initialPassedData = location.state?.initialProduct;
 //   const [product, setProduct] = useState<Product | null>(initialPassedData || null);
-  
+
 //   // [PERBAIKAN] Jika product sudah ada (dari navigasi), loading diset false agar tampil instan
 //   const [loading, setLoading] = useState(!initialPassedData);
 //   const [isFetchingFull, setIsFetchingFull] = useState(false);
@@ -12510,7 +12510,7 @@
 
 //   const [siblingColors, setSiblingColors] = useState<Product[]>([]);
 //   const [isFavorited, setIsFavorited] = useState(false);
-  
+
 //   const [activeTab, setActiveTab] = useState("desc");
 
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -12594,7 +12594,7 @@
 //           const freshProduct = responseData.data ? responseData.data : responseData;
 //           setProduct(freshProduct);
 //           activeProduct = freshProduct; // Update activeProduct untuk proses selanjutnya
-          
+
 //           if (!allPassedProducts || allPassedProducts.length === 0) {
 //             await fetchSiblingColorsViaAPI(freshProduct.name);
 //           }
@@ -12665,7 +12665,7 @@
 //     return () => {
 //       isCurrentFetchValid = false;
 //     };
-//   }, [slug, navigate, initialPassedData]); 
+//   }, [slug, navigate, initialPassedData]);
 
 //   const handleToggleWishlist = async () => {
 //     const token = localStorage.getItem("user_token");
@@ -12694,7 +12694,7 @@
 //           Authorization: `Bearer ${token}`,
 //           Accept: "application/json",
 //         },
-//         body: JSON.stringify({ product_id: product?.id }), 
+//         body: JSON.stringify({ product_id: product?.id }),
 //       });
 //       if (!res.ok) throw new Error("Gagal");
 //     } catch (error) {
@@ -12816,7 +12816,7 @@
 //         Authorization: `Bearer ${token}`,
 //       },
 //       body: JSON.stringify({
-//         product_id: product?.id, 
+//         product_id: product?.id,
 //         quantity: quantity,
 //         color: null,
 //       }),
@@ -12948,7 +12948,7 @@
 //   const formattedApiReviews = apiReviews.map((r: any) => ({
 //       name: r.user?.first_name ? `${r.user.first_name} ${r.user.last_name || ''}` : "Gycora Customer",
 //       text: r.comment,
-//       rating: r.rating || 5, 
+//       rating: r.rating || 5,
 //       is_verified: true
 //   }));
 
@@ -12965,14 +12965,14 @@
 //   ];
 
 //   const staticReviews = isEtherealBrush ? brushReviews : isScalpCare ? scalpReviews : [];
-  
+
 //   const activeReviews = [...formattedApiReviews, ...staticReviews];
 
 //   return (
 //     <div className="min-h-screen py-12 font-sans bg-white animate-fade-in">
 //       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 //         <div className="lg:grid lg:grid-cols-2 lg:gap-16">
-          
+
 //           {/* BAGIAN KIRI: GAMBAR */}
 //           <div className="flex flex-col mb-10 lg:mb-0">
 //             <div
@@ -12989,7 +12989,7 @@
 //                       className={`absolute inset-0 object-contain object-center w-full h-full p-4 md:p-8 transition-opacity duration-300 ease-in-out ${idx === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
 //                     />
 //                   ))}
-                  
+
 //                   {gallery.length > 1 && (
 //                     <>
 //                       <button
@@ -13000,7 +13000,7 @@
 //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
 //                         </svg>
 //                       </button>
-                      
+
 //                       <button
 //                         onClick={nextImage}
 //                         className="absolute z-30 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 right-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100 focus:outline-none"
@@ -13009,7 +13009,7 @@
 //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
 //                         </svg>
 //                       </button>
-                      
+
 //                       <div className="absolute left-0 right-0 z-30 flex items-center justify-center gap-2 bottom-6">
 //                         {gallery.map((_, idx) => (
 //                           <button
@@ -13028,7 +13028,7 @@
 //                   No Image
 //                 </div>
 //               )}
-              
+
 //               <div className="absolute z-30 top-6 left-6">
 //                 <span className="px-4 py-2 text-sm font-bold text-gray-900 rounded-full shadow-sm bg-white/90 backdrop-blur-md">
 //                   {product.category_name}
@@ -13125,7 +13125,7 @@
 //                             if (!isCurrentProduct) {
 //                               window.scrollTo({ top: 0, behavior: "smooth" });
 //                               navigate(`/product/${sibling.slug}`, {
-//                                 state: { 
+//                                 state: {
 //                                   initialProduct: sibling,
 //                                   allProducts: location.state?.allProducts
 //                                 },
@@ -13216,7 +13216,7 @@
 //             </div>
 
 //             {/* ==============================================================
-//                 BAGIAN TAB (DESCRIPTION | HOW TO USE | FAQ | REVIEW) 
+//                 BAGIAN TAB (DESCRIPTION | HOW TO USE | FAQ | REVIEW)
 //             ============================================================== */}
 //             <div className="mt-4">
 //               <div className="flex flex-wrap gap-2 pb-4 mb-6 border-b border-gray-100">
@@ -13255,7 +13255,7 @@
 //               </div>
 
 //               <div className="text-gray-600 prose-sm prose whitespace-pre-wrap sm:prose max-w-none min-h-[200px]">
-                
+
 //                 {/* KONTEN TAB: DESCRIPTION */}
 //                 {activeTab === "desc" && (
 //                   <div className="space-y-4 animate-fade-in-up">
@@ -13412,7 +13412,7 @@
 //                     )}
 //                   </div>
 //                 )}
-                
+
 //                 {/* [BARU] KONTEN TAB: REVIEW (GABUNGAN API + STATIS) */}
 //                 {activeTab === "review" && (
 //                   <div className="space-y-6 animate-fade-in-up">
@@ -13439,7 +13439,7 @@
 //                     ) : (
 //                       <p className="italic text-gray-400">Belum ada ulasan untuk produk ini.</p>
 //                     )}
-                    
+
 //                     {activeReviews.length > 0 && (
 //                       <div className="mt-4 text-center">
 //                         <button className="text-sm font-bold text-[#006A4E] hover:underline focus:outline-none">
@@ -13543,7 +13543,7 @@
 //   const initialPassedData = location.state?.initialProduct;
 //   // [PERBAIKAN] Inisialisasi awal menggunakan data dari lokasi jika tersedia.
 //   const [product, setProduct] = useState<Product | null>(initialPassedData || null);
-  
+
 //   // [PERBAIKAN KRITIS] Jangan jalankan loading jika kita sudah memiliki product state
 //   const [loading, setLoading] = useState(!initialPassedData);
 //   const [isFetchingFull, setIsFetchingFull] = useState(!initialPassedData);
@@ -13556,7 +13556,7 @@
 
 //   const [siblingColors, setSiblingColors] = useState<Product[]>([]);
 //   const [isFavorited, setIsFavorited] = useState(false);
-  
+
 //   const [activeTab, setActiveTab] = useState("desc");
 
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -13629,7 +13629,7 @@
 //         } else {
 //           await fetchSiblingColorsViaAPI(activeProduct.name);
 //         }
-//       } 
+//       }
 //       // 2. JIKA DIREFRESH LANGSUNG DI BROWSER (Butuh Loading)
 //       else {
 //         if (isCurrentFetchValid) {
@@ -13713,7 +13713,7 @@
 //     return () => {
 //       isCurrentFetchValid = false;
 //     };
-//   }, [slug, navigate, location.state]); 
+//   }, [slug, navigate, location.state]);
 
 //   const handleToggleWishlist = async () => {
 //     const token = localStorage.getItem("user_token");
@@ -13742,7 +13742,7 @@
 //           Authorization: `Bearer ${token}`,
 //           Accept: "application/json",
 //         },
-//         body: JSON.stringify({ product_id: product?.id }), 
+//         body: JSON.stringify({ product_id: product?.id }),
 //       });
 //       if (!res.ok) throw new Error("Gagal");
 //     } catch (error) {
@@ -13859,7 +13859,7 @@
 //         Authorization: `Bearer ${token}`,
 //       },
 //       body: JSON.stringify({
-//         product_id: product?.id, 
+//         product_id: product?.id,
 //         quantity: quantity,
 //         color: null,
 //       }),
@@ -13987,7 +13987,7 @@
 //   const formattedApiReviews = apiReviews.map((r: any) => ({
 //       name: r.user?.first_name ? `${r.user.first_name} ${r.user.last_name || ''}` : "Gycora Customer",
 //       text: r.comment,
-//       rating: r.rating || 5, 
+//       rating: r.rating || 5,
 //       is_verified: true
 //   }));
 
@@ -14010,7 +14010,7 @@
 //     <div className="min-h-screen py-12 font-sans bg-white animate-fade-in">
 //       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 //         <div className="lg:grid lg:grid-cols-2 lg:gap-16">
-          
+
 //           {/* BAGIAN KIRI: GAMBAR */}
 //           <div className="flex flex-col mb-10 lg:mb-0">
 //             <div
@@ -14027,7 +14027,7 @@
 //                       className={`absolute inset-0 object-contain object-center w-full h-full p-4 md:p-8 transition-opacity duration-300 ease-in-out ${idx === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
 //                     />
 //                   ))}
-                  
+
 //                   {gallery.length > 1 && (
 //                     <>
 //                       <button
@@ -14038,7 +14038,7 @@
 //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
 //                         </svg>
 //                       </button>
-                      
+
 //                       <button
 //                         onClick={nextImage}
 //                         className="absolute z-30 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 right-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100 focus:outline-none"
@@ -14047,7 +14047,7 @@
 //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
 //                         </svg>
 //                       </button>
-                      
+
 //                       <div className="absolute left-0 right-0 z-30 flex items-center justify-center gap-2 bottom-6">
 //                         {gallery.map((_, idx) => (
 //                           <button
@@ -14066,7 +14066,7 @@
 //                   {t("no_image")}
 //                 </div>
 //               )}
-              
+
 //               <div className="absolute z-30 top-6 left-6">
 //                 <span className="px-4 py-2 text-sm font-bold text-gray-900 rounded-full shadow-sm bg-white/90 backdrop-blur-md">
 //                   {product.category_name}
@@ -14164,7 +14164,7 @@
 //                               window.scrollTo({ top: 0, behavior: "smooth" });
 //                               // [KUNCI PERBAIKAN] Data dikirim agar tidak ada loading
 //                               navigate(`/product/${sibling.slug}`, {
-//                                 state: { 
+//                                 state: {
 //                                   initialProduct: sibling,
 //                                   allProducts: location.state?.allProducts || siblingColors
 //                                 },
@@ -14255,7 +14255,7 @@
 //             </div>
 
 //             {/* ==============================================================
-//                 BAGIAN TAB (DESCRIPTION | HOW TO USE | FAQ | REVIEW) 
+//                 BAGIAN TAB (DESCRIPTION | HOW TO USE | FAQ | REVIEW)
 //             ============================================================== */}
 //             <div className="mt-4">
 //               <div className="flex flex-wrap gap-2 pb-4 mb-6 border-b border-gray-100">
@@ -14294,7 +14294,7 @@
 //               </div>
 
 //               <div className="text-gray-600 prose-sm prose whitespace-pre-wrap sm:prose max-w-none min-h-[200px]">
-                
+
 //                 {/* KONTEN TAB: DESCRIPTION */}
 //                 {activeTab === "desc" && (
 //                   <div className="space-y-4 animate-fade-in-up">
@@ -14451,7 +14451,7 @@
 //                     )}
 //                   </div>
 //                 )}
-                
+
 //                 {/* [BARU] KONTEN TAB: REVIEW (GABUNGAN API + STATIS) */}
 //                 {activeTab === "review" && (
 //                   <div className="space-y-6 animate-fade-in-up">
@@ -14568,11 +14568,11 @@
 //   const { slug } = useParams<{ slug: string }>();
 //   const navigate = useNavigate();
 //   const location = useLocation();
-//   const { t } = useLanguage(); 
+//   const { t } = useLanguage();
 
 //   const initialPassedData = location.state?.initialProduct;
 //   const [product, setProduct] = useState<Product | null>(initialPassedData || null);
-  
+
 //   const [loading, setLoading] = useState(!initialPassedData);
 //   const [isFetchingFull, setIsFetchingFull] = useState(!initialPassedData);
 
@@ -14584,7 +14584,7 @@
 
 //   const [siblingColors, setSiblingColors] = useState<Product[]>([]);
 //   const [isFavorited, setIsFavorited] = useState(false);
-  
+
 //   const [activeTab, setActiveTab] = useState("desc");
 //   const [apiReviews, setApiReviews] = useState<any[]>([]);
 
@@ -14633,7 +14633,7 @@
 //       if (activeProduct) {
 //         if (isCurrentFetchValid) {
 //           setProduct(activeProduct);
-//           setLoading(false); 
+//           setLoading(false);
 //         }
 
 //         if (allPassedProducts && allPassedProducts.length > 0) {
@@ -14652,7 +14652,7 @@
 //         } else {
 //           await fetchSiblingColorsViaAPI(activeProduct.name);
 //         }
-//       } 
+//       }
 //       else {
 //         if (isCurrentFetchValid) {
 //           setLoading(true);
@@ -14732,7 +14732,7 @@
 //     return () => {
 //       isCurrentFetchValid = false;
 //     };
-//   }, [slug, navigate, location.state]); 
+//   }, [slug, navigate, location.state]);
 
 //   const handleToggleWishlist = async () => {
 //     const token = localStorage.getItem("user_token");
@@ -14761,7 +14761,7 @@
 //           Authorization: `Bearer ${token}`,
 //           Accept: "application/json",
 //         },
-//         body: JSON.stringify({ product_id: product?.id }), 
+//         body: JSON.stringify({ product_id: product?.id }),
 //       });
 //       if (!res.ok) throw new Error("Gagal");
 //     } catch (error) {
@@ -14878,7 +14878,7 @@
 //         Authorization: `Bearer ${token}`,
 //       },
 //       body: JSON.stringify({
-//         product_id: product?.id, 
+//         product_id: product?.id,
 //         quantity: quantity,
 //         color: null,
 //       }),
@@ -15005,7 +15005,7 @@
 //   const formattedApiReviews = apiReviews.map((r: any) => ({
 //       name: r.user?.first_name ? `${r.user.first_name} ${r.user.last_name || ''}` : "Gycora Customer",
 //       text: r.comment,
-//       rating: r.rating || 5, 
+//       rating: r.rating || 5,
 //       is_verified: true
 //   }));
 
@@ -15028,7 +15028,7 @@
 //     <div className="min-h-screen py-12 font-sans bg-white animate-fade-in">
 //       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 //         <div className="lg:grid lg:grid-cols-2 lg:gap-16">
-          
+
 //           {/* BAGIAN KIRI: GAMBAR */}
 //           <div className="flex flex-col mb-10 lg:mb-0">
 //             <div
@@ -15045,7 +15045,7 @@
 //                       className={`absolute inset-0 object-contain object-center w-full h-full p-4 md:p-8 transition-opacity duration-300 ease-in-out ${idx === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
 //                     />
 //                   ))}
-                  
+
 //                   {gallery.length > 1 && (
 //                     <>
 //                       <button
@@ -15056,7 +15056,7 @@
 //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
 //                         </svg>
 //                       </button>
-                      
+
 //                       <button
 //                         onClick={nextImage}
 //                         className="absolute z-30 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 right-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100 focus:outline-none"
@@ -15065,7 +15065,7 @@
 //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
 //                         </svg>
 //                       </button>
-                      
+
 //                       <div className="absolute left-0 right-0 z-30 flex items-center justify-center gap-2 bottom-6">
 //                         {gallery.map((_, idx) => (
 //                           <button
@@ -15084,7 +15084,7 @@
 //                   {t("no_image")}
 //                 </div>
 //               )}
-              
+
 //               <div className="absolute z-30 top-6 left-6">
 //                 <span className="px-4 py-2 text-sm font-bold text-gray-900 rounded-full shadow-sm bg-white/90 backdrop-blur-md">
 //                   {product.category_name}
@@ -15181,7 +15181,7 @@
 //                             if (!isCurrentProduct) {
 //                               window.scrollTo({ top: 0, behavior: "smooth" });
 //                               navigate(`/product/${sibling.slug}`, {
-//                                   state: { 
+//                                   state: {
 //                                     initialProduct: sibling,
 //                                     allProducts: location.state?.allProducts || siblingColors
 //                                   },
@@ -15272,7 +15272,7 @@
 //             </div>
 
 //             {/* ==============================================================
-//                 BAGIAN TAB (DESCRIPTION | HOW TO USE | FAQ | REVIEW) 
+//                 BAGIAN TAB (DESCRIPTION | HOW TO USE | FAQ | REVIEW)
 //             ============================================================== */}
 //             <div className="mt-4">
 //               <div className="flex flex-wrap gap-2 pb-4 mb-6 border-b border-gray-100">
@@ -15311,7 +15311,7 @@
 //               </div>
 
 //               <div className="text-gray-600 prose-sm prose whitespace-pre-wrap sm:prose max-w-none min-h-[200px]">
-                
+
 //                 {/* KONTEN TAB: DESCRIPTION */}
 //                 {activeTab === "desc" && (
 //                   <div className="space-y-4 animate-fade-in-up">
@@ -15456,7 +15456,7 @@
 //                     )}
 //                   </div>
 //                 )}
-                
+
 //                 {/* KONTEN TAB: REVIEW */}
 //                 {activeTab === "review" && (
 //                   <div className="space-y-6 animate-fade-in-up">
@@ -15590,11 +15590,11 @@
 //   const { slug } = useParams<{ slug: string }>();
 //   const navigate = useNavigate();
 //   const location = useLocation();
-//   const { t, lang } = useLanguage(); 
+//   const { t, lang } = useLanguage();
 
 //   const initialPassedData = location.state?.initialProduct;
 //   const [product, setProduct] = useState<Product | null>(initialPassedData || null);
-  
+
 //   const [loading, setLoading] = useState(!initialPassedData);
 //   const [isFetchingFull, setIsFetchingFull] = useState(!initialPassedData);
 
@@ -15606,7 +15606,7 @@
 
 //   const [siblingColors, setSiblingColors] = useState<Product[]>([]);
 //   const [isFavorited, setIsFavorited] = useState(false);
-  
+
 //   const [activeTab, setActiveTab] = useState("desc");
 //   const [apiReviews, setApiReviews] = useState<any[]>([]);
 
@@ -15655,7 +15655,7 @@
 //       if (activeProduct) {
 //         if (isCurrentFetchValid) {
 //           setProduct(activeProduct);
-//           setLoading(false); 
+//           setLoading(false);
 //         }
 
 //         if (allPassedProducts && allPassedProducts.length > 0) {
@@ -15674,7 +15674,7 @@
 //         } else {
 //           await fetchSiblingColorsViaAPI(activeProduct.name);
 //         }
-//       } 
+//       }
 //       else {
 //         if (isCurrentFetchValid) {
 //           setLoading(true);
@@ -15797,7 +15797,7 @@
 //           Authorization: `Bearer ${token}`,
 //           Accept: "application/json",
 //         },
-//         body: JSON.stringify({ product_id: product?.id }), 
+//         body: JSON.stringify({ product_id: product?.id }),
 //       });
 //       if (!res.ok) throw new Error("Gagal");
 //     } catch (error) {
@@ -15914,7 +15914,7 @@
 //         Authorization: `Bearer ${token}`,
 //       },
 //       body: JSON.stringify({
-//         product_id: product?.id, 
+//         product_id: product?.id,
 //         quantity: quantity,
 //         color: null,
 //       }),
@@ -16042,7 +16042,7 @@
 //   const formattedApiReviews = apiReviews.map((r: any) => ({
 //       name: r.user?.first_name ? `${r.user.first_name} ${r.user.last_name || ''}` : "Gycora Customer",
 //       text: lang === "en" ? (r.comment_en || r.comment) : r.comment, // Gunakan teks translasi jika ada
-//       rating: r.rating || 5, 
+//       rating: r.rating || 5,
 //       is_verified: true
 //   }));
 
@@ -16065,7 +16065,7 @@
 //     <div className="min-h-screen py-12 font-sans bg-white animate-fade-in">
 //       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 //         <div className="lg:grid lg:grid-cols-2 lg:gap-16">
-          
+
 //           {/* BAGIAN KIRI: GAMBAR */}
 //           <div className="flex flex-col mb-10 lg:mb-0">
 //             <div
@@ -16082,7 +16082,7 @@
 //                       className={`absolute inset-0 object-contain object-center w-full h-full p-4 md:p-8 transition-opacity duration-300 ease-in-out ${idx === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
 //                     />
 //                   ))}
-                  
+
 //                   {gallery.length > 1 && (
 //                     <>
 //                       <button
@@ -16093,7 +16093,7 @@
 //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
 //                         </svg>
 //                       </button>
-                      
+
 //                       <button
 //                         onClick={nextImage}
 //                         className="absolute z-30 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 right-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100 focus:outline-none"
@@ -16102,7 +16102,7 @@
 //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
 //                         </svg>
 //                       </button>
-                      
+
 //                       <div className="absolute left-0 right-0 z-30 flex items-center justify-center gap-2 bottom-6">
 //                         {gallery.map((_, idx) => (
 //                           <button
@@ -16121,7 +16121,7 @@
 //                   {t("no_image")}
 //                 </div>
 //               )}
-              
+
 //               <div className="absolute z-30 top-6 left-6">
 //                 <span className="px-4 py-2 text-sm font-bold text-gray-900 rounded-full shadow-sm bg-white/90 backdrop-blur-md">
 //                   {product.category_name}
@@ -16218,7 +16218,7 @@
 //                             if (!isCurrentProduct) {
 //                               window.scrollTo({ top: 0, behavior: "smooth" });
 //                               navigate(`/product/${sibling.slug}`, {
-//                                   state: { 
+//                                   state: {
 //                                     initialProduct: sibling,
 //                                     allProducts: location.state?.allProducts || siblingColors
 //                                   },
@@ -16309,7 +16309,7 @@
 //             </div>
 
 //             {/* ==============================================================
-//                 BAGIAN TAB (DESCRIPTION | HOW TO USE | FAQ | REVIEW) 
+//                 BAGIAN TAB (DESCRIPTION | HOW TO USE | FAQ | REVIEW)
 //             ============================================================== */}
 //             <div className="mt-4">
 //               <div className="flex flex-wrap gap-2 pb-4 mb-6 border-b border-gray-100">
@@ -16348,7 +16348,7 @@
 //               </div>
 
 //               <div className="text-gray-600 prose-sm prose whitespace-pre-wrap sm:prose max-w-none min-h-[200px]">
-                
+
 //                 {/* KONTEN TAB: DESCRIPTION */}
 //                 {activeTab === "desc" && (
 //                   <div className="space-y-4 animate-fade-in-up">
@@ -16493,7 +16493,7 @@
 //                     )}
 //                   </div>
 //                 )}
-                
+
 //                 {/* KONTEN TAB: REVIEW */}
 //                 {activeTab === "review" && (
 //                   <div className="space-y-6 animate-fade-in-up">
@@ -16613,16 +16613,16 @@
 //       `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=id|${langTo}&de=admin@gycora.com`
 //     );
 //     const data = await response.json();
-    
+
 //     if (data && data.responseData && data.responseData.translatedText) {
 //       const translated = data.responseData.translatedText;
-      
+
 //       // Deteksi jika API mengirimkan pesan warning karena limit habis
 //       if (translated.includes("MYMEMORY WARNING")) {
 //         console.warn("Limit API Translate habis, fallback ke teks asli.");
 //         return text; // Tampilkan teks asli agar web tidak rusak
 //       }
-      
+
 //       return translated;
 //     }
 //     return text;
@@ -16656,11 +16656,11 @@
 //   const { slug } = useParams<{ slug: string }>();
 //   const navigate = useNavigate();
 //   const location = useLocation();
-//   const { t, lang } = useLanguage(); 
+//   const { t, lang } = useLanguage();
 
 //   const initialPassedData = location.state?.initialProduct;
 //   const [product, setProduct] = useState<Product | null>(initialPassedData || null);
-  
+
 //   const [loading, setLoading] = useState(!initialPassedData);
 //   const [isFetchingFull, setIsFetchingFull] = useState(!initialPassedData);
 
@@ -16672,7 +16672,7 @@
 
 //   const [siblingColors, setSiblingColors] = useState<Product[]>([]);
 //   const [isFavorited, setIsFavorited] = useState(false);
-  
+
 //   const [activeTab, setActiveTab] = useState("desc");
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   const [apiReviews, setApiReviews] = useState<any[]>([]);
@@ -16722,7 +16722,7 @@
 //       if (activeProduct) {
 //         if (isCurrentFetchValid) {
 //           setProduct(activeProduct);
-//           setLoading(false); 
+//           setLoading(false);
 //         }
 
 //         if (allPassedProducts && allPassedProducts.length > 0) {
@@ -16741,7 +16741,7 @@
 //         } else {
 //           await fetchSiblingColorsViaAPI(activeProduct.name);
 //         }
-//       } 
+//       }
 //       else {
 //         if (isCurrentFetchValid) {
 //           setLoading(true);
@@ -16871,7 +16871,7 @@
 //           Authorization: `Bearer ${token}`,
 //           Accept: "application/json",
 //         },
-//         body: JSON.stringify({ product_id: product?.id }), 
+//         body: JSON.stringify({ product_id: product?.id }),
 //       });
 //       if (!res.ok) throw new Error("Gagal");
 //     } catch (error) {
@@ -16989,7 +16989,7 @@
 //         Authorization: `Bearer ${token}`,
 //       },
 //       body: JSON.stringify({
-//         product_id: product?.id, 
+//         product_id: product?.id,
 //         quantity: quantity,
 //         color: null,
 //       }),
@@ -17118,7 +17118,7 @@
 //   const formattedApiReviews = apiReviews.map((r: any) => ({
 //       name: r.user?.first_name ? `${r.user.first_name} ${r.user.last_name || ''}` : "Gycora Customer",
 //       text: lang === "en" ? (r.comment_en || r.comment) : r.comment,
-//       rating: r.rating || 5, 
+//       rating: r.rating || 5,
 //       is_verified: true
 //   }));
 
@@ -17141,7 +17141,7 @@
 //     <div className="min-h-screen py-12 font-sans bg-white animate-fade-in">
 //       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 //         <div className="lg:grid lg:grid-cols-2 lg:gap-16">
-          
+
 //           {/* BAGIAN KIRI: GAMBAR */}
 //           <div className="flex flex-col mb-10 lg:mb-0">
 //             <div
@@ -17158,7 +17158,7 @@
 //                       className={`absolute inset-0 object-contain object-center w-full h-full p-4 md:p-8 transition-opacity duration-300 ease-in-out ${idx === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
 //                     />
 //                   ))}
-                  
+
 //                   {gallery.length > 1 && (
 //                     <>
 //                       <button
@@ -17169,7 +17169,7 @@
 //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
 //                         </svg>
 //                       </button>
-                      
+
 //                       <button
 //                         onClick={nextImage}
 //                         className="absolute z-30 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 right-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100 focus:outline-none"
@@ -17178,7 +17178,7 @@
 //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
 //                         </svg>
 //                       </button>
-                      
+
 //                       <div className="absolute left-0 right-0 z-30 flex items-center justify-center gap-2 bottom-6">
 //                         {gallery.map((_, idx) => (
 //                           <button
@@ -17197,7 +17197,7 @@
 //                   {t("no_image")}
 //                 </div>
 //               )}
-              
+
 //               <div className="absolute z-30 top-6 left-6">
 //                 <span className="px-4 py-2 text-sm font-bold text-gray-900 rounded-full shadow-sm bg-white/90 backdrop-blur-md">
 //                   {product.category_name}
@@ -17294,7 +17294,7 @@
 //                             if (!isCurrentProduct) {
 //                               window.scrollTo({ top: 0, behavior: "smooth" });
 //                               navigate(`/product/${sibling.slug}`, {
-//                                   state: { 
+//                                   state: {
 //                                     initialProduct: sibling,
 //                                     allProducts: location.state?.allProducts || siblingColors
 //                                   },
@@ -17385,7 +17385,7 @@
 //             </div>
 
 //             {/* ==============================================================
-//                 BAGIAN TAB (DESCRIPTION | HOW TO USE | FAQ | REVIEW) 
+//                 BAGIAN TAB (DESCRIPTION | HOW TO USE | FAQ | REVIEW)
 //             ============================================================== */}
 //             <div className="mt-4">
 //               <div className="flex flex-wrap gap-2 pb-4 mb-6 border-b border-gray-100">
@@ -17424,7 +17424,7 @@
 //               </div>
 
 //               <div className="text-gray-600 prose-sm prose whitespace-pre-wrap sm:prose max-w-none min-h-[200px]">
-                
+
 //                 {/* KONTEN TAB: DESCRIPTION */}
 //                 {activeTab === "desc" && (
 //                   <div className="space-y-4 animate-fade-in-up">
@@ -17569,7 +17569,7 @@
 //                     )}
 //                   </div>
 //                 )}
-                
+
 //                 {/* KONTEN TAB: REVIEW */}
 //                 {activeTab === "review" && (
 //                   <div className="space-y-6 animate-fade-in-up">
@@ -17613,52 +17613,151 @@ import Swal from "sweetalert2";
 import { useCart } from "../../../context/CartContext";
 import { BASE_URL } from "../../../config/api";
 import { useLanguage } from "../../../context/LanguageContext";
+import { useCurrency } from "../../../context/CurrencyContext";
 
-  // =========================================================
-  // [BARU] LOGIKA PREFIX URL PINTAR
-  // Membaca URL saat ini untuk menentukan prefix navigasi
-  // =========================================================
-  const getUrlPrefix = () => {
-    if (location.pathname.startsWith('/id')) return '/id';
-    if (location.pathname.startsWith('/en')) return '/en';
-    return ''; // Tanpa prefix
-  };
-  const urlPrefix = getUrlPrefix();
+// =========================================================
+// [BARU] LOGIKA PREFIX URL PINTAR
+// Membaca URL saat ini untuk menentukan prefix navigasi
+// =========================================================
+const getUrlPrefix = () => {
+  if (location.pathname.startsWith("/id")) return "/id";
+  if (location.pathname.startsWith("/en")) return "/en";
+  return ""; // Tanpa prefix
+};
+const urlPrefix = getUrlPrefix();
 
 const colorMapHex: Record<string, string> = {
-  Black: "#000000", White: "#FFFFFF", Brown: "#8B4513", Beige: "#F5F5DC",
-  Red: "#8B0000", Navy: "#000080", Green: "#008000", Grey: "#808080",
-  Pink: "#FFC0CB", Yellow: "#FFD700", Blue: "#4169E1", Mocca: "#967969",
-  Cream: "#FDF4E3", Sage: "#9DC183", Gold: "#D4AF37", Orange: "#FF9900",
-  Silver: "#C0C0C0", Maroon: "#800000", Olive: "#808000", Taupe: "#483C32",
-  Khaki: "#F0E68C", Mustard: "#FFDB58", Emerald: "#50C878", Coral: "#FF7F50",
-  Mint: "#98FF98", Teal: "#008080", Cyan: "#00FFFF", Indigo: "#4B0082",
-  Violet: "#EE82EE", Purple: "#800080", Magenta: "#FF00FF", Lilac: "#C8A2C8",
-  Lavender: "#E6E6FA", Rose: "#FF007F", Peach: "#FFE5B4", Apricot: "#FBCEB1",
-  Ivory: "#FFFFF0", Tan: "#D2B48C", Charcoal: "#36454F", Ash: "#555555",
-  Platinum: "#E5E4E2", Bronze: "#CD7F32", Copper: "#B87333", Rust: "#B7410E",
-  Ochre: "#CC7722", Sienna: "#882D17", Terracotta: "#E2725B", Amber: "#FFBF00",
-  Caramel: "#FFD59A", Honey: "#FFC30B", Chestnut: "#954535", Walnut: "#5C4033",
-  Mahogany: "#C04000", Chocolate: "#7B3F00", Cocoa: "#D2691E", Coffee: "#6F4E37",
-  Mocha: "#493D26", Espresso: "#4B3621", Cappuccino: "#654321", Latte: "#C5A059",
-  Macchiato: "#8B5A2B", Almond: "#EED9C4", Hazelnut: "#C4A484", Pecan: "#8A3324",
-  Pistachio: "#93C572", Seafoam: "#9FE2BF", Turquoise: "#40E0D0", Aqua: "#00FFFF",
-  Azure: "#00FFFF", Sky: "#87CEEB", Cerulean: "#007BA7", Cobalt: "#0047AB",
-  Sapphire: "#0F52BA", Ultramarine: "#120A8F", Lapis: "#26619C", Denim: "#1560BD",
-  Steel: "#4682B4", Slate: "#708090", Gunmetal: "#2a3439", Onyx: "#353839",
-  Jet: "#343434", Ebony: "#555D50", Raven: "#050301", Pitch: "#000000",
-  Obsidian: "#0B0B0B", Carbon: "#333333", Graphite: "#383838", Pewter: "#8E8E8E",
-  Zinc: "#8C92AC", Lead: "#778899", Iron: "#A19D94", Titanium: "#878681",
-  Chromium: "#C0C0C0", Nickel: "#727472", Tungsten: "#A0A0A0", Fuchsia: "#FF00FF",
-  Crimson: "#DC143C", Carmine: "#960018", Ruby: "#E0115F", Scarlet: "#FF2400",
-  Vermilion: "#E34234", Brick: "#CB4154", Tomato: "#FF6347", Papaya: "#FFEFD5",
-  Melon: "#FDBCB4", Mango: "#F4A460", Citrus: "#FFA500", Lemon: "#FFF700",
-  Lime: "#BFFF00", Kiwi: "#8EE53F", Apple: "#8DB600", Pear: "#D1E231",
-  Grape: "#6F2DA8", Plum: "#8E4585", Blackberry: "#4D0135", Mulberry: "#C54B8C",
-  Raisin: "#652DC1", Eggplant: "#614051", Aubergine: "#472C4C", Amethyst: "#9966CC",
-  Orchid: "#DA70D6", Heather: "#D473D4", Thistle: "#D8BFD8", Mauve: "#E0B0FF",
-  Wisteria: "#C9A0DC", Periwinkle: "#CCCCFF", Cornflower: "#6495ED", Baby: "#89CFF0",
-  Powder: "#B0E0E6", Midnight: "#191970", Ocean: "#0077BE",
+  Black: "#000000",
+  White: "#FFFFFF",
+  Brown: "#8B4513",
+  Beige: "#F5F5DC",
+  Red: "#8B0000",
+  Navy: "#000080",
+  Green: "#008000",
+  Grey: "#808080",
+  Pink: "#FFC0CB",
+  Yellow: "#FFD700",
+  Blue: "#4169E1",
+  Mocca: "#967969",
+  Cream: "#FDF4E3",
+  Sage: "#9DC183",
+  Gold: "#D4AF37",
+  Orange: "#FF9900",
+  Silver: "#C0C0C0",
+  Maroon: "#800000",
+  Olive: "#808000",
+  Taupe: "#483C32",
+  Khaki: "#F0E68C",
+  Mustard: "#FFDB58",
+  Emerald: "#50C878",
+  Coral: "#FF7F50",
+  Mint: "#98FF98",
+  Teal: "#008080",
+  Cyan: "#00FFFF",
+  Indigo: "#4B0082",
+  Violet: "#EE82EE",
+  Purple: "#800080",
+  Magenta: "#FF00FF",
+  Lilac: "#C8A2C8",
+  Lavender: "#E6E6FA",
+  Rose: "#FF007F",
+  Peach: "#FFE5B4",
+  Apricot: "#FBCEB1",
+  Ivory: "#FFFFF0",
+  Tan: "#D2B48C",
+  Charcoal: "#36454F",
+  Ash: "#555555",
+  Platinum: "#E5E4E2",
+  Bronze: "#CD7F32",
+  Copper: "#B87333",
+  Rust: "#B7410E",
+  Ochre: "#CC7722",
+  Sienna: "#882D17",
+  Terracotta: "#E2725B",
+  Amber: "#FFBF00",
+  Caramel: "#FFD59A",
+  Honey: "#FFC30B",
+  Chestnut: "#954535",
+  Walnut: "#5C4033",
+  Mahogany: "#C04000",
+  Chocolate: "#7B3F00",
+  Cocoa: "#D2691E",
+  Coffee: "#6F4E37",
+  Mocha: "#493D26",
+  Espresso: "#4B3621",
+  Cappuccino: "#654321",
+  Latte: "#C5A059",
+  Macchiato: "#8B5A2B",
+  Almond: "#EED9C4",
+  Hazelnut: "#C4A484",
+  Pecan: "#8A3324",
+  Pistachio: "#93C572",
+  Seafoam: "#9FE2BF",
+  Turquoise: "#40E0D0",
+  Aqua: "#00FFFF",
+  Azure: "#00FFFF",
+  Sky: "#87CEEB",
+  Cerulean: "#007BA7",
+  Cobalt: "#0047AB",
+  Sapphire: "#0F52BA",
+  Ultramarine: "#120A8F",
+  Lapis: "#26619C",
+  Denim: "#1560BD",
+  Steel: "#4682B4",
+  Slate: "#708090",
+  Gunmetal: "#2a3439",
+  Onyx: "#353839",
+  Jet: "#343434",
+  Ebony: "#555D50",
+  Raven: "#050301",
+  Pitch: "#000000",
+  Obsidian: "#0B0B0B",
+  Carbon: "#333333",
+  Graphite: "#383838",
+  Pewter: "#8E8E8E",
+  Zinc: "#8C92AC",
+  Lead: "#778899",
+  Iron: "#A19D94",
+  Titanium: "#878681",
+  Chromium: "#C0C0C0",
+  Nickel: "#727472",
+  Tungsten: "#A0A0A0",
+  Fuchsia: "#FF00FF",
+  Crimson: "#DC143C",
+  Carmine: "#960018",
+  Ruby: "#E0115F",
+  Scarlet: "#FF2400",
+  Vermilion: "#E34234",
+  Brick: "#CB4154",
+  Tomato: "#FF6347",
+  Papaya: "#FFEFD5",
+  Melon: "#FDBCB4",
+  Mango: "#F4A460",
+  Citrus: "#FFA500",
+  Lemon: "#FFF700",
+  Lime: "#BFFF00",
+  Kiwi: "#8EE53F",
+  Apple: "#8DB600",
+  Pear: "#D1E231",
+  Grape: "#6F2DA8",
+  Plum: "#8E4585",
+  Blackberry: "#4D0135",
+  Mulberry: "#C54B8C",
+  Raisin: "#652DC1",
+  Eggplant: "#614051",
+  Aubergine: "#472C4C",
+  Amethyst: "#9966CC",
+  Orchid: "#DA70D6",
+  Heather: "#D473D4",
+  Thistle: "#D8BFD8",
+  Mauve: "#E0B0FF",
+  Wisteria: "#C9A0DC",
+  Periwinkle: "#CCCCFF",
+  Cornflower: "#6495ED",
+  Baby: "#89CFF0",
+  Powder: "#B0E0E6",
+  Midnight: "#191970",
+  Ocean: "#0077BE",
 };
 
 const extractColorName = (fullName: string) => {
@@ -17677,14 +17776,14 @@ const translateText = async (text: string, langTo: string): Promise<string> => {
   if (!text) return "";
   try {
     const response = await fetch(
-      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=id|${langTo}&de=admin@gycora.com`
+      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=id|${langTo}&de=admin@gycora.com`,
     );
     const data = await response.json();
     if (data && data.responseData && data.responseData.translatedText) {
       const translated = data.responseData.translatedText;
       if (translated.includes("MYMEMORY WARNING")) {
         console.warn("Limit API Translate habis, fallback ke teks asli.");
-        return text; 
+        return text;
       }
       return translated;
     }
@@ -17718,11 +17817,15 @@ export default function ProductDetail() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const location = useLocation();
-  const { t, lang } = useLanguage(); 
+  const { t, lang } = useLanguage();
+
+  const { formatPrice } = useCurrency();
 
   const initialPassedData = location.state?.initialProduct;
-  const [product, setProduct] = useState<Product | null>(initialPassedData || null);
-  
+  const [product, setProduct] = useState<Product | null>(
+    initialPassedData || null,
+  );
+
   const [loading, setLoading] = useState(!initialPassedData);
   const [isFetchingFull, setIsFetchingFull] = useState(!initialPassedData);
 
@@ -17734,12 +17837,13 @@ export default function ProductDetail() {
 
   const [siblingColors, setSiblingColors] = useState<Product[]>([]);
   const [isFavorited, setIsFavorited] = useState(false);
-  
+
   const [activeTab, setActiveTab] = useState("desc");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [apiReviews, setApiReviews] = useState<any[]>([]);
 
-  const { fetchCart, cartItems, addCartItemOptimistically, revertCartItems } = useCart();
+  const { fetchCart, cartItems, addCartItemOptimistically, revertCartItems } =
+    useCart();
 
   const fetchSiblingColorsViaAPI = async (productName: string) => {
     if (!productName) return;
@@ -17779,13 +17883,14 @@ export default function ProductDetail() {
     setActiveTab("desc");
 
     const loadProductData = async () => {
-      let activeProduct: Product | null = location.state?.initialProduct || null;
+      let activeProduct: Product | null =
+        location.state?.initialProduct || null;
 
       try {
         if (activeProduct) {
           if (isCurrentFetchValid) {
             setProduct(activeProduct);
-            setLoading(false); 
+            setLoading(false);
           }
 
           if (allPassedProducts && allPassedProducts.length > 0) {
@@ -17796,7 +17901,7 @@ export default function ProductDetail() {
               rootName = words.join(" ");
             }
             const localSiblings = allPassedProducts.filter((p: Product) =>
-              p.name.toLowerCase().includes(rootName.toLowerCase())
+              p.name.toLowerCase().includes(rootName.toLowerCase()),
             );
             if (localSiblings.length > 1 && isCurrentFetchValid) {
               setSiblingColors(localSiblings);
@@ -17804,19 +17909,20 @@ export default function ProductDetail() {
           } else {
             await fetchSiblingColorsViaAPI(activeProduct.name);
           }
-        } 
-        else {
+        } else {
           if (isCurrentFetchValid) {
             setLoading(true);
             setIsFetchingFull(true);
           }
-          
+
           const res = await fetch(`${BASE_URL}/api/products/${slug}`);
           if (!res.ok) throw new Error("Produk tidak ditemukan");
           const responseData = await res.json();
 
           if (isCurrentFetchValid) {
-            activeProduct = responseData.data ? responseData.data : responseData;
+            activeProduct = responseData.data
+              ? responseData.data
+              : responseData;
             setProduct(activeProduct);
             await fetchSiblingColorsViaAPI(activeProduct!.name);
           }
@@ -17825,9 +17931,12 @@ export default function ProductDetail() {
         if (slug && isCurrentFetchValid && activeProduct) {
           const fetchReviews = async () => {
             try {
-              const res = await fetch(`${BASE_URL}/api/products/${slug}/reviews`, {
-                headers: { Accept: "application/json" },
-              });
+              const res = await fetch(
+                `${BASE_URL}/api/products/${slug}/reviews`,
+                {
+                  headers: { Accept: "application/json" },
+                },
+              );
               if (res.ok) {
                 const data = await res.json();
                 let reviewsArr = data.reviews ? data.reviews : [];
@@ -17835,12 +17944,15 @@ export default function ProductDetail() {
                 if (lang === "en" && reviewsArr.length > 0) {
                   reviewsArr = await Promise.all(
                     reviewsArr.map(async (r: any) => {
-                      const translatedComment = await translateText(r.comment, "en");
+                      const translatedComment = await translateText(
+                        r.comment,
+                        "en",
+                      );
                       return {
                         ...r,
                         comment_en: translatedComment,
                       };
-                    })
+                    }),
                   );
                 }
 
@@ -17866,17 +17978,19 @@ export default function ProductDetail() {
               if (res.ok) {
                 const data = await res.json();
                 if (isCurrentFetchValid) {
-                  const isWished = data.some((item: any) => item.product_id === activeProduct!.id);
+                  const isWished = data.some(
+                    (item: any) => item.product_id === activeProduct!.id,
+                  );
                   setIsFavorited(isWished);
                 }
               }
             } catch (error) {
-               console.error("Gagal memeriksa wishlist:", error);
+              console.error("Gagal memeriksa wishlist:", error);
             }
           };
 
           Promise.all([fetchReviews(), checkWishlistStatus()]).finally(() => {
-              if (isCurrentFetchValid) setIsFetchingFull(false);
+            if (isCurrentFetchValid) setIsFetchingFull(false);
           });
         }
       } catch (error) {
@@ -17887,7 +18001,7 @@ export default function ProductDetail() {
       } finally {
         // [PERBAIKAN MUTLAK] Pastikan loading mati bagaimanapun keadaannya
         if (isCurrentFetchValid) {
-            setLoading(false);
+          setLoading(false);
         }
       }
     };
@@ -17897,24 +18011,27 @@ export default function ProductDetail() {
     return () => {
       isCurrentFetchValid = false;
     };
-  }, [slug, navigate, location.state, lang]); 
+  }, [slug, navigate, location.state, lang]);
 
   useEffect(() => {
     if (product) {
-      const activePrice = product.discount_price > 0 ? product.discount_price : product.price;
+      const activePrice =
+        product.discount_price > 0 ? product.discount_price : product.price;
       (window as any).dataLayer = (window as any).dataLayer || [];
       (window as any).dataLayer.push({
         event: "view_item",
         ecommerce: {
           currency: "IDR",
           value: activePrice,
-          items: [{
-            item_id: product.id,
-            item_name: product.name,
-            price: activePrice,
-            item_category: product.category_name
-          }]
-        }
+          items: [
+            {
+              item_id: product.id,
+              item_name: product.name,
+              price: activePrice,
+              item_category: product.category_name,
+            },
+          ],
+        },
       });
     }
   }, [product?.id]);
@@ -17946,7 +18063,7 @@ export default function ProductDetail() {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
         },
-        body: JSON.stringify({ product_id: product?.id }), 
+        body: JSON.stringify({ product_id: product?.id }),
       });
       if (!res.ok) throw new Error("Gagal");
     } catch (error) {
@@ -17965,16 +18082,20 @@ export default function ProductDetail() {
     return imgs;
   }, [product]);
 
-  const nextImage = () => setCurrentImageIndex((prev) => (prev + 1) % gallery.length);
-  const prevImage = () => setCurrentImageIndex((prev) => (prev - 1 + gallery.length) % gallery.length);
+  const nextImage = () =>
+    setCurrentImageIndex((prev) => (prev + 1) % gallery.length);
+  const prevImage = () =>
+    setCurrentImageIndex(
+      (prev) => (prev - 1 + gallery.length) % gallery.length,
+    );
 
-  const formatRupiah = (angka: number) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(angka);
-  };
+//   const formatRupiah = (angka: number) => {
+//     return new Intl.NumberFormat("id-ID", {
+//       style: "currency",
+//       currency: "IDR",
+//       minimumFractionDigits: 0,
+//     }).format(angka);
+//   };
 
   const triggerFlyingAnimation = () => {
     const startEl = document.getElementById("product-image");
@@ -17993,7 +18114,8 @@ export default function ProductDetail() {
       flyingImg.style.height = `${startRect.height}px`;
       flyingImg.style.borderRadius = "10%";
       flyingImg.style.zIndex = "9999";
-      flyingImg.style.transition = "all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+      flyingImg.style.transition =
+        "all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
       document.body.appendChild(flyingImg);
 
       requestAnimationFrame(() => {
@@ -18036,7 +18158,7 @@ export default function ProductDetail() {
       product: {
         id: product!.id,
         name: product!.name,
-        slug: product!.slug, 
+        slug: product!.slug,
         price: product!.price,
         discount_price: product!.price,
         image_url: product!.image_url,
@@ -18050,21 +18172,24 @@ export default function ProductDetail() {
     triggerFlyingAnimation();
 
     // [BARU] 2. GTM Event: add_to_cart (Sisipkan di sini)
-    const activePrice = product!.discount_price > 0 ? product!.discount_price : product!.price;
+    const activePrice =
+      product!.discount_price > 0 ? product!.discount_price : product!.price;
     (window as any).dataLayer = (window as any).dataLayer || [];
     (window as any).dataLayer.push({
       event: "add_to_cart",
       ecommerce: {
         currency: "IDR",
         value: activePrice * quantity,
-        items: [{
-          item_id: product!.id,
-          item_name: product!.name,
-          price: activePrice,
-          quantity: quantity,
-          item_category: product!.category_name
-        }]
-      }
+        items: [
+          {
+            item_id: product!.id,
+            item_name: product!.name,
+            price: activePrice,
+            quantity: quantity,
+            item_category: product!.category_name,
+          },
+        ],
+      },
     });
 
     Swal.fire({
@@ -18083,7 +18208,7 @@ export default function ProductDetail() {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        product_id: product?.id, 
+        product_id: product?.id,
         quantity: quantity,
         color: null,
       }),
@@ -18094,7 +18219,11 @@ export default function ProductDetail() {
           fetchCart();
         } else {
           revertCartItems(previousCartState);
-          Swal.fire("Error", data.message || "Gagal menambahkan produk", "warning");
+          Swal.fire(
+            "Error",
+            data.message || "Gagal menambahkan produk",
+            "warning",
+          );
         }
       })
       .catch(() => {
@@ -18132,7 +18261,9 @@ export default function ProductDetail() {
 
       if (res.ok && data.cart_id) {
         fetchCart();
-        navigate(`${urlPrefix}/checkout`, { state: { selectedIds: [data.cart_id] } });
+        navigate(`${urlPrefix}/checkout`, {
+          state: { selectedIds: [data.cart_id] },
+        });
       } else {
         Swal.fire("Gagal", data.message || "Terjadi kesalahan", "error");
       }
@@ -18159,7 +18290,9 @@ export default function ProductDetail() {
         toast: true,
         position: "top-end",
         icon: "warning",
-        title: t("product_max_stock_toast", { stock: product.stock.toString() }),
+        title: t("product_max_stock_toast", {
+          stock: product.stock.toString(),
+        }),
         showConfirmButton: false,
         timer: 2000,
       });
@@ -18204,37 +18337,74 @@ export default function ProductDetail() {
     }
   };
 
-  const isEtherealBrush = product.name.toLowerCase().includes("ethereal glow brush");
+  const isEtherealBrush = product.name
+    .toLowerCase()
+    .includes("ethereal glow brush");
   const isScalpCare = product.name.toLowerCase().includes("scalp");
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formattedApiReviews = apiReviews.map((r: any) => ({
-      name: r.user?.first_name ? `${r.user.first_name} ${r.user.last_name || ''}` : "Gycora Customer",
-      text: lang === "en" ? (r.comment_en || r.comment) : r.comment,
-      rating: r.rating || 5, 
-      is_verified: true
+    name: r.user?.first_name
+      ? `${r.user.first_name} ${r.user.last_name || ""}`
+      : "Gycora Customer",
+    text: lang === "en" ? r.comment_en || r.comment : r.comment,
+    rating: r.rating || 5,
+    is_verified: true,
   }));
 
   const brushReviews = [
-    { name: "Claudiasunshinee", text: t("review_brush_1"), rating: 5, is_verified: true },
-    { name: "Nilasetiobudii", text: t("review_brush_2"), rating: 5, is_verified: true },
-    { name: "Thaliastanley___", text: t("review_brush_3"), rating: 5, is_verified: true },
-    { name: "Herlenasutanto", text: t("review_brush_4"), rating: 5, is_verified: true },
-    { name: "Anitaa_bee", text: t("review_brush_5"), rating: 5, is_verified: true },
+    {
+      name: "Claudiasunshinee",
+      text: t("review_brush_1"),
+      rating: 5,
+      is_verified: true,
+    },
+    {
+      name: "Nilasetiobudii",
+      text: t("review_brush_2"),
+      rating: 5,
+      is_verified: true,
+    },
+    {
+      name: "Thaliastanley___",
+      text: t("review_brush_3"),
+      rating: 5,
+      is_verified: true,
+    },
+    {
+      name: "Herlenasutanto",
+      text: t("review_brush_4"),
+      rating: 5,
+      is_verified: true,
+    },
+    {
+      name: "Anitaa_bee",
+      text: t("review_brush_5"),
+      rating: 5,
+      is_verified: true,
+    },
   ];
 
   const scalpReviews = [
-    { name: "v*****b", text: t("review_scalp_1"), rating: 5, is_verified: true },
+    {
+      name: "v*****b",
+      text: t("review_scalp_1"),
+      rating: 5,
+      is_verified: true,
+    },
   ];
 
-  const staticReviews = isEtherealBrush ? brushReviews : isScalpCare ? scalpReviews : [];
+  const staticReviews = isEtherealBrush
+    ? brushReviews
+    : isScalpCare
+      ? scalpReviews
+      : [];
   const activeReviews = [...formattedApiReviews, ...staticReviews];
 
   return (
     <div className="min-h-screen py-12 font-sans bg-white animate-fade-in">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-2 lg:gap-16">
-          
           {/* BAGIAN KIRI: GAMBAR */}
           <div className="flex flex-col mb-10 lg:mb-0">
             <div
@@ -18251,27 +18421,49 @@ export default function ProductDetail() {
                       className={`absolute inset-0 object-contain object-center w-full h-full p-4 md:p-8 transition-opacity duration-300 ease-in-out ${idx === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
                     />
                   ))}
-                  
+
                   {gallery.length > 1 && (
                     <>
                       <button
                         onClick={prevImage}
                         className="absolute z-30 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 left-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100 focus:outline-none"
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-6 h-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M15 19l-7-7 7-7"
+                          />
                         </svg>
                       </button>
-                      
+
                       <button
                         onClick={nextImage}
                         className="absolute z-30 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 right-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100 focus:outline-none"
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-6 h-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
                         </svg>
                       </button>
-                      
+
                       <div className="absolute left-0 right-0 z-30 flex items-center justify-center gap-2 bottom-6">
                         {gallery.map((_, idx) => (
                           <button
@@ -18290,7 +18482,7 @@ export default function ProductDetail() {
                   {t("no_image")}
                 </div>
               )}
-              
+
               <div className="absolute z-30 top-6 left-6">
                 <span className="px-4 py-2 text-sm font-bold text-gray-900 rounded-full shadow-sm bg-white/90 backdrop-blur-md">
                   {product.category_name}
@@ -18326,8 +18518,18 @@ export default function ProductDetail() {
                   className="flex items-center justify-center w-12 h-12 text-gray-500 transition-colors bg-white border border-gray-200 rounded-full shadow-sm hover:bg-gray-50 hover:text-[#006A4E]"
                   title="Bagikan Produk"
                 >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                    />
                   </svg>
                 </button>
                 <button
@@ -18335,8 +18537,18 @@ export default function ProductDetail() {
                   className="flex items-center justify-center w-12 h-12 transition-colors bg-white border border-gray-200 rounded-full shadow-sm shrink-0 hover:bg-gray-50"
                   title="Simpan ke Favorit"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-6 h-6 transition-all duration-300 ${isFavorited ? "fill-red-500 text-red-500 scale-110" : "fill-none text-gray-400 hover:text-red-500"}`}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className={`w-6 h-6 transition-all duration-300 ${isFavorited ? "fill-red-500 text-red-500 scale-110" : "fill-none text-gray-400 hover:text-red-500"}`}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                    />
                   </svg>
                 </button>
               </div>
@@ -18358,15 +18570,15 @@ export default function ProductDetail() {
               {product.discount_price && product.discount_price > 0 ? (
                 <div className="flex flex-col">
                   <span className="text-2xl text-gray-400 line-through">
-                    {formatRupiah(product.price)}
+                    {formatPrice(product.price)}
                   </span>
                   <span className="text-4xl font-extrabold text-red-600">
-                    {formatRupiah(product.discount_price)}
+                    {formatPrice(product.discount_price)}
                   </span>
                 </div>
               ) : (
                 <p className="text-4xl font-extrabold text-[#006A4E]">
-                  {formatRupiah(product.price)}
+                  {formatPrice(product.price)}
                 </p>
               )}
             </div>
@@ -18387,11 +18599,13 @@ export default function ProductDetail() {
                             if (!isCurrentProduct) {
                               window.scrollTo({ top: 0, behavior: "smooth" });
                               navigate(`${urlPrefix}/product/${sibling.slug}`, {
-                                  state: { 
-                                    initialProduct: sibling,
-                                    allProducts: location.state?.allProducts || siblingColors
-                                  },
-                                });
+                                state: {
+                                  initialProduct: sibling,
+                                  allProducts:
+                                    location.state?.allProducts ||
+                                    siblingColors,
+                                },
+                              });
                             }
                           }}
                           className={`flex items-center gap-2 px-3 py-1.5 rounded-full border-2 transition-all shadow-sm ${
@@ -18403,9 +18617,13 @@ export default function ProductDetail() {
                         >
                           <span
                             className="w-5 h-5 border border-gray-300 rounded-full shadow-inner"
-                            style={{ backgroundColor: extractColorHex(sibling.name) }}
+                            style={{
+                              backgroundColor: extractColorHex(sibling.name),
+                            }}
                           ></span>
-                          <span className={`text-xs font-bold ${isCurrentProduct ? "text-[#006A4E]" : "text-gray-700"}`}>
+                          <span
+                            className={`text-xs font-bold ${isCurrentProduct ? "text-[#006A4E]" : "text-gray-700"}`}
+                          >
                             {extractColorName(sibling.name)}
                           </span>
                         </button>
@@ -18471,7 +18689,11 @@ export default function ProductDetail() {
                         : "bg-[#006A4E] text-white hover:bg-emerald-900 shadow-[0_4px_14px_0_rgba(0,106,78,0.39)] hover:-translate-y-0.5 active:scale-95"
                     }`}
                   >
-                    {isBuyingNow ? t("product_cart_processing") : isOutOfStock ? t("out_of_stock") : t("buy_it_now")}
+                    {isBuyingNow
+                      ? t("product_cart_processing")
+                      : isOutOfStock
+                        ? t("out_of_stock")
+                        : t("buy_it_now")}
                   </button>
                 </div>
               </div>
@@ -18485,7 +18707,9 @@ export default function ProductDetail() {
                 <button
                   onClick={() => setActiveTab("desc")}
                   className={`px-5 py-2.5 text-sm font-bold rounded-full transition-colors focus:outline-none ${
-                    activeTab === "desc" ? "bg-[#006A4E] text-white" : "bg-emerald-50 text-[#006A4E] hover:bg-emerald-100"
+                    activeTab === "desc"
+                      ? "bg-[#006A4E] text-white"
+                      : "bg-emerald-50 text-[#006A4E] hover:bg-emerald-100"
                   }`}
                 >
                   {t("description")}
@@ -18493,7 +18717,9 @@ export default function ProductDetail() {
                 <button
                   onClick={() => setActiveTab("how-to-use")}
                   className={`px-5 py-2.5 text-sm font-bold rounded-full transition-colors focus:outline-none ${
-                    activeTab === "how-to-use" ? "bg-[#006A4E] text-white" : "bg-emerald-50 text-[#006A4E] hover:bg-emerald-100"
+                    activeTab === "how-to-use"
+                      ? "bg-[#006A4E] text-white"
+                      : "bg-emerald-50 text-[#006A4E] hover:bg-emerald-100"
                   }`}
                 >
                   {t("how_to_use")}
@@ -18501,7 +18727,9 @@ export default function ProductDetail() {
                 <button
                   onClick={() => setActiveTab("faq")}
                   className={`px-5 py-2.5 text-sm font-bold rounded-full transition-colors focus:outline-none ${
-                    activeTab === "faq" ? "bg-[#006A4E] text-white" : "bg-emerald-50 text-[#006A4E] hover:bg-emerald-100"
+                    activeTab === "faq"
+                      ? "bg-[#006A4E] text-white"
+                      : "bg-emerald-50 text-[#006A4E] hover:bg-emerald-100"
                   }`}
                 >
                   {t("faq")}
@@ -18509,7 +18737,9 @@ export default function ProductDetail() {
                 <button
                   onClick={() => setActiveTab("review")}
                   className={`px-5 py-2.5 text-sm font-bold rounded-full transition-colors focus:outline-none ${
-                    activeTab === "review" ? "bg-[#006A4E] text-white" : "bg-emerald-50 text-[#006A4E] hover:bg-emerald-100"
+                    activeTab === "review"
+                      ? "bg-[#006A4E] text-white"
+                      : "bg-emerald-50 text-[#006A4E] hover:bg-emerald-100"
                   }`}
                 >
                   {t("review")}
@@ -18517,7 +18747,6 @@ export default function ProductDetail() {
               </div>
 
               <div className="text-gray-600 prose-sm prose whitespace-pre-wrap sm:prose max-w-none min-h-[200px]">
-                
                 {/* KONTEN TAB: DESCRIPTION */}
                 {activeTab === "desc" && (
                   <div className="space-y-4 animate-fade-in-up">
@@ -18527,18 +18756,52 @@ export default function ProductDetail() {
                         <p>{t("brush_desc_p2")}</p>
                         <p>{t("brush_desc_p3")}</p>
                         <div className="pt-6 mt-8 border-t border-gray-100">
-                          <h4 className="mb-4 font-bold text-gray-900 text-md">{t("brush_benefits_title")}</h4>
+                          <h4 className="mb-4 font-bold text-gray-900 text-md">
+                            {t("brush_benefits_title")}
+                          </h4>
                           <ul className="space-y-3 list-none">
-                            <li className="flex gap-2"><span>✨</span> <div><strong>{t("brush_benefit_1_bold")}</strong>{t("brush_benefit_1_text")}</div></li>
-                            <li className="flex gap-2"><span>✨</span> <div><strong>{t("brush_benefit_2_bold")}</strong>{t("brush_benefit_2_text")}</div></li>
-                            <li className="flex gap-2"><span>✨</span> <div><strong>{t("brush_benefit_3_bold")}</strong>{t("brush_benefit_3_text")}</div></li>
-                            <li className="flex gap-2"><span>✨</span> <div><strong>{t("brush_benefit_4_bold")}</strong>{t("brush_benefit_4_text")}</div></li>
-                            <li className="flex gap-2"><span>✨</span> <div><strong>{t("brush_benefit_5_bold")}</strong>{t("brush_benefit_5_text")}</div></li>
+                            <li className="flex gap-2">
+                              <span>✨</span>{" "}
+                              <div>
+                                <strong>{t("brush_benefit_1_bold")}</strong>
+                                {t("brush_benefit_1_text")}
+                              </div>
+                            </li>
+                            <li className="flex gap-2">
+                              <span>✨</span>{" "}
+                              <div>
+                                <strong>{t("brush_benefit_2_bold")}</strong>
+                                {t("brush_benefit_2_text")}
+                              </div>
+                            </li>
+                            <li className="flex gap-2">
+                              <span>✨</span>{" "}
+                              <div>
+                                <strong>{t("brush_benefit_3_bold")}</strong>
+                                {t("brush_benefit_3_text")}
+                              </div>
+                            </li>
+                            <li className="flex gap-2">
+                              <span>✨</span>{" "}
+                              <div>
+                                <strong>{t("brush_benefit_4_bold")}</strong>
+                                {t("brush_benefit_4_text")}
+                              </div>
+                            </li>
+                            <li className="flex gap-2">
+                              <span>✨</span>{" "}
+                              <div>
+                                <strong>{t("brush_benefit_5_bold")}</strong>
+                                {t("brush_benefit_5_text")}
+                              </div>
+                            </li>
                           </ul>
                         </div>
                         <div className="grid grid-cols-1 gap-6 pt-6 mt-8 border-t border-gray-100 md:grid-cols-2">
                           <div>
-                            <h4 className="mb-3 font-bold text-gray-900 text-md">{t("brush_suitable_title")}</h4>
+                            <h4 className="mb-3 font-bold text-gray-900 text-md">
+                              {t("brush_suitable_title")}
+                            </h4>
                             <ul className="space-y-1 list-disc list-inside">
                               <li>{t("brush_suitable_1")}</li>
                               <li>{t("brush_suitable_2")}</li>
@@ -18547,7 +18810,9 @@ export default function ProductDetail() {
                             </ul>
                           </div>
                           <div>
-                            <h4 className="mb-3 font-bold text-gray-900 text-md">{t("brush_specs_title")}</h4>
+                            <h4 className="mb-3 font-bold text-gray-900 text-md">
+                              {t("brush_specs_title")}
+                            </h4>
                             <ul className="space-y-1 list-disc list-inside">
                               <li>{t("brush_specs_1")}</li>
                               <li>{t("brush_specs_2")}</li>
@@ -18562,21 +18827,73 @@ export default function ProductDetail() {
                         <p>{t("scalp_desc_p2")}</p>
                         <p>{t("scalp_desc_p3")}</p>
                         <div className="pt-6 mt-8 border-t border-gray-100">
-                          <h4 className="mb-4 font-bold text-gray-900 text-md">{t("scalp_benefits_title")}</h4>
+                          <h4 className="mb-4 font-bold text-gray-900 text-md">
+                            {t("scalp_benefits_title")}
+                          </h4>
                           <ul className="space-y-3 list-none">
-                            <li className="flex gap-2"><span>✨</span> <div><strong>{t("scalp_benefit_1_bold")}</strong>{t("scalp_benefit_1_text")}</div></li>
-                            <li className="flex gap-2"><span>✨</span> <div><strong>{t("scalp_benefit_2_bold")}</strong>{t("scalp_benefit_2_text")}</div></li>
-                            <li className="flex gap-2"><span>✨</span> <div><strong>{t("scalp_benefit_3_bold")}</strong>{t("scalp_benefit_3_text")}</div></li>
-                            <li className="flex gap-2"><span>✨</span> <div><strong>{t("scalp_benefit_4_bold")}</strong>{t("scalp_benefit_4_text")}</div></li>
-                            <li className="flex gap-2"><span>✨</span> <div><strong>{t("scalp_benefit_5_bold")}</strong>{t("scalp_benefit_5_text")}</div></li>
-                            <li className="flex gap-2"><span>✨</span> <div><strong>{t("scalp_benefit_6_bold")}</strong>{t("scalp_benefit_6_text")}</div></li>
-                            <li className="flex gap-2"><span>✨</span> <div><strong>{t("scalp_benefit_7_bold")}</strong>{t("scalp_benefit_7_text")}</div></li>
-                            <li className="flex gap-2"><span>✨</span> <div><strong>{t("scalp_benefit_8_bold")}</strong>{t("scalp_benefit_8_text")}</div></li>
+                            <li className="flex gap-2">
+                              <span>✨</span>{" "}
+                              <div>
+                                <strong>{t("scalp_benefit_1_bold")}</strong>
+                                {t("scalp_benefit_1_text")}
+                              </div>
+                            </li>
+                            <li className="flex gap-2">
+                              <span>✨</span>{" "}
+                              <div>
+                                <strong>{t("scalp_benefit_2_bold")}</strong>
+                                {t("scalp_benefit_2_text")}
+                              </div>
+                            </li>
+                            <li className="flex gap-2">
+                              <span>✨</span>{" "}
+                              <div>
+                                <strong>{t("scalp_benefit_3_bold")}</strong>
+                                {t("scalp_benefit_3_text")}
+                              </div>
+                            </li>
+                            <li className="flex gap-2">
+                              <span>✨</span>{" "}
+                              <div>
+                                <strong>{t("scalp_benefit_4_bold")}</strong>
+                                {t("scalp_benefit_4_text")}
+                              </div>
+                            </li>
+                            <li className="flex gap-2">
+                              <span>✨</span>{" "}
+                              <div>
+                                <strong>{t("scalp_benefit_5_bold")}</strong>
+                                {t("scalp_benefit_5_text")}
+                              </div>
+                            </li>
+                            <li className="flex gap-2">
+                              <span>✨</span>{" "}
+                              <div>
+                                <strong>{t("scalp_benefit_6_bold")}</strong>
+                                {t("scalp_benefit_6_text")}
+                              </div>
+                            </li>
+                            <li className="flex gap-2">
+                              <span>✨</span>{" "}
+                              <div>
+                                <strong>{t("scalp_benefit_7_bold")}</strong>
+                                {t("scalp_benefit_7_text")}
+                              </div>
+                            </li>
+                            <li className="flex gap-2">
+                              <span>✨</span>{" "}
+                              <div>
+                                <strong>{t("scalp_benefit_8_bold")}</strong>
+                                {t("scalp_benefit_8_text")}
+                              </div>
+                            </li>
                           </ul>
                         </div>
                         <div className="grid grid-cols-1 gap-6 pt-6 mt-8 border-t border-gray-100 md:grid-cols-2">
                           <div>
-                            <h4 className="mb-3 font-bold text-gray-900 text-md">{t("scalp_suitable_title")}</h4>
+                            <h4 className="mb-3 font-bold text-gray-900 text-md">
+                              {t("scalp_suitable_title")}
+                            </h4>
                             <ul className="space-y-1 list-disc list-inside">
                               <li>{t("scalp_suitable_1")}</li>
                               <li>{t("scalp_suitable_2")}</li>
@@ -18586,7 +18903,9 @@ export default function ProductDetail() {
                             </ul>
                           </div>
                           <div>
-                            <h4 className="mb-3 font-bold text-gray-900 text-md">{t("scalp_specs_title")}</h4>
+                            <h4 className="mb-3 font-bold text-gray-900 text-md">
+                              {t("scalp_specs_title")}
+                            </h4>
                             <ul className="space-y-1 list-disc list-inside">
                               <li>{t("scalp_specs_1")}</li>
                               <li>{t("scalp_specs_2")}</li>
@@ -18595,15 +18914,17 @@ export default function ProductDetail() {
                           </div>
                         </div>
                       </>
+                    ) : isFetchingFull && !product.description ? (
+                      <div className="space-y-2 animate-pulse">
+                        <div className="w-full h-3 bg-gray-200 rounded"></div>
+                        <div className="w-5/6 h-3 bg-gray-200 rounded"></div>
+                        <div className="w-4/6 h-3 bg-gray-200 rounded"></div>
+                      </div>
                     ) : (
-                      isFetchingFull && !product.description ? (
-                        <div className="space-y-2 animate-pulse">
-                          <div className="w-full h-3 bg-gray-200 rounded"></div>
-                          <div className="w-5/6 h-3 bg-gray-200 rounded"></div>
-                          <div className="w-4/6 h-3 bg-gray-200 rounded"></div>
-                        </div>
-                      ) : (
-                        product.description || <p className="italic text-gray-400">{t("product_desc_empty")}</p>
+                      product.description || (
+                        <p className="italic text-gray-400">
+                          {t("product_desc_empty")}
+                        </p>
                       )
                     )}
                   </div>
@@ -18612,7 +18933,9 @@ export default function ProductDetail() {
                 {/* KONTEN TAB: HOW TO USE */}
                 {activeTab === "how-to-use" && (
                   <div className="space-y-4 animate-fade-in-up">
-                    <h4 className="font-bold text-gray-900">{t("guide_title")}</h4>
+                    <h4 className="font-bold text-gray-900">
+                      {t("guide_title")}
+                    </h4>
                     {isEtherealBrush ? (
                       <ul className="space-y-2 list-decimal list-inside">
                         <li>{t("brush_guide_1")}</li>
@@ -18627,7 +18950,9 @@ export default function ProductDetail() {
                         <li>{t("scalp_guide_3")}</li>
                       </ul>
                     ) : (
-                      <p className="italic text-gray-400">{t("product_guide_empty")}</p>
+                      <p className="italic text-gray-400">
+                        {t("product_guide_empty")}
+                      </p>
                     )}
                   </div>
                 )}
@@ -18638,61 +18963,79 @@ export default function ProductDetail() {
                     {isEtherealBrush ? (
                       <>
                         <div>
-                          <h5 className="font-bold text-gray-900">{t("brush_faq_q1")}</h5>
+                          <h5 className="font-bold text-gray-900">
+                            {t("brush_faq_q1")}
+                          </h5>
                           <p className="mt-1">{t("brush_faq_a1")}</p>
                         </div>
                         <div>
-                          <h5 className="font-bold text-gray-900">{t("brush_faq_q2")}</h5>
+                          <h5 className="font-bold text-gray-900">
+                            {t("brush_faq_q2")}
+                          </h5>
                           <p className="mt-1">{t("brush_faq_a2")}</p>
                         </div>
                       </>
                     ) : isScalpCare ? (
                       <>
                         <div>
-                          <h5 className="font-bold text-gray-900">{t("scalp_faq_q1")}</h5>
+                          <h5 className="font-bold text-gray-900">
+                            {t("scalp_faq_q1")}
+                          </h5>
                           <p className="mt-1">{t("scalp_faq_a1")}</p>
                         </div>
                         <div>
-                          <h5 className="font-bold text-gray-900">{t("scalp_faq_q2")}</h5>
+                          <h5 className="font-bold text-gray-900">
+                            {t("scalp_faq_q2")}
+                          </h5>
                           <p className="mt-1">{t("scalp_faq_a2")}</p>
                         </div>
                       </>
                     ) : (
-                      <p className="italic text-gray-400">{t("product_faq_empty")}</p>
+                      <p className="italic text-gray-400">
+                        {t("product_faq_empty")}
+                      </p>
                     )}
                   </div>
                 )}
-                
+
                 {/* KONTEN TAB: REVIEW */}
                 {activeTab === "review" && (
                   <div className="space-y-6 animate-fade-in-up">
                     {activeReviews.length > 0 ? (
                       activeReviews.map((review, index) => (
-                        <div key={index} className="pb-4 border-b border-gray-100">
+                        <div
+                          key={index}
+                          className="pb-4 border-b border-gray-100"
+                        >
                           <div className="flex items-center gap-2 mb-2">
                             <div className="flex text-xs text-amber-400">
                               {[...Array(review.rating || 5)].map((_, i) => (
-                                 <span key={i}>★</span>
+                                <span key={i}>★</span>
                               ))}
                             </div>
-                            <span className="font-bold text-gray-900">{review.name}</span>
+                            <span className="font-bold text-gray-900">
+                              {review.name}
+                            </span>
                             {review.is_verified && (
                               <span className="px-2 py-0.5 ml-2 text-[10px] font-bold text-[#006A4E] bg-emerald-50 rounded-full">
                                 {t("product_verified_buyer")}
                               </span>
                             )}
                           </div>
-                          <p className="text-gray-600 whitespace-pre-line">"{review.text}"</p>
+                          <p className="text-gray-600 whitespace-pre-line">
+                            "{review.text}"
+                          </p>
                         </div>
                       ))
                     ) : (
-                      <p className="italic text-gray-400">{t("product_review_empty")}</p>
+                      <p className="italic text-gray-400">
+                        {t("product_review_empty")}
+                      </p>
                     )}
                   </div>
                 )}
               </div>
             </div>
-
           </div>
         </div>
       </div>
