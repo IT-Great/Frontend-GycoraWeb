@@ -2301,6 +2301,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { BASE_URL } from "../../../config/api";
 import { useLanguage } from "../../../context/LanguageContext";
+import { useCurrency } from "../../../context/CurrencyContext";
 
 interface Product {
   id: number;
@@ -2340,6 +2341,8 @@ const translateText = async (text: string, langTo: string): Promise<string> => {
 export default function PublicCatalog() {
   const navigate = useNavigate();
   const { t, lang } = useLanguage(); 
+  // [BARU] Panggil fungsi formatPrice dari context mata uang
+  const { formatPrice } = useCurrency();
   
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -2402,13 +2405,13 @@ export default function PublicCatalog() {
     fetchWishlists();
   }, [lang]);
 
-  const formatRupiah = (angka: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      minimumFractionDigits: 0,
-    }).format(angka);
-  };
+  // const formatRupiah = (angka: number) => {
+  //   return new Intl.NumberFormat('id-ID', {
+  //     style: 'currency',
+  //     currency: 'IDR',
+  //     minimumFractionDigits: 0,
+  //   }).format(angka);
+  // };
 
   const handleToggleWishlist = async (e: React.MouseEvent, productId: number) => {
     e.preventDefault(); 
@@ -2622,7 +2625,7 @@ export default function PublicCatalog() {
                     </h3>
                     <div className="pt-3 mt-auto">
                       <p className="text-lg font-black text-gray-900">
-                        {formatRupiah(product.price)}
+                        {formatPrice(product.price)}
                       </p>
                     </div>
                   </div>
