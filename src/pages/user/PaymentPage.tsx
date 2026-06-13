@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-empty */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -5881,6 +5882,7 @@ import Swal from "sweetalert2";
 import { useCart } from "../../context/CartContext";
 import { BASE_URL } from "../../config/api";
 import { useLanguage } from "../../context/LanguageContext"; // [BARU] Import Context Bahasa
+import { useCurrency } from "../../context/CurrencyContext";
 
 import {
   MapContainer,
@@ -5911,6 +5913,7 @@ export default function PaymentPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useLanguage(); // [BARU] Inisialisasi hook bahasa
+  const { formatPrice } = useCurrency();
 
   const { cartItems } = useCart();
   const selectedItemIds: number[] = location.state?.selectedIds || [];
@@ -6412,18 +6415,21 @@ export default function PaymentPage() {
         (window as any).dataLayer.push({
           event: "add_payment_info",
           ecommerce: {
-        currency: "IDR",
+            currency: "IDR",
             value: grandTotal,
             items: checkoutItems.map((item: any) => {
-              const itemPrice = item.product.discount_price > 0 ? item.product.discount_price : item.product.price;
+              const itemPrice =
+                item.product.discount_price > 0
+                  ? item.product.discount_price
+                  : item.product.price;
               return {
                 item_id: item.product.id,
                 item_name: item.product.name,
                 price: itemPrice,
-                quantity: item.quantity
+                quantity: item.quantity,
               };
-            })
-          }
+            }),
+          },
         });
 
         // Eksekusi redirect ke payment gateway
@@ -6438,13 +6444,13 @@ export default function PaymentPage() {
     }
   };
 
-  const formatPrice = (angka: number) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(angka);
-  };
+  // const formatPrice = (angka: number) => {
+  //   return new Intl.NumberFormat("id-ID", {
+  //     style: "currency",
+  //     currency: "IDR",
+  //     minimumFractionDigits: 0,
+  //   }).format(angka);
+  // };
 
   const handleImageError = (company: string) => {
     setImageErrors((prev) => ({ ...prev, [company]: true }));
