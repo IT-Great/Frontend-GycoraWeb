@@ -453,17 +453,615 @@
 //   );
 // }
 
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+// import { useState, useEffect, useMemo } from "react";
+// import { useParams, useNavigate, useLocation } from "react-router-dom";
+// import { BASE_URL } from "../../config/api";
+// import { useCurrency } from "../../context/CurrencyContext";
+
+// export default function TrackingPage() {
+//   const { id } = useParams<{ id: string }>();
+//   const navigate = useNavigate();
+//   const location = useLocation();
+//   const { formatPrice } = useCurrency();
+
+//   // --- STATE ---
+//   const [userData, setUserData] = useState<any>(null);
+//   const [orderData, setOrderData] = useState<any>(null);
+//   const [trackingData, setTrackingData] = useState<any>(null);
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [error, setError] = useState<string | null>(null);
+
+//   // Ambil state 'paymentMethod' yang dilempar dari OrderPage jika ada
+//   const paymentMethodInfo = location.state?.paymentMethod || "";
+
+//   // --- LIFECYCLE ---
+//   useEffect(() => {
+//     const userStr = localStorage.getItem("user_data");
+//     if (userStr) setUserData(JSON.parse(userStr));
+
+//     const fetchAllData = async () => {
+//       setIsLoading(true);
+//       setError(null);
+
+//       const token = localStorage.getItem("user_token");
+//       if (!token) {
+//         navigate("/login");
+//         return;
+//       }
+
+//       try {
+//         // 1. Ambil detail pesanan utama
+//         const orderRes = await fetch(`${BASE_URL}/api/transactions/${id}`, {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//             Accept: "application/json",
+//           },
+//         });
+//         if (!orderRes.ok) throw new Error("Gagal mengambil detail pesanan.");
+
+//         const rawOrderData = await orderRes.json();
+//         setOrderData(rawOrderData.data ? rawOrderData.data : rawOrderData);
+
+//         // 2. Ambil data tracking dari Biteship API melalui Laravel
+//         try {
+//           const trackRes = await fetch(
+//             `${BASE_URL}/api/transactions/${id}/tracking`,
+//             {
+//               headers: {
+//                 Authorization: `Bearer ${token}`,
+//                 Accept: "application/json",
+//               },
+//             },
+//           );
+//           if (trackRes.ok) {
+//             const rawTrackData = await trackRes.json();
+//             setTrackingData(
+//               rawTrackData.data ? rawTrackData.data : rawTrackData,
+//             );
+//           }
+//         } catch (trackErr) {
+//           console.warn(
+//             "Data pelacakan belum tersedia dari pihak ekspedisi.",
+//             trackErr,
+//           );
+//         }
+//       } catch (err: any) {
+//         setError(err.message || "Terjadi kesalahan sistem.");
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     };
+
+//     if (id) fetchAllData();
+//   }, [id, navigate]);
+
+//   // --- COMPUTED & LOGIC ---
+//   const activePaymentMethod = useMemo(() => {
+//     if (orderData?.payment_method) return orderData.payment_method;
+//     if (paymentMethodInfo) return paymentMethodInfo;
+//     return null;
+//   }, [orderData, paymentMethodInfo]);
+
+//   const timelineHistory = useMemo(() => {
+//     const apiHistory = trackingData?.courier?.history || [];
+//     if (apiHistory.length > 0) {
+//       // Biteship mengembalikan array kronologis, kita reverse agar yang terbaru di atas
+//       return [...apiHistory].reverse();
+//     }
+
+//     // Fallback jika array history kosong tapi status sudah ada
+//     return [
+//       {
+//         status: trackingData?.status || orderData?.status || "Processing",
+//         note: getNoteFromStatus(trackingData?.status || orderData?.status),
+//         updated_at:
+//           trackingData?.delivery?.datetime ||
+//           orderData?.created_at ||
+//           new Date().toISOString(),
+//       },
+//     ];
+//   }, [trackingData, orderData]);
+
+//   // --- HELPERS ---
+//   const getCourierLogo = (company: string) => {
+//     if (!company) return null;
+//     const map: Record<string, string> = {
+//       jne: "jne.png",
+//       sicepat: "sicepat.png",
+//       jnt: "jnt.png",
+//       anteraja: "anteraja.png",
+//       gojek: "gojek.png",
+//       grab: "grab.png",
+//       paxel: "paxel.png",
+//       ninja: "ninja.png",
+//     };
+//     return map[company.toLowerCase()]
+//       ? "/courier_images/" + map[company.toLowerCase()]
+//       : null;
+//   };
+
+//   const getPaymentLogo = (methodString: string) => {
+//     if (!methodString) return null;
+//     const channel = methodString.split(" ")[1]?.toLowerCase();
+//     const map: Record<string, string> = {
+//       bca: "bca.png",
+//       bni: "bni.png",
+//       bri: "bri.png",
+//       mandiri: "mandiri.png",
+//       bsi: "bsi.png",
+//       permata: "permata.png",
+//       ovo: "ovo.png",
+//       dana: "dana.png",
+//       linkaja: "linkaja.png",
+//       shopeepay: "shopeepay.png",
+//       alfamart: "alfamart.png",
+//       indomaret: "indomaret.png",
+//       qris: "qris.png",
+//     };
+//     return map[channel] ? "/payment_images/" + map[channel] : null;
+//   };
+
+//   // const formatPrice = (v: number) =>
+//   //   new Intl.NumberFormat("id-ID", {
+//   //     style: "currency",
+//   //     currency: "IDR",
+//   //     minimumFractionDigits: 0,
+//   //   }).format(v || 0);
+
+//   const getGrandTotal = (order: any) => {
+//     if (!order) return 0;
+//     const total = parseFloat(order.total_amount || 0);
+//     const shipping = parseFloat(order.shipping_cost || 0);
+//     const promo = parseFloat(order.promo_discount || 0);
+
+//     const pointsDiscount = (order.points_used || 0) * 1000;
+
+//     return total + shipping - promo - pointsDiscount;
+//   };
+
+//   const formatStatusTitle = (status: string) => {
+//     if (!status) return "Processing";
+//     const formatted = status.replace(/_/g, " ");
+//     return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+//   };
+
+//   const formatDate = (dateString: string) => {
+//     if (!dateString) return "-";
+//     return new Date(dateString).toLocaleDateString("id-ID", {
+//       weekday: "long",
+//       year: "numeric",
+//       month: "short",
+//       day: "numeric",
+//       hour: "2-digit",
+//       minute: "2-digit",
+//     });
+//   };
+
+//   function getNoteFromStatus(status: string) {
+//     const map: Record<string, string> = {
+//       pending: "Menunggu pembayaran dari pelanggan.",
+//       placed: "Pesanan telah masuk dan menunggu alokasi kurir.",
+//       allocated: "Kurir telah dialokasikan dan akan segera menjemput paket.",
+//       picking_up: "Kurir sedang dalam perjalanan menuju lokasi penjemputan.",
+//       picked: "Paket telah diambil oleh kurir dan masuk ke pusat sortir.",
+//       dropping_off: "Paket sedang dalam perjalanan menuju alamat tujuan.",
+//       delivered: "Paket telah berhasil dikirim dan diterima.",
+//       rejected: "Pengiriman ditolak oleh kurir atau sistem.",
+//       cancelled: "Pengiriman telah dibatalkan.",
+//     };
+//     return map[status] || "Pesanan sedang diproses oleh sistem.";
+//   }
+
+//   // --- RENDER ---
+//   return (
+//     <div className="w-full min-h-screen px-6 py-20 font-sans md:px-12 lg:px-20 animate-fade-in">
+//       {/* HEADER */}
+//       <div className="flex flex-col gap-4 mb-8 md:flex-row md:justify-between md:items-center">
+//         <div>
+//           <button
+//             onClick={() => navigate("/orders")}
+//             className="flex items-center gap-2 mb-6 text-xs font-bold tracking-widest text-gray-500 uppercase transition hover:text-gray-900"
+//           >
+//             <span>&larr;</span> Kembali ke Pesanan
+//           </button>
+//           <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 uppercase md:text-4xl">
+//             Lacak Pengiriman
+//           </h1>
+//         </div>
+//       </div>
+
+//       {/* STATE: LOADING */}
+//       {isLoading ? (
+//         <div className="flex flex-col items-center justify-center py-20">
+//           <div className="w-10 h-10 border-4 border-gray-100 rounded-full border-t-gycora animate-spin"></div>
+//           <p className="mt-4 text-xs font-bold tracking-widest text-gray-400 uppercase animate-pulse">
+//             Mengambil detail pesanan...
+//           </p>
+//         </div>
+//       ) : /* STATE: ERROR */
+//       error ? (
+//         <div className="p-8 text-center border border-red-100 bg-red-50 rounded-2xl">
+//           <p className="font-bold text-red-600">{error}</p>
+//         </div>
+//       ) : (
+//         /* STATE: SUCCESS */
+//         orderData && (
+//           <div className="space-y-6 animate-fade-in">
+//             {/* TRACKING CARD TOP */}
+//             <div className="overflow-hidden bg-white border border-gray-100 shadow-sm rounded-3xl">
+//               <div className="flex flex-col items-start justify-between gap-6 p-6 border-b border-gray-100 bg-gray-50 md:p-8 md:flex-row md:items-center">
+//                 <div>
+//                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
+//                     Nomor Resi (Waybill)
+//                   </p>
+//                   <p className="font-mono text-xl font-bold text-black">
+//                     {trackingData?.courier?.waybill_id ||
+//                       orderData.tracking_number ||
+//                       "Menunggu Resi..."}
+//                   </p>
+//                   <div className="flex flex-wrap items-center gap-3 mt-3">
+//                     <span className="bg-gray-900 text-white px-3 py-1 rounded-full font-bold text-[10px] uppercase tracking-widest">
+//                       {formatStatusTitle(
+//                         trackingData?.status || orderData.status,
+//                       )}
+//                     </span>
+//                   </div>
+//                 </div>
+
+//                 <div className="flex items-center w-full gap-6 md:w-auto">
+//                   {/* PAYMENT INFO */}
+//                   {activePaymentMethod && (
+//                     <div className="flex flex-col items-start md:items-end">
+//                       <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">
+//                         Pembayaran
+//                       </p>
+//                       <div className="flex items-center gap-3">
+//                         <div className="flex items-center justify-center w-10 h-6 overflow-hidden bg-white border border-gray-200 rounded shrink-0">
+//                           {getPaymentLogo(activePaymentMethod) ? (
+//                             <img
+//                               src={getPaymentLogo(activePaymentMethod)!}
+//                               className="object-contain w-full h-full p-0.5"
+//                             />
+//                           ) : (
+//                             <span className="font-black text-gray-300 text-[8px]">
+//                               {activePaymentMethod.split(" ")[1] || "PAY"}
+//                             </span>
+//                           )}
+//                         </div>
+//                         <p className="text-xs font-bold uppercase text-gycora">
+//                           {activePaymentMethod.replace("_", " ")}
+//                         </p>
+//                       </div>
+//                     </div>
+//                   )}
+
+//                   <div className="hidden w-px h-8 bg-gray-200 md:block"></div>
+
+//                   {/* COURIER INFO */}
+//                   <div className="flex flex-col items-start md:items-end">
+//                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">
+//                       Kurir
+//                     </p>
+//                     <div className="flex items-center gap-3">
+//                       <div className="flex items-center justify-center w-8 h-8 overflow-hidden bg-white border border-gray-200 rounded-lg shrink-0">
+//                         {getCourierLogo(
+//                           trackingData?.courier?.company ||
+//                             orderData.courier_company,
+//                         ) ? (
+//                           <img
+//                             src={
+//                               getCourierLogo(
+//                                 trackingData?.courier?.company ||
+//                                   orderData.courier_company,
+//                               )!
+//                             }
+//                             className="object-contain w-full h-full p-1"
+//                           />
+//                         ) : (
+//                           <span className="font-black text-gray-300 text-[8px]">
+//                             {trackingData?.courier?.company?.toUpperCase() ||
+//                               orderData.courier_company?.toUpperCase() ||
+//                               "N/A"}
+//                           </span>
+//                         )}
+//                       </div>
+//                       <div className="text-left md:text-right">
+//                         <p className="text-xs font-bold text-gray-800 uppercase">
+//                           {trackingData?.courier?.company ||
+//                             orderData.courier_company}
+//                         </p>
+//                         <p className="text-[10px] text-gray-500 font-bold uppercase mt-0.5">
+//                           {trackingData?.courier?.type ||
+//                             orderData.courier_type}
+//                         </p>
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+
+//               {/* ADDRESS DETAILS */}
+//               {trackingData ? (
+//                 <div className="grid grid-cols-1 gap-8 p-6 text-sm bg-white md:p-8 md:grid-cols-2">
+//                   {/* ORIGIN */}
+//                   <div className="space-y-3">
+//                     <div className="flex items-center gap-2 pb-2 mb-4 border-b border-gray-100">
+//                       <span className="w-2 h-2 bg-gray-300 rounded-full"></span>
+//                       <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+//                         Detail Pengirim
+//                       </p>
+//                     </div>
+//                     <div>
+//                       <p className="text-[10px] text-gray-400 uppercase tracking-widest">
+//                         Nama Pengirim
+//                       </p>
+//                       <p className="font-bold text-gray-900">
+//                         {trackingData.origin?.contact_name || "Gycora Store"}
+//                       </p>
+//                     </div>
+//                     <div>
+//                       <p className="text-[10px] text-gray-400 uppercase tracking-widest">
+//                         Nomor Telepon
+//                       </p>
+//                       <p className="font-mono text-xs text-gray-700">
+//                         {trackingData.origin?.contact_phone || "-"}
+//                       </p>
+//                     </div>
+//                     <div>
+//                       <p className="text-[10px] text-gray-400 uppercase tracking-widest">
+//                         Alamat Lengkap
+//                       </p>
+//                       <p className="text-xs leading-relaxed text-gray-600">
+//                         {trackingData.origin?.address || "-"}
+//                         <br />
+//                         {trackingData.origin?.postal_code && (
+//                           <span className="font-bold">
+//                             Kode Pos: {trackingData.origin.postal_code}
+//                           </span>
+//                         )}
+//                       </p>
+//                     </div>
+//                   </div>
+
+//                   {/* DESTINATION */}
+//                   <div className="space-y-3">
+//                     <div className="flex items-center gap-2 pb-2 mb-4 border-b border-gray-100">
+//                       <span className="w-2 h-2 bg-gray-900 rounded-full"></span>
+//                       <p className="text-[10px] font-bold text-gray-900 uppercase tracking-widest">
+//                         Detail Penerima
+//                       </p>
+//                     </div>
+//                     <div>
+//                       <p className="text-[10px] text-gray-400 uppercase tracking-widest">
+//                         Nama Penerima
+//                       </p>
+//                       <p className="font-bold text-gray-900">
+//                         {trackingData.destination?.contact_name || "-"}
+//                       </p>
+//                     </div>
+//                     <div>
+//                       <p className="text-[10px] text-gray-400 uppercase tracking-widest">
+//                         Nomor Telepon
+//                       </p>
+//                       <p className="font-mono text-xs text-gray-700">
+//                         {trackingData.destination?.contact_phone || "-"}
+//                       </p>
+//                     </div>
+//                     <div>
+//                       <p className="text-[10px] text-gray-400 uppercase tracking-widest">
+//                         Alamat Lengkap
+//                       </p>
+//                       <p className="text-xs leading-relaxed text-gray-600">
+//                         {trackingData.destination?.address || "-"}
+//                         <br />
+//                         {trackingData.destination?.postal_code && (
+//                           <span className="font-bold">
+//                             Kode Pos: {trackingData.destination.postal_code}
+//                           </span>
+//                         )}
+//                       </p>
+//                     </div>
+//                     {trackingData.destination?.note && (
+//                       <div>
+//                         <p className="text-[10px] text-gray-400 uppercase tracking-widest">
+//                           Catatan Kurir
+//                         </p>
+//                         <p className="p-2 text-xs italic text-gray-500 border rounded bg-gray-50">
+//                           "{trackingData.destination.note}"
+//                         </p>
+//                       </div>
+//                     )}
+//                   </div>
+//                 </div>
+//               ) : (
+//                 <div className="p-6 text-xs italic text-center text-gray-400 bg-white md:p-8">
+//                   Menunggu data lokasi origin dan destinasi tersedia dari pihak
+//                   ekspedisi...
+//                 </div>
+//               )}
+//             </div>
+
+//             {/* ORDER ITEMS SUMMARY */}
+//             {orderData.details && orderData.details.length > 0 && (
+//               <div className="overflow-hidden bg-white border border-gray-100 shadow-sm rounded-3xl">
+//                 <div className="p-4 border-b border-gray-100 bg-gray-50">
+//                   <h3 className="ml-2 text-xs font-bold tracking-widest text-gray-500 uppercase">
+//                     Ringkasan Barang
+//                   </h3>
+//                 </div>
+
+//                 <div className="p-6">
+//                   <div className="mb-6 space-y-4">
+//                     {orderData.details.map((detail: any) => (
+//                       <div
+//                         key={detail.id}
+//                         className="flex items-center gap-4 pb-4 border-b border-gray-50 last:border-0"
+//                       >
+//                         <img
+//                           src={detail.product.image_url}
+//                           className="object-cover w-16 h-16 bg-gray-100 border border-gray-100 rounded-lg"
+//                         />
+//                         <div className="flex-grow">
+//                           <h4 className="text-sm font-bold text-gray-900 uppercase">
+//                             {detail.product.name}
+//                           </h4>
+//                           {/* [PERBAIKAN] Ubah dari teks Hex ke Lingkaran Warna */}
+//                           {detail.color && (
+//                             <div className="flex items-center gap-1.5 mt-1">
+//                               <div
+//                                 className="w-3 h-3 border border-gray-300 rounded-full shadow-sm"
+//                                 style={{ backgroundColor: detail.color }}
+//                                 title="Varian Warna"
+//                               ></div>
+//                             </div>
+//                           )}
+//                           <p className="mt-1 text-xs text-gray-400">
+//                             {detail.quantity} x {formatPrice(detail.price)}
+//                           </p>
+//                         </div>
+//                         <p className="text-sm font-bold text-gray-900">
+//                           {formatPrice(detail.quantity * detail.price)}
+//                         </p>
+//                       </div>
+//                     ))}
+//                   </div>
+
+//                   <div className="pt-4 space-y-2 border-t border-gray-100">
+//                     <div className="flex justify-between text-xs text-gray-500">
+//                       <span>Subtotal Produk</span>
+//                       <span>{formatPrice(orderData.total_amount)}</span>
+//                     </div>
+//                     <div className="flex justify-between text-xs text-gray-500">
+//                       <span>Ongkos Kirim</span>
+//                       <span>{formatPrice(orderData.shipping_cost)}</span>
+//                     </div>
+
+//                     {orderData.promo_discount > 0 && (
+//                       <div className="flex justify-between text-xs font-medium text-emerald-600">
+//                         <span>
+//                           Promo (
+//                           <span className="font-mono uppercase">
+//                             {orderData.promo_code}
+//                           </span>
+//                           )
+//                         </span>
+//                         <span>- {formatPrice(orderData.promo_discount)}</span>
+//                       </div>
+//                     )}
+
+//                     {orderData.points_used > 0 && (
+//                       <div className="flex justify-between text-xs font-medium text-yellow-600">
+//                         <span>
+//                           Poin Ditukarkan ({orderData.points_used} Pts)
+//                         </span>
+//                         <span>
+//                           - {formatPrice(orderData.points_used * 1000)}
+//                         </span>
+//                       </div>
+//                     )}
+
+//                     <div className="flex items-center justify-between pt-4 mt-4 border-t border-gray-200 border-dashed">
+//                       <span className="font-bold text-[10px] uppercase tracking-widest text-black">
+//                         Total Akhir
+//                       </span>
+//                       <span className="text-xl font-black text-gycora">
+//                         {formatPrice(getGrandTotal(orderData))}
+//                       </span>
+//                     </div>
+//                   </div>
+//                 </div>
+
+//                 {/* LOYALTY REWARD (If Applicable) */}
+//                 {userData?.is_membership &&
+//                 orderData.point > 0 &&
+//                 orderData.status === "completed" ? (
+//                   <div className="flex items-center justify-between p-4 m-6 border rounded-xl bg-gradient-to-r from-emerald-50 to-white border-emerald-100">
+//                     <div className="flex items-center gap-3">
+//                       <div className="flex items-center justify-center w-10 h-10 text-white rounded-full shadow-sm bg-emerald-500">
+//                         <svg
+//                           xmlns="http://www.w3.org/2000/svg"
+//                           className="w-6 h-6"
+//                           viewBox="0 0 20 20"
+//                           fill="currentColor"
+//                         >
+//                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+//                         </svg>
+//                       </div>
+//                       <div>
+//                         <p className="text-[10px] font-bold text-emerald-800 uppercase tracking-widest">
+//                           Loyalty Reward
+//                         </p>
+//                         <p className="text-xs mt-0.5 text-gray-500">
+//                           Poin masuk ke akun Anda
+//                         </p>
+//                       </div>
+//                     </div>
+//                     <div className="text-right">
+//                       <span className="text-2xl font-black text-emerald-600">
+//                         +{orderData.point}
+//                       </span>
+//                       <span className="ml-1 text-xs font-bold text-emerald-800">
+//                         Pts
+//                       </span>
+//                     </div>
+//                   </div>
+//                 ) : null}
+//               </div>
+//             )}
+
+//             {/* TRACKING TIMELINE */}
+//             <div className="p-6 bg-white border border-gray-100 shadow-sm md:p-8 rounded-3xl">
+//               <h3 className="pb-4 mb-6 text-sm font-bold tracking-widest uppercase border-b border-gray-100">
+//                 Riwayat Perjalanan (Timeline)
+//               </h3>
+
+//               <div className="relative ml-3 space-y-8 border-l-2 border-gray-100">
+//                 {timelineHistory.map((history: any, index: number) => (
+//                   <div key={index} className="relative pl-8">
+//                     <span
+//                       className={`absolute -left-[9px] top-1 w-4 h-4 rounded-full transition-all ${
+//                         index === 0
+//                           ? "bg-gycora ring-4 ring-emerald-50"
+//                           : "bg-gray-300"
+//                       }`}
+//                     ></span>
+
+//                     <div className={index === 0 ? "opacity-100" : "opacity-50"}>
+//                       <p className="mb-1 text-sm font-bold tracking-wide text-gray-900 uppercase">
+//                         {formatStatusTitle(history.status)}
+//                       </p>
+//                       <p className="mb-2 text-xs text-gray-600">
+//                         {history.note}
+//                       </p>
+//                       <p className="font-mono text-[10px] font-medium text-gray-400">
+//                         {formatDate(history.updated_at)}
+//                       </p>
+//                     </div>
+//                   </div>
+//                 ))}
+//               </div>
+//             </div>
+//           </div>
+//         )
+//       )}
+//     </div>
+//   );
+// }
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useMemo } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { BASE_URL } from "../../config/api";
 import { useCurrency } from "../../context/CurrencyContext";
+import { useLanguage } from "../../context/LanguageContext"; // [BARU] Import Context Bahasa
 
 export default function TrackingPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const location = useLocation();
   const { formatPrice } = useCurrency();
+  const { t, lang } = useLanguage(); // [BARU] Inisialisasi hook bahasa
 
   // --- STATE ---
   const [userData, setUserData] = useState<any>(null);
@@ -474,6 +1072,17 @@ export default function TrackingPage() {
 
   // Ambil state 'paymentMethod' yang dilempar dari OrderPage jika ada
   const paymentMethodInfo = location.state?.paymentMethod || "";
+
+  // =========================================================
+  // LOGIKA PREFIX URL PINTAR
+  // Membaca URL saat ini untuk menentukan prefix navigasi
+  // =========================================================
+  const getUrlPrefix = () => {
+    if (location.pathname.startsWith("/id")) return "/id";
+    if (location.pathname.startsWith("/en")) return "/en";
+    return ""; // Tanpa prefix
+  };
+  const urlPrefix = getUrlPrefix();
 
   // --- LIFECYCLE ---
   useEffect(() => {
@@ -486,7 +1095,7 @@ export default function TrackingPage() {
 
       const token = localStorage.getItem("user_token");
       if (!token) {
-        navigate("/login");
+        navigate(`${urlPrefix}/login`); // [PERBAIKAN] Tambah urlPrefix
         return;
       }
 
@@ -498,7 +1107,7 @@ export default function TrackingPage() {
             Accept: "application/json",
           },
         });
-        if (!orderRes.ok) throw new Error("Gagal mengambil detail pesanan.");
+        if (!orderRes.ok) throw new Error(t("tp_err_fetch_order"));
 
         const rawOrderData = await orderRes.json();
         setOrderData(rawOrderData.data ? rawOrderData.data : rawOrderData);
@@ -527,14 +1136,14 @@ export default function TrackingPage() {
           );
         }
       } catch (err: any) {
-        setError(err.message || "Terjadi kesalahan sistem.");
+        setError(err.message || t("tp_err_system"));
       } finally {
         setIsLoading(false);
       }
     };
 
     if (id) fetchAllData();
-  }, [id, navigate]);
+  }, [id, navigate, t, urlPrefix]);
 
   // --- COMPUTED & LOGIC ---
   const activePaymentMethod = useMemo(() => {
@@ -553,7 +1162,7 @@ export default function TrackingPage() {
     // Fallback jika array history kosong tapi status sudah ada
     return [
       {
-        status: trackingData?.status || orderData?.status || "Processing",
+        status: trackingData?.status || orderData?.status || t("tp_stat_processing"),
         note: getNoteFromStatus(trackingData?.status || orderData?.status),
         updated_at:
           trackingData?.delivery?.datetime ||
@@ -561,7 +1170,8 @@ export default function TrackingPage() {
           new Date().toISOString(),
       },
     ];
-  }, [trackingData, orderData]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trackingData, orderData, t]);
 
   // --- HELPERS ---
   const getCourierLogo = (company: string) => {
@@ -602,13 +1212,6 @@ export default function TrackingPage() {
     return map[channel] ? "/payment_images/" + map[channel] : null;
   };
 
-  // const formatPrice = (v: number) =>
-  //   new Intl.NumberFormat("id-ID", {
-  //     style: "currency",
-  //     currency: "IDR",
-  //     minimumFractionDigits: 0,
-  //   }).format(v || 0);
-
   const getGrandTotal = (order: any) => {
     if (!order) return 0;
     const total = parseFloat(order.total_amount || 0);
@@ -621,14 +1224,15 @@ export default function TrackingPage() {
   };
 
   const formatStatusTitle = (status: string) => {
-    if (!status) return "Processing";
+    if (!status) return t("tp_stat_processing");
     const formatted = status.replace(/_/g, " ");
     return formatted.charAt(0).toUpperCase() + formatted.slice(1);
   };
 
   const formatDate = (dateString: string) => {
     if (!dateString) return "-";
-    return new Date(dateString).toLocaleDateString("id-ID", {
+    // [PERBAIKAN] Menggunakan `lang` untuk penanggalan dinamis
+    return new Date(dateString).toLocaleDateString(lang === 'id' ? 'id-ID' : 'en-US', {
       weekday: "long",
       year: "numeric",
       month: "short",
@@ -640,17 +1244,17 @@ export default function TrackingPage() {
 
   function getNoteFromStatus(status: string) {
     const map: Record<string, string> = {
-      pending: "Menunggu pembayaran dari pelanggan.",
-      placed: "Pesanan telah masuk dan menunggu alokasi kurir.",
-      allocated: "Kurir telah dialokasikan dan akan segera menjemput paket.",
-      picking_up: "Kurir sedang dalam perjalanan menuju lokasi penjemputan.",
-      picked: "Paket telah diambil oleh kurir dan masuk ke pusat sortir.",
-      dropping_off: "Paket sedang dalam perjalanan menuju alamat tujuan.",
-      delivered: "Paket telah berhasil dikirim dan diterima.",
-      rejected: "Pengiriman ditolak oleh kurir atau sistem.",
-      cancelled: "Pengiriman telah dibatalkan.",
+      pending: t("tp_note_pending"),
+      placed: t("tp_note_placed"),
+      allocated: t("tp_note_allocated"),
+      picking_up: t("tp_note_picking_up"),
+      picked: t("tp_note_picked"),
+      dropping_off: t("tp_note_dropping_off"),
+      delivered: t("tp_note_delivered"),
+      rejected: t("tp_note_rejected"),
+      cancelled: t("tp_note_cancelled"),
     };
-    return map[status] || "Pesanan sedang diproses oleh sistem.";
+    return map[status] || t("tp_note_default");
   }
 
   // --- RENDER ---
@@ -660,13 +1264,13 @@ export default function TrackingPage() {
       <div className="flex flex-col gap-4 mb-8 md:flex-row md:justify-between md:items-center">
         <div>
           <button
-            onClick={() => navigate("/orders")}
+            onClick={() => navigate(`${urlPrefix}/orders`)} // [PERBAIKAN] Menambahkan urlPrefix
             className="flex items-center gap-2 mb-6 text-xs font-bold tracking-widest text-gray-500 uppercase transition hover:text-gray-900"
           >
-            <span>&larr;</span> Kembali ke Pesanan
+            <span>&larr;</span> {t("tp_back_to_orders")}
           </button>
           <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 uppercase md:text-4xl">
-            Lacak Pengiriman
+            {t("tp_title")}
           </h1>
         </div>
       </div>
@@ -676,7 +1280,7 @@ export default function TrackingPage() {
         <div className="flex flex-col items-center justify-center py-20">
           <div className="w-10 h-10 border-4 border-gray-100 rounded-full border-t-gycora animate-spin"></div>
           <p className="mt-4 text-xs font-bold tracking-widest text-gray-400 uppercase animate-pulse">
-            Mengambil detail pesanan...
+            {t("tp_loading_details")}
           </p>
         </div>
       ) : /* STATE: ERROR */
@@ -693,12 +1297,12 @@ export default function TrackingPage() {
               <div className="flex flex-col items-start justify-between gap-6 p-6 border-b border-gray-100 bg-gray-50 md:p-8 md:flex-row md:items-center">
                 <div>
                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
-                    Nomor Resi (Waybill)
+                    {t("tp_waybill_title")}
                   </p>
                   <p className="font-mono text-xl font-bold text-black">
                     {trackingData?.courier?.waybill_id ||
                       orderData.tracking_number ||
-                      "Menunggu Resi..."}
+                      t("tp_waiting_waybill")}
                   </p>
                   <div className="flex flex-wrap items-center gap-3 mt-3">
                     <span className="bg-gray-900 text-white px-3 py-1 rounded-full font-bold text-[10px] uppercase tracking-widest">
@@ -714,7 +1318,7 @@ export default function TrackingPage() {
                   {activePaymentMethod && (
                     <div className="flex flex-col items-start md:items-end">
                       <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">
-                        Pembayaran
+                        {t("tp_payment_title")}
                       </p>
                       <div className="flex items-center gap-3">
                         <div className="flex items-center justify-center w-10 h-6 overflow-hidden bg-white border border-gray-200 rounded shrink-0">
@@ -741,7 +1345,7 @@ export default function TrackingPage() {
                   {/* COURIER INFO */}
                   <div className="flex flex-col items-start md:items-end">
                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">
-                      Kurir
+                      {t("tp_courier_title")}
                     </p>
                     <div className="flex items-center gap-3">
                       <div className="flex items-center justify-center w-8 h-8 overflow-hidden bg-white border border-gray-200 rounded-lg shrink-0">
@@ -762,7 +1366,7 @@ export default function TrackingPage() {
                           <span className="font-black text-gray-300 text-[8px]">
                             {trackingData?.courier?.company?.toUpperCase() ||
                               orderData.courier_company?.toUpperCase() ||
-                              "N/A"}
+                              t("tp_courier_na")}
                           </span>
                         )}
                       </div>
@@ -789,12 +1393,12 @@ export default function TrackingPage() {
                     <div className="flex items-center gap-2 pb-2 mb-4 border-b border-gray-100">
                       <span className="w-2 h-2 bg-gray-300 rounded-full"></span>
                       <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                        Detail Pengirim
+                        {t("tp_origin_title")}
                       </p>
                     </div>
                     <div>
                       <p className="text-[10px] text-gray-400 uppercase tracking-widest">
-                        Nama Pengirim
+                        {t("tp_sender_name")}
                       </p>
                       <p className="font-bold text-gray-900">
                         {trackingData.origin?.contact_name || "Gycora Store"}
@@ -802,7 +1406,7 @@ export default function TrackingPage() {
                     </div>
                     <div>
                       <p className="text-[10px] text-gray-400 uppercase tracking-widest">
-                        Nomor Telepon
+                        {t("tp_sender_phone")}
                       </p>
                       <p className="font-mono text-xs text-gray-700">
                         {trackingData.origin?.contact_phone || "-"}
@@ -810,14 +1414,14 @@ export default function TrackingPage() {
                     </div>
                     <div>
                       <p className="text-[10px] text-gray-400 uppercase tracking-widest">
-                        Alamat Lengkap
+                        {t("tp_sender_address")}
                       </p>
                       <p className="text-xs leading-relaxed text-gray-600">
                         {trackingData.origin?.address || "-"}
                         <br />
                         {trackingData.origin?.postal_code && (
                           <span className="font-bold">
-                            Kode Pos: {trackingData.origin.postal_code}
+                            {t("tp_postal_code")}: {trackingData.origin.postal_code}
                           </span>
                         )}
                       </p>
@@ -829,12 +1433,12 @@ export default function TrackingPage() {
                     <div className="flex items-center gap-2 pb-2 mb-4 border-b border-gray-100">
                       <span className="w-2 h-2 bg-gray-900 rounded-full"></span>
                       <p className="text-[10px] font-bold text-gray-900 uppercase tracking-widest">
-                        Detail Penerima
+                        {t("tp_dest_title")}
                       </p>
                     </div>
                     <div>
                       <p className="text-[10px] text-gray-400 uppercase tracking-widest">
-                        Nama Penerima
+                        {t("tp_receiver_name")}
                       </p>
                       <p className="font-bold text-gray-900">
                         {trackingData.destination?.contact_name || "-"}
@@ -842,7 +1446,7 @@ export default function TrackingPage() {
                     </div>
                     <div>
                       <p className="text-[10px] text-gray-400 uppercase tracking-widest">
-                        Nomor Telepon
+                        {t("tp_receiver_phone")}
                       </p>
                       <p className="font-mono text-xs text-gray-700">
                         {trackingData.destination?.contact_phone || "-"}
@@ -850,14 +1454,14 @@ export default function TrackingPage() {
                     </div>
                     <div>
                       <p className="text-[10px] text-gray-400 uppercase tracking-widest">
-                        Alamat Lengkap
+                        {t("tp_receiver_address")}
                       </p>
                       <p className="text-xs leading-relaxed text-gray-600">
                         {trackingData.destination?.address || "-"}
                         <br />
                         {trackingData.destination?.postal_code && (
                           <span className="font-bold">
-                            Kode Pos: {trackingData.destination.postal_code}
+                            {t("tp_postal_code")}: {trackingData.destination.postal_code}
                           </span>
                         )}
                       </p>
@@ -865,7 +1469,7 @@ export default function TrackingPage() {
                     {trackingData.destination?.note && (
                       <div>
                         <p className="text-[10px] text-gray-400 uppercase tracking-widest">
-                          Catatan Kurir
+                          {t("tp_courier_note")}
                         </p>
                         <p className="p-2 text-xs italic text-gray-500 border rounded bg-gray-50">
                           "{trackingData.destination.note}"
@@ -876,8 +1480,7 @@ export default function TrackingPage() {
                 </div>
               ) : (
                 <div className="p-6 text-xs italic text-center text-gray-400 bg-white md:p-8">
-                  Menunggu data lokasi origin dan destinasi tersedia dari pihak
-                  ekspedisi...
+                  {t("tp_waiting_location")}
                 </div>
               )}
             </div>
@@ -887,7 +1490,7 @@ export default function TrackingPage() {
               <div className="overflow-hidden bg-white border border-gray-100 shadow-sm rounded-3xl">
                 <div className="p-4 border-b border-gray-100 bg-gray-50">
                   <h3 className="ml-2 text-xs font-bold tracking-widest text-gray-500 uppercase">
-                    Ringkasan Barang
+                    {t("tp_item_summary")}
                   </h3>
                 </div>
 
@@ -906,13 +1509,12 @@ export default function TrackingPage() {
                           <h4 className="text-sm font-bold text-gray-900 uppercase">
                             {detail.product.name}
                           </h4>
-                          {/* [PERBAIKAN] Ubah dari teks Hex ke Lingkaran Warna */}
                           {detail.color && (
                             <div className="flex items-center gap-1.5 mt-1">
                               <div
                                 className="w-3 h-3 border border-gray-300 rounded-full shadow-sm"
                                 style={{ backgroundColor: detail.color }}
-                                title="Varian Warna"
+                                title={t("tp_variant_title")}
                               ></div>
                             </div>
                           )}
@@ -929,18 +1531,18 @@ export default function TrackingPage() {
 
                   <div className="pt-4 space-y-2 border-t border-gray-100">
                     <div className="flex justify-between text-xs text-gray-500">
-                      <span>Subtotal Produk</span>
+                      <span>{t("tp_subtotal")}</span>
                       <span>{formatPrice(orderData.total_amount)}</span>
                     </div>
                     <div className="flex justify-between text-xs text-gray-500">
-                      <span>Ongkos Kirim</span>
+                      <span>{t("tp_shipping_cost")}</span>
                       <span>{formatPrice(orderData.shipping_cost)}</span>
                     </div>
 
                     {orderData.promo_discount > 0 && (
                       <div className="flex justify-between text-xs font-medium text-emerald-600">
                         <span>
-                          Promo (
+                          {t("tp_promo_label")} (
                           <span className="font-mono uppercase">
                             {orderData.promo_code}
                           </span>
@@ -953,7 +1555,7 @@ export default function TrackingPage() {
                     {orderData.points_used > 0 && (
                       <div className="flex justify-between text-xs font-medium text-yellow-600">
                         <span>
-                          Poin Ditukarkan ({orderData.points_used} Pts)
+                          {t("tp_points_redeemed")} ({orderData.points_used} {t("tp_points_unit")})
                         </span>
                         <span>
                           - {formatPrice(orderData.points_used * 1000)}
@@ -963,7 +1565,7 @@ export default function TrackingPage() {
 
                     <div className="flex items-center justify-between pt-4 mt-4 border-t border-gray-200 border-dashed">
                       <span className="font-bold text-[10px] uppercase tracking-widest text-black">
-                        Total Akhir
+                        {t("tp_grand_total")}
                       </span>
                       <span className="text-xl font-black text-gycora">
                         {formatPrice(getGrandTotal(orderData))}
@@ -990,10 +1592,10 @@ export default function TrackingPage() {
                       </div>
                       <div>
                         <p className="text-[10px] font-bold text-emerald-800 uppercase tracking-widest">
-                          Loyalty Reward
+                          {t("tp_loyalty_reward")}
                         </p>
                         <p className="text-xs mt-0.5 text-gray-500">
-                          Poin masuk ke akun Anda
+                          {t("tp_points_earned")}
                         </p>
                       </div>
                     </div>
@@ -1002,7 +1604,7 @@ export default function TrackingPage() {
                         +{orderData.point}
                       </span>
                       <span className="ml-1 text-xs font-bold text-emerald-800">
-                        Pts
+                        {t("tp_points_unit")}
                       </span>
                     </div>
                   </div>
@@ -1013,7 +1615,7 @@ export default function TrackingPage() {
             {/* TRACKING TIMELINE */}
             <div className="p-6 bg-white border border-gray-100 shadow-sm md:p-8 rounded-3xl">
               <h3 className="pb-4 mb-6 text-sm font-bold tracking-widest uppercase border-b border-gray-100">
-                Riwayat Perjalanan (Timeline)
+                {t("tp_timeline_title")}
               </h3>
 
               <div className="relative ml-3 space-y-8 border-l-2 border-gray-100">
