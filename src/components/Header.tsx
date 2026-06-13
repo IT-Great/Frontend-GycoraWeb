@@ -11000,6 +11000,25 @@ export default function Header() {
   };
 
   // [PERBAIKAN] Switch Language yang ramah SEO (Tanpa maksa '/id')
+//   const switchLanguage = (newLang: "id" | "en") => {
+//     if (newLang === lang) return;
+
+//     let newPath = location.pathname;
+//     newPath = newPath.replace(/^\/(id|en)/, ""); // Hapus prefix lama
+
+//     if (newLang === "en") {
+//       newPath = "/en" + newPath;
+//     }
+//     // Jika Indonesia, biarkan tanpa prefix ('') karena bos mau base-nya bersih
+
+//     if (newPath === "") newPath = "/";
+
+//     setLang(newLang);
+//     setIsLangMenuOpen(false);
+//     navigate(newPath + location.search + location.hash, { replace: true });
+//   };
+
+// [PERBAIKAN] Switch Language yang ramah SEO dan mempertahankan State
   const switchLanguage = (newLang: "id" | "en") => {
     if (newLang === lang) return;
 
@@ -11009,13 +11028,17 @@ export default function Header() {
     if (newLang === "en") {
       newPath = "/en" + newPath;
     }
-    // Jika Indonesia, biarkan tanpa prefix ('') karena bos mau base-nya bersih
 
     if (newPath === "") newPath = "/";
 
     setLang(newLang);
     setIsLangMenuOpen(false);
-    navigate(newPath + location.search + location.hash, { replace: true });
+    
+    // PERBAIKAN UTAMA: Tambahkan `state: location.state` di sini
+    navigate(newPath + location.search + location.hash, { 
+      replace: true,
+      state: location.state // <--- Baris ini mencegah data keranjang hilang saat ganti bahasa
+    });
   };
 
   useEffect(() => {
