@@ -5951,6 +5951,17 @@ export default function PaymentPage() {
     null,
   );
 
+    // =========================================================
+  // [BARU] LOGIKA PREFIX URL PINTAR
+  // Membaca URL saat ini untuk menentukan prefix navigasi
+  // =========================================================
+  const getUrlPrefix = () => {
+    if (location.pathname.startsWith("/id")) return "/id";
+    if (location.pathname.startsWith("/en")) return "/en";
+    return ""; // Tanpa prefix
+  };
+  const urlPrefix = getUrlPrefix();
+
   // --- STATE PENGIRIMAN ---
   const [shippingMethod, setShippingMethod] = useState("free");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -6221,7 +6232,7 @@ export default function PaymentPage() {
 
   useEffect(() => {
     if (selectedItemIds.length === 0) {
-      navigate("/cart");
+      navigate(`${urlPrefix}/cart`);
       return;
     }
 
@@ -6230,7 +6241,7 @@ export default function PaymentPage() {
       const userStr = localStorage.getItem("user_data");
 
       if (!token) {
-        navigate("/login");
+        navigate(`${urlPrefix}/login`);
         return;
       }
       if (userStr) {
@@ -6590,7 +6601,7 @@ export default function PaymentPage() {
             {t("pay_empty_items")}
           </h2>
           <button
-            onClick={() => navigate("/cart")}
+            onClick={() => navigate(`${urlPrefix}/cart`)}
             className="px-8 py-3 text-xs font-bold tracking-widest text-white uppercase rounded-full bg-gycora hover:bg-gycora-dark"
           >
             {t("pay_btn_back_cart")}
