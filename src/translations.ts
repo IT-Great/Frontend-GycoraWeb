@@ -948,7 +948,7 @@ export const translations = {
     pay_calc_shipping: "Menghitung ongkos kirim...",
     pay_no_courier: "Tidak ada kurir tersedia untuk alamat ini.",
     pay_order_summary: "Ringkasan Pesanan",
-    pay_total_items: "Total Items",
+    pay_total_items: "Total Barang",
     pay_product_subtotal: "Subtotal Barang",
     pay_promo_label: "Kode Promo / Voucher",
     pay_promo_placeholder: "Masukkan kode promo",
@@ -965,6 +965,7 @@ export const translations = {
     pay_btn_processing: "Memproses...",
     pay_alert_no_address: "* Silakan pilih alamat pengiriman",
     pay_alert_no_courier: "* Silakan pilih kurir pengiriman",
+    main_address : "Utama",
 
     // ORDER PAGE
     order_track_title: "Track My Orders",
@@ -2110,6 +2111,7 @@ export const translations = {
     pay_btn_processing: "Processing...",
     pay_alert_no_address: "* Please select a shipping address",
     pay_alert_no_courier: "* Please select a courier",
+    main_address : "Main Address",
 
     // ORDER PAGE
     order_track_title: "Track My Orders",
