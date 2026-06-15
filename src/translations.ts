@@ -394,7 +394,9 @@
 // export type LanguageCode = "id" | "en";
 // export type TranslationKey = keyof typeof translations.id;
 
-export const translations = {
+type TranslationDictionary = Record<string, string>;
+
+export const translations: Record<string, TranslationDictionary> = {
   id: {
     // Menu Navigasi
     home: "Home",
