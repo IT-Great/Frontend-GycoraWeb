@@ -1005,6 +1005,14 @@ export const translations = {
     order_orders: "orders",
     order_prev: "Previous",
     order_next: "Next",
+    in_store_pickup : "Ambil Di Tempat",
+    refunded : "REFUNDED",
+    expired : "EXPIRED / CANCELLED",
+    unpaid : "UNPAID",
+    paid : "PAID",
+    waiting_payment : "Waiting for payment selection...",
+    no_courier : "No Courier",
+    in_store_payment : "In-store Payment / Pickup",
 
     // HELP CENTER / FAQ PAGE
     hc_hero_title: "Hi, ada yang bisa kami bantu?",
@@ -2151,6 +2159,7 @@ export const translations = {
     order_orders: "orders",
     order_prev: "Previous",
     order_next: "Next",
+    in_store_pickup : "In-Store Pickup",
 
     // HELP CENTER / FAQ PAGE
     hc_hero_title: "Hi, how can we help you?",

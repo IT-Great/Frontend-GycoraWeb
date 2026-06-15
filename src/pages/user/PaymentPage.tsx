@@ -6674,7 +6674,7 @@ export default function PaymentPage() {
                         </p>
                         {addr.is_default && (
                           <span className="px-2 py-0.5 text-[9px] font-bold text-emerald-800 uppercase bg-emerald-100 rounded">
-                            Utama
+                            {t("main_address")}
                           </span>
                         )}
                       </div>

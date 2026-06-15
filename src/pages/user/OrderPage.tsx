@@ -6328,7 +6328,7 @@ export default function OrderPage() {
                     ) : order.shipping_method === "free" ? (
                       <div className="flex items-center justify-between w-full gap-3 md:justify-end md:w-auto">
                         <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{t("order_shipping_label")}</span>
-                        <span className="px-3 py-1 rounded-full font-bold text-[10px] uppercase tracking-tighter border bg-gray-100 text-gray-600">In-Store Pickup</span>
+                        <span className="px-3 py-1 rounded-full font-bold text-[10px] uppercase tracking-tighter border bg-gray-100 text-gray-600">{t("in_store_pickup")}</span>
                       </div>
                     ) : null}
                   </div>
