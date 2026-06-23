@@ -1926,6 +1926,7 @@ import EventPage from "./pages/user/EventPage";
 import { LanguageProvider, useLanguage } from "./context/LanguageContext";
 import AutoLogout from "./components/AutoLogout";
 import { CurrencyProvider } from "./context/CurrencyContext";
+import BusinessPartnerPage from "./pages/user/BusinessPartnerPage";
 
 // ==========================================================
 // FUNGSI PENJAGA RUTE (ROUTE GUARDS)
@@ -2051,6 +2052,8 @@ const publicRoutes = (
     <Route path="policies/shipping" element={<ShippingPolicy />} />
     <Route path="help-center" element={<HelpCenter />} />
     <Route path="legal/terms" element={<TermsOfService />} />
+
+    <Route path="/business-partner-page" element={<BusinessPartnerPage />} />
   </>
 );
 
