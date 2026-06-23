@@ -53,7 +53,7 @@ const BusinessPartnerPage: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post(`${BASE_URL}/reseller/apply`, formData, {
+      const response = await axios.post(`${BASE_URL}/api/reseller/apply`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

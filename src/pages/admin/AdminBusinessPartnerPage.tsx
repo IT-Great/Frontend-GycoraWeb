@@ -100,7 +100,7 @@ const AdminBusinessPartnerPage: React.FC = () => {
 
     if (confirm.isConfirmed) {
       try {
-        await axios.post(`${BASE_URL}/admin/resellers/applications/${id}/reject`, {}, {
+        await axios.post(`${BASE_URL}/api/admin/resellers/applications/${id}/reject`, {}, {
           headers: { Authorization: `Bearer ${token}` }
         });
         
