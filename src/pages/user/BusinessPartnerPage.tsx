@@ -368,7 +368,7 @@ const BusinessPartnerPage: React.FC = () => {
   // 3. Fungsi Pengiriman Form
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("user_token");
 
     if (!token) {
       setIsModalOpen(false); // Tutup modal sebentar jika belum login
