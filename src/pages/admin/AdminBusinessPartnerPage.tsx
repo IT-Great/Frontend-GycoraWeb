@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { BASE_URL } from '../../config/api';
 
 // 1. Definisi Tipe Data (Sesuai dengan relasi Backend Laravel Anda)
 interface User {
@@ -27,7 +28,7 @@ const AdminBusinessPartnerPage: React.FC = () => {
   const [applications, setApplications] = useState<Application[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+//   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
   
   // Asumsi token admin disimpan dengan nama 'admin_token' atau 'token'
   const token = localStorage.getItem('admin_token') || localStorage.getItem('token');
@@ -36,7 +37,7 @@ const AdminBusinessPartnerPage: React.FC = () => {
   const fetchApplications = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${API_URL}/admin/resellers/applications`, {
+      const response = await axios.get(`${BASE_URL}/admin/resellers/applications`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setApplications(response.data.data || []);
@@ -72,7 +73,7 @@ const AdminBusinessPartnerPage: React.FC = () => {
 
     if (confirm.isConfirmed) {
       try {
-        await axios.post(`${API_URL}/admin/resellers/applications/${id}/approve`, {}, {
+        await axios.post(`${BASE_URL}/admin/resellers/applications/${id}/approve`, {}, {
           headers: { Authorization: `Bearer ${token}` }
         });
         
@@ -99,7 +100,7 @@ const AdminBusinessPartnerPage: React.FC = () => {
 
     if (confirm.isConfirmed) {
       try {
-        await axios.post(`${API_URL}/admin/resellers/applications/${id}/reject`, {}, {
+        await axios.post(`${BASE_URL}/admin/resellers/applications/${id}/reject`, {}, {
           headers: { Authorization: `Bearer ${token}` }
         });
         

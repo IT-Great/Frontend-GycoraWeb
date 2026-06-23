@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import axios, { AxiosError } from "axios";
 import Swal from "sweetalert2";
+import { BASE_URL } from "../../config/api";
 
 // 1. Definisikan Tipe Data untuk Form (TypeScript)
 interface PartnerFormData {
@@ -21,7 +22,7 @@ const BusinessPartnerPage: React.FC = () => {
   });
 
   // URL API Backend Anda (Sesuaikan dengan config Anda)
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+//   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
   // 2. Fungsi Penanganan Perubahan Input
   const handleChange = (
@@ -52,7 +53,7 @@ const BusinessPartnerPage: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post(`${API_URL}/reseller/apply`, formData, {
+      const response = await axios.post(`${BASE_URL}/reseller/apply`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
