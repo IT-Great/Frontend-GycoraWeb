@@ -2053,7 +2053,7 @@ const publicRoutes = (
     <Route path="help-center" element={<HelpCenter />} />
     <Route path="legal/terms" element={<TermsOfService />} />
 
-    <Route path="/business-partner-page" element={<BusinessPartnerPage />} />
+    <Route path="business-partner-page" element={<BusinessPartnerPage />} />
   </>
 );
 

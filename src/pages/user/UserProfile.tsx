@@ -5497,6 +5497,8 @@ export default function UserProfile() {
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const { lang } = useLanguage();
+
   // --- State Modal Alamat ---
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -6122,7 +6124,7 @@ export default function UserProfile() {
             <div className="flex flex-wrap justify-center gap-3 pt-6 mt-8 border-t border-gray-100 sm:justify-end">
               {/* 👇 BARIS BARU DITAMBAHKAN DI SINI 👇 */}
               <button
-                onClick={() => navigate("/business-partner-page")}
+                onClick={() => navigate(`/${lang}/business-partner-page`)}
                 className="flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-gray-900 transition-colors bg-[#D4FF32] border border-[#D4FF32] shadow-sm rounded-xl hover:bg-[#bce520]"
               >
                 <svg
@@ -6131,7 +6133,11 @@ export default function UserProfile() {
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                    clipRule="evenodd"
+                  />
                 </svg>
                 Join Partnership
               </button>

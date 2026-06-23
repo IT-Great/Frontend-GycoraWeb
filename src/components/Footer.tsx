@@ -408,7 +408,7 @@ export default function Footer() {
               {/* 👇 BARIS BARU DITAMBAHKAN DI SINI 👇 */}
               <li className="pt-2"> 
                 <Link
-                  to="/business-partner-page"
+                  to={`/${lang}/business-partner-page`}
                   className="text-sm font-extrabold tracking-wider uppercase transition-colors text-[#D4FF32] hover:text-white flex items-center gap-1"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
