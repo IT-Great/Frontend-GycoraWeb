@@ -1927,6 +1927,7 @@ import { LanguageProvider, useLanguage } from "./context/LanguageContext";
 import AutoLogout from "./components/AutoLogout";
 import { CurrencyProvider } from "./context/CurrencyContext";
 import BusinessPartnerPage from "./pages/user/BusinessPartnerPage";
+import AdminBusinessPartnerPage from "./pages/admin/AdminBusinessPartnerPage";
 
 // ==========================================================
 // FUNGSI PENJAGA RUTE (ROUTE GUARDS)
@@ -2406,6 +2407,16 @@ export default function App() {
                         <AdminRoute>
                           <AdminLayout>
                             <AdminEventDetail />
+                          </AdminLayout>
+                        </AdminRoute>
+                      }
+                    />
+                    <Route
+                      path="/admin/business-partners"
+                      element={
+                        <AdminRoute>
+                          <AdminLayout>
+                            <AdminBusinessPartnerPage />
                           </AdminLayout>
                         </AdminRoute>
                       }
