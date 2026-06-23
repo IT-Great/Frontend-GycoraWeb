@@ -3847,6 +3847,31 @@ export default function AdminLayout({
             {isSidebarOpen && <span className="truncate">Pelanggan</span>}
           </Link>
 
+          {/* ============================================================== */}
+          {/* 👇 BARU: MENU BUSINESS PARTNERS 👇 */}
+          {/* ============================================================== */}
+          <Link
+            to="/admin/business-partners"
+            title={!isSidebarOpen ? "Business Partners" : ""}
+            className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/admin/business-partners") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${isSidebarOpen ? "px-4" : "justify-center px-0"}`}
+          >
+            <svg
+              className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/admin/business-partners") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
+            </svg>
+            {isSidebarOpen && <span className="truncate">Partner Bisnis</span>}
+          </Link>
+          {/* 👆 BATAS MENU BUSINESS PARTNERS 👆 */}
+
           <Link
             to="/admin/reviews"
             title={!isSidebarOpen ? "Ulasan Pelanggan" : ""}
