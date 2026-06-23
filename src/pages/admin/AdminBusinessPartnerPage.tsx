@@ -37,7 +37,7 @@ const AdminBusinessPartnerPage: React.FC = () => {
   const fetchApplications = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${BASE_URL}/admin/resellers/applications`, {
+      const response = await axios.get(`${BASE_URL}/api/admin/resellers/applications`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setApplications(response.data.data || []);
@@ -73,7 +73,7 @@ const AdminBusinessPartnerPage: React.FC = () => {
 
     if (confirm.isConfirmed) {
       try {
-        await axios.post(`${BASE_URL}/admin/resellers/applications/${id}/approve`, {}, {
+        await axios.post(`${BASE_URL}/api/admin/resellers/applications/${id}/approve`, {}, {
           headers: { Authorization: `Bearer ${token}` }
         });
         
