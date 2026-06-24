@@ -2639,6 +2639,365 @@
 //   );
 // }
 
+// import { useState, useEffect, useMemo } from "react";
+// import { Link, useNavigate } from "react-router-dom"; 
+// import Swal from "sweetalert2";
+// import { BASE_URL } from "../../../config/api";
+// import { useLanguage } from "../../../context/LanguageContext";
+// import { useCurrency } from "../../../context/CurrencyContext";
+
+// interface Product {
+//   id: number;
+//   category_name: string;
+//   sku?: string;
+//   name: string;
+//   slug: string;
+//   description?: string;
+//   benefits?: string;
+//   price: number;
+//   discount_price?: number;
+//   voucher_discount_price?: number;
+//   stock: number;
+//   image_url: string;
+//   variant_images?: string[];
+//   variant_video?: string;
+//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   color?: any; 
+//   name_en?: string;
+//   category_en?: string;
+// }
+
+// const translateText = async (text: string, langTo: string): Promise<string> => {
+//   if (!text) return "";
+//   try {
+//     const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=id|${langTo}&de=admin@gycora.com`);
+//     const data = await res.json();
+//     if (data?.responseData?.translatedText && !data.responseData.translatedText.includes("MYMEMORY WARNING")) {
+//       return data.responseData.translatedText;
+//     }
+//     return text;
+//   } catch { 
+//     return text; 
+//   }
+// };
+
+// export default function PublicCatalog() {
+//   const navigate = useNavigate();
+//   const { t, lang } = useLanguage(); 
+//   // [BARU] Panggil fungsi formatPrice dari context mata uang
+//   const { formatPrice } = useCurrency();
+  
+//   const [products, setProducts] = useState<Product[]>([]);
+//   const [loading, setLoading] = useState(true);
+//   const [wishlistIds, setWishlistIds] = useState<number[]>([]);
+
+//   const [searchQuery, setSearchQuery] = useState("");
+//   const [activeCategory, setActiveCategory] = useState(t("cat_all"));
+//   const [sortBy] = useState("name_asc"); 
+
+//   useEffect(() => {
+//     setActiveCategory(t("cat_all"));
+//   }, [lang, t]);
+
+//   useEffect(() => {
+//     const fetchProducts = async () => {
+//       setLoading(true);
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/products`);
+//         if (!res.ok) throw new Error("Gagal mengambil data produk");
+
+//         const responseData = await res.json();
+//         let productsArray = responseData.data ? responseData.data : responseData;
+//         productsArray = productsArray || [];
+
+//         if (lang === "en") {
+//           productsArray = await Promise.all(productsArray.map(async (p: Product) => ({
+//             ...p,
+//             name_en: await translateText(p.name, "en"),
+//             category_en: await translateText(p.category_name, "en")
+//           })));
+//         }
+
+//         setProducts(productsArray);
+//       } catch (error) {
+//         console.error(error);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     const fetchWishlists = async () => {
+//       const token = localStorage.getItem("user_token");
+//       if (!token) return; 
+
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/wishlists`, {
+//           headers: { Authorization: `Bearer ${token}`, Accept: "application/json" }
+//         });
+//         if (res.ok) {
+//           const data = await res.json();
+//           // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//           setWishlistIds(data.map((item: any) => item.product_id));
+//         }
+//       } catch (error) {
+//         console.error("Gagal mengambil wishlist:", error);
+//       }
+//     };
+
+//     fetchProducts();
+//     fetchWishlists();
+//   }, [lang]);
+
+//   const handleToggleWishlist = async (e: React.MouseEvent, productId: number) => {
+//     e.preventDefault(); 
+
+//     const token = localStorage.getItem("user_token");
+//     if (!token) {
+//       Swal.fire({
+//         title: t("login_required"),
+//         text: t("login_required_desc"),
+//         icon: "info",
+//         showCancelButton: true,
+//         confirmButtonColor: "#059669",
+//         cancelButtonColor: "#d33",
+//         confirmButtonText: t("to_login_page"),
+//         cancelButtonText: t("cancel")
+//       }).then((result) => {
+//         if (result.isConfirmed) navigate(`/${lang}/login`);
+//       });
+//       return;
+//     }
+
+//     const isWished = wishlistIds.includes(productId);
+//     if (isWished) {
+//       setWishlistIds((prev) => prev.filter(id => id !== productId));
+//     } else {
+//       setWishlistIds((prev) => [...prev, productId]);
+//     }
+
+//     try {
+//       const res = await fetch(`${BASE_URL}/api/wishlists/toggle`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           "Authorization": `Bearer ${token}`,
+//           "Accept": "application/json"
+//         },
+//         body: JSON.stringify({ product_id: productId })
+//       });
+      
+//       if (!res.ok) throw new Error("Gagal memproses wishlist");
+//     } catch (error) {
+//       if (isWished) {
+//         setWishlistIds((prev) => [...prev, productId]);
+//       } else {
+//         setWishlistIds((prev) => prev.filter(id => id !== productId));
+//       }
+//       console.error(error);
+//     }
+//   };
+
+//   const categories = [t("cat_all"), ...Array.from(new Set(products.map((p) => lang === "en" ? (p.category_en || p.category_name) : p.category_name).filter(Boolean)))];
+
+//   const processedProducts = useMemo(() => {
+//     return products
+//       .filter((p) => {
+//         const catName = lang === "en" ? (p.category_en || p.category_name) : p.category_name;
+//         const prodName = lang === "en" ? (p.name_en || p.name) : p.name;
+        
+//         const matchCategory = activeCategory === t("cat_all") || catName === activeCategory;
+//         const matchSearch = prodName.toLowerCase().includes(searchQuery.toLowerCase());
+        
+//         return matchCategory && matchSearch;
+//       })
+//       .sort((a, b) => {
+//         const nameA = lang === "en" ? (a.name_en || a.name) : a.name;
+//         const nameB = lang === "en" ? (b.name_en || b.name) : b.name;
+//         if (sortBy === "name_asc") return nameA.localeCompare(nameB);
+//         return b.id - a.id; 
+//       });
+//   }, [products, activeCategory, searchQuery, sortBy, lang, t]);
+
+//   return (
+//     <div className="min-h-screen font-sans bg-gray-50/50">
+      
+//       {/* Header Banner */}
+//       <div className="relative py-20 overflow-hidden text-center bg-gray-900 border-b border-gray-800">
+//         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1598440947619-2ce6598c4e1d?q=80&w=1500')] bg-cover bg-center opacity-20"></div>
+//         <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+//         <div className="relative z-10 px-4">
+//           <h1 className="text-4xl font-extrabold tracking-tight text-white md:text-5xl">{t("banner_title")}</h1>
+//           <p className="max-w-2xl mx-auto mt-4 text-gray-300">
+//             {t("banner_desc")}
+//           </p>
+//         </div>
+//       </div>
+
+//       <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        
+//         {/* --- FILTER & SEARCH BAR --- */}
+//         <div className="flex flex-col gap-6 mb-10 md:flex-row md:items-center md:justify-between">
+          
+//           <div className="flex gap-2 pb-2 overflow-x-auto no-scrollbar md:pb-0">
+//             {categories.map((cat) => (
+//               <button
+//                 key={cat}
+//                 onClick={() => setActiveCategory(cat)}
+//                 className={`px-5 py-2 text-xs font-bold tracking-widest uppercase transition-all whitespace-nowrap rounded-full border ${
+//                   activeCategory === cat 
+//                     ? "bg-gray-900 text-white border-gray-900 shadow-md" 
+//                     : "bg-white text-gray-600 border-gray-200 hover:border-gycora hover:text-gycora"
+//                 }`}
+//               >
+//                 {cat}
+//               </button>
+//             ))}
+//           </div>
+
+//           <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+//             <div className="relative">
+//               <svg className="absolute w-4 h-4 text-gray-400 left-3 top-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+//               <input 
+//                 type="text" 
+//                 placeholder={t("search_prod_placeholder")} 
+//                 value={searchQuery}
+//                 onChange={(e) => setSearchQuery(e.target.value)}
+//                 className="w-full py-2 pl-10 pr-4 text-sm transition-shadow bg-white border border-gray-200 rounded-full outline-none focus:ring-2 focus:ring-gycora/50 focus:border-gycora sm:w-64"
+//               />
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* --- PRODUCT GRID --- */}
+//         {loading ? (
+//           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 animate-pulse">
+//             {[...Array(8)].map((_, i) => (
+//               <div key={i} className="flex flex-col overflow-hidden bg-white border border-gray-100 rounded-2xl">
+//                 {/* [PERBAIKAN] Skeleton diubah ke aspect-square */}
+//                 <div className="w-full bg-gray-200 aspect-square"></div>
+//                 <div className="p-5 space-y-3">
+//                   <div className="w-3/4 h-4 bg-gray-200 rounded"></div>
+//                   <div className="w-1/2 h-6 bg-gray-200 rounded"></div>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         ) : processedProducts.length === 0 ? (
+//           <div className="py-20 text-center bg-white border border-gray-100 border-dashed rounded-3xl">
+//             <h3 className="text-xl font-bold text-gray-700">{t("no_product_found")}</h3>
+//             <p className="mt-2 text-gray-500">{t("no_product_desc")}</p>
+//             <button onClick={() => {setSearchQuery(""); setActiveCategory(t("cat_all"));}} className="mt-6 text-sm font-bold text-gycora hover:underline">{t("reset_filter")}</button>
+//           </div>
+//         ) : (
+//           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+//             {processedProducts.map((product) => {
+//               const isWished = wishlistIds.includes(product.id);
+              
+//               const displayCategory = lang === "en" ? (product.category_en || product.category_name) : product.category_name;
+//               const displayName = lang === "en" ? (product.name_en || product.name) : product.name;
+
+//               // [BARU] Logika untuk menentukan harga yang ditampilkan dan persentase diskon
+//               const isDiscounted = product.discount_price && product.discount_price > 0 && product.discount_price < product.price;
+//               const discountPercentage = isDiscounted 
+//                 ? Math.round(((product.price - product.discount_price!) / product.price) * 100) 
+//                 : 0;
+
+//               return (
+//                 <Link 
+//                   key={product.id} 
+//                   to={`/${lang}/product/${product.slug}`} 
+//                   state={{ 
+//                     initialProduct: product,
+//                     allProducts: products
+//                   }}
+//                   className="relative flex flex-col overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-sm group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1"
+//                 >
+//                   {/* Penampung gambar aspect-square */}
+//                   <div className="relative overflow-hidden aspect-square bg-gray-50">
+//                     {product.image_url ? (
+//                       <img 
+//                         src={product.image_url} 
+//                         alt={displayName} 
+//                         className="object-cover object-center w-full h-full transition-transform duration-700 group-hover:scale-105"
+//                       />
+//                     ) : (
+//                       <div className="flex items-center justify-center w-full h-full font-medium text-gray-400">
+//                         {t("no_image_text")}
+//                       </div>
+//                     )}
+                    
+//                     <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-t from-gray-900/60 to-transparent group-hover:opacity-100"></div>
+                    
+//                     <div className="absolute flex flex-col gap-2 top-3 left-3">
+//                       <span className="px-2 py-1 text-[10px] font-bold tracking-widest text-gray-900 uppercase rounded-md shadow-sm bg-white/90 backdrop-blur-sm w-fit">
+//                         {displayCategory}
+//                       </span>
+//                       {product.stock < 5 && product.stock > 0 && (
+//                         <span className="px-2 py-1 text-[10px] font-bold tracking-widest text-white uppercase rounded-md shadow-sm bg-red-500/90 backdrop-blur-sm animate-pulse w-fit">
+//                           {t("stock_warning", { stock: product.stock.toString() })}
+//                         </span>
+//                       )}
+//                       {product.stock === 0 && (
+//                          <span className="px-2 py-1 text-[10px] font-bold tracking-widest text-white uppercase rounded-md shadow-sm bg-gray-900/90 backdrop-blur-sm w-fit">
+//                           {t("status_out_of_stock")}
+//                         </span>
+//                       )}
+//                       {/* [BARU] Badge Diskon diletakkan di sudut kiri atas di bawah badge lainnya */}
+//                       {isDiscounted && (
+//                          <span className="px-2 py-1 text-[10px] font-bold tracking-widest text-white uppercase rounded-md shadow-sm bg-red-600 w-fit">
+//                           -{discountPercentage}%
+//                         </span>
+//                       )}
+//                     </div>
+
+//                     <button 
+//                       onClick={(e) => handleToggleWishlist(e, product.id)}
+//                       className="absolute z-10 flex items-center justify-center w-10 h-10 transition-colors bg-white rounded-full shadow-md top-3 right-3 hover:bg-gray-50"
+//                     >
+//                       <svg 
+//                         xmlns="http://www.w3.org/2000/svg" 
+//                         viewBox="0 0 24 24" 
+//                         strokeWidth={1.5} 
+//                         stroke="currentColor" 
+//                         className={`w-5 h-5 transition-all duration-300 ${isWished ? "fill-red-500 text-red-500 scale-110" : "fill-none text-gray-400 hover:text-red-500"}`}
+//                       >
+//                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+//                       </svg>
+//                     </button>
+//                   </div>
+
+//                   <div className="flex flex-col flex-grow p-5 bg-white">
+//                     <h3 className="mb-1 text-sm font-bold text-gray-900 transition-colors sm:text-base group-hover:text-gycora line-clamp-2">
+//                       {displayName}
+//                     </h3>
+//                     <div className="pt-3 mt-auto">
+//                       {/* [BARU] Tampilan Harga Coret */}
+//                       {isDiscounted ? (
+//                         <div className="flex flex-col">
+//                           <span className="text-sm font-medium text-gray-400 line-through">
+//                             {formatPrice(product.price)}
+//                           </span>
+//                           <span className="text-lg font-black text-red-600">
+//                             {formatPrice(product.discount_price!)}
+//                           </span>
+//                         </div>
+//                       ) : (
+//                         <p className="text-lg font-black text-gray-900">
+//                           {formatPrice(product.price)}
+//                         </p>
+//                       )}
+//                     </div>
+//                   </div>
+//                 </Link>
+//               );
+//             })}
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
+
 import { useState, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom"; 
 import Swal from "sweetalert2";
@@ -2656,6 +3015,7 @@ interface Product {
   benefits?: string;
   price: number;
   discount_price?: number;
+  wholesale_price?: number; // 👇 [BARU] Tambahkan field ini
   voucher_discount_price?: number;
   stock: number;
   image_url: string;
@@ -2684,7 +3044,6 @@ const translateText = async (text: string, langTo: string): Promise<string> => {
 export default function PublicCatalog() {
   const navigate = useNavigate();
   const { t, lang } = useLanguage(); 
-  // [BARU] Panggil fungsi formatPrice dari context mata uang
   const { formatPrice } = useCurrency();
   
   const [products, setProducts] = useState<Product[]>([]);
@@ -2695,8 +3054,22 @@ export default function PublicCatalog() {
   const [activeCategory, setActiveCategory] = useState(t("cat_all"));
   const [sortBy] = useState("name_asc"); 
 
+  // 👇 [BARU] State untuk menyimpan tipe pengguna
+  const [userType, setUserType] = useState<string>('guest');
+
   useEffect(() => {
     setActiveCategory(t("cat_all"));
+    
+    // 👇 [BARU] Cek tipe pengguna saat komponen dimuat
+    const userStr = localStorage.getItem("user_data");
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        setUserType(user.usertype || 'user');
+      } catch (e) {
+        setUserType('guest');
+      }
+    }
   }, [lang, t]);
 
   useEffect(() => {
@@ -2873,7 +3246,6 @@ export default function PublicCatalog() {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 animate-pulse">
             {[...Array(8)].map((_, i) => (
               <div key={i} className="flex flex-col overflow-hidden bg-white border border-gray-100 rounded-2xl">
-                {/* [PERBAIKAN] Skeleton diubah ke aspect-square */}
                 <div className="w-full bg-gray-200 aspect-square"></div>
                 <div className="p-5 space-y-3">
                   <div className="w-3/4 h-4 bg-gray-200 rounded"></div>
@@ -2896,11 +3268,26 @@ export default function PublicCatalog() {
               const displayCategory = lang === "en" ? (product.category_en || product.category_name) : product.category_name;
               const displayName = lang === "en" ? (product.name_en || product.name) : product.name;
 
-              // [BARU] Logika untuk menentukan harga yang ditampilkan dan persentase diskon
-              const isDiscounted = product.discount_price && product.discount_price > 0 && product.discount_price < product.price;
-              const discountPercentage = isDiscounted 
-                ? Math.round(((product.price - product.discount_price!) / product.price) * 100) 
-                : 0;
+              // 👇 [PERBAIKAN] Logika penentuan Harga Akhir berdasarkan Role 👇
+              const hasWholesale = product.wholesale_price && product.wholesale_price > 0;
+              const isReseller = userType === 'reseller';
+
+              let finalPrice = product.price;
+              let isDiscounted = false;
+              let discountPercentage = 0;
+
+              // Jika dia Reseller dan produk punya harga grosir
+              if (isReseller && hasWholesale) {
+                finalPrice = product.wholesale_price!;
+                isDiscounted = true; // Kita anggap harga grosir sebagai diskon dari harga normal
+                discountPercentage = Math.round(((product.price - product.wholesale_price!) / product.price) * 100);
+              } 
+              // Jika dia user biasa/guest dan produk punya diskon publik
+              else if (product.discount_price && product.discount_price > 0 && product.discount_price < product.price) {
+                finalPrice = product.discount_price;
+                isDiscounted = true;
+                discountPercentage = Math.round(((product.price - product.discount_price) / product.price) * 100);
+              }
 
               return (
                 <Link 
@@ -2912,7 +3299,6 @@ export default function PublicCatalog() {
                   }}
                   className="relative flex flex-col overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-sm group rounded-2xl hover:shadow-xl hover:border-gycora/30 hover:-translate-y-1"
                 >
-                  {/* Penampung gambar aspect-square */}
                   <div className="relative overflow-hidden aspect-square bg-gray-50">
                     {product.image_url ? (
                       <img 
@@ -2942,10 +3328,11 @@ export default function PublicCatalog() {
                           {t("status_out_of_stock")}
                         </span>
                       )}
-                      {/* [BARU] Badge Diskon diletakkan di sudut kiri atas di bawah badge lainnya */}
+                      
+                      {/* Badge Diskon / Grosir */}
                       {isDiscounted && (
-                         <span className="px-2 py-1 text-[10px] font-bold tracking-widest text-white uppercase rounded-md shadow-sm bg-red-600 w-fit">
-                          -{discountPercentage}%
+                         <span className={`px-2 py-1 text-[10px] font-bold tracking-widest text-white uppercase rounded-md shadow-sm w-fit ${isReseller && hasWholesale ? 'bg-blue-600' : 'bg-red-600'}`}>
+                          {isReseller && hasWholesale ? 'GROSIR' : `-${discountPercentage}%`}
                         </span>
                       )}
                     </div>
@@ -2971,14 +3358,14 @@ export default function PublicCatalog() {
                       {displayName}
                     </h3>
                     <div className="pt-3 mt-auto">
-                      {/* [BARU] Tampilan Harga Coret */}
+                      {/* Tampilan Harga */}
                       {isDiscounted ? (
                         <div className="flex flex-col">
                           <span className="text-sm font-medium text-gray-400 line-through">
                             {formatPrice(product.price)}
                           </span>
-                          <span className="text-lg font-black text-red-600">
-                            {formatPrice(product.discount_price!)}
+                          <span className={`text-lg font-black ${isReseller && hasWholesale ? 'text-blue-600' : 'text-red-600'}`}>
+                            {formatPrice(finalPrice)}
                           </span>
                         </div>
                       ) : (
