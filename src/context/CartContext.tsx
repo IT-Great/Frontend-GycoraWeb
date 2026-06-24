@@ -264,6 +264,7 @@ export interface Product {
   price: number;
   discount_price: number;
   voucher_discount_price?: number;
+  wholesale_price?: number | null; 
   image_url: string;
   sku?: string;
   stock: number;
