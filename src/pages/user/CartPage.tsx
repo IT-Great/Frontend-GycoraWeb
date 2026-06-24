@@ -4476,16 +4476,30 @@ export default function CartPage() {
   };
 
   // 👇 [PERBAIKAN] Helper Cerdas untuk mendapatkan harga aktif (Grosir vs Diskon vs Normal)
+  // const getActivePrice = (product: Product) => {
+  //   const isReseller = userType === 'reseller';
+  //   const hasWholesale = product.wholesale_price && product.wholesale_price > 0;
+
+  //   if (isReseller && hasWholesale) {
+  //     return product.wholesale_price!;
+  //   } else if (product.discount_price && product.discount_price > 0 && product.discount_price < product.price) {
+  //     return product.discount_price;
+  //   }
+  //   return product.price;
+  // };
+
   const getActivePrice = (product: Product) => {
     const isReseller = userType === 'reseller';
-    const hasWholesale = product.wholesale_price && product.wholesale_price > 0;
+    const wholesale = Number(product.wholesale_price) || 0;
+    const discount = Number(product.discount_price) || 0;
+    const price = Number(product.price) || 0;
 
-    if (isReseller && hasWholesale) {
-      return product.wholesale_price!;
-    } else if (product.discount_price && product.discount_price > 0 && product.discount_price < product.price) {
-      return product.discount_price;
+    if (isReseller && wholesale > 0) {
+      return wholesale;
+    } else if (discount > 0 && discount < price) {
+      return discount;
     }
-    return product.price;
+    return price;
   };
 
   const checkoutTotalAmount = useMemo(() => {
@@ -4752,7 +4766,8 @@ export default function CartPage() {
               <div className="space-y-8">
                 {localCartItems.map((item: CartItem) => {
                   const currentPrice = getActivePrice(item.product);
-                  const isDiscounted = currentPrice < item.product.price; // Logika diskon general
+                  // const isDiscounted = currentPrice < item.product.price; // Logika diskon general
+                  const isDiscounted = currentPrice < Number(item.product.price);
                   const isWholesaleActive = userType === 'reseller' && item.product.wholesale_price && item.product.wholesale_price > 0;
                   
                   const currentGrossAmount = currentPrice * item.quantity;
@@ -4938,7 +4953,8 @@ export default function CartPage() {
               <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
                 {suggestedProducts.map((product) => {
                   const currentSugPrice = getActivePrice(product);
-                  const isSugDiscounted = currentSugPrice < product.price;
+                  // const isSugDiscounted = currentSugPrice < product.price;
+                  const isSugDiscounted = currentSugPrice < Number(product.price);
                   const isSugWholesale = userType === 'reseller' && product.wholesale_price && product.wholesale_price > 0;
 
                   return (
