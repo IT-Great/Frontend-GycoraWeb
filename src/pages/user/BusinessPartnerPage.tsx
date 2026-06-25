@@ -1304,8 +1304,33 @@ const BusinessPartnerPage: React.FC = () => {
   return (
     <div className="min-h-screen font-sans bg-[#FAFAFA] animate-fade-in">
       {/* --- HERO SECTION --- */}
-      <section className="relative flex items-center justify-center px-4 py-32 overflow-hidden bg-black md:py-40">
+      {/* <section className="relative flex items-center justify-center px-4 py-32 overflow-hidden bg-black md:py-40">
         <div className="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1598440947619-2ce6598c4e1d?q=80&w=2000')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+        
+        <div className="relative z-10 max-w-3xl text-center">
+          <span className="inline-block px-3 py-1 mb-6 text-[10px] font-bold tracking-[0.3em] text-white uppercase border border-white/30 rounded-full backdrop-blur-sm">
+            B2B Wholesale
+          </span>
+          <h1 className="mb-6 font-serif text-4xl font-normal leading-tight text-white md:text-6xl">
+            Gycora <span className="italic text-gray-300">Business</span> Partner.
+          </h1>
+          <p className="max-w-xl mx-auto mb-10 text-sm leading-relaxed text-gray-400 md:text-base">
+            Tingkatkan skala bisnis Anda bersama kami. Jadilah bagian dari jaringan eksklusif Gycora dan nikmati margin keuntungan maksimal untuk pertumbuhan toko Anda.
+          </p>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="px-10 py-4 text-xs font-bold tracking-[0.2em] text-black uppercase transition-all duration-500 bg-white rounded-none hover:bg-gray-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+          >
+            Daftar Sekarang
+          </button>
+        </div>
+      </section> */}
+
+      {/* --- HERO SECTION --- */}
+      <section className="relative flex items-center justify-center px-4 py-32 overflow-hidden bg-black md:py-40">
+        {/* Gambar Background Baru yang Aktif dan Elegan */}
+        <div className="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1571781926291-c477ebfd024b?q=80&w=2000')] bg-cover bg-center"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
         
         <div className="relative z-10 max-w-3xl text-center">
