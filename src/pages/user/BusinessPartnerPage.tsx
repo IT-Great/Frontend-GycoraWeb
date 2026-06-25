@@ -1150,6 +1150,8 @@ import axios, { AxiosError } from "axios";
 import Swal from "sweetalert2";
 import { BASE_URL } from "../../config/api";
 
+import bgPartner from "../../assets/gycora_business_partner_bg.png";
+
 interface PartnerFormData {
   business_name: string;
   sales_platform: string;
@@ -1330,7 +1332,10 @@ const BusinessPartnerPage: React.FC = () => {
       {/* --- HERO SECTION --- */}
       <section className="relative flex items-center justify-center px-4 py-32 overflow-hidden bg-black md:py-40">
         {/* Gambar Background Baru yang Aktif dan Elegan */}
-        <div className="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=2000')] bg-cover bg-center"></div>
+        <div 
+  className="absolute inset-0 bg-center bg-cover opacity-40"
+  style={{ backgroundImage: `url(${bgPartner})` }}
+></div>
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
         
         <div className="relative z-10 max-w-3xl text-center">
