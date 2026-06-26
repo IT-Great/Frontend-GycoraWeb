@@ -967,7 +967,7 @@ export const translations: Record<string, TranslationDictionary> = {
     pay_btn_processing: "Memproses...",
     pay_alert_no_address: "* Silakan pilih alamat pengiriman",
     pay_alert_no_courier: "* Silakan pilih kurir pengiriman",
-    main_address : "Utama",
+    main_address: "Utama",
 
     // ORDER PAGE
     order_track_title: "Track My Orders",
@@ -1007,14 +1007,14 @@ export const translations: Record<string, TranslationDictionary> = {
     order_orders: "orders",
     order_prev: "Previous",
     order_next: "Next",
-    in_store_pickup : "Ambil Di Tempat",
-    refunded : "REFUNDED",
-    expired : "EXPIRED / CANCELLED",
-    unpaid : "UNPAID",
-    paid : "PAID",
-    waiting_payment : "Waiting for payment selection...",
-    no_courier : "No Courier",
-    in_store_payment : "In-store Payment / Pickup",
+    in_store_pickup: "Ambil Di Tempat",
+    refunded: "REFUNDED",
+    expired: "EXPIRED / CANCELLED",
+    unpaid: "UNPAID",
+    paid: "PAID",
+    waiting_payment: "Waiting for payment selection...",
+    no_courier: "No Courier",
+    in_store_payment: "In-store Payment / Pickup",
 
     // HELP CENTER / FAQ PAGE
     hc_hero_title: "Hi, ada yang bisa kami bantu?",
@@ -1519,7 +1519,8 @@ export const translations: Record<string, TranslationDictionary> = {
     tp_receiver_phone: "Nomor Telepon",
     tp_receiver_address: "Alamat Lengkap",
     tp_courier_note: "Catatan Kurir",
-    tp_waiting_location: "Menunggu data lokasi origin dan destinasi tersedia dari pihak ekspedisi...",
+    tp_waiting_location:
+      "Menunggu data lokasi origin dan destinasi tersedia dari pihak ekspedisi...",
     tp_item_summary: "Ringkasan Barang",
     tp_variant_title: "Varian Warna",
     tp_subtotal: "Subtotal Produk",
@@ -1538,14 +1539,95 @@ export const translations: Record<string, TranslationDictionary> = {
     tp_stat_processing: "Processing",
     tp_note_pending: "Menunggu pembayaran dari pelanggan.",
     tp_note_placed: "Pesanan telah masuk dan menunggu alokasi kurir.",
-    tp_note_allocated: "Kurir telah dialokasikan dan akan segera menjemput paket.",
-    tp_note_picking_up: "Kurir sedang dalam perjalanan menuju lokasi penjemputan.",
+    tp_note_allocated:
+      "Kurir telah dialokasikan dan akan segera menjemput paket.",
+    tp_note_picking_up:
+      "Kurir sedang dalam perjalanan menuju lokasi penjemputan.",
     tp_note_picked: "Paket telah diambil oleh kurir dan masuk ke pusat sortir.",
     tp_note_dropping_off: "Paket sedang dalam perjalanan menuju alamat tujuan.",
     tp_note_delivered: "Paket telah berhasil dikirim dan diterima.",
     tp_note_rejected: "Pengiriman ditolak oleh kurir atau sistem.",
     tp_note_cancelled: "Pengiriman telah dibatalkan.",
     tp_note_default: "Pesanan sedang diproses oleh sistem.",
+
+    b2b_label: "B2B Wholesale",
+    hero_title_1: "Gycora",
+    hero_title_2: "Business",
+    hero_title_3: "Partner.",
+    hero_desc_business:
+      "Tingkatkan skala bisnis Anda bersama kami. Jadilah bagian dari jaringan eksklusif Gycora dan nikmati margin keuntungan maksimal untuk pertumbuhan toko Anda.",
+    btn_register: "Daftar Sekarang",
+
+    step_title: "Cara Menjadi Reseller",
+    step_1_title: "Isi Formulir",
+    step_1_desc:
+      "Lengkapi data toko dan estimasi penjualan bulanan Anda melalui formulir pendaftaran kami.",
+    step_2_title: "Proses Kurasi",
+    step_2_desc:
+      "Tim Gycora akan meninjau profil bisnis Anda dalam waktu 1x24 jam kerja untuk memastikan standar kemitraan.",
+    step_3_title: "Akses Terbuka",
+    step_3_desc:
+      "Setelah disetujui, akun Anda otomatis ditingkatkan dan dapat langsung melihat Harga Grosir Pabrik.",
+    step_4_title: "Mulai Berjualan",
+    step_4_desc:
+      "Lakukan pesanan minimal (MOQ) dan nikmati margin keuntungan maksimal untuk bisnis Anda.",
+    faq_title: "Yang Sering Ditanya Seputar Reseller di Gycora",
+    faq_1_q: "Berapa minimum order (MOQ) untuk mendapatkan harga reseller?",
+    faq_1_a:
+      "Untuk melindungi harga pasar (Price Protection), harga grosir eksklusif Gycora hanya akan aktif jika Anda berbelanja minimal 24 pcs (2 lusin) per transaksi di keranjang Anda.",
+    faq_2_q: "Apakah Gycora memfasilitasi sistem Dropship?",
+    faq_2_a:
+      "Saat ini, program Business Partner kami difokuskan pada model B2B Wholesale (Grosir Tradisional). Barang akan dikirim secara massal ke alamat Anda, dan Anda bebas menjualnya kembali di platform apa pun dengan margin keuntungan 20% - 30%.",
+    faq_3_q: "Berapa lama proses persetujuan akun reseller?",
+    faq_3_a:
+      "Proses kurasi dan persetujuan akun biasanya memakan waktu maksimal 1x24 jam kerja. Tim kami perlu memastikan bahwa mitra memiliki komitmen bisnis yang sesuai dengan visi Gycora.",
+    feedback_title: "Mari Simak Feedback dari Reseller Kami",
+    feedback_1_name: "Toko Cantik Jelita",
+    feedback_1_platform: "Shopee Seller",
+    feedback_1_comment:
+      "Margin profit dari Gycora sangat bagus! Sejak daftar jadi reseller, perputaran kas toko saya jadi lebih cepat karena produknya memang cepat laku di pasaran.",
+    feedback_2_name: "Aura Beauty Supply",
+    feedback_2_platform: "Toko Fisik",
+    feedback_2_comment:
+      "Awalnya ragu karena MOQ-nya 24 pcs. Tapi ternyata kualitas barangnya premium banget. Pelanggan salon saya pada suka, 2 lusin langsung ludes dalam 1 minggu.",
+    feedback_3_name: "Dewi Haircare",
+    feedback_3_platform: "Tiktok Shop",
+    feedback_3_comment:
+      "Yang paling saya suka adalah perlindungan harganya. Gycora nggak obral harga grosir ke sembarang orang, jadi kita reseller nggak perlu takut perang harga.",
+    benefit_title_business: "Keuntungan Kemitraan",
+    benefit_1_title: "Harga Grosir Spesial",
+    benefit_1_desc:
+      "Dapatkan margin keuntungan maksimal dengan akses langsung ke harga wholesale eksklusif khusus Business Partner.",
+    benefit_2_title: "Aset Visual Premium",
+    benefit_2_desc:
+      "Akses gratis ke katalog foto dan video resolusi tinggi tanpa watermark untuk kebutuhan promosi toko Anda.",
+    benefit_3_title: "Prioritas Stok",
+    benefit_3_desc:
+      "Prioritas alokasi produk unggulan dan koleksi terbaru sebelum dirilis untuk pelanggan retail biasa.",
+    modal_title: "Formulir Pengajuan Kemitraan",
+    modal_desc:
+      "Lengkapi data bisnis Anda di bawah ini. Tim kami akan melakukan peninjauan dalam waktu 1x24 jam kerja.",
+    label_shop_name: "Nama Toko / Bisnis",
+    placeholder_shop_name: "Contoh: Gycora Official Store",
+    label_platform: "Platform Penjualan Utama",
+    opt_select_platform: "Pilih Platform",
+    opt_offline: "Toko Offline / Fisik",
+    opt_other: "Lainnya",
+    label_capacity: "Estimasi Pengambilan per Bulan",
+    opt_select_capacity: "Pilih Estimasi Order",
+    opt_more_than: "lebih dari 500 Pcs",
+    label_notes: "Catatan Tambahan / Link Toko (Opsional)",
+    placeholder_notes:
+      "Ceritakan sedikit tentang bisnis Anda atau sertakan link toko Anda agar kami dapat meninjaunya lebih cepat.",
+    btn_processing_business: "Memproses...",
+    btn_submit: "Kirim Pengajuan Kemitraan",
+    alert_login_title: "Login Dibutuhkan",
+    alert_login_desc:
+      "Silakan login terlebih dahulu untuk mendaftar sebagai Business Partner.",
+    alert_success_title: "Pendaftaran Berhasil!",
+    alert_success_desc: "Tim kami akan segera meninjau aplikasi Anda.",
+    alert_error_title: "Pendaftaran Gagal",
+    alert_error_desc: "Terjadi kesalahan pada sistem. Coba lagi nanti.",
   },
   en: {
     // Nav Menu
@@ -2121,7 +2203,7 @@ export const translations: Record<string, TranslationDictionary> = {
     pay_btn_processing: "Processing...",
     pay_alert_no_address: "* Please select a shipping address",
     pay_alert_no_courier: "* Please select a courier",
-    main_address : "Main Address",
+    main_address: "Main Address",
 
     // ORDER PAGE
     order_track_title: "Track My Orders",
@@ -2161,7 +2243,7 @@ export const translations: Record<string, TranslationDictionary> = {
     order_orders: "orders",
     order_prev: "Previous",
     order_next: "Next",
-    in_store_pickup : "In-Store Pickup",
+    in_store_pickup: "In-Store Pickup",
 
     // HELP CENTER / FAQ PAGE
     hc_hero_title: "Hi, how can we help you?",
@@ -2645,7 +2727,8 @@ export const translations: Record<string, TranslationDictionary> = {
     tp_receiver_phone: "Phone Number",
     tp_receiver_address: "Full Address",
     tp_courier_note: "Courier Note",
-    tp_waiting_location: "Waiting for origin and destination location data to be available from the shipping carrier...",
+    tp_waiting_location:
+      "Waiting for origin and destination location data to be available from the shipping carrier...",
     tp_item_summary: "Item Summary",
     tp_variant_title: "Color Variant",
     tp_subtotal: "Product Subtotal",
@@ -2666,12 +2749,102 @@ export const translations: Record<string, TranslationDictionary> = {
     tp_note_placed: "Order received and waiting for courier allocation.",
     tp_note_allocated: "Courier allocated and will pick up the package soon.",
     tp_note_picking_up: "Courier is on the way to the pickup location.",
-    tp_note_picked: "Package picked up by courier and entered the sorting center.",
+    tp_note_picked:
+      "Package picked up by courier and entered the sorting center.",
     tp_note_dropping_off: "Package is on its way to the destination address.",
     tp_note_delivered: "Package has been successfully delivered and received.",
     tp_note_rejected: "Shipment rejected by courier or system.",
     tp_note_cancelled: "Shipment has been cancelled.",
     tp_note_default: "Order is being processed by the system.",
+
+    b2b_label: "B2B Wholesale",
+    hero_title_1: "Gycora",
+    hero_title_2: "Business",
+    hero_title_3: "Partner.",
+    hero_desc_business:
+      "Scale your business with us. Become part of Gycora's exclusive partner network and enjoy maximum profit margins to grow your store.",
+    btn_register: "Register Now",
+
+    step_title: "How to Become a Reseller",
+    step_1_title: "Complete the Form",
+    step_1_desc:
+      "Fill in your store information and estimated monthly sales through our registration form.",
+    step_2_title: "Review Process",
+    step_2_desc:
+      "The Gycora team will review your business profile within 1 business day to ensure it meets our partnership standards.",
+    step_3_title: "Access Granted",
+    step_3_desc:
+      "Once approved, your account will be automatically upgraded, allowing you to access our Factory Wholesale Prices.",
+    step_4_title: "Start Selling",
+    step_4_desc:
+      "Place your minimum order quantity (MOQ) and enjoy maximum profit margins for your business.",
+
+    faq_title: "Frequently Asked Questions About Becoming a Gycora Reseller",
+    faq_1_q:
+      "What is the minimum order quantity (MOQ) to receive reseller pricing?",
+    faq_1_a:
+      "To protect market pricing (Price Protection), Gycora's exclusive wholesale prices are only activated when you purchase a minimum of 24 pieces (2 dozen) per transaction in your cart.",
+    faq_2_q: "Does Gycora support a dropshipping system?",
+    faq_2_a:
+      "Currently, our Business Partner program focuses on the B2B Wholesale (Traditional Wholesale) model. Products will be shipped in bulk to your address, and you are free to resell them on any platform with a profit margin of 20%–30%.",
+    faq_3_q: "How long does reseller account approval take?",
+    faq_3_a:
+      "The review and approval process usually takes up to 1 business day. Our team needs to ensure that every partner shares Gycora's business vision and commitment.",
+
+    feedback_title: "See What Our Resellers Have to Say",
+    feedback_1_name: "Toko Cantik Jelita",
+    feedback_1_platform: "Shopee Seller",
+    feedback_1_comment:
+      "The profit margin from Gycora is excellent! Since becoming a reseller, my store's cash flow has improved because the products sell very quickly.",
+    feedback_2_name: "Aura Beauty Supply",
+    feedback_2_platform: "Physical Store",
+    feedback_2_comment:
+      "At first, I was hesitant because of the 24-piece MOQ. But the product quality is truly premium. My salon customers love it, and two dozen sold out within just one week.",
+    feedback_3_name: "Dewi Haircare",
+    feedback_3_platform: "TikTok Shop",
+    feedback_3_comment:
+      "What I love most is the price protection. Gycora doesn't offer wholesale prices to just anyone, so resellers don't have to worry about price wars.",
+
+    benefit_title_business: "Partnership Benefits",
+    benefit_1_title: "Exclusive Wholesale Pricing",
+    benefit_1_desc:
+      "Maximize your profits with direct access to exclusive wholesale prices available only to Business Partners.",
+    benefit_2_title: "Premium Marketing Assets",
+    benefit_2_desc:
+      "Get free access to high-resolution product photos and videos without watermarks for promoting your store.",
+    benefit_3_title: "Priority Stock Allocation",
+    benefit_3_desc:
+      "Receive priority access to best-selling products and new collections before they are released to regular retail customers.",
+
+    modal_title: "Business Partnership Application Form",
+    modal_desc:
+      "Complete your business information below. Our team will review your application within 1 business day.",
+    label_shop_name: "Store / Business Name",
+    placeholder_shop_name: "Example: Gycora Official Store",
+    label_platform: "Primary Sales Platform",
+    opt_select_platform: "Select a Platform",
+    opt_offline: "Offline / Physical Store",
+    opt_other: "Other",
+
+    label_capacity: "Estimated Monthly Purchase Volume",
+    opt_select_capacity: "Select Estimated Order Volume",
+    opt_more_than: "More than 500 pcs",
+
+    label_notes: "Additional Notes / Store Link (Optional)",
+    placeholder_notes:
+      "Tell us a little about your business or provide your store link so we can review your application more quickly.",
+
+    btn_processing_business: "Processing...",
+    btn_submit: "Submit Partnership Application",
+
+    alert_login_title: "Login Required",
+    alert_login_desc: "Please log in first to apply as a Business Partner.",
+
+    alert_success_title: "Application Submitted Successfully!",
+    alert_success_desc: "Our team will review your application shortly.",
+
+    alert_error_title: "Application Failed",
+    alert_error_desc: "A system error occurred. Please try again later.",
   },
 };
 
