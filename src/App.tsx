@@ -1943,7 +1943,10 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
   }
 
   const user = JSON.parse(userDataStr);
-  const isAuthorized = user.usertype === "admin" || user.usertype === "staff";
+  // const isAuthorized = user.usertype === "admin" || user.usertype === "staff";
+
+  const allowedRoles = ["superadmin", "admin", "gudang", "accounting"];
+  const isAuthorized = allowedRoles.includes(user.usertype);
 
   if (!isAuthorized) {
     return <Navigate to="/" replace />; // [PERBAIKAN] Kembali ke root tanpa /id
@@ -1959,10 +1962,19 @@ function GuestAdminRoute({ children }: { children: React.ReactNode }) {
   if (token && userDataStr) {
     const user = JSON.parse(userDataStr);
 
-    if (user.usertype === "admin" || user.usertype === "staff") {
+    // if (user.usertype === "admin" || user.usertype === "staff") {
+    //   return <Navigate to="/admin/dashboard" replace />;
+    // } else {
+    //   return <Navigate to="/" replace />; // [PERBAIKAN] Kembali ke root tanpa /id
+    // }
+
+    // 👇 PERBAIKAN: Gunakan daftar role yang benar 👇
+    const allowedRoles = ["superadmin", "admin", "gudang", "accounting"];
+
+    if (allowedRoles.includes(user.usertype)) {
       return <Navigate to="/admin/dashboard" replace />;
     } else {
-      return <Navigate to="/" replace />; // [PERBAIKAN] Kembali ke root tanpa /id
+      return <Navigate to="/" replace />; 
     }
   }
 
