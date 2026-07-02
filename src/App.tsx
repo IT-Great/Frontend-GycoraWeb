@@ -1922,6 +1922,7 @@ import AboutUsPage from "./pages/user/AboutUsPage";
 import AdminEventList from "./pages/admin/AdminEventList";
 import AdminEventForm from "./pages/admin/AdminEventForm";
 import AdminEventDetail from "./pages/admin/AdminEventDetail";
+import AccessPolicyManagement from "./pages/admin/AccessPolicyManagement";
 import EventPage from "./pages/user/EventPage";
 import { LanguageProvider, useLanguage } from "./context/LanguageContext";
 import AutoLogout from "./components/AutoLogout";
@@ -2417,6 +2418,16 @@ export default function App() {
                         <AdminRoute>
                           <AdminLayout>
                             <AdminBusinessPartnerPage />
+                          </AdminLayout>
+                        </AdminRoute>
+                      }
+                    />
+                    <Route
+                      path="/admin/access-policy"
+                      element={
+                        <AdminRoute>
+                          <AdminLayout>
+                            <AccessPolicyManagement />
                           </AdminLayout>
                         </AdminRoute>
                       }

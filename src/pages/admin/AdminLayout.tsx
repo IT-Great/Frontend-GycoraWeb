@@ -5126,6 +5126,20 @@ export default function AdminLayout({
             </Link>
           )}
 
+          {/* ACCESS POLICY (Hanya Superadmin) */}
+          {adminUser?.usertype === "superadmin" && (
+            <Link
+              to="/admin/access-policy"
+              title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Access Policy" : ""}
+              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/access-policy") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+            >
+              <svg className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/access-policy") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Access Policy</span>}
+            </Link>
+          )}
+
           {/* SECTION ACCOUNTING (Hanya Tampil Jika User Punya Minimal 1 Akses Menu Accounting) */}
           {(canAccess("coas") || canAccess("transfer_receive") || canAccess("suppliers") || canAccess("invoices")) && (
             <div className="pt-2 mt-4 border-t border-gray-100">
