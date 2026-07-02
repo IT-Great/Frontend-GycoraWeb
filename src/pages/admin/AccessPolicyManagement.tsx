@@ -14,23 +14,91 @@ interface ModuleDefinition {
 
 // --- KONSTANTA MODUL (Sesuai dengan AdminLayout.tsx) ---
 const AVAILABLE_MODULES: ModuleDefinition[] = [
-  { key: "dashboard", label: "Dashboard", description: "Melihat ringkasan statistik utama." },
-  { key: "categories", label: "Kategori Produk", description: "Mengelola kategori produk." },
-  { key: "products", label: "Katalog Utama (Produk)", description: "Membuat, mengedit, dan menghapus produk." },
-  { key: "stocks", label: "Stok & Batch Gudang", description: "Mengatur pergerakan dan batch stok." },
-  { key: "treatments", label: "Daftar Treatment (Klinik)", description: "Mengelola layanan klinik kecantikan." },
-  { key: "transactions", label: "Transaksi", description: "Memantau dan memproses pesanan." },
-  { key: "sales_report", label: "Laporan Penjualan", description: "Melihat rekapan omzet dan grafik penjualan." },
-  { key: "users", label: "Pelanggan", description: "Melihat data pelanggan aplikasi." },
-  { key: "business_partners", label: "Partner Bisnis", description: "Manajemen data partner/reseller." },
-  { key: "reviews", label: "Ulasan Pelanggan", description: "Memoderasi ulasan produk/treatment." },
-  { key: "events", label: "Events", description: "Mengatur acara atau promo khusus." },
-  { key: "subscribers", label: "Subscribers", description: "Mengelola data langganan email (newsletter)." },
-  { key: "audit_logs", label: "System Logs", description: "Melihat riwayat aktivitas (audit trail)." },
-  { key: "coas", label: "Chart of Accounts", description: "Manajemen kode akun akuntansi." },
-  { key: "transfer_receive", label: "Payments", description: "Mencatat kas masuk/keluar." },
-  { key: "suppliers", label: "Suppliers", description: "Data vendor/pemasok barang." },
-  { key: "invoices", label: "Invoices", description: "Mengelola faktur tagihan." },
+  {
+    key: "dashboard",
+    label: "Dashboard",
+    description: "Melihat ringkasan statistik utama.",
+  },
+  {
+    key: "categories",
+    label: "Kategori Produk",
+    description: "Mengelola kategori produk.",
+  },
+  {
+    key: "products",
+    label: "Katalog Utama (Produk)",
+    description: "Membuat, mengedit, dan menghapus produk.",
+  },
+  {
+    key: "stocks",
+    label: "Stok & Batch Gudang",
+    description: "Mengatur pergerakan dan batch stok.",
+  },
+  {
+    key: "treatments",
+    label: "Daftar Treatment (Klinik)",
+    description: "Mengelola layanan klinik kecantikan.",
+  },
+  {
+    key: "transactions",
+    label: "Transaksi",
+    description: "Memantau dan memproses pesanan.",
+  },
+  {
+    key: "sales_report",
+    label: "Laporan Penjualan",
+    description: "Melihat rekapan omzet dan grafik penjualan.",
+  },
+  {
+    key: "users",
+    label: "Pelanggan",
+    description: "Melihat data pelanggan aplikasi.",
+  },
+  {
+    key: "business_partners",
+    label: "Partner Bisnis",
+    description: "Manajemen data partner/reseller.",
+  },
+  {
+    key: "reviews",
+    label: "Ulasan Pelanggan",
+    description: "Memoderasi ulasan produk/treatment.",
+  },
+  {
+    key: "events",
+    label: "Events",
+    description: "Mengatur acara atau promo khusus.",
+  },
+  {
+    key: "subscribers",
+    label: "Subscribers",
+    description: "Mengelola data langganan email (newsletter).",
+  },
+  {
+    key: "audit_logs",
+    label: "System Logs",
+    description: "Melihat riwayat aktivitas (audit trail).",
+  },
+  {
+    key: "coas",
+    label: "Chart of Accounts",
+    description: "Manajemen kode akun akuntansi.",
+  },
+  {
+    key: "transfer_receive",
+    label: "Payments",
+    description: "Mencatat kas masuk/keluar.",
+  },
+  {
+    key: "suppliers",
+    label: "Suppliers",
+    description: "Data vendor/pemasok barang.",
+  },
+  {
+    key: "invoices",
+    label: "Invoices",
+    description: "Mengelola faktur tagihan.",
+  },
 ];
 
 const ROLES: { id: Role; label: string }[] = [
@@ -59,14 +127,22 @@ export default function AccessPolicyManagement() {
     setIsLoading(true);
     try {
       const token = localStorage.getItem("admin_token");
-      const res = await axios.get(`${BASE_URL}/admin/access-policies`, {
+      //   const res = await axios.get(`${BASE_URL}/admin/access-policies`, {
+      //     headers: { Authorization: `Bearer ${token}` },
+      //   });
+
+      const res = await axios.get(`${BASE_URL}/api/admin/access-policies`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       // Asumsi backend mengembalikan data format JSON yang memetakan Role -> Array of Keys
       setPolicies(res.data.data);
     } catch (error) {
       console.error("Gagal memuat Access Policies", error);
-      Swal.fire("Error", "Gagal mengambil data konfigurasi akses dari server.", "error");
+      Swal.fire(
+        "Error",
+        "Gagal mengambil data konfigurasi akses dari server.",
+        "error",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -103,12 +179,18 @@ export default function AccessPolicyManagement() {
     setIsSaving(true);
     try {
       const token = localStorage.getItem("admin_token");
+      //   await axios.put(
+      //     `${BASE_URL}/admin/access-policies`,
+      //     { policies },
+      //     { headers: { Authorization: `Bearer ${token}` } },
+      //   );
+
       await axios.put(
-        `${BASE_URL}/admin/access-policies`,
+        `${BASE_URL}/api/admin/access-policies`,
         { policies },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
-      
+
       // Simpan juga ke localStorage agar layout langsung tahu tanpa refresh (Opsional)
       localStorage.setItem("admin_access_policies", JSON.stringify(policies));
 
@@ -121,7 +203,11 @@ export default function AccessPolicyManagement() {
       });
     } catch (error) {
       console.error("Gagal menyimpan Access Policies", error);
-      Swal.fire("Gagal!", "Terjadi kesalahan saat menyimpan pengaturan.", "error");
+      Swal.fire(
+        "Gagal!",
+        "Terjadi kesalahan saat menyimpan pengaturan.",
+        "error",
+      );
     } finally {
       setIsSaving(false);
     }
@@ -140,9 +226,13 @@ export default function AccessPolicyManagement() {
       {/* HEADER SECTION */}
       <div className="flex flex-col items-start justify-between gap-4 mb-8 sm:flex-row sm:items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Access Policy</h1>
+          <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+            Access Policy
+          </h1>
           <p className="mt-1 text-sm text-gray-500">
-            Atur visibilitas menu dan otorisasi akses untuk setiap tipe pengguna (Role). Superadmin secara otomatis memiliki akses penuh ke semua modul.
+            Atur visibilitas menu dan otorisasi akses untuk setiap tipe pengguna
+            (Role). Superadmin secara otomatis memiliki akses penuh ke semua
+            modul.
           </p>
         </div>
         <button
@@ -154,8 +244,18 @@ export default function AccessPolicyManagement() {
             "Menyimpan..."
           ) : (
             <>
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+                />
               </svg>
               Simpan Konfigurasi
             </>
@@ -192,20 +292,29 @@ export default function AccessPolicyManagement() {
             <h2 className="text-lg font-bold text-gray-900">
               Pengaturan Akses: {ROLES.find((r) => r.id === activeTab)?.label}
             </h2>
-            <p className="text-sm text-gray-500">Pilih menu mana saja yang boleh dilihat dan diakses oleh Role ini di Dashboard Admin.</p>
+            <p className="text-sm text-gray-500">
+              Pilih menu mana saja yang boleh dilihat dan diakses oleh Role ini
+              di Dashboard Admin.
+            </p>
           </div>
 
           <div className="divide-y divide-gray-100">
             {AVAILABLE_MODULES.map((module) => {
-              const isGranted = policies[activeTab]?.includes(module.key) || false;
+              const isGranted =
+                policies[activeTab]?.includes(module.key) || false;
 
               return (
-                <div key={module.key} className="flex items-center justify-between px-6 py-4 transition-colors hover:bg-gray-50/50">
+                <div
+                  key={module.key}
+                  className="flex items-center justify-between px-6 py-4 transition-colors hover:bg-gray-50/50"
+                >
                   <div className="pr-4">
                     <p className="font-bold text-gray-900">{module.label}</p>
-                    <p className="mt-0.5 text-xs text-gray-500">{module.description}</p>
+                    <p className="mt-0.5 text-xs text-gray-500">
+                      {module.description}
+                    </p>
                   </div>
-                  
+
                   {/* TOGGLE SWITCH */}
                   <button
                     type="button"
