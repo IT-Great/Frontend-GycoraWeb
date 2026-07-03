@@ -716,6 +716,12 @@ const AVAILABLE_MODULES: ModuleDefinition[] = [
     key: "treatments",
     label: "Daftar Treatment (Klinik)",
     description: "Mengelola layanan klinik kecantikan.",
+    actions: [
+      { key: "treatments.create", label: "Tambah Treatment Baru" },
+      { key: "treatments.edit", label: "Ubah (Edit) Treatment" },
+      { key: "treatments.delete", label: "Hapus Treatment" },
+      { key: "treatments.approve", label: "Persetujuan Janji Temu & Konsultasi" },
+    ]
   },
   {
     key: "transactions",
