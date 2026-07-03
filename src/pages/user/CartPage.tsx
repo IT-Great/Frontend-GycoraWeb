@@ -5652,6 +5652,7 @@ export default function CartPage() {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [isProcessingCheckout, setIsProcessingCheckout] = useState(false);
   const [suggestedProducts, setSuggestedProducts] = useState<Product[]>([]);
+  const [rawSuggestedPool, setRawSuggestedPool] = useState<Product[]>([]);
   const [loadingSuggestions, setLoadingSuggestions] = useState(true);
 
   const [qtyInputs, setQtyInputs] = useState<{ [key: number]: string }>({});
@@ -5841,6 +5842,28 @@ export default function CartPage() {
     }
   };
 
+  // useEffect(() => {
+  //   const fetchSuggestions = async () => {
+  //     try {
+  //       const res = await fetch(`${BASE_URL}/api/products`);
+  //       const data = await res.json();
+  //       // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //       const products: any[] = data.data ? data.data : data;
+
+  //       const cartProductIds = contextCartItems.map((item: CartItem) => item.product_id);
+  //       const available = products.filter((p) => !cartProductIds.includes(p.id) && p.stock > 0);
+
+  //       const shuffled = available.sort(() => 0.5 - Math.random());
+  //       setSuggestedProducts(shuffled.slice(0, 4));
+  //     } catch (error) {
+  //       console.error("Gagal memuat rekomendasi:", error);
+  //     } finally {
+  //       setLoadingSuggestions(false);
+  //     }
+  //   };
+  //   fetchSuggestions();
+  // }, [contextCartItems]);
+
   useEffect(() => {
     const fetchSuggestions = async () => {
       try {
@@ -5849,11 +5872,12 @@ export default function CartPage() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const products: any[] = data.data ? data.data : data;
 
-        const cartProductIds = contextCartItems.map((item: CartItem) => item.product_id);
-        const available = products.filter((p) => !cartProductIds.includes(p.id) && p.stock > 0);
-
+        // Hanya ambil yang stoknya ada, lalu ACAK SEKALI SAJA
+        const available = products.filter((p) => p.stock > 0);
         const shuffled = available.sort(() => 0.5 - Math.random());
-        setSuggestedProducts(shuffled.slice(0, 4));
+        
+        // Simpan ke kolam mentah
+        setRawSuggestedPool(shuffled);
       } catch (error) {
         console.error("Gagal memuat rekomendasi:", error);
       } finally {
@@ -5861,7 +5885,20 @@ export default function CartPage() {
       }
     };
     fetchSuggestions();
-  }, [contextCartItems]);
+  }, []);
+
+  useEffect(() => {
+    // Ambil daftar ID produk yang ada di cart saat ini
+    const cartProductIds = localCartItems.map((item) => item.product_id);
+
+    // Saring kolam mentah agar tidak menampilkan produk yang sudah ada di cart
+    // Lalu ambil 4 teratas
+    const finalSuggestions = rawSuggestedPool
+      .filter((p) => !cartProductIds.includes(p.id))
+      .slice(0, 4);
+
+    setSuggestedProducts(finalSuggestions);
+  }, [localCartItems, rawSuggestedPool]);
 
   const addSuggestedProduct = async (product: Product) => {
     const token = localStorage.getItem("user_token");
