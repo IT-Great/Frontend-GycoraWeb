@@ -769,10 +769,16 @@ const AVAILABLE_MODULES: ModuleDefinition[] = [
     description: "Memoderasi ulasan produk/treatment.",
     actions: [{ key: "reviews.delete", label: "Hapus Ulasan Pelanggan" }],
   },
-  {
+{
     key: "events",
     label: "Events",
     description: "Mengatur acara atau promo khusus.",
+    actions: [
+      { key: "events.create", label: "Tambah Event Baru" },
+      { key: "events.edit", label: "Ubah (Edit) Event" },
+      { key: "events.delete", label: "Hapus Event" },
+      { key: "events.detail", label: "Lihat Detail Event" },
+    ]
   },
   {
     key: "subscribers",
