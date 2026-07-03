@@ -753,7 +753,7 @@ const AVAILABLE_MODULES: ModuleDefinition[] = [
     actions: [
       { key: "users.detail", label: "Lihat Detail Pelanggan" },
       { key: "users.chat", label: "Chat dengan Pelanggan" },
-    ]
+    ],
   },
   {
     key: "business_partners",
@@ -761,12 +761,13 @@ const AVAILABLE_MODULES: ModuleDefinition[] = [
     description: "Manajemen data partner/reseller.",
     actions: [
       { key: "business_partners.approve", label: "Setujui/Tolak Kemitraan" },
-    ]
+    ],
   },
   {
     key: "reviews",
     label: "Ulasan Pelanggan",
     description: "Memoderasi ulasan produk/treatment.",
+    actions: [{ key: "reviews.delete", label: "Hapus Ulasan Pelanggan" }],
   },
   {
     key: "events",
