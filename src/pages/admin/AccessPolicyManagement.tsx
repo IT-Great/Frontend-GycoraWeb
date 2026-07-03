@@ -750,6 +750,10 @@ const AVAILABLE_MODULES: ModuleDefinition[] = [
     key: "users",
     label: "Pelanggan",
     description: "Melihat data pelanggan aplikasi.",
+    actions: [
+      { key: "users.detail", label: "Lihat Detail Pelanggan" },
+      { key: "users.chat", label: "Chat dengan Pelanggan" },
+    ]
   },
   {
     key: "business_partners",
