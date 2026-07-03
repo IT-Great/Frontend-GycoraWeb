@@ -741,6 +741,10 @@ const AVAILABLE_MODULES: ModuleDefinition[] = [
     key: "sales_report",
     label: "Laporan Penjualan",
     description: "Melihat rekapan omzet dan grafik penjualan.",
+    // 👇 [PERBAIKAN] Menambahkan sub-aksi untuk membatasi Ekspor Data 👇
+    actions: [
+      { key: "sales_report.export", label: "Ekspor Laporan (PDF/Excel)" },
+    ],
   },
   {
     key: "users",
