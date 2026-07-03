@@ -686,6 +686,12 @@ const AVAILABLE_MODULES: ModuleDefinition[] = [
     key: "categories",
     label: "Kategori Produk",
     description: "Mengelola kategori produk.",
+    // 👇 [PERBAIKAN] Menambahkan sub-aksi (CRUD) untuk Kategori 👇
+    actions: [
+      { key: "categories.create", label: "Tambah Kategori Baru" },
+      { key: "categories.edit", label: "Ubah (Edit) Kategori" },
+      { key: "categories.delete", label: "Hapus Kategori" },
+    ]
   },
   {
     key: "products",
