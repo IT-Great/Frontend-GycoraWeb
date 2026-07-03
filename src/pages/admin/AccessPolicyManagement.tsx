@@ -784,6 +784,9 @@ const AVAILABLE_MODULES: ModuleDefinition[] = [
     key: "subscribers",
     label: "Subscribers",
     description: "Mengelola data langganan email (newsletter).",
+    actions: [
+      { key: "subscribers.detail", label: "Lihat Detail Pelanggan (Mailing List)" },
+    ]
   },
   {
     key: "audit_logs",
