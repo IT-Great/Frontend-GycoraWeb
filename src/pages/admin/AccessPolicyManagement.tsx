@@ -344,7 +344,7 @@
 // import { useState, useEffect } from "react";
 // import axios from "axios";
 // import Swal from "sweetalert2";
-// import { BASE_URL } from "../../config/api"; 
+// import { BASE_URL } from "../../config/api";
 
 // // --- TIPE DATA ---
 // type Role = "admin" | "gudang" | "accounting" | "reseller";
@@ -658,7 +658,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { BASE_URL } from "../../config/api"; 
+import { BASE_URL } from "../../config/api";
 
 // --- TIPE DATA ---
 type Role = "admin" | "gudang" | "accounting" | "reseller";
@@ -672,7 +672,7 @@ interface ModuleDefinition {
   key: string;
   label: string;
   description: string;
-  actions?: ActionDefinition[]; 
+  actions?: ActionDefinition[];
 }
 
 // --- KONSTANTA MODUL ---
@@ -691,7 +691,7 @@ const AVAILABLE_MODULES: ModuleDefinition[] = [
       { key: "categories.create", label: "Tambah Kategori Baru" },
       { key: "categories.edit", label: "Ubah (Edit) Kategori" },
       { key: "categories.delete", label: "Hapus Kategori" },
-    ]
+    ],
   },
   {
     key: "products",
@@ -702,15 +702,13 @@ const AVAILABLE_MODULES: ModuleDefinition[] = [
       { key: "products.edit", label: "Ubah (Edit) Produk" },
       { key: "products.delete", label: "Nonaktifkan (Hapus) Produk" },
       { key: "products.detail", label: "Lihat Detail Produk" },
-    ]
+    ],
   },
   {
     key: "stocks",
     label: "Stok & Batch Gudang",
     description: "Mengatur pergerakan dan batch stok.",
-    actions: [
-      { key: "stocks.create", label: "Tambah Batch Stok Baru" },
-    ]
+    actions: [{ key: "stocks.create", label: "Tambah Batch Stok Baru" }],
   },
   {
     key: "treatments",
@@ -720,13 +718,24 @@ const AVAILABLE_MODULES: ModuleDefinition[] = [
       { key: "treatments.create", label: "Tambah Treatment Baru" },
       { key: "treatments.edit", label: "Ubah (Edit) Treatment" },
       { key: "treatments.delete", label: "Hapus Treatment" },
-      { key: "treatments.approve", label: "Persetujuan Janji Temu & Konsultasi" },
-    ]
+      {
+        key: "treatments.approve",
+        label: "Persetujuan Janji Temu & Konsultasi",
+      },
+    ],
   },
   {
     key: "transactions",
     label: "Transaksi",
     description: "Memantau dan memproses pesanan.",
+    actions: [
+      { key: "transactions.detail", label: "Lihat Detail Transaksi" },
+      {
+        key: "transactions.refund",
+        label: "Setujui/Tolak Pengembalian Dana (Refund)",
+      },
+      { key: "transactions.export", label: "Ekspor Data (PDF/Excel)" },
+    ],
   },
   {
     key: "sales_report",
@@ -797,7 +806,10 @@ export default function AccessPolicyManagement() {
   const [isSaving, setIsSaving] = useState(false);
 
   const [policies, setPolicies] = useState<Record<Role, string[]>>({
-    admin: [], gudang: [], accounting: [], reseller: [],
+    admin: [],
+    gudang: [],
+    accounting: [],
+    reseller: [],
   });
 
   const fetchPolicies = async () => {
@@ -810,7 +822,11 @@ export default function AccessPolicyManagement() {
       setPolicies(res.data.data);
     } catch (error) {
       console.error("Gagal memuat Access Policies", error);
-      Swal.fire("Error", "Gagal mengambil data konfigurasi akses dari server.", "error");
+      Swal.fire(
+        "Error",
+        "Gagal mengambil data konfigurasi akses dari server.",
+        "error",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -861,7 +877,11 @@ export default function AccessPolicyManagement() {
       });
     } catch (error) {
       console.error("Gagal menyimpan Access Policies", error);
-      Swal.fire("Gagal!", "Terjadi kesalahan saat menyimpan pengaturan.", "error");
+      Swal.fire(
+        "Gagal!",
+        "Terjadi kesalahan saat menyimpan pengaturan.",
+        "error",
+      );
     } finally {
       setIsSaving(false);
     }
@@ -880,9 +900,13 @@ export default function AccessPolicyManagement() {
       {/* HEADER SECTION */}
       <div className="flex flex-col items-start justify-between gap-4 mb-8 sm:flex-row sm:items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Access Policy Matrix</h1>
+          <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+            Access Policy Matrix
+          </h1>
           <p className="max-w-3xl mt-1 text-sm text-gray-500">
-            Centang kotak pada matriks di bawah untuk memberikan otorisasi menu atau aksi (CRUD) kepada masing-masing Role. Pengaturan ini akan langsung membatasi akses pada tampilan antarmuka.
+            Centang kotak pada matriks di bawah untuk memberikan otorisasi menu
+            atau aksi (CRUD) kepada masing-masing Role. Pengaturan ini akan
+            langsung membatasi akses pada tampilan antarmuka.
           </p>
         </div>
         <button
@@ -904,7 +928,10 @@ export default function AccessPolicyManagement() {
                   Modul & Aksi
                 </th>
                 {ROLES.map((role) => (
-                  <th key={role.id} className="p-4 text-xs font-bold tracking-wider text-center text-gray-700 uppercase border-b border-gray-200 min-w-[140px]">
+                  <th
+                    key={role.id}
+                    className="p-4 text-xs font-bold tracking-wider text-center text-gray-700 uppercase border-b border-gray-200 min-w-[140px]"
+                  >
                     {role.label}
                   </th>
                 ))}
@@ -917,19 +944,29 @@ export default function AccessPolicyManagement() {
                   <tr className="transition-colors hover:bg-gray-50/50">
                     <td className="sticky left-0 z-10 p-4 bg-white border-r border-gray-100/50">
                       <div className="flex flex-col">
-                        <span className="font-bold text-gray-900">{module.label}</span>
-                        <span className="mt-0.5 text-[10px] text-gray-500 truncate max-w-[250px]">{module.description}</span>
+                        <span className="font-bold text-gray-900">
+                          {module.label}
+                        </span>
+                        <span className="mt-0.5 text-[10px] text-gray-500 truncate max-w-[250px]">
+                          {module.description}
+                        </span>
                       </div>
                     </td>
                     {ROLES.map((role) => {
-                      const isGranted = policies[role.id]?.includes(module.key) || false;
+                      const isGranted =
+                        policies[role.id]?.includes(module.key) || false;
                       return (
-                        <td key={`${module.key}-${role.id}`} className="p-4 text-center align-middle border-x border-gray-50/50">
+                        <td
+                          key={`${module.key}-${role.id}`}
+                          className="p-4 text-center align-middle border-x border-gray-50/50"
+                        >
                           <label className="inline-flex items-center cursor-pointer">
                             <input
                               type="checkbox"
                               checked={isGranted}
-                              onChange={() => handleTogglePermission(role.id, module.key)}
+                              onChange={() =>
+                                handleTogglePermission(role.id, module.key)
+                              }
                               className="w-5 h-5 transition-all border-gray-300 rounded shadow-sm cursor-pointer text-gycora focus:ring-gycora focus:ring-offset-1 hover:border-gycora"
                             />
                           </label>
@@ -939,31 +976,41 @@ export default function AccessPolicyManagement() {
                   </tr>
 
                   {/* CHILD ACTIONS ROWS */}
-                  {module.actions && module.actions.map((action) => (
-                    <tr key={action.key} className="bg-gray-50/30 hover:bg-gray-100/50">
-                      <td className="sticky left-0 z-10 px-4 py-3 border-r bg-gray-50/80 border-gray-100/50 pl-9">
-                        <div className="flex items-center text-xs font-medium text-gray-600">
-                          <span className="mr-2 text-gray-400">↳</span>
-                          {action.label}
-                        </div>
-                      </td>
-                      {ROLES.map((role) => {
-                        const isGranted = policies[role.id]?.includes(action.key) || false;
-                        return (
-                          <td key={`${action.key}-${role.id}`} className="px-4 py-3 text-center align-middle border-x border-gray-50/50">
-                            <label className="inline-flex items-center cursor-pointer">
-                              <input
-                                type="checkbox"
-                                checked={isGranted}
-                                onChange={() => handleTogglePermission(role.id, action.key)}
-                                className="w-4 h-4 transition-all border-gray-300 rounded shadow-sm cursor-pointer text-gycora focus:ring-gycora focus:ring-offset-1 hover:border-gycora"
-                              />
-                            </label>
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  ))}
+                  {module.actions &&
+                    module.actions.map((action) => (
+                      <tr
+                        key={action.key}
+                        className="bg-gray-50/30 hover:bg-gray-100/50"
+                      >
+                        <td className="sticky left-0 z-10 px-4 py-3 border-r bg-gray-50/80 border-gray-100/50 pl-9">
+                          <div className="flex items-center text-xs font-medium text-gray-600">
+                            <span className="mr-2 text-gray-400">↳</span>
+                            {action.label}
+                          </div>
+                        </td>
+                        {ROLES.map((role) => {
+                          const isGranted =
+                            policies[role.id]?.includes(action.key) || false;
+                          return (
+                            <td
+                              key={`${action.key}-${role.id}`}
+                              className="px-4 py-3 text-center align-middle border-x border-gray-50/50"
+                            >
+                              <label className="inline-flex items-center cursor-pointer">
+                                <input
+                                  type="checkbox"
+                                  checked={isGranted}
+                                  onChange={() =>
+                                    handleTogglePermission(role.id, action.key)
+                                  }
+                                  className="w-4 h-4 transition-all border-gray-300 rounded shadow-sm cursor-pointer text-gycora focus:ring-gycora focus:ring-offset-1 hover:border-gycora"
+                                />
+                              </label>
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))}
                 </React.Fragment>
               ))}
             </tbody>
