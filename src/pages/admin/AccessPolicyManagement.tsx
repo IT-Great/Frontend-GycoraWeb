@@ -759,6 +759,9 @@ const AVAILABLE_MODULES: ModuleDefinition[] = [
     key: "business_partners",
     label: "Partner Bisnis",
     description: "Manajemen data partner/reseller.",
+    actions: [
+      { key: "business_partners.approve", label: "Setujui/Tolak Kemitraan" },
+    ]
   },
   {
     key: "reviews",
