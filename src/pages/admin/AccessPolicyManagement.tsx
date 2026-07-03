@@ -708,6 +708,9 @@ const AVAILABLE_MODULES: ModuleDefinition[] = [
     key: "stocks",
     label: "Stok & Batch Gudang",
     description: "Mengatur pergerakan dan batch stok.",
+    actions: [
+      { key: "stocks.create", label: "Tambah Batch Stok Baru" },
+    ]
   },
   {
     key: "treatments",
