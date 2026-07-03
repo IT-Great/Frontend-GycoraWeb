@@ -788,10 +788,14 @@ const AVAILABLE_MODULES: ModuleDefinition[] = [
       { key: "subscribers.detail", label: "Lihat Detail Pelanggan (Mailing List)" },
     ]
   },
-  {
+{
     key: "audit_logs",
     label: "System Logs",
     description: "Melihat riwayat aktivitas (audit trail).",
+    actions: [
+      { key: "audit_logs.detail", label: "Lihat Detail/Payload Log" },
+      { key: "audit_logs.export", label: "Ekspor Data Log (CSV)" },
+    ]
   },
   {
     key: "coas",
