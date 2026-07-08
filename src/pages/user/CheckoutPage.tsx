@@ -618,7 +618,7 @@
 //   const [checkoutItemIds, setCheckoutItemIds] = useState<number[]>([]);
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useCart } from "../../context/CartContext"; 
@@ -664,30 +664,96 @@ export default function CheckoutPage() {
   const [userType, setUserType] = useState<string>('guest');
   const [checkoutItemIds, setCheckoutItemIds] = useState<number[]>([]);
 
+    const itemsToCheckout = useMemo(() => {
+    if (checkoutItemIds.length === 0) return cartItems; // fallback jika langsung tembak URL
+    return cartItems.filter(item => checkoutItemIds.includes(item.id));
+  }, [cartItems, checkoutItemIds]);
+
   // ============================================================================
   // HELPER HARGA MULTI-CURRENCY
   // ============================================================================
-  const getPriceToDisplay = (product: any) => {
-    if (!product) return { value: 0, curr: 'IDR' };
-    const curr = (currency as Currency) || 'IDR';
-    if (curr === 'IDR') return { value: Number(product.price), curr: 'IDR' };
+  // const getPriceToDisplay = (product: any) => {
+  //   if (!product) return { value: 0, curr: 'IDR' };
+  //   const curr = (currency as Currency) || 'IDR';
+  //   if (curr === 'IDR') return { value: Number(product.price), curr: 'IDR' };
   
-    const pricesObj = typeof product.prices === 'string' ? JSON.parse(product.prices) : (product.prices || {});
-    if (pricesObj[curr]) return { value: parseFloat(pricesObj[curr]), curr: curr };
+  //   const pricesObj = typeof product.prices === 'string' ? JSON.parse(product.prices) : (product.prices || {});
+  //   if (pricesObj[curr]) return { value: parseFloat(pricesObj[curr]), curr: curr };
     
-    return { value: Number(product.price), curr: 'IDR' };
-  };
+  //   return { value: Number(product.price), curr: 'IDR' };
+  // };
 
-  const getDiscountToDisplay = (product: any) => {
-    if (!product) return null;
-    const curr = (currency as Currency) || 'IDR';
-    if (curr === 'IDR') return product.discount_price ? { value: Number(product.discount_price), curr: 'IDR' } : null;
+  // const getDiscountToDisplay = (product: any) => {
+  //   if (!product) return null;
+  //   const curr = (currency as Currency) || 'IDR';
+  //   if (curr === 'IDR') return product.discount_price ? { value: Number(product.discount_price), curr: 'IDR' } : null;
   
-    const discObj = typeof product.discount_prices === 'string' ? JSON.parse(product.discount_prices) : (product.discount_prices || {});
-    if (discObj[curr]) return { value: parseFloat(discObj[curr]), curr: curr };
+  //   const discObj = typeof product.discount_prices === 'string' ? JSON.parse(product.discount_prices) : (product.discount_prices || {});
+  //   if (discObj[curr]) return { value: parseFloat(discObj[curr]), curr: curr };
     
-    return product.discount_price ? { value: Number(product.discount_price), curr: 'IDR' } : null;
-  };
+  //   return product.discount_price ? { value: Number(product.discount_price), curr: 'IDR' } : null;
+  // };
+
+  // 1. Definisikan helper yang benar-benar reaktif terhadap 'currency' dari Context
+const getPriceToDisplay = (product: any, curr: Currency) => {
+  if (!product) return { value: 0, curr: 'IDR' };
+  if (curr === 'IDR') return { value: Number(product.price), curr: 'IDR' };
+  
+  const pricesObj = typeof product.prices === 'string' ? JSON.parse(product.prices) : (product.prices || {});
+  if (pricesObj[curr]) return { value: parseFloat(pricesObj[curr]), curr: curr };
+  
+  return { value: Number(product.price), curr: 'IDR' };
+};
+
+const getDiscountToDisplay = (product: any, curr: Currency) => {
+  if (!product) return null;
+  if (curr === 'IDR') return product.discount_price ? { value: Number(product.discount_price), curr: 'IDR' } : null;
+  
+  const discObj = typeof product.discount_prices === 'string' ? JSON.parse(product.discount_prices) : (product.discount_prices || {});
+  if (discObj[curr]) return { value: parseFloat(discObj[curr]), curr: curr };
+  
+  return product.discount_price ? { value: Number(product.discount_price), curr: 'IDR' } : null;
+};
+
+  const totalQuantity = useMemo(() => {
+    return itemsToCheckout.reduce((sum, item) => sum + item.quantity, 0);
+  }, [itemsToCheckout]);
+
+  const getActivePriceObj = useCallback((product: any, totalQty: number, curr: Currency) => {
+  const isReseller = userType === 'reseller';
+  const wholesale = Number(product.wholesale_price) || 0;
+  
+  const dynamicPriceObj = getPriceToDisplay(product, curr);
+  const dynamicDiscountObj = getDiscountToDisplay(product, curr);
+
+  if (isReseller && wholesale > 0 && totalQty >= 24) return { value: wholesale, curr: 'IDR' }; 
+  if (dynamicDiscountObj && dynamicDiscountObj.value > 0 && dynamicDiscountObj.value < dynamicPriceObj.value) return dynamicDiscountObj;
+  return dynamicPriceObj;
+}, [userType, currency]); // Dependencies: userType (state) dan currency (Context)
+
+// 2. Perbarui useMemo agar bergantung pada 'currency'
+const cartSubtotalObj = useMemo(() => {
+  const curr = (currency as Currency) || 'IDR';
+  const totalValue = itemsToCheckout.reduce((total, item) => {
+    // Gunakan fungsi getActivePriceObj yang sudah diupdate agar menerima 'curr'
+    const activePriceObj = getActivePriceObj(item.product, totalQuantity, curr);
+    return total + (activePriceObj.value * item.quantity);
+  }, 0);
+  return { value: totalValue, curr: curr };
+}, [itemsToCheckout, userType, totalQuantity, currency, getActivePriceObj]);
+
+// 3. Pastikan fungsi getActivePriceObj menerima currency
+// const getActivePriceObj = (product: any, totalQty: number, curr: Currency) => {
+//   const isReseller = userType === 'reseller';
+//   const wholesale = Number(product.wholesale_price) || 0;
+  
+//   const dynamicPriceObj = getPriceToDisplay(product, curr); // Lewatkan curr
+//   const dynamicDiscountObj = getDiscountToDisplay(product, curr); // Lewatkan curr
+
+//   if (isReseller && wholesale > 0 && totalQty >= 24) return { value: wholesale, curr: 'IDR' }; 
+//   if (dynamicDiscountObj && dynamicDiscountObj.value > 0 && dynamicDiscountObj.value < dynamicPriceObj.value) return dynamicDiscountObj;
+//   return dynamicPriceObj;
+// };
 
   const formatCurrencyDisplay = (priceObj: {value: number, curr: string} | null) => {
     if (!priceObj) return "";
@@ -707,20 +773,20 @@ export default function CheckoutPage() {
     return { value: idrAmount * (curr === 'IDR' ? 1 : rate), curr: curr };
   };
 
-  const getActivePriceObj = (product: any, totalQty: number) => {
-    const isReseller = userType === 'reseller';
-    const wholesale = Number(product.wholesale_price) || 0;
+  // const getActivePriceObj = (product: any, totalQty: number) => {
+  //   const isReseller = userType === 'reseller';
+  //   const wholesale = Number(product.wholesale_price) || 0;
     
-    const dynamicPriceObj = getPriceToDisplay(product);
-    const dynamicDiscountObj = getDiscountToDisplay(product);
+  //   const dynamicPriceObj = getPriceToDisplay(product);
+  //   const dynamicDiscountObj = getDiscountToDisplay(product);
 
-    // Prioritas 1: Grosir (IDR)
-    if (isReseller && wholesale > 0 && totalQty >= 24) return { value: wholesale, curr: 'IDR' }; 
-    // Prioritas 2: Diskon Multi-currency
-    if (dynamicDiscountObj && dynamicDiscountObj.value > 0 && dynamicDiscountObj.value < dynamicPriceObj.value) return dynamicDiscountObj;
-    // Prioritas 3: Harga Normal Multi-currency
-    return dynamicPriceObj;
-  };
+  //   // Prioritas 1: Grosir (IDR)
+  //   if (isReseller && wholesale > 0 && totalQty >= 24) return { value: wholesale, curr: 'IDR' }; 
+  //   // Prioritas 2: Diskon Multi-currency
+  //   if (dynamicDiscountObj && dynamicDiscountObj.value > 0 && dynamicDiscountObj.value < dynamicPriceObj.value) return dynamicDiscountObj;
+  //   // Prioritas 3: Harga Normal Multi-currency
+  //   return dynamicPriceObj;
+  // };
   // ============================================================================
 
   useEffect(() => {
@@ -741,15 +807,6 @@ export default function CheckoutPage() {
       setCheckoutItemIds(location.state.selectedIds);
     }
   }, [navigate, location.state]);
-
-  const itemsToCheckout = useMemo(() => {
-    if (checkoutItemIds.length === 0) return cartItems; // fallback jika langsung tembak URL
-    return cartItems.filter(item => checkoutItemIds.includes(item.id));
-  }, [cartItems, checkoutItemIds]);
-
-  const totalQuantity = useMemo(() => {
-    return itemsToCheckout.reduce((sum, item) => sum + item.quantity, 0);
-  }, [itemsToCheckout]);
 
   useEffect(() => {
     if (cartItems.length === 0) {
@@ -896,13 +953,13 @@ export default function CheckoutPage() {
   const curr = (currency as Currency) || 'IDR';
   
   // Subtotal (Berdasarkan harga per item dalam mata uang aktif)
-  const cartSubtotalObj = useMemo(() => {
-    const totalValue = itemsToCheckout.reduce((total, item) => {
-      const activePriceObj = getActivePriceObj(item.product, totalQuantity);
-      return total + (activePriceObj.value * item.quantity);
-    }, 0);
-    return { value: totalValue, curr: curr };
-  }, [itemsToCheckout, userType, totalQuantity, currency]);
+  // const cartSubtotalObj = useMemo(() => {
+  //   const totalValue = itemsToCheckout.reduce((total, item) => {
+  //     const activePriceObj = getActivePriceObj(item.product, totalQuantity);
+  //     return total + (activePriceObj.value * item.quantity);
+  //   }, 0);
+  //   return { value: totalValue, curr: curr };
+  // }, [itemsToCheckout, userType, totalQuantity, currency]);
 
   // Kalkulasi Poin (Berdasarkan IDR, karena poin dikonversi dari nominal IDR aslinya 1:1000)
   const baseIDRSubtotal = itemsToCheckout.reduce((sum, item) => {
@@ -1160,7 +1217,7 @@ export default function CheckoutPage() {
               {/* Item Keranjang */}
               <div className="pr-2 mb-6 space-y-4 overflow-y-auto max-h-60">
                 {itemsToCheckout.map((item) => {
-                  const activePriceObj = getActivePriceObj(item.product, totalQuantity);
+                  const activePriceObj = getActivePriceObj(item.product, totalQuantity, curr);
                   const totalGrossObj = { value: activePriceObj.value * item.quantity, curr: activePriceObj.curr };
 
                   return (
