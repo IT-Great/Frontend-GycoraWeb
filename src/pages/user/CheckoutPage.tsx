@@ -646,7 +646,7 @@ export default function CheckoutPage() {
   const navigate = useNavigate(); 
   const location = useLocation();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { t } = useLanguage();
+  // const { t } = useLanguage();
   const [userData, setUserData] = useState<any>(null);
   
   // Ambil state currency dan rate dari Context
