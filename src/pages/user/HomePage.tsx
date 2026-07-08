@@ -12601,10 +12601,7 @@ export default function HomePage() {
   };
 
   // Helper status diskon
-//   const getDiscountStatus = (p: any) => {
-//     const discObj = getDiscountToDisplay(p);
-//     return { active: !!(discObj && discObj.value > 0) }; // Sederhanakan untuk tampilan simpel di home
-//   };
+// s
 
   // [BARU] Pindahkan keyBenefits ke dalam komponen agar bisa menggunakan t()
   const keyBenefits = [
