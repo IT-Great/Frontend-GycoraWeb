@@ -12529,7 +12529,7 @@ const displayReviews = [
 
 export default function HomePage() {
   const navigate = useNavigate();
-  
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
@@ -12537,49 +12537,164 @@ export default function HomePage() {
   const [showPromoModal, setShowPromoModal] = useState(false);
   const [promoEmail, setPromoEmail] = useState("");
   const [isSubscribing, setIsSubscribing] = useState(false);
-  const { t, lang } = useLanguage(); 
+  const { t, lang } = useLanguage();
 
-  const { formatPrice } = useCurrency();
+//   const { formatPrice } = useCurrency();
+
+  const { currency } = useCurrency(); // Gunakan currency dari context
+
+  // ============================================================================
+  // [BARU] HELPER HARGA MULTI-CURRENCY (Disesuaikan dengan arsitektur baru)
+  // ============================================================================
+  const getPriceToDisplay = (product: any) => {
+    if (!product) return { value: 0, curr: "IDR" };
+    const curr = currency || "IDR";
+    if (curr === "IDR") return { value: Number(product.price), curr: "IDR" };
+
+    const pricesObj =
+      typeof product.prices === "string"
+        ? JSON.parse(product.prices)
+        : product.prices || {};
+    if (pricesObj[curr])
+      return { value: parseFloat(pricesObj[curr]), curr: curr };
+    return { value: Number(product.price), curr: "IDR" };
+  };
+
+  const getDiscountToDisplay = (product: any) => {
+    if (!product) return null;
+    const curr = currency || "IDR";
+    if (curr === "IDR")
+      return product.discount_price
+        ? { value: Number(product.discount_price), curr: "IDR" }
+        : null;
+
+    const discObj =
+      typeof product.discount_prices === "string"
+        ? JSON.parse(product.discount_prices)
+        : product.discount_prices || {};
+    if (discObj[curr]) return { value: parseFloat(discObj[curr]), curr: curr };
+    return product.discount_price
+      ? { value: Number(product.discount_price), curr: "IDR" }
+      : null;
+  };
+
+  const formatCurrencyDisplay = (
+    priceObj: { value: number; curr: string } | null,
+  ) => {
+    if (!priceObj) return "";
+    const symbols: any = {
+      USD: "$",
+      SGD: "S$",
+      EUR: "€",
+      AUD: "A$",
+      MYR: "RM",
+      IDR: "Rp ",
+    };
+    const formatter = new Intl.NumberFormat(
+      priceObj.curr === "IDR" ? "id-ID" : "en-US",
+      {
+        minimumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
+        maximumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
+      },
+    );
+    return `${symbols[priceObj.curr] || priceObj.curr + " "}${formatter.format(priceObj.value)}`;
+  };
+
+  // Helper status diskon
+//   const getDiscountStatus = (p: any) => {
+//     const discObj = getDiscountToDisplay(p);
+//     return { active: !!(discObj && discObj.value > 0) }; // Sederhanakan untuk tampilan simpel di home
+//   };
 
   // [BARU] Pindahkan keyBenefits ke dalam komponen agar bisa menggunakan t()
   const keyBenefits = [
     {
       title: t("benefit_1"),
       icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M8 20v-4m4 4v-4m4 4v-4M6 11a6 6 0 0112 0v3a2 2 0 01-2 2H8a2 2 0 01-2-2v-3zM9 5v4m3-4v4m3-4v4" />
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            d="M8 20v-4m4 4v-4m4 4v-4M6 11a6 6 0 0112 0v3a2 2 0 01-2 2H8a2 2 0 01-2-2v-3zM9 5v4m3-4v4m3-4v4"
+          />
         </svg>
       ),
     },
     {
       title: t("benefit_2"),
       icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM13 10V6l-4 6h4v4l4-6h-4z" />
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM13 10V6l-4 6h4v4l4-6h-4z"
+          />
         </svg>
       ),
     },
     {
       title: t("benefit_3"),
       icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 8h16M4 8a2 2 0 00-2 2v8a2 2 0 002 2h16a2 2 0 002-2v-8a2 2 0 00-2-2M4 8V6a2 2 0 012-2h12a2 2 0 012 2v2M9 14h6" />
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            d="M4 8h16M4 8a2 2 0 00-2 2v8a2 2 0 002 2h16a2 2 0 002-2v-8a2 2 0 00-2-2M4 8V6a2 2 0 012-2h12a2 2 0 012 2v2M9 14h6"
+          />
         </svg>
       ),
     },
     {
       title: t("benefit_4"),
       icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 12c1.5-3 3-3 4.5 0s3 3 4.5 0 3-3 4.5 0M4 16c1.5-3 3-3 4.5 0s3 3 4.5 0 3-3 4.5 0M4 8c1.5-3 3-3 4.5 0s3 3 4.5 0 3-3 4.5 0" />
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            d="M4 12c1.5-3 3-3 4.5 0s3 3 4.5 0 3-3 4.5 0M4 16c1.5-3 3-3 4.5 0s3 3 4.5 0 3-3 4.5 0M4 8c1.5-3 3-3 4.5 0s3 3 4.5 0 3-3 4.5 0"
+          />
         </svg>
       ),
     },
     {
       title: t("benefit_5"),
       icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+          />
         </svg>
       ),
     },
@@ -12633,13 +12748,13 @@ export default function HomePage() {
     return () => clearInterval(slideInterval);
   }, []);
 
-//   const formatRupiah = (angka: number) => {
-//     return new Intl.NumberFormat("id-ID", {
-//       style: "currency",
-//       currency: "IDR",
-//       minimumFractionDigits: 0,
-//     }).format(angka || 0);
-//   };
+  //   const formatRupiah = (angka: number) => {
+  //     return new Intl.NumberFormat("id-ID", {
+  //       style: "currency",
+  //       currency: "IDR",
+  //       minimumFractionDigits: 0,
+  //     }).format(angka || 0);
+  //   };
 
   const closePromoModal = () => {
     setShowPromoModal(false);
@@ -12836,7 +12951,8 @@ export default function HomePage() {
         <div className="relative z-10 w-full px-6 pt-6 pb-12 mx-auto max-w-[1236px] sm:px-10 lg:px-16 animate-fade-in-up flex items-center md:min-h-[600px]">
           <div className="w-full text-center md:max-w-xl md:text-left">
             <h1 className="text-3xl font-extrabold leading-tight sm:text-4xl md:text-5xl lg:text-6xl text-[#006A4E]">
-              {t("hero_title1")} <br className="hidden md:block" /> {t("hero_title2")}
+              {t("hero_title1")} <br className="hidden md:block" />{" "}
+              {t("hero_title2")}
             </h1>
             <h2 className="mt-3 text-base font-bold text-gray-900 md:mt-4 sm:text-xl md:text-2xl">
               {t("hero_subtitle")}
@@ -12991,7 +13107,7 @@ export default function HomePage() {
             </div>
           ) : featuredProducts.length > 0 ? (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {featuredProducts.map((product) => {
+              {/* {featuredProducts.map((product) => {
                 let customDesc = product.description;
                 if (product.name.toLowerCase().includes("brush")) {
                   customDesc = t("brush_desc");
@@ -13041,23 +13157,109 @@ export default function HomePage() {
                       <p className="mt-1 text-xs leading-relaxed text-gray-500 md:text-sm line-clamp-3">
                         {customDesc}
                       </p>
+                        <div className="mt-3">
+                            {isDiscounted ? (
+                                <div className="flex flex-col">
+                                    <span className="text-[10px] font-medium text-gray-400 line-through">
+                                        {formatCurrencyDisplay(dynamicPriceObj)}
+                                    </span>
+                                    <span className="text-base font-black leading-none text-rose-500">
+                                        {formatCurrencyDisplay(dynamicDiscountObj)}
+                                    </span>
+                                </div>
+                            ) : (
+                                <span className="block text-base font-black leading-none text-[#006A4E]">
+                                    {formatCurrencyDisplay(dynamicPriceObj)}
+                                </span>
+                            )}
+                        </div>
+                      <button className="px-4 py-1.5 mt-4 text-[10px] font-bold tracking-widest uppercase transition-colors bg-white border border-[#006A4E] rounded-full text-[#006A4E] hover:bg-[#006A4E] hover:text-white w-max">
+                        {t("shop_now")}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })} */}
+              {featuredProducts.map((product) => {
+                // 1. Definisikan variabel di dalam scope map agar setiap produk punya datanya sendiri
+                const dynamicPriceObj = getPriceToDisplay(product);
+                const dynamicDiscountObj = getDiscountToDisplay(product);
+
+                // 2. Tentukan status diskon
+                const isDiscounted = !!(
+                  dynamicDiscountObj &&
+                  dynamicDiscountObj.value > 0 &&
+                  dynamicDiscountObj.value < dynamicPriceObj.value
+                );
+
+                let customDesc = product.description;
+                if (product.name.toLowerCase().includes("brush")) {
+                  customDesc = t("brush_desc");
+                }
+
+                return (
+                  <div
+                    key={product.id}
+                    className="relative flex flex-row p-4 transition-all duration-300 bg-gray-50 border border-gray-100 shadow-sm cursor-pointer rounded-3xl hover:shadow-lg hover:-translate-y-1 hover:border-[#006A4E]/30"
+                    onClick={() =>
+                      navigate(`/${lang}/product/${product.slug}`, {
+                        state: {
+                          initialProduct: product,
+                          allProducts: featuredProducts,
+                        },
+                      })
+                    }
+                  >
+                    <button className="absolute z-10 text-gray-300 top-4 right-4 hover:text-red-500">
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
+                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                        />
+                      </svg>
+                    </button>
+
+                    <div className="flex items-center justify-center w-2/5 p-2 bg-white shrink-0 rounded-2xl">
+                      <img
+                        src={product.image_url}
+                        alt={product.name}
+                        className="object-contain w-full h-28 md:h-32 drop-shadow-sm"
+                      />
+                    </div>
+
+                    <div className="flex flex-col justify-center w-3/5 pl-4 pr-2">
+                      <h3 className="text-sm font-extrabold leading-tight text-[#006A4E] line-clamp-2">
+                        {product.name}
+                      </h3>
+                      <p className="mt-1 text-xs leading-relaxed text-gray-500 md:text-sm line-clamp-3">
+                        {customDesc}
+                      </p>
+
+                      {/* Render Harga Menggunakan Variabel yang Baru Didefinisikan */}
                       <div className="mt-3">
-                        {product.discount_price &&
-                        product.discount_price > 0 ? (
-                          <>
-                            <span className="block text-[10px] font-medium text-gray-400 line-through">
-                              {formatPrice(product.price)}
+                        {isDiscounted ? (
+                          <div className="flex flex-col">
+                            <span className="text-[10px] font-medium text-gray-400 line-through">
+                              {formatCurrencyDisplay(dynamicPriceObj)}
                             </span>
-                            <span className="block text-base font-black leading-none md:text-lg text-rose-500">
-                              {formatPrice(product.discount_price)}
+                            <span className="text-base font-black leading-none text-rose-500">
+                              {formatCurrencyDisplay(dynamicDiscountObj)}
                             </span>
-                          </>
+                          </div>
                         ) : (
-                          <span className="block text-base md:text-lg font-black leading-none text-[#006A4E]">
-                            {formatPrice(product.price)}
+                          <span className="block text-base font-black leading-none text-[#006A4E]">
+                            {formatCurrencyDisplay(dynamicPriceObj)}
                           </span>
                         )}
                       </div>
+
                       <button className="px-4 py-1.5 mt-4 text-[10px] font-bold tracking-widest uppercase transition-colors bg-white border border-[#006A4E] rounded-full text-[#006A4E] hover:bg-[#006A4E] hover:text-white w-max">
                         {t("shop_now")}
                       </button>
@@ -13141,9 +13343,7 @@ export default function HomePage() {
             <h2 className="text-3xl font-extrabold text-[#006A4E]">
               {t("result_title")}
             </h2>
-            <p className="mt-4 text-gray-500">
-              {t("result_desc")}
-            </p>
+            <p className="mt-4 text-gray-500">{t("result_desc")}</p>
           </div>
 
           <div className="relative flex flex-col max-w-4xl mx-auto overflow-hidden border border-gray-200 shadow-xl bg-gray-50 group rounded-3xl">
@@ -13189,9 +13389,7 @@ export default function HomePage() {
             <h2 className="text-3xl font-extrabold text-[#006A4E]">
               {t("social_title")}
             </h2>
-            <p className="mt-4 text-gray-500">
-              {t("social_desc")}
-            </p>
+            <p className="mt-4 text-gray-500">{t("social_desc")}</p>
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
