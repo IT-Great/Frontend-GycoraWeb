@@ -4379,7 +4379,7 @@
 // import Swal from "sweetalert2";
 // import { useCart, type Product } from "../../context/CartContext";
 // import { BASE_URL } from "../../config/api";
-// import { useLanguage } from "../../context/LanguageContext"; 
+// import { useLanguage } from "../../context/LanguageContext";
 // import { useCurrency } from "../../context/CurrencyContext";
 
 // interface CartItem {
@@ -4394,7 +4394,7 @@
 
 // export default function CartPage() {
 //   const navigate = useNavigate();
-//   const { t } = useLanguage(); 
+//   const { t } = useLanguage();
 //   const { formatPrice } = useCurrency();
 
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -4427,7 +4427,7 @@
 //   const getUrlPrefix = () => {
 //     if (location.pathname.startsWith("/id")) return "/id";
 //     if (location.pathname.startsWith("/en")) return "/en";
-//     return ""; 
+//     return "";
 //   };
 //   const urlPrefix = getUrlPrefix();
 
@@ -4670,7 +4670,7 @@
 //     }
 
 //     if (product.color && product.color.length > 0) {
-//       navigate(`${urlPrefix}/product/${product.slug}`); 
+//       navigate(`${urlPrefix}/product/${product.slug}`);
 //       return;
 //     }
 
@@ -4769,7 +4769,7 @@
 //                   // const isDiscounted = currentPrice < item.product.price; // Logika diskon general
 //                   const isDiscounted = currentPrice < Number(item.product.price);
 //                   const isWholesaleActive = userType === 'reseller' && item.product.wholesale_price && item.product.wholesale_price > 0;
-                  
+
 //                   const currentGrossAmount = currentPrice * item.quantity;
 //                   const originalGrossAmount = item.product.price * item.quantity;
 
@@ -5069,7 +5069,7 @@
 // import Swal from "sweetalert2";
 // import { useCart, type Product } from "../../context/CartContext";
 // import { BASE_URL } from "../../config/api";
-// import { useLanguage } from "../../context/LanguageContext"; 
+// import { useLanguage } from "../../context/LanguageContext";
 // import { useCurrency } from "../../context/CurrencyContext";
 
 // interface CartItem {
@@ -5084,7 +5084,7 @@
 
 // export default function CartPage() {
 //   const navigate = useNavigate();
-//   const { t } = useLanguage(); 
+//   const { t } = useLanguage();
 //   const { formatPrice } = useCurrency();
 
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -5110,7 +5110,7 @@
 //   const getUrlPrefix = () => {
 //     if (location.pathname.startsWith("/id")) return "/id";
 //     if (location.pathname.startsWith("/en")) return "/en";
-//     return ""; 
+//     return "";
 //   };
 //   const urlPrefix = getUrlPrefix();
 
@@ -5321,7 +5321,7 @@
 //     }
 
 //     if (product.color && product.color.length > 0) {
-//       navigate(`${urlPrefix}/product/${product.slug}`); 
+//       navigate(`${urlPrefix}/product/${product.slug}`);
 //       return;
 //     }
 
@@ -5377,7 +5377,7 @@
 
 //       <div className="flex flex-col gap-12 lg:flex-row lg:gap-16">
 //         <div className="flex-grow lg:w-2/3 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
-          
+
 //           {/* 👇 [BARU] Banner Indikator MOQ 24 Pcs Khusus Reseller 👇 */}
 //           {userType === 'reseller' && localCartItems.length > 0 && (
 //             <div className={`p-4 mb-6 border rounded-2xl flex items-center justify-between transition-all duration-500 ${selectedTotalQuantity >= 24 ? 'bg-blue-600 border-blue-700 text-white shadow-lg' : 'bg-blue-50 border-blue-200 text-blue-900'}`}>
@@ -5386,8 +5386,8 @@
 //                   {selectedTotalQuantity >= 24 ? '🎉 Harga Grosir Aktif!' : 'Aktifkan Harga Grosir'}
 //                 </h3>
 //                 <p className={`text-xs md:text-sm mt-1 ${selectedTotalQuantity >= 24 ? 'text-blue-100' : 'text-blue-700'}`}>
-//                   {selectedTotalQuantity >= 24 
-//                     ? `Luar biasa! Anda membeli ${selectedTotalQuantity} item dan menikmati harga modal pabrik.` 
+//                   {selectedTotalQuantity >= 24
+//                     ? `Luar biasa! Anda membeli ${selectedTotalQuantity} item dan menikmati harga modal pabrik.`
 //                     : `Centang atau tambah ${24 - selectedTotalQuantity} barang lagi untuk mendapatkan harga reseller.`}
 //                 </p>
 //               </div>
@@ -5420,9 +5420,9 @@
 //               <div className="space-y-8">
 //                 {localCartItems.map((item: CartItem) => {
 //                   const currentPrice = getActivePrice(item.product, selectedTotalQuantity);
-//                   const isDiscounted = currentPrice < Number(item.product.price); 
+//                   const isDiscounted = currentPrice < Number(item.product.price);
 //                   const isWholesaleActive = userType === 'reseller' && Number(item.product.wholesale_price) > 0 && selectedTotalQuantity >= 24;
-                  
+
 //                   const currentGrossAmount = currentPrice * item.quantity;
 //                   const originalGrossAmount = item.product.price * item.quantity;
 
@@ -5616,12 +5616,622 @@
 //   );
 // }
 
+// import { useState, useEffect, useMemo, useRef } from "react";
+// import { useNavigate } from "react-router-dom";
+// import Swal from "sweetalert2";
+// import { useCart, type Product } from "../../context/CartContext";
+// import { BASE_URL } from "../../config/api";
+// import { useLanguage } from "../../context/LanguageContext";
+// import { useCurrency } from "../../context/CurrencyContext";
+
+// interface CartItem {
+//   id: number;
+//   product_id: number;
+//   product_slug: string;
+//   product: Product;
+//   quantity: number;
+//   gross_amount: number;
+//   color?: string | null;
+// }
+
+// export default function CartPage() {
+//   const navigate = useNavigate();
+//   const { t } = useLanguage();
+//   const { formatPrice } = useCurrency();
+
+//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   const {
+//     cartItems: contextCartItems,
+//     fetchCart,
+//     removeCartItemOptimistically,
+//     updateCartItemQtyOptimistically,
+//     revertCartItems,
+//   } = useCart() as any;
+
+//   const [localCartItems, setLocalCartItems] = useState<CartItem[]>([]);
+//   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+//   const [isProcessingCheckout, setIsProcessingCheckout] = useState(false);
+//   const [suggestedProducts, setSuggestedProducts] = useState<Product[]>([]);
+//   const [rawSuggestedPool, setRawSuggestedPool] = useState<Product[]>([]);
+//   const [loadingSuggestions, setLoadingSuggestions] = useState(true);
+
+//   const [qtyInputs, setQtyInputs] = useState<{ [key: number]: string }>({});
+//   const [userType, setUserType] = useState<string>('guest');
+
+//   const debounceTimers = useRef<{ [key: number]: number }>({});
+
+//   const getUrlPrefix = () => {
+//     if (location.pathname.startsWith("/id")) return "/id";
+//     if (location.pathname.startsWith("/en")) return "/en";
+//     return "";
+//   };
+//   const urlPrefix = getUrlPrefix();
+
+//   useEffect(() => {
+//     const userStr = localStorage.getItem("user_data");
+//     if (userStr) {
+//       try {
+//         const user = JSON.parse(userStr);
+//         setUserType(user.usertype || 'user');
+//       } catch (e) {
+//         setUserType('guest');
+//       }
+//     }
+//   }, []);
+
+//   useEffect(() => {
+//     setLocalCartItems(contextCartItems);
+//     const initialInputs: { [key: number]: string } = {};
+//     contextCartItems.forEach((item: CartItem) => {
+//       initialInputs[item.id] = item.quantity.toString();
+//     });
+//     setQtyInputs(initialInputs);
+//   }, [contextCartItems]);
+
+//   useEffect(() => {
+//     setSelectedIds((prev) =>
+//       prev.filter((id) => localCartItems.some((item) => item.id === id)),
+//     );
+//   }, [localCartItems]);
+
+//   const isAllSelected = localCartItems.length > 0 && selectedIds.length === localCartItems.length;
+
+//   const handleSelectAll = () => {
+//     if (isAllSelected) setSelectedIds([]);
+//     else setSelectedIds(localCartItems.map((item) => item.id));
+//   };
+
+//   const handleSelectItem = (id: number) => {
+//     setSelectedIds((prev) =>
+//       prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id],
+//     );
+//   };
+
+//   const selectedTotalQuantity = useMemo(() => {
+//     return localCartItems
+//       .filter((item) => selectedIds.includes(item.id))
+//       .reduce((sum, item) => sum + item.quantity, 0);
+//   }, [localCartItems, selectedIds]);
+
+//   const getActivePrice = (product: Product, totalQty: number) => {
+//     const isReseller = userType === 'reseller';
+//     const wholesale = Number(product.wholesale_price) || 0;
+//     const discount = Number(product.discount_price) || 0;
+//     const price = Number(product.price) || 0;
+
+//     if (isReseller && wholesale > 0 && totalQty >= 24) {
+//       return wholesale;
+//     } else if (discount > 0 && discount < price) {
+//       return discount;
+//     }
+//     return price;
+//   };
+
+//   const checkoutTotalAmount = useMemo(() => {
+//     return localCartItems
+//       .filter((item) => selectedIds.includes(item.id))
+//       .reduce(
+//         (total, item) => total + getActivePrice(item.product, selectedTotalQuantity) * item.quantity,
+//         0,
+//       );
+//   }, [localCartItems, selectedIds, userType, selectedTotalQuantity]);
+
+//   const handleQtyChange = (item: CartItem, newQty: number) => {
+//     if (newQty < 1) newQty = 1;
+//     if (newQty > item.product.stock) {
+//       Swal.fire({
+//         toast: true,
+//         position: "top-end",
+//         icon: "warning",
+//         title: t("cart_max_stock_warning", { stock: item.product.stock.toString() }),
+//         showConfirmButton: false,
+//         timer: 2000,
+//       });
+//       newQty = item.product.stock;
+//     }
+
+//     const token = localStorage.getItem("user_token");
+//     const originalItems = [...localCartItems];
+
+//     // 1. UPDATE UI SECARA INSTAN (Optimistic)
+//     setLocalCartItems((prevItems) =>
+//       prevItems.map((cartItem) =>
+//         cartItem.id === item.id ? { ...cartItem, quantity: newQty } : cartItem,
+//       ),
+//     );
+//     updateCartItemQtyOptimistically(item.id, newQty, 0);
+//     setQtyInputs((prev) => ({ ...prev, [item.id]: newQty.toString() }));
+
+//     // 2. BERSIHKAN TIMER SEBELUMNYA AGAR API MENUNGGU USER SELESAI MENEKAN TOMBOL
+//     if (debounceTimers.current[item.id]) {
+//       window.clearTimeout(debounceTimers.current[item.id]);
+//     }
+
+//     // 3. SET TIMER BARU (Hanya tembak API setelah 800ms user diam)
+//     debounceTimers.current[item.id] = window.setTimeout(async () => {
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/carts/${item.id}`, {
+//           method: "PUT",
+//           headers: {
+//             "Content-Type": "application/json",
+//             Accept: "application/json",
+//             Authorization: `Bearer ${token}`,
+//           },
+//           body: JSON.stringify({ quantity: newQty }),
+//         });
+
+//         if (!res.ok) {
+//           const err = await res.json();
+//           Swal.fire(t("notification"), err.message || t("cart_update_fail"), "warning");
+//           revertCartItems(originalItems);
+//           fetchCart(); // Sinkron ulang HANYA JIKA GAGAL
+//         }
+
+//         // JIKA SUKSES: JANGAN PANGGIL fetchCart() !!
+//         // Biarkan UI yang sudah ter-update memegang kendali agar tidak bentrok dengan klik user di produk lain.
+
+//       } catch (error) {
+//         console.error(error);
+//         Swal.fire(t("error"), t("cart_server_error"), "error");
+//         revertCartItems(originalItems);
+//         fetchCart(); // Sinkron ulang karena server error
+//       }
+//     }, 800);
+//   };
+
+//   const handleInputChange = (itemId: number, value: string) => {
+//     if (value === "" || /^\d+$/.test(value)) {
+//       setQtyInputs((prev) => ({ ...prev, [itemId]: value }));
+//     }
+//   };
+
+//   const handleInputBlur = (item: CartItem) => {
+//     let parsed = parseInt(qtyInputs[item.id]);
+//     if (isNaN(parsed) || parsed < 1) parsed = 1;
+//     handleQtyChange(item, parsed);
+//   };
+
+//   const handleOptimisticDelete = async (id: number) => {
+//     const token = localStorage.getItem("user_token");
+//     const originalItems = [...localCartItems];
+
+//     setLocalCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+//     setSelectedIds((prev) => prev.filter((selectedId) => selectedId !== id));
+//     removeCartItemOptimistically(id);
+
+//     if (debounceTimers.current[id]) {
+//       window.clearTimeout(debounceTimers.current[id]);
+//       delete debounceTimers.current[id];
+//     }
+
+//     try {
+//       const res = await fetch(`${BASE_URL}/api/carts/${id}`, {
+//         method: "DELETE",
+//         headers: { Accept: "application/json", Authorization: `Bearer ${token}` },
+//       });
+
+//       if (!res.ok) {
+//         revertCartItems(originalItems);
+//         Swal.fire(t("notification"), t("cart_delete_fail"), "warning");
+//         fetchCart();
+//       }
+//     } catch (error) {
+//       console.error(error);
+//       revertCartItems(originalItems);
+//       Swal.fire(t("error"), t("cart_delete_fail"), "error");
+//     }
+//   };
+
+//   // useEffect(() => {
+//   //   const fetchSuggestions = async () => {
+//   //     try {
+//   //       const res = await fetch(`${BASE_URL}/api/products`);
+//   //       const data = await res.json();
+//   //       // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   //       const products: any[] = data.data ? data.data : data;
+
+//   //       const cartProductIds = contextCartItems.map((item: CartItem) => item.product_id);
+//   //       const available = products.filter((p) => !cartProductIds.includes(p.id) && p.stock > 0);
+
+//   //       const shuffled = available.sort(() => 0.5 - Math.random());
+//   //       setSuggestedProducts(shuffled.slice(0, 4));
+//   //     } catch (error) {
+//   //       console.error("Gagal memuat rekomendasi:", error);
+//   //     } finally {
+//   //       setLoadingSuggestions(false);
+//   //     }
+//   //   };
+//   //   fetchSuggestions();
+//   // }, [contextCartItems]);
+
+//   useEffect(() => {
+//     const fetchSuggestions = async () => {
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/products`);
+//         const data = await res.json();
+//         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//         const products: any[] = data.data ? data.data : data;
+
+//         // Hanya ambil yang stoknya ada, lalu ACAK SEKALI SAJA
+//         const available = products.filter((p) => p.stock > 0);
+//         const shuffled = available.sort(() => 0.5 - Math.random());
+
+//         // Simpan ke kolam mentah
+//         setRawSuggestedPool(shuffled);
+//       } catch (error) {
+//         console.error("Gagal memuat rekomendasi:", error);
+//       } finally {
+//         setLoadingSuggestions(false);
+//       }
+//     };
+//     fetchSuggestions();
+//   }, []);
+
+//   useEffect(() => {
+//     // Ambil daftar ID produk yang ada di cart saat ini
+//     const cartProductIds = localCartItems.map((item) => item.product_id);
+
+//     // Saring kolam mentah agar tidak menampilkan produk yang sudah ada di cart
+//     // Lalu ambil 4 teratas
+//     const finalSuggestions = rawSuggestedPool
+//       .filter((p) => !cartProductIds.includes(p.id))
+//       .slice(0, 4);
+
+//     setSuggestedProducts(finalSuggestions);
+//   }, [localCartItems, rawSuggestedPool]);
+
+//   const addSuggestedProduct = async (product: Product) => {
+//     const token = localStorage.getItem("user_token");
+//     if (!token) {
+//       navigate(`${urlPrefix}/login`);
+//       return;
+//     }
+
+//     if (product.color && product.color.length > 0) {
+//       navigate(`${urlPrefix}/product/${product.slug}`);
+//       return;
+//     }
+
+//     try {
+//       const res = await fetch(`${BASE_URL}/api/carts`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Accept: "application/json",
+//           Authorization: `Bearer ${token}`,
+//         },
+//         body: JSON.stringify({ product_id: product.slug, quantity: 1 }),
+//       });
+//       if (res.ok) {
+//         Swal.fire({
+//           title: t("added_to_cart"), icon: "success", toast: true,
+//           position: "top-end", timer: 1500, showConfirmButton: false,
+//         });
+//         fetchCart(); // Untuk tambah item baru, fetchCart wajib dipanggil agar memuat ID Cart & Relasinya
+//       }
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
+
+//   const handleCheckout = () => {
+//     if (selectedIds.length === 0) return;
+//     setIsProcessingCheckout(true);
+//     setTimeout(() => {
+//       setIsProcessingCheckout(false);
+//       navigate(`${urlPrefix}/checkout`, { state: { selectedIds: selectedIds } });
+//     }, 800);
+//   };
+
+//   return (
+//     <div className="w-full min-h-screen px-4 py-16 mx-auto overflow-x-hidden font-sans bg-gray-100 max-w-7xl sm:px-6 lg:px-8">
+//       <div className="flex items-center gap-4 mb-10 animate-fade-in-up">
+//         <button
+//           onClick={() => navigate(`${urlPrefix}/products`)}
+//           className="p-2 transition bg-white border border-gray-200 rounded-full shadow-sm hover:bg-gray-50"
+//         >
+//           <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+//             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+//           </svg>
+//         </button>
+//         <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 md:text-5xl">
+//           {t("cart_title")}
+//         </h1>
+//         <span className="ml-2 text-xl font-medium text-gray-400">
+//           {t("cart_items_count", { count: localCartItems.length.toString() })}
+//         </span>
+//       </div>
+
+//       <div className="flex flex-col gap-12 lg:flex-row lg:gap-16">
+//         <div className="flex-grow lg:w-2/3 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
+
+//           {userType === 'reseller' && localCartItems.length > 0 && (
+//             <div className={`p-4 mb-6 border rounded-2xl flex items-center justify-between transition-all duration-500 ${selectedTotalQuantity >= 24 ? 'bg-blue-600 border-blue-700 text-white shadow-lg' : 'bg-blue-50 border-blue-200 text-blue-900'}`}>
+//               <div>
+//                 <h3 className="text-sm font-bold md:text-base">
+//                   {selectedTotalQuantity >= 24 ? '🎉 Harga Grosir Aktif!' : 'Aktifkan Harga Grosir'}
+//                 </h3>
+//                 <p className={`text-xs md:text-sm mt-1 ${selectedTotalQuantity >= 24 ? 'text-blue-100' : 'text-blue-700'}`}>
+//                   {selectedTotalQuantity >= 24
+//                     ? `Luar biasa! Anda membeli ${selectedTotalQuantity} item dan menikmati harga modal pabrik.`
+//                     : `Centang atau tambah ${24 - selectedTotalQuantity} barang lagi untuk mendapatkan harga reseller.`}
+//                 </p>
+//               </div>
+//               <div className="pl-4 shrink-0">
+//                 <div className={`flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full border-4 ${selectedTotalQuantity >= 24 ? 'border-white bg-blue-500' : 'border-blue-300 bg-white'}`}>
+//                   <span className={`font-black text-sm md:text-lg ${selectedTotalQuantity >= 24 ? 'text-white' : 'text-blue-600'}`}>
+//                     {selectedTotalQuantity}/24
+//                   </span>
+//                 </div>
+//               </div>
+//             </div>
+//           )}
+
+//           {localCartItems.length === 0 ? (
+//             <div className="py-20 text-center border border-gray-200 border-dashed rounded-3xl bg-gray-50">
+//               <p className="mb-6 text-2xl font-medium text-gray-400">{t("cart_empty_title")}</p>
+//               <button onClick={() => navigate(`${urlPrefix}/collections/all`)} className="px-8 py-4 text-sm font-bold tracking-widest text-white uppercase transition bg-gray-900 rounded-full shadow-xl hover:bg-black shadow-gray-200">
+//                 {t("btn_start_shopping")}
+//               </button>
+//             </div>
+//           ) : (
+//             <div className="p-6 bg-white border border-gray-100 shadow-sm rounded-3xl sm:p-8">
+//               <div className="flex items-center gap-4 pb-4 mb-4 border-b border-gray-100">
+//                 <input type="checkbox" checked={isAllSelected} onChange={handleSelectAll} id="selectAll" className="w-5 h-5 transition border-gray-300 rounded shadow-sm cursor-pointer text-gycora focus:ring-gycora" />
+//                 <label htmlFor="selectAll" className="text-xs font-bold tracking-widest text-gray-800 uppercase cursor-pointer select-none">
+//                   {t("cart_select_all")}
+//                 </label>
+//               </div>
+
+//               <div className="space-y-8">
+//                 {localCartItems.map((item: CartItem) => {
+//                   const currentPrice = getActivePrice(item.product, selectedTotalQuantity);
+//                   const isDiscounted = currentPrice < Number(item.product.price);
+//                   const isWholesaleActive = userType === 'reseller' && Number(item.product.wholesale_price) > 0 && selectedTotalQuantity >= 24;
+
+//                   const currentGrossAmount = currentPrice * item.quantity;
+//                   const originalGrossAmount = item.product.price * item.quantity;
+
+//                   return (
+//                     <div key={item.id} className="relative flex items-start gap-4 pb-8 border-b border-gray-50 sm:gap-6 last:border-0 last:pb-0">
+//                       <div className="pt-3 sm:pt-12">
+//                         <input type="checkbox" checked={selectedIds.includes(item.id)} onChange={() => handleSelectItem(item.id)} className="w-5 h-5 transition border-gray-300 rounded shadow-sm cursor-pointer text-gycora focus:ring-gycora" />
+//                       </div>
+
+//                       <div className="relative w-24 h-24 overflow-hidden border border-gray-100 cursor-pointer shrink-0 sm:w-40 sm:h-40 rounded-2xl bg-gray-50" onClick={() => navigate(`${urlPrefix}/product/${item.product.slug}`) }>
+//                         <img src={item.product.image_url} alt={item.product.name} className="object-cover w-full h-full transition-transform duration-500 hover:scale-105" />
+//                         {isDiscounted && (
+//                            <div className={`absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm ${isWholesaleActive ? 'bg-blue-600' : 'bg-rose-500'}`}>
+//                             {isWholesaleActive ? 'GROSIR' : t("cart_sale_badge")}
+//                           </div>
+//                         )}
+//                       </div>
+
+//                       <div className="flex flex-col justify-between flex-grow min-h-[6rem] sm:min-h-[10rem]">
+//                         <div>
+//                           <div className="flex items-start justify-between gap-2">
+//                             <h3 className="w-2/3 text-sm font-bold tracking-tight text-gray-900 transition-colors cursor-pointer sm:text-lg hover:text-gycora line-clamp-2" onClick={() => navigate(`${urlPrefix}/product/${item.product.slug}`) }>
+//                               {item.product.name}
+//                             </h3>
+//                             <div className="text-right">
+//                               <p className={`text-sm font-extrabold sm:text-lg whitespace-nowrap ${isWholesaleActive ? 'text-blue-600' : 'text-gycora'}`}>
+//                                 {formatPrice(currentGrossAmount)}
+//                               </p>
+//                               {isDiscounted && (
+//                                 <p className="text-[10px] text-gray-400 line-through">
+//                                   {formatPrice(originalGrossAmount)}
+//                                 </p>
+//                               )}
+//                             </div>
+//                           </div>
+
+//                           {item.color && (() => {
+//                               let hex = item.color as string;
+//                               let name = "";
+//                               try {
+//                                 const parsed = JSON.parse(item.color as string);
+//                                 if (parsed.hex) { hex = parsed.hex; name = parsed.name || ""; }
+//                               } catch {
+//                                 if (Array.isArray(item.product.color)) {
+//                                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//                                   const matched = item.product.color.find((c: any) => (typeof c === "object" && c.hex === item.color) || c === item.color);
+//                                   if (matched && typeof matched === "object") name = matched.name;
+//                                 }
+//                               }
+//                               return (
+//                                 <div className="flex items-center gap-2 mt-2">
+//                                   <span className="text-[10px] font-bold tracking-widest text-gray-400 uppercase">{t("cart_variant_label")}</span>
+//                                   <div className="flex items-center gap-2 px-2 py-1 bg-white border border-gray-200 rounded-md shadow-sm">
+//                                     <span className="w-3 h-3 border border-gray-300 rounded-full shadow-inner shrink-0" style={{ backgroundColor: hex }}></span>
+//                                     <span className="text-[10px] font-bold text-gray-700">{name ? name : <span className="font-mono uppercase">{hex}</span>}</span>
+//                                   </div>
+//                                 </div>
+//                               );
+//                             })()}
+
+//                           <div className="flex flex-wrap items-center mt-2 gap-x-3 gap-y-1">
+//                             {isDiscounted ? (
+//                               <div className="flex items-center gap-2">
+//                                 <p className={`text-xs font-bold ${isWholesaleActive ? 'text-blue-500' : 'text-rose-500'}`}>
+//                                   {formatPrice(currentPrice)} {t("cart_per_pc")}
+//                                 </p>
+//                                 <p className="text-[10px] text-gray-400 line-through">
+//                                   {formatPrice(item.product.price)}
+//                                 </p>
+//                               </div>
+//                             ) : (
+//                               <p className="text-xs italic tracking-wider text-gray-400">
+//                                 {formatPrice(item.product.price)} {t("cart_per_pc")}
+//                               </p>
+//                             )}
+//                             <span className="hidden w-1 h-1 bg-gray-300 rounded-full sm:block"></span>
+//                           </div>
+//                         </div>
+
+//                         <div className="flex flex-col items-start gap-4 mt-4 sm:flex-row sm:justify-between sm:items-end sm:mt-6">
+//                           <div className="flex items-center h-10 overflow-hidden bg-white border border-gray-200 shadow-sm sm:h-12 rounded-xl">
+//                             {/* 👇 [PERBAIKAN] Ambil currentQty secara dinamis dari qtyInputs agar klik cepat tidak membaca data usang 👇 */}
+//                             <button
+//                               onClick={() => {
+//                                 const currentQty = parseInt(qtyInputs[item.id] !== undefined ? qtyInputs[item.id] : item.quantity.toString()) || 1;
+//                                 handleQtyChange(item, currentQty - 1);
+//                               }}
+//                               className="flex items-center justify-center w-10 h-full text-base font-bold text-gray-700 transition-colors sm:w-12 hover:bg-gray-100 hover:text-gycora"
+//                             >
+//                               -
+//                             </button>
+//                             <input
+//                               type="text"
+//                               value={ qtyInputs[item.id] !== undefined ? qtyInputs[item.id] : item.quantity }
+//                               onChange={(e) => handleInputChange(item.id, e.target.value) }
+//                               onBlur={() => handleInputBlur(item)}
+//                               className="w-12 h-full text-sm font-bold text-center text-gray-900 bg-transparent border-none outline-none focus:ring-0 sm:text-base"
+//                             />
+//                             <button
+//                               onClick={() => {
+//                                 const currentQty = parseInt(qtyInputs[item.id] !== undefined ? qtyInputs[item.id] : item.quantity.toString()) || 1;
+//                                 handleQtyChange(item, currentQty + 1);
+//                               }}
+//                               className="flex items-center justify-center w-10 h-full text-base font-bold text-gray-700 transition-colors sm:w-12 hover:bg-gray-100 hover:text-gycora"
+//                             >
+//                               +
+//                             </button>
+//                           </div>
+//                           <button onClick={() => handleOptimisticDelete(item.id)} className="flex items-center gap-2 text-[10px] sm:text-xs font-bold tracking-widest text-gray-400 uppercase transition-colors group hover:text-red-500">
+//                             <svg className="w-4 h-4 transition-transform sm:w-5 sm:h-5 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+//                             </svg> {t("btn_remove")}
+//                           </button>
+//                         </div>
+//                       </div>
+//                     </div>
+//                   );
+//                 })}
+//               </div>
+//             </div>
+//           )}
+
+//           {/* SUGGESTED PRODUCTS SECTION */}
+//           <div className="pt-12 mt-12 border-t border-gray-100">
+//             <h3 className="mb-6 text-sm font-bold tracking-widest text-gray-900 uppercase">
+//               {t("cart_suggest_title")}
+//             </h3>
+//             {loadingSuggestions ? (
+//               <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+//                 {[1, 2, 3, 4].map((i) => (
+//                   <div key={i} className="flex flex-col gap-2">
+//                     <div className="bg-gray-100 aspect-square rounded-2xl animate-pulse"></div>
+//                     <div className="w-3/4 h-3 mt-1 bg-gray-100 rounded animate-pulse"></div>
+//                     <div className="w-1/2 h-3 bg-gray-100 rounded animate-pulse"></div>
+//                   </div>
+//                 ))}
+//               </div>
+//             ) : suggestedProducts.length > 0 ? (
+//               <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+//                 {suggestedProducts.map((product) => {
+//                   const currentSugPrice = getActivePrice(product, selectedTotalQuantity);
+//                   const isSugDiscounted = currentSugPrice < Number(product.price);
+//                   const isSugWholesale = userType === 'reseller' && Number(product.wholesale_price) > 0 && selectedTotalQuantity >= 24;
+
+//                   return (
+//                     <div key={product.id} className="flex flex-col group">
+//                       <div
+//                         className="relative mb-3 overflow-hidden border border-gray-100 cursor-pointer aspect-square rounded-2xl bg-gray-50"
+//                         onClick={() => navigate(`${urlPrefix}/product/${product.slug}`, { state: { initialProduct: product, allProducts: suggestedProducts }, }) }
+//                       >
+//                         <img src={product.image_url} alt={product.name} className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" />
+//                         {isSugDiscounted && (
+//                           <div className={`absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm ${isSugWholesale ? 'bg-blue-600' : 'bg-rose-500'}`}>
+//                             {isSugWholesale ? 'GROSIR' : t("cart_sale_badge")}
+//                           </div>
+//                         )}
+//                       </div>
+//                       <h4 className="mb-1 text-[11px] font-bold tracking-wide text-gray-900 uppercase truncate">{product.name}</h4>
+//                       {isSugDiscounted ? (
+//                         <div className="mb-3">
+//                           <p className={`text-xs font-bold ${isSugWholesale ? 'text-blue-500' : 'text-rose-500'}`}>{formatPrice(currentSugPrice)}</p>
+//                           <p className="text-[9px] text-gray-400 line-through">{formatPrice(product.price)}</p>
+//                         </div>
+//                       ) : (
+//                         <p className="mb-3 text-xs font-bold text-gycora">{formatPrice(product.price)}</p>
+//                       )}
+//                       <button onClick={() => addSuggestedProduct(product)} className="px-3 py-2 mt-auto text-[9px] font-bold tracking-widest text-gray-700 uppercase transition-all duration-300 border border-gray-200 rounded-xl hover:border-gray-900 hover:bg-gray-900 hover:text-white">
+//                         {product.color && product.color.length > 0 ? t("btn_choose_variant") : t("btn_add_plus")}
+//                       </button>
+//                     </div>
+//                   );
+//                 })}
+//               </div>
+//             ) : null}
+//           </div>
+//         </div>
+
+//         {/* RIGHT SIDE: CART SUMMARY */}
+//         {localCartItems.length > 0 && (
+//           <div className="lg:w-1/3 animate-fade-in-up" style={{ animationDelay: "200ms" }}>
+//             <div className="sticky p-8 bg-gray-50/50 border border-gray-100 rounded-[2rem] top-32 shadow-sm">
+//               <h2 className="pb-4 mb-8 text-lg font-bold tracking-widest text-gray-900 uppercase border-b border-gray-200">
+//                 {t("cart_summary_title")}
+//               </h2>
+//               <div className="mb-8 space-y-4">
+//                 <div className="flex justify-between text-sm text-gray-600">
+//                   <span>{t("cart_selected_items")}</span>
+//                   <span className="font-bold text-gray-900">{selectedTotalQuantity} Pcs</span>
+//                 </div>
+//                 <div className="flex items-end justify-between pt-4 border-t border-gray-200">
+//                   <span className="text-xs font-bold tracking-[0.2em] text-gray-500 uppercase">{t("cart_estimated_total")}</span>
+//                   <span className="text-2xl font-black text-gycora">{formatPrice(checkoutTotalAmount)}</span>
+//                 </div>
+//                 <p className="mt-1 text-right text-[10px] italic text-gray-400">{t("cart_tax_shipping_note")}</p>
+//               </div>
+//               <button
+//                 onClick={handleCheckout}
+//                 disabled={isProcessingCheckout || selectedIds.length === 0}
+//                 className="flex items-center justify-center w-full gap-3 py-5 text-sm font-bold tracking-[0.2em] text-white uppercase transition-all duration-300 shadow-xl bg-gray-900 rounded-2xl hover:bg-black disabled:bg-gray-300 hover:shadow-black/20"
+//               >
+//                 {!isProcessingCheckout ? (
+//                   t("btn_checkout", { count: selectedIds.length.toString() })
+//                 ) : (
+//                   <span className="flex items-center gap-2">
+//                     <div className="w-4 h-4 border-2 rounded-full border-white/40 border-t-white animate-spin"></div>
+//                     {t("cart_processing")}
+//                   </span>
+//                 )}
+//               </button>
+//             </div>
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
+
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useCart, type Product } from "../../context/CartContext";
 import { BASE_URL } from "../../config/api";
-import { useLanguage } from "../../context/LanguageContext"; 
+import { useLanguage } from "../../context/LanguageContext";
 import { useCurrency } from "../../context/CurrencyContext";
 
 interface CartItem {
@@ -5634,10 +6244,15 @@ interface CartItem {
   color?: string | null;
 }
 
+// Tambahkan Type Currency
+type Currency = "IDR" | "USD" | "SGD" | "MYR" | "EUR" | "AUD";
+
 export default function CartPage() {
   const navigate = useNavigate();
-  const { t } = useLanguage(); 
-  const { formatPrice } = useCurrency();
+  const { t } = useLanguage();
+
+  // 👇 Gunakan state currency dari Context 👇
+  const { currency } = useCurrency();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const {
@@ -5656,14 +6271,14 @@ export default function CartPage() {
   const [loadingSuggestions, setLoadingSuggestions] = useState(true);
 
   const [qtyInputs, setQtyInputs] = useState<{ [key: number]: string }>({});
-  const [userType, setUserType] = useState<string>('guest');
+  const [userType, setUserType] = useState<string>("guest");
 
   const debounceTimers = useRef<{ [key: number]: number }>({});
 
   const getUrlPrefix = () => {
     if (location.pathname.startsWith("/id")) return "/id";
     if (location.pathname.startsWith("/en")) return "/en";
-    return ""; 
+    return "";
   };
   const urlPrefix = getUrlPrefix();
 
@@ -5672,9 +6287,9 @@ export default function CartPage() {
     if (userStr) {
       try {
         const user = JSON.parse(userStr);
-        setUserType(user.usertype || 'user');
+        setUserType(user.usertype || "user");
       } catch (e) {
-        setUserType('guest');
+        setUserType("guest");
       }
     }
   }, []);
@@ -5694,7 +6309,8 @@ export default function CartPage() {
     );
   }, [localCartItems]);
 
-  const isAllSelected = localCartItems.length > 0 && selectedIds.length === localCartItems.length;
+  const isAllSelected =
+    localCartItems.length > 0 && selectedIds.length === localCartItems.length;
 
   const handleSelectAll = () => {
     if (isAllSelected) setSelectedIds([]);
@@ -5703,7 +6319,9 @@ export default function CartPage() {
 
   const handleSelectItem = (id: number) => {
     setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id],
+      prev.includes(id)
+        ? prev.filter((itemId) => itemId !== id)
+        : [...prev, id],
     );
   };
 
@@ -5713,28 +6331,112 @@ export default function CartPage() {
       .reduce((sum, item) => sum + item.quantity, 0);
   }, [localCartItems, selectedIds]);
 
-  const getActivePrice = (product: Product, totalQty: number) => {
-    const isReseller = userType === 'reseller';
-    const wholesale = Number(product.wholesale_price) || 0;
-    const discount = Number(product.discount_price) || 0;
-    const price = Number(product.price) || 0;
+  // ============================================================================
+  // [BARU] HELPER HARGA MULTI-CURRENCY
+  // ============================================================================
+  const getPriceToDisplay = (product: Product | null) => {
+    if (!product) return { value: 0, curr: "IDR" };
+    const curr = (currency as Currency) || "IDR";
+    if (curr === "IDR") return { value: product.price, curr: "IDR" };
 
-    if (isReseller && wholesale > 0 && totalQty >= 24) {
-      return wholesale;
-    } else if (discount > 0 && discount < price) {
-      return discount;
+    const pricesObj =
+      typeof product.prices === "string"
+        ? JSON.parse(product.prices)
+        : product.prices || {};
+    if (pricesObj[curr]) {
+      return { value: parseFloat(pricesObj[curr]), curr: curr };
     }
-    return price;
+    return { value: product.price, curr: "IDR" };
   };
 
-  const checkoutTotalAmount = useMemo(() => {
-    return localCartItems
+  const getDiscountToDisplay = (product: Product | null) => {
+    if (!product) return null;
+    const curr = (currency as Currency) || "IDR";
+    if (curr === "IDR")
+      return product.discount_price
+        ? { value: product.discount_price, curr: "IDR" }
+        : null;
+
+    const discObj =
+      typeof product.discount_prices === "string"
+        ? JSON.parse(product.discount_prices)
+        : product.discount_prices || {};
+    if (discObj[curr]) {
+      return { value: parseFloat(discObj[curr]), curr: curr };
+    }
+    return product.discount_price
+      ? { value: product.discount_price, curr: "IDR" }
+      : null;
+  };
+
+  const formatCurrencyDisplay = (
+    priceObj: { value: number; curr: string } | null,
+  ) => {
+    if (!priceObj) return "";
+    const symbols: any = {
+      USD: "$",
+      SGD: "S$",
+      EUR: "€",
+      AUD: "A$",
+      MYR: "RM",
+      IDR: "Rp ",
+    };
+
+    const formatter = new Intl.NumberFormat(
+      priceObj.curr === "IDR" ? "id-ID" : "en-US",
+      {
+        minimumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
+        maximumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
+      },
+    );
+
+    return `${symbols[priceObj.curr] || priceObj.curr + " "}${formatter.format(priceObj.value)}`;
+  };
+
+  // 👇 [PERBAIKAN] Logika Penentuan Harga Aktif dengan Multi-Currency 👇
+  const getActivePriceObj = (product: Product, totalQty: number) => {
+    const isReseller = userType === "reseller";
+    const wholesale = Number(product.wholesale_price) || 0;
+
+    const dynamicPriceObj = getPriceToDisplay(product);
+    const dynamicDiscountObj = getDiscountToDisplay(product);
+
+    // Prioritas 1: Harga Grosir (selalu IDR jika dari DB)
+    if (isReseller && wholesale > 0 && totalQty >= 24) {
+      return { value: wholesale, curr: "IDR" };
+    }
+    // Prioritas 2: Harga Diskon Multi-Currency
+    else if (
+      dynamicDiscountObj &&
+      dynamicDiscountObj.value > 0 &&
+      dynamicDiscountObj.value < dynamicPriceObj.value
+    ) {
+      return dynamicDiscountObj;
+    }
+    // Prioritas 3: Harga Normal Multi-Currency
+    return dynamicPriceObj;
+  };
+
+  // Kalkulasi Total Belanja
+  const checkoutTotalAmountObj = useMemo(() => {
+    const curr = (currency as Currency) || "IDR";
+    const totalValue = localCartItems
       .filter((item) => selectedIds.includes(item.id))
-      .reduce(
-        (total, item) => total + getActivePrice(item.product, selectedTotalQuantity) * item.quantity,
-        0,
-      );
-  }, [localCartItems, selectedIds, userType, selectedTotalQuantity]);
+      .reduce((total, item) => {
+        const activePriceObj = getActivePriceObj(
+          item.product,
+          selectedTotalQuantity,
+        );
+
+        // Peringatan: Logika ini mengasumsikan semua item dalam cart yang dicheckout
+        // akan di-render menggunakan kurs mata uang yang sama (curr).
+        // Jika ada Grosir (IDR), dia akan merender 'IDR' di baris total.
+        return total + activePriceObj.value * item.quantity;
+      }, 0);
+
+    return { value: totalValue, curr: curr };
+  }, [localCartItems, selectedIds, userType, selectedTotalQuantity, currency]);
+  // ============================================================================
 
   const handleQtyChange = (item: CartItem, newQty: number) => {
     if (newQty < 1) newQty = 1;
@@ -5743,7 +6445,9 @@ export default function CartPage() {
         toast: true,
         position: "top-end",
         icon: "warning",
-        title: t("cart_max_stock_warning", { stock: item.product.stock.toString() }),
+        title: t("cart_max_stock_warning", {
+          stock: item.product.stock.toString(),
+        }),
         showConfirmButton: false,
         timer: 2000,
       });
@@ -5759,7 +6463,7 @@ export default function CartPage() {
         cartItem.id === item.id ? { ...cartItem, quantity: newQty } : cartItem,
       ),
     );
-    updateCartItemQtyOptimistically(item.id, newQty, 0); 
+    updateCartItemQtyOptimistically(item.id, newQty, 0);
     setQtyInputs((prev) => ({ ...prev, [item.id]: newQty.toString() }));
 
     // 2. BERSIHKAN TIMER SEBELUMNYA AGAR API MENUNGGU USER SELESAI MENEKAN TOMBOL
@@ -5782,19 +6486,19 @@ export default function CartPage() {
 
         if (!res.ok) {
           const err = await res.json();
-          Swal.fire(t("notification"), err.message || t("cart_update_fail"), "warning");
+          Swal.fire(
+            t("notification"),
+            err.message || t("cart_update_fail"),
+            "warning",
+          );
           revertCartItems(originalItems);
-          fetchCart(); // Sinkron ulang HANYA JIKA GAGAL
+          fetchCart();
         }
-        
-        // JIKA SUKSES: JANGAN PANGGIL fetchCart() !! 
-        // Biarkan UI yang sudah ter-update memegang kendali agar tidak bentrok dengan klik user di produk lain.
-        
       } catch (error) {
         console.error(error);
         Swal.fire(t("error"), t("cart_server_error"), "error");
         revertCartItems(originalItems);
-        fetchCart(); // Sinkron ulang karena server error
+        fetchCart();
       }
     }, 800);
   };
@@ -5815,7 +6519,9 @@ export default function CartPage() {
     const token = localStorage.getItem("user_token");
     const originalItems = [...localCartItems];
 
-    setLocalCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    setLocalCartItems((prevItems) =>
+      prevItems.filter((item) => item.id !== id),
+    );
     setSelectedIds((prev) => prev.filter((selectedId) => selectedId !== id));
     removeCartItemOptimistically(id);
 
@@ -5827,7 +6533,10 @@ export default function CartPage() {
     try {
       const res = await fetch(`${BASE_URL}/api/carts/${id}`, {
         method: "DELETE",
-        headers: { Accept: "application/json", Authorization: `Bearer ${token}` },
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (!res.ok) {
@@ -5842,28 +6551,6 @@ export default function CartPage() {
     }
   };
 
-  // useEffect(() => {
-  //   const fetchSuggestions = async () => {
-  //     try {
-  //       const res = await fetch(`${BASE_URL}/api/products`);
-  //       const data = await res.json();
-  //       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //       const products: any[] = data.data ? data.data : data;
-
-  //       const cartProductIds = contextCartItems.map((item: CartItem) => item.product_id);
-  //       const available = products.filter((p) => !cartProductIds.includes(p.id) && p.stock > 0);
-
-  //       const shuffled = available.sort(() => 0.5 - Math.random());
-  //       setSuggestedProducts(shuffled.slice(0, 4));
-  //     } catch (error) {
-  //       console.error("Gagal memuat rekomendasi:", error);
-  //     } finally {
-  //       setLoadingSuggestions(false);
-  //     }
-  //   };
-  //   fetchSuggestions();
-  // }, [contextCartItems]);
-
   useEffect(() => {
     const fetchSuggestions = async () => {
       try {
@@ -5872,11 +6559,9 @@ export default function CartPage() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const products: any[] = data.data ? data.data : data;
 
-        // Hanya ambil yang stoknya ada, lalu ACAK SEKALI SAJA
         const available = products.filter((p) => p.stock > 0);
         const shuffled = available.sort(() => 0.5 - Math.random());
-        
-        // Simpan ke kolam mentah
+
         setRawSuggestedPool(shuffled);
       } catch (error) {
         console.error("Gagal memuat rekomendasi:", error);
@@ -5888,11 +6573,7 @@ export default function CartPage() {
   }, []);
 
   useEffect(() => {
-    // Ambil daftar ID produk yang ada di cart saat ini
     const cartProductIds = localCartItems.map((item) => item.product_id);
-
-    // Saring kolam mentah agar tidak menampilkan produk yang sudah ada di cart
-    // Lalu ambil 4 teratas
     const finalSuggestions = rawSuggestedPool
       .filter((p) => !cartProductIds.includes(p.id))
       .slice(0, 4);
@@ -5907,8 +6588,9 @@ export default function CartPage() {
       return;
     }
 
-    if (product.color && product.color.length > 0) {
-      navigate(`${urlPrefix}/product/${product.slug}`); 
+    // if (product.color && product.color.length > 0) {
+    if (Array.isArray(product.color) && product.color.length > 0) {
+      navigate(`${urlPrefix}/product/${product.slug}`);
       return;
     }
 
@@ -5924,10 +6606,14 @@ export default function CartPage() {
       });
       if (res.ok) {
         Swal.fire({
-          title: t("added_to_cart"), icon: "success", toast: true,
-          position: "top-end", timer: 1500, showConfirmButton: false,
+          title: t("added_to_cart"),
+          icon: "success",
+          toast: true,
+          position: "top-end",
+          timer: 1500,
+          showConfirmButton: false,
         });
-        fetchCart(); // Untuk tambah item baru, fetchCart wajib dipanggil agar memuat ID Cart & Relasinya
+        fetchCart();
       }
     } catch (error) {
       console.error(error);
@@ -5939,7 +6625,9 @@ export default function CartPage() {
     setIsProcessingCheckout(true);
     setTimeout(() => {
       setIsProcessingCheckout(false);
-      navigate(`${urlPrefix}/checkout`, { state: { selectedIds: selectedIds } });
+      navigate(`${urlPrefix}/checkout`, {
+        state: { selectedIds: selectedIds },
+      });
     }, 800);
   };
 
@@ -5950,8 +6638,18 @@ export default function CartPage() {
           onClick={() => navigate(`${urlPrefix}/products`)}
           className="p-2 transition bg-white border border-gray-200 rounded-full shadow-sm hover:bg-gray-50"
         >
-          <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          <svg
+            className="w-5 h-5 text-gray-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15 19l-7-7 7-7"
+            />
           </svg>
         </button>
         <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 md:text-5xl">
@@ -5963,23 +6661,35 @@ export default function CartPage() {
       </div>
 
       <div className="flex flex-col gap-12 lg:flex-row lg:gap-16">
-        <div className="flex-grow lg:w-2/3 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
-          
-          {userType === 'reseller' && localCartItems.length > 0 && (
-            <div className={`p-4 mb-6 border rounded-2xl flex items-center justify-between transition-all duration-500 ${selectedTotalQuantity >= 24 ? 'bg-blue-600 border-blue-700 text-white shadow-lg' : 'bg-blue-50 border-blue-200 text-blue-900'}`}>
+        <div
+          className="flex-grow lg:w-2/3 animate-fade-in-up"
+          style={{ animationDelay: "100ms" }}
+        >
+          {userType === "reseller" && localCartItems.length > 0 && (
+            <div
+              className={`p-4 mb-6 border rounded-2xl flex items-center justify-between transition-all duration-500 ${selectedTotalQuantity >= 24 ? "bg-blue-600 border-blue-700 text-white shadow-lg" : "bg-blue-50 border-blue-200 text-blue-900"}`}
+            >
               <div>
                 <h3 className="text-sm font-bold md:text-base">
-                  {selectedTotalQuantity >= 24 ? '🎉 Harga Grosir Aktif!' : 'Aktifkan Harga Grosir'}
+                  {selectedTotalQuantity >= 24
+                    ? "🎉 Harga Grosir Aktif!"
+                    : "Aktifkan Harga Grosir"}
                 </h3>
-                <p className={`text-xs md:text-sm mt-1 ${selectedTotalQuantity >= 24 ? 'text-blue-100' : 'text-blue-700'}`}>
-                  {selectedTotalQuantity >= 24 
-                    ? `Luar biasa! Anda membeli ${selectedTotalQuantity} item dan menikmati harga modal pabrik.` 
+                <p
+                  className={`text-xs md:text-sm mt-1 ${selectedTotalQuantity >= 24 ? "text-blue-100" : "text-blue-700"}`}
+                >
+                  {selectedTotalQuantity >= 24
+                    ? `Luar biasa! Anda membeli ${selectedTotalQuantity} item dan menikmati harga modal pabrik.`
                     : `Centang atau tambah ${24 - selectedTotalQuantity} barang lagi untuk mendapatkan harga reseller.`}
                 </p>
               </div>
               <div className="pl-4 shrink-0">
-                <div className={`flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full border-4 ${selectedTotalQuantity >= 24 ? 'border-white bg-blue-500' : 'border-blue-300 bg-white'}`}>
-                  <span className={`font-black text-sm md:text-lg ${selectedTotalQuantity >= 24 ? 'text-white' : 'text-blue-600'}`}>
+                <div
+                  className={`flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full border-4 ${selectedTotalQuantity >= 24 ? "border-white bg-blue-500" : "border-blue-300 bg-white"}`}
+                >
+                  <span
+                    className={`font-black text-sm md:text-lg ${selectedTotalQuantity >= 24 ? "text-white" : "text-blue-600"}`}
+                  >
                     {selectedTotalQuantity}/24
                   </span>
                 </div>
@@ -5989,40 +6699,91 @@ export default function CartPage() {
 
           {localCartItems.length === 0 ? (
             <div className="py-20 text-center border border-gray-200 border-dashed rounded-3xl bg-gray-50">
-              <p className="mb-6 text-2xl font-medium text-gray-400">{t("cart_empty_title")}</p>
-              <button onClick={() => navigate(`${urlPrefix}/collections/all`)} className="px-8 py-4 text-sm font-bold tracking-widest text-white uppercase transition bg-gray-900 rounded-full shadow-xl hover:bg-black shadow-gray-200">
+              <p className="mb-6 text-2xl font-medium text-gray-400">
+                {t("cart_empty_title")}
+              </p>
+              <button
+                onClick={() => navigate(`${urlPrefix}/collections/all`)}
+                className="px-8 py-4 text-sm font-bold tracking-widest text-white uppercase transition bg-gray-900 rounded-full shadow-xl hover:bg-black shadow-gray-200"
+              >
                 {t("btn_start_shopping")}
               </button>
             </div>
           ) : (
             <div className="p-6 bg-white border border-gray-100 shadow-sm rounded-3xl sm:p-8">
               <div className="flex items-center gap-4 pb-4 mb-4 border-b border-gray-100">
-                <input type="checkbox" checked={isAllSelected} onChange={handleSelectAll} id="selectAll" className="w-5 h-5 transition border-gray-300 rounded shadow-sm cursor-pointer text-gycora focus:ring-gycora" />
-                <label htmlFor="selectAll" className="text-xs font-bold tracking-widest text-gray-800 uppercase cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={isAllSelected}
+                  onChange={handleSelectAll}
+                  id="selectAll"
+                  className="w-5 h-5 transition border-gray-300 rounded shadow-sm cursor-pointer text-gycora focus:ring-gycora"
+                />
+                <label
+                  htmlFor="selectAll"
+                  className="text-xs font-bold tracking-widest text-gray-800 uppercase cursor-pointer select-none"
+                >
                   {t("cart_select_all")}
                 </label>
               </div>
 
               <div className="space-y-8">
                 {localCartItems.map((item: CartItem) => {
-                  const currentPrice = getActivePrice(item.product, selectedTotalQuantity);
-                  const isDiscounted = currentPrice < Number(item.product.price); 
-                  const isWholesaleActive = userType === 'reseller' && Number(item.product.wholesale_price) > 0 && selectedTotalQuantity >= 24;
-                  
-                  const currentGrossAmount = currentPrice * item.quantity;
-                  const originalGrossAmount = item.product.price * item.quantity;
+                  // 👇 PERBAIKAN: Gunakan helper harga Multi-Currency 👇
+                  const activePriceObj = getActivePriceObj(
+                    item.product,
+                    selectedTotalQuantity,
+                  );
+                  const basePriceObj = getPriceToDisplay(item.product);
+
+                  const isDiscounted =
+                    activePriceObj.value < basePriceObj.value;
+                  const isWholesaleActive =
+                    userType === "reseller" &&
+                    Number(item.product.wholesale_price) > 0 &&
+                    selectedTotalQuantity >= 24;
+
+                  const currentGrossAmountObj = {
+                    value: activePriceObj.value * item.quantity,
+                    curr: activePriceObj.curr,
+                  };
+                  const originalGrossAmountObj = {
+                    value: basePriceObj.value * item.quantity,
+                    curr: basePriceObj.curr,
+                  };
 
                   return (
-                    <div key={item.id} className="relative flex items-start gap-4 pb-8 border-b border-gray-50 sm:gap-6 last:border-0 last:pb-0">
+                    <div
+                      key={item.id}
+                      className="relative flex items-start gap-4 pb-8 border-b border-gray-50 sm:gap-6 last:border-0 last:pb-0"
+                    >
                       <div className="pt-3 sm:pt-12">
-                        <input type="checkbox" checked={selectedIds.includes(item.id)} onChange={() => handleSelectItem(item.id)} className="w-5 h-5 transition border-gray-300 rounded shadow-sm cursor-pointer text-gycora focus:ring-gycora" />
+                        <input
+                          type="checkbox"
+                          checked={selectedIds.includes(item.id)}
+                          onChange={() => handleSelectItem(item.id)}
+                          className="w-5 h-5 transition border-gray-300 rounded shadow-sm cursor-pointer text-gycora focus:ring-gycora"
+                        />
                       </div>
 
-                      <div className="relative w-24 h-24 overflow-hidden border border-gray-100 cursor-pointer shrink-0 sm:w-40 sm:h-40 rounded-2xl bg-gray-50" onClick={() => navigate(`${urlPrefix}/product/${item.product.slug}`) }>
-                        <img src={item.product.image_url} alt={item.product.name} className="object-cover w-full h-full transition-transform duration-500 hover:scale-105" />
+                      <div
+                        className="relative w-24 h-24 overflow-hidden border border-gray-100 cursor-pointer shrink-0 sm:w-40 sm:h-40 rounded-2xl bg-gray-50"
+                        onClick={() =>
+                          navigate(`${urlPrefix}/product/${item.product.slug}`)
+                        }
+                      >
+                        <img
+                          src={item.product.image_url}
+                          alt={item.product.name}
+                          className="object-cover w-full h-full transition-transform duration-500 hover:scale-105"
+                        />
                         {isDiscounted && (
-                           <div className={`absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm ${isWholesaleActive ? 'bg-blue-600' : 'bg-rose-500'}`}>
-                            {isWholesaleActive ? 'GROSIR' : t("cart_sale_badge")}
+                          <div
+                            className={`absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm ${isWholesaleActive ? "bg-blue-600" : "bg-rose-500"}`}
+                          >
+                            {isWholesaleActive
+                              ? "GROSIR"
+                              : t("cart_sale_badge")}
                           </div>
                         )}
                       </div>
@@ -6030,40 +6791,95 @@ export default function CartPage() {
                       <div className="flex flex-col justify-between flex-grow min-h-[6rem] sm:min-h-[10rem]">
                         <div>
                           <div className="flex items-start justify-between gap-2">
-                            <h3 className="w-2/3 text-sm font-bold tracking-tight text-gray-900 transition-colors cursor-pointer sm:text-lg hover:text-gycora line-clamp-2" onClick={() => navigate(`${urlPrefix}/product/${item.product.slug}`) }>
+                            <h3
+                              className="w-2/3 text-sm font-bold tracking-tight text-gray-900 transition-colors cursor-pointer sm:text-lg hover:text-gycora line-clamp-2"
+                              onClick={() =>
+                                navigate(
+                                  `${urlPrefix}/product/${item.product.slug}`,
+                                )
+                              }
+                            >
                               {item.product.name}
                             </h3>
                             <div className="text-right">
-                              <p className={`text-sm font-extrabold sm:text-lg whitespace-nowrap ${isWholesaleActive ? 'text-blue-600' : 'text-gycora'}`}>
-                                {formatPrice(currentGrossAmount)}
+                              <p
+                                className={`text-sm font-extrabold sm:text-lg whitespace-nowrap ${isWholesaleActive ? "text-blue-600" : "text-gycora"}`}
+                              >
+                                {formatCurrencyDisplay(currentGrossAmountObj)}
                               </p>
                               {isDiscounted && (
                                 <p className="text-[10px] text-gray-400 line-through">
-                                  {formatPrice(originalGrossAmount)}
+                                  {formatCurrencyDisplay(
+                                    originalGrossAmountObj,
+                                  )}
                                 </p>
                               )}
                             </div>
                           </div>
 
-                          {item.color && (() => {
+                          {item.color &&
+                            (() => {
                               let hex = item.color as string;
                               let name = "";
                               try {
                                 const parsed = JSON.parse(item.color as string);
-                                if (parsed.hex) { hex = parsed.hex; name = parsed.name || ""; }
+                                if (parsed.hex) {
+                                  hex = parsed.hex;
+                                  name = parsed.name || "";
+                                }
                               } catch {
+                                // if (Array.isArray(item.product.color)) {
+                                //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                //   const matched = item.product.color.find(
+                                //     (c: any) =>
+                                //       (typeof c === "object" &&
+                                //         c.hex === item.color) ||
+                                //       c === item.color,
+                                //   );
+                                //   if (matched && typeof matched === "object")
+                                //     name = matched.name;
+                                // }
+
                                 if (Array.isArray(item.product.color)) {
                                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                  const matched = item.product.color.find((c: any) => (typeof c === "object" && c.hex === item.color) || c === item.color);
-                                  if (matched && typeof matched === "object") name = matched.name;
+                                  const matched = item.product.color.find(
+                                    (c: any) =>
+                                      (typeof c === "object" &&
+                                        c !== null &&
+                                        c.hex === item.color) ||
+                                      c === item.color,
+                                  );
+
+                                  // Tambahkan pengecekan null dan gunakan "as" untuk memberitahu struktur objeknya
+                                  if (
+                                    matched &&
+                                    typeof matched === "object" &&
+                                    matched !== null
+                                  ) {
+                                    name =
+                                      (matched as { name?: string }).name || "";
+                                  }
                                 }
                               }
                               return (
                                 <div className="flex items-center gap-2 mt-2">
-                                  <span className="text-[10px] font-bold tracking-widest text-gray-400 uppercase">{t("cart_variant_label")}</span>
+                                  <span className="text-[10px] font-bold tracking-widest text-gray-400 uppercase">
+                                    {t("cart_variant_label")}
+                                  </span>
                                   <div className="flex items-center gap-2 px-2 py-1 bg-white border border-gray-200 rounded-md shadow-sm">
-                                    <span className="w-3 h-3 border border-gray-300 rounded-full shadow-inner shrink-0" style={{ backgroundColor: hex }}></span>
-                                    <span className="text-[10px] font-bold text-gray-700">{name ? name : <span className="font-mono uppercase">{hex}</span>}</span>
+                                    <span
+                                      className="w-3 h-3 border border-gray-300 rounded-full shadow-inner shrink-0"
+                                      style={{ backgroundColor: hex }}
+                                    ></span>
+                                    <span className="text-[10px] font-bold text-gray-700">
+                                      {name ? (
+                                        name
+                                      ) : (
+                                        <span className="font-mono uppercase">
+                                          {hex}
+                                        </span>
+                                      )}
+                                    </span>
                                   </div>
                                 </div>
                               );
@@ -6072,16 +6888,20 @@ export default function CartPage() {
                           <div className="flex flex-wrap items-center mt-2 gap-x-3 gap-y-1">
                             {isDiscounted ? (
                               <div className="flex items-center gap-2">
-                                <p className={`text-xs font-bold ${isWholesaleActive ? 'text-blue-500' : 'text-rose-500'}`}>
-                                  {formatPrice(currentPrice)} {t("cart_per_pc")}
+                                <p
+                                  className={`text-xs font-bold ${isWholesaleActive ? "text-blue-500" : "text-rose-500"}`}
+                                >
+                                  {formatCurrencyDisplay(activePriceObj)}{" "}
+                                  {t("cart_per_pc")}
                                 </p>
                                 <p className="text-[10px] text-gray-400 line-through">
-                                  {formatPrice(item.product.price)}
+                                  {formatCurrencyDisplay(basePriceObj)}
                                 </p>
                               </div>
                             ) : (
                               <p className="text-xs italic tracking-wider text-gray-400">
-                                {formatPrice(item.product.price)} {t("cart_per_pc")}
+                                {formatCurrencyDisplay(basePriceObj)}{" "}
+                                {t("cart_per_pc")}
                               </p>
                             )}
                             <span className="hidden w-1 h-1 bg-gray-300 rounded-full sm:block"></span>
@@ -6090,37 +6910,66 @@ export default function CartPage() {
 
                         <div className="flex flex-col items-start gap-4 mt-4 sm:flex-row sm:justify-between sm:items-end sm:mt-6">
                           <div className="flex items-center h-10 overflow-hidden bg-white border border-gray-200 shadow-sm sm:h-12 rounded-xl">
-                            {/* 👇 [PERBAIKAN] Ambil currentQty secara dinamis dari qtyInputs agar klik cepat tidak membaca data usang 👇 */}
-                            <button 
+                            <button
                               onClick={() => {
-                                const currentQty = parseInt(qtyInputs[item.id] !== undefined ? qtyInputs[item.id] : item.quantity.toString()) || 1;
+                                const currentQty =
+                                  parseInt(
+                                    qtyInputs[item.id] !== undefined
+                                      ? qtyInputs[item.id]
+                                      : item.quantity.toString(),
+                                  ) || 1;
                                 handleQtyChange(item, currentQty - 1);
-                              }} 
+                              }}
                               className="flex items-center justify-center w-10 h-full text-base font-bold text-gray-700 transition-colors sm:w-12 hover:bg-gray-100 hover:text-gycora"
                             >
                               -
                             </button>
-                            <input 
-                              type="text" 
-                              value={ qtyInputs[item.id] !== undefined ? qtyInputs[item.id] : item.quantity } 
-                              onChange={(e) => handleInputChange(item.id, e.target.value) } 
-                              onBlur={() => handleInputBlur(item)} 
-                              className="w-12 h-full text-sm font-bold text-center text-gray-900 bg-transparent border-none outline-none focus:ring-0 sm:text-base" 
+                            <input
+                              type="text"
+                              value={
+                                qtyInputs[item.id] !== undefined
+                                  ? qtyInputs[item.id]
+                                  : item.quantity
+                              }
+                              onChange={(e) =>
+                                handleInputChange(item.id, e.target.value)
+                              }
+                              onBlur={() => handleInputBlur(item)}
+                              className="w-12 h-full text-sm font-bold text-center text-gray-900 bg-transparent border-none outline-none focus:ring-0 sm:text-base"
                             />
-                            <button 
+                            <button
                               onClick={() => {
-                                const currentQty = parseInt(qtyInputs[item.id] !== undefined ? qtyInputs[item.id] : item.quantity.toString()) || 1;
+                                const currentQty =
+                                  parseInt(
+                                    qtyInputs[item.id] !== undefined
+                                      ? qtyInputs[item.id]
+                                      : item.quantity.toString(),
+                                  ) || 1;
                                 handleQtyChange(item, currentQty + 1);
-                              }} 
+                              }}
                               className="flex items-center justify-center w-10 h-full text-base font-bold text-gray-700 transition-colors sm:w-12 hover:bg-gray-100 hover:text-gycora"
                             >
                               +
                             </button>
                           </div>
-                          <button onClick={() => handleOptimisticDelete(item.id)} className="flex items-center gap-2 text-[10px] sm:text-xs font-bold tracking-widest text-gray-400 uppercase transition-colors group hover:text-red-500">
-                            <svg className="w-4 h-4 transition-transform sm:w-5 sm:h-5 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg> {t("btn_remove")}
+                          <button
+                            onClick={() => handleOptimisticDelete(item.id)}
+                            className="flex items-center gap-2 text-[10px] sm:text-xs font-bold tracking-widest text-gray-400 uppercase transition-colors group hover:text-red-500"
+                          >
+                            <svg
+                              className="w-4 h-4 transition-transform sm:w-5 sm:h-5 group-hover:rotate-12"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              />
+                            </svg>{" "}
+                            {t("btn_remove")}
                           </button>
                         </div>
                       </div>
@@ -6149,34 +6998,74 @@ export default function CartPage() {
             ) : suggestedProducts.length > 0 ? (
               <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
                 {suggestedProducts.map((product) => {
-                  const currentSugPrice = getActivePrice(product, selectedTotalQuantity);
-                  const isSugDiscounted = currentSugPrice < Number(product.price);
-                  const isSugWholesale = userType === 'reseller' && Number(product.wholesale_price) > 0 && selectedTotalQuantity >= 24;
+                  // 👇 PERBAIKAN SUGGESTION 👇
+                  const sugActivePriceObj = getActivePriceObj(
+                    product,
+                    selectedTotalQuantity,
+                  );
+                  const sugBasePriceObj = getPriceToDisplay(product);
+                  const isSugDiscounted =
+                    sugActivePriceObj.value < sugBasePriceObj.value;
+                  const isSugWholesale =
+                    userType === "reseller" &&
+                    Number(product.wholesale_price) > 0 &&
+                    selectedTotalQuantity >= 24;
 
                   return (
                     <div key={product.id} className="flex flex-col group">
                       <div
                         className="relative mb-3 overflow-hidden border border-gray-100 cursor-pointer aspect-square rounded-2xl bg-gray-50"
-                        onClick={() => navigate(`${urlPrefix}/product/${product.slug}`, { state: { initialProduct: product, allProducts: suggestedProducts }, }) }
+                        onClick={() =>
+                          navigate(`${urlPrefix}/product/${product.slug}`, {
+                            state: {
+                              initialProduct: product,
+                              allProducts: suggestedProducts,
+                            },
+                          })
+                        }
                       >
-                        <img src={product.image_url} alt={product.name} className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" />
+                        <img
+                          src={product.image_url}
+                          alt={product.name}
+                          className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+                        />
                         {isSugDiscounted && (
-                          <div className={`absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm ${isSugWholesale ? 'bg-blue-600' : 'bg-rose-500'}`}>
-                            {isSugWholesale ? 'GROSIR' : t("cart_sale_badge")}
+                          <div
+                            className={`absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm ${isSugWholesale ? "bg-blue-600" : "bg-rose-500"}`}
+                          >
+                            {isSugWholesale ? "GROSIR" : t("cart_sale_badge")}
                           </div>
                         )}
                       </div>
-                      <h4 className="mb-1 text-[11px] font-bold tracking-wide text-gray-900 uppercase truncate">{product.name}</h4>
+                      <h4 className="mb-1 text-[11px] font-bold tracking-wide text-gray-900 uppercase truncate">
+                        {product.name}
+                      </h4>
                       {isSugDiscounted ? (
                         <div className="mb-3">
-                          <p className={`text-xs font-bold ${isSugWholesale ? 'text-blue-500' : 'text-rose-500'}`}>{formatPrice(currentSugPrice)}</p>
-                          <p className="text-[9px] text-gray-400 line-through">{formatPrice(product.price)}</p>
+                          <p
+                            className={`text-xs font-bold ${isSugWholesale ? "text-blue-500" : "text-rose-500"}`}
+                          >
+                            {formatCurrencyDisplay(sugActivePriceObj)}
+                          </p>
+                          <p className="text-[9px] text-gray-400 line-through">
+                            {formatCurrencyDisplay(sugBasePriceObj)}
+                          </p>
                         </div>
                       ) : (
-                        <p className="mb-3 text-xs font-bold text-gycora">{formatPrice(product.price)}</p>
+                        <p className="mb-3 text-xs font-bold text-gycora">
+                          {formatCurrencyDisplay(sugBasePriceObj)}
+                        </p>
                       )}
-                      <button onClick={() => addSuggestedProduct(product)} className="px-3 py-2 mt-auto text-[9px] font-bold tracking-widest text-gray-700 uppercase transition-all duration-300 border border-gray-200 rounded-xl hover:border-gray-900 hover:bg-gray-900 hover:text-white">
-                        {product.color && product.color.length > 0 ? t("btn_choose_variant") : t("btn_add_plus")}
+                      <button
+                        onClick={() => addSuggestedProduct(product)}
+                        className="px-3 py-2 mt-auto text-[9px] font-bold tracking-widest text-gray-700 uppercase transition-all duration-300 border border-gray-200 rounded-xl hover:border-gray-900 hover:bg-gray-900 hover:text-white"
+                      >
+                        {/* {product.color && product.color.length > 0 ? t("btn_choose_variant") : t("btn_add_plus")} */}
+                        {product.color &&
+                        Array.isArray(product.color) &&
+                        product.color.length > 0
+                          ? t("btn_choose_variant")
+                          : t("btn_add_plus")}
                       </button>
                     </div>
                   );
@@ -6188,7 +7077,10 @@ export default function CartPage() {
 
         {/* RIGHT SIDE: CART SUMMARY */}
         {localCartItems.length > 0 && (
-          <div className="lg:w-1/3 animate-fade-in-up" style={{ animationDelay: "200ms" }}>
+          <div
+            className="lg:w-1/3 animate-fade-in-up"
+            style={{ animationDelay: "200ms" }}
+          >
             <div className="sticky p-8 bg-gray-50/50 border border-gray-100 rounded-[2rem] top-32 shadow-sm">
               <h2 className="pb-4 mb-8 text-lg font-bold tracking-widest text-gray-900 uppercase border-b border-gray-200">
                 {t("cart_summary_title")}
@@ -6196,13 +7088,23 @@ export default function CartPage() {
               <div className="mb-8 space-y-4">
                 <div className="flex justify-between text-sm text-gray-600">
                   <span>{t("cart_selected_items")}</span>
-                  <span className="font-bold text-gray-900">{selectedTotalQuantity} Pcs</span>
+                  <span className="font-bold text-gray-900">
+                    {selectedTotalQuantity} Pcs
+                  </span>
                 </div>
                 <div className="flex items-end justify-between pt-4 border-t border-gray-200">
-                  <span className="text-xs font-bold tracking-[0.2em] text-gray-500 uppercase">{t("cart_estimated_total")}</span>
-                  <span className="text-2xl font-black text-gycora">{formatPrice(checkoutTotalAmount)}</span>
+                  <span className="text-xs font-bold tracking-[0.2em] text-gray-500 uppercase">
+                    {t("cart_estimated_total")}
+                  </span>
+
+                  {/* 👇 TOTAL AMOUNT KESELURUHAN MULTI-CURRENCY 👇 */}
+                  <span className="text-2xl font-black text-gycora">
+                    {formatCurrencyDisplay(checkoutTotalAmountObj)}
+                  </span>
                 </div>
-                <p className="mt-1 text-right text-[10px] italic text-gray-400">{t("cart_tax_shipping_note")}</p>
+                <p className="mt-1 text-right text-[10px] italic text-gray-400">
+                  {t("cart_tax_shipping_note")}
+                </p>
               </div>
               <button
                 onClick={handleCheckout}

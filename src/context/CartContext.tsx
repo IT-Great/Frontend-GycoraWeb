@@ -253,21 +253,325 @@
 //   return context;
 // };
 
+// import React, { createContext, useContext, useState, useEffect } from "react";
+// import { BASE_URL } from "../config/api";
+
+// export interface Product {
+//   color: string;
+//   id: number;
+//   slug: string;
+//   name: string;
+//   price: number;
+//   discount_price: number;
+//   voucher_discount_price?: number;
+//   wholesale_price?: number | null; 
+//   image_url: string;
+//   sku?: string;
+//   stock: number;
+// }
+
+// export interface CartItem {
+//   id: number;
+//   product_id: number;
+//   quantity: number;
+//   gross_amount: number;
+//   product: Product; 
+//   color?: string | null; 
+// }
+
+// interface CartContextType {
+//   cartItems: CartItem[];
+//   fetchCart: () => void;
+//   // Fungsi-fungsi Optimistic
+//   addCartItemOptimistically: (newItem: CartItem) => void;
+//   removeCartItemOptimistically: (itemId: number) => void;
+//   updateCartItemQtyOptimistically: (itemId: number, newQty: number, newGrossAmount: number) => void;
+//   revertCartItems: (previousItems: CartItem[]) => void;
+  
+//   isCartOpen: boolean;
+//   setIsCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
+//   cartTotalItems: number;
+//   cartSubtotal: number;
+// }
+
+// const CartContext = createContext<CartContextType | undefined>(undefined);
+
+// export function CartProvider({ children }: { children: React.ReactNode }) {
+//   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+//   const [isCartOpen, setIsCartOpen] = useState(false);
+
+//   const fetchCart = async () => {
+//     const token = localStorage.getItem("user_token");
+//     if (!token) return; 
+
+//     try {
+//       const res = await fetch(`${BASE_URL}/api/carts`, {
+//         headers: { Authorization: `Bearer ${token}`, "Accept": "application/json" },
+//       });
+//       if (res.ok) {
+//         const data = await res.json();
+//         const cartsArray = data.data ? data.data : data;
+//         setCartItems(cartsArray || []);
+//       }
+//     } catch (error) {
+//       console.error("Gagal mengambil data keranjang:", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     // eslint-disable-next-line react-hooks/exhaustive-deps
+//     fetchCart();
+//   }, []);
+
+//   // --- FUNGSI OPTIMISTIC ---
+//   const addCartItemOptimistically = (newItem: CartItem) => {
+//     setCartItems(prev => {
+//       const existingItemIndex = prev.findIndex(
+//         item => item.product_id === newItem.product_id && item.color === newItem.color
+//       );
+
+//       if (existingItemIndex >= 0) {
+//         const newItems = [...prev];
+//         newItems[existingItemIndex].quantity += newItem.quantity;
+//         newItems[existingItemIndex].gross_amount += newItem.gross_amount;
+//         return newItems;
+//       } else {
+//         return [newItem, ...prev];
+//       }
+//     });
+//   };
+
+//   const removeCartItemOptimistically = (itemId: number) => {
+//     setCartItems(prev => prev.filter(item => item.id !== itemId));
+//   };
+
+//   const updateCartItemQtyOptimistically = (itemId: number, newQty: number, newGrossAmount: number) => {
+//     setCartItems(prev => 
+//       prev.map(item => 
+//         item.id === itemId 
+//           ? { ...item, quantity: newQty, gross_amount: newGrossAmount }
+//           : item
+//       )
+//     );
+//   };
+
+//   const revertCartItems = (previousItems: CartItem[]) => {
+//     setCartItems(previousItems);
+//   };
+//   // ------------------------------
+
+//   const cartTotalItems = cartItems.reduce(
+//     (total, item) => total + item.quantity,
+//     0,
+//   );
+//   const cartSubtotal = cartItems.reduce(
+//     (total, item) => total + item.gross_amount,
+//     0,
+//   );
+
+//   return (
+//     <CartContext.Provider
+//       value={{
+//         cartItems,
+//         fetchCart,
+//         addCartItemOptimistically, 
+//         removeCartItemOptimistically, // Baru
+//         updateCartItemQtyOptimistically, // Baru
+//         revertCartItems,           
+//         isCartOpen,
+//         setIsCartOpen,
+//         cartTotalItems,
+//         cartSubtotal,
+//       }}
+//     >
+//       {children}
+//     </CartContext.Provider>
+//   );
+// }
+
+// // eslint-disable-next-line react-refresh/only-export-components
+// export const useCart = () => {
+//   const context = useContext(CartContext);
+//   if (!context) throw new Error("useCart harus digunakan di dalam CartProvider");
+//   return context;
+// };
+
+// import React, { createContext, useContext, useState, useEffect } from "react";
+// import { BASE_URL } from "../config/api";
+
+// export interface Product {
+//   id: number;
+//   slug: string;
+//   name: string;
+//   price: number;
+  
+//   // 👇 [TAMBAHAN BARU] 👇
+//   prices?: any;
+//   discount_prices?: any;
+//   category_name?: string; 
+//   // 👆 ----------------- 👆
+
+//   discount_price: number;
+//   voucher_discount_price?: number;
+//   wholesale_price?: number | null; 
+//   image_url: string;
+//   sku?: string;
+//   stock: number;
+  
+//   // Ubah ke any agar fleksibel menerima string, JSON string, atau array
+//   color?: any; 
+// }
+
+// export interface CartItem {
+//   id: number;
+//   product_id: number;
+//   quantity: number;
+//   gross_amount: number;
+//   product: Product; 
+//   color?: string | null; 
+// }
+
+// interface CartContextType {
+//   cartItems: CartItem[];
+//   fetchCart: () => void;
+//   // Fungsi-fungsi Optimistic
+//   addCartItemOptimistically: (newItem: CartItem) => void;
+//   removeCartItemOptimistically: (itemId: number) => void;
+//   updateCartItemQtyOptimistically: (itemId: number, newQty: number, newGrossAmount: number) => void;
+//   revertCartItems: (previousItems: CartItem[]) => void;
+  
+//   isCartOpen: boolean;
+//   setIsCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
+//   cartTotalItems: number;
+//   cartSubtotal: number;
+// }
+
+// const CartContext = createContext<CartContextType | undefined>(undefined);
+
+// export function CartProvider({ children }: { children: React.ReactNode }) {
+//   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+//   const [isCartOpen, setIsCartOpen] = useState(false);
+
+//   const fetchCart = async () => {
+//     const token = localStorage.getItem("user_token");
+//     if (!token) return; 
+
+//     try {
+//       const res = await fetch(`${BASE_URL}/api/carts`, {
+//         headers: { Authorization: `Bearer ${token}`, "Accept": "application/json" },
+//       });
+//       if (res.ok) {
+//         const data = await res.json();
+//         const cartsArray = data.data ? data.data : data;
+//         setCartItems(cartsArray || []);
+//       }
+//     } catch (error) {
+//       console.error("Gagal mengambil data keranjang:", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     // eslint-disable-next-line react-hooks/exhaustive-deps
+//     fetchCart();
+//   }, []);
+
+//   // --- FUNGSI OPTIMISTIC ---
+//   const addCartItemOptimistically = (newItem: CartItem) => {
+//     setCartItems(prev => {
+//       const existingItemIndex = prev.findIndex(
+//         item => item.product_id === newItem.product_id && item.color === newItem.color
+//       );
+
+//       if (existingItemIndex >= 0) {
+//         const newItems = [...prev];
+//         newItems[existingItemIndex].quantity += newItem.quantity;
+//         newItems[existingItemIndex].gross_amount += newItem.gross_amount;
+//         return newItems;
+//       } else {
+//         return [newItem, ...prev];
+//       }
+//     });
+//   };
+
+//   const removeCartItemOptimistically = (itemId: number) => {
+//     setCartItems(prev => prev.filter(item => item.id !== itemId));
+//   };
+
+//   const updateCartItemQtyOptimistically = (itemId: number, newQty: number, newGrossAmount: number) => {
+//     setCartItems(prev => 
+//       prev.map(item => 
+//         item.id === itemId 
+//           ? { ...item, quantity: newQty, gross_amount: newGrossAmount }
+//           : item
+//       )
+//     );
+//   };
+
+//   const revertCartItems = (previousItems: CartItem[]) => {
+//     setCartItems(previousItems);
+//   };
+//   // ------------------------------
+
+//   const cartTotalItems = cartItems.reduce(
+//     (total, item) => total + item.quantity,
+//     0,
+//   );
+//   const cartSubtotal = cartItems.reduce(
+//     (total, item) => total + item.gross_amount,
+//     0,
+//   );
+
+//   return (
+//     <CartContext.Provider
+//       value={{
+//         cartItems,
+//         fetchCart,
+//         addCartItemOptimistically, 
+//         removeCartItemOptimistically, 
+//         updateCartItemQtyOptimistically, 
+//         revertCartItems,           
+//         isCartOpen,
+//         setIsCartOpen,
+//         cartTotalItems,
+//         cartSubtotal,
+//       }}
+//     >
+//       {children}
+//     </CartContext.Provider>
+//   );
+// }
+
+// // eslint-disable-next-line react-refresh/only-export-components
+// export const useCart = () => {
+//   const context = useContext(CartContext);
+//   if (!context) throw new Error("useCart harus digunakan di dalam CartProvider");
+//   return context;
+// };
+
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { BASE_URL } from "../config/api";
 
 export interface Product {
-  color: string;
   id: number;
   slug: string;
   name: string;
   price: number;
+  
+  // 👇 Mengganti 'any' dengan tipe data Record (Objek) atau string JSON
+  prices?: Record<string, string | number> | string | null;
+  discount_prices?: Record<string, string | number> | string | null;
+  category_name?: string; 
+  // 👆 -----------------------------------------------------------
+
   discount_price: number;
   voucher_discount_price?: number;
   wholesale_price?: number | null; 
   image_url: string;
   sku?: string;
   stock: number;
+  
+  // Mengganti 'any' dengan tipe spesifik untuk string, objek, atau array
+  color?: string | Record<string, unknown> | unknown[] | null; 
 }
 
 export interface CartItem {
@@ -375,8 +679,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         cartItems,
         fetchCart,
         addCartItemOptimistically, 
-        removeCartItemOptimistically, // Baru
-        updateCartItemQtyOptimistically, // Baru
+        removeCartItemOptimistically, 
+        updateCartItemQtyOptimistically, 
         revertCartItems,           
         isCartOpen,
         setIsCartOpen,
