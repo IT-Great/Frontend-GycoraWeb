@@ -559,6 +559,64 @@
 //   );
 // }
 
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+// import { useState, useEffect, useMemo } from "react";
+// import { useNavigate, useLocation } from "react-router-dom";
+// import Swal from "sweetalert2";
+// import { useCart } from "../../context/CartContext"; 
+// import { BASE_URL } from "../../config/api";
+// import { useCurrency } from "../../context/CurrencyContext";
+
+// interface Address {
+//   id: number;
+//   receiver: { full_name: string };
+//   details: {
+//     location: string;
+//     city: string;
+//     province: string;
+//     postal_code: string;
+//     type: string;
+//   };
+//   is_default: boolean;
+// }
+
+// interface ShippingRate {
+//   courier_name: string;
+//   courier_service_name: string;
+//   price: number;
+//   duration: string;
+// }
+
+// type Currency = "IDR" | "USD" | "SGD" | "MYR" | "EUR" | "AUD";
+
+// export default function CheckoutPage() {
+//   const navigate = useNavigate(); 
+//   const location = useLocation();
+//   const [userData, setUserData] = useState<any>(null);
+  
+//   // Ambil state currency dan rate (jika diperlukan untuk konversi ongkir) dari Context
+//   const { currency, exchangeRates } = useCurrency();
+//   const { cartItems } = useCart();
+
+//   // States
+//   const [addresses, setAddresses] = useState<Address[]>([]);
+//   const [selectedAddressId, setSelectedAddressId] = useState<number | null>(
+//     null,
+//   );
+
+//   const [shippingRates, setShippingRates] = useState<ShippingRate[]>([]);
+//   const [selectedRate, setSelectedRate] = useState<ShippingRate | null>(null);
+//   const [isLoadingRates, setIsLoadingRates] = useState(false);
+
+//   const [deliveryType, setDeliveryType] = useState("later"); 
+//   const [pointsInput, setPointsInput] = useState<number | "">("");
+
+//   const [isProcessing, setIsProcessing] = useState(false);
+//   const [userType, setUserType] = useState<string>('guest');
+
+//   // Menyimpan ID item yang dicentang dari halaman keranjang
+//   const [checkoutItemIds, setCheckoutItemIds] = useState<number[]>([]);
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -566,17 +624,12 @@ import Swal from "sweetalert2";
 import { useCart } from "../../context/CartContext"; 
 import { BASE_URL } from "../../config/api";
 import { useCurrency } from "../../context/CurrencyContext";
+import { useLanguage } from "../../context/LanguageContext";
 
 interface Address {
   id: number;
   receiver: { full_name: string };
-  details: {
-    location: string;
-    city: string;
-    province: string;
-    postal_code: string;
-    type: string;
-  };
+  details: { location: string; city: string; province: string; postal_code: string; type: string };
   is_default: boolean;
 }
 
@@ -592,30 +645,83 @@ type Currency = "IDR" | "USD" | "SGD" | "MYR" | "EUR" | "AUD";
 export default function CheckoutPage() {
   const navigate = useNavigate(); 
   const location = useLocation();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { t } = useLanguage();
   const [userData, setUserData] = useState<any>(null);
   
-  // Ambil state currency dan rate (jika diperlukan untuk konversi ongkir) dari Context
+  // Ambil state currency dan rate dari Context
   const { currency, exchangeRates } = useCurrency();
   const { cartItems } = useCart();
 
-  // States
   const [addresses, setAddresses] = useState<Address[]>([]);
-  const [selectedAddressId, setSelectedAddressId] = useState<number | null>(
-    null,
-  );
-
+  const [selectedAddressId, setSelectedAddressId] = useState<number | null>(null);
   const [shippingRates, setShippingRates] = useState<ShippingRate[]>([]);
   const [selectedRate, setSelectedRate] = useState<ShippingRate | null>(null);
   const [isLoadingRates, setIsLoadingRates] = useState(false);
-
   const [deliveryType, setDeliveryType] = useState("later"); 
   const [pointsInput, setPointsInput] = useState<number | "">("");
-
   const [isProcessing, setIsProcessing] = useState(false);
   const [userType, setUserType] = useState<string>('guest');
-
-  // Menyimpan ID item yang dicentang dari halaman keranjang
   const [checkoutItemIds, setCheckoutItemIds] = useState<number[]>([]);
+
+  // ============================================================================
+  // HELPER HARGA MULTI-CURRENCY
+  // ============================================================================
+  const getPriceToDisplay = (product: any) => {
+    if (!product) return { value: 0, curr: 'IDR' };
+    const curr = (currency as Currency) || 'IDR';
+    if (curr === 'IDR') return { value: Number(product.price), curr: 'IDR' };
+  
+    const pricesObj = typeof product.prices === 'string' ? JSON.parse(product.prices) : (product.prices || {});
+    if (pricesObj[curr]) return { value: parseFloat(pricesObj[curr]), curr: curr };
+    
+    return { value: Number(product.price), curr: 'IDR' };
+  };
+
+  const getDiscountToDisplay = (product: any) => {
+    if (!product) return null;
+    const curr = (currency as Currency) || 'IDR';
+    if (curr === 'IDR') return product.discount_price ? { value: Number(product.discount_price), curr: 'IDR' } : null;
+  
+    const discObj = typeof product.discount_prices === 'string' ? JSON.parse(product.discount_prices) : (product.discount_prices || {});
+    if (discObj[curr]) return { value: parseFloat(discObj[curr]), curr: curr };
+    
+    return product.discount_price ? { value: Number(product.discount_price), curr: 'IDR' } : null;
+  };
+
+  const formatCurrencyDisplay = (priceObj: {value: number, curr: string} | null) => {
+    if (!priceObj) return "";
+    const symbols: any = { USD: "$", SGD: "S$", EUR: "€", AUD: "A$", MYR: "RM", IDR: "Rp " };
+    const formatter = new Intl.NumberFormat(priceObj.curr === "IDR" ? "id-ID" : "en-US", {
+      minimumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
+      maximumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
+    });
+    return `${symbols[priceObj.curr] || priceObj.curr + " "}${formatter.format(priceObj.value)}`;
+  };
+
+  // Konversi manual untuk Ongkir & Poin (dari IDR ke Mata Uang Aktif)
+  const convertIDRtoActiveCurrency = (idrAmount: number) => {
+    const curr = (currency as Currency) || 'IDR';
+    const rate = exchangeRates?.[curr] || 1;
+    // Jika IDR, rate 1. Jika mata uang lain, kalikan dengan rate yang diambil dari Laravel
+    return { value: idrAmount * (curr === 'IDR' ? 1 : rate), curr: curr };
+  };
+
+  const getActivePriceObj = (product: any, totalQty: number) => {
+    const isReseller = userType === 'reseller';
+    const wholesale = Number(product.wholesale_price) || 0;
+    
+    const dynamicPriceObj = getPriceToDisplay(product);
+    const dynamicDiscountObj = getDiscountToDisplay(product);
+
+    // Prioritas 1: Grosir (IDR)
+    if (isReseller && wholesale > 0 && totalQty >= 24) return { value: wholesale, curr: 'IDR' }; 
+    // Prioritas 2: Diskon Multi-currency
+    if (dynamicDiscountObj && dynamicDiscountObj.value > 0 && dynamicDiscountObj.value < dynamicPriceObj.value) return dynamicDiscountObj;
+    // Prioritas 3: Harga Normal Multi-currency
+    return dynamicPriceObj;
+  };
+  // ============================================================================
 
   useEffect(() => {
     const token = localStorage.getItem("user_token");
@@ -721,69 +827,69 @@ export default function CheckoutPage() {
   // ============================================================================
   // [BARU] HELPER HARGA MULTI-CURRENCY
   // ============================================================================
-  const getPriceToDisplay = (product: any) => {
-    if (!product) return { value: 0, curr: 'IDR' };
-    const curr = (currency as Currency) || 'IDR';
-    if (curr === 'IDR') return { value: product.price, curr: 'IDR' };
+  // const getPriceToDisplay = (product: any) => {
+  //   if (!product) return { value: 0, curr: 'IDR' };
+  //   const curr = (currency as Currency) || 'IDR';
+  //   if (curr === 'IDR') return { value: product.price, curr: 'IDR' };
   
-    const pricesObj = typeof product.prices === 'string' ? JSON.parse(product.prices) : (product.prices || {});
-    if (pricesObj[curr]) {
-      return { value: parseFloat(pricesObj[curr]), curr: curr };
-    }
-    return { value: product.price, curr: 'IDR' };
-  };
+  //   const pricesObj = typeof product.prices === 'string' ? JSON.parse(product.prices) : (product.prices || {});
+  //   if (pricesObj[curr]) {
+  //     return { value: parseFloat(pricesObj[curr]), curr: curr };
+  //   }
+  //   return { value: product.price, curr: 'IDR' };
+  // };
 
-  const getDiscountToDisplay = (product: any) => {
-    if (!product) return null;
-    const curr = (currency as Currency) || 'IDR';
-    if (curr === 'IDR') return product.discount_price ? { value: product.discount_price, curr: 'IDR' } : null;
+  // const getDiscountToDisplay = (product: any) => {
+  //   if (!product) return null;
+  //   const curr = (currency as Currency) || 'IDR';
+  //   if (curr === 'IDR') return product.discount_price ? { value: product.discount_price, curr: 'IDR' } : null;
   
-    const discObj = typeof product.discount_prices === 'string' ? JSON.parse(product.discount_prices) : (product.discount_prices || {});
-    if (discObj[curr]) {
-      return { value: parseFloat(discObj[curr]), curr: curr };
-    }
-    return product.discount_price ? { value: product.discount_price, curr: 'IDR' } : null;
-  };
+  //   const discObj = typeof product.discount_prices === 'string' ? JSON.parse(product.discount_prices) : (product.discount_prices || {});
+  //   if (discObj[curr]) {
+  //     return { value: parseFloat(discObj[curr]), curr: curr };
+  //   }
+  //   return product.discount_price ? { value: product.discount_price, curr: 'IDR' } : null;
+  // };
 
-  const formatCurrencyDisplay = (priceObj: {value: number, curr: string} | null) => {
-    if (!priceObj) return "";
-    const symbols: any = { USD: "$", SGD: "S$", EUR: "€", AUD: "A$", MYR: "RM", IDR: "Rp " };
+  // const formatCurrencyDisplay = (priceObj: {value: number, curr: string} | null) => {
+  //   if (!priceObj) return "";
+  //   const symbols: any = { USD: "$", SGD: "S$", EUR: "€", AUD: "A$", MYR: "RM", IDR: "Rp " };
     
-    const formatter = new Intl.NumberFormat(priceObj.curr === "IDR" ? "id-ID" : "en-US", {
-      minimumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
-      maximumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
-    });
+  //   const formatter = new Intl.NumberFormat(priceObj.curr === "IDR" ? "id-ID" : "en-US", {
+  //     minimumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
+  //     maximumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
+  //   });
   
-    return `${symbols[priceObj.curr] || priceObj.curr + " "}${formatter.format(priceObj.value)}`;
-  };
+  //   return `${symbols[priceObj.curr] || priceObj.curr + " "}${formatter.format(priceObj.value)}`;
+  // };
 
-  const getActivePriceObj = (product: any, totalQty: number) => {
-    const isReseller = userType === 'reseller';
-    const wholesale = Number(product.wholesale_price) || 0;
+  // const getActivePriceObj = (product: any, totalQty: number) => {
+  //   const isReseller = userType === 'reseller';
+  //   const wholesale = Number(product.wholesale_price) || 0;
     
-    const dynamicPriceObj = getPriceToDisplay(product);
-    const dynamicDiscountObj = getDiscountToDisplay(product);
+  //   const dynamicPriceObj = getPriceToDisplay(product);
+  //   const dynamicDiscountObj = getDiscountToDisplay(product);
 
-    if (isReseller && wholesale > 0 && totalQty >= 24) {
-      return { value: wholesale, curr: 'IDR' }; 
-    } 
-    else if (dynamicDiscountObj && dynamicDiscountObj.value > 0 && dynamicDiscountObj.value < dynamicPriceObj.value) {
-      return dynamicDiscountObj;
-    }
-    return dynamicPriceObj;
-  };
+  //   if (isReseller && wholesale > 0 && totalQty >= 24) {
+  //     return { value: wholesale, curr: 'IDR' }; 
+  //   } 
+  //   else if (dynamicDiscountObj && dynamicDiscountObj.value > 0 && dynamicDiscountObj.value < dynamicPriceObj.value) {
+  //     return dynamicDiscountObj;
+  //   }
+  //   return dynamicPriceObj;
+  // };
 
   // Helper konversi IDR ke mata uang aktif (Digunakan untuk ongkir dan poin karena dari backend keluarnya IDR)
-  const convertIDRtoActiveCurrency = (idrAmount: number) => {
-    const curr = (currency as Currency) || 'IDR';
-    if (curr === 'IDR' || !exchangeRates || !exchangeRates[curr]) {
-      return { value: idrAmount, curr: 'IDR' };
-    }
-    // Asumsi: exchangeRates menyimpan rate IDR -> Mata uang (misal USD: 0.000062)
-    // Atau jika exchangeRates nyimpan USD->IDR (16000), maka dibagi. Asumsikan dari backend sudah rasio IDR ke USD.
-    const rate = exchangeRates[curr];
-    return { value: idrAmount * rate, curr: curr };
-  };
+  // const convertIDRtoActiveCurrency = (idrAmount: number) => {
+  //   const curr = (currency as Currency) || 'IDR';
+  //   if (curr === 'IDR' || !exchangeRates || !exchangeRates[curr]) {
+  //     return { value: idrAmount, curr: 'IDR' };
+  //   }
+  //   // Asumsi: exchangeRates menyimpan rate IDR -> Mata uang (misal USD: 0.000062)
+  //   // Atau jika exchangeRates nyimpan USD->IDR (16000), maka dibagi. Asumsikan dari backend sudah rasio IDR ke USD.
+  //   const rate = exchangeRates[curr];
+  //   return { value: idrAmount * rate, curr: curr };
+  // };
   // ============================================================================
 
   // Kalkulasi Keuangan Multi-Currency
