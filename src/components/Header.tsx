@@ -331,12 +331,27 @@ export default function Header() {
 
           <div className="flex items-center justify-end flex-1 gap-2 md:gap-5">
             {/* DROPDOWN BAHASA */}
+            {/* <div className="relative" ref={langDropdownRef}>
+              <button onClick={() => setIsLangMenuOpen(!isLangMenuOpen)} className="flex items-center gap-1 p-1.5 text-xs font-bold text-gray-600 uppercase transition-colors rounded-lg hover:bg-gray-100 hover:text-gycora">
+                <span>{lang}</span>
+                <svg className={`w-3 h-3 transition-transform ${isLangMenuOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7-7-7-7" />
+                </svg>
+              </button>
+              {isLangMenuOpen && (
+                <div className="absolute right-0 z-50 w-32 py-2 mt-2 bg-white border border-gray-100 shadow-xl rounded-xl animate-fade-in-up">
+                  <button onClick={() => switchLanguage("id")} className={`w-full text-left px-4 py-2 text-sm transition-colors ${lang === "id" ? "text-gycora font-bold bg-emerald-50" : "text-gray-700 hover:bg-gray-50"}`}>🇮🇩 Indonesia</button>
+                  <button onClick={() => switchLanguage("en")} className={`w-full text-left px-4 py-2 text-sm transition-colors ${lang === "en" ? "text-gycora font-bold bg-emerald-50" : "text-gray-700 hover:bg-gray-50"}`}>🇬🇧 English</button>
+                </div>
+              )}
+            </div> */}
+
             <div className="relative" ref={langDropdownRef}>
               <button onClick={() => setIsLangMenuOpen(!isLangMenuOpen)} className="flex items-center gap-1 p-1.5 text-xs font-bold text-gray-600 uppercase transition-colors rounded-lg hover:bg-gray-100 hover:text-gycora">
                 <span>{lang}</span>
-                <svg className={`w-4 h-4 transition-transform duration-200 ${isProductMenuOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                  </svg>
+                <svg className={`w-4 h-4 shrink-0 transition-transform ${isLangMenuOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
               </button>
               {isLangMenuOpen && (
                 <div className="absolute right-0 z-50 w-32 py-2 mt-2 bg-white border border-gray-100 shadow-xl rounded-xl animate-fade-in-up">
@@ -347,12 +362,28 @@ export default function Header() {
             </div>
 
             {/* DROPDOWN MATA UANG */}
+            {/* <div className="relative hidden md:block" ref={currencyDropdownRef}>
+              <button onClick={() => setIsCurrencyMenuOpen(!isCurrencyMenuOpen)} className="flex items-center gap-1 p-1.5 text-xs font-bold text-gray-600 uppercase transition-colors rounded-lg hover:bg-gray-100 hover:text-gycora">
+                <span>{currency}</span>
+                <svg className={`w-3 h-3 transition-transform ${isCurrencyMenuOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7-7-7-7" />
+                </svg>
+              </button>
+              {isCurrencyMenuOpen && (
+                <div className="absolute right-0 z-50 w-24 py-2 mt-2 bg-white border border-gray-100 shadow-xl rounded-xl animate-fade-in-up">
+                  {availableCurrencies.map((curr) => (
+                    <button key={curr} onClick={() => { setCurrency(curr); setIsCurrencyMenuOpen(false); }} className={`w-full text-left px-4 py-2 text-sm transition-colors ${currency === curr ? "text-gycora font-bold bg-emerald-50" : "text-gray-700 hover:bg-gray-50"}`}>{curr}</button>
+                  ))}
+                </div>
+              )}
+            </div> */}
+
             <div className="relative hidden md:block" ref={currencyDropdownRef}>
               <button onClick={() => setIsCurrencyMenuOpen(!isCurrencyMenuOpen)} className="flex items-center gap-1 p-1.5 text-xs font-bold text-gray-600 uppercase transition-colors rounded-lg hover:bg-gray-100 hover:text-gycora">
                 <span>{currency}</span>
-                <svg className={`w-4 h-4 transition-transform duration-200 ${isProductMenuOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                  </svg>
+                <svg className={`w-4 h-4 shrink-0 transition-transform ${isCurrencyMenuOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
               </button>
               {isCurrencyMenuOpen && (
                 <div className="absolute right-0 z-50 w-24 py-2 mt-2 bg-white border border-gray-100 shadow-xl rounded-xl animate-fade-in-up">
@@ -486,9 +517,18 @@ export default function Header() {
                   <Link to={`${urlPrefix}/profile`} onClick={() => setIsMobileMenuOpen(false)} className="text-base font-medium text-gray-700">{t("my_profile")}</Link>
                   <Link to={`${urlPrefix}/orders`} onClick={() => setIsMobileMenuOpen(false)} className="text-base font-medium text-gray-700">{t("my_orders")}</Link>
                   
-                  <div className="flex items-center justify-between pt-4 mt-2 border-t border-gray-100">
+                  {/* <div className="flex items-center justify-between pt-4 mt-2 border-t border-gray-100">
                     <span className="text-sm font-bold text-gray-700">Currency</span>
                     <select value={currency} onChange={(e) => setCurrency(e.target.value as Currency)} className="p-2 text-sm font-bold text-center uppercase bg-gray-100 border-none rounded-lg outline-none text-gycora">
+                      {availableCurrencies.map((curr) => (
+                        <option key={curr} value={curr}>{curr}</option>
+                      ))}
+                    </select>
+                  </div> */}
+
+                  <div className="flex items-center justify-between pt-4 mt-2 border-t border-gray-100">
+                    <span className="text-sm font-bold text-gray-700">Currency</span>
+                    <select value={currency} onChange={(e) => setCurrency(e.target.value as Currency)} className="p-2 pr-8 text-sm font-bold text-left uppercase bg-gray-100 border-none rounded-lg outline-none text-gycora">
                       {availableCurrencies.map((curr) => (
                         <option key={curr} value={curr}>{curr}</option>
                       ))}
@@ -499,9 +539,18 @@ export default function Header() {
                 </>
               ) : (
                 <div className="flex flex-col gap-2 mt-4">
-                  <div className="flex items-center justify-between pb-2 mb-2 border-b border-gray-100">
+                  {/* <div className="flex items-center justify-between pb-2 mb-2 border-b border-gray-100">
                     <span className="text-sm font-bold text-gray-700">Currency</span>
                     <select value={currency} onChange={(e) => setCurrency(e.target.value as Currency)} className="p-2 text-sm font-bold text-center uppercase bg-gray-100 border-none rounded-lg outline-none text-gycora">
+                      {availableCurrencies.map((curr) => (
+                        <option key={curr} value={curr}>{curr}</option>
+                      ))}
+                    </select>
+                  </div> */}
+
+                  <div className="flex items-center justify-between pb-2 mb-2 border-b border-gray-100">
+                    <span className="text-sm font-bold text-gray-700">Currency</span>
+                    <select value={currency} onChange={(e) => setCurrency(e.target.value as Currency)} className="p-2 pr-8 text-sm font-bold text-left uppercase bg-gray-100 border-none rounded-lg outline-none text-gycora">
                       {availableCurrencies.map((curr) => (
                         <option key={curr} value={curr}>{curr}</option>
                       ))}
