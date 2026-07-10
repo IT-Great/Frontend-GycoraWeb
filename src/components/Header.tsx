@@ -334,9 +334,9 @@ export default function Header() {
             <div className="relative" ref={langDropdownRef}>
               <button onClick={() => setIsLangMenuOpen(!isLangMenuOpen)} className="flex items-center gap-1 p-1.5 text-xs font-bold text-gray-600 uppercase transition-colors rounded-lg hover:bg-gray-100 hover:text-gycora">
                 <span>{lang}</span>
-                <svg className={`w-3 h-3 transition-transform ${isLangMenuOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7-7-7-7" />
-                </svg>
+                <svg className={`w-4 h-4 transition-transform duration-200 ${isProductMenuOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                  </svg>
               </button>
               {isLangMenuOpen && (
                 <div className="absolute right-0 z-50 w-32 py-2 mt-2 bg-white border border-gray-100 shadow-xl rounded-xl animate-fade-in-up">
@@ -350,9 +350,9 @@ export default function Header() {
             <div className="relative hidden md:block" ref={currencyDropdownRef}>
               <button onClick={() => setIsCurrencyMenuOpen(!isCurrencyMenuOpen)} className="flex items-center gap-1 p-1.5 text-xs font-bold text-gray-600 uppercase transition-colors rounded-lg hover:bg-gray-100 hover:text-gycora">
                 <span>{currency}</span>
-                <svg className={`w-3 h-3 transition-transform ${isCurrencyMenuOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7-7-7-7" />
-                </svg>
+                <svg className={`w-4 h-4 transition-transform duration-200 ${isProductMenuOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                  </svg>
               </button>
               {isCurrencyMenuOpen && (
                 <div className="absolute right-0 z-50 w-24 py-2 mt-2 bg-white border border-gray-100 shadow-xl rounded-xl animate-fade-in-up">
