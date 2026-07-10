@@ -8065,7 +8065,7 @@ export default function CheckoutPage() {
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="mb-8">
           <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
-            Checkout
+            Checkou
           </h1>
           <p className="mt-1 text-gray-500">
             Selesaikan pesanan Anda dengan aman.
