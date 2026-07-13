@@ -1945,7 +1945,7 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
   const user = JSON.parse(userDataStr);
   // const isAuthorized = user.usertype === "admin" || user.usertype === "staff";
 
-  const allowedRoles = ["superadmin", "admin", "gudang", "accounting"];
+  const allowedRoles = ["superadmin", "admin", "gudang", "accounting", "cs"];
   const isAuthorized = allowedRoles.includes(user.usertype);
 
   if (!isAuthorized) {
