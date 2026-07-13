@@ -1969,13 +1969,13 @@ function GuestAdminRoute({ children }: { children: React.ReactNode }) {
     // }
 
     // 👇 PERBAIKAN: Gunakan daftar role yang benar 👇
-    const allowedRoles = ["superadmin", "admin", "gudang", "accounting"];
+    const allowedRoles = ["superadmin", "admin", "gudang", "accounting", "cs"];
 
     if (allowedRoles.includes(user.usertype)) {
       return <Navigate to="/admin/dashboard" replace />;
     } else {
       return <Navigate to="/" replace />; 
-    }
+    } 
   }
 
   return <>{children}</>;
