@@ -8977,6 +8977,66 @@ export default function PaymentPage() {
   // ============================================================================
   // 1. HELPER HARGA MURNI DARI DATABASE (TANPA KONVERSI MATEMATIKA UNTUK PRODUK)
   // ============================================================================
+  // const getPriceToDisplay = useCallback((product: any) => {
+  //   if (!product) return { value: 0, curr: "IDR" };
+  //   if (curr === "IDR") return { value: Number(product.price), curr: "IDR" };
+
+  //   try {
+  //     const pricesObj = typeof product.prices === "string" ? JSON.parse(product.prices) : product.prices || {};
+  //     const dbPrice = pricesObj[curr] || pricesObj[curr.toLowerCase()] || pricesObj[curr.toUpperCase()];
+  //     if (dbPrice) return { value: parseFloat(dbPrice), curr: curr };
+  //   } catch (e) { console.error(e); }
+
+  //   return { value: Number(product.price), curr: "IDR" };
+  // }, [curr]);
+
+  // const getDiscountToDisplay = useCallback((product: any) => {
+  //   if (!product) return null;
+  //   if (curr === "IDR") return product.discount_price ? { value: Number(product.discount_price), curr: "IDR" } : null;
+
+  //   try {
+  //     const discObj = typeof product.discount_prices === "string" ? JSON.parse(product.discount_prices) : product.discount_prices || {};
+  //     const dbDisc = discObj[curr] || discObj[curr.toLowerCase()] || discObj[curr.toUpperCase()];
+  //     if (dbDisc) return { value: parseFloat(dbDisc), curr: curr };
+  //   } catch (e) { console.error(e); }
+
+  //   return product.discount_price ? { value: Number(product.discount_price), curr: "IDR" } : null;
+  // }, [curr]);
+
+  // const formatCurrencyDisplay = useCallback((priceObj: { value: number; curr: string } | null) => {
+  //   if (!priceObj) return "";
+  //   const symbols: any = { USD: "$", SGD: "S$", EUR: "€", AUD: "A$", MYR: "RM", IDR: "Rp " };
+  //   const formatter = new Intl.NumberFormat(priceObj.curr === "IDR" ? "id-ID" : "en-US", {
+  //     minimumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
+  //     maximumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
+  //   });
+  //   return `${symbols[priceObj.curr] || priceObj.curr + " "}${formatter.format(priceObj.value)}`;
+  // }, []);
+
+  // const getActivePriceObj = useCallback((product: any, totalQty: number) => {
+  //   const isReseller = userType === "reseller";
+  //   const wholesale = Number(product.wholesale_price) || 0;
+  //   const voucher = Number(product.voucher_discount_price) || 0;
+
+  //   // Voucher spesifik selalu IDR
+  //   if (appliedPromoType === "voucher" && voucher > 0) {
+  //     return { value: voucher, curr: "IDR" };
+  //   }
+
+  //   const dynamicPriceObj = getPriceToDisplay(product);
+  //   const dynamicDiscountObj = getDiscountToDisplay(product);
+
+  //   if (isReseller && wholesale > 0 && totalQty >= 24) {
+  //     return { value: wholesale, curr: "IDR" };
+  //   } else if (dynamicDiscountObj && dynamicDiscountObj.value > 0 && dynamicDiscountObj.value < dynamicPriceObj.value) {
+  //     return dynamicDiscountObj;
+  //   }
+  //   return dynamicPriceObj;
+  // }, [userType, appliedPromoType, getPriceToDisplay, getDiscountToDisplay]);
+
+  // ============================================================================
+  // 1. HELPER HARGA MURNI DARI DATABASE (TANPA KONVERSI MATEMATIKA UNTUK PRODUK)
+  // ============================================================================
   const getPriceToDisplay = useCallback((product: any) => {
     if (!product) return { value: 0, curr: "IDR" };
     if (curr === "IDR") return { value: Number(product.price), curr: "IDR" };
@@ -9003,6 +9063,20 @@ export default function PaymentPage() {
     return product.discount_price ? { value: Number(product.discount_price), curr: "IDR" } : null;
   }, [curr]);
 
+  // 👇 [PERBAIKAN] Tambahkan Helper Wholesale Multi-Currency 👇
+  const getWholesaleToDisplay = useCallback((product: any) => {
+    if (!product) return null;
+    if (curr === "IDR") return product.wholesale_price ? { value: Number(product.wholesale_price), curr: "IDR" } : null;
+
+    try {
+      const wholesaleObj = typeof product.wholesale_prices === "string" ? JSON.parse(product.wholesale_prices) : product.wholesale_prices || {};
+      const dbWholesale = wholesaleObj[curr] || wholesaleObj[curr.toLowerCase()] || wholesaleObj[curr.toUpperCase()];
+      if (dbWholesale) return { value: parseFloat(dbWholesale), curr: curr };
+    } catch (e) { console.error(e); }
+
+    return product.wholesale_price ? { value: Number(product.wholesale_price), curr: "IDR" } : null;
+  }, [curr]);
+
   const formatCurrencyDisplay = useCallback((priceObj: { value: number; curr: string } | null) => {
     if (!priceObj) return "";
     const symbols: any = { USD: "$", SGD: "S$", EUR: "€", AUD: "A$", MYR: "RM", IDR: "Rp " };
@@ -9015,7 +9089,6 @@ export default function PaymentPage() {
 
   const getActivePriceObj = useCallback((product: any, totalQty: number) => {
     const isReseller = userType === "reseller";
-    const wholesale = Number(product.wholesale_price) || 0;
     const voucher = Number(product.voucher_discount_price) || 0;
 
     // Voucher spesifik selalu IDR
@@ -9025,14 +9098,17 @@ export default function PaymentPage() {
 
     const dynamicPriceObj = getPriceToDisplay(product);
     const dynamicDiscountObj = getDiscountToDisplay(product);
+    const dynamicWholesaleObj = getWholesaleToDisplay(product);
 
-    if (isReseller && wholesale > 0 && totalQty >= 24) {
-      return { value: wholesale, curr: "IDR" };
+    const hasWholesale = dynamicWholesaleObj && dynamicWholesaleObj.value > 0;
+
+    if (isReseller && hasWholesale && totalQty >= 24) {
+      return dynamicWholesaleObj!;
     } else if (dynamicDiscountObj && dynamicDiscountObj.value > 0 && dynamicDiscountObj.value < dynamicPriceObj.value) {
       return dynamicDiscountObj;
     }
     return dynamicPriceObj;
-  }, [userType, appliedPromoType, getPriceToDisplay, getDiscountToDisplay]);
+  }, [userType, appliedPromoType, getPriceToDisplay, getDiscountToDisplay, getWholesaleToDisplay]);
 
   const convertIDRtoActiveCurrency = useCallback((idrAmount: number) => {
     if (curr === "IDR" || !exchangeRates || !exchangeRates[curr]) return { value: idrAmount, curr: "IDR" };

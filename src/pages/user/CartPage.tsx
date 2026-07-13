@@ -168,16 +168,54 @@ export default function CartPage() {
   };
 
   // 👇 [PERBAIKAN] Logika Penentuan Harga Aktif dengan Multi-Currency 👇
+  // const getActivePriceObj = (product: Product, totalQty: number) => {
+  //   const isReseller = userType === "reseller";
+  //   const wholesale = Number(product.wholesale_price) || 0;
+
+  //   const dynamicPriceObj = getPriceToDisplay(product);
+  //   const dynamicDiscountObj = getDiscountToDisplay(product);
+
+  //   // Prioritas 1: Harga Grosir (selalu IDR jika dari DB)
+  //   if (isReseller && wholesale > 0 && totalQty >= 24) {
+  //     return { value: wholesale, curr: "IDR" };
+  //   }
+  //   // Prioritas 2: Harga Diskon Multi-Currency
+  //   else if (
+  //     dynamicDiscountObj &&
+  //     dynamicDiscountObj.value > 0 &&
+  //     dynamicDiscountObj.value < dynamicPriceObj.value
+  //   ) {
+  //     return dynamicDiscountObj;
+  //   }
+  //   // Prioritas 3: Harga Normal Multi-Currency
+  //   return dynamicPriceObj;
+  // };
+
+  // 👇 [PERBAIKAN] Tambahkan Helper Wholesale Multi-Currency 👇
+  const getWholesaleToDisplay = (product: Product | null) => {
+    if (!product) return null;
+    const curr = (currency as Currency) || "IDR";
+    if (curr === "IDR") return product.wholesale_price ? { value: product.wholesale_price, curr: "IDR" } : null;
+
+    const wholesaleObj = typeof product.wholesale_price === "string" ? JSON.parse(product.wholesale_price) : (product.wholesale_price || {});
+    if (wholesaleObj[curr]) {
+      return { value: parseFloat(wholesaleObj[curr]), curr: curr };
+    }
+    return product.wholesale_price ? { value: product.wholesale_price, curr: "IDR" } : null;
+  };
+
   const getActivePriceObj = (product: Product, totalQty: number) => {
     const isReseller = userType === "reseller";
-    const wholesale = Number(product.wholesale_price) || 0;
 
     const dynamicPriceObj = getPriceToDisplay(product);
     const dynamicDiscountObj = getDiscountToDisplay(product);
+    const dynamicWholesaleObj = getWholesaleToDisplay(product);
 
-    // Prioritas 1: Harga Grosir (selalu IDR jika dari DB)
-    if (isReseller && wholesale > 0 && totalQty >= 24) {
-      return { value: wholesale, curr: "IDR" };
+    const hasWholesale = dynamicWholesaleObj && dynamicWholesaleObj.value > 0;
+
+    // Prioritas 1: Harga Grosir Multi-Currency
+    if (isReseller && hasWholesale && totalQty >= 24) {
+      return dynamicWholesaleObj!;
     }
     // Prioritas 2: Harga Diskon Multi-Currency
     else if (
