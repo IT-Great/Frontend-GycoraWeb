@@ -298,7 +298,7 @@ import {
   Line,
 } from "recharts";
 import { BASE_URL } from "../../config/api";
-import Breadcrumb from "./Layout/Breadcrumb"; // Sesuaikan path jika perlu
+// import Breadcrumb from "./Layout/Breadcrumb"; // Sesuaikan path jika perlu
 
 const PIE_COLORS = ["#1e1e1e", "#3b82f6", "#10b981", "#f59e0b", "#ef4444"];
 
