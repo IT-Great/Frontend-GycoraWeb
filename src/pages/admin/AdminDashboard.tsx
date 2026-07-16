@@ -954,7 +954,7 @@ export default function AdminDashboard() {
                     dataKey="value"
                     stroke="none"
                     // Menambahkan animasi pada hover
-                    activeShape={{ outline: 'none' }}
+                    style={{ outline: 'none' }}
                   >
                     {popularProducts.map((_entry, index) => (
                       <Cell 
