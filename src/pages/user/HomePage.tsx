@@ -12841,7 +12841,7 @@ export default function HomePage() {
 
             <div className="flex flex-col justify-center flex-1 p-8 md:p-12">
               <h2 className="mb-2 font-serif text-4xl font-black tracking-tight text-gray-900 uppercase">
-                Gycora
+                Gycor
               </h2>
               <h3 className="mb-4 text-3xl font-extrabold leading-tight text-[#006A4E]">
                 {t("promo_title")}
