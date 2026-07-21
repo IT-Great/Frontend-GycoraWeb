@@ -269,7 +269,7 @@ export default function Header() {
             </button>
 
             <nav className="items-center hidden gap-6 text-sm font-semibold text-gray-700 md:flex lg:gap-8">
-              <Link to={urlPrefix || "/"} className="transition-colors hover:text-gycora">{t("home")}</Link>
+              {/* <Link to={urlPrefix || "/"} className="transition-colors hover:text-gycora">{t("home")}</Link> */}
               {/* Menu-menu lainnya (About, Product, dll) */}
               <div
                 className="relative flex items-center h-full py-2 cursor-pointer group"
