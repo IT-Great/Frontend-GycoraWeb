@@ -7404,7 +7404,7 @@
 // import Swal from "sweetalert2";
 // import { useCart } from "../../context/CartContext";
 // import { BASE_URL } from "../../config/api";
-// import { useLanguage } from "../../context/LanguageContext"; 
+// import { useLanguage } from "../../context/LanguageContext";
 // import { useCurrency } from "../../context/CurrencyContext";
 
 // import {
@@ -7435,7 +7435,7 @@
 // export default function PaymentPage() {
 //   const navigate = useNavigate();
 //   const location = useLocation();
-//   const { t } = useLanguage(); 
+//   const { t } = useLanguage();
 //   const { formatPrice } = useCurrency();
 
 //   const { cartItems } = useCart();
@@ -7483,7 +7483,7 @@
 //   const getUrlPrefix = () => {
 //     if (location.pathname.startsWith("/id")) return "/id";
 //     if (location.pathname.startsWith("/en")) return "/en";
-//     return ""; 
+//     return "";
 //   };
 //   const urlPrefix = getUrlPrefix();
 
@@ -8312,13 +8312,13 @@
 //                 // 👇 [PERBAIKAN] Tampilan harga menggunakan getActivePrice
 //                 const currentPrice = getActivePrice(item.product);
 //                 const isWholesaleActive = userType === 'reseller' && Number(item.product.wholesale_price) > 0;
-                
+
 //                 let displayPrice = currentPrice;
 //                 const isVoucherActive =
 //                   appliedPromoType === "voucher" &&
 //                   item.product.voucher_discount_price &&
 //                   Number(item.product.voucher_discount_price) > 0;
-                
+
 //                 if (isVoucherActive) {
 //                   displayPrice = Number(item.product.voucher_discount_price);
 //                 }
@@ -8878,7 +8878,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useCart } from "../../context/CartContext";
 import { BASE_URL } from "../../config/api";
-import { useLanguage } from "../../context/LanguageContext"; 
+import { useLanguage } from "../../context/LanguageContext";
 import { useCurrency } from "../../context/CurrencyContext";
 
 import {
@@ -8911,8 +8911,8 @@ type Currency = "IDR" | "USD" | "SGD" | "MYR" | "EUR" | "AUD";
 export default function PaymentPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { t } = useLanguage(); 
-  
+  const { t } = useLanguage();
+
   // Ambil state multi-currency
   const { currency, exchangeRates } = useCurrency();
   const curr = (currency as Currency) || "IDR";
@@ -8920,7 +8920,7 @@ export default function PaymentPage() {
   const { cartItems } = useCart();
   const selectedItemIds: number[] = location.state?.selectedIds || [];
   const [isPageLoading, setIsPageLoading] = useState(true);
-  const [userType, setUserType] = useState<string>('guest');
+  const [userType, setUserType] = useState<string>("guest");
 
   // --- STATE KATALOG (Untuk Injeksi Harga Asli) ---
   const [catalogProducts, setCatalogProducts] = useState<any[]>([]);
@@ -8929,24 +8929,35 @@ export default function PaymentPage() {
   // --- STATE ALAMAT ---
   const [addresses, setAddresses] = useState<any[]>([]);
   const defaultPosition: [number, number] = [-6.175392, 106.827153];
-  const [mapPosition, setMapPosition] = useState<[number, number]>(defaultPosition);
+  const [mapPosition, setMapPosition] =
+    useState<[number, number]>(defaultPosition);
   const [isGettingLocation, setIsGettingLocation] = useState(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
 
   const [formData, setFormData] = useState({
-    region: "", first_name_address: "", last_name_address: "",
-    address_location: "", city: "", province: "", postal_code: "",
-    location_type: "home", latitude: "", longitude: "", is_default: false,
+    region: "",
+    first_name_address: "",
+    last_name_address: "",
+    address_location: "",
+    city: "",
+    province: "",
+    postal_code: "",
+    location_type: "home",
+    latitude: "",
+    longitude: "",
+    is_default: false,
   });
 
-  const [selectedAddressId, setSelectedAddressId] = useState<number | null>(null);
+  const [selectedAddressId, setSelectedAddressId] = useState<number | null>(
+    null,
+  );
 
   const getUrlPrefix = () => {
     if (location.pathname.startsWith("/id")) return "/id";
     if (location.pathname.startsWith("/en")) return "/en";
-    return ""; 
+    return "";
   };
   const urlPrefix = getUrlPrefix();
 
@@ -8972,7 +8983,6 @@ export default function PaymentPage() {
   const [pointsUsed, setPointsUsed] = useState<number>(0);
   const [isProcessing, setIsProcessing] = useState(false);
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
-
 
   // ============================================================================
   // 1. HELPER HARGA MURNI DARI DATABASE (TANPA KONVERSI MATEMATIKA UNTUK PRODUK)
@@ -9037,55 +9047,111 @@ export default function PaymentPage() {
   // ============================================================================
   // 1. HELPER HARGA MURNI DARI DATABASE (TANPA KONVERSI MATEMATIKA UNTUK PRODUK)
   // ============================================================================
-  const getPriceToDisplay = useCallback((product: any) => {
-    if (!product) return { value: 0, curr: "IDR" };
-    if (curr === "IDR") return { value: Number(product.price), curr: "IDR" };
+  const getPriceToDisplay = useCallback(
+    (product: any) => {
+      if (!product) return { value: 0, curr: "IDR" };
+      if (curr === "IDR") return { value: Number(product.price), curr: "IDR" };
 
-    try {
-      const pricesObj = typeof product.prices === "string" ? JSON.parse(product.prices) : product.prices || {};
-      const dbPrice = pricesObj[curr] || pricesObj[curr.toLowerCase()] || pricesObj[curr.toUpperCase()];
-      if (dbPrice) return { value: parseFloat(dbPrice), curr: curr };
-    } catch (e) { console.error(e); }
+      try {
+        const pricesObj =
+          typeof product.prices === "string"
+            ? JSON.parse(product.prices)
+            : product.prices || {};
+        const dbPrice =
+          pricesObj[curr] ||
+          pricesObj[curr.toLowerCase()] ||
+          pricesObj[curr.toUpperCase()];
+        if (dbPrice) return { value: parseFloat(dbPrice), curr: curr };
+      } catch (e) {
+        console.error(e);
+      }
 
-    return { value: Number(product.price), curr: "IDR" };
-  }, [curr]);
+      return { value: Number(product.price), curr: "IDR" };
+    },
+    [curr],
+  );
 
-  const getDiscountToDisplay = useCallback((product: any) => {
-    if (!product) return null;
-    if (curr === "IDR") return product.discount_price ? { value: Number(product.discount_price), curr: "IDR" } : null;
+  const getDiscountToDisplay = useCallback(
+    (product: any) => {
+      if (!product) return null;
+      if (curr === "IDR")
+        return product.discount_price
+          ? { value: Number(product.discount_price), curr: "IDR" }
+          : null;
 
-    try {
-      const discObj = typeof product.discount_prices === "string" ? JSON.parse(product.discount_prices) : product.discount_prices || {};
-      const dbDisc = discObj[curr] || discObj[curr.toLowerCase()] || discObj[curr.toUpperCase()];
-      if (dbDisc) return { value: parseFloat(dbDisc), curr: curr };
-    } catch (e) { console.error(e); }
+      try {
+        const discObj =
+          typeof product.discount_prices === "string"
+            ? JSON.parse(product.discount_prices)
+            : product.discount_prices || {};
+        const dbDisc =
+          discObj[curr] ||
+          discObj[curr.toLowerCase()] ||
+          discObj[curr.toUpperCase()];
+        if (dbDisc) return { value: parseFloat(dbDisc), curr: curr };
+      } catch (e) {
+        console.error(e);
+      }
 
-    return product.discount_price ? { value: Number(product.discount_price), curr: "IDR" } : null;
-  }, [curr]);
+      return product.discount_price
+        ? { value: Number(product.discount_price), curr: "IDR" }
+        : null;
+    },
+    [curr],
+  );
 
   // 👇 [PERBAIKAN] Tambahkan Helper Wholesale Multi-Currency 👇
-  const getWholesaleToDisplay = useCallback((product: any) => {
-    if (!product) return null;
-    if (curr === "IDR") return product.wholesale_price ? { value: Number(product.wholesale_price), curr: "IDR" } : null;
+  const getWholesaleToDisplay = useCallback(
+    (product: any) => {
+      if (!product) return null;
+      if (curr === "IDR")
+        return product.wholesale_price
+          ? { value: Number(product.wholesale_price), curr: "IDR" }
+          : null;
 
-    try {
-      const wholesaleObj = typeof product.wholesale_prices === "string" ? JSON.parse(product.wholesale_prices) : product.wholesale_prices || {};
-      const dbWholesale = wholesaleObj[curr] || wholesaleObj[curr.toLowerCase()] || wholesaleObj[curr.toUpperCase()];
-      if (dbWholesale) return { value: parseFloat(dbWholesale), curr: curr };
-    } catch (e) { console.error(e); }
+      try {
+        const wholesaleObj =
+          typeof product.wholesale_prices === "string"
+            ? JSON.parse(product.wholesale_prices)
+            : product.wholesale_prices || {};
+        const dbWholesale =
+          wholesaleObj[curr] ||
+          wholesaleObj[curr.toLowerCase()] ||
+          wholesaleObj[curr.toUpperCase()];
+        if (dbWholesale) return { value: parseFloat(dbWholesale), curr: curr };
+      } catch (e) {
+        console.error(e);
+      }
 
-    return product.wholesale_price ? { value: Number(product.wholesale_price), curr: "IDR" } : null;
-  }, [curr]);
+      return product.wholesale_price
+        ? { value: Number(product.wholesale_price), curr: "IDR" }
+        : null;
+    },
+    [curr],
+  );
 
-  const formatCurrencyDisplay = useCallback((priceObj: { value: number; curr: string } | null) => {
-    if (!priceObj) return "";
-    const symbols: any = { USD: "$", SGD: "S$", EUR: "€", AUD: "A$", MYR: "RM", IDR: "Rp " };
-    const formatter = new Intl.NumberFormat(priceObj.curr === "IDR" ? "id-ID" : "en-US", {
-      minimumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
-      maximumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
-    });
-    return `${symbols[priceObj.curr] || priceObj.curr + " "}${formatter.format(priceObj.value)}`;
-  }, []);
+  const formatCurrencyDisplay = useCallback(
+    (priceObj: { value: number; curr: string } | null) => {
+      if (!priceObj) return "";
+      const symbols: any = {
+        USD: "$",
+        SGD: "S$",
+        EUR: "€",
+        AUD: "A$",
+        MYR: "RM",
+        IDR: "Rp ",
+      };
+      const formatter = new Intl.NumberFormat(
+        priceObj.curr === "IDR" ? "id-ID" : "en-US",
+        {
+          minimumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
+          maximumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
+        },
+      );
+      return `${symbols[priceObj.curr] || priceObj.curr + " "}${formatter.format(priceObj.value)}`;
+    },
+    [],
+  );
 
   // const getActivePriceObj = useCallback((product: any, totalQty: number) => {
   //   const isReseller = userType === "reseller";
@@ -9110,19 +9176,25 @@ export default function PaymentPage() {
   //   return dynamicPriceObj;
   // }, [userType, appliedPromoType, getPriceToDisplay, getDiscountToDisplay, getWholesaleToDisplay]);
 
-  const convertIDRtoActiveCurrency = useCallback((idrAmount: number) => {
-    if (curr === "IDR" || !exchangeRates || !exchangeRates[curr]) return { value: idrAmount, curr: "IDR" };
-    return { value: idrAmount * exchangeRates[curr], curr: curr };
-  }, [curr, exchangeRates]);
+  const convertIDRtoActiveCurrency = useCallback(
+    (idrAmount: number) => {
+      if (curr === "IDR" || !exchangeRates || !exchangeRates[curr])
+        return { value: idrAmount, curr: "IDR" };
+      return { value: idrAmount * exchangeRates[curr], curr: curr };
+    },
+    [curr, exchangeRates],
+  );
 
-  const getFreshProduct = useCallback((cartProduct: any) => {
-    if (catalogProducts.length > 0 && cartProduct) {
-      const fresh = catalogProducts.find((p) => p.id === cartProduct.id);
-      if (fresh) return fresh;
-    }
-    return cartProduct;
-  }, [catalogProducts]);
-
+  const getFreshProduct = useCallback(
+    (cartProduct: any) => {
+      if (catalogProducts.length > 0 && cartProduct) {
+        const fresh = catalogProducts.find((p) => p.id === cartProduct.id);
+        if (fresh) return fresh;
+      }
+      return cartProduct;
+    },
+    [catalogProducts],
+  );
 
   // // ============================================================================
   // // 2. DATA CALCULATION (Menggunakan Fresh Product dari DB)
@@ -9180,7 +9252,9 @@ export default function PaymentPage() {
   // 2. DATA CALCULATION (Menggunakan Fresh Product dari DB)
   // ============================================================================
   const checkoutItems = useMemo(() => {
-    let baseItems = cartItems.filter((item) => selectedItemIds.includes(item.id));
+    let baseItems = cartItems.filter((item) =>
+      selectedItemIds.includes(item.id),
+    );
     if (catalogProducts.length > 0) {
       baseItems = baseItems.map((item) => {
         const fresh = catalogProducts.find((p) => p.id === item.product_id);
@@ -9196,76 +9270,192 @@ export default function PaymentPage() {
 
   // Cek Bundle Validasi
   const hasNonEgbSelected = useMemo(() => {
-    return checkoutItems.some(item => item.product && item.product.sku && !item.product.sku.startsWith("EGB"));
+    return checkoutItems.some(
+      (item) =>
+        item.product && item.product.sku && !item.product.sku.startsWith("EGB"),
+    );
   }, [checkoutItems]);
 
   const isBundlePeriod = new Date() <= new Date("2026-08-20T23:59:59+07:00");
 
+  // // Total Murni IDR (Untuk validasi Poin & Promo)
+  // const checkoutTotalIDR = useMemo(() => {
+  //   return checkoutItems.reduce((sum, item) => {
+  //     const isReseller = userType === 'reseller';
+  //     const wholesale = Number(item.product.wholesale_price) || 0;
+  //     const discount = Number(item.product.discount_price) || 0;
+  //     let priceToUse = Number(item.product.price) || 0;
+  //     const sku = item.product.sku || "";
+
+  //     if (isReseller && wholesale > 0 && checkoutCount >= 24) {
+  //       priceToUse = wholesale;
+  //     } else if (isBundlePeriod && hasNonEgbSelected && (sku === "EGB001" || sku === "EGB002")) {
+  //       if (sku === "EGB001") priceToUse = 299000;
+  //       if (sku === "EGB002") priceToUse = 309000;
+  //     } else if (discount > 0 && discount < priceToUse) {
+  //       priceToUse = discount;
+  //     }
+
+  //     if (appliedPromoType === "voucher" && item.product.voucher_discount_price && Number(item.product.voucher_discount_price) > 0) {
+  //       priceToUse = Number(item.product.voucher_discount_price);
+  //     }
+  //     return sum + (priceToUse * item.quantity);
+  //   }, 0);
+  // }, [checkoutItems, appliedPromoType, userType, checkoutCount, hasNonEgbSelected]);
+
+  // // Helper Get Active Price (Di-update dengan logika Bundle)
+  // const getActivePriceObj = useCallback((product: any, totalQty: number, isBundleActive: boolean = false) => {
+  //   const isReseller = userType === "reseller";
+  //   const voucher = Number(product.voucher_discount_price) || 0;
+  //   const sku = product.sku || "";
+
+  //   if (appliedPromoType === "voucher" && voucher > 0) {
+  //     return { value: voucher, curr: "IDR" };
+  //   }
+
+  //   const dynamicPriceObj = getPriceToDisplay(product);
+  //   const dynamicDiscountObj = getDiscountToDisplay(product);
+  //   const dynamicWholesaleObj = getWholesaleToDisplay(product);
+  //   const hasWholesale = dynamicWholesaleObj && dynamicWholesaleObj.value > 0;
+
+  //   if (isReseller && hasWholesale && totalQty >= 24) {
+  //     return dynamicWholesaleObj!;
+  //   } else if (isBundlePeriod && isBundleActive && (sku === "EGB001" || sku === "EGB002")) {
+  //     if (sku === "EGB001") return convertIDRtoActiveCurrency(299000);
+  //     if (sku === "EGB002") return convertIDRtoActiveCurrency(309000);
+  //   } else if (dynamicDiscountObj && dynamicDiscountObj.value > 0 && dynamicDiscountObj.value < dynamicPriceObj.value) {
+  //     return dynamicDiscountObj;
+  //   }
+  //   return dynamicPriceObj;
+  // }, [userType, appliedPromoType, getPriceToDisplay, getDiscountToDisplay, getWholesaleToDisplay, convertIDRtoActiveCurrency]);
+
   // Total Murni IDR (Untuk validasi Poin & Promo)
   const checkoutTotalIDR = useMemo(() => {
     return checkoutItems.reduce((sum, item) => {
-      const isReseller = userType === 'reseller';
+      const isReseller = userType === "reseller";
       const wholesale = Number(item.product.wholesale_price) || 0;
       const discount = Number(item.product.discount_price) || 0;
-      let priceToUse = Number(item.product.price) || 0;
+      const basePrice = Number(item.product.price) || 0;
       const sku = item.product.sku || "";
+
+      const discountPrice =
+        discount > 0 && discount < basePrice ? discount : basePrice;
+      let priceToUse = basePrice;
+
+      let bundleVal = null;
+      if (isBundlePeriod && hasNonEgbSelected) {
+        if (sku.startsWith("EGB001")) bundleVal = 299000;
+        else if (sku.startsWith("EGB002")) bundleVal = 309000;
+      }
 
       if (isReseller && wholesale > 0 && checkoutCount >= 24) {
         priceToUse = wholesale;
-      } else if (isBundlePeriod && hasNonEgbSelected && (sku === "EGB001" || sku === "EGB002")) {
-        if (sku === "EGB001") priceToUse = 299000;
-        if (sku === "EGB002") priceToUse = 309000;
-      } else if (discount > 0 && discount < priceToUse) {
-        priceToUse = discount;
+      } else {
+        if (bundleVal !== null) {
+          priceToUse = Math.min(bundleVal, discountPrice);
+        } else {
+          priceToUse = discountPrice;
+        }
       }
 
-      if (appliedPromoType === "voucher" && item.product.voucher_discount_price && Number(item.product.voucher_discount_price) > 0) {
+      if (
+        appliedPromoType === "voucher" &&
+        item.product.voucher_discount_price &&
+        Number(item.product.voucher_discount_price) > 0
+      ) {
         priceToUse = Number(item.product.voucher_discount_price);
       }
-      return sum + (priceToUse * item.quantity);
+      return sum + priceToUse * item.quantity;
     }, 0);
-  }, [checkoutItems, appliedPromoType, userType, checkoutCount, hasNonEgbSelected]);
+  }, [
+    checkoutItems,
+    appliedPromoType,
+    userType,
+    checkoutCount,
+    hasNonEgbSelected,
+    isBundlePeriod,
+  ]);
 
+  // Helper Get Active Price
+  const getActivePriceObj = useCallback(
+    (product: any, totalQty: number, isBundleActive: boolean = false) => {
+      const isReseller = userType === "reseller";
+      const voucher = Number(product.voucher_discount_price) || 0;
+      const sku = product.sku || "";
 
-  // Helper Get Active Price (Di-update dengan logika Bundle)
-  const getActivePriceObj = useCallback((product: any, totalQty: number, isBundleActive: boolean = false) => {
-    const isReseller = userType === "reseller";
-    const voucher = Number(product.voucher_discount_price) || 0;
-    const sku = product.sku || "";
+      if (appliedPromoType === "voucher" && voucher > 0) {
+        return { value: voucher, curr: "IDR" };
+      }
 
-    if (appliedPromoType === "voucher" && voucher > 0) {
-      return { value: voucher, curr: "IDR" };
-    }
+      const dynamicPriceObj = getPriceToDisplay(product);
+      const dynamicDiscountObj = getDiscountToDisplay(product);
+      const dynamicWholesaleObj = getWholesaleToDisplay(product);
+      const hasWholesale = dynamicWholesaleObj && dynamicWholesaleObj.value > 0;
 
-    const dynamicPriceObj = getPriceToDisplay(product);
-    const dynamicDiscountObj = getDiscountToDisplay(product);
-    const dynamicWholesaleObj = getWholesaleToDisplay(product);
-    const hasWholesale = dynamicWholesaleObj && dynamicWholesaleObj.value > 0;
+      if (isReseller && hasWholesale && totalQty >= 24) {
+        return dynamicWholesaleObj!;
+      }
 
-    if (isReseller && hasWholesale && totalQty >= 24) {
-      return dynamicWholesaleObj!;
-    } else if (isBundlePeriod && isBundleActive && (sku === "EGB001" || sku === "EGB002")) {
-      if (sku === "EGB001") return convertIDRtoActiveCurrency(299000);
-      if (sku === "EGB002") return convertIDRtoActiveCurrency(309000);
-    } else if (dynamicDiscountObj && dynamicDiscountObj.value > 0 && dynamicDiscountObj.value < dynamicPriceObj.value) {
-      return dynamicDiscountObj;
-    }
-    return dynamicPriceObj;
-  }, [userType, appliedPromoType, getPriceToDisplay, getDiscountToDisplay, getWholesaleToDisplay, convertIDRtoActiveCurrency]);
+      let bestPriceObj = dynamicPriceObj;
+
+      if (
+        dynamicDiscountObj &&
+        dynamicDiscountObj.value > 0 &&
+        dynamicDiscountObj.value < dynamicPriceObj.value
+      ) {
+        bestPriceObj = dynamicDiscountObj;
+      }
+
+      if (isBundlePeriod && isBundleActive) {
+        let bundleVal = null;
+        if (sku.startsWith("EGB001")) bundleVal = 299000;
+        else if (sku.startsWith("EGB002")) bundleVal = 309000;
+
+        if (bundleVal !== null) {
+          const bundleObj = convertIDRtoActiveCurrency(bundleVal);
+          if (bundleObj.value < bestPriceObj.value) {
+            bestPriceObj = bundleObj;
+          }
+        }
+      }
+
+      return bestPriceObj;
+    },
+    [
+      userType,
+      appliedPromoType,
+      getPriceToDisplay,
+      getDiscountToDisplay,
+      getWholesaleToDisplay,
+      convertIDRtoActiveCurrency,
+      isBundlePeriod,
+    ],
+  );
 
   // Total Tampil Multi-Currency
   const checkoutTotalAmountObj = useMemo(() => {
     const totalValue = checkoutItems.reduce((sum, item) => {
       // Pastikan melemparkan parameter hasNonEgbSelected ke helper active price
-      const activeObj = getActivePriceObj(item.product, checkoutCount, hasNonEgbSelected);
+      const activeObj = getActivePriceObj(
+        item.product,
+        checkoutCount,
+        hasNonEgbSelected,
+      );
       let val = activeObj.value;
-      if (activeObj.curr === 'IDR' && curr !== 'IDR') {
+      if (activeObj.curr === "IDR" && curr !== "IDR") {
         val = val * (exchangeRates?.[curr] || 1);
       }
-      return sum + (val * item.quantity);
+      return sum + val * item.quantity;
     }, 0);
     return { value: totalValue, curr };
-  }, [checkoutItems, checkoutCount, curr, getActivePriceObj, exchangeRates, hasNonEgbSelected]);
+  }, [
+    checkoutItems,
+    checkoutCount,
+    curr,
+    getActivePriceObj,
+    exchangeRates,
+    hasNonEgbSelected,
+  ]);
 
   // Diskon Promo
   const actualPromoDiscountIDR = useMemo(() => {
@@ -9279,30 +9469,56 @@ export default function PaymentPage() {
       return productDiscount + shippingSubsidy;
     }
     return promoDiscountAmount;
-  }, [appliedPromoType, checkoutTotalIDR, shippingMethod, selectedRate, checkoutCount, promoDiscountAmount]);
-  const actualPromoDiscountObj = convertIDRtoActiveCurrency(actualPromoDiscountIDR);
+  }, [
+    appliedPromoType,
+    checkoutTotalIDR,
+    shippingMethod,
+    selectedRate,
+    checkoutCount,
+    promoDiscountAmount,
+  ]);
+  const actualPromoDiscountObj = convertIDRtoActiveCurrency(
+    actualPromoDiscountIDR,
+  );
 
   // Diskon Poin
   const maxPointsAllowed = useMemo(() => {
-    const maxUsableAmount = Math.max(0, checkoutTotalIDR - actualPromoDiscountIDR);
+    const maxUsableAmount = Math.max(
+      0,
+      checkoutTotalIDR - actualPromoDiscountIDR,
+    );
     return Math.min(availablePoints, Math.floor(maxUsableAmount / 1000));
   }, [availablePoints, checkoutTotalIDR, actualPromoDiscountIDR]);
 
   const appliedPointDiscountIDR = pointsUsed * 1000;
-  const appliedPointDiscountObj = convertIDRtoActiveCurrency(appliedPointDiscountIDR);
+  const appliedPointDiscountObj = convertIDRtoActiveCurrency(
+    appliedPointDiscountIDR,
+  );
 
   // Ongkos Kirim
-  const shippingCostIDR = shippingMethod === "biteship" && selectedRate ? parseFloat(selectedRate.price) * checkoutCount : 0;
+  const shippingCostIDR =
+    shippingMethod === "biteship" && selectedRate
+      ? parseFloat(selectedRate.price) * checkoutCount
+      : 0;
   const shippingCostObj = convertIDRtoActiveCurrency(shippingCostIDR);
 
   // Grand Total
   const grandTotalObj = useMemo(() => {
     return {
-      value: checkoutTotalAmountObj.value + shippingCostObj.value - actualPromoDiscountObj.value - appliedPointDiscountObj.value,
-      curr: curr
+      value:
+        checkoutTotalAmountObj.value +
+        shippingCostObj.value -
+        actualPromoDiscountObj.value -
+        appliedPointDiscountObj.value,
+      curr: curr,
     };
-  }, [checkoutTotalAmountObj, shippingCostObj, actualPromoDiscountObj, appliedPointDiscountObj, curr]);
-
+  }, [
+    checkoutTotalAmountObj,
+    shippingCostObj,
+    actualPromoDiscountObj,
+    appliedPointDiscountObj,
+    curr,
+  ]);
 
   // ============================================================================
   // 3. API & EFFECT HANDLING
@@ -9331,25 +9547,37 @@ export default function PaymentPage() {
 
   const fetchAddressFromCoords = async (lat: number, lng: number) => {
     try {
-      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`,
+      );
       const data = await res.json();
       if (data && data.address) {
         const { address } = data;
         const newCity = address.city || address.town || address.county || "";
-        const newRegion = address.suburb || address.village || address.neighbourhood || "";
+        const newRegion =
+          address.suburb || address.village || address.neighbourhood || "";
         const newProvince = address.state || "";
         const newPostal = address.postcode || "";
         const roadName = address.road || "";
         const houseNumber = address.house_number || "";
-        const fullStreet = roadName ? `${roadName} ${houseNumber}`.trim() : data.display_name;
+        const fullStreet = roadName
+          ? `${roadName} ${houseNumber}`.trim()
+          : data.display_name;
 
         setFormData((prev) => ({
-          ...prev, latitude: lat.toString(), longitude: lng.toString(),
-          address_location: fullStreet, city: newCity, province: newProvince,
-          region: newRegion, postal_code: newPostal,
+          ...prev,
+          latitude: lat.toString(),
+          longitude: lng.toString(),
+          address_location: fullStreet,
+          city: newCity,
+          province: newProvince,
+          region: newRegion,
+          postal_code: newPostal,
         }));
       }
-    } catch (error) { console.error(error); }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const MapEvents = useCallback(() => {
@@ -9364,7 +9592,9 @@ export default function PaymentPage() {
 
   const MapCenterUpdater = ({ position }: { position: [number, number] }) => {
     const map = useMap();
-    useEffect(() => { map.setView(position, map.getZoom()); }, [position, map]);
+    useEffect(() => {
+      map.setView(position, map.getZoom());
+    }, [position, map]);
     return null;
   };
 
@@ -9382,19 +9612,33 @@ export default function PaymentPage() {
       const lng = parseFloat(address.details.longitude);
       setMapPosition(!isNaN(lat) && !isNaN(lng) ? [lat, lng] : defaultPosition);
       setFormData({
-        region: address.details.region || "", first_name_address: address.receiver.first_name,
-        last_name_address: address.receiver.last_name, address_location: address.details.address_location,
-        city: address.details.city, province: address.details.province, postal_code: address.details.postal_code,
-        location_type: address.details.type, latitude: address.details.latitude || "",
-        longitude: address.details.longitude || "", is_default: address.is_default,
+        region: address.details.region || "",
+        first_name_address: address.receiver.first_name,
+        last_name_address: address.receiver.last_name,
+        address_location: address.details.address_location,
+        city: address.details.city,
+        province: address.details.province,
+        postal_code: address.details.postal_code,
+        location_type: address.details.type,
+        latitude: address.details.latitude || "",
+        longitude: address.details.longitude || "",
+        is_default: address.is_default,
       });
     } else {
       setEditingId(null);
       setMapPosition(defaultPosition);
       setFormData({
-        region: "", first_name_address: "", last_name_address: "", address_location: "",
-        city: "", province: "", postal_code: "", location_type: "home", latitude: "",
-        longitude: "", is_default: false,
+        region: "",
+        first_name_address: "",
+        last_name_address: "",
+        address_location: "",
+        city: "",
+        province: "",
+        postal_code: "",
+        location_type: "home",
+        latitude: "",
+        longitude: "",
+        is_default: false,
       });
     }
     setIsModalOpen(true);
@@ -9403,7 +9647,10 @@ export default function PaymentPage() {
   const fetchAddresses = async (token: string) => {
     try {
       const res = await fetch(`${BASE_URL}/api/addresses`, {
-        headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
       });
       if (res.ok) {
         const data = await res.json();
@@ -9416,7 +9663,9 @@ export default function PaymentPage() {
           setSelectedAddressId(null);
         }
       }
-    } catch (err) { console.error(err); }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
@@ -9427,7 +9676,9 @@ export default function PaymentPage() {
           const data = await res.json();
           setCatalogProducts(data.data ? data.data : data);
         }
-      } catch (err) { console.error(err); } finally {
+      } catch (err) {
+        console.error(err);
+      } finally {
         setIsCatalogLoaded(true);
       }
     };
@@ -9444,11 +9695,14 @@ export default function PaymentPage() {
       const token = localStorage.getItem("user_token");
       const userStr = localStorage.getItem("user_data");
 
-      if (!token) { navigate(`${urlPrefix}/login`); return; }
+      if (!token) {
+        navigate(`${urlPrefix}/login`);
+        return;
+      }
       if (userStr) {
         const user = JSON.parse(userStr);
         setAvailablePoints(user.point || 0);
-        setUserType(user.usertype || 'user');
+        setUserType(user.usertype || "user");
       }
 
       await fetchAddresses(token);
@@ -9456,7 +9710,9 @@ export default function PaymentPage() {
       const now = new Date();
       now.setHours(now.getHours() + 1);
       setDeliveryDate(now.toISOString().split("T")[0]);
-      setDeliveryTime(`${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`);
+      setDeliveryTime(
+        `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`,
+      );
       setIsPageLoading(false);
     };
 
@@ -9464,7 +9720,11 @@ export default function PaymentPage() {
   }, [navigate, selectedItemIds.length]);
 
   useEffect(() => {
-    if (selectedAddressId && selectedItemIds.length > 0 && shippingMethod === "biteship") {
+    if (
+      selectedAddressId &&
+      selectedItemIds.length > 0 &&
+      shippingMethod === "biteship"
+    ) {
       const getRates = async () => {
         setIsLoadingRates(true);
         setSelectedRate(null);
@@ -9478,13 +9738,18 @@ export default function PaymentPage() {
               Authorization: `Bearer ${token}`,
               Accept: "application/json",
             },
-            body: JSON.stringify({ address_id: selectedAddressId, cart_ids: selectedItemIds }),
+            body: JSON.stringify({
+              address_id: selectedAddressId,
+              cart_ids: selectedItemIds,
+            }),
           });
           if (res.ok) {
             const data = await res.json();
             if (data.pricing) setRawShippingRates(data.pricing);
           }
-        } catch (err) { console.error(err); } finally {
+        } catch (err) {
+          console.error(err);
+        } finally {
           setIsLoadingRates(false);
         }
       };
@@ -9496,7 +9761,9 @@ export default function PaymentPage() {
     if (!rawShippingRates || rawShippingRates.length === 0) return [];
     return rawShippingRates
       .map((rate) => ({ ...rate, is_disabled: false, disable_reason: "" }))
-      .sort((a, b) => (a.is_disabled === b.is_disabled ? 0 : a.is_disabled ? 1 : -1));
+      .sort((a, b) =>
+        a.is_disabled === b.is_disabled ? 0 : a.is_disabled ? 1 : -1,
+      );
   }, [rawShippingRates]);
 
   const applyPromo = async (e: any) => {
@@ -9517,14 +9784,17 @@ export default function PaymentPage() {
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.message || "Promo tidak valid");
-      if (checkoutTotalIDR < 50000) throw new Error("Minimum belanja Rp 50.000");
+      if (checkoutTotalIDR < 50000)
+        throw new Error("Minimum belanja Rp 50.000");
 
       setAppliedPromoCode(promoInput.toUpperCase());
       setAppliedPromoType(data.promo_type);
 
       if (data.promo_type === "claim") {
         setPromoDiscountAmount(0);
-        setPromoMessage("✅ " + data.message + " (10% OFF + Subsidi Ongkir 10K)");
+        setPromoMessage(
+          "✅ " + data.message + " (10% OFF + Subsidi Ongkir 10K)",
+        );
       } else {
         setPromoDiscountAmount(data.discount_value);
         setPromoMessage("✅ " + data.message + " (Harga Khusus Diterapkan)");
@@ -9538,14 +9808,22 @@ export default function PaymentPage() {
   };
 
   const removePromo = () => {
-    setPromoInput(""); setAppliedPromoCode(null); setAppliedPromoType(null);
-    setPromoDiscountAmount(0); setPromoMessage("");
+    setPromoInput("");
+    setAppliedPromoCode(null);
+    setAppliedPromoType(null);
+    setPromoDiscountAmount(0);
+    setPromoMessage("");
   };
 
   const handleApplyPoints = (e: any) => {
     e.preventDefault();
     const ptsToUse = Number(pointsInput);
-    if (ptsToUse > availablePoints) return Swal.fire("Peringatan", `Anda hanya memiliki ${availablePoints} poin.`, "warning");
+    if (ptsToUse > availablePoints)
+      return Swal.fire(
+        "Peringatan",
+        `Anda hanya memiliki ${availablePoints} poin.`,
+        "warning",
+      );
     if (ptsToUse > maxPointsAllowed) {
       setPointsInput(maxPointsAllowed);
       setPointsUsed(maxPointsAllowed);
@@ -9554,7 +9832,10 @@ export default function PaymentPage() {
     setPointsUsed(ptsToUse);
   };
 
-  const handleRemovePoints = () => { setPointsInput(""); setPointsUsed(0); };
+  const handleRemovePoints = () => {
+    setPointsInput("");
+    setPointsUsed(0);
+  };
 
   const handlePayment = async () => {
     setIsProcessing(true);
@@ -9565,9 +9846,11 @@ export default function PaymentPage() {
         shipping_method: shippingMethod,
         use_points: pointsUsed,
         cart_ids: selectedItemIds,
-        courier_company: shippingMethod === "biteship" ? selectedRate?.company : null,
+        courier_company:
+          shippingMethod === "biteship" ? selectedRate?.company : null,
         courier_type: shippingMethod === "biteship" ? selectedRate?.type : null,
-        shipping_cost: shippingMethod === "biteship" ? selectedRate?.price : null,
+        shipping_cost:
+          shippingMethod === "biteship" ? selectedRate?.price : null,
         delivery_type: shippingMethod === "biteship" ? "now" : null,
         delivery_date: shippingMethod === "biteship" ? deliveryDate : null,
         delivery_time: shippingMethod === "biteship" ? deliveryTime : null,
@@ -9577,7 +9860,11 @@ export default function PaymentPage() {
 
       const res = await fetch(`${BASE_URL}/api/checkout`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}`, Accept: "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
         body: JSON.stringify(payload),
       });
       const data = await res.json();
@@ -9592,7 +9879,12 @@ export default function PaymentPage() {
             items: checkoutItems.map((item: any) => {
               const freshProd = getFreshProduct(item.product);
               const activePObj = getActivePriceObj(freshProd, checkoutCount);
-              return { item_id: freshProd.id, item_name: freshProd.name, price: activePObj.value, quantity: item.quantity };
+              return {
+                item_id: freshProd.id,
+                item_name: freshProd.name,
+                price: activePObj.value,
+                quantity: item.quantity,
+              };
             }),
           },
         });
@@ -9607,41 +9899,74 @@ export default function PaymentPage() {
     }
   };
 
-  const handleImageError = (company: string) => { setImageErrors((prev) => ({ ...prev, [company]: true })); };
+  const handleImageError = (company: string) => {
+    setImageErrors((prev) => ({ ...prev, [company]: true }));
+  };
 
   const getCourierLogo = (company: string) => {
     if (!company) return null;
-    const map: Record<string, string> = { jne: "jne.png", sicepat: "sicepat.png", jnt: "jnt.png", anteraja: "anteraja.png", gojek: "gojek.png", grab: "grab.png", paxel: "paxel.png", ninja: "ninja.png" };
-    return map[company.toLowerCase()] ? "/courier_images/" + map[company.toLowerCase()] : null;
+    const map: Record<string, string> = {
+      jne: "jne.png",
+      sicepat: "sicepat.png",
+      jnt: "jnt.png",
+      anteraja: "anteraja.png",
+      gojek: "gojek.png",
+      grab: "grab.png",
+      paxel: "paxel.png",
+      ninja: "ninja.png",
+    };
+    return map[company.toLowerCase()]
+      ? "/courier_images/" + map[company.toLowerCase()]
+      : null;
   };
 
   const handleSubmitAddress = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.latitude || !formData.longitude) return Swal.fire(t("notification"), t("warn_select_location"), "warning");
+    if (!formData.latitude || !formData.longitude)
+      return Swal.fire(t("notification"), t("warn_select_location"), "warning");
 
     const token = localStorage.getItem("user_token");
     const method = editingId ? "PUT" : "POST";
-    const url = editingId ? `${BASE_URL}/api/addresses/${editingId}` : `${BASE_URL}/api/addresses`;
+    const url = editingId
+      ? `${BASE_URL}/api/addresses/${editingId}`
+      : `${BASE_URL}/api/addresses`;
 
     try {
       const res = await fetch(url, {
-        method, headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(formData),
       });
 
       if (res.ok) {
-        Swal.fire({ icon: "success", title: "Berhasil!", text: editingId ? t("toast_address_updated") : t("toast_address_added"), timer: 1500, showConfirmButton: false });
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil!",
+          text: editingId
+            ? t("toast_address_updated")
+            : t("toast_address_added"),
+          timer: 1500,
+          showConfirmButton: false,
+        });
         setIsModalOpen(false);
         fetchAddresses(token!);
       } else {
         throw new Error("Gagal menyimpan alamat");
       }
     } catch (error) {
-      console.error(error); Swal.fire(t("error"), t("server_error"), "error");
+      console.error(error);
+      Swal.fire(t("error"), t("server_error"), "error");
     }
   };
 
-  const isButtonDisabled = isProcessing || checkoutItems.length === 0 || !selectedAddressId || (shippingMethod === "biteship" && !selectedRate);
+  const isButtonDisabled =
+    isProcessing ||
+    checkoutItems.length === 0 ||
+    !selectedAddressId ||
+    (shippingMethod === "biteship" && !selectedRate);
 
   if (isPageLoading || !isCatalogLoaded) {
     return (
@@ -9651,7 +9976,9 @@ export default function PaymentPage() {
           <div className="w-3 h-3 rounded-full bg-gycora animate-bounce-2"></div>
           <div className="w-3 h-3 rounded-full bg-gycora animate-bounce-3"></div>
         </div>
-        <p className="font-serif text-sm italic tracking-widest text-gray-500 animate-pulse">{t("pay_loading_checkout")}</p>
+        <p className="font-serif text-sm italic tracking-widest text-gray-500 animate-pulse">
+          {t("pay_loading_checkout")}
+        </p>
       </div>
     );
   }
@@ -9660,8 +9987,13 @@ export default function PaymentPage() {
     return (
       <div className="min-h-screen px-6 py-12 mx-auto font-sans md:py-24 max-w-[1440px] animate-fade-in">
         <div className="py-20 text-center">
-          <h2 className="mb-4 text-3xl font-extrabold text-gray-900">{t("pay_empty_items")}</h2>
-          <button onClick={() => navigate(`${urlPrefix}/cart`)} className="px-8 py-3 text-xs font-bold tracking-widest text-white uppercase rounded-full bg-gycora hover:bg-gycora-dark">
+          <h2 className="mb-4 text-3xl font-extrabold text-gray-900">
+            {t("pay_empty_items")}
+          </h2>
+          <button
+            onClick={() => navigate(`${urlPrefix}/cart`)}
+            className="px-8 py-3 text-xs font-bold tracking-widest text-white uppercase rounded-full bg-gycora hover:bg-gycora-dark"
+          >
             {t("pay_btn_back_cart")}
           </button>
         </div>
@@ -9681,11 +10013,18 @@ export default function PaymentPage() {
           <section>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-4">
-                <span className="flex items-center justify-center w-6 h-6 text-[10px] font-bold text-white rounded-full bg-gycora">1</span>
-                <h2 className="text-sm font-bold tracking-widest text-gray-900 uppercase">{t("pay_shipping_address")}</h2>
+                <span className="flex items-center justify-center w-6 h-6 text-[10px] font-bold text-white rounded-full bg-gycora">
+                  1
+                </span>
+                <h2 className="text-sm font-bold tracking-widest text-gray-900 uppercase">
+                  {t("pay_shipping_address")}
+                </h2>
               </div>
               {addresses.length > 0 && (
-                <button onClick={() => handleOpenModal()} className="text-xs font-bold transition-colors text-emerald-600 hover:text-emerald-800">
+                <button
+                  onClick={() => handleOpenModal()}
+                  className="text-xs font-bold transition-colors text-emerald-600 hover:text-emerald-800"
+                >
                   {t("pay_add_address")}
                 </button>
               )}
@@ -9693,23 +10032,45 @@ export default function PaymentPage() {
 
             {addresses.length === 0 ? (
               <div className="py-10 text-center border border-gray-300 border-dashed bg-gray-50 rounded-2xl">
-                <p className="mb-2 text-sm italic text-gray-500">{t("pay_no_address")}</p>
-                <button onClick={() => handleOpenModal()} className="px-6 py-2 mt-2 text-xs font-bold tracking-widest text-white uppercase transition-colors rounded-full shadow-md bg-gycora hover:bg-gycora-dark">
+                <p className="mb-2 text-sm italic text-gray-500">
+                  {t("pay_no_address")}
+                </p>
+                <button
+                  onClick={() => handleOpenModal()}
+                  className="px-6 py-2 mt-2 text-xs font-bold tracking-widest text-white uppercase transition-colors rounded-full shadow-md bg-gycora hover:bg-gycora-dark"
+                >
                   {t("pay_new_address")}
                 </button>
               </div>
             ) : (
               <div className="space-y-4">
                 {addresses.map((addr) => (
-                  <label key={addr.id} className={`relative flex items-start p-6 border rounded-2xl cursor-pointer transition-all ${selectedAddressId === addr.id ? "border-gycora ring-1 ring-gycora bg-emerald-50/20 shadow-md" : "border-gray-200 bg-white hover:bg-gray-50"}`}>
-                    <input type="radio" name="address" value={addr.id} checked={selectedAddressId === addr.id} onChange={() => setSelectedAddressId(addr.id)} className="w-5 h-5 mt-1 border-gray-300 rounded-full text-gycora focus:ring-gycora" />
+                  <label
+                    key={addr.id}
+                    className={`relative flex items-start p-6 border rounded-2xl cursor-pointer transition-all ${selectedAddressId === addr.id ? "border-gycora ring-1 ring-gycora bg-emerald-50/20 shadow-md" : "border-gray-200 bg-white hover:bg-gray-50"}`}
+                  >
+                    <input
+                      type="radio"
+                      name="address"
+                      value={addr.id}
+                      checked={selectedAddressId === addr.id}
+                      onChange={() => setSelectedAddressId(addr.id)}
+                      className="w-5 h-5 mt-1 border-gray-300 rounded-full text-gycora focus:ring-gycora"
+                    />
                     <div className="flex-grow ml-4">
                       <div className="flex justify-between">
-                        <p className="text-sm font-bold text-gray-900 uppercase">{addr.receiver.full_name}</p>
-                        {addr.is_default && <span className="px-2 py-0.5 text-[9px] font-bold text-emerald-800 uppercase bg-emerald-100 rounded">{t("main_address")}</span>}
+                        <p className="text-sm font-bold text-gray-900 uppercase">
+                          {addr.receiver.full_name}
+                        </p>
+                        {addr.is_default && (
+                          <span className="px-2 py-0.5 text-[9px] font-bold text-emerald-800 uppercase bg-emerald-100 rounded">
+                            {t("main_address")}
+                          </span>
+                        )}
                       </div>
                       <p className="mt-2 text-sm leading-relaxed text-gray-600">
-                        {addr.details.address_location} - {addr.details.type} <br />
+                        {addr.details.address_location} - {addr.details.type}{" "}
+                        <br />
                         {addr.details.city}, {addr.details.province} <br />
                         {addr.details.region} - {addr.details.postal_code}
                       </p>
@@ -9721,61 +10082,131 @@ export default function PaymentPage() {
           </section>
 
           {/* BAGIAN KURIR */}
-          <section className={!selectedAddressId ? "opacity-50 pointer-events-none" : ""}>
+          <section
+            className={
+              !selectedAddressId ? "opacity-50 pointer-events-none" : ""
+            }
+          >
             <div className="flex items-center gap-4 mb-6">
-              <span className="flex items-center justify-center w-6 h-6 text-[10px] font-bold text-white rounded-full bg-gycora">2</span>
-              <h2 className="text-sm font-bold tracking-widest text-gray-900 uppercase">{t("pay_shipping_method")}</h2>
+              <span className="flex items-center justify-center w-6 h-6 text-[10px] font-bold text-white rounded-full bg-gycora">
+                2
+              </span>
+              <h2 className="text-sm font-bold tracking-widest text-gray-900 uppercase">
+                {t("pay_shipping_method")}
+              </h2>
             </div>
 
             <div className="space-y-4">
-              <label className={`relative flex items-center p-6 border rounded-2xl cursor-pointer transition-all ${shippingMethod === "free" ? "border-gycora ring-1 ring-gycora bg-emerald-50/20 shadow-md" : "border-gray-200 bg-white hover:bg-gray-50"}`}>
-                <input type="radio" value="free" checked={shippingMethod === "free"} onChange={() => setShippingMethod("free")} className="w-5 h-5 border-gray-300 rounded-full text-gycora focus:ring-gycora" />
+              <label
+                className={`relative flex items-center p-6 border rounded-2xl cursor-pointer transition-all ${shippingMethod === "free" ? "border-gycora ring-1 ring-gycora bg-emerald-50/20 shadow-md" : "border-gray-200 bg-white hover:bg-gray-50"}`}
+              >
+                <input
+                  type="radio"
+                  value="free"
+                  checked={shippingMethod === "free"}
+                  onChange={() => setShippingMethod("free")}
+                  className="w-5 h-5 border-gray-300 rounded-full text-gycora focus:ring-gycora"
+                />
                 <div className="flex items-center justify-between flex-grow ml-4">
                   <div>
-                    <p className="text-sm font-bold tracking-wide text-gray-900 uppercase">{t("pay_method_pickup")}</p>
-                    <p className="mt-1 text-xs font-bold text-emerald-600">{t("pay_method_pickup_desc")}</p>
+                    <p className="text-sm font-bold tracking-wide text-gray-900 uppercase">
+                      {t("pay_method_pickup")}
+                    </p>
+                    <p className="mt-1 text-xs font-bold text-emerald-600">
+                      {t("pay_method_pickup_desc")}
+                    </p>
                   </div>
-                  <p className="font-black text-gycora">{t("pay_method_free")}</p>
+                  <p className="font-black text-gycora">
+                    {t("pay_method_free")}
+                  </p>
                 </div>
               </label>
 
-              <label className={`relative flex items-center p-6 border rounded-2xl cursor-pointer transition-all ${shippingMethod === "biteship" ? "border-gycora ring-1 ring-gycora bg-emerald-50/20 shadow-md" : "border-gray-200 bg-white hover:bg-gray-50"}`}>
-                <input type="radio" value="biteship" checked={shippingMethod === "biteship"} onChange={() => setShippingMethod("biteship")} className="w-5 h-5 border-gray-300 rounded-full text-gycora focus:ring-gycora" />
+              <label
+                className={`relative flex items-center p-6 border rounded-2xl cursor-pointer transition-all ${shippingMethod === "biteship" ? "border-gycora ring-1 ring-gycora bg-emerald-50/20 shadow-md" : "border-gray-200 bg-white hover:bg-gray-50"}`}
+              >
+                <input
+                  type="radio"
+                  value="biteship"
+                  checked={shippingMethod === "biteship"}
+                  onChange={() => setShippingMethod("biteship")}
+                  className="w-5 h-5 border-gray-300 rounded-full text-gycora focus:ring-gycora"
+                />
                 <div className="flex items-center justify-between flex-grow ml-4">
                   <div>
-                    <p className="text-sm font-bold tracking-wide text-gray-900 uppercase">{t("pay_method_courier")}</p>
-                    <p className="mt-1 text-xs text-gray-500">{t("pay_method_courier_desc")}</p>
+                    <p className="text-sm font-bold tracking-wide text-gray-900 uppercase">
+                      {t("pay_method_courier")}
+                    </p>
+                    <p className="mt-1 text-xs text-gray-500">
+                      {t("pay_method_courier_desc")}
+                    </p>
                   </div>
                 </div>
               </label>
 
               {shippingMethod === "biteship" && (
                 <div className="p-6 mt-4 space-y-8 bg-white border border-gray-200 rounded-3xl animate-fade-in">
-                  <h3 className="pt-2 text-sm font-bold tracking-widest text-gray-900 uppercase border-t border-gray-100">{t("pay_choose_courier")}</h3>
+                  <h3 className="pt-2 text-sm font-bold tracking-widest text-gray-900 uppercase border-t border-gray-100">
+                    {t("pay_choose_courier")}
+                  </h3>
                   {isLoadingRates ? (
-                    <p className="py-4 text-sm text-center text-gray-500 animate-pulse">{t("pay_calc_shipping")}</p>
+                    <p className="py-4 text-sm text-center text-gray-500 animate-pulse">
+                      {t("pay_calc_shipping")}
+                    </p>
                   ) : processedShippingRates.length === 0 ? (
-                    <p className="py-4 text-xs italic text-center text-red-500">{t("pay_no_courier")}</p>
+                    <p className="py-4 text-xs italic text-center text-red-500">
+                      {t("pay_no_courier")}
+                    </p>
                   ) : (
                     <div className="space-y-3">
                       {processedShippingRates.map((rate, idx) => (
-                        <label key={idx} className={`relative flex flex-col p-4 border rounded-xl transition-all ${rate.is_disabled ? "opacity-50 bg-gray-50 pointer-events-none" : selectedRate?.company === rate.company && selectedRate?.type === rate.type ? "border-gycora bg-emerald-50/10 shadow-sm" : "border-gray-200 hover:bg-gray-50 cursor-pointer"}`}>
+                        <label
+                          key={idx}
+                          className={`relative flex flex-col p-4 border rounded-xl transition-all ${rate.is_disabled ? "opacity-50 bg-gray-50 pointer-events-none" : selectedRate?.company === rate.company && selectedRate?.type === rate.type ? "border-gycora bg-emerald-50/10 shadow-sm" : "border-gray-200 hover:bg-gray-50 cursor-pointer"}`}
+                        >
                           <div className="flex items-center w-full">
-                            <input type="radio" disabled={rate.is_disabled} checked={selectedRate?.company === rate.company && selectedRate?.type === rate.type} onChange={() => setSelectedRate(rate)} className="w-4 h-4 border-gray-300 text-gycora focus:ring-gycora" />
+                            <input
+                              type="radio"
+                              disabled={rate.is_disabled}
+                              checked={
+                                selectedRate?.company === rate.company &&
+                                selectedRate?.type === rate.type
+                              }
+                              onChange={() => setSelectedRate(rate)}
+                              className="w-4 h-4 border-gray-300 text-gycora focus:ring-gycora"
+                            />
                             <div className="flex items-center flex-grow gap-4 ml-4">
                               <div className="flex items-center justify-center w-12 h-12 overflow-hidden bg-white border border-gray-100 rounded-lg shrink-0">
-                                {!imageErrors[rate.company] && getCourierLogo(rate.company) ? (
-                                  <img src={getCourierLogo(rate.company)!} alt={rate.company} className="object-contain w-full h-full p-1" onError={() => handleImageError(rate.company)} />
+                                {!imageErrors[rate.company] &&
+                                getCourierLogo(rate.company) ? (
+                                  <img
+                                    src={getCourierLogo(rate.company)!}
+                                    alt={rate.company}
+                                    className="object-contain w-full h-full p-1"
+                                    onError={() =>
+                                      handleImageError(rate.company)
+                                    }
+                                  />
                                 ) : (
-                                  <span className="text-[10px] font-black text-gray-400">{rate.company.toUpperCase()}</span>
+                                  <span className="text-[10px] font-black text-gray-400">
+                                    {rate.company.toUpperCase()}
+                                  </span>
                                 )}
                               </div>
                               <div>
-                                <p className="text-sm font-bold tracking-wide text-gray-800 uppercase">{rate.company} - {rate.type}</p>
-                                <p className="text-[10px] text-gray-500 mt-0.5">{rate.courier_name} ({rate.duration})</p>
+                                <p className="text-sm font-bold tracking-wide text-gray-800 uppercase">
+                                  {rate.company} - {rate.type}
+                                </p>
+                                <p className="text-[10px] text-gray-500 mt-0.5">
+                                  {rate.courier_name} ({rate.duration})
+                                </p>
                               </div>
                             </div>
-                            <p className="text-sm font-black text-gray-900">{formatCurrencyDisplay(convertIDRtoActiveCurrency(rate.price))}</p>
+                            <p className="text-sm font-black text-gray-900">
+                              {formatCurrencyDisplay(
+                                convertIDRtoActiveCurrency(rate.price),
+                              )}
+                            </p>
                           </div>
                         </label>
                       ))}
@@ -9790,7 +10221,9 @@ export default function PaymentPage() {
         {/* BAGIAN KANAN: RINGKASAN PESANAN */}
         <div className="space-y-6 lg:w-[450px] xl:w-[480px] shrink-0">
           <div className="sticky p-8 border border-gray-100 shadow-xl bg-gray-50 rounded-3xl top-28">
-            <h2 className="pb-4 mb-6 text-sm font-bold tracking-widest text-gray-900 uppercase border-b border-gray-200">{t("pay_order_summary")}</h2>
+            <h2 className="pb-4 mb-6 text-sm font-bold tracking-widest text-gray-900 uppercase border-b border-gray-200">
+              {t("pay_order_summary")}
+            </h2>
 
             <div className="space-y-4 mb-8 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
               {checkoutItems.map((item: any) => {
@@ -9798,42 +10231,96 @@ export default function PaymentPage() {
                 let colorName = "";
                 try {
                   const parsed = JSON.parse(item.color as string);
-                  if (parsed.hex) { colorHex = parsed.hex; colorName = parsed.name || ""; }
+                  if (parsed.hex) {
+                    colorHex = parsed.hex;
+                    colorName = parsed.name || "";
+                  }
                 } catch {}
 
                 // 👇 GUNAKAN SISTEM HARGA BARU 👇
                 const freshProd = getFreshProduct(item.product);
-                const activePriceObj = getActivePriceObj(freshProd, checkoutCount);
+                const activePriceObj = getActivePriceObj(
+                  freshProd,
+                  checkoutCount,
+                );
                 const basePriceObj = getPriceToDisplay(freshProd);
 
-                const isDiscounted = activePriceObj.value < basePriceObj.value;
-                const isWholesaleActive = userType === 'reseller' && Number(freshProd.wholesale_price) > 0 && checkoutCount >= 24;
+                const isBundleApplied =
+                  isBundlePeriod &&
+                  hasNonEgbSelected &&
+                  (freshProd.sku?.startsWith("EGB001") ||
+                    freshProd.sku?.startsWith("EGB002")) &&
+                  activePriceObj.value < basePriceObj.value &&
+                  activePriceObj.value !==
+                    getDiscountToDisplay(freshProd)?.value;
 
-                const currentGrossAmountObj = { value: activePriceObj.value * item.quantity, curr: activePriceObj.curr };
-                const originalGrossAmountObj = { value: basePriceObj.value * item.quantity, curr: basePriceObj.curr };
+                const isDiscounted = activePriceObj.value < basePriceObj.value;
+                const isWholesaleActive =
+                  userType === "reseller" &&
+                  Number(freshProd.wholesale_price) > 0 &&
+                  checkoutCount >= 24;
+
+                const currentGrossAmountObj = {
+                  value: activePriceObj.value * item.quantity,
+                  curr: activePriceObj.curr,
+                };
+                const originalGrossAmountObj = {
+                  value: basePriceObj.value * item.quantity,
+                  curr: basePriceObj.curr,
+                };
 
                 return (
                   <div key={item.id} className="flex gap-4">
-                    <img src={freshProd.image_url} alt={freshProd.name} className="object-cover w-16 h-16 bg-white border border-gray-100 rounded-xl shrink-0" />
+                    <img
+                      src={freshProd.image_url}
+                      alt={freshProd.name}
+                      className="object-cover w-16 h-16 bg-white border border-gray-100 rounded-xl shrink-0"
+                    />
                     <div className="flex-grow">
                       <div className="flex items-center gap-2">
-                        <p className="w-40 text-[11px] font-bold text-gray-900 uppercase truncate" title={freshProd.name}>{freshProd.name}</p>
-                        {isWholesaleActive && <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-blue-600 rounded">GROSIR</span>}
+                        <p
+                          className="w-40 text-[11px] font-bold text-gray-900 uppercase truncate"
+                          title={freshProd.name}
+                        >
+                          {freshProd.name}
+                        </p>
+                        {/* {isWholesaleActive && <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-blue-600 rounded">GROSIR</span>} */}
+                        {isWholesaleActive && (
+                          <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-blue-600 rounded">
+                            GROSIR
+                          </span>
+                        )}
+                        {!isWholesaleActive && isBundleApplied && (
+                          <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-purple-600 rounded">
+                            BUNDLE
+                          </span>
+                        )}
                       </div>
                       <div className="flex items-center gap-2 mt-0.5">
-                        <p className="text-[10px] text-gray-400">Qty: {item.quantity}</p>
+                        <p className="text-[10px] text-gray-400">
+                          Qty: {item.quantity}
+                        </p>
                         {item.color && (
                           <>
                             <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
                             <div className="flex items-center gap-1.5">
-                              <div className="w-3 h-3 border border-gray-300 rounded-full shadow-sm shrink-0" style={{ backgroundColor: colorHex }}></div>
-                              {colorName && <span className="text-[10px] font-bold text-gray-500 uppercase">{colorName}</span>}
+                              <div
+                                className="w-3 h-3 border border-gray-300 rounded-full shadow-sm shrink-0"
+                                style={{ backgroundColor: colorHex }}
+                              ></div>
+                              {colorName && (
+                                <span className="text-[10px] font-bold text-gray-500 uppercase">
+                                  {colorName}
+                                </span>
+                              )}
                             </div>
                           </>
                         )}
                       </div>
-                      
-                      <p className={`mt-1 text-xs font-medium ${isWholesaleActive ? 'text-blue-600' : 'text-gycora'}`}>
+
+                      <p
+                        className={`mt-1 text-xs font-medium ${isWholesaleActive ? "text-blue-600" : "text-gycora"}`}
+                      >
                         {formatCurrencyDisplay(currentGrossAmountObj)}{" "}
                         {isDiscounted && (
                           <span className="text-[9px] line-through text-gray-400 ml-1">
@@ -9850,33 +10337,74 @@ export default function PaymentPage() {
             <div className="pt-4 space-y-3 text-sm border-t border-gray-200">
               <div className="flex justify-between text-gray-500">
                 <span>{t("pay_total_items")}</span>
-                <span className="font-bold text-gray-900">{checkoutCount} items</span>
+                <span className="font-bold text-gray-900">
+                  {checkoutCount} items
+                </span>
               </div>
               <div className="flex justify-between text-gray-500">
                 <span>{t("pay_product_subtotal")}</span>
-                <span className={appliedPromoType === "voucher" ? "text-amber-600 font-bold" : ""}>
+                <span
+                  className={
+                    appliedPromoType === "voucher"
+                      ? "text-amber-600 font-bold"
+                      : ""
+                  }
+                >
                   {formatCurrencyDisplay(checkoutTotalAmountObj)}
                 </span>
               </div>
 
               {/* Promo Code */}
               <div className="pt-4 mt-2 border-t border-gray-200 border-dashed">
-                <label className="block mb-2 text-[10px] font-bold tracking-widest text-gray-900 uppercase">{t("pay_promo_label")}</label>
+                <label className="block mb-2 text-[10px] font-bold tracking-widest text-gray-900 uppercase">
+                  {t("pay_promo_label")}
+                </label>
                 <form onSubmit={applyPromo} className="flex gap-2">
-                  <input type="text" value={promoInput} onChange={(e) => setPromoInput(e.target.value)} disabled={!!appliedPromoCode || isVerifyingPromo} placeholder={t("pay_promo_placeholder")} className="flex-1 px-3 py-2 text-sm uppercase bg-white border border-gray-300 rounded-lg outline-none focus:ring-1 focus:ring-gycora disabled:bg-gray-100" />
+                  <input
+                    type="text"
+                    value={promoInput}
+                    onChange={(e) => setPromoInput(e.target.value)}
+                    disabled={!!appliedPromoCode || isVerifyingPromo}
+                    placeholder={t("pay_promo_placeholder")}
+                    className="flex-1 px-3 py-2 text-sm uppercase bg-white border border-gray-300 rounded-lg outline-none focus:ring-1 focus:ring-gycora disabled:bg-gray-100"
+                  />
                   {!appliedPromoCode ? (
-                    <button type="submit" disabled={!promoInput || isVerifyingPromo} className="flex items-center justify-center w-20 px-4 text-[10px] font-bold text-white uppercase transition rounded-lg bg-gycora hover:bg-gycora-dark disabled:bg-gray-300">
+                    <button
+                      type="submit"
+                      disabled={!promoInput || isVerifyingPromo}
+                      className="flex items-center justify-center w-20 px-4 text-[10px] font-bold text-white uppercase transition rounded-lg bg-gycora hover:bg-gycora-dark disabled:bg-gray-300"
+                    >
                       {isVerifyingPromo ? "..." : t("pay_btn_apply")}
                     </button>
                   ) : (
-                    <button type="button" onClick={removePromo} className="w-20 px-4 text-[10px] font-bold text-red-600 uppercase transition border border-red-200 rounded-lg bg-red-50 hover:bg-red-100">{t("pay_btn_remove")}</button>
+                    <button
+                      type="button"
+                      onClick={removePromo}
+                      className="w-20 px-4 text-[10px] font-bold text-red-600 uppercase transition border border-red-200 rounded-lg bg-red-50 hover:bg-red-100"
+                    >
+                      {t("pay_btn_remove")}
+                    </button>
                   )}
                 </form>
-                {promoMessage && <p className={`mt-2 text-[10px] font-medium ${appliedPromoCode ? "text-emerald-600" : "text-red-500"}`}>{promoMessage}</p>}
+                {promoMessage && (
+                  <p
+                    className={`mt-2 text-[10px] font-medium ${appliedPromoCode ? "text-emerald-600" : "text-red-500"}`}
+                  >
+                    {promoMessage}
+                  </p>
+                )}
                 {appliedPromoCode && (
                   <div className="flex justify-between text-[10px] md:text-xs font-medium text-emerald-600 mt-2">
-                    <span className="pr-2 truncate">Promo (<span className="font-mono uppercase">{appliedPromoCode}</span>)</span>
-                    <span>- {formatCurrencyDisplay(actualPromoDiscountObj)}</span>
+                    <span className="pr-2 truncate">
+                      Promo (
+                      <span className="font-mono uppercase">
+                        {appliedPromoCode}
+                      </span>
+                      )
+                    </span>
+                    <span>
+                      - {formatCurrencyDisplay(actualPromoDiscountObj)}
+                    </span>
                   </div>
                 )}
               </div>
@@ -9884,21 +10412,57 @@ export default function PaymentPage() {
               {/* Loyalty Points */}
               <div className="pt-4 mt-2 border-t border-gray-200 border-dashed">
                 <div className="flex items-center justify-between mb-3">
-                  <label className="text-[10px] font-bold tracking-widest text-gray-900 uppercase">{t("pay_loyalty_points")}</label>
-                  <span className="text-xs text-gray-500">{t("pay_balance")} <strong className="text-gycora">{availablePoints} Pts</strong></span>
+                  <label className="text-[10px] font-bold tracking-widest text-gray-900 uppercase">
+                    {t("pay_loyalty_points")}
+                  </label>
+                  <span className="text-xs text-gray-500">
+                    {t("pay_balance")}{" "}
+                    <strong className="text-gycora">
+                      {availablePoints} Pts
+                    </strong>
+                  </span>
                 </div>
                 <form onSubmit={handleApplyPoints} className="flex gap-2">
-                  <input type="number" value={pointsInput} onChange={(e) => setPointsInput(e.target.value === "" ? "" : Number(e.target.value))} disabled={pointsUsed > 0 || availablePoints <= 0} placeholder={`Maks: ${maxPointsAllowed}`} className="flex-1 px-3 py-2 text-sm bg-white border border-gray-300 rounded-lg outline-none focus:ring-1 focus:ring-gycora disabled:bg-gray-100" min="0" max={maxPointsAllowed} />
+                  <input
+                    type="number"
+                    value={pointsInput}
+                    onChange={(e) =>
+                      setPointsInput(
+                        e.target.value === "" ? "" : Number(e.target.value),
+                      )
+                    }
+                    disabled={pointsUsed > 0 || availablePoints <= 0}
+                    placeholder={`Maks: ${maxPointsAllowed}`}
+                    className="flex-1 px-3 py-2 text-sm bg-white border border-gray-300 rounded-lg outline-none focus:ring-1 focus:ring-gycora disabled:bg-gray-100"
+                    min="0"
+                    max={maxPointsAllowed}
+                  />
                   {pointsUsed === 0 ? (
-                    <button type="submit" disabled={!pointsInput || availablePoints <= 0} className="flex items-center justify-center w-24 px-4 text-[10px] font-bold text-white uppercase transition rounded-lg bg-gycora hover:bg-gycora-dark disabled:bg-gray-300">{t("pay_btn_use")}</button>
+                    <button
+                      type="submit"
+                      disabled={!pointsInput || availablePoints <= 0}
+                      className="flex items-center justify-center w-24 px-4 text-[10px] font-bold text-white uppercase transition rounded-lg bg-gycora hover:bg-gycora-dark disabled:bg-gray-300"
+                    >
+                      {t("pay_btn_use")}
+                    </button>
                   ) : (
-                    <button type="button" onClick={handleRemovePoints} className="w-24 px-4 text-[10px] font-bold text-red-600 uppercase transition border border-red-200 rounded-lg bg-red-50 hover:bg-red-100">{t("pay_btn_cancel")}</button>
+                    <button
+                      type="button"
+                      onClick={handleRemovePoints}
+                      className="w-24 px-4 text-[10px] font-bold text-red-600 uppercase transition border border-red-200 rounded-lg bg-red-50 hover:bg-red-100"
+                    >
+                      {t("pay_btn_cancel")}
+                    </button>
                   )}
                 </form>
                 {pointsUsed > 0 && (
                   <div className="flex items-center justify-between mt-3 animate-fade-in">
-                    <span className="text-[10px] font-bold tracking-widest text-gray-500 uppercase">{t("pay_points_applied")} ({pointsUsed} Pts)</span>
-                    <span className="text-[11px] font-medium text-emerald-600">- {formatCurrencyDisplay(appliedPointDiscountObj)}</span>
+                    <span className="text-[10px] font-bold tracking-widest text-gray-500 uppercase">
+                      {t("pay_points_applied")} ({pointsUsed} Pts)
+                    </span>
+                    <span className="text-[11px] font-medium text-emerald-600">
+                      - {formatCurrencyDisplay(appliedPointDiscountObj)}
+                    </span>
                   </div>
                 )}
               </div>
@@ -9907,11 +10471,24 @@ export default function PaymentPage() {
               <div className="flex items-start justify-between pt-4 mt-2 text-gray-500 border-t border-gray-200 border-dashed">
                 <span>{t("pay_shipping_cost")}</span>
                 {shippingMethod === "free" ? (
-                  <span className="font-bold text-emerald-600">{t("pay_method_pickup")}</span>
+                  <span className="font-bold text-emerald-600">
+                    {t("pay_method_pickup")}
+                  </span>
                 ) : shippingMethod === "biteship" && selectedRate ? (
                   <div className="text-right">
-                    <span className="block font-medium text-gray-900">{formatCurrencyDisplay({ value: parseFloat(selectedRate.price) * checkoutCount, curr: 'IDR' })}</span>
-                    <p className="mt-1 text-[10px] text-gray-400">{formatCurrencyDisplay({ value: parseFloat(selectedRate.price), curr: 'IDR' })} x {checkoutCount} item</p>
+                    <span className="block font-medium text-gray-900">
+                      {formatCurrencyDisplay({
+                        value: parseFloat(selectedRate.price) * checkoutCount,
+                        curr: "IDR",
+                      })}
+                    </span>
+                    <p className="mt-1 text-[10px] text-gray-400">
+                      {formatCurrencyDisplay({
+                        value: parseFloat(selectedRate.price),
+                        curr: "IDR",
+                      })}{" "}
+                      x {checkoutCount} item
+                    </p>
                   </div>
                 ) : (
                   <span className="text-[10px] italic">Pilih metode</span>
@@ -9919,16 +10496,32 @@ export default function PaymentPage() {
               </div>
 
               <div className="flex justify-between pt-4 font-bold text-gray-900 border-t border-gray-200">
-                <span className="mt-1 text-xs tracking-widest uppercase">{t("pay_grand_total")}</span>
-                <span className="text-xl text-gycora">{formatCurrencyDisplay(grandTotalObj)}</span>
+                <span className="mt-1 text-xs tracking-widest uppercase">
+                  {t("pay_grand_total")}
+                </span>
+                <span className="text-xl text-gycora">
+                  {formatCurrencyDisplay(grandTotalObj)}
+                </span>
               </div>
 
-              <button onClick={handlePayment} disabled={isButtonDisabled} className="flex items-center justify-center w-full gap-3 py-4 mt-8 text-xs font-bold tracking-[0.3em] text-white uppercase transition-all duration-300 shadow-xl bg-gray-900 rounded-2xl hover:bg-black disabled:bg-gray-300 hover:shadow-black/10">
+              <button
+                onClick={handlePayment}
+                disabled={isButtonDisabled}
+                className="flex items-center justify-center w-full gap-3 py-4 mt-8 text-xs font-bold tracking-[0.3em] text-white uppercase transition-all duration-300 shadow-xl bg-gray-900 rounded-2xl hover:bg-black disabled:bg-gray-300 hover:shadow-black/10"
+              >
                 {!isProcessing ? t("pay_btn_pay_now") : t("pay_btn_processing")}
               </button>
 
-              {!selectedAddressId && <p className="mt-4 text-[10px] tracking-tighter text-center text-red-500 uppercase">{t("pay_alert_no_address")}</p>}
-              {shippingMethod === "biteship" && !selectedRate && <p className="mt-4 text-[10px] tracking-tighter text-center text-red-500 uppercase">{t("pay_alert_no_courier")}</p>}
+              {!selectedAddressId && (
+                <p className="mt-4 text-[10px] tracking-tighter text-center text-red-500 uppercase">
+                  {t("pay_alert_no_address")}
+                </p>
+              )}
+              {shippingMethod === "biteship" && !selectedRate && (
+                <p className="mt-4 text-[10px] tracking-tighter text-center text-red-500 uppercase">
+                  {t("pay_alert_no_courier")}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -9940,55 +10533,159 @@ export default function PaymentPage() {
           <div className="flex flex-col w-full max-w-5xl my-auto overflow-hidden bg-white shadow-2xl rounded-3xl">
             <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50 shrink-0">
               <h3 className="text-xl font-extrabold tracking-tight text-gray-900">
-                {editingId ? t("modal_edit_address_title") : t("modal_add_address_title")}
+                {editingId
+                  ? t("modal_edit_address_title")
+                  : t("modal_add_address_title")}
               </h3>
-              <button onClick={() => setIsModalOpen(false)} className="p-2 text-gray-400 transition-colors bg-white border border-gray-200 rounded-full hover:text-gray-900 hover:bg-gray-100">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="p-2 text-gray-400 transition-colors bg-white border border-gray-200 rounded-full hover:text-gray-900 hover:bg-gray-100"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
               </button>
             </div>
 
             <div className="flex flex-col md:flex-row h-auto md:h-[650px] overflow-hidden">
               {/* BAGIAN PETA (KIRI) */}
               <div className="relative w-full bg-gray-100 border-b border-gray-200 h-72 md:h-full md:w-5/12 md:border-b-0 md:border-r shrink-0">
-                <MapContainer center={mapPosition} zoom={15} style={{ height: "100%", width: "100%" }} scrollWheelZoom={true}>
-                  <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                  <Marker position={mapPosition}><Popup>{t("popup_selected_location")}</Popup></Marker>
+                <MapContainer
+                  center={mapPosition}
+                  zoom={15}
+                  style={{ height: "100%", width: "100%" }}
+                  scrollWheelZoom={true}
+                >
+                  <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  />
+                  <Marker position={mapPosition}>
+                    <Popup>{t("popup_selected_location")}</Popup>
+                  </Marker>
                   <MapEvents />
                   <MapCenterUpdater position={mapPosition} />
                 </MapContainer>
 
-                <button type="button" onClick={handleGetCurrentLocation} disabled={isGettingLocation} className="absolute z-[1000] bottom-6 left-1/2 -translate-x-1/2 md:left-auto md:-translate-x-0 md:right-6 flex items-center gap-2 bg-white text-gray-900 px-5 py-2.5 rounded-full shadow-xl font-bold text-xs hover:bg-gray-50 border border-gray-200 transition-all hover:-translate-y-0.5">
+                <button
+                  type="button"
+                  onClick={handleGetCurrentLocation}
+                  disabled={isGettingLocation}
+                  className="absolute z-[1000] bottom-6 left-1/2 -translate-x-1/2 md:left-auto md:-translate-x-0 md:right-6 flex items-center gap-2 bg-white text-gray-900 px-5 py-2.5 rounded-full shadow-xl font-bold text-xs hover:bg-gray-50 border border-gray-200 transition-all hover:-translate-y-0.5"
+                >
                   {isGettingLocation ? (
                     <span className="w-4 h-4 border-2 rounded-full border-[#006A4E] border-t-transparent animate-spin"></span>
                   ) : (
-                    <svg className="w-4 h-4 text-[#006A4E]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    <svg
+                      className="w-4 h-4 text-[#006A4E]"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                    </svg>
                   )}
                   {t("btn_use_current_location")}
                 </button>
               </div>
 
               {/* BAGIAN FORM (KANAN) */}
-              <form onSubmit={handleSubmitAddress} className="flex flex-col flex-1 p-6 space-y-6 overflow-y-auto bg-white sm:p-8 custom-scrollbar">
+              <form
+                onSubmit={handleSubmitAddress}
+                className="flex flex-col flex-1 p-6 space-y-6 overflow-y-auto bg-white sm:p-8 custom-scrollbar"
+              >
                 <div className="flex gap-3 p-4 border border-blue-100 rounded-2xl bg-blue-50/50">
-                  <svg className="w-5 h-5 text-blue-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  <p className="text-xs leading-relaxed text-blue-800">{t("guide_map_text")}</p>
+                  <svg
+                    className="w-5 h-5 text-blue-500 shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <p className="text-xs leading-relaxed text-blue-800">
+                    {t("guide_map_text")}
+                  </p>
                 </div>
 
                 <div className="space-y-5">
                   <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                     <div>
-                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">{t("label_first_name")}</label>
-                      <input type="text" required value={formData.first_name_address} onChange={(e) => setFormData({ ...formData, first_name_address: e.target.value }) } className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                        {t("label_first_name")}
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.first_name_address}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            first_name_address: e.target.value,
+                          })
+                        }
+                        className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all"
+                      />
                     </div>
                     <div>
-                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">{t("label_last_name")}</label>
-                      <input type="text" required value={formData.last_name_address} onChange={(e) => setFormData({ ...formData, last_name_address: e.target.value }) } className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                        {t("label_last_name")}
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.last_name_address}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            last_name_address: e.target.value,
+                          })
+                        }
+                        className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all"
+                      />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">{t("label_address_type")}</label>
-                    <select value={formData.location_type} onChange={(e) => setFormData({ ...formData, location_type: e.target.value }) } className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none bg-white transition-all">
+                    <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                      {t("label_address_type")}
+                    </label>
+                    <select
+                      value={formData.location_type}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          location_type: e.target.value,
+                        })
+                      }
+                      className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none bg-white transition-all"
+                    >
                       <option value="home">{t("option_home")}</option>
                       <option value="office">{t("option_office")}</option>
                       <option value="other">{t("option_other")}</option>
@@ -9996,46 +10693,136 @@ export default function PaymentPage() {
                   </div>
 
                   <div>
-                    <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">{t("label_full_address")}</label>
-                    <textarea required rows={3} placeholder={t("placeholder_full_address")} value={formData.address_location} onChange={(e) => setFormData({ ...formData, address_location: e.target.value }) } className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none resize-none bg-white transition-all"></textarea>
+                    <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                      {t("label_full_address")}
+                    </label>
+                    <textarea
+                      required
+                      rows={3}
+                      placeholder={t("placeholder_full_address")}
+                      value={formData.address_location}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          address_location: e.target.value,
+                        })
+                      }
+                      className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none resize-none bg-white transition-all"
+                    ></textarea>
                   </div>
 
                   <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div>
-                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">{t("label_region")}</label>
-                      <input type="text" required value={formData.region} onChange={(e) => setFormData({ ...formData, region: e.target.value }) } className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                        {t("label_region")}
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.region}
+                        onChange={(e) =>
+                          setFormData({ ...formData, region: e.target.value })
+                        }
+                        className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all"
+                      />
                     </div>
                     <div>
-                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">{t("label_city")}</label>
-                      <input type="text" required value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value }) } className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                        {t("label_city")}
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.city}
+                        onChange={(e) =>
+                          setFormData({ ...formData, city: e.target.value })
+                        }
+                        className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all"
+                      />
                     </div>
                     <div>
-                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">{t("label_province")}</label>
-                      <input type="text" required value={formData.province} onChange={(e) => setFormData({ ...formData, province: e.target.value }) } className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                        {t("label_province")}
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.province}
+                        onChange={(e) =>
+                          setFormData({ ...formData, province: e.target.value })
+                        }
+                        className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all"
+                      />
                     </div>
                     <div>
-                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">{t("label_postal_code")}</label>
-                      <input type="text" required value={formData.postal_code} onChange={(e) => setFormData({ ...formData, postal_code: e.target.value }) } className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all" />
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                        {t("label_postal_code")}
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.postal_code}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            postal_code: e.target.value,
+                          })
+                        }
+                        className="w-full p-3 text-sm font-medium border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#006A4E] outline-none transition-all"
+                      />
                     </div>
                   </div>
 
                   <input type="hidden" value={formData.latitude} />
                   <input type="hidden" value={formData.longitude} />
 
-                  <div className="flex items-center gap-3 p-4 mt-2 transition-colors border border-gray-200 cursor-pointer rounded-xl bg-gray-50 hover:bg-gray-100" onClick={() => setFormData({ ...formData, is_default: !formData.is_default }) }>
-                    <input type="checkbox" id="is_default" checked={formData.is_default} onChange={(e) => setFormData({ ...formData, is_default: e.target.checked }) } className="w-5 h-5 rounded cursor-pointer text-[#006A4E] focus:ring-[#006A4E] accent-[#006A4E]" onClick={(e) => e.stopPropagation()} />
-                    <label htmlFor="is_default" className="text-sm font-bold text-gray-800 cursor-pointer select-none" onClick={(e) => e.stopPropagation()}>
+                  <div
+                    className="flex items-center gap-3 p-4 mt-2 transition-colors border border-gray-200 cursor-pointer rounded-xl bg-gray-50 hover:bg-gray-100"
+                    onClick={() =>
+                      setFormData({
+                        ...formData,
+                        is_default: !formData.is_default,
+                      })
+                    }
+                  >
+                    <input
+                      type="checkbox"
+                      id="is_default"
+                      checked={formData.is_default}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          is_default: e.target.checked,
+                        })
+                      }
+                      className="w-5 h-5 rounded cursor-pointer text-[#006A4E] focus:ring-[#006A4E] accent-[#006A4E]"
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                    <label
+                      htmlFor="is_default"
+                      className="text-sm font-bold text-gray-800 cursor-pointer select-none"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       {t("label_set_default_address")}
                     </label>
                   </div>
                 </div>
 
                 <div className="flex justify-end gap-3 pt-6 mt-auto border-t border-gray-100">
-                  <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-3 text-sm font-bold text-gray-600 transition-colors bg-gray-100 rounded-xl hover:bg-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="px-6 py-3 text-sm font-bold text-gray-600 transition-colors bg-gray-100 rounded-xl hover:bg-gray-200"
+                  >
                     {t("btn_cancel")}
                   </button>
-                  <button type="submit" className="px-6 py-3 text-sm font-bold text-white transition-all shadow-md bg-[#006A4E] rounded-xl hover:bg-emerald-900 hover:shadow-lg">
-                    {editingId ? t("btn_update_address") : t("btn_save_address")}
+                  <button
+                    type="submit"
+                    className="px-6 py-3 text-sm font-bold text-white transition-all shadow-md bg-[#006A4E] rounded-xl hover:bg-emerald-900 hover:shadow-lg"
+                  >
+                    {editingId
+                      ? t("btn_update_address")
+                      : t("btn_save_address")}
                   </button>
                 </div>
               </form>

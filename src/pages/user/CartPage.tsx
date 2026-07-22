@@ -1154,6 +1154,34 @@ export default function CartPage() {
   //   return dynamicPriceObj;
   // };
 
+  // const getActivePriceObj = (product: Product | any, totalQty: number, isBundleActive: boolean = false) => {
+  //   const isReseller = userType === "reseller";
+
+  //   const dynamicPriceObj = getPriceToDisplay(product);
+  //   const dynamicDiscountObj = getDiscountToDisplay(product);
+  //   const dynamicWholesaleObj = getWholesaleToDisplay(product);
+
+  //   const hasWholesale = dynamicWholesaleObj && dynamicWholesaleObj.value > 0;
+  //   const sku = product?.sku || "";
+
+  //   // Batas waktu bundle ditetapkan menggunakan standar ISO agar otomatis menyesuaikan zona waktu lokal (WIB = +07:00)
+  //   const isBundlePeriod = new Date() <= new Date("2026-08-20T23:59:59+07:00");
+
+  //   if (isReseller && hasWholesale && totalQty >= 24) {
+  //     return dynamicWholesaleObj!;
+  //   } else if (isBundlePeriod && isBundleActive && (sku === "EGB001" || sku === "EGB002")) {
+  //     if (sku === "EGB001") return convertIDRtoActiveCurrency(299000);
+  //     if (sku === "EGB002") return convertIDRtoActiveCurrency(309000);
+  //   } else if (
+  //     dynamicDiscountObj &&
+  //     dynamicDiscountObj.value > 0 &&
+  //     dynamicDiscountObj.value < dynamicPriceObj.value
+  //   ) {
+  //     return dynamicDiscountObj;
+  //   }
+  //   return dynamicPriceObj;
+  // };
+
   const getActivePriceObj = (product: Product | any, totalQty: number, isBundleActive: boolean = false) => {
     const isReseller = userType === "reseller";
 
@@ -1164,22 +1192,37 @@ export default function CartPage() {
     const hasWholesale = dynamicWholesaleObj && dynamicWholesaleObj.value > 0;
     const sku = product?.sku || "";
 
-    // Batas waktu bundle ditetapkan menggunakan standar ISO agar otomatis menyesuaikan zona waktu lokal (WIB = +07:00)
     const isBundlePeriod = new Date() <= new Date("2026-08-20T23:59:59+07:00");
 
     if (isReseller && hasWholesale && totalQty >= 24) {
       return dynamicWholesaleObj!;
-    } else if (isBundlePeriod && isBundleActive && (sku === "EGB001" || sku === "EGB002")) {
-      if (sku === "EGB001") return convertIDRtoActiveCurrency(299000);
-      if (sku === "EGB002") return convertIDRtoActiveCurrency(309000);
-    } else if (
+    }
+
+    let bestPriceObj = dynamicPriceObj;
+
+    if (
       dynamicDiscountObj &&
       dynamicDiscountObj.value > 0 &&
       dynamicDiscountObj.value < dynamicPriceObj.value
     ) {
-      return dynamicDiscountObj;
+      bestPriceObj = dynamicDiscountObj;
     }
-    return dynamicPriceObj;
+
+    if (isBundlePeriod && isBundleActive) {
+      let bundleVal = null;
+      if (sku.startsWith("EGB001")) bundleVal = 299000;
+      else if (sku.startsWith("EGB002")) bundleVal = 309000;
+
+      if (bundleVal !== null) {
+        const bundleObj = convertIDRtoActiveCurrency(bundleVal);
+        // Pastikan Bundle lebih murah dari Diskon, baru ditimpa
+        if (bundleObj.value < bestPriceObj.value) {
+          bestPriceObj = bundleObj;
+        }
+      }
+    }
+
+    return bestPriceObj;
   };
 
   const formatCurrencyDisplay = (
@@ -1534,6 +1577,13 @@ export default function CartPage() {
                     getWholesaleToDisplay(freshProd) !== null &&
                     selectedTotalQuantity >= 24;
 
+                    const isBundleApplied = 
+   hasNonEgbSelected && 
+   new Date() <= new Date("2026-08-20T23:59:59+07:00") &&
+   (freshProd.sku?.startsWith("EGB001") || freshProd.sku?.startsWith("EGB002")) &&
+   activePriceObj.value < basePriceObj.value &&
+   activePriceObj.value !== getDiscountToDisplay(freshProd)?.value;
+
                   const currentGrossAmountObj = {
                     value: activePriceObj.value * item.quantity,
                     curr: activePriceObj.curr,
@@ -1568,7 +1618,7 @@ export default function CartPage() {
                           alt={freshProd.name}
                           className="object-cover w-full h-full transition-transform duration-500 hover:scale-105"
                         />
-                        {isDiscounted && (
+                        {/* {isDiscounted && (
                           <div
                             className={`absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm ${isWholesaleActive ? "bg-blue-600" : "bg-rose-500"}`}
                           >
@@ -1576,7 +1626,20 @@ export default function CartPage() {
                               ? "GROSIR"
                               : t("cart_sale_badge")}
                           </div>
-                        )}
+                        )} */}
+                        {isDiscounted && (
+  <div
+    className={`absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm ${
+      isWholesaleActive ? "bg-blue-600" : isBundleApplied ? "bg-purple-600" : "bg-rose-500"
+    }`}
+  >
+    {isWholesaleActive
+      ? "GROSIR"
+      : isBundleApplied
+      ? "BUNDLE"
+      : t("cart_sale_badge")}
+  </div>
+)}
                       </div>
 
                       <div className="flex flex-col justify-between flex-grow min-h-[6rem] sm:min-h-[10rem]">
@@ -1801,6 +1864,13 @@ export default function CartPage() {
                     userType === "reseller" &&
                     getWholesaleToDisplay(product) !== null &&
                     selectedTotalQuantity >= 24;
+
+                    const isBundleApplied = 
+                        hasNonEgbSelected && 
+                        new Date() <= new Date("2026-08-20T23:59:59+07:00") &&
+                        (product.sku?.startsWith("EGB001") || product.sku?.startsWith("EGB002")) &&
+                        sugActivePriceObj.value < sugBasePriceObj.value &&
+                        sugActivePriceObj.value !== getDiscountToDisplay(product)?.value;
 
                   return (
                     <div key={product.id} className="flex flex-col group">
