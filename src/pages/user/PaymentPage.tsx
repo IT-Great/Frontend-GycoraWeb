@@ -9087,28 +9087,28 @@ export default function PaymentPage() {
     return `${symbols[priceObj.curr] || priceObj.curr + " "}${formatter.format(priceObj.value)}`;
   }, []);
 
-  const getActivePriceObj = useCallback((product: any, totalQty: number) => {
-    const isReseller = userType === "reseller";
-    const voucher = Number(product.voucher_discount_price) || 0;
+  // const getActivePriceObj = useCallback((product: any, totalQty: number) => {
+  //   const isReseller = userType === "reseller";
+  //   const voucher = Number(product.voucher_discount_price) || 0;
 
-    // Voucher spesifik selalu IDR
-    if (appliedPromoType === "voucher" && voucher > 0) {
-      return { value: voucher, curr: "IDR" };
-    }
+  //   // Voucher spesifik selalu IDR
+  //   if (appliedPromoType === "voucher" && voucher > 0) {
+  //     return { value: voucher, curr: "IDR" };
+  //   }
 
-    const dynamicPriceObj = getPriceToDisplay(product);
-    const dynamicDiscountObj = getDiscountToDisplay(product);
-    const dynamicWholesaleObj = getWholesaleToDisplay(product);
+  //   const dynamicPriceObj = getPriceToDisplay(product);
+  //   const dynamicDiscountObj = getDiscountToDisplay(product);
+  //   const dynamicWholesaleObj = getWholesaleToDisplay(product);
 
-    const hasWholesale = dynamicWholesaleObj && dynamicWholesaleObj.value > 0;
+  //   const hasWholesale = dynamicWholesaleObj && dynamicWholesaleObj.value > 0;
 
-    if (isReseller && hasWholesale && totalQty >= 24) {
-      return dynamicWholesaleObj!;
-    } else if (dynamicDiscountObj && dynamicDiscountObj.value > 0 && dynamicDiscountObj.value < dynamicPriceObj.value) {
-      return dynamicDiscountObj;
-    }
-    return dynamicPriceObj;
-  }, [userType, appliedPromoType, getPriceToDisplay, getDiscountToDisplay, getWholesaleToDisplay]);
+  //   if (isReseller && hasWholesale && totalQty >= 24) {
+  //     return dynamicWholesaleObj!;
+  //   } else if (dynamicDiscountObj && dynamicDiscountObj.value > 0 && dynamicDiscountObj.value < dynamicPriceObj.value) {
+  //     return dynamicDiscountObj;
+  //   }
+  //   return dynamicPriceObj;
+  // }, [userType, appliedPromoType, getPriceToDisplay, getDiscountToDisplay, getWholesaleToDisplay]);
 
   const convertIDRtoActiveCurrency = useCallback((idrAmount: number) => {
     if (curr === "IDR" || !exchangeRates || !exchangeRates[curr]) return { value: idrAmount, curr: "IDR" };
@@ -9123,6 +9123,58 @@ export default function PaymentPage() {
     return cartProduct;
   }, [catalogProducts]);
 
+
+  // // ============================================================================
+  // // 2. DATA CALCULATION (Menggunakan Fresh Product dari DB)
+  // // ============================================================================
+  // const checkoutItems = useMemo(() => {
+  //   let baseItems = cartItems.filter((item) => selectedItemIds.includes(item.id));
+  //   if (catalogProducts.length > 0) {
+  //     baseItems = baseItems.map((item) => {
+  //       const fresh = catalogProducts.find((p) => p.id === item.product_id);
+  //       return fresh ? { ...item, product: fresh } : item;
+  //     });
+  //   }
+  //   return baseItems;
+  // }, [cartItems, selectedItemIds, catalogProducts]);
+
+  // const checkoutCount = useMemo(() => {
+  //   return checkoutItems.reduce((sum, item) => sum + item.quantity, 0);
+  // }, [checkoutItems]);
+
+  // // Total Murni IDR (Untuk validasi Poin & Promo)
+  // const checkoutTotalIDR = useMemo(() => {
+  //   return checkoutItems.reduce((sum, item) => {
+  //     const isReseller = userType === 'reseller';
+  //     const wholesale = Number(item.product.wholesale_price) || 0;
+  //     const discount = Number(item.product.discount_price) || 0;
+  //     let priceToUse = Number(item.product.price) || 0;
+
+  //     if (isReseller && wholesale > 0 && checkoutCount >= 24) {
+  //       priceToUse = wholesale;
+  //     } else if (discount > 0 && discount < priceToUse) {
+  //       priceToUse = discount;
+  //     }
+
+  //     if (appliedPromoType === "voucher" && item.product.voucher_discount_price && Number(item.product.voucher_discount_price) > 0) {
+  //       priceToUse = Number(item.product.voucher_discount_price);
+  //     }
+  //     return sum + (priceToUse * item.quantity);
+  //   }, 0);
+  // }, [checkoutItems, appliedPromoType, userType, checkoutCount]);
+
+  // // Total Tampil Multi-Currency
+  // const checkoutTotalAmountObj = useMemo(() => {
+  //   const totalValue = checkoutItems.reduce((sum, item) => {
+  //     const activeObj = getActivePriceObj(item.product, checkoutCount);
+  //     let val = activeObj.value;
+  //     if (activeObj.curr === 'IDR' && curr !== 'IDR') {
+  //       val = val * (exchangeRates?.[curr] || 1);
+  //     }
+  //     return sum + (val * item.quantity);
+  //   }, 0);
+  //   return { value: totalValue, curr };
+  // }, [checkoutItems, checkoutCount, curr, getActivePriceObj, exchangeRates]);
 
   // ============================================================================
   // 2. DATA CALCULATION (Menggunakan Fresh Product dari DB)
@@ -9142,6 +9194,13 @@ export default function PaymentPage() {
     return checkoutItems.reduce((sum, item) => sum + item.quantity, 0);
   }, [checkoutItems]);
 
+  // Cek Bundle Validasi
+  const hasNonEgbSelected = useMemo(() => {
+    return checkoutItems.some(item => item.product && item.product.sku && !item.product.sku.startsWith("EGB"));
+  }, [checkoutItems]);
+
+  const isBundlePeriod = new Date() <= new Date("2026-08-20T23:59:59+07:00");
+
   // Total Murni IDR (Untuk validasi Poin & Promo)
   const checkoutTotalIDR = useMemo(() => {
     return checkoutItems.reduce((sum, item) => {
@@ -9149,9 +9208,13 @@ export default function PaymentPage() {
       const wholesale = Number(item.product.wholesale_price) || 0;
       const discount = Number(item.product.discount_price) || 0;
       let priceToUse = Number(item.product.price) || 0;
+      const sku = item.product.sku || "";
 
       if (isReseller && wholesale > 0 && checkoutCount >= 24) {
         priceToUse = wholesale;
+      } else if (isBundlePeriod && hasNonEgbSelected && (sku === "EGB001" || sku === "EGB002")) {
+        if (sku === "EGB001") priceToUse = 299000;
+        if (sku === "EGB002") priceToUse = 309000;
       } else if (discount > 0 && discount < priceToUse) {
         priceToUse = discount;
       }
@@ -9161,12 +9224,40 @@ export default function PaymentPage() {
       }
       return sum + (priceToUse * item.quantity);
     }, 0);
-  }, [checkoutItems, appliedPromoType, userType, checkoutCount]);
+  }, [checkoutItems, appliedPromoType, userType, checkoutCount, hasNonEgbSelected]);
+
+
+  // Helper Get Active Price (Di-update dengan logika Bundle)
+  const getActivePriceObj = useCallback((product: any, totalQty: number, isBundleActive: boolean = false) => {
+    const isReseller = userType === "reseller";
+    const voucher = Number(product.voucher_discount_price) || 0;
+    const sku = product.sku || "";
+
+    if (appliedPromoType === "voucher" && voucher > 0) {
+      return { value: voucher, curr: "IDR" };
+    }
+
+    const dynamicPriceObj = getPriceToDisplay(product);
+    const dynamicDiscountObj = getDiscountToDisplay(product);
+    const dynamicWholesaleObj = getWholesaleToDisplay(product);
+    const hasWholesale = dynamicWholesaleObj && dynamicWholesaleObj.value > 0;
+
+    if (isReseller && hasWholesale && totalQty >= 24) {
+      return dynamicWholesaleObj!;
+    } else if (isBundlePeriod && isBundleActive && (sku === "EGB001" || sku === "EGB002")) {
+      if (sku === "EGB001") return convertIDRtoActiveCurrency(299000);
+      if (sku === "EGB002") return convertIDRtoActiveCurrency(309000);
+    } else if (dynamicDiscountObj && dynamicDiscountObj.value > 0 && dynamicDiscountObj.value < dynamicPriceObj.value) {
+      return dynamicDiscountObj;
+    }
+    return dynamicPriceObj;
+  }, [userType, appliedPromoType, getPriceToDisplay, getDiscountToDisplay, getWholesaleToDisplay, convertIDRtoActiveCurrency]);
 
   // Total Tampil Multi-Currency
   const checkoutTotalAmountObj = useMemo(() => {
     const totalValue = checkoutItems.reduce((sum, item) => {
-      const activeObj = getActivePriceObj(item.product, checkoutCount);
+      // Pastikan melemparkan parameter hasNonEgbSelected ke helper active price
+      const activeObj = getActivePriceObj(item.product, checkoutCount, hasNonEgbSelected);
       let val = activeObj.value;
       if (activeObj.curr === 'IDR' && curr !== 'IDR') {
         val = val * (exchangeRates?.[curr] || 1);
@@ -9174,7 +9265,7 @@ export default function PaymentPage() {
       return sum + (val * item.quantity);
     }, 0);
     return { value: totalValue, curr };
-  }, [checkoutItems, checkoutCount, curr, getActivePriceObj, exchangeRates]);
+  }, [checkoutItems, checkoutCount, curr, getActivePriceObj, exchangeRates, hasNonEgbSelected]);
 
   // Diskon Promo
   const actualPromoDiscountIDR = useMemo(() => {

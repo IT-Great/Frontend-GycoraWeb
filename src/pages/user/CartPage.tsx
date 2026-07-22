@@ -1047,6 +1047,14 @@ export default function CartPage() {
       .reduce((sum, item) => sum + item.quantity, 0);
   }, [localCartItems, selectedIds]);
 
+  // TAMBAHKAN BLOK INI: Cek apakah ada item non-EGB yang dipilih
+  const hasNonEgbSelected = useMemo(() => {
+    return localCartItems.some((item) => {
+      const p = getFreshProduct(item.product);
+      return selectedIds.includes(item.id) && p && p.sku && !p.sku.startsWith("EGB");
+    });
+  }, [localCartItems, selectedIds]); // getFreshProduct aman karena dari scope luar
+
   // ============================================================================
   // FUNGSI HELPER MULTI-CURRENCY DENGAN AUTO-FALLBACK
   // ============================================================================
@@ -1125,7 +1133,28 @@ export default function CartPage() {
     return baseWholesale > 0 ? convertIDRtoActiveCurrency(baseWholesale) : null;
   };
 
-  const getActivePriceObj = (product: Product, totalQty: number) => {
+  // const getActivePriceObj = (product: Product, totalQty: number) => {
+  //   const isReseller = userType === "reseller";
+
+  //   const dynamicPriceObj = getPriceToDisplay(product);
+  //   const dynamicDiscountObj = getDiscountToDisplay(product);
+  //   const dynamicWholesaleObj = getWholesaleToDisplay(product);
+
+  //   const hasWholesale = dynamicWholesaleObj && dynamicWholesaleObj.value > 0;
+
+  //   if (isReseller && hasWholesale && totalQty >= 24) {
+  //     return dynamicWholesaleObj!;
+  //   } else if (
+  //     dynamicDiscountObj &&
+  //     dynamicDiscountObj.value > 0 &&
+  //     dynamicDiscountObj.value < dynamicPriceObj.value
+  //   ) {
+  //     return dynamicDiscountObj;
+  //   }
+  //   return dynamicPriceObj;
+  // };
+
+  const getActivePriceObj = (product: Product | any, totalQty: number, isBundleActive: boolean = false) => {
     const isReseller = userType === "reseller";
 
     const dynamicPriceObj = getPriceToDisplay(product);
@@ -1133,9 +1162,16 @@ export default function CartPage() {
     const dynamicWholesaleObj = getWholesaleToDisplay(product);
 
     const hasWholesale = dynamicWholesaleObj && dynamicWholesaleObj.value > 0;
+    const sku = product?.sku || "";
+
+    // Batas waktu bundle ditetapkan menggunakan standar ISO agar otomatis menyesuaikan zona waktu lokal (WIB = +07:00)
+    const isBundlePeriod = new Date() <= new Date("2026-08-20T23:59:59+07:00");
 
     if (isReseller && hasWholesale && totalQty >= 24) {
       return dynamicWholesaleObj!;
+    } else if (isBundlePeriod && isBundleActive && (sku === "EGB001" || sku === "EGB002")) {
+      if (sku === "EGB001") return convertIDRtoActiveCurrency(299000);
+      if (sku === "EGB002") return convertIDRtoActiveCurrency(309000);
     } else if (
       dynamicDiscountObj &&
       dynamicDiscountObj.value > 0 &&
@@ -1189,6 +1225,7 @@ export default function CartPage() {
         const activePriceObj = getActivePriceObj(
           freshProd,
           selectedTotalQuantity,
+          hasNonEgbSelected
         );
         return total + activePriceObj.value * item.quantity;
       }, 0);
@@ -1486,6 +1523,7 @@ export default function CartPage() {
                   const activePriceObj = getActivePriceObj(
                     freshProd,
                     selectedTotalQuantity,
+                    hasNonEgbSelected
                   );
                   const basePriceObj = getPriceToDisplay(freshProd);
 
@@ -1754,6 +1792,7 @@ export default function CartPage() {
                   const sugActivePriceObj = getActivePriceObj(
                     product,
                     selectedTotalQuantity,
+                    hasNonEgbSelected 
                   );
                   const sugBasePriceObj = getPriceToDisplay(product);
                   const isSugDiscounted =
