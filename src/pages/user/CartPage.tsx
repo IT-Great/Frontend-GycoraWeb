@@ -1283,7 +1283,7 @@ export default function CartPage() {
 
     if (curr === "IDR") return baseWholesale > 0 ? { value: baseWholesale, curr: "IDR" } : null;
     try {
-      const wholesaleObj = typeof product.wholesale_prices === "string" ? JSON.parse(product.wholesale_prices) : (product as any).wholesale_prices || {};
+      const wholesaleObj = typeof product.wholesale_price === "string" ? JSON.parse(product.wholesale_price) : (product as any).wholesale_prices || {};
       const dbWholesale = wholesaleObj[curr] || wholesaleObj[curr.toLowerCase()] || wholesaleObj[curr.toUpperCase()];
       if (dbWholesale) return { value: parseFloat(dbWholesale), curr: curr };
     } catch (e) {}
