@@ -1048,12 +1048,20 @@ export default function CartPage() {
   }, [localCartItems, selectedIds]);
 
   // TAMBAHKAN BLOK INI: Cek apakah ada item non-EGB yang dipilih
-  const hasNonEgbSelected = useMemo(() => {
-    return localCartItems.some((item) => {
-      const p = getFreshProduct(item.product);
-      return selectedIds.includes(item.id) && p && p.sku && !p.sku.startsWith("EGB");
-    });
-  }, [localCartItems, selectedIds]); // getFreshProduct aman karena dari scope luar
+  // const hasNonEgbSelected = useMemo(() => {
+  //   return localCartItems.some((item) => {
+  //     const p = getFreshProduct(item.product);
+  //     return selectedIds.includes(item.id) && p && p.sku && !p.sku.startsWith("EGB");
+  //   });
+  // }, [localCartItems, selectedIds]); // getFreshProduct aman karena dari scope luar
+
+  // 1. Ubah deklarasi menjadi hasNonEgbInCart dan hapus validasi selectedIds
+const hasNonEgbInCart = useMemo(() => {
+  return localCartItems.some((item) => {
+    const p = getFreshProduct(item.product);
+    return p && p.sku && !p.sku.startsWith("EGB");
+  });
+}, [localCartItems]);
 
   // ============================================================================
   // FUNGSI HELPER MULTI-CURRENCY DENGAN AUTO-FALLBACK
@@ -1268,7 +1276,7 @@ export default function CartPage() {
         const activePriceObj = getActivePriceObj(
           freshProd,
           selectedTotalQuantity,
-          hasNonEgbSelected
+          hasNonEgbInCart
         );
         return total + activePriceObj.value * item.quantity;
       }, 0);
@@ -1566,7 +1574,7 @@ export default function CartPage() {
                   const activePriceObj = getActivePriceObj(
                     freshProd,
                     selectedTotalQuantity,
-                    hasNonEgbSelected
+                    hasNonEgbInCart
                   );
                   const basePriceObj = getPriceToDisplay(freshProd);
 
@@ -1578,7 +1586,7 @@ export default function CartPage() {
                     selectedTotalQuantity >= 24;
 
                     const isBundleApplied = 
-   hasNonEgbSelected && 
+   hasNonEgbInCart && 
    new Date() <= new Date("2026-08-20T23:59:59+07:00") &&
    (freshProd.sku?.startsWith("EGB001") || freshProd.sku?.startsWith("EGB002")) &&
    activePriceObj.value < basePriceObj.value &&
@@ -1855,7 +1863,7 @@ export default function CartPage() {
                   const sugActivePriceObj = getActivePriceObj(
                     product,
                     selectedTotalQuantity,
-                    hasNonEgbSelected 
+                    hasNonEgbInCart
                   );
                   const sugBasePriceObj = getPriceToDisplay(product);
                   const isSugDiscounted =
