@@ -1057,10 +1057,23 @@ export default function CartPage() {
   // }, [localCartItems, selectedIds]); // getFreshProduct aman karena dari scope luar
 
   // 1. Ubah deklarasi menjadi hasNonEgbInCart dan hapus validasi selectedIds
+// const hasNonEgbInCart = useMemo(() => {
+//   return localCartItems.some((item) => {
+//     const p = getFreshProduct(item.product);
+//     return p && p.sku && !p.sku.startsWith("EGB");
+//   });
+// }, [localCartItems, catalogProducts]);
+
 const hasNonEgbInCart = useMemo(() => {
   return localCartItems.some((item) => {
     const p = getFreshProduct(item.product);
-    return p && p.sku && !p.sku.startsWith("EGB");
+    if (!p) return false;
+    
+    // Amankan nilai SKU, jadikan uppercase. Jika null/undefined, fallback ke string kosong ""
+    const sku = (p.sku || "").toUpperCase();
+    
+    // Jika string tidak berawalan EGB (termasuk jika string kosong), berarti ada produk Non-EGB di keranjang
+    return !sku.startsWith("EGB");
   });
 }, [localCartItems, catalogProducts]);
 
