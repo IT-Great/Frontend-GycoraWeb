@@ -4948,6 +4948,10 @@ interface Product {
   discount_prices?: any;   
   wholesale_price?: number; 
   wholesale_prices?: any; // 👇 [BARU] Tambahkan field Multi-currency Wholesale
+  is_bundle_active: boolean | number;
+  bundle_price?: number | null;
+  bundle_prices?: Record<string, string | number> | string | null;
+  bundle_end_date?: string | null;
   voucher_discount_price?: number;
   voucher_discount_prices?: any; // 👇 [BARU] Tambahkan field Multi-currency Voucher
   stock: number;
@@ -5391,6 +5395,10 @@ export default function ProductDetail() {
         price: product!.price,
         discount_price: product!.discount_price,
         wholesale_price: product!.wholesale_price,
+        is_bundle_active: product!.is_bundle_active,
+        bundle_price: product!.bundle_price,
+        bundle_prices: product!.bundle_prices,
+        bundle_end_date: product!.bundle_end_date,
         prices: product!.prices,
         discount_prices: product!.discount_prices,
         wholesale_prices: product!.wholesale_prices,
