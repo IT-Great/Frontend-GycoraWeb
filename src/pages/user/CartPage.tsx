@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-empty */
 // /* eslint-disable @typescript-eslint/no-unused-vars */
 // /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -1061,7 +1062,7 @@ const hasNonEgbInCart = useMemo(() => {
     const p = getFreshProduct(item.product);
     return p && p.sku && !p.sku.startsWith("EGB");
   });
-}, [localCartItems]);
+}, [localCartItems, catalogProducts]);
 
   // ============================================================================
   // FUNGSI HELPER MULTI-CURRENCY DENGAN AUTO-FALLBACK
@@ -1198,7 +1199,8 @@ const hasNonEgbInCart = useMemo(() => {
     const dynamicWholesaleObj = getWholesaleToDisplay(product);
 
     const hasWholesale = dynamicWholesaleObj && dynamicWholesaleObj.value > 0;
-    const sku = product?.sku || "";
+    // const sku = product?.sku || "";
+    const sku = (product?.sku || "").toUpperCase();
 
     const isBundlePeriod = new Date() <= new Date("2026-08-20T23:59:59+07:00");
 
@@ -1289,6 +1291,7 @@ const hasNonEgbInCart = useMemo(() => {
     selectedTotalQuantity,
     currency,
     catalogProducts,
+    hasNonEgbInCart
   ]);
 
   const handleQtyChange = (item: CartItem, newQty: number) => {
@@ -1586,11 +1589,12 @@ const hasNonEgbInCart = useMemo(() => {
                     selectedTotalQuantity >= 24;
 
                     const isBundleApplied = 
-   hasNonEgbInCart && 
-   new Date() <= new Date("2026-08-20T23:59:59+07:00") &&
-   (freshProd.sku?.startsWith("EGB001") || freshProd.sku?.startsWith("EGB002")) &&
-   activePriceObj.value < basePriceObj.value &&
-   activePriceObj.value !== getDiscountToDisplay(freshProd)?.value;
+                      hasNonEgbInCart && 
+                      new Date() <= new Date("2026-08-20T23:59:59+07:00") &&
+                      // Tambahkan toUpperCase() di bawah ini:
+                      (freshProd.sku?.toUpperCase().startsWith("EGB001") || freshProd.sku?.toUpperCase().startsWith("EGB002")) &&
+                      activePriceObj.value < basePriceObj.value &&
+                      activePriceObj.value !== getDiscountToDisplay(freshProd)?.value;
 
                   const currentGrossAmountObj = {
                     value: activePriceObj.value * item.quantity,
