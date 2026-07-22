@@ -1249,7 +1249,7 @@ export default function CartPage() {
   // ============================================================================
 
   // Memastikan data produk selalu fresh
-  const getFreshProduct = (cartProduct: any) => {
+  function getFreshProduct(cartProduct: any) {
     if (catalogProducts.length > 0 && cartProduct) {
       const fresh = catalogProducts.find(
         (p) => p.id === cartProduct.id || p.id === cartProduct.product_id,
