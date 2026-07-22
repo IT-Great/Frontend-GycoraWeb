@@ -1865,12 +1865,12 @@ export default function CartPage() {
                     getWholesaleToDisplay(product) !== null &&
                     selectedTotalQuantity >= 24;
 
-                    const isBundleApplied = 
-                        hasNonEgbSelected && 
-                        new Date() <= new Date("2026-08-20T23:59:59+07:00") &&
-                        (product.sku?.startsWith("EGB001") || product.sku?.startsWith("EGB002")) &&
-                        sugActivePriceObj.value < sugBasePriceObj.value &&
-                        sugActivePriceObj.value !== getDiscountToDisplay(product)?.value;
+                    // const isBundleApplied = 
+                    //     hasNonEgbSelected && 
+                    //     new Date() <= new Date("2026-08-20T23:59:59+07:00") &&
+                    //     (product.sku?.startsWith("EGB001") || product.sku?.startsWith("EGB002")) &&
+                    //     sugActivePriceObj.value < sugBasePriceObj.value &&
+                    //     sugActivePriceObj.value !== getDiscountToDisplay(product)?.value;
 
                   return (
                     <div key={product.id} className="flex flex-col group">
