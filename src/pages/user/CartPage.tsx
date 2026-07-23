@@ -4786,7 +4786,7 @@ export default function CartPage() {
   const [isProcessingCheckout, setIsProcessingCheckout] = useState(false);
   const [suggestedProducts, setSuggestedProducts] = useState<Product[]>([]);
   const [rawSuggestedPool, setRawSuggestedPool] = useState<Product[]>([]);
-  const [catalogProducts, setCatalogProducts] = useState<any[]>([]); 
+  const [catalogProducts, setCatalogProducts] = useState<any[]>([]);
   const [loadingSuggestions, setLoadingSuggestions] = useState(true);
   const [qtyInputs, setQtyInputs] = useState<{ [key: number]: string }>({});
   const [userType, setUserType] = useState<string>("guest");
@@ -4827,8 +4827,7 @@ export default function CartPage() {
     );
   }, [localCartItems]);
 
-  const isAllSelected =
-    localCartItems.length > 0 && selectedIds.length === localCartItems.length;
+  const isAllSelected = localCartItems.length > 0 && selectedIds.length === localCartItems.length;
 
   const handleSelectAll = () => {
     if (isAllSelected) setSelectedIds([]);
@@ -4837,9 +4836,7 @@ export default function CartPage() {
 
   const handleSelectItem = (id: number) => {
     setSelectedIds((prev) =>
-      prev.includes(id)
-        ? prev.filter((itemId) => itemId !== id)
-        : [...prev, id],
+      prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id],
     );
   };
 
@@ -4852,7 +4849,6 @@ export default function CartPage() {
   // ============================================================================
   // FUNGSI HELPER MULTI-CURRENCY
   // ============================================================================
-
   const convertIDRtoActiveCurrency = (idrAmount: number) => {
     const curr = (currency as Currency) || "IDR";
     if (curr === "IDR" || !exchangeRates || !exchangeRates[curr])
@@ -4916,7 +4912,6 @@ export default function CartPage() {
     return baseBundle > 0 ? convertIDRtoActiveCurrency(baseBundle) : null;
   };
 
-  // 👇 PERBAIKAN: Fungsi ini sekarang HANYA mengurus harga normal, diskon, dan grosir per-item untuk UI sebelah KIRI
   const getActivePriceObj = (product: Product, totalQty: number) => {
     const isReseller = userType === "reseller";
     const dynamicPriceObj = getPriceToDisplay(product);
@@ -4934,13 +4929,10 @@ export default function CartPage() {
   const formatCurrencyDisplay = (priceObj: { value: number; curr: string } | null) => {
     if (!priceObj) return "";
     const symbols: any = { USD: "$", SGD: "S$", EUR: "€", AUD: "A$", MYR: "RM", IDR: "Rp " };
-    const formatter = new Intl.NumberFormat(
-      priceObj.curr === "IDR" ? "id-ID" : "en-US",
-      {
-        minimumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
-        maximumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
-      },
-    );
+    const formatter = new Intl.NumberFormat(priceObj.curr === "IDR" ? "id-ID" : "en-US", {
+      minimumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
+      maximumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
+    });
     return `${symbols[priceObj.curr] || priceObj.curr + " "}${formatter.format(priceObj.value)}`;
   };
 
@@ -4953,119 +4945,139 @@ export default function CartPage() {
   };
 
   // ============================================================================
-  // OTAK UTAMA: MENGHITUNG DISKON BUNDLE DI ORDER SUMMARY KANAN
+  // OTAK UTAMA: MENGHITUNG HARGA BUNDLE DAN TOTAL KERANJANG TERPADU
   // ============================================================================
-  const cartCalculations = useMemo(() => {
+  const checkoutData = useMemo(() => {
     const curr = (currency as Currency) || "IDR";
-    let rawTotalValue = 0;
-    let bundleDiscountTotal = 0;
+    let totalValue = 0;
     let appliedBundlesCount = 0;
+
+    const itemGrossAmounts: { [cartId: number]: number } = {};
+    const isBundledMap: Record<number, boolean> = {};
+    const isEligibleForBundleMap: Record<number, boolean> = {}; 
+    const bundlePool: { cartId: number; normalPrice: number; bundlePrice: number }[] = [];
 
     const selectedItems = localCartItems.filter((item) => selectedIds.includes(item.id));
     const isReseller = userType === "reseller";
     const isWholesaleGlobal = isReseller && selectedTotalQuantity >= 24;
 
-    // Kolam Pasangan Bundle
-    const drivers: any[] = [];   // Yang memiliki harga bundle (EGB)
-    const partners: any[] = [];  // Kategori lain (Non-EGB)
-
     selectedItems.forEach((item) => {
       const prod = getFreshProduct(item.product);
       const qty = item.quantity;
-      const sku = (prod.sku || "").toUpperCase();
-      const isEGB = sku.startsWith("EGB");
-      
+
+      itemGrossAmounts[item.id] = 0;
+      isBundledMap[item.id] = false;
+      isEligibleForBundleMap[item.id] = false;
+
       const activePriceObj = getActivePriceObj(prod, selectedTotalQuantity);
-      
-      // Jika Grosir aktif, semua aturan bundle batal
-      if (isWholesaleGlobal) {
-        rawTotalValue += activePriceObj.value * qty;
-        return;
+      const bundleObj = getBundleToDisplay(prod);
+      const wholesaleObj = getWholesaleToDisplay(prod);
+
+      // Grosir mematikan semua logika bundle
+      if (isWholesaleGlobal && wholesaleObj && wholesaleObj.value > 0) {
+        itemGrossAmounts[item.id] = wholesaleObj.value * qty;
+        totalValue += wholesaleObj.value * qty;
+        return; 
       }
 
-      rawTotalValue += activePriceObj.value * qty;
+      // Pengecekan Aman (Kebal terhadap string "1", integer 1, atau boolean true)
+      const rawFlag = prod.is_bundle_active;
+      const isBundleActiveFlag = rawFlag === true || rawFlag === 1 || rawFlag === "1" || String(rawFlag).toLowerCase() === "true";
 
-      // Cek apakah item ini "Driver" Bundle (contoh EGB001)
-      const isBundleFlag = prod.is_bundle_active === true || prod.is_bundle_active === 1 || String(prod.is_bundle_active).toLowerCase() === "true" || String(prod.is_bundle_active) === "1";
-      
       let isValidDate = true;
       if (prod.bundle_end_date && prod.bundle_end_date !== "0000-00-00 00:00:00") {
-        const d = new Date(prod.bundle_end_date.replace(/-/g, "/"));
+        const safeDateStr = prod.bundle_end_date.replace(" ", "T");
+        const d = new Date(safeDateStr);
         if (!isNaN(d.getTime())) isValidDate = d.getTime() > Date.now();
       }
 
-      const bundleObj = getBundleToDisplay(prod);
-      const isDriver = isBundleFlag && isValidDate && bundleObj && bundleObj.value > 0;
+      const isBundleValid = isBundleActiveFlag && isValidDate && bundleObj && bundleObj.value > 0;
 
-      // Pecah qty menjadi item tunggal agar mudah dipasangkan (selang-seling)
-      for (let i = 0; i < qty; i++) {
-        const singleItemData = {
-          cartId: item.id,
-          normalActivePrice: activePriceObj.value,
-          bundlePrice: bundleObj ? bundleObj.value : 0
-        };
-
-        if (isDriver) {
-          drivers.push(singleItemData);
-        } else if (!isEGB) {
-          // BUKAN DRIVER DAN BUKAN EGB -> ini adalah PARTNER yang SAH
-          partners.push(singleItemData);
+      if (isBundleValid) {
+        isEligibleForBundleMap[item.id] = true;
+        for (let i = 0; i < qty; i++) {
+          bundlePool.push({
+            cartId: item.id,
+            normalPrice: activePriceObj.value,
+            bundlePrice: bundleObj.value
+          });
         }
+      } else {
+        itemGrossAmounts[item.id] = activePriceObj.value * qty;
+        totalValue += activePriceObj.value * qty;
       }
     });
 
-    // Proses Menjodohkan Driver + Partner Lintas Kategori
-    if (!isWholesaleGlobal && drivers.length > 0 && partners.length > 0) {
-      // Urutkan driver dari harga bundle tertinggi (diskon maksimal buat user)
-      drivers.sort((a, b) => b.bundlePrice - a.bundlePrice);
+    // Proses pencarian Pasangan dari kolam
+    bundlePool.sort((a, b) => b.bundlePrice - a.bundlePrice);
+    const totalBundleItems = bundlePool.length;
+    const pairs = Math.floor(totalBundleItems / 2); 
 
-      drivers.forEach((driver) => {
-        if (partners.length > 0) {
-          // Jodohkan 1 Driver dengan 1 Partner
-          const partner = partners.shift(); 
-          
-          const normalCostOfPair = driver.normalActivePrice + partner.normalActivePrice; // misal 209k + 119k = 328k
-          const bundleCostOfPair = driver.bundlePrice; // misal 299k
-          
-          const discountEarned = normalCostOfPair - bundleCostOfPair; // Diskon: 29k
+    for (let i = 0; i < pairs; i++) {
+      const item1 = bundlePool[i * 2];
+      const item2 = bundlePool[i * 2 + 1];
 
-          // Terapkan hanya jika bundle ini menguntungkan (lebih murah dari harga diskon normal mereka)
-          if (discountEarned > 0) {
-            bundleDiscountTotal += discountEarned;
-            appliedBundlesCount++;
-          }
-        }
-      });
+      const pairPrice = Math.max(item1.bundlePrice, item2.bundlePrice);
+      const halfPrice = pairPrice / 2;
+
+      itemGrossAmounts[item1.cartId] += halfPrice;
+      itemGrossAmounts[item2.cartId] += halfPrice;
+
+      isBundledMap[item1.cartId] = true;
+      isBundledMap[item2.cartId] = true;
+
+      totalValue += pairPrice;
+      appliedBundlesCount++;
     }
 
-    const finalTotalValue = rawTotalValue - bundleDiscountTotal;
+    // Sisa produk jomblo dikembalikan ke harga normal
+    for (let i = pairs * 2; i < totalBundleItems; i++) {
+      const unpairedItem = bundlePool[i];
+      itemGrossAmounts[unpairedItem.cartId] += unpairedItem.normalPrice;
+      totalValue += unpairedItem.normalPrice;
+    }
 
     return {
-      rawTotalObj: { value: rawTotalValue, curr },
-      finalTotalObj: { value: finalTotalValue, curr },
-      bundleDiscountObj: { value: bundleDiscountTotal, curr },
+      totalObj: { value: totalValue, curr },
       appliedBundlesCount,
+      itemGrossAmounts,
+      isBundledMap,
+      isEligibleForBundleMap,
     };
   }, [localCartItems, selectedIds, userType, selectedTotalQuantity, currency, catalogProducts]);
 
-  // [... SISA FUNGSI HANDLE, INPUT BLUR, DELETE, DLL SAMA PERSIS ... ]
+  // ============================================================================
+
   const handleQtyChange = (item: CartItem, newQty: number) => {
     if (newQty < 1) newQty = 1;
     if (newQty > item.product.stock) {
-      Swal.fire({ toast: true, position: "top-end", icon: "warning", title: t("cart_max_stock_warning", { stock: item.product.stock.toString() }), showConfirmButton: false, timer: 2000 });
+      Swal.fire({
+        toast: true, position: "top-end", icon: "warning",
+        title: t("cart_max_stock_warning", { stock: item.product.stock.toString() }),
+        showConfirmButton: false, timer: 2000,
+      });
       newQty = item.product.stock;
     }
+
     const token = localStorage.getItem("user_token");
     const originalItems = [...localCartItems];
-    setLocalCartItems((prevItems) => prevItems.map((cartItem) => cartItem.id === item.id ? { ...cartItem, quantity: newQty } : cartItem));
+
+    setLocalCartItems((prevItems) =>
+      prevItems.map((cartItem) => cartItem.id === item.id ? { ...cartItem, quantity: newQty } : cartItem),
+    );
     updateCartItemQtyOptimistically(item.id, newQty, 0);
     setQtyInputs((prev) => ({ ...prev, [item.id]: newQty.toString() }));
+
     if (debounceTimers.current[item.id]) window.clearTimeout(debounceTimers.current[item.id]);
+
     debounceTimers.current[item.id] = window.setTimeout(async () => {
       try {
         const res = await fetch(`${BASE_URL}/api/carts/${item.id}`, {
-          method: "PUT", headers: { "Content-Type": "application/json", Accept: "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ quantity: newQty }),
+          method: "PUT",
+          headers: { "Content-Type": "application/json", Accept: "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ quantity: newQty }),
         });
+
         if (!res.ok) {
           const err = await res.json();
           Swal.fire(t("notification"), err.message || t("cart_update_fail"), "warning");
@@ -5093,17 +5105,29 @@ export default function CartPage() {
   const handleOptimisticDelete = async (id: number) => {
     const token = localStorage.getItem("user_token");
     const originalItems = [...localCartItems];
+
     setLocalCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
     setSelectedIds((prev) => prev.filter((selectedId) => selectedId !== id));
     removeCartItemOptimistically(id);
-    if (debounceTimers.current[id]) { window.clearTimeout(debounceTimers.current[id]); delete debounceTimers.current[id]; }
+
+    if (debounceTimers.current[id]) {
+      window.clearTimeout(debounceTimers.current[id]);
+      delete debounceTimers.current[id];
+    }
+
     try {
-      const res = await fetch(`${BASE_URL}/api/carts/${id}`, { method: "DELETE", headers: { Accept: "application/json", Authorization: `Bearer ${token}` } });
+      const res = await fetch(`${BASE_URL}/api/carts/${id}`, {
+        method: "DELETE",
+        headers: { Accept: "application/json", Authorization: `Bearer ${token}` },
+      });
       if (!res.ok) {
-        revertCartItems(originalItems); Swal.fire(t("notification"), t("cart_delete_fail"), "warning"); fetchCart();
+        revertCartItems(originalItems);
+        Swal.fire(t("notification"), t("cart_delete_fail"), "warning");
+        fetchCart();
       }
     } catch (error) {
-      revertCartItems(originalItems); Swal.fire(t("error"), t("cart_delete_fail"), "error");
+      revertCartItems(originalItems);
+      Swal.fire(t("error"), t("cart_delete_fail"), "error");
     }
   };
 
@@ -5113,11 +5137,17 @@ export default function CartPage() {
         const res = await fetch(`${BASE_URL}/api/products`);
         const data = await res.json();
         const products: any[] = data.data ? data.data : data;
+
         setCatalogProducts(products); 
+
         const available = products.filter((p) => p.stock > 0);
         const shuffled = available.sort(() => 0.5 - Math.random());
         setRawSuggestedPool(shuffled);
-      } catch (error) { console.error("Gagal memuat rekomendasi:", error); } finally { setLoadingSuggestions(false); }
+      } catch (error) {
+        console.error("Gagal memuat rekomendasi:", error);
+      } finally {
+        setLoadingSuggestions(false);
+      }
     };
     fetchSuggestions();
   }, []);
@@ -5134,8 +5164,11 @@ export default function CartPage() {
     if (Array.isArray(product.color) && product.color.length > 0) { navigate(`${urlPrefix}/product/${product.slug}`); return; }
     try {
       const res = await fetch(`${BASE_URL}/api/carts`, {
-        method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ product_id: product.id, quantity: 1 }),
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ product_id: product.id, quantity: 1 }),
       });
+
       if (res.ok) {
         Swal.fire({ title: t("added_to_cart"), icon: "success", toast: true, position: "top-end", timer: 1500, showConfirmButton: false });
         fetchCart();
@@ -5156,7 +5189,9 @@ export default function CartPage() {
     <div className="w-full min-h-screen px-4 py-16 mx-auto overflow-x-hidden font-sans bg-gray-100 max-w-7xl sm:px-6 lg:px-8">
       <div className="flex items-center gap-4 mb-10 animate-fade-in-up">
         <button onClick={() => navigate(`${urlPrefix}/products`)} className="p-2 transition bg-white border border-gray-200 rounded-full shadow-sm hover:bg-gray-50">
-          <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+          <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
         </button>
         <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 md:text-5xl">{t("cart_title")}</h1>
         <span className="ml-2 text-xl font-medium text-gray-400">{t("cart_items_count", { count: localCartItems.length.toString() })}</span>
@@ -5183,7 +5218,9 @@ export default function CartPage() {
           {localCartItems.length === 0 ? (
             <div className="py-20 text-center border border-gray-200 border-dashed rounded-3xl bg-gray-50">
               <p className="mb-6 text-2xl font-medium text-gray-400">{t("cart_empty_title")}</p>
-              <button onClick={() => navigate(`${urlPrefix}/collections/all`)} className="px-8 py-4 text-sm font-bold tracking-widest text-white uppercase transition bg-gray-900 rounded-full shadow-xl hover:bg-black shadow-gray-200">{t("btn_start_shopping")}</button>
+              <button onClick={() => navigate(`${urlPrefix}/collections/all`)} className="px-8 py-4 text-sm font-bold tracking-widest text-white uppercase transition bg-gray-900 rounded-full shadow-xl hover:bg-black shadow-gray-200">
+                {t("btn_start_shopping")}
+              </button>
             </div>
           ) : (
             <div className="p-6 bg-white border border-gray-100 shadow-sm rounded-3xl sm:p-8">
@@ -5194,43 +5231,63 @@ export default function CartPage() {
 
               <div className="space-y-8">
                 {localCartItems.map((item: CartItem) => {
-                  const freshProd = getFreshProduct(item.product);
-                  const activePriceObj = getActivePriceObj(freshProd, selectedTotalQuantity);
-                  const basePriceObj = getPriceToDisplay(freshProd);
-                  const isDiscounted = activePriceObj.value < basePriceObj.value;
+                  const prod = getFreshProduct(item.product);
+                  const basePriceObj = getPriceToDisplay(prod);
+                  
+                  const activePriceObj = getActivePriceObj(prod, selectedTotalQuantity);
+                  const isDiscountedVisual = activePriceObj.value < basePriceObj.value;
+                  const isWholesaleActive = userType === "reseller" && getWholesaleToDisplay(prod) !== null && selectedTotalQuantity >= 24;
 
-                  const isWholesaleActive = userType === "reseller" && getWholesaleToDisplay(freshProd) !== null && selectedTotalQuantity >= 24;
+                  const isItemSelected = selectedIds.includes(item.id);
+                  const calculatedGross = checkoutData.itemGrossAmounts[item.id];
+                  
+                  const isBundled = isItemSelected && checkoutData.isBundledMap[item.id];
+                  const isEligible = checkoutData.isEligibleForBundleMap[item.id];
 
-                  const currentGrossAmountObj = { value: activePriceObj.value * item.quantity, curr: activePriceObj.curr };
-                  const originalGrossAmountObj = { value: basePriceObj.value * item.quantity, curr: basePriceObj.curr };
+                  const currentGrossAmountObj = {
+                    value: isItemSelected && calculatedGross !== undefined ? calculatedGross : activePriceObj.value * item.quantity,
+                    curr: checkoutData.totalObj.curr,
+                  };
+
+                  const originalGrossAmountObj = {
+                    value: basePriceObj.value * item.quantity,
+                    curr: basePriceObj.curr,
+                  };
 
                   return (
                     <div key={item.id} className="relative flex items-start gap-4 pb-8 border-b border-gray-50 sm:gap-6 last:border-0 last:pb-0">
                       <div className="pt-3 sm:pt-12">
-                        <input type="checkbox" checked={selectedIds.includes(item.id)} onChange={() => handleSelectItem(item.id)} className="w-5 h-5 transition border-gray-300 rounded shadow-sm cursor-pointer text-gycora focus:ring-gycora" />
+                        <input type="checkbox" checked={isItemSelected} onChange={() => handleSelectItem(item.id)} className="w-5 h-5 transition border-gray-300 rounded shadow-sm cursor-pointer text-gycora focus:ring-gycora" />
                       </div>
-                      <div className="relative w-24 h-24 overflow-hidden border border-gray-100 cursor-pointer shrink-0 sm:w-40 sm:h-40 rounded-2xl bg-gray-50" onClick={() => navigate(`${urlPrefix}/product/${freshProd.slug}`)}>
-                        <img src={freshProd.image_url} alt={freshProd.name} className="object-cover w-full h-full transition-transform duration-500 hover:scale-105" />
+                      <div className="relative w-24 h-24 overflow-hidden border border-gray-100 cursor-pointer shrink-0 sm:w-40 sm:h-40 rounded-2xl bg-gray-50" onClick={() => navigate(`${urlPrefix}/product/${prod.slug}`)}>
+                        <img src={prod.image_url} alt={prod.name} className="object-cover w-full h-full transition-transform duration-500 hover:scale-105" />
                         
-                        {/* BAGIAN LIST ITEM KIRI HANYA RENDER GROSIR / DISKON */}
-                        {isDiscounted && (
+                        {isBundled ? (
+                          <div className="absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm bg-purple-600">BUNDLE AKTIF</div>
+                        ) : isEligible ? (
+                          <div className="absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm bg-indigo-400">MENUNGGU PASANGAN</div>
+                        ) : isDiscountedVisual ? (
                           <div className={`absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm ${isWholesaleActive ? "bg-blue-600" : "bg-rose-500"}`}>
                             {isWholesaleActive ? "GROSIR" : t("cart_sale_badge")}
                           </div>
-                        )}
+                        ) : null}
                       </div>
 
                       <div className="flex flex-col justify-between flex-grow min-h-[6rem] sm:min-h-[10rem]">
                         <div>
                           <div className="flex items-start justify-between gap-2">
-                            <h3 className="w-2/3 text-sm font-bold tracking-tight text-gray-900 transition-colors cursor-pointer sm:text-lg hover:text-gycora line-clamp-2" onClick={() => navigate(`${urlPrefix}/product/${freshProd.slug}`)}>
-                              {freshProd.name}
+                            <h3 className="w-2/3 text-sm font-bold tracking-tight text-gray-900 transition-colors cursor-pointer sm:text-lg hover:text-gycora line-clamp-2" onClick={() => navigate(`${urlPrefix}/product/${prod.slug}`)}>
+                              {prod.name}
                             </h3>
                             <div className="text-right">
-                              <p className={`text-sm font-extrabold sm:text-lg whitespace-nowrap ${isWholesaleActive ? "text-blue-600" : "text-gycora"}`}>
+                              <p className={`text-sm font-extrabold sm:text-lg whitespace-nowrap ${isBundled ? "text-purple-600" : isWholesaleActive ? "text-blue-600" : "text-gycora"}`}>
                                 {formatCurrencyDisplay(currentGrossAmountObj)}
                               </p>
-                              {isDiscounted && <p className="text-[10px] text-gray-400 line-through">{formatCurrencyDisplay(originalGrossAmountObj)}</p>}
+                              {isBundled ? (
+                                <span className="inline-block mt-1 text-[10px] font-black text-purple-600 uppercase bg-purple-100 px-2 py-0.5 rounded shadow-sm">Harga Promo Paket</span>
+                              ) : isDiscountedVisual ? (
+                                <p className="text-[10px] text-gray-400 line-through mt-0.5">{formatCurrencyDisplay(originalGrossAmountObj)}</p>
+                              ) : null}
                             </div>
                           </div>
 
@@ -5241,8 +5298,8 @@ export default function CartPage() {
                               const parsed = JSON.parse(item.color as string);
                               if (parsed.hex) { hex = parsed.hex; name = parsed.name || ""; }
                             } catch {
-                              if (Array.isArray(freshProd.color)) {
-                                const matched = freshProd.color.find((c: any) => (typeof c === "object" && c !== null && c.hex === item.color) || c === item.color);
+                              if (Array.isArray(prod.color)) {
+                                const matched = prod.color.find((c: any) => (typeof c === "object" && c !== null && c.hex === item.color) || c === item.color);
                                 if (matched && typeof matched === "object" && matched !== null) name = (matched as { name?: string }).name || "";
                               }
                             }
@@ -5256,26 +5313,13 @@ export default function CartPage() {
                               </div>
                             );
                           })()}
-
-                          <div className="flex flex-wrap items-center mt-2 gap-x-3 gap-y-1">
-                            {isDiscounted ? (
-                              <div className="flex items-center gap-2">
-                                <p className={`text-xs font-bold ${isWholesaleActive ? "text-blue-500" : "text-rose-500"}`}>
-                                  {formatCurrencyDisplay(activePriceObj)} {t("cart_per_pc")}
-                                </p>
-                                <p className="text-[10px] text-gray-400 line-through">{formatCurrencyDisplay(basePriceObj)}</p>
-                              </div>
-                            ) : (
-                              <p className="text-xs italic tracking-wider text-gray-400">{formatCurrencyDisplay(basePriceObj)} {t("cart_per_pc")}</p>
-                            )}
-                          </div>
                         </div>
 
                         <div className="flex flex-col items-start gap-4 mt-4 sm:flex-row sm:justify-between sm:items-end sm:mt-6">
                           <div className="flex items-center h-10 overflow-hidden bg-white border border-gray-200 shadow-sm sm:h-12 rounded-xl">
-                            <button onClick={() => { const currentVal = parseInt(qtyInputs[item.id] !== undefined ? qtyInputs[item.id] : String(item.quantity)) || 1; const newVal = Math.max(1, currentVal - 1); handleQtyChange(item, newVal); }} disabled={isProcessingCheckout} className="flex items-center justify-center w-10 h-full text-base font-bold text-gray-700 transition-colors sm:w-12 hover:bg-gray-100 hover:text-gycora focus:outline-none">-</button>
+                            <button onClick={() => handleQtyChange(item, Math.max(1, (parseInt(qtyInputs[item.id] || String(item.quantity)) || 1) - 1))} disabled={isProcessingCheckout} className="flex items-center justify-center w-10 h-full text-base font-bold text-gray-700 transition-colors sm:w-12 hover:bg-gray-100 hover:text-gycora focus:outline-none">-</button>
                             <input type="text" value={qtyInputs[item.id] !== undefined ? qtyInputs[item.id] : item.quantity} onChange={(e) => handleInputChange(item.id, e.target.value)} onBlur={() => handleInputBlur(item)} disabled={isProcessingCheckout} className="w-12 h-full text-sm font-bold text-center text-gray-900 bg-transparent border-none outline-none focus:ring-0 sm:text-base" />
-                            <button onClick={() => { const currentVal = parseInt(qtyInputs[item.id] !== undefined ? qtyInputs[item.id] : String(item.quantity)) || 1; const newVal = Math.min(freshProd.stock, currentVal + 1); handleQtyChange(item, newVal); }} disabled={isProcessingCheckout} className="flex items-center justify-center w-10 h-full text-base font-bold text-gray-700 transition-colors sm:w-12 hover:bg-gray-100 hover:text-gycora focus:outline-none">+</button>
+                            <button onClick={() => handleQtyChange(item, Math.min(prod.stock, (parseInt(qtyInputs[item.id] || String(item.quantity)) || 1) + 1))} disabled={isProcessingCheckout} className="flex items-center justify-center w-10 h-full text-base font-bold text-gray-700 transition-colors sm:w-12 hover:bg-gray-100 hover:text-gycora focus:outline-none">+</button>
                           </div>
                           <button onClick={() => handleOptimisticDelete(item.id)} className="flex items-center gap-2 text-[10px] sm:text-xs font-bold tracking-widest text-gray-400 uppercase transition-colors group hover:text-red-500">
                             <svg className="w-4 h-4 transition-transform sm:w-5 sm:h-5 group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
@@ -5290,70 +5334,77 @@ export default function CartPage() {
             </div>
           )}
 
-          <div className="pt-12 mt-12 border-t border-gray-100"></div>
+          {/* SUGGESTED PRODUCTS */}
+          <div className="pt-12 mt-12 border-t border-gray-100">
+            <h3 className="mb-6 text-sm font-bold tracking-widest text-gray-900 uppercase">{t("cart_suggest_title")}</h3>
+            {loadingSuggestions ? (
+              <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="flex flex-col gap-2"><div className="bg-gray-100 aspect-square rounded-2xl animate-pulse"></div><div className="w-3/4 h-3 mt-1 bg-gray-100 rounded animate-pulse"></div><div className="w-1/2 h-3 bg-gray-100 rounded animate-pulse"></div></div>
+                ))}
+              </div>
+            ) : suggestedProducts.length > 0 ? (
+              <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+                {suggestedProducts.map((product) => {
+                  const sugActivePriceObj = getActivePriceObj(product, selectedTotalQuantity);
+                  const sugBasePriceObj = getPriceToDisplay(product);
+                  const isSugDiscounted = sugActivePriceObj.value < sugBasePriceObj.value;
+
+                  const isSugWholesale = userType === "reseller" && getWholesaleToDisplay(product) !== null && selectedTotalQuantity >= 24;
+
+                  return (
+                    <div key={product.id} className="flex flex-col group">
+                      <div className="relative mb-3 overflow-hidden border border-gray-100 cursor-pointer aspect-square rounded-2xl bg-gray-50" onClick={() => navigate(`${urlPrefix}/product/${product.slug}`, { state: { initialProduct: product, allProducts: suggestedProducts } })}>
+                        <img src={product.image_url} alt={product.name} className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" />
+                        {isSugDiscounted && <div className={`absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm ${isSugWholesale ? "bg-blue-600" : "bg-rose-500"}`}>{isSugWholesale ? "GROSIR" : t("cart_sale_badge")}</div>}
+                      </div>
+                      <h4 className="mb-1 text-[11px] font-bold tracking-wide text-gray-900 uppercase truncate">{product.name}</h4>
+                      {isSugDiscounted ? (
+                        <div className="mb-3">
+                          <p className={`text-xs font-bold ${isSugWholesale ? "text-blue-500" : "text-rose-500"}`}>{formatCurrencyDisplay(sugActivePriceObj)}</p>
+                          <p className="text-[9px] text-gray-400 line-through">{formatCurrencyDisplay(sugBasePriceObj)}</p>
+                        </div>
+                      ) : <p className="mb-3 text-xs font-bold text-gycora">{formatCurrencyDisplay(sugBasePriceObj)}</p>}
+                      <button onClick={() => addSuggestedProduct(product)} className="px-3 py-2 mt-auto text-[9px] font-bold tracking-widest text-gray-700 uppercase transition-all duration-300 border border-gray-200 rounded-xl hover:border-gray-900 hover:bg-gray-900 hover:text-white">
+                        {Array.isArray(product.color) && product.color.length > 0 ? t("btn_choose_variant") : t("btn_add_plus")}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : null}
+          </div>
         </div>
 
-        {/* RIGHT SIDE: CART SUMMARY DENGAN DISKON BUNDLE YANG AKURAT */}
+        {/* RIGHT SIDE: CART SUMMARY */}
         {localCartItems.length > 0 && (
           <div className="lg:w-1/3 animate-fade-in-up" style={{ animationDelay: "200ms" }}>
             <div className="sticky p-8 bg-gray-50/50 border border-gray-100 rounded-[2rem] top-32 shadow-sm">
-              <h2 className="pb-4 mb-6 text-lg font-bold tracking-widest text-gray-900 uppercase border-b border-gray-200">
-                {t("cart_summary_title")}
-              </h2>
-              
+              <h2 className="pb-4 mb-8 text-lg font-bold tracking-widest text-gray-900 uppercase border-b border-gray-200">{t("cart_summary_title")}</h2>
               <div className="mb-8 space-y-4">
                 <div className="flex justify-between text-sm text-gray-600">
                   <span>{t("cart_selected_items")}</span>
                   <span className="font-bold text-gray-900">{selectedTotalQuantity} Pcs</span>
                 </div>
 
-                <div className="flex justify-between text-sm text-gray-600">
-                  <span>Subtotal Normal</span>
-                  <span className="font-bold text-gray-900">{formatCurrencyDisplay(cartCalculations.rawTotalObj)}</span>
-                </div>
-
-                {/* 👇 NOTIFIKASI BUNDLE MIX & MATCH 👇 */}
-                {cartCalculations.appliedBundlesCount > 0 && (
-                  <div className="flex items-start justify-between p-4 border border-purple-200 rounded-2xl bg-purple-50">
-                    <div className="flex flex-col gap-1">
-                      <div className="flex items-center gap-2">
-                        <span className="flex items-center justify-center w-4 h-4 text-[10px] text-white bg-purple-600 rounded-full shadow-sm">✓</span>
-                        <span className="text-xs font-extrabold tracking-wide text-purple-800 uppercase">Promo Bundle</span>
-                      </div>
-                      <span className="text-[10px] text-purple-600 font-medium ml-6">{cartCalculations.appliedBundlesCount}x Paket (EGB + Kategori Lain)</span>
+                {checkoutData.appliedBundlesCount > 0 && (
+                  <div className="flex items-center justify-between p-4 border border-purple-200 rounded-2xl bg-purple-50">
+                    <div className="flex items-center gap-3">
+                      <span className="flex items-center justify-center w-6 h-6 text-xs text-white bg-purple-600 rounded-full shadow-sm">✓</span>
+                      <span className="text-xs font-extrabold tracking-wide text-purple-800 uppercase">Promo Bundle Aktif</span>
                     </div>
-                    {/* MENAMPILKAN NOMINAL POTONGAN DISKON BUNDLE */}
-                    <span className="text-sm font-black text-red-600">- {formatCurrencyDisplay(cartCalculations.bundleDiscountObj)}</span>
+                    <span className="text-sm font-black text-purple-700">{checkoutData.appliedBundlesCount} Paket</span>
                   </div>
                 )}
 
                 <div className="flex items-end justify-between pt-4 border-t border-gray-200">
-                  <span className="text-xs font-bold tracking-[0.2em] text-gray-500 uppercase">
-                    {t("cart_estimated_total")}
-                  </span>
-                  {/* TOTAL AKHIR SETELAH DIPOTONG BUNDLE */}
-                  <span className="text-3xl font-black text-gycora">
-                    {formatCurrencyDisplay(cartCalculations.finalTotalObj)}
-                  </span>
+                  <span className="text-xs font-bold tracking-[0.2em] text-gray-500 uppercase">{t("cart_estimated_total")}</span>
+                  <span className="text-2xl font-black text-gycora">{formatCurrencyDisplay(checkoutData.totalObj)}</span>
                 </div>
-                <p className="mt-1 text-right text-[10px] italic text-gray-400">
-                  {t("cart_tax_shipping_note")}
-                </p>
+                <p className="mt-1 text-right text-[10px] italic text-gray-400">{t("cart_tax_shipping_note")}</p>
               </div>
-              
-              <button
-                onClick={handleCheckout}
-                disabled={isProcessingCheckout || selectedIds.length === 0}
-                className="flex items-center justify-center w-full gap-3 py-5 text-sm font-bold tracking-[0.2em] text-white uppercase transition-all duration-300 shadow-xl bg-gray-900 rounded-2xl hover:bg-black disabled:bg-gray-300 hover:shadow-black/20"
-              >
-                {!isProcessingCheckout ? (
-                  t("btn_checkout", { count: selectedIds.length.toString() })
-                ) : (
-                  <span className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 rounded-full border-white/40 border-t-white animate-spin"></div>
-                    {t("cart_processing")}
-                  </span>
-                )}
+              <button onClick={handleCheckout} disabled={isProcessingCheckout || selectedIds.length === 0} className="flex items-center justify-center w-full gap-3 py-5 text-sm font-bold tracking-[0.2em] text-white uppercase transition-all duration-300 shadow-xl bg-gray-900 rounded-2xl hover:bg-black disabled:bg-gray-300 hover:shadow-black/20">
+                {!isProcessingCheckout ? t("btn_checkout", { count: selectedIds.length.toString() }) : <span className="flex items-center gap-2"><div className="w-4 h-4 border-2 rounded-full border-white/40 border-t-white animate-spin"></div>{t("cart_processing")}</span>}
               </button>
             </div>
           </div>
