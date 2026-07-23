@@ -4944,8 +4944,112 @@ export default function CartPage() {
     return cartProduct;
   };
 
+  // // ============================================================================
+  // // OTAK UTAMA: MENGHITUNG HARGA BUNDLE DAN TOTAL KERANJANG TERPADU
+  // // ============================================================================
+  // const checkoutData = useMemo(() => {
+  //   const curr = (currency as Currency) || "IDR";
+  //   let totalValue = 0;
+  //   let appliedBundlesCount = 0;
+
+  //   const itemGrossAmounts: { [cartId: number]: number } = {};
+  //   const isBundledMap: Record<number, boolean> = {};
+  //   const isEligibleForBundleMap: Record<number, boolean> = {}; 
+  //   const bundlePool: { cartId: number; normalPrice: number; bundlePrice: number }[] = [];
+
+  //   const selectedItems = localCartItems.filter((item) => selectedIds.includes(item.id));
+  //   const isReseller = userType === "reseller";
+  //   const isWholesaleGlobal = isReseller && selectedTotalQuantity >= 24;
+
+  //   selectedItems.forEach((item) => {
+  //     const prod = getFreshProduct(item.product);
+  //     const qty = item.quantity;
+
+  //     itemGrossAmounts[item.id] = 0;
+  //     isBundledMap[item.id] = false;
+  //     isEligibleForBundleMap[item.id] = false;
+
+  //     const activePriceObj = getActivePriceObj(prod, selectedTotalQuantity);
+  //     const bundleObj = getBundleToDisplay(prod);
+  //     const wholesaleObj = getWholesaleToDisplay(prod);
+
+  //     // Grosir mematikan semua logika bundle
+  //     if (isWholesaleGlobal && wholesaleObj && wholesaleObj.value > 0) {
+  //       itemGrossAmounts[item.id] = wholesaleObj.value * qty;
+  //       totalValue += wholesaleObj.value * qty;
+  //       return; 
+  //     }
+
+  //     // Pengecekan Aman (Kebal terhadap string "1", integer 1, atau boolean true)
+  //     const rawFlag = prod.is_bundle_active;
+  //     const isBundleActiveFlag = rawFlag === true || rawFlag === 1 || rawFlag === "1" || String(rawFlag).toLowerCase() === "true";
+
+  //     let isValidDate = true;
+  //     if (prod.bundle_end_date && prod.bundle_end_date !== "0000-00-00 00:00:00") {
+  //       const safeDateStr = prod.bundle_end_date.replace(" ", "T");
+  //       const d = new Date(safeDateStr);
+  //       if (!isNaN(d.getTime())) isValidDate = d.getTime() > Date.now();
+  //     }
+
+  //     const isBundleValid = isBundleActiveFlag && isValidDate && bundleObj && bundleObj.value > 0;
+
+  //     if (isBundleValid) {
+  //       isEligibleForBundleMap[item.id] = true;
+  //       for (let i = 0; i < qty; i++) {
+  //         bundlePool.push({
+  //           cartId: item.id,
+  //           normalPrice: activePriceObj.value,
+  //           bundlePrice: bundleObj.value
+  //         });
+  //       }
+  //     } else {
+  //       itemGrossAmounts[item.id] = activePriceObj.value * qty;
+  //       totalValue += activePriceObj.value * qty;
+  //     }
+  //   });
+
+  //   // Proses pencarian Pasangan dari kolam
+  //   bundlePool.sort((a, b) => b.bundlePrice - a.bundlePrice);
+  //   const totalBundleItems = bundlePool.length;
+  //   const pairs = Math.floor(totalBundleItems / 2); 
+
+  //   for (let i = 0; i < pairs; i++) {
+  //     const item1 = bundlePool[i * 2];
+  //     const item2 = bundlePool[i * 2 + 1];
+
+  //     const pairPrice = Math.max(item1.bundlePrice, item2.bundlePrice);
+  //     const halfPrice = pairPrice / 2;
+
+  //     itemGrossAmounts[item1.cartId] += halfPrice;
+  //     itemGrossAmounts[item2.cartId] += halfPrice;
+
+  //     isBundledMap[item1.cartId] = true;
+  //     isBundledMap[item2.cartId] = true;
+
+  //     totalValue += pairPrice;
+  //     appliedBundlesCount++;
+  //   }
+
+  //   // Sisa produk jomblo dikembalikan ke harga normal
+  //   for (let i = pairs * 2; i < totalBundleItems; i++) {
+  //     const unpairedItem = bundlePool[i];
+  //     itemGrossAmounts[unpairedItem.cartId] += unpairedItem.normalPrice;
+  //     totalValue += unpairedItem.normalPrice;
+  //   }
+
+  //   return {
+  //     totalObj: { value: totalValue, curr },
+  //     appliedBundlesCount,
+  //     itemGrossAmounts,
+  //     isBundledMap,
+  //     isEligibleForBundleMap,
+  //   };
+  // }, [localCartItems, selectedIds, userType, selectedTotalQuantity, currency, catalogProducts]);
+
+  // // ============================================================================
+
   // ============================================================================
-  // OTAK UTAMA: MENGHITUNG HARGA BUNDLE DAN TOTAL KERANJANG TERPADU
+  // OTAK UTAMA: MENGHITUNG HARGA BUNDLE (DRIVER-PARTNER) DAN TOTAL
   // ============================================================================
   const checkoutData = useMemo(() => {
     const curr = (currency as Currency) || "IDR";
@@ -4955,12 +5059,16 @@ export default function CartPage() {
     const itemGrossAmounts: { [cartId: number]: number } = {};
     const isBundledMap: Record<number, boolean> = {};
     const isEligibleForBundleMap: Record<number, boolean> = {}; 
-    const bundlePool: { cartId: number; normalPrice: number; bundlePrice: number }[] = [];
+
+    // Kolam pemisah
+    const driversPool: { cartId: number; normalPrice: number; bundlePrice: number }[] = [];
+    const partnersPool: { cartId: number; normalPrice: number }[] = [];
 
     const selectedItems = localCartItems.filter((item) => selectedIds.includes(item.id));
     const isReseller = userType === "reseller";
     const isWholesaleGlobal = isReseller && selectedTotalQuantity >= 24;
 
+    // Tahap 1: Inisialisasi dan Pemisahan Kolam
     selectedItems.forEach((item) => {
       const prod = getFreshProduct(item.product);
       const qty = item.quantity;
@@ -4980,7 +5088,11 @@ export default function CartPage() {
         return; 
       }
 
-      // Pengecekan Aman (Kebal terhadap string "1", integer 1, atau boolean true)
+      // Identifikasi Kategori
+      const sku = (prod.sku || "").toUpperCase();
+      const isEGB = sku.startsWith("EGB");
+
+      // Validasi Driver
       const rawFlag = prod.is_bundle_active;
       const isBundleActiveFlag = rawFlag === true || rawFlag === 1 || rawFlag === "1" || String(rawFlag).toLowerCase() === "true";
 
@@ -4991,51 +5103,56 @@ export default function CartPage() {
         if (!isNaN(d.getTime())) isValidDate = d.getTime() > Date.now();
       }
 
-      const isBundleValid = isBundleActiveFlag && isValidDate && bundleObj && bundleObj.value > 0;
+      const isDriver = isEGB && isBundleActiveFlag && isValidDate && bundleObj && bundleObj.value > 0;
 
-      if (isBundleValid) {
+      if (isDriver) {
         isEligibleForBundleMap[item.id] = true;
         for (let i = 0; i < qty; i++) {
-          bundlePool.push({
-            cartId: item.id,
-            normalPrice: activePriceObj.value,
-            bundlePrice: bundleObj.value
-          });
+          driversPool.push({ cartId: item.id, normalPrice: activePriceObj.value, bundlePrice: bundleObj.value });
+        }
+      } else if (!isEGB) {
+        // Otomatis jadi partner pasif
+        isEligibleForBundleMap[item.id] = true; // Bisa ikut bundle jika ada driver
+        for (let i = 0; i < qty; i++) {
+          partnersPool.push({ cartId: item.id, normalPrice: activePriceObj.value });
         }
       } else {
-        itemGrossAmounts[item.id] = activePriceObj.value * qty;
+        // EGB tapi tidak ada promo bundle
+        itemGrossAmounts[item.id] += activePriceObj.value * qty;
         totalValue += activePriceObj.value * qty;
       }
     });
 
-    // Proses pencarian Pasangan dari kolam
-    bundlePool.sort((a, b) => b.bundlePrice - a.bundlePrice);
-    const totalBundleItems = bundlePool.length;
-    const pairs = Math.floor(totalBundleItems / 2); 
+    // Tahap 2: Penjodohan (Pairing)
+    driversPool.sort((a, b) => b.bundlePrice - a.bundlePrice);
 
-    for (let i = 0; i < pairs; i++) {
-      const item1 = bundlePool[i * 2];
-      const item2 = bundlePool[i * 2 + 1];
+    while (driversPool.length > 0 && partnersPool.length > 0) {
+      const driver = driversPool.shift()!;
+      const partner = partnersPool.shift()!;
 
-      const pairPrice = Math.max(item1.bundlePrice, item2.bundlePrice);
-      const halfPrice = pairPrice / 2;
+      // Membagi dua harga bundle untuk visualisasi di UI keranjang agar tampak adil
+      const halfPrice = driver.bundlePrice / 2;
 
-      itemGrossAmounts[item1.cartId] += halfPrice;
-      itemGrossAmounts[item2.cartId] += halfPrice;
+      itemGrossAmounts[driver.cartId] += halfPrice;
+      itemGrossAmounts[partner.cartId] += halfPrice;
 
-      isBundledMap[item1.cartId] = true;
-      isBundledMap[item2.cartId] = true;
+      isBundledMap[driver.cartId] = true;
+      isBundledMap[partner.cartId] = true;
 
-      totalValue += pairPrice;
+      totalValue += driver.bundlePrice;
       appliedBundlesCount++;
     }
 
-    // Sisa produk jomblo dikembalikan ke harga normal
-    for (let i = pairs * 2; i < totalBundleItems; i++) {
-      const unpairedItem = bundlePool[i];
-      itemGrossAmounts[unpairedItem.cartId] += unpairedItem.normalPrice;
-      totalValue += unpairedItem.normalPrice;
-    }
+    // Tahap 3: Barang Jomblo (Sisa) kembali ke harga normal
+    driversPool.forEach((driver) => {
+      itemGrossAmounts[driver.cartId] += driver.normalPrice;
+      totalValue += driver.normalPrice;
+    });
+
+    partnersPool.forEach((partner) => {
+      itemGrossAmounts[partner.cartId] += partner.normalPrice;
+      totalValue += partner.normalPrice;
+    });
 
     return {
       totalObj: { value: totalValue, curr },
@@ -5045,7 +5162,6 @@ export default function CartPage() {
       isEligibleForBundleMap,
     };
   }, [localCartItems, selectedIds, userType, selectedTotalQuantity, currency, catalogProducts]);
-
   // ============================================================================
 
   const handleQtyChange = (item: CartItem, newQty: number) => {
@@ -5403,7 +5519,7 @@ export default function CartPage() {
                 </div>
                 <p className="mt-1 text-right text-[10px] italic text-gray-400">{t("cart_tax_shipping_note")}</p>
               </div>
-              
+
               <button onClick={handleCheckout} disabled={isProcessingCheckout || selectedIds.length === 0} className="flex items-center justify-center w-full gap-3 py-5 text-sm font-bold tracking-[0.2em] text-white uppercase transition-all duration-300 shadow-xl bg-gray-900 rounded-2xl hover:bg-black disabled:bg-gray-300 hover:shadow-black/20">
                 {!isProcessingCheckout ? t("btn_checkout", { count: selectedIds.length.toString() }) : <span className="flex items-center gap-2"><div className="w-4 h-4 border-2 rounded-full border-white/40 border-t-white animate-spin"></div>{t("cart_processing")}</span>}
               </button>
