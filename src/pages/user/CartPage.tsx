@@ -5403,6 +5403,7 @@ export default function CartPage() {
                 </div>
                 <p className="mt-1 text-right text-[10px] italic text-gray-400">{t("cart_tax_shipping_note")}</p>
               </div>
+              
               <button onClick={handleCheckout} disabled={isProcessingCheckout || selectedIds.length === 0} className="flex items-center justify-center w-full gap-3 py-5 text-sm font-bold tracking-[0.2em] text-white uppercase transition-all duration-300 shadow-xl bg-gray-900 rounded-2xl hover:bg-black disabled:bg-gray-300 hover:shadow-black/20">
                 {!isProcessingCheckout ? t("btn_checkout", { count: selectedIds.length.toString() }) : <span className="flex items-center gap-2"><div className="w-4 h-4 border-2 rounded-full border-white/40 border-t-white animate-spin"></div>{t("cart_processing")}</span>}
               </button>
