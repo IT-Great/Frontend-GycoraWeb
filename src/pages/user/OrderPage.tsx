@@ -14688,7 +14688,7 @@ export default function OrderPage() {
                           {isHistoricallyBundled ? (
                             <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-purple-600 rounded w-max inline-block" title="Harga Promo Paket">BUNDLE</span>
                           ) : isWholesaleItem ? (
-                            <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-blue-600 rounded w-max inline-block">GROSIR</span>
+                            <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-blue-600 rounded w-max inline-block">WHOLESALE</span>
                           ) : isDiscountedItem ? (
                             <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-rose-500 rounded w-max inline-block">SALE</span>
                           ) : null}

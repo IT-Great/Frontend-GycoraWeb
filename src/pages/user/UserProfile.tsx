@@ -6352,7 +6352,7 @@ export default function UserProfile() {
 
                   <div className="flex items-center justify-between pt-4 mt-4 border-t border-gray-100">
                     <p className="text-xs font-semibold text-gray-500 truncate max-w-[50%]">
-                      Kec. {addr.details.region}
+                      {t("district")} ({addr.details.region})
                     </p>
                     <div className="flex items-center gap-3">
                       <button
@@ -6384,7 +6384,7 @@ export default function UserProfile() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-up">
           <div className="flex flex-col w-full max-w-md overflow-hidden bg-white shadow-2xl rounded-2xl">
             <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50">
-              <h3 className="text-lg font-bold text-gray-900">Ubah Profil</h3>
+              <h3 className="text-lg font-bold text-gray-900">{t("change_profile")}</h3>
               <button
                 onClick={() => setIsProfileModalOpen(false)}
                 className="text-gray-400 hover:text-gray-900"
@@ -6408,7 +6408,7 @@ export default function UserProfile() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block mb-1 text-sm font-semibold text-gray-700">
-                    Nama Depan
+                    {t("label_first_name")}
                   </label>
                   <input
                     type="text"
@@ -6425,7 +6425,7 @@ export default function UserProfile() {
                 </div>
                 <div>
                   <label className="block mb-1 text-sm font-semibold text-gray-700">
-                    Nama Belakang
+                    {t("label_last_name")}
                   </label>
                   <input
                     type="text"
@@ -6462,11 +6462,11 @@ export default function UserProfile() {
 
               <div>
                 <label className="block mb-1 text-sm font-semibold text-gray-700">
-                  Nomor Telepon
+                  {t("label_phone")}
                 </label>
                 <input
-                  type="tel"
-                  placeholder="Contoh: 081234567890"
+                  type="phone"
+                  placeholder="Ex: 081234567890"
                   value={profileFormData.phone}
                   onChange={(e) =>
                     setProfileFormData({
@@ -6484,13 +6484,13 @@ export default function UserProfile() {
                   onClick={() => setIsProfileModalOpen(false)}
                   className="px-5 py-2 text-sm font-bold text-gray-600 transition-colors rounded-full hover:bg-gray-100"
                 >
-                  Batal
+                  {t("cancel")}
                 </button>
                 <button
                   type="submit"
                   className="px-5 py-2 text-sm font-bold text-white transition-colors rounded-full shadow-md bg-gycora hover:bg-gycora-dark"
                 >
-                  Simpan Perubahan
+                  {t("btn_update_address")}
                 </button>
               </div>
             </form>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // /* eslint-disable react-hooks/rules-of-hooks */
 // /* eslint-disable no-empty */
@@ -2884,8 +2885,8 @@ export default function PaymentPage() {
             
             {checkoutData.appliedBundlesCount > 0 && (
               <div className="flex items-center justify-between p-3 mb-6 border border-purple-200 rounded-xl bg-purple-50">
-                <span className="text-[10px] font-extrabold tracking-wide text-purple-800 uppercase">Promo Bundle Checkout Aktif</span>
-                <span className="text-xs font-black text-purple-700">{checkoutData.appliedBundlesCount} Paket</span>
+                <span className="text-[10px] font-extrabold tracking-wide text-purple-800 uppercase">{t("bundle_promo_active")}</span>
+                <span className="text-xs font-black text-purple-700">{checkoutData.appliedBundlesCount} {t("bundle")}</span>
               </div>
             )}
 
@@ -2922,7 +2923,7 @@ export default function PaymentPage() {
                     <div className="flex-grow">
                       <div className="flex items-center gap-2">
                         <p className="w-40 text-[11px] font-bold text-gray-900 uppercase truncate" title={freshProd.name}>{freshProd.name}</p>
-                        {isWholesaleActive && <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-blue-600 rounded">GROSIR</span>}
+                        {isWholesaleActive && <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-blue-600 rounded">GROSIR (WHOLESALE)</span>}
                         {isBundled && <span className="px-1.5 py-0.5 text-[8px] font-bold text-purple-600 bg-purple-100 rounded uppercase">Bundle</span>}
                       </div>
 
@@ -3014,7 +3015,7 @@ export default function PaymentPage() {
                     <p className="mt-1 text-[10px] text-gray-400">{formatCurrencyDisplay({ value: parseFloat(selectedRate.price), curr: "IDR" })} x {checkoutCount} item</p>
                   </div>
                 ) : (
-                  <span className="text-[10px] italic">Pilih metode</span>
+                  <span className="text-[10px] italic">{t("choose_method")}</span>
                 )}
               </div>
 
