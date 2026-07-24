@@ -6139,7 +6139,7 @@ export default function UserProfile() {
                     clipRule="evenodd"
                   />
                 </svg>
-                Join Partnership
+                {t("join_partnership")}
               </button>
               {/* 👆 BATAS BARIS BARU 👆 */}
               <button
