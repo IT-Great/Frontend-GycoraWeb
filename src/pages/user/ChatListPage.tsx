@@ -484,6 +484,46 @@ export default function ChatListPage() {
     if (res.ok) setMessages(await res.json());
   };
 
+  // const handleSendMessage = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (!newMessage.trim() || !activeChat || !currentUser) return;
+
+  //   const token = localStorage.getItem("user_token");
+  //   const messageText = newMessage.trim();
+  //   setNewMessage("");
+
+  //   const tempMsg: Message = {
+  //     id: Date.now(),
+  //     sender_id: currentUser.id,
+  //     receiver_id: activeChat.id,
+  //     message: messageText,
+  //     created_at: new Date().toISOString(),
+  //   };
+  //   setMessages((prev) => [...prev, tempMsg]);
+
+  //   // Jika pesan dikirim ke AI, tampilkan animasi typing
+  //   if (activeChat.id === 0) {
+  //     setIsAITyping(true);
+  //   }
+
+  //   try {
+  //     await fetch(`${BASE_URL}/api/messages`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: JSON.stringify({
+  //         receiver_id: activeChat.id,
+  //         message: messageText,
+  //       }),
+  //     });
+  //   } catch (error) {
+  //     console.error("Gagal mengirim:", error);
+  //     setIsAITyping(false); // Matikan loading jika API error
+  //   }
+  // };
+
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim() || !activeChat || !currentUser) return;
@@ -492,6 +532,7 @@ export default function ChatListPage() {
     const messageText = newMessage.trim();
     setNewMessage("");
 
+    // 1. Tampilkan pesan user ke layar (Optimistic Update)
     const tempMsg: Message = {
       id: Date.now(),
       sender_id: currentUser.id,
@@ -501,13 +542,13 @@ export default function ChatListPage() {
     };
     setMessages((prev) => [...prev, tempMsg]);
 
-    // Jika pesan dikirim ke AI, tampilkan animasi typing
+    // 2. Jika pesan dikirim ke AI, nyalakan animasi typing
     if (activeChat.id === 0) {
       setIsAITyping(true);
     }
 
     try {
-      await fetch(`${BASE_URL}/api/messages`, {
+      const response = await fetch(`${BASE_URL}/api/messages`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -518,9 +559,26 @@ export default function ChatListPage() {
           message: messageText,
         }),
       });
+
+      if (response.ok) {
+        const result = await response.json();
+        
+        // 3. JIKA AI MEMBALAS (tangkap respon HTTP-nya)
+        if (activeChat.id === 0 && result.ai_message) {
+          setIsAITyping(false); // Matikan loading typing
+          
+          // Masukkan balasan AI ke layar
+          setMessages((prev) => {
+            if (prev.some((m) => m.id === result.ai_message.id)) return prev;
+            return [...prev, result.ai_message];
+          });
+        }
+      } else {
+        throw new Error("Gagal memproses pesan.");
+      }
     } catch (error) {
       console.error("Gagal mengirim:", error);
-      setIsAITyping(false); // Matikan loading jika API error
+      if (activeChat.id === 0) setIsAITyping(false);
     }
   };
 
