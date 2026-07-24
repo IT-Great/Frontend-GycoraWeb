@@ -796,6 +796,354 @@
 //   );
 // }
 
+// /* eslint-disable react-hooks/rules-of-hooks */
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+// import { useState, useEffect, useRef } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { BASE_URL } from "../../config/api";
+// import Echo from "laravel-echo";
+// import Pusher from "pusher-js";
+// import { useLanguage } from "../../context/LanguageContext";
+
+// declare global {
+//   interface Window {
+//     Pusher: any;
+//     Echo: any;
+//   }
+// }
+
+// window.Pusher = Pusher;
+
+// interface Staff {
+//   id: number;
+//   first_name: string;
+//   last_name: string;
+//   usertype: string;
+//   profile_image?: string;
+// }
+
+// interface Message {
+//   id: number;
+//   sender_id: number;
+//   receiver_id: number;
+//   message: string;
+//   created_at: string;
+// }
+
+// export default function ChatListPage() {
+//   const navigate = useNavigate();
+//   const { t } = useLanguage(); 
+  
+//   const [staffList, setStaffList] = useState<Staff[]>([]);
+//   const [loading, setLoading] = useState(true);
+
+//   const [activeChat, setActiveChat] = useState<Staff | null>(null);
+//   const [messages, setMessages] = useState<Message[]>([]);
+//   const [newMessage, setNewMessage] = useState("");
+//   const [isAITyping, setIsAITyping] = useState(false);
+//   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+//   const activeChatRef = useRef<Staff | null>(null);
+
+//   useEffect(() => {
+//     activeChatRef.current = activeChat;
+//   }, [activeChat]);
+
+//   const [currentUser, setCurrentUser] = useState<any>(null);
+
+//   useEffect(() => {
+//     const token = localStorage.getItem("user_token");
+//     const userStr = localStorage.getItem("user_data");
+//     if (!token || !userStr) {
+//       navigate("/login");
+//       return;
+//     }
+//     setCurrentUser(JSON.parse(userStr));
+
+//     const fetchStaff = async () => {
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/staff-list`, {
+//           headers: { Authorization: `Bearer ${token}` },
+//         });
+//         if (res.ok) setStaffList(await res.json());
+//       } catch (error) {
+//         console.error("Gagal memuat kontak:", error);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     fetchStaff();
+//   }, [navigate]);
+
+//   useEffect(() => {
+//     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+//   }, [messages, isAITyping]);
+
+//   // ==========================================================
+//   // LARAVEL ECHO LISTENER
+//   // ==========================================================
+//   useEffect(() => {
+//     if (!currentUser) return;
+
+//     const token = localStorage.getItem("user_token");
+
+//     const echoInstance = new Echo({
+//       broadcaster: "pusher",
+//       key: "5b29faa8d41035b749a1",
+//       cluster: "ap1",
+//       forceTLS: true,
+//       authEndpoint: `${BASE_URL}/api/broadcasting/auth`,
+//       auth: {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//           Accept: "application/json",
+//         },
+//       },
+//     });
+
+//     window.Echo = echoInstance;
+
+//     echoInstance
+//       .private(`chat.${currentUser.id}`)
+//       .listen(".MessageSent", (e: any) => {
+//         const incomingMsg = e.message || e;
+
+//         if (activeChatRef.current && incomingMsg.sender_id === activeChatRef.current.id) {
+//           if (activeChatRef.current.usertype === "ai") setIsAITyping(false);
+          
+//           setMessages((prev) => {
+//             if (prev.some((m) => m.id === incomingMsg.id)) return prev;
+//             return [...prev, incomingMsg];
+//           });
+//         }
+//       });
+
+//     return () => {
+//       echoInstance.leave(`chat.${currentUser.id}`);
+//     };
+//   }, [currentUser]);
+
+//   const openChat = async (staff: Staff) => {
+//     setActiveChat(staff);
+//     setIsAITyping(false);
+//     const token = localStorage.getItem("user_token");
+//     const res = await fetch(`${BASE_URL}/api/messages/${staff.id}`, {
+//       headers: { Authorization: `Bearer ${token}` },
+//     });
+//     if (res.ok) setMessages(await res.json());
+//   };
+
+//   const handleSendMessage = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     if (!newMessage.trim() || !activeChat || !currentUser) return;
+
+//     const token = localStorage.getItem("user_token");
+//     const messageText = newMessage.trim();
+//     setNewMessage("");
+
+//     // Optimistic Update
+//     const tempMsg: Message = {
+//       id: Date.now(),
+//       sender_id: currentUser.id,
+//       receiver_id: activeChat.id,
+//       message: messageText,
+//       created_at: new Date().toISOString(),
+//     };
+//     setMessages((prev) => [...prev, tempMsg]);
+
+//     const isAI = activeChat.usertype === "ai";
+//     if (isAI) setIsAITyping(true);
+
+//     try {
+//       const response = await fetch(`${BASE_URL}/api/messages`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${token}`,
+//         },
+//         body: JSON.stringify({
+//           receiver_id: activeChat.id,
+//           message: messageText,
+//         }),
+//       });
+
+//       if (response.ok) {
+//         const result = await response.json();
+        
+//         // JIKA AI MEMBALAS DARI HTTP RESPONSE
+//         if (isAI && result.ai_message) {
+//           setIsAITyping(false);
+//           setMessages((prev) => {
+//             if (prev.some((m) => m.id === result.ai_message.id)) return prev;
+//             return [...prev, result.ai_message];
+//           });
+//         }
+//       } else {
+//         throw new Error("Gagal memproses pesan.");
+//       }
+//     } catch (error) {
+//       console.error("Gagal mengirim:", error);
+//       if (isAI) {
+//         setIsAITyping(false);
+//         const errorMsg: Message = {
+//           id: Date.now() + 1,
+//           sender_id: activeChat.id,
+//           receiver_id: currentUser.id,
+//           message: "Maaf kak, gagal menghubungi server AI. Coba lagi sebentar ya.",
+//           created_at: new Date().toISOString(),
+//         };
+//         setMessages((prev) => [...prev, errorMsg]);
+//       }
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-[80vh] px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8 font-sans relative animate-fade-in-up">
+//       <div className="mb-8 md:mb-12">
+//         <h1 className="text-3xl font-extrabold text-gray-900 md:text-4xl">
+//           {t("chat_title")}
+//         </h1>
+//         <p className="mt-2 text-base text-gray-500">
+//           {t("chat_subtitle")}
+//         </p>
+//       </div>
+
+//       {loading ? (
+//         <div className="flex justify-center p-12">
+//           <div className="w-10 h-10 border-4 rounded-full border-emerald-100 border-t-gycora animate-spin"></div>
+//         </div>
+//       ) : (
+//         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
+//           {staffList.map((staff) => {
+//             const isAI = staff.usertype === "ai";
+//             return (
+//             <div
+//               key={`staff-${staff.id}`}
+//               onClick={() => openChat(staff)}
+//               className={`flex items-center gap-4 p-5 transition-all border cursor-pointer rounded-2xl group ${
+//                 isAI 
+//                 ? "bg-gradient-to-r from-purple-50 to-white border-purple-200 hover:border-purple-400 hover:shadow-purple-500/20 shadow-sm" 
+//                 : "bg-white border-gray-200 hover:border-gycora hover:shadow-lg"
+//               }`}
+//             >
+//               <div className={`flex items-center justify-center font-bold text-white rounded-full shadow-inner w-14 h-14 shrink-0 ${isAI ? "bg-purple-600" : "bg-gycora"}`}>
+//                 {isAI ? (
+//                   <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+//                 ) : (
+//                   <>{staff.first_name.charAt(0)}{staff.last_name.charAt(0)}</>
+//                 )}
+//               </div>
+//               <div className="flex-1 min-w-0">
+//                 <h3 className={`text-lg font-bold truncate transition-colors ${isAI ? "text-purple-900 group-hover:text-purple-600" : "text-gray-900 group-hover:text-gycora"}`}>
+//                   {staff.first_name} {staff.last_name}
+//                 </h3>
+//                 <p className={`text-xs font-bold uppercase tracking-widest mt-0.5 truncate ${isAI ? "text-purple-500" : "text-gray-400"}`}>
+//                   {staff.usertype === 'ai' ? 'Bot 24/7' : staff.usertype}
+//                 </p>
+//               </div>
+//               <div className={`p-2 transition-colors rounded-full shrink-0 ${isAI ? "text-purple-600 bg-purple-100 group-hover:bg-purple-600 group-hover:text-white" : "text-emerald-600 bg-emerald-50 group-hover:bg-gycora group-hover:text-white"}`}>
+//                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+//                 </svg>
+//               </div>
+//             </div>
+//             );
+//           })}
+//         </div>
+//       )}
+
+//       {/* --- MODAL CHAT POP-UP --- */}
+//       {activeChat && (
+//         <div className="fixed bottom-0 right-0 z-[100] w-full md:w-[400px] md:right-8 md:bottom-0 shadow-2xl bg-white border border-gray-200 flex flex-col h-[550px] md:rounded-t-2xl animate-fade-in-up">
+//           {/* Header Fixed */}
+//           <div className={`flex items-center justify-between p-4 text-white shrink-0 md:rounded-t-2xl ${activeChat.usertype === "ai" ? "bg-purple-600" : "bg-gycora"}`}>
+//             <div className="flex items-center gap-3">
+//               <div className={`flex items-center justify-center w-10 h-10 font-bold bg-white rounded-full shadow-sm ${activeChat.usertype === "ai" ? "text-purple-600" : "text-gycora"}`}>
+//                 {activeChat.usertype === "ai" ? (
+//                   <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+//                 ) : (
+//                   <>{activeChat.first_name.charAt(0)}</>
+//                 )}
+//               </div>
+//               <div>
+//                 <h4 className="text-sm font-bold leading-tight">
+//                   {activeChat.first_name} {activeChat.last_name}
+//                 </h4>
+//                 <p className="text-[10px] tracking-widest uppercase opacity-90">
+//                   {activeChat.usertype === 'ai' ? 'Bot 24/7' : activeChat.usertype}
+//                 </p>
+//               </div>
+//             </div>
+//             <button
+//               onClick={() => setActiveChat(null)}
+//               className="p-2 transition-colors rounded-full hover:bg-white/20"
+//             >
+//               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+//             </button>
+//           </div>
+
+//           {/* Body Pesan */}
+//           <div className="flex-1 p-4 space-y-4 overflow-y-auto bg-gray-50 custom-scrollbar">
+//             {messages.length === 0 ? (
+//               <div className="flex flex-col items-center justify-center h-full opacity-50">
+//                 <p className="text-sm font-medium text-center text-gray-500">
+//                   {activeChat.usertype === "ai" ? "Halo! Apa yang ingin Anda ketahui tentang produk Gycora?" : t("chat_empty_msg")}
+//                 </p>
+//               </div>
+//             ) : (
+//               messages.map((msg) => (
+//                 <div key={msg.id} className={`flex ${msg.sender_id === currentUser?.id ? "justify-end" : "justify-start"}`}>
+//                   <div className={`max-w-[80%] p-3 rounded-2xl text-sm shadow-sm ${msg.sender_id === currentUser?.id ? (activeChat.usertype === "ai" ? "bg-purple-600 text-white rounded-br-none" : "bg-gycora text-white rounded-br-none") : "bg-white border border-gray-200 text-gray-800 rounded-bl-none"}`}>
+//                     <div dangerouslySetInnerHTML={{ __html: msg.message.replace(/\n/g, '<br/>') }} />
+//                     <p className={`text-[9px] mt-1 text-right ${msg.sender_id === currentUser?.id ? "text-white/70" : "text-gray-400"}`}>
+//                       {new Date(msg.created_at).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+//                     </p>
+//                   </div>
+//                 </div>
+//               ))
+//             )}
+
+//             {/* Animasi Mengetik Khusus AI */}
+//             {isAITyping && activeChat.usertype === "ai" && (
+//               <div className="flex justify-start">
+//                 <div className="max-w-[80%] px-4 py-3 bg-white border border-gray-200 rounded-2xl rounded-bl-none shadow-sm flex items-center gap-1.5">
+//                   <span className="w-1.5 h-1.5 bg-purple-500 rounded-full animate-bounce"></span>
+//                   <span className="w-1.5 h-1.5 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></span>
+//                   <span className="w-1.5 h-1.5 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></span>
+//                 </div>
+//               </div>
+//             )}
+//             <div ref={messagesEndRef} />
+//           </div>
+
+//           {/* Footer Input */}
+//           <div className="p-3 bg-white border-t border-gray-100 shrink-0">
+//             <form onSubmit={handleSendMessage} className="flex items-center gap-2">
+//               <input
+//                 type="text"
+//                 value={newMessage}
+//                 onChange={(e) => setNewMessage(e.target.value)}
+//                 placeholder={t("chat_input_placeholder")}
+//                 disabled={isAITyping} 
+//                 className={`flex-1 px-4 py-2.5 text-sm transition-colors border border-gray-200 rounded-full outline-none bg-gray-50 focus:bg-white ${activeChat.usertype === "ai" ? "focus:border-purple-500" : "focus:border-gycora"}`}
+//               />
+//               <button
+//                 type="submit"
+//                 disabled={!newMessage.trim() || isAITyping}
+//                 className={`p-2.5 text-white transition-colors rounded-full disabled:opacity-50 disabled:cursor-not-allowed shadow-md ${activeChat.usertype === "ai" ? "bg-purple-600 hover:bg-purple-800" : "bg-gycora hover:bg-gycora-dark"}`}
+//               >
+//                 <svg className="w-5 h-5 translate-x-[1px] -translate-y-[1px]" fill="currentColor" viewBox="0 0 20 20">
+//                   <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+//                 </svg>
+//               </button>
+//             </form>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef } from "react";
@@ -819,6 +1167,7 @@ interface Staff {
   first_name: string;
   last_name: string;
   usertype: string;
+  email?: string; // Tambahkan email untuk identifikasi absolut
   profile_image?: string;
 }
 
@@ -850,6 +1199,9 @@ export default function ChatListPage() {
   }, [activeChat]);
 
   const [currentUser, setCurrentUser] = useState<any>(null);
+
+  // Helper identifikasi AI yang kebal bug
+  const isChatAI = activeChat?.usertype === "ai" || activeChat?.email === "ai@gycora.com";
 
   useEffect(() => {
     const token = localStorage.getItem("user_token");
@@ -909,7 +1261,9 @@ export default function ChatListPage() {
         const incomingMsg = e.message || e;
 
         if (activeChatRef.current && incomingMsg.sender_id === activeChatRef.current.id) {
-          if (activeChatRef.current.usertype === "ai") setIsAITyping(false);
+          if (activeChatRef.current.usertype === "ai" || activeChatRef.current.email === "ai@gycora.com") {
+            setIsAITyping(false);
+          }
           
           setMessages((prev) => {
             if (prev.some((m) => m.id === incomingMsg.id)) return prev;
@@ -951,8 +1305,7 @@ export default function ChatListPage() {
     };
     setMessages((prev) => [...prev, tempMsg]);
 
-    const isAI = activeChat.usertype === "ai";
-    if (isAI) setIsAITyping(true);
+    if (isChatAI) setIsAITyping(true);
 
     try {
       const response = await fetch(`${BASE_URL}/api/messages`, {
@@ -971,7 +1324,7 @@ export default function ChatListPage() {
         const result = await response.json();
         
         // JIKA AI MEMBALAS DARI HTTP RESPONSE
-        if (isAI && result.ai_message) {
+        if (isChatAI && result.ai_message) {
           setIsAITyping(false);
           setMessages((prev) => {
             if (prev.some((m) => m.id === result.ai_message.id)) return prev;
@@ -983,7 +1336,7 @@ export default function ChatListPage() {
       }
     } catch (error) {
       console.error("Gagal mengirim:", error);
-      if (isAI) {
+      if (isChatAI) {
         setIsAITyping(false);
         const errorMsg: Message = {
           id: Date.now() + 1,
@@ -1015,7 +1368,7 @@ export default function ChatListPage() {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
           {staffList.map((staff) => {
-            const isAI = staff.usertype === "ai";
+            const isAI = staff.usertype === "ai" || staff.email === "ai@gycora.com";
             return (
             <div
               key={`staff-${staff.id}`}
@@ -1038,7 +1391,7 @@ export default function ChatListPage() {
                   {staff.first_name} {staff.last_name}
                 </h3>
                 <p className={`text-xs font-bold uppercase tracking-widest mt-0.5 truncate ${isAI ? "text-purple-500" : "text-gray-400"}`}>
-                  {staff.usertype === 'ai' ? 'Bot 24/7' : staff.usertype}
+                  {isAI ? 'Bot 24/7' : staff.usertype}
                 </p>
               </div>
               <div className={`p-2 transition-colors rounded-full shrink-0 ${isAI ? "text-purple-600 bg-purple-100 group-hover:bg-purple-600 group-hover:text-white" : "text-emerald-600 bg-emerald-50 group-hover:bg-gycora group-hover:text-white"}`}>
@@ -1056,10 +1409,10 @@ export default function ChatListPage() {
       {activeChat && (
         <div className="fixed bottom-0 right-0 z-[100] w-full md:w-[400px] md:right-8 md:bottom-0 shadow-2xl bg-white border border-gray-200 flex flex-col h-[550px] md:rounded-t-2xl animate-fade-in-up">
           {/* Header Fixed */}
-          <div className={`flex items-center justify-between p-4 text-white shrink-0 md:rounded-t-2xl ${activeChat.usertype === "ai" ? "bg-purple-600" : "bg-gycora"}`}>
+          <div className={`flex items-center justify-between p-4 text-white shrink-0 md:rounded-t-2xl ${isChatAI ? "bg-purple-600" : "bg-gycora"}`}>
             <div className="flex items-center gap-3">
-              <div className={`flex items-center justify-center w-10 h-10 font-bold bg-white rounded-full shadow-sm ${activeChat.usertype === "ai" ? "text-purple-600" : "text-gycora"}`}>
-                {activeChat.usertype === "ai" ? (
+              <div className={`flex items-center justify-center w-10 h-10 font-bold bg-white rounded-full shadow-sm ${isChatAI ? "text-purple-600" : "text-gycora"}`}>
+                {isChatAI ? (
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                 ) : (
                   <>{activeChat.first_name.charAt(0)}</>
@@ -1070,7 +1423,7 @@ export default function ChatListPage() {
                   {activeChat.first_name} {activeChat.last_name}
                 </h4>
                 <p className="text-[10px] tracking-widest uppercase opacity-90">
-                  {activeChat.usertype === 'ai' ? 'Bot 24/7' : activeChat.usertype}
+                  {isChatAI ? 'Bot 24/7' : activeChat.usertype}
                 </p>
               </div>
             </div>
@@ -1087,13 +1440,13 @@ export default function ChatListPage() {
             {messages.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full opacity-50">
                 <p className="text-sm font-medium text-center text-gray-500">
-                  {activeChat.usertype === "ai" ? "Halo! Apa yang ingin Anda ketahui tentang produk Gycora?" : t("chat_empty_msg")}
+                  {isChatAI ? "Halo! Apa yang ingin Anda ketahui tentang produk Gycora?" : t("chat_empty_msg")}
                 </p>
               </div>
             ) : (
               messages.map((msg) => (
                 <div key={msg.id} className={`flex ${msg.sender_id === currentUser?.id ? "justify-end" : "justify-start"}`}>
-                  <div className={`max-w-[80%] p-3 rounded-2xl text-sm shadow-sm ${msg.sender_id === currentUser?.id ? (activeChat.usertype === "ai" ? "bg-purple-600 text-white rounded-br-none" : "bg-gycora text-white rounded-br-none") : "bg-white border border-gray-200 text-gray-800 rounded-bl-none"}`}>
+                  <div className={`max-w-[80%] p-3 rounded-2xl text-sm shadow-sm ${msg.sender_id === currentUser?.id ? (isChatAI ? "bg-purple-600 text-white rounded-br-none" : "bg-gycora text-white rounded-br-none") : "bg-white border border-gray-200 text-gray-800 rounded-bl-none"}`}>
                     <div dangerouslySetInnerHTML={{ __html: msg.message.replace(/\n/g, '<br/>') }} />
                     <p className={`text-[9px] mt-1 text-right ${msg.sender_id === currentUser?.id ? "text-white/70" : "text-gray-400"}`}>
                       {new Date(msg.created_at).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
@@ -1104,7 +1457,7 @@ export default function ChatListPage() {
             )}
 
             {/* Animasi Mengetik Khusus AI */}
-            {isAITyping && activeChat.usertype === "ai" && (
+            {isAITyping && isChatAI && (
               <div className="flex justify-start">
                 <div className="max-w-[80%] px-4 py-3 bg-white border border-gray-200 rounded-2xl rounded-bl-none shadow-sm flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 bg-purple-500 rounded-full animate-bounce"></span>
@@ -1125,12 +1478,12 @@ export default function ChatListPage() {
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder={t("chat_input_placeholder")}
                 disabled={isAITyping} 
-                className={`flex-1 px-4 py-2.5 text-sm transition-colors border border-gray-200 rounded-full outline-none bg-gray-50 focus:bg-white ${activeChat.usertype === "ai" ? "focus:border-purple-500" : "focus:border-gycora"}`}
+                className={`flex-1 px-4 py-2.5 text-sm transition-colors border border-gray-200 rounded-full outline-none bg-gray-50 focus:bg-white ${isChatAI ? "focus:border-purple-500" : "focus:border-gycora"}`}
               />
               <button
                 type="submit"
                 disabled={!newMessage.trim() || isAITyping}
-                className={`p-2.5 text-white transition-colors rounded-full disabled:opacity-50 disabled:cursor-not-allowed shadow-md ${activeChat.usertype === "ai" ? "bg-purple-600 hover:bg-purple-800" : "bg-gycora hover:bg-gycora-dark"}`}
+                className={`p-2.5 text-white transition-colors rounded-full disabled:opacity-50 disabled:cursor-not-allowed shadow-md ${isChatAI ? "bg-purple-600 hover:bg-purple-800" : "bg-gycora hover:bg-gycora-dark"}`}
               >
                 <svg className="w-5 h-5 translate-x-[1px] -translate-y-[1px]" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
