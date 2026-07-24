@@ -4652,11 +4652,7 @@
 //             </div>
 
 //             {/* TAB SECTION */}
-//             <div className="mt-4">
-//               <div className="flex flex-wrap gap-2 pb-4 mb-6 border-b border-gray-100">
-//                 <button
-//                   onClick={() => setActiveTab("desc")}
-//                   className={`px-5 py-2.5 text-sm font-bold rounded-full transition-colors focus:outline-none ${
+//             <div className="                                                                                                                                                                                                                                                                                                            ${
 //                     activeTab === "desc" ? "bg-[#006A4E] text-white" : "bg-emerald-50 text-[#006A4E] hover:bg-emerald-100"
 //                   }`}
 //                 >
@@ -5744,7 +5740,7 @@ export default function ProductDetail() {
                       {formatCurrencyDisplay(finalPriceObj)}
                     </span>
                     {isReseller && hasWholesale && (
-                       <span className="mb-1 text-sm font-bold text-blue-500">Harga Grosir</span>
+                       <span className="mb-1 text-sm font-bold text-blue-500">{t("wholesale_price")}</span>
                     )}
                   </div>
                 </div>

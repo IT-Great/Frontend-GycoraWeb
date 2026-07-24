@@ -1628,6 +1628,14 @@ export const translations: Record<string, TranslationDictionary> = {
     alert_success_desc: "Tim kami akan segera meninjau aplikasi Anda.",
     alert_error_title: "Pendaftaran Gagal",
     alert_error_desc: "Terjadi kesalahan pada sistem. Coba lagi nanti.",
+    wholesale_price : "Harga Grosir",
+    active_bundle : "BUNDLE AKTIF",
+    wait_partner : "MENUNGGU PASANGAN BUNDLE",
+    bundle_promo_price : "Harga Promo Paket",
+    bundle_promo_active : "Promo Bundle Aktif",
+    bundle : "Paket",
+    check_or_add : "Centang atau tambah",
+    item_again : "barang lagi untuk mendapatkan harga reseller." 
   },
   en: {
     // Nav Menu
@@ -2845,6 +2853,14 @@ export const translations: Record<string, TranslationDictionary> = {
 
     alert_error_title: "Application Failed",
     alert_error_desc: "A system error occurred. Please try again later.",
+    wholesale_price : "Wholesale Price",
+    active_bundle : "ACTIVE BUNDLE",
+    wait_partner : "WAITING FOR BUNDLE PAIR",
+    bundle_promo_price : "Bundle Promo Price",
+    bundle_promo_active : "Bundle Promo Active",
+    bundle : "Bundle",
+    check_or_add : "Select or add",
+    item_again : "more item(s) to get the reseller price."
   },
 };
 

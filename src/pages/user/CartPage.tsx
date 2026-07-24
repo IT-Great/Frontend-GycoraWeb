@@ -5320,7 +5320,7 @@ export default function CartPage() {
               <div>
                 <h3 className="text-sm font-bold md:text-base">{selectedTotalQuantity >= 24 ? "🎉 Harga Grosir Aktif!" : "Aktifkan Harga Grosir"}</h3>
                 <p className={`text-xs md:text-sm mt-1 ${selectedTotalQuantity >= 24 ? "text-blue-100" : "text-blue-700"}`}>
-                  {selectedTotalQuantity >= 24 ? `Luar biasa! Anda membeli ${selectedTotalQuantity} item dan menikmati harga modal pabrik.` : `Centang atau tambah ${24 - selectedTotalQuantity} barang lagi untuk mendapatkan harga reseller.`}
+                  {selectedTotalQuantity >= 24 ? `Luar biasa! Anda membeli ${selectedTotalQuantity} item dan menikmati harga modal pabrik.` : `{t("check_or_add")} ${24 - selectedTotalQuantity} {t("item_again")}`}
                 </p>
               </div>
               <div className="pl-4 shrink-0">
@@ -5379,9 +5379,9 @@ export default function CartPage() {
                         <img src={prod.image_url} alt={prod.name} className="object-cover w-full h-full transition-transform duration-500 hover:scale-105" />
                         
                         {isBundled ? (
-                          <div className="absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm bg-purple-600">BUNDLE AKTIF</div>
+                          <div className="absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm bg-purple-600">{t("active_bundle")}</div>
                         ) : isEligible ? (
-                          <div className="absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm bg-indigo-400">MENUNGGU PASANGAN</div>
+                          <div className="absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm bg-indigo-400">{t("wait_partner")}</div>
                         ) : isDiscountedVisual ? (
                           <div className={`absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm ${isWholesaleActive ? "bg-blue-600" : "bg-rose-500"}`}>
                             {isWholesaleActive ? "GROSIR" : t("cart_sale_badge")}
@@ -5400,7 +5400,7 @@ export default function CartPage() {
                                 {formatCurrencyDisplay(currentGrossAmountObj)}
                               </p>
                               {isBundled ? (
-                                <span className="inline-block mt-1 text-[10px] font-black text-purple-600 uppercase bg-purple-100 px-2 py-0.5 rounded shadow-sm">Harga Promo Paket</span>
+                                <span className="inline-block mt-1 text-[10px] font-black text-purple-600 uppercase bg-purple-100 px-2 py-0.5 rounded shadow-sm">{t("bundle_promo_price")}</span>
                               ) : isDiscountedVisual ? (
                                 <p className="text-[10px] text-gray-400 line-through mt-0.5">{formatCurrencyDisplay(originalGrossAmountObj)}</p>
                               ) : null}
@@ -5507,9 +5507,9 @@ export default function CartPage() {
                   <div className="flex items-center justify-between p-4 border border-purple-200 rounded-2xl bg-purple-50">
                     <div className="flex items-center gap-3">
                       <span className="flex items-center justify-center w-6 h-6 text-xs text-white bg-purple-600 rounded-full shadow-sm">✓</span>
-                      <span className="text-xs font-extrabold tracking-wide text-purple-800 uppercase">Promo Bundle Aktif</span>
+                      <span className="text-xs font-extrabold tracking-wide text-purple-800 uppercase">{t("bundle_promo_active")}</span>
                     </div>
-                    <span className="text-sm font-black text-purple-700">{checkoutData.appliedBundlesCount} Paket</span>
+                    <span className="text-sm font-black text-purple-700">{checkoutData.appliedBundlesCount} {t("bundle")}</span>
                   </div>
                 )}
 
