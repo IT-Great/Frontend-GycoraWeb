@@ -524,6 +524,64 @@ export default function ChatListPage() {
   //   }
   // };
 
+  // const handleSendMessage = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (!newMessage.trim() || !activeChat || !currentUser) return;
+
+  //   const token = localStorage.getItem("user_token");
+  //   const messageText = newMessage.trim();
+  //   setNewMessage("");
+
+  //   // 1. Tampilkan pesan user ke layar (Optimistic Update)
+  //   const tempMsg: Message = {
+  //     id: Date.now(),
+  //     sender_id: currentUser.id,
+  //     receiver_id: activeChat.id,
+  //     message: messageText,
+  //     created_at: new Date().toISOString(),
+  //   };
+  //   setMessages((prev) => [...prev, tempMsg]);
+
+  //   // 2. Jika pesan dikirim ke AI, nyalakan animasi typing
+  //   if (activeChat.id === 0) {
+  //     setIsAITyping(true);
+  //   }
+
+  //   try {
+  //     const response = await fetch(`${BASE_URL}/api/messages`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: JSON.stringify({
+  //         receiver_id: activeChat.id,
+  //         message: messageText,
+  //       }),
+  //     });
+
+  //     if (response.ok) {
+  //       const result = await response.json();
+        
+  //       // 3. JIKA AI MEMBALAS (tangkap respon HTTP-nya)
+  //       if (activeChat.id === 0 && result.ai_message) {
+  //         setIsAITyping(false); // Matikan loading typing
+          
+  //         // Masukkan balasan AI ke layar
+  //         setMessages((prev) => {
+  //           if (prev.some((m) => m.id === result.ai_message.id)) return prev;
+  //           return [...prev, result.ai_message];
+  //         });
+  //       }
+  //     } else {
+  //       throw new Error("Gagal memproses pesan.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Gagal mengirim:", error);
+  //     if (activeChat.id === 0) setIsAITyping(false);
+  //   }
+  // };
+
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim() || !activeChat || !currentUser) return;
@@ -532,7 +590,7 @@ export default function ChatListPage() {
     const messageText = newMessage.trim();
     setNewMessage("");
 
-    // 1. Tampilkan pesan user ke layar (Optimistic Update)
+    // 1. Tampilkan pesan user ke layar seketika
     const tempMsg: Message = {
       id: Date.now(),
       sender_id: currentUser.id,
@@ -565,7 +623,7 @@ export default function ChatListPage() {
         
         // 3. JIKA AI MEMBALAS (tangkap respon HTTP-nya)
         if (activeChat.id === 0 && result.ai_message) {
-          setIsAITyping(false); // Matikan loading typing
+          setIsAITyping(false); // Matikan animasi typing
           
           // Masukkan balasan AI ke layar
           setMessages((prev) => {
@@ -574,11 +632,23 @@ export default function ChatListPage() {
           });
         }
       } else {
-        throw new Error("Gagal memproses pesan.");
+        throw new Error("Server mengembalikan respons error.");
       }
     } catch (error) {
       console.error("Gagal mengirim:", error);
-      if (activeChat.id === 0) setIsAITyping(false);
+      
+      // Jika error dan sedang chat dengan AI, beritahu user dan matikan animasi
+      if (activeChat.id === 0) {
+        setIsAITyping(false);
+        const errorMsg: Message = {
+          id: Date.now() + 1,
+          sender_id: 0,
+          receiver_id: currentUser.id,
+          message: "Maaf kak, gagal menghubungi server AI. Coba lagi sebentar ya.",
+          created_at: new Date().toISOString(),
+        };
+        setMessages((prev) => [...prev, errorMsg]);
+      }
     }
   };
 
