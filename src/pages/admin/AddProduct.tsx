@@ -1285,6 +1285,7 @@ export default function AddProduct() {
     voucher_discount_price: "",
     is_bundle_active: false,
     bundle_price: "",
+    bundle_start_date: "",
     bundle_end_date: "",
     stock: "0",
     description: "",
@@ -1293,19 +1294,39 @@ export default function AddProduct() {
   });
 
   const [multiPrices, setMultiPrices] = useState<Record<string, string>>({
-    USD: "", SGD: "", EUR: "", AUD: "", MYR: "",
+    USD: "",
+    SGD: "",
+    EUR: "",
+    AUD: "",
+    MYR: "",
   });
   const [multiDiscounts, setMultiDiscounts] = useState<Record<string, string>>({
-    USD: "", SGD: "", EUR: "", AUD: "", MYR: "",
+    USD: "",
+    SGD: "",
+    EUR: "",
+    AUD: "",
+    MYR: "",
   });
   const [multiWholesale, setMultiWholesale] = useState<Record<string, string>>({
-    USD: "", SGD: "", EUR: "", AUD: "", MYR: "",
+    USD: "",
+    SGD: "",
+    EUR: "",
+    AUD: "",
+    MYR: "",
   });
   const [multiVouchers, setMultiVouchers] = useState<Record<string, string>>({
-    USD: "", SGD: "", EUR: "", AUD: "", MYR: "",
+    USD: "",
+    SGD: "",
+    EUR: "",
+    AUD: "",
+    MYR: "",
   });
-  const [multiBundles, setMultiBundles] = useState<Record<string, string>>({ 
-    USD: "", SGD: "", EUR: "", AUD: "", MYR: "" 
+  const [multiBundles, setMultiBundles] = useState<Record<string, string>>({
+    USD: "",
+    SGD: "",
+    EUR: "",
+    AUD: "",
+    MYR: "",
   });
 
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -1343,7 +1364,11 @@ export default function AddProduct() {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 50 * 1024 * 1024) {
-        Swal.fire("File Terlalu Besar", "Ukuran video maksimal 50MB", "warning");
+        Swal.fire(
+          "File Terlalu Besar",
+          "Ukuran video maksimal 50MB",
+          "warning",
+        );
         return;
       }
       setVideoFile(file);
@@ -1354,7 +1379,11 @@ export default function AddProduct() {
   const handleVariantChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (variantFiles.length + files.length > 7) {
-      Swal.fire("Batas Tercapai", "Maksimal hanya 7 gambar varian yang diperbolehkan.", "warning");
+      Swal.fire(
+        "Batas Tercapai",
+        "Maksimal hanya 7 gambar varian yang diperbolehkan.",
+        "warning",
+      );
       return;
     }
     const newFiles = [...variantFiles, ...files];
@@ -1404,12 +1433,23 @@ export default function AddProduct() {
 
     const hasEmptyColorNames = colors.some((c) => c.name.trim() === "");
     if (hasEmptyColorNames) {
-      Swal.fire("Peringatan", "Harap isi nama/label untuk semua varian warna yang ditambahkan.", "warning");
+      Swal.fire(
+        "Peringatan",
+        "Harap isi nama/label untuk semua varian warna yang ditambahkan.",
+        "warning",
+      );
       return;
     }
 
-    if (formData.discount_price && Number(formData.discount_price) >= Number(formData.price)) {
-      Swal.fire("Peringatan", "Harga diskon harus lebih kecil dari harga asli.", "warning");
+    if (
+      formData.discount_price &&
+      Number(formData.discount_price) >= Number(formData.price)
+    ) {
+      Swal.fire(
+        "Peringatan",
+        "Harga diskon harus lebih kecil dari harga asli.",
+        "warning",
+      );
       return;
     }
 
@@ -1444,28 +1484,52 @@ export default function AddProduct() {
         didOpen: () => Swal.showLoading(),
       });
 
-      const filteredPrices = Object.fromEntries(Object.entries(multiPrices).filter(([_, v]) => v !== ""));
-      const filteredDiscounts = Object.fromEntries(Object.entries(multiDiscounts).filter(([_, v]) => v !== ""));
-      const filteredWholesale = Object.fromEntries(Object.entries(multiWholesale).filter(([_, v]) => v !== ""));
-      const filteredVouchers = Object.fromEntries(Object.entries(multiVouchers).filter(([_, v]) => v !== ""));
-      const filteredBundles = Object.fromEntries(Object.entries(multiBundles).filter(([_, v]) => v !== ""));
+      const filteredPrices = Object.fromEntries(
+        Object.entries(multiPrices).filter(([_, v]) => v !== ""),
+      );
+      const filteredDiscounts = Object.fromEntries(
+        Object.entries(multiDiscounts).filter(([_, v]) => v !== ""),
+      );
+      const filteredWholesale = Object.fromEntries(
+        Object.entries(multiWholesale).filter(([_, v]) => v !== ""),
+      );
+      const filteredVouchers = Object.fromEntries(
+        Object.entries(multiVouchers).filter(([_, v]) => v !== ""),
+      );
+      const filteredBundles = Object.fromEntries(
+        Object.entries(multiBundles).filter(([_, v]) => v !== ""),
+      );
 
       const payload = {
         ...formData,
-        wholesale_price: formData.wholesale_price === "" ? null : formData.wholesale_price,
-        discount_price: formData.discount_price === "" ? null : formData.discount_price,
-        voucher_discount_price: formData.voucher_discount_price === "" ? null : formData.voucher_discount_price,
-        bundle_price: formData.bundle_price === "" ? null : formData.bundle_price,
-        bundle_end_date: formData.bundle_end_date === "" ? null : formData.bundle_end_date,
+        wholesale_price:
+          formData.wholesale_price === "" ? null : formData.wholesale_price,
+        discount_price:
+          formData.discount_price === "" ? null : formData.discount_price,
+        voucher_discount_price:
+          formData.voucher_discount_price === ""
+            ? null
+            : formData.voucher_discount_price,
+        bundle_price:
+          formData.bundle_price === "" ? null : formData.bundle_price,
+        bundle_start_date:
+          formData.bundle_start_date === "" ? null : formData.bundle_start_date, // <-- UPDATE
+        bundle_end_date:
+          formData.bundle_end_date === "" ? null : formData.bundle_end_date,
         prices: Object.keys(filteredPrices).length > 0 ? filteredPrices : null,
-        discount_prices: Object.keys(filteredDiscounts).length > 0 ? filteredDiscounts : null,
-        wholesale_prices: Object.keys(filteredWholesale).length > 0 ? filteredWholesale : null,
-        voucher_discount_prices: Object.keys(filteredVouchers).length > 0 ? filteredVouchers : null,
-        bundle_prices: Object.keys(filteredBundles).length > 0 ? filteredBundles : null,
+        discount_prices:
+          Object.keys(filteredDiscounts).length > 0 ? filteredDiscounts : null,
+        wholesale_prices:
+          Object.keys(filteredWholesale).length > 0 ? filteredWholesale : null,
+        voucher_discount_prices:
+          Object.keys(filteredVouchers).length > 0 ? filteredVouchers : null,
+        bundle_prices:
+          Object.keys(filteredBundles).length > 0 ? filteredBundles : null,
         color: colors.length > 0 ? colors : null,
         image_url: uploadedImageUrl,
         variant_video: uploadedVideoUrl,
-        variant_images: uploadedVariantUrls.length > 0 ? uploadedVariantUrls : null,
+        variant_images:
+          uploadedVariantUrls.length > 0 ? uploadedVariantUrls : null,
       };
 
       const res = await fetch(`${BASE_URL}/api/products`, {
@@ -1482,11 +1546,19 @@ export default function AddProduct() {
         navigate("/admin/products");
       } else {
         const errorData = await res.json();
-        Swal.fire("Gagal!", errorData.message || "Pastikan semua data terisi dengan benar.", "error");
+        Swal.fire(
+          "Gagal!",
+          errorData.message || "Pastikan semua data terisi dengan benar.",
+          "error",
+        );
       }
     } catch (error) {
       console.error(error);
-      Swal.fire("Error!", "Terjadi kesalahan saat mengunggah atau menyimpan.", "error");
+      Swal.fire(
+        "Error!",
+        "Terjadi kesalahan saat mengunggah atau menyimpan.",
+        "error",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -1501,54 +1573,87 @@ export default function AddProduct() {
             className="p-2 text-gray-400 transition rounded-lg hover:text-gray-600 hover:bg-gray-50"
             title="Kembali"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
             </svg>
           </button>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Tambah Produk Baru</h1>
-            <p className="mt-1 text-sm text-gray-500">Tambahkan item baru beserta varian dan video demo.</p>
+            <h1 className="text-2xl font-bold text-gray-900">
+              Tambah Produk Baru
+            </h1>
+            <p className="mt-1 text-sm text-gray-500">
+              Tambahkan item baru beserta varian dan video demo.
+            </p>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
-              <label className="block mb-2 text-sm font-semibold text-gray-700">Kategori Produk</label>
+              <label className="block mb-2 text-sm font-semibold text-gray-700">
+                Kategori Produk
+              </label>
               <select
                 required
                 value={formData.category_id}
                 className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-gycora focus:ring-1 focus:ring-gycora transition-all"
-                onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, category_id: e.target.value })
+                }
               >
-                <option value="" disabled>Pilih Kategori...</option>
+                <option value="" disabled>
+                  Pilih Kategori...
+                </option>
                 {categories.map((c: any) => (
-                  <option key={c.id} value={c.id}>{c.name}</option>
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="block mb-2 text-sm font-semibold text-gray-700">SKU</label>
+              <label className="block mb-2 text-sm font-semibold text-gray-700">
+                SKU
+              </label>
               <input
                 type="text"
                 required
                 placeholder="Misal: SHP-01"
                 value={formData.sku}
                 className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-gycora focus:ring-1 focus:ring-gycora transition-all uppercase"
-                onChange={(e) => setFormData({ ...formData, sku: e.target.value.toUpperCase() })}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    sku: e.target.value.toUpperCase(),
+                  })
+                }
               />
             </div>
           </div>
 
           <div>
-            <label className="block mb-2 text-sm font-semibold text-gray-700">Nama Produk</label>
+            <label className="block mb-2 text-sm font-semibold text-gray-700">
+              Nama Produk
+            </label>
             <input
               type="text"
               required
               placeholder="Misal: Gycora Shampoo"
               value={formData.name}
               className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-gycora focus:ring-1 focus:ring-gycora transition-all"
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
             />
           </div>
 
@@ -1558,38 +1663,60 @@ export default function AddProduct() {
             </h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <div>
-                <label className="block mb-1 text-xs font-bold text-gray-600">IDR Price <span className="text-red-500">*</span></label>
+                <label className="block mb-1 text-xs font-bold text-gray-600">
+                  IDR Price <span className="text-red-500">*</span>
+                </label>
                 <input
                   value={formData.price}
-                  onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, price: e.target.value })
+                  }
                   type="number"
                   className="w-full p-2.5 bg-white border border-gray-200 rounded-lg outline-none"
                   required
                 />
               </div>
               <div>
-                <label className="block mb-1 text-xs font-bold text-gray-600">Discount IDR</label>
+                <label className="block mb-1 text-xs font-bold text-gray-600">
+                  Discount IDR
+                </label>
                 <input
                   value={formData.discount_price}
-                  onChange={(e) => setFormData({ ...formData, discount_price: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, discount_price: e.target.value })
+                  }
                   type="number"
                   className="w-full p-2.5 bg-white border border-gray-200 rounded-lg outline-none"
                 />
               </div>
               <div>
-                <label className="block mb-1 text-xs font-bold text-gray-600">Wholesale IDR</label>
+                <label className="block mb-1 text-xs font-bold text-gray-600">
+                  Wholesale IDR
+                </label>
                 <input
                   value={formData.wholesale_price}
-                  onChange={(e) => setFormData({ ...formData, wholesale_price: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      wholesale_price: e.target.value,
+                    })
+                  }
                   type="number"
                   className="w-full p-2.5 bg-white border border-gray-200 rounded-lg outline-none"
                 />
               </div>
               <div>
-                <label className="block mb-1 text-xs font-bold text-gray-600">Voucher IDR</label>
+                <label className="block mb-1 text-xs font-bold text-gray-600">
+                  Voucher IDR
+                </label>
                 <input
                   value={formData.voucher_discount_price}
-                  onChange={(e) => setFormData({ ...formData, voucher_discount_price: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      voucher_discount_price: e.target.value,
+                    })
+                  }
                   type="number"
                   className="w-full p-2.5 bg-white border border-gray-200 rounded-lg outline-none"
                 />
@@ -1599,42 +1726,83 @@ export default function AddProduct() {
             <div className="p-4 mt-6 border border-purple-100 rounded-xl bg-purple-50/50">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                 <div className="flex items-center gap-3">
-                  <input 
-                    type="checkbox" 
-                    id="is_bundle" 
-                    checked={formData.is_bundle_active} 
-                    onChange={(e) => setFormData({...formData, is_bundle_active: e.target.checked})} 
-                    className="w-5 h-5 text-purple-600 border-gray-300 rounded focus:ring-purple-500" 
+                  <input
+                    type="checkbox"
+                    id="is_bundle"
+                    checked={formData.is_bundle_active}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        is_bundle_active: e.target.checked,
+                      })
+                    }
+                    className="w-5 h-5 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
                   />
-                  <label htmlFor="is_bundle" className="text-sm font-bold text-purple-900 cursor-pointer">
+                  <label
+                    htmlFor="is_bundle"
+                    className="text-sm font-bold text-purple-900 cursor-pointer"
+                  >
                     Aktifkan Syarat Bundle Kategori Berbeda
                   </label>
                 </div>
                 {formData.is_bundle_active && (
                   <div className="flex flex-wrap items-center gap-4 sm:ml-auto">
                     <div className="flex items-center gap-2">
-                      <label className="text-xs font-bold text-purple-700">Harga Bundle IDR:</label>
-                      <input 
-                        type="number" 
-                        value={formData.bundle_price} 
-                        onChange={(e) => setFormData({...formData, bundle_price: e.target.value})} 
-                        className="w-32 p-2 text-sm bg-white border border-purple-200 rounded-lg outline-none focus:border-purple-500" 
+                      <label className="text-xs font-bold text-purple-700">
+                        Harga Bundle IDR:
+                      </label>
+                      <input
+                        type="number"
+                        value={formData.bundle_price}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            bundle_price: e.target.value,
+                          })
+                        }
+                        className="w-32 p-2 text-sm bg-white border border-purple-200 rounded-lg outline-none focus:border-purple-500"
                         placeholder="0"
                       />
                     </div>
+                    <div className="flex flex-col gap-1 sm:flex-row sm:items-center">
+                      <label className="text-[11px] font-bold text-purple-700">
+                        Mulai:
+                      </label>
+                      <input
+                        type="datetime-local"
+                        value={formData.bundle_start_date}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            bundle_start_date: e.target.value,
+                          })
+                        }
+                        className="p-2 text-xs bg-white border border-purple-200 rounded-lg outline-none focus:border-purple-500"
+                      />
+                    </div>
                     <div className="flex items-center gap-2">
-                      <label className="text-xs font-bold text-purple-700">Berlaku Sampai:</label>
-                      <input 
-                        type="datetime-local" 
-                        value={formData.bundle_end_date} 
-                        onChange={(e) => setFormData({...formData, bundle_end_date: e.target.value})} 
-                        className="p-2 text-sm bg-white border border-purple-200 rounded-lg outline-none focus:border-purple-500" 
+                      <label className="text-xs font-bold text-purple-700">
+                        Berlaku Sampai:
+                      </label>
+                      <input
+                        type="datetime-local"
+                        value={formData.bundle_end_date}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            bundle_end_date: e.target.value,
+                          })
+                        }
+                        className="p-2 text-sm bg-white border border-purple-200 rounded-lg outline-none focus:border-purple-500"
                       />
                     </div>
                   </div>
                 )}
               </div>
-              <p className="mt-2 text-xs text-purple-600/80">*Jika aktif, harga bundle di atas akan berlaku apabila produk ini masuk keranjang bersama minimal 1 produk dari kategori lain.</p>
+              <p className="mt-2 text-xs text-purple-600/80">
+                *Jika aktif, harga bundle di atas akan berlaku apabila produk
+                ini masuk keranjang bersama minimal 1 produk dari kategori lain.
+              </p>
             </div>
           </div>
 
@@ -1643,30 +1811,104 @@ export default function AddProduct() {
               Pengaturan Nilai Mata Uang Internasional
             </h3>
             {SUPPORTED_CURRENCIES.map((curr) => (
-              <div key={curr} className="p-4 space-y-4 bg-white border border-gray-200 shadow-sm rounded-xl">
+              <div
+                key={curr}
+                className="p-4 space-y-4 bg-white border border-gray-200 shadow-sm rounded-xl"
+              >
                 <h4 className="flex items-center gap-2 text-xs font-extrabold tracking-wider uppercase text-gycora">
-                  <span className="inline-block w-2 h-2 rounded-full bg-gycora"></span> Konfigurasi Kurs {curr}
+                  <span className="inline-block w-2 h-2 rounded-full bg-gycora"></span>{" "}
+                  Konfigurasi Kurs {curr}
                 </h4>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
                   <div>
-                    <label className="block mb-1 text-[11px] font-bold text-gray-500">{curr} Retail Price</label>
-                    <input value={multiPrices[curr]} onChange={(e) => setMultiPrices({...multiPrices, [curr]: e.target.value})} type="number" step="0.01" className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none text-sm" placeholder="0.00" />
+                    <label className="block mb-1 text-[11px] font-bold text-gray-500">
+                      {curr} Retail Price
+                    </label>
+                    <input
+                      value={multiPrices[curr]}
+                      onChange={(e) =>
+                        setMultiPrices({
+                          ...multiPrices,
+                          [curr]: e.target.value,
+                        })
+                      }
+                      type="number"
+                      step="0.01"
+                      className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none text-sm"
+                      placeholder="0.00"
+                    />
                   </div>
                   <div>
-                    <label className="block mb-1 text-[11px] font-bold text-gray-500">{curr} Discount Price</label>
-                    <input value={multiDiscounts[curr]} onChange={(e) => setMultiDiscounts({...multiDiscounts, [curr]: e.target.value})} type="number" step="0.01" className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none text-sm" placeholder="0.00" />
+                    <label className="block mb-1 text-[11px] font-bold text-gray-500">
+                      {curr} Discount Price
+                    </label>
+                    <input
+                      value={multiDiscounts[curr]}
+                      onChange={(e) =>
+                        setMultiDiscounts({
+                          ...multiDiscounts,
+                          [curr]: e.target.value,
+                        })
+                      }
+                      type="number"
+                      step="0.01"
+                      className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none text-sm"
+                      placeholder="0.00"
+                    />
                   </div>
                   <div>
-                    <label className="block mb-1 text-[11px] font-bold text-gray-500">{curr} Wholesale Price</label>
-                    <input value={multiWholesale[curr]} onChange={(e) => setMultiWholesale({...multiWholesale, [curr]: e.target.value})} type="number" step="0.01" className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none text-sm" placeholder="0.00" />
+                    <label className="block mb-1 text-[11px] font-bold text-gray-500">
+                      {curr} Wholesale Price
+                    </label>
+                    <input
+                      value={multiWholesale[curr]}
+                      onChange={(e) =>
+                        setMultiWholesale({
+                          ...multiWholesale,
+                          [curr]: e.target.value,
+                        })
+                      }
+                      type="number"
+                      step="0.01"
+                      className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none text-sm"
+                      placeholder="0.00"
+                    />
                   </div>
                   <div>
-                    <label className="block mb-1 text-[11px] font-bold text-gray-500">{curr} Voucher Price</label>
-                    <input value={multiVouchers[curr]} onChange={(e) => setMultiVouchers({...multiVouchers, [curr]: e.target.value})} type="number" step="0.01" className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none text-sm" placeholder="0.00" />
+                    <label className="block mb-1 text-[11px] font-bold text-gray-500">
+                      {curr} Voucher Price
+                    </label>
+                    <input
+                      value={multiVouchers[curr]}
+                      onChange={(e) =>
+                        setMultiVouchers({
+                          ...multiVouchers,
+                          [curr]: e.target.value,
+                        })
+                      }
+                      type="number"
+                      step="0.01"
+                      className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none text-sm"
+                      placeholder="0.00"
+                    />
                   </div>
                   <div>
-                    <label className="block mb-1 text-[11px] font-bold text-purple-600">{curr} Bundle Price</label>
-                    <input value={multiBundles[curr]} onChange={(e) => setMultiBundles({...multiBundles, [curr]: e.target.value})} type="number" step="0.01" className="w-full p-2.5 bg-purple-50/30 border border-purple-200 focus:border-purple-500 rounded-lg outline-none text-sm" placeholder="0.00" />
+                    <label className="block mb-1 text-[11px] font-bold text-purple-600">
+                      {curr} Bundle Price
+                    </label>
+                    <input
+                      value={multiBundles[curr]}
+                      onChange={(e) =>
+                        setMultiBundles({
+                          ...multiBundles,
+                          [curr]: e.target.value,
+                        })
+                      }
+                      type="number"
+                      step="0.01"
+                      className="w-full p-2.5 bg-purple-50/30 border border-purple-200 focus:border-purple-500 rounded-lg outline-none text-sm"
+                      placeholder="0.00"
+                    />
                   </div>
                 </div>
               </div>
@@ -1674,46 +1916,129 @@ export default function AddProduct() {
           </div>
 
           <div>
-            <label className="block mb-2 text-sm font-semibold text-gray-700">Stok Utama</label>
-            <input type="number" required value={formData.stock} className="w-full md:w-1/3 p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-gycora focus:ring-1 focus:ring-gycora transition-all" onChange={(e) => setFormData({ ...formData, stock: e.target.value })} />
+            <label className="block mb-2 text-sm font-semibold text-gray-700">
+              Stok Utama
+            </label>
+            <input
+              type="number"
+              required
+              value={formData.stock}
+              className="w-full md:w-1/3 p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-gycora focus:ring-1 focus:ring-gycora transition-all"
+              onChange={(e) =>
+                setFormData({ ...formData, stock: e.target.value })
+              }
+            />
           </div>
 
           <div className="pt-6 space-y-6 border-t border-gray-100">
             <h2 className="text-lg font-bold text-gray-900">Media Produk</h2>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
-                <label className="block mb-2 text-sm font-semibold text-gray-700">Foto Utama (Wajib)</label>
-                <input type="file" accept="image/*" required className="w-full p-2 text-sm border border-gray-200 rounded-lg outline-none bg-gray-50" onChange={(e) => setImageFile(e.target.files?.[0] || null)} />
+                <label className="block mb-2 text-sm font-semibold text-gray-700">
+                  Foto Utama (Wajib)
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  required
+                  className="w-full p-2 text-sm border border-gray-200 rounded-lg outline-none bg-gray-50"
+                  onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+                />
               </div>
               <div>
                 <label className="flex justify-between block mb-2 text-sm font-semibold text-gray-700">
                   <span>Video Demo (Opsional)</span>
                   {videoFile && (
-                    <button type="button" onClick={() => { setVideoFile(null); setVideoPreview(null); }} className="text-xs text-red-500 hover:underline">Hapus</button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setVideoFile(null);
+                        setVideoPreview(null);
+                      }}
+                      className="text-xs text-red-500 hover:underline"
+                    >
+                      Hapus
+                    </button>
                   )}
                 </label>
-                <input type="file" accept="video/mp4,video/webm,video/quicktime" className="w-full p-2 text-sm border border-gray-200 rounded-lg outline-none bg-gray-50" onChange={handleVideoChange} />
-                {videoPreview && <video src={videoPreview} controls className="object-contain w-full h-32 mt-2 bg-black rounded-lg" />}
+                <input
+                  type="file"
+                  accept="video/mp4,video/webm,video/quicktime"
+                  className="w-full p-2 text-sm border border-gray-200 rounded-lg outline-none bg-gray-50"
+                  onChange={handleVideoChange}
+                />
+                {videoPreview && (
+                  <video
+                    src={videoPreview}
+                    controls
+                    className="object-contain w-full h-32 mt-2 bg-black rounded-lg"
+                  />
+                )}
               </div>
             </div>
 
             <div>
               <label className="flex justify-between block mb-2 text-sm font-semibold text-gray-700">
                 <span>Gambar Varian (Opsional, Maks 7)</span>
-                <span className="text-xs text-gray-400">{variantFiles.length} / 7</span>
+                <span className="text-xs text-gray-400">
+                  {variantFiles.length} / 7
+                </span>
               </label>
               <div className="flex flex-wrap gap-4 mt-2">
                 {variantFiles.length < 7 && (
                   <label className="flex items-center justify-center w-24 h-24 text-gray-400 transition bg-white border-2 border-gray-200 border-dashed cursor-pointer rounded-xl hover:bg-gray-50 hover:text-gycora hover:border-gycora shrink-0">
-                    <input type="file" accept="image/*" multiple onChange={handleVariantChange} className="hidden" />
-                    <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={handleVariantChange}
+                      className="hidden"
+                    />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-8 h-8"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M12 4v16m8-8H4"
+                      />
+                    </svg>
                   </label>
                 )}
                 {variantPreviews.map((src, idx) => (
-                  <div key={idx} className="relative w-24 h-24 overflow-hidden border border-gray-200 rounded-xl shrink-0 group">
-                    <img src={src} alt="Variant" className="object-cover w-full h-full" />
-                    <button type="button" onClick={() => removeVariant(idx)} className="absolute inset-0 flex items-center justify-center w-full h-full text-white transition-opacity opacity-0 bg-black/50 group-hover:opacity-100">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                  <div
+                    key={idx}
+                    className="relative w-24 h-24 overflow-hidden border border-gray-200 rounded-xl shrink-0 group"
+                  >
+                    <img
+                      src={src}
+                      alt="Variant"
+                      className="object-cover w-full h-full"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeVariant(idx)}
+                      className="absolute inset-0 flex items-center justify-center w-full h-full text-white transition-opacity opacity-0 bg-black/50 group-hover:opacity-100"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-6 h-6 text-red-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                      </svg>
                     </button>
                   </div>
                 ))}
@@ -1726,59 +2051,151 @@ export default function AddProduct() {
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="md:col-span-2">
                 <div className="flex items-center justify-between pb-2 mb-4 border-b border-gray-100">
-                  <label className="text-sm font-semibold text-gray-700">Varian Warna Produk</label>
-                  <button type="button" onClick={addColor} className="flex items-center gap-1 text-xs font-bold transition-colors text-gycora hover:text-gycora-dark">
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                  <label className="text-sm font-semibold text-gray-700">
+                    Varian Warna Produk
+                  </label>
+                  <button
+                    type="button"
+                    onClick={addColor}
+                    className="flex items-center gap-1 text-xs font-bold transition-colors text-gycora hover:text-gycora-dark"
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      />
+                    </svg>
                     Tambah Varian
                   </button>
                 </div>
                 {colors.length === 0 ? (
                   <div className="py-6 text-center border border-gray-200 border-dashed rounded-xl bg-gray-50">
-                    <p className="text-sm text-gray-400">Tidak ada varian warna khusus.</p>
+                    <p className="text-sm text-gray-400">
+                      Tidak ada varian warna khusus.
+                    </p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {colors.map((c, i) => (
-                      <div key={i} className="flex flex-col gap-2 p-3 transition-colors bg-white border border-gray-200 shadow-sm rounded-xl hover:border-gycora/30">
+                      <div
+                        key={i}
+                        className="flex flex-col gap-2 p-3 transition-colors bg-white border border-gray-200 shadow-sm rounded-xl hover:border-gycora/30"
+                      >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <div className="relative">
-                              <input type="color" value={c.hex} onChange={(e) => updateColorHex(i, e.target.value)} className="w-8 h-8 p-0 border-none rounded-full shadow-sm cursor-pointer" />
+                              <input
+                                type="color"
+                                value={c.hex}
+                                onChange={(e) =>
+                                  updateColorHex(i, e.target.value)
+                                }
+                                className="w-8 h-8 p-0 border-none rounded-full shadow-sm cursor-pointer"
+                              />
                               <div className="absolute inset-0 rounded-full pointer-events-none ring-1 ring-inset ring-black/10"></div>
                             </div>
-                            <span className="font-mono text-xs font-medium text-gray-500 uppercase">{c.hex}</span>
+                            <span className="font-mono text-xs font-medium text-gray-500 uppercase">
+                              {c.hex}
+                            </span>
                           </div>
-                          <button type="button" onClick={() => removeColor(i)} className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                          <button
+                            type="button"
+                            onClick={() => removeColor(i)}
+                            className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="w-4 h-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              />
+                            </svg>
                           </button>
                         </div>
-                        <input type="text" placeholder="Nama Warna (misal: Rose Gold)" value={c.name} onChange={(e) => updateColorName(i, e.target.value)} className="w-full px-3 py-2 text-xs transition border border-gray-200 rounded-lg outline-none bg-gray-50 focus:ring-1 focus:ring-gycora" />
+                        <input
+                          type="text"
+                          placeholder="Nama Warna (misal: Rose Gold)"
+                          value={c.name}
+                          onChange={(e) => updateColorName(i, e.target.value)}
+                          className="w-full px-3 py-2 text-xs transition border border-gray-200 rounded-lg outline-none bg-gray-50 focus:ring-1 focus:ring-gycora"
+                        />
                       </div>
                     ))}
                   </div>
                 )}
               </div>
               <div className="md:col-span-2">
-                <label className="block mb-2 text-sm font-semibold text-gray-700">Status Awal</label>
-                <select required value={formData.status} className="w-full md:w-1/2 p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-gycora focus:ring-1 focus:ring-gycora transition-all" onChange={(e) => setFormData({ ...formData, status: e.target.value })}>
+                <label className="block mb-2 text-sm font-semibold text-gray-700">
+                  Status Awal
+                </label>
+                <select
+                  required
+                  value={formData.status}
+                  className="w-full md:w-1/2 p-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-gycora focus:ring-1 focus:ring-gycora transition-all"
+                  onChange={(e) =>
+                    setFormData({ ...formData, status: e.target.value })
+                  }
+                >
                   <option value="active">Aktif (Tampil di Katalog)</option>
                   <option value="inactive">Nonaktif (Sembunyikan)</option>
                 </select>
               </div>
             </div>
             <div>
-              <label className="block mb-2 text-sm font-semibold text-gray-700">Deskripsi (Opsional)</label>
-              <textarea rows={4} value={formData.description} className="w-full p-3 transition-all border border-gray-200 rounded-lg outline-none resize-none bg-gray-50 focus:border-gycora focus:ring-1 focus:ring-gycora" onChange={(e) => setFormData({ ...formData, description: e.target.value })} />
+              <label className="block mb-2 text-sm font-semibold text-gray-700">
+                Deskripsi (Opsional)
+              </label>
+              <textarea
+                rows={4}
+                value={formData.description}
+                className="w-full p-3 transition-all border border-gray-200 rounded-lg outline-none resize-none bg-gray-50 focus:border-gycora focus:ring-1 focus:ring-gycora"
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
+              />
             </div>
             <div>
-              <label className="block mb-2 text-sm font-semibold text-gray-700">Manfaat / Benefits (Opsional)</label>
-              <textarea rows={3} value={formData.benefits} className="w-full p-3 transition-all border border-gray-200 rounded-lg outline-none resize-none bg-gray-50 focus:border-gycora focus:ring-1 focus:ring-gycora" onChange={(e) => setFormData({ ...formData, benefits: e.target.value })} />
+              <label className="block mb-2 text-sm font-semibold text-gray-700">
+                Manfaat / Benefits (Opsional)
+              </label>
+              <textarea
+                rows={3}
+                value={formData.benefits}
+                className="w-full p-3 transition-all border border-gray-200 rounded-lg outline-none resize-none bg-gray-50 focus:border-gycora focus:ring-1 focus:ring-gycora"
+                onChange={(e) =>
+                  setFormData({ ...formData, benefits: e.target.value })
+                }
+              />
             </div>
           </div>
 
           <div className="flex justify-end gap-3 pt-6 border-t border-gray-100">
-            <button type="button" onClick={() => navigate("/admin/products")} className="px-6 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Batal</button>
-            <button type="submit" disabled={isSubmitting} className="px-6 py-2.5 text-sm font-medium text-white bg-gycora rounded-lg hover:bg-gycora-dark shadow-sm transition-colors disabled:opacity-50">
+            <button
+              type="button"
+              onClick={() => navigate("/admin/products")}
+              className="px-6 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              Batal
+            </button>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="px-6 py-2.5 text-sm font-medium text-white bg-gycora rounded-lg hover:bg-gycora-dark shadow-sm transition-colors disabled:opacity-50"
+            >
               {isSubmitting ? "Menyimpan..." : "Simpan Produk"}
             </button>
           </div>
