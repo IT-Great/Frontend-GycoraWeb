@@ -5320,7 +5320,7 @@ export default function CartPage() {
               <div>
                 <h3 className="text-sm font-bold md:text-base">{selectedTotalQuantity >= 24 ? "🎉 Harga Grosir Aktif!" : "Aktifkan Harga Grosir"}</h3>
                 <p className={`text-xs md:text-sm mt-1 ${selectedTotalQuantity >= 24 ? "text-blue-100" : "text-blue-700"}`}>
-                  {selectedTotalQuantity >= 24 ? `Luar biasa! Anda membeli ${selectedTotalQuantity} item dan menikmati harga modal pabrik.` : `{t("check_or_add")} ${24 - selectedTotalQuantity} {t("item_again")}`}
+                  {selectedTotalQuantity >= 24 ? `Luar biasa! Anda membeli ${selectedTotalQuantity} item dan menikmati harga modal pabrik.` : `${t("check_or_add")} ${24 - selectedTotalQuantity} ${t("item_again")}`}
                 </p>
               </div>
               <div className="pl-4 shrink-0">
