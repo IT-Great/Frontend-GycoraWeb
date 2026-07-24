@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../config/api";
+import { useLanguage } from "../../context/LanguageContext";
 
 interface Product {
   id: number;
@@ -23,6 +24,8 @@ export default function FavoritePage() {
   const navigate = useNavigate();
   const [wishlists, setWishlists] = useState<WishlistItem[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const { t } = useLanguage();
 
   const fetchWishlists = async () => {
     setLoading(true);
@@ -111,7 +114,7 @@ export default function FavoritePage() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 uppercase">Koleksi Favorit</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 uppercase">{t("favorite_collection")}</h1>
         </div>
 
         {/* LIST PRODUK FAVORIT */}
@@ -193,7 +196,7 @@ export default function FavoritePage() {
                       />
                     ) : (
                       <div className="flex items-center justify-center w-full h-full font-medium text-gray-400">
-                        Belum ada gambar
+                        {t("no_image")}
                       </div>
                     )}
                     
@@ -241,12 +244,12 @@ export default function FavoritePage() {
               <svg xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
               </svg>
-              <p className="mb-6 font-serif text-xl italic text-gray-400">Daftar favorit Anda masih kosong.</p>
+              <p className="mb-6 font-serif text-xl italic text-gray-400">{t("favorite_still_empty")}</p>
               <button 
                 onClick={() => navigate('/products')} 
                 className="px-8 py-3 text-xs font-bold tracking-widest text-white uppercase transition rounded-full shadow-md bg-gycora hover:bg-gycora-dark"
               >
-                Eksplorasi Produk
+                {t("product_exploration")}
               </button>
             </div>
           )

@@ -1637,7 +1637,10 @@ export const translations: Record<string, TranslationDictionary> = {
     check_or_add : "Centang atau tambah",
     item_again : "barang lagi untuk mendapatkan harga reseller.",
     wholesale_pricing_active : "Harga Grosir Aktif!",
-    enable_wholesale_pricing : "Aktifkan Harga Grosir"
+    enable_wholesale_pricing : "Aktifkan Harga Grosir",
+    favorite_collection : "Koleksi Favorit",
+    favorite_still_empty : "Daftar favorit Anda masih kosong.",
+    product_exploration : "Eksplorasi Produk"
   },
   en: {
     // Nav Menu
@@ -2864,7 +2867,10 @@ export const translations: Record<string, TranslationDictionary> = {
     check_or_add : "Select or add",
     item_again : "more item(s) to get the reseller price.",
     wholesale_pricing_active : "Wholesale Pricing Active!",
-    enable_wholesale_pricing : "Enable Wholesale Pricing"
+    enable_wholesale_pricing : "Enable Wholesale Pricing",
+    favorite_collection : "Favorite Collection",
+    favorite_still_empty : "Your favorites list is empty.",
+    product_exploration : "Explore Products"
   },
 };
 

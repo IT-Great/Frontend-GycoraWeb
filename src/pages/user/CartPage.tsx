@@ -5318,7 +5318,7 @@ export default function CartPage() {
           {userType === "reseller" && localCartItems.length > 0 && (
             <div className={`p-4 mb-6 border rounded-2xl flex items-center justify-between transition-all duration-500 ${selectedTotalQuantity >= 24 ? "bg-blue-600 border-blue-700 text-white shadow-lg" : "bg-blue-50 border-blue-200 text-blue-900"}`}>
               <div>
-                <h3 className="text-sm font-bold md:text-base">{selectedTotalQuantity >= 24 ? "🎉 Harga Grosir Aktif!" : "Aktifkan Harga Grosir"}</h3>
+                <h3 className="text-sm font-bold md:text-base">{selectedTotalQuantity >= 24 ? t("wholesale_pricing_active") : t("enable_wholesale_pricing")}</h3>
                 <p className={`text-xs md:text-sm mt-1 ${selectedTotalQuantity >= 24 ? "text-blue-100" : "text-blue-700"}`}>
                   {selectedTotalQuantity >= 24 ? `Luar biasa! Anda membeli ${selectedTotalQuantity} item dan menikmati harga modal pabrik.` : `${t("check_or_add")} ${24 - selectedTotalQuantity} ${t("item_again")}`}
                 </p>
