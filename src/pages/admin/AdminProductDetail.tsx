@@ -1417,55 +1417,55 @@ export default function AdminProductDetail() {
               <p className="text-sm text-gray-400 break-all">Slug: <span className="font-mono text-gray-500">{product.slug}</span></p>
             </div>
 
-            {/* HARGA LOKAL IDR - BEBAS TRUNCATE / TITIK TIGA */}
+            {/* 👇 HARGA LOKAL IDR - FIX LAYOUT (FLEX WRAP + SCROLL KESAMPING) 👇 */}
             <div>
               <h3 className="pb-2 mb-4 text-sm font-bold tracking-wider text-gray-900 uppercase border-b border-gray-100">Harga Domestik (IDR)</h3>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 bg-gray-50 p-4 border border-gray-100 rounded-xl">
+              <div className="flex flex-wrap gap-4 bg-gray-50 p-4 border border-gray-100 rounded-xl">
                 
                 {/* Normal */}
-                <div className="flex flex-col p-4 bg-white border border-gray-200 shadow-sm rounded-xl">
-                  <p className="mb-1 text-[10px] font-bold tracking-widest text-gray-400 uppercase">Harga Normal</p>
-                  <p className="text-base xl:text-lg font-black text-gray-900 break-words">{formatRupiah(product.price)}</p>
+                <div className="flex-1 min-w-[160px] max-w-full flex flex-col p-4 bg-white border border-gray-200 shadow-sm rounded-xl overflow-x-auto custom-scrollbar">
+                  <p className="mb-1 text-[10px] font-bold tracking-widest text-gray-400 uppercase whitespace-nowrap">Harga Normal</p>
+                  <p className="text-base xl:text-lg font-black text-gray-900 whitespace-nowrap pb-1">{formatRupiah(product.price)}</p>
                 </div>
                 
                 {/* Grosir */}
-                <div className="flex flex-col p-4 bg-blue-50 border border-blue-100 shadow-sm rounded-xl">
-                  <p className="mb-1 text-[10px] font-bold tracking-widest text-blue-500 uppercase">Grosir</p>
+                <div className="flex-1 min-w-[160px] max-w-full flex flex-col p-4 bg-blue-50 border border-blue-100 shadow-sm rounded-xl overflow-x-auto custom-scrollbar">
+                  <p className="mb-1 text-[10px] font-bold tracking-widest text-blue-500 uppercase whitespace-nowrap">Grosir</p>
                   {product.wholesale_price && product.wholesale_price > 0 ? (
-                    <p className="text-base xl:text-lg font-black text-blue-700 break-words">{formatRupiah(product.wholesale_price)}</p>
+                    <p className="text-base xl:text-lg font-black text-blue-700 whitespace-nowrap pb-1">{formatRupiah(product.wholesale_price)}</p>
                   ) : (
-                    <p className="text-sm font-bold text-blue-300">Tidak diset</p>
+                    <p className="text-sm font-bold text-blue-300 whitespace-nowrap pb-1">Tidak diset</p>
                   )}
                 </div>
 
                 {/* Diskon */}
-                <div className="flex flex-col p-4 bg-rose-50 border border-rose-100 shadow-sm rounded-xl">
-                  <p className="mb-1 text-[10px] font-bold tracking-widest text-rose-500 uppercase">Diskon Publik</p>
+                <div className="flex-1 min-w-[160px] max-w-full flex flex-col p-4 bg-rose-50 border border-rose-100 shadow-sm rounded-xl overflow-x-auto custom-scrollbar">
+                  <p className="mb-1 text-[10px] font-bold tracking-widest text-rose-500 uppercase whitespace-nowrap">Diskon Publik</p>
                   {product.discount_price && product.discount_price > 0 ? (
-                    <p className="text-base xl:text-lg font-black text-rose-700 break-words">{formatRupiah(product.discount_price)}</p>
+                    <p className="text-base xl:text-lg font-black text-rose-700 whitespace-nowrap pb-1">{formatRupiah(product.discount_price)}</p>
                   ) : (
-                    <p className="text-sm font-bold text-rose-300">-</p>
+                    <p className="text-sm font-bold text-rose-300 whitespace-nowrap pb-1">-</p>
                   )}
                 </div>
                 
                 {/* Voucher */}
-                <div className="flex flex-col p-4 bg-amber-50 border border-amber-100 shadow-sm rounded-xl">
-                  <p className="mb-1 text-[10px] font-bold tracking-widest text-amber-500 uppercase">Voucher Bos</p>
+                <div className="flex-1 min-w-[160px] max-w-full flex flex-col p-4 bg-amber-50 border border-amber-100 shadow-sm rounded-xl overflow-x-auto custom-scrollbar">
+                  <p className="mb-1 text-[10px] font-bold tracking-widest text-amber-500 uppercase whitespace-nowrap">Voucher Bos</p>
                   {product.voucher_discount_price && product.voucher_discount_price > 0 ? (
-                    <p className="text-base xl:text-lg font-black text-amber-700 break-words">{formatRupiah(product.voucher_discount_price)}</p>
+                    <p className="text-base xl:text-lg font-black text-amber-700 whitespace-nowrap pb-1">{formatRupiah(product.voucher_discount_price)}</p>
                   ) : (
-                    <p className="text-sm font-bold text-amber-300">Tidak diset</p>
+                    <p className="text-sm font-bold text-amber-300 whitespace-nowrap pb-1">Tidak diset</p>
                   )}
                 </div>
 
                 {/* Bundle */}
-                <div className="flex flex-col p-4 bg-purple-50 border border-purple-100 shadow-sm rounded-xl sm:col-span-2 lg:col-span-1 xl:col-span-1">
-                  <p className="mb-1 text-[10px] font-bold tracking-widest text-purple-600 uppercase">Bundle Price</p>
+                <div className="flex-1 min-w-[160px] max-w-full flex flex-col p-4 bg-purple-50 border border-purple-100 shadow-sm rounded-xl overflow-x-auto custom-scrollbar">
+                  <p className="mb-1 text-[10px] font-bold tracking-widest text-purple-600 uppercase whitespace-nowrap">Bundle Price</p>
                   {product.is_bundle_active && product.bundle_price && product.bundle_price > 0 ? (
-                    <div className="min-w-0">
-                      <p className="text-base xl:text-lg font-black text-purple-700 break-words">{formatRupiah(product.bundle_price)}</p>
+                    <div>
+                      <p className="text-base xl:text-lg font-black text-purple-700 whitespace-nowrap pb-1">{formatRupiah(product.bundle_price)}</p>
                       {(product.bundle_start_date || product.bundle_end_date) && (
-                        <p className="mt-1 text-[10px] font-semibold text-purple-500 leading-tight break-words">
+                        <p className="mt-1 text-[10px] font-semibold text-purple-500 leading-tight whitespace-nowrap">
                           {product.bundle_start_date ? new Date(product.bundle_start_date).toLocaleDateString('id-ID') : "Skrg"} 
                           {" - "} 
                           {product.bundle_end_date ? new Date(product.bundle_end_date).toLocaleDateString('id-ID') : "Seterusnya"}
@@ -1473,7 +1473,7 @@ export default function AdminProductDetail() {
                       )}
                     </div>
                   ) : (
-                    <p className="text-sm font-bold text-purple-300">Tidak aktif</p>
+                    <p className="text-sm font-bold text-purple-300 whitespace-nowrap pb-1">Tidak aktif</p>
                   )}
                 </div>
               </div>
@@ -1482,7 +1482,7 @@ export default function AdminProductDetail() {
             {/* 👇 HARGA INTERNASIONAL (MULTI-CURRENCY) 👇 */}
             <div>
               <h3 className="pb-2 mb-4 text-sm font-bold tracking-wider text-gray-900 uppercase border-b border-gray-100">Harga Internasional (Multi-Currency)</h3>
-              <div className="overflow-x-auto border border-gray-200 shadow-sm rounded-xl">
+              <div className="overflow-x-auto border border-gray-200 shadow-sm rounded-xl custom-scrollbar">
                 <table className="w-full text-sm text-left text-gray-600 whitespace-nowrap">
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
