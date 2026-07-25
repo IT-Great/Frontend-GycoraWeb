@@ -1216,6 +1216,26 @@ export default function AdminDashboard() {
   };
 
   // =========================================================================
+  // KUSTOMISASI LEGEND AGAR TEKS UTUH & RAPI (TIDAK ADA TITIK TIGA)
+  // =========================================================================
+  const renderCustomLegend = (props: any) => {
+    const { payload } = props;
+    return (
+      <ul className="flex flex-col gap-2.5 mt-2 max-h-[110px] overflow-y-auto pr-2 scrollbar-thin">
+        {payload.map((entry: any, index: number) => (
+          <li key={`item-${index}`} className="flex items-start gap-2 text-[11px] text-gray-600 leading-snug">
+            <span 
+              className="w-2 h-2 rounded-full shrink-0 mt-[3px]" 
+              style={{ backgroundColor: entry.color }} 
+            />
+            <span className="whitespace-normal break-words">{entry.value}</span>
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
+  // =========================================================================
   // ANIMASI LOADING MODERN (SKELETON)
   // =========================================================================
   if (loading) {
@@ -1367,9 +1387,9 @@ export default function AdminDashboard() {
         {/* PIE CHART PRODUK POPULER (Col-span 1) */}
         <div className="flex flex-col p-6 transition-shadow bg-white border border-gray-100 shadow-sm rounded-2xl hover:shadow-md">
           <h2 className="mb-2 text-lg font-bold text-gray-900">Top Produk Terlaris</h2>
-          <p className="mb-6 text-xs text-gray-500">Berdasarkan volume penjualan historis</p>
+          <p className="mb-4 text-xs text-gray-500">Berdasarkan volume penjualan historis</p>
           
-          <div className="flex-1 min-h-[300px]">
+          <div className="flex-1 min-h-[350px]">
             {popularProducts.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%" debounce={300}>
                 <PieChart>
@@ -1377,8 +1397,8 @@ export default function AdminDashboard() {
                     data={popularProducts}
                     cx="50%"
                     cy="40%"
-                    innerRadius={60} // Diperlebar sedikit
-                    outerRadius={90} // Diperlebar sedikit
+                    innerRadius={55}
+                    outerRadius={85}
                     paddingAngle={3}
                     dataKey="value"
                     stroke="none"
@@ -1387,7 +1407,6 @@ export default function AdminDashboard() {
                     {popularProducts.map((entry, index) => (
                       <Cell 
                         key={`cell-${index}`} 
-                        // 👇 MENGGUNAKAN LOGIKA PENDETEKSI WARNA 👇
                         fill={getColorFromName(entry.name, index)} 
                         className="transition-opacity duration-300 hover:opacity-80"
                       />
@@ -1397,19 +1416,10 @@ export default function AdminDashboard() {
                     contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'}}
                     formatter={(value: any) => [`${value} Unit`, 'Terjual']}
                   />
-                  {/* Legend dengan penanganan teks panjang agar tidak tumpang tindih */}
+                  {/* 👇 MENGGUNAKAN CUSTOM LEGEND RENDERER 👇 */}
                   <Legend 
                     verticalAlign="bottom" 
-                    height={70}
-                    iconType="circle"
-                    iconSize={8}
-                    wrapperStyle={{ 
-                      fontSize: '11px', 
-                      color: '#4b5563', 
-                      lineHeight: '1.2', 
-                      paddingTop: '15px'
-                    }}
-                    formatter={(value) => <span style={{ display: 'inline-block', maxWidth: '100px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', verticalAlign: 'bottom' }} title={value}>{value}</span>}
+                    content={renderCustomLegend}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -1523,7 +1533,9 @@ export default function AdminDashboard() {
             )}
           </div>
         </div>
+
       </div>
+
     </div>
   );
 }
