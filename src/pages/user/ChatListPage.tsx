@@ -2302,7 +2302,7 @@ import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../config/api";
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
-import { useLanguage } from "../../context/LanguageContext";
+// import { useLanguage } from "../../context/LanguageContext";
 
 declare global {
   interface Window {
@@ -2341,7 +2341,7 @@ const QUICK_REPLIES = [
 
 export default function ChatListPage() {
   const navigate = useNavigate();
-  const { t } = useLanguage(); 
+  // const { t } = useLanguage(); 
   
   const [staffList, setStaffList] = useState<Staff[]>([]);
   const [loading, setLoading] = useState(true);
