@@ -25,7 +25,7 @@ jobs:
             git pull origin main
             
             # 3. Update NPM (hanya jika ada tambahan package baru)
-            npm install
+            # npm install
             
             # 4. Compile ulang aset Frontend
             npm run build
