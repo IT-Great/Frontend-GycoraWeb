@@ -399,11 +399,11 @@ type TranslationDictionary = Record<string, string>;
 export const translations: Record<string, TranslationDictionary> = {
   id: {
     // Menu Navigasi
-    home: "Home",
-    about_us: "About Us",
-    product: "Product",
-    events: "Events",
-    consult: "Consult",
+    home: "Beranda",
+    about_us: "Tentang Kami",
+    product: "Produk",
+    events: "Event",
+    consult: "Konsultasi",
 
     // Auth & Profil
     login: "Login",
