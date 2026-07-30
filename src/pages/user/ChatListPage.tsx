@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // /* eslint-disable react-hooks/rules-of-hooks */
 // /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -2674,9 +2675,408 @@
 //   );
 // }
 
+// /* eslint-disable react-hooks/rules-of-hooks */
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+// import { useState, useEffect, useRef } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { BASE_URL } from "../../config/api";
+// import Echo from "laravel-echo";
+// import Pusher from "pusher-js";
+
+// declare global {
+//   interface Window {
+//     Pusher: any;
+//     Echo: any;
+//   }
+// }
+
+// window.Pusher = Pusher;
+
+// interface Staff {
+//   id: number;
+//   first_name: string;
+//   last_name: string;
+//   usertype: string;
+//   email?: string;
+//   profile_image?: string;
+// }
+
+// interface Message {
+//   id: number;
+//   sender_id: number;
+//   receiver_id: number;
+//   message: string;
+//   created_at: string;
+//   sender?: Staff;
+// }
+
+// const QUICK_REPLIES = [
+//   "Apa produk paling laris?",
+//   "Cara pakai Ethereal Glow Brush?",
+//   "Berapa hari pengirimannya?",
+//   "Ada promo apa hari ini?",
+//   "Cara refund barang cacat?",
+//   "Bicara dengan Admin"
+// ];
+
+// export default function ChatListPage() {
+//   const navigate = useNavigate();
+  
+//   const [staffList, setStaffList] = useState<Staff[]>([]);
+//   const [loading, setLoading] = useState(true);
+
+//   const [activeChat, setActiveChat] = useState<Staff | null>(null);
+//   const [messages, setMessages] = useState<Message[]>([]);
+//   const [newMessage, setNewMessage] = useState("");
+//   const [isAITyping, setIsAITyping] = useState(false);
+//   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+//   const activeChatRef = useRef<Staff | null>(null);
+
+//   useEffect(() => {
+//     activeChatRef.current = activeChat;
+//   }, [activeChat]);
+
+//   const [currentUser, setCurrentUser] = useState<any>(null);
+
+//   // 👇 [PERBAIKAN] Deteksi Akun Resmi yang lebih akurat
+//   const isOfficialSupport = activeChat?.usertype === "Official Account" || activeChat?.email === "support@gycora.com";
+
+//   useEffect(() => {
+//     const token = localStorage.getItem("user_token");
+//     const userStr = localStorage.getItem("user_data");
+//     if (!token || !userStr) {
+//       navigate("/login");
+//       return;
+//     }
+//     setCurrentUser(JSON.parse(userStr));
+
+//     const fetchStaff = async () => {
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/staff-list`, {
+//           headers: { Authorization: `Bearer ${token}` },
+//         });
+//         if (res.ok) setStaffList(await res.json());
+//       } catch (error) {
+//         console.error("Gagal memuat kontak:", error);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     fetchStaff();
+//   }, [navigate]);
+
+//   useEffect(() => {
+//     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+//   }, [messages, isAITyping]);
+
+//   // ==========================================================
+//   // LARAVEL ECHO LISTENER SISI PELANGGAN
+//   // ==========================================================
+//   useEffect(() => {
+//     if (!currentUser) return;
+//     const token = localStorage.getItem("user_token");
+
+//     const echoInstance = new Echo({
+//       broadcaster: "pusher",
+//       key: "5b29faa8d41035b749a1", // Sesuaikan key pusher Anda
+//       cluster: "ap1",
+//       forceTLS: true,
+//       authEndpoint: `${BASE_URL}/api/broadcasting/auth`,
+//       auth: {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//           Accept: "application/json",
+//         },
+//       },
+//     });
+
+//     window.Echo = echoInstance;
+
+//     echoInstance
+//       .private(`chat.${currentUser.id}`)
+//       .listen(".MessageSent", (e: any) => {
+//         const incomingMsg = e.message || e;
+
+//         // 👇 [PERBAIKAN] Di sisi User, terima pesan dari SIAPA PUN yang bukan dirinya sendiri
+//         // Karena Admin Manusia dan AI sama-sama mewakili "Gycora Care"
+//         if (incomingMsg.sender_id !== currentUser.id) {
+//           setIsAITyping(false);
+//           setMessages((prev) => {
+//             if (prev.some((m) => m.id === incomingMsg.id)) return prev;
+//             return [...prev, incomingMsg];
+//           });
+//         }
+//       });
+
+//     return () => {
+//       echoInstance.leave(`chat.${currentUser.id}`);
+//     };
+//   }, [currentUser]);
+
+//   const openChat = async (staff: Staff) => {
+//     setActiveChat(staff);
+//     setIsAITyping(false);
+//     const token = localStorage.getItem("user_token");
+//     const res = await fetch(`${BASE_URL}/api/messages/${staff.id}`, {
+//       headers: { Authorization: `Bearer ${token}` },
+//     });
+//     if (res.ok) setMessages(await res.json());
+//   };
+
+//   const handleSendQuickReply = async (text: string) => {
+//     if (!activeChat || !currentUser || isAITyping) return;
+//     await processMessageSending(text);
+//   };
+
+//   const handleSendMessage = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     if (!newMessage.trim() || !activeChat || !currentUser || isAITyping) return;
+    
+//     const textToSend = newMessage.trim();
+//     setNewMessage(""); 
+//     await processMessageSending(textToSend);
+//   };
+
+//   const processMessageSending = async (messageText: string) => {
+//     const token = localStorage.getItem("user_token");
+
+//     // Optimistic Update UI
+//     const tempMsg: Message = {
+//       id: Date.now(),
+//       sender_id: currentUser.id,
+//       receiver_id: activeChat!.id,
+//       message: messageText,
+//       created_at: new Date().toISOString(),
+//       sender: currentUser // Penting agar UI tidak crash
+//     };
+//     setMessages((prev) => [...prev, tempMsg]);
+
+//     // Nyalakan Animasi Berpikir AI
+//     if (isOfficialSupport) setIsAITyping(true);
+
+//     try {
+//       const response = await fetch(`${BASE_URL}/api/messages`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${token}`,
+//         },
+//         body: JSON.stringify({
+//           receiver_id: activeChat!.id,
+//           message: messageText,
+//         }),
+//       });
+
+//       if (response.ok) {
+//         const result = await response.json();
+//         setIsAITyping(false);
+
+//         // Jika API mengembalikan balasan AI instan, langsung tambahkan
+//         if (result.ai_message) {
+//           setMessages((prev) => {
+//             if (prev.some((m) => m.id === result.ai_message.id)) return prev;
+//             return [...prev, result.ai_message];
+//           });
+//         }
+//       } else {
+//         throw new Error("Gagal memproses pesan.");
+//       }
+//     } catch (error) {
+//       console.error("Gagal mengirim:", error);
+//       setIsAITyping(false);
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-[80vh] px-4 py-12 mx-auto max-w-4xl sm:px-6 lg:px-8 font-sans relative animate-fade-in-up">
+//       <div className="mb-8 text-center md:mb-12">
+//         <h1 className="text-3xl font-extrabold text-gray-900 md:text-4xl">
+//           Pusat Bantuan
+//         </h1>
+//         <p className="mt-2 text-base text-gray-500">
+//           Hubungi layanan pelanggan resmi kami
+//         </p>
+//       </div>
+
+//       {loading ? (
+//         <div className="flex justify-center p-12">
+//           <div className="w-10 h-10 border-4 border-gray-100 rounded-full border-t-black animate-spin"></div>
+//         </div>
+//       ) : (
+//         <div className="flex justify-center">
+//           {staffList.map((staff) => (
+//             <div
+//               key={`staff-${staff.id}`}
+//               onClick={() => openChat(staff)}
+//               className="flex items-center w-full max-w-lg gap-4 p-6 transition-all bg-white border border-gray-200 cursor-pointer rounded-2xl group hover:border-black hover:shadow-lg"
+//             >
+//               <img
+//                 src={`https://api.dicebear.com/7.x/initials/svg?seed=GC&backgroundColor=000000`}
+//                 className="object-cover w-16 h-16 rounded-full shadow-sm shrink-0"
+//                 alt="Support Avatar"
+//               />
+//               <div className="flex-1 min-w-0">
+//                 <h3 className="flex items-center gap-2 text-lg font-bold tracking-widest text-gray-900 uppercase truncate transition-colors group-hover:text-black">
+//                   {staff.first_name} {staff.last_name}
+//                   {/* Verified Badge */}
+//                   <svg className="w-5 h-5 text-blue-500 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+//                     <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.1 14.6l-4.2-4.2 1.4-1.4 2.8 2.8 7.1-7.1 1.4 1.4-8.5 8.5z"/>
+//                   </svg>
+//                 </h3>
+//                 <p className="text-xs font-bold tracking-widest text-gray-400 uppercase mt-0.5 truncate">
+//                   Official Business Account
+//                 </p>
+//               </div>
+//               <div className="p-2 text-gray-400 transition-colors rounded-full bg-gray-50 shrink-0 group-hover:bg-black group-hover:text-white">
+//                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+//                 </svg>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       )}
+
+//       {/* --- MODAL CHAT POP-UP --- */}
+//       {activeChat && (
+//         <div className="fixed bottom-0 right-0 z-[100] w-full md:w-[450px] md:right-8 md:bottom-0 shadow-2xl bg-[#F9FAFB] border border-gray-200 flex flex-col h-[650px] md:rounded-t-2xl animate-fade-in-up">
+//           {/* Header Fixed */}
+//           <div className="flex items-center justify-between p-4 bg-white border-b border-gray-200 shadow-sm shrink-0 md:rounded-t-2xl">
+//             <div className="flex items-center gap-3">
+//               <img
+//                 src={`https://api.dicebear.com/7.x/initials/svg?seed=GC&backgroundColor=000000`}
+//                 className="object-cover w-10 h-10 rounded-full shadow-sm"
+//                 alt="Avatar"
+//               />
+//               <div>
+//                 <h4 className="text-sm font-bold leading-tight tracking-widest text-black uppercase">
+//                   {activeChat.first_name} {activeChat.last_name}
+//                 </h4>
+//                 <p className="text-[10px] tracking-widest uppercase text-green-500 font-bold flex items-center gap-1.5 mt-0.5">
+//                   <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span> Online
+//                 </p>
+//               </div>
+//             </div>
+//             <button
+//               onClick={() => setActiveChat(null)}
+//               className="p-2 text-gray-400 transition-colors rounded-full hover:bg-gray-100 hover:text-black"
+//             >
+//               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+//             </button>
+//           </div>
+
+//           {/* Body Pesan */}
+//           <div className="flex-1 p-4 space-y-4 overflow-y-auto bg-[#F9FAFB] custom-scrollbar">
+//             {messages.length === 0 ? (
+//               <div className="flex flex-col items-center justify-center h-full opacity-50">
+//                 <p className="px-6 text-sm font-medium text-center text-gray-500">
+//                   Halo! Ada yang bisa kami bantu terkait produk Gycora hari ini?
+//                 </p>
+//               </div>
+//             ) : (
+//               messages.map((msg) => {
+//                 // 👇 [PERBAIKAN] Logika UI Gelembung Sisi Pelanggan
+//                 const isMe = msg.sender_id === currentUser?.id;
+//                 const isAIBot = msg.sender?.email === 'ai@gycora.com';
+                
+//                 let bubbleStyle = "";
+//                 let labelName = "";
+
+//                 if (isMe) {
+//                   bubbleStyle = "bg-black text-white rounded-br-none shadow-md";
+//                   labelName = "Anda";
+//                 } else if (isAIBot) {
+//                   bubbleStyle = "bg-purple-600 text-white rounded-bl-none shadow-md shadow-purple-500/20";
+//                   labelName = "AI Bot";
+//                 } else {
+//                   bubbleStyle = "bg-white border border-gray-200 text-gray-800 rounded-bl-none shadow-sm";
+//                   labelName = "Admin Gycora";
+//                 }
+
+//                 return (
+//                   <div key={msg.id} className={`flex flex-col mb-4 ${isMe ? "items-end" : "items-start"}`}>
+//                     <span className="text-[10px] font-bold tracking-widest uppercase mb-1 text-gray-400">
+//                       {labelName}
+//                     </span>
+//                     <div className={`max-w-[85%] p-3 rounded-2xl text-sm ${bubbleStyle}`}>
+//                       <div dangerouslySetInnerHTML={{ __html: msg.message.replace(/\n/g, '<br/>') }} />
+//                       <p className={`text-[9px] mt-1.5 ${isMe ? "text-right opacity-70 text-gray-300" : "text-right opacity-70 text-gray-400"}`}>
+//                         {new Date(msg.created_at).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+//                       </p>
+//                     </div>
+//                   </div>
+//                 );
+//               })
+//             )}
+
+//             {/* Animasi Mengetik AI */}
+//             {isAITyping && (
+//               <div className="flex justify-start w-full mb-4">
+//                 <div className="flex items-center gap-1.5 px-5 py-4 bg-white border border-gray-200 rounded-2xl rounded-tl-none shadow-sm h-[46px]">
+//                   <span className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+//                   <span className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+//                   <span className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+//                 </div>
+//               </div>
+//             )}
+//             <div ref={messagesEndRef} />
+//           </div>
+
+//           {/* 👇 FOOTER INPUT & QUICK REPLIES 👇 */}
+//           <div className="flex flex-col bg-white border-t border-gray-200 shrink-0">
+//             {isOfficialSupport && (
+//               <div className="flex gap-2 px-3 pt-3 pb-2 overflow-x-auto border-b border-gray-50 custom-scrollbar scroll-smooth">
+//                 {QUICK_REPLIES.map((replyText, idx) => (
+//                   <button
+//                     key={idx}
+//                     onClick={() => handleSendQuickReply(replyText)}
+//                     disabled={isAITyping}
+//                     className="shrink-0 px-4 py-1.5 text-[11px] font-bold tracking-wide text-black bg-gray-100 border border-gray-200 rounded-full transition-colors hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+//                   >
+//                     {replyText}
+//                   </button>
+//                 ))}
+//               </div>
+//             )}
+
+//             <form onSubmit={handleSendMessage} className="flex items-center gap-2 px-3 pt-3 pb-3">
+//               <input
+//                 type="text"
+//                 value={newMessage}
+//                 onChange={(e) => setNewMessage(e.target.value)}
+//                 placeholder="Ketik pesan Anda..."
+//                 disabled={isAITyping} 
+//                 className="flex-grow p-3 text-xs transition border border-gray-200 outline-none md:text-sm bg-gray-50 rounded-2xl focus:ring-2 focus:ring-black focus:bg-white disabled:bg-gray-100 disabled:cursor-not-allowed"
+//               />
+//               <button
+//                 type="submit"
+//                 disabled={!newMessage.trim() || isAITyping}
+//                 className="flex items-center justify-center w-10 h-10 text-white transition-all bg-black shadow-lg md:w-12 md:h-12 shrink-0 rounded-2xl hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+//               >
+//                 <svg className="w-4 h-4 ml-0.5 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+//                 </svg>
+//               </button>
+//             </form>
+
+//             {isOfficialSupport && (
+//               <div className="px-4 pt-1 pb-3 text-center border-t border-gray-100 bg-gray-50">
+//                 <p className="text-[10px] leading-tight text-gray-400">
+//                   Asisten AI akan merespons pesan secara instan 24/7. Ketik <strong>"Bicara dengan admin"</strong> kapan saja jika Anda membutuhkan bantuan manusia.
+//                 </p>
+//               </div>
+//             )}
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../config/api";
 import Echo from "laravel-echo";
@@ -2698,6 +3098,7 @@ interface Staff {
   usertype: string;
   email?: string;
   profile_image?: string;
+  unread_count?: number; // 👇 Tambahan: Pastikan TS mengenali unread_count
 }
 
 interface Message {
@@ -2715,12 +3116,12 @@ const QUICK_REPLIES = [
   "Berapa hari pengirimannya?",
   "Ada promo apa hari ini?",
   "Cara refund barang cacat?",
-  "Bicara dengan Admin"
+  "Bicara dengan Admin",
 ];
 
 export default function ChatListPage() {
   const navigate = useNavigate();
-  
+
   const [staffList, setStaffList] = useState<Staff[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -2738,8 +3139,23 @@ export default function ChatListPage() {
 
   const [currentUser, setCurrentUser] = useState<any>(null);
 
-  // 👇 [PERBAIKAN] Deteksi Akun Resmi yang lebih akurat
-  const isOfficialSupport = activeChat?.usertype === "Official Account" || activeChat?.email === "support@gycora.com";
+  const isOfficialSupport =
+    activeChat?.usertype === "Official Account" ||
+    activeChat?.email === "support@gycora.com";
+
+  // 👇 [PERBAIKAN] Mengeluarkan fetchStaff dan menggunakan useCallback 👇
+  const fetchStaffList = useCallback(async (token: string) => {
+    try {
+      const res = await fetch(`${BASE_URL}/api/staff-list`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) setStaffList(await res.json());
+    } catch (error) {
+      console.error("Gagal memuat kontak:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("user_token");
@@ -2749,74 +3165,38 @@ export default function ChatListPage() {
       return;
     }
     setCurrentUser(JSON.parse(userStr));
-
-    const fetchStaff = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/api/staff-list`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (res.ok) setStaffList(await res.json());
-      } catch (error) {
-        console.error("Gagal memuat kontak:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchStaff();
-  }, [navigate]);
+    fetchStaffList(token);
+  }, [navigate, fetchStaffList]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isAITyping]);
 
-  // ==========================================================
-  // LARAVEL ECHO LISTENER SISI PELANGGAN
-  // ==========================================================
+  // 👇 [PERBAIKAN] Listener untuk update badge dari modal chat (Auto-Refresh)
   useEffect(() => {
-    if (!currentUser) return;
     const token = localStorage.getItem("user_token");
-
-    const echoInstance = new Echo({
-      broadcaster: "pusher",
-      key: "5b29faa8d41035b749a1", // Sesuaikan key pusher Anda
-      cluster: "ap1",
-      forceTLS: true,
-      authEndpoint: `${BASE_URL}/api/broadcasting/auth`,
-      auth: {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-      },
-    });
-
-    window.Echo = echoInstance;
-
-    echoInstance
-      .private(`chat.${currentUser.id}`)
-      .listen(".MessageSent", (e: any) => {
-        const incomingMsg = e.message || e;
-
-        // 👇 [PERBAIKAN] Di sisi User, terima pesan dari SIAPA PUN yang bukan dirinya sendiri
-        // Karena Admin Manusia dan AI sama-sama mewakili "Gycora Care"
-        if (incomingMsg.sender_id !== currentUser.id) {
-          setIsAITyping(false);
-          setMessages((prev) => {
-            if (prev.some((m) => m.id === incomingMsg.id)) return prev;
-            return [...prev, incomingMsg];
-          });
-        }
-      });
-
-    return () => {
-      echoInstance.leave(`chat.${currentUser.id}`);
+    const refreshData = () => {
+      if (token) fetchStaffList(token);
     };
-  }, [currentUser]);
+    window.addEventListener("refresh-chat-list", refreshData);
+    return () => window.removeEventListener("refresh-chat-list", refreshData);
+  }, [fetchStaffList]);
 
   const openChat = async (staff: Staff) => {
     setActiveChat(staff);
     setIsAITyping(false);
     const token = localStorage.getItem("user_token");
+
+    try {
+      // Tandai pesan sudah dibaca di database
+      await fetch(`${BASE_URL}/api/chat/read/${staff.id}`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      window.dispatchEvent(new Event("refresh-chat-badge")); // Update angka di Header
+      window.dispatchEvent(new Event("refresh-chat-list"));  // Update angka di List ini
+    } catch (e) {}
+
     const res = await fetch(`${BASE_URL}/api/messages/${staff.id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -2831,27 +3211,25 @@ export default function ChatListPage() {
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim() || !activeChat || !currentUser || isAITyping) return;
-    
+
     const textToSend = newMessage.trim();
-    setNewMessage(""); 
+    setNewMessage("");
     await processMessageSending(textToSend);
   };
 
   const processMessageSending = async (messageText: string) => {
     const token = localStorage.getItem("user_token");
 
-    // Optimistic Update UI
     const tempMsg: Message = {
       id: Date.now(),
       sender_id: currentUser.id,
       receiver_id: activeChat!.id,
       message: messageText,
       created_at: new Date().toISOString(),
-      sender: currentUser // Penting agar UI tidak crash
+      sender: currentUser,
     };
     setMessages((prev) => [...prev, tempMsg]);
 
-    // Nyalakan Animasi Berpikir AI
     if (isOfficialSupport) setIsAITyping(true);
 
     try {
@@ -2871,7 +3249,6 @@ export default function ChatListPage() {
         const result = await response.json();
         setIsAITyping(false);
 
-        // Jika API mengembalikan balasan AI instan, langsung tambahkan
         if (result.ai_message) {
           setMessages((prev) => {
             if (prev.some((m) => m.id === result.ai_message.id)) return prev;
@@ -2886,6 +3263,51 @@ export default function ChatListPage() {
       setIsAITyping(false);
     }
   };
+
+  useEffect(() => {
+    if (!currentUser) return;
+    const token = localStorage.getItem("user_token");
+
+    const echoInstance = new Echo({
+      broadcaster: "pusher",
+      key: "5b29faa8d41035b749a1",
+      cluster: "ap1",
+      forceTLS: true,
+      authEndpoint: `${BASE_URL}/api/broadcasting/auth`,
+      auth: {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      },
+    });
+    window.Echo = echoInstance;
+
+    echoInstance
+      .private(`chat.${currentUser.id}`)
+      .listen(".MessageSent", (e: any) => {
+        const incomingMsg = e.message || e;
+        if (incomingMsg.sender_id !== currentUser.id) {
+          setIsAITyping(false);
+          setMessages((prev) => {
+            if (prev.some((m) => m.id === incomingMsg.id)) return prev;
+            return [...prev, incomingMsg];
+          });
+
+          if (activeChatRef.current) {
+            fetch(`${BASE_URL}/api/chat/read/${activeChatRef.current.id}`, {
+              method: "POST",
+              headers: { Authorization: `Bearer ${token}` },
+            });
+          } else {
+            window.dispatchEvent(new Event("refresh-chat-badge"));
+            window.dispatchEvent(new Event("refresh-chat-list"));
+          }
+        }
+      });
+
+    return () => echoInstance.leave(`chat.${currentUser.id}`);
+  }, [currentUser]);
 
   return (
     <div className="min-h-[80vh] px-4 py-12 mx-auto max-w-4xl sm:px-6 lg:px-8 font-sans relative animate-fade-in-up">
@@ -2918,20 +3340,41 @@ export default function ChatListPage() {
               <div className="flex-1 min-w-0">
                 <h3 className="flex items-center gap-2 text-lg font-bold tracking-widest text-gray-900 uppercase truncate transition-colors group-hover:text-black">
                   {staff.first_name} {staff.last_name}
-                  {/* Verified Badge */}
-                  <svg className="w-5 h-5 text-blue-500 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.1 14.6l-4.2-4.2 1.4-1.4 2.8 2.8 7.1-7.1 1.4 1.4-8.5 8.5z"/>
+                  <svg
+                    className="w-5 h-5 text-blue-500 shrink-0"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.1 14.6l-4.2-4.2 1.4-1.4 2.8 2.8 7.1-7.1 1.4 1.4-8.5 8.5z" />
                   </svg>
                 </h3>
                 <p className="text-xs font-bold tracking-widest text-gray-400 uppercase mt-0.5 truncate">
                   Official Business Account
                 </p>
               </div>
-              <div className="p-2 text-gray-400 transition-colors rounded-full bg-gray-50 shrink-0 group-hover:bg-black group-hover:text-white">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
+
+              {/* 👇 Render Badge Jika Ada Pesan Belum Dibaca 👇 */}
+              {staff.unread_count && staff.unread_count > 0 ? (
+                <div className="flex items-center justify-center w-6 h-6 ml-auto text-[10px] font-bold text-white bg-red-600 rounded-full shadow-md shrink-0 animate-bounce">
+                  {staff.unread_count > 99 ? "99+" : staff.unread_count}
+                </div>
+              ) : (
+                <div className="p-2 ml-auto text-gray-400 transition-colors rounded-full bg-gray-50 shrink-0 group-hover:bg-black group-hover:text-white">
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -2940,7 +3383,6 @@ export default function ChatListPage() {
       {/* --- MODAL CHAT POP-UP --- */}
       {activeChat && (
         <div className="fixed bottom-0 right-0 z-[100] w-full md:w-[450px] md:right-8 md:bottom-0 shadow-2xl bg-[#F9FAFB] border border-gray-200 flex flex-col h-[650px] md:rounded-t-2xl animate-fade-in-up">
-          {/* Header Fixed */}
           <div className="flex items-center justify-between p-4 bg-white border-b border-gray-200 shadow-sm shrink-0 md:rounded-t-2xl">
             <div className="flex items-center gap-3">
               <img
@@ -2953,7 +3395,8 @@ export default function ChatListPage() {
                   {activeChat.first_name} {activeChat.last_name}
                 </h4>
                 <p className="text-[10px] tracking-widest uppercase text-green-500 font-bold flex items-center gap-1.5 mt-0.5">
-                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span> Online
+                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>{" "}
+                  Online
                 </p>
               </div>
             </div>
@@ -2961,11 +3404,22 @@ export default function ChatListPage() {
               onClick={() => setActiveChat(null)}
               className="p-2 text-gray-400 transition-colors rounded-full hover:bg-gray-100 hover:text-black"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
             </button>
           </div>
 
-          {/* Body Pesan */}
           <div className="flex-1 p-4 space-y-4 overflow-y-auto bg-[#F9FAFB] custom-scrollbar">
             {messages.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full opacity-50">
@@ -2975,10 +3429,9 @@ export default function ChatListPage() {
               </div>
             ) : (
               messages.map((msg) => {
-                // 👇 [PERBAIKAN] Logika UI Gelembung Sisi Pelanggan
                 const isMe = msg.sender_id === currentUser?.id;
-                const isAIBot = msg.sender?.email === 'ai@gycora.com';
-                
+                const isAIBot = msg.sender?.email === "ai@gycora.com";
+
                 let bubbleStyle = "";
                 let labelName = "";
 
@@ -2986,22 +3439,38 @@ export default function ChatListPage() {
                   bubbleStyle = "bg-black text-white rounded-br-none shadow-md";
                   labelName = "Anda";
                 } else if (isAIBot) {
-                  bubbleStyle = "bg-purple-600 text-white rounded-bl-none shadow-md shadow-purple-500/20";
+                  bubbleStyle =
+                    "bg-purple-600 text-white rounded-bl-none shadow-md shadow-purple-500/20";
                   labelName = "AI Bot";
                 } else {
-                  bubbleStyle = "bg-white border border-gray-200 text-gray-800 rounded-bl-none shadow-sm";
+                  bubbleStyle =
+                    "bg-white border border-gray-200 text-gray-800 rounded-bl-none shadow-sm";
                   labelName = "Admin Gycora";
                 }
 
                 return (
-                  <div key={msg.id} className={`flex flex-col mb-4 ${isMe ? "items-end" : "items-start"}`}>
+                  <div
+                    key={msg.id}
+                    className={`flex flex-col mb-4 ${isMe ? "items-end" : "items-start"}`}
+                  >
                     <span className="text-[10px] font-bold tracking-widest uppercase mb-1 text-gray-400">
                       {labelName}
                     </span>
-                    <div className={`max-w-[85%] p-3 rounded-2xl text-sm ${bubbleStyle}`}>
-                      <div dangerouslySetInnerHTML={{ __html: msg.message.replace(/\n/g, '<br/>') }} />
-                      <p className={`text-[9px] mt-1.5 ${isMe ? "text-right opacity-70 text-gray-300" : "text-right opacity-70 text-gray-400"}`}>
-                        {new Date(msg.created_at).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+                    <div
+                      className={`max-w-[85%] p-3 rounded-2xl text-sm ${bubbleStyle}`}
+                    >
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: msg.message.replace(/\n/g, "<br/>"),
+                        }}
+                      />
+                      <p
+                        className={`text-[9px] mt-1.5 ${isMe ? "text-right opacity-70 text-gray-300" : "text-right opacity-70 text-gray-400"}`}
+                      >
+                        {new Date(msg.created_at).toLocaleTimeString("id-ID", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
                       </p>
                     </div>
                   </div>
@@ -3009,20 +3478,27 @@ export default function ChatListPage() {
               })
             )}
 
-            {/* Animasi Mengetik AI */}
             {isAITyping && (
               <div className="flex justify-start w-full mb-4">
                 <div className="flex items-center gap-1.5 px-5 py-4 bg-white border border-gray-200 rounded-2xl rounded-tl-none shadow-sm h-[46px]">
-                  <span className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                  <span className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                  <span className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                  <span
+                    className="w-2 h-2 bg-purple-500 rounded-full animate-bounce"
+                    style={{ animationDelay: "0ms" }}
+                  ></span>
+                  <span
+                    className="w-2 h-2 bg-purple-500 rounded-full animate-bounce"
+                    style={{ animationDelay: "150ms" }}
+                  ></span>
+                  <span
+                    className="w-2 h-2 bg-purple-500 rounded-full animate-bounce"
+                    style={{ animationDelay: "300ms" }}
+                  ></span>
                 </div>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
-          {/* 👇 FOOTER INPUT & QUICK REPLIES 👇 */}
           <div className="flex flex-col bg-white border-t border-gray-200 shrink-0">
             {isOfficialSupport && (
               <div className="flex gap-2 px-3 pt-3 pb-2 overflow-x-auto border-b border-gray-50 custom-scrollbar scroll-smooth">
@@ -3039,13 +3515,16 @@ export default function ChatListPage() {
               </div>
             )}
 
-            <form onSubmit={handleSendMessage} className="flex items-center gap-2 px-3 pt-3 pb-3">
+            <form
+              onSubmit={handleSendMessage}
+              className="flex items-center gap-2 px-3 pt-3 pb-3"
+            >
               <input
                 type="text"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="Ketik pesan Anda..."
-                disabled={isAITyping} 
+                disabled={isAITyping}
                 className="flex-grow p-3 text-xs transition border border-gray-200 outline-none md:text-sm bg-gray-50 rounded-2xl focus:ring-2 focus:ring-black focus:bg-white disabled:bg-gray-100 disabled:cursor-not-allowed"
               />
               <button
@@ -3053,8 +3532,18 @@ export default function ChatListPage() {
                 disabled={!newMessage.trim() || isAITyping}
                 className="flex items-center justify-center w-10 h-10 text-white transition-all bg-black shadow-lg md:w-12 md:h-12 shrink-0 rounded-2xl hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <svg className="w-4 h-4 ml-0.5 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                <svg
+                  className="w-4 h-4 ml-0.5 md:w-5 md:h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                  />
                 </svg>
               </button>
             </form>
@@ -3062,7 +3551,9 @@ export default function ChatListPage() {
             {isOfficialSupport && (
               <div className="px-4 pt-1 pb-3 text-center border-t border-gray-100 bg-gray-50">
                 <p className="text-[10px] leading-tight text-gray-400">
-                  Asisten AI akan merespons pesan secara instan 24/7. Ketik <strong>"Bicara dengan admin"</strong> kapan saja jika Anda membutuhkan bantuan manusia.
+                  Asisten AI akan merespons pesan secara instan 24/7. Ketik{" "}
+                  <strong>"Bicara dengan admin"</strong> kapan saja jika Anda
+                  membutuhkan bantuan manusia.
                 </p>
               </div>
             )}
