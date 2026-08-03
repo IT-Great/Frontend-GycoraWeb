@@ -455,16 +455,33 @@ export const translations: Record<string, TranslationDictionary> = {
     added_to_cart: "Ditambahkan!",
 
     // HOME PAGE
-    promo_title: "Diskon Spesial First Order ✨",
-    promo_desc1:
-      "Nikmati 10% OFF + subsidi ongkir Rp10.000 untuk pembelian pertamamu.",
-    promo_desc2: "Masukkan email kamu dan klaim voucher eksklusif sekarang.",
-    email_placeholder: "Masukkan Email",
-    sending: "Mengirim...",
-    claim_now: "Klaim Sekarang",
+    // promo_title: "Diskon Spesial First Order ✨",
+    // promo_desc1:
+    //   "Nikmati 10% OFF + subsidi ongkir Rp10.000 untuk pembelian pertamamu.",
+    // promo_desc2: "Masukkan email kamu dan klaim voucher eksklusif sekarang.",
+    // email_placeholder: "Masukkan Email",
+    // sending: "Mengirim...",
+    // claim_now: "Klaim Sekarang",
+    // promo_success_title: "Kode Promo Terkirim!",
+    // promo_success_desc:
+    //   "Silakan periksa kotak masuk email Anda untuk mendapatkan kode voucher spesial dari Gycora.",
+    // notification: "Pemberitahuan",
+    // promo_failed_desc: "Gagal mengklaim promo. Pastikan format email benar.",
+    // error: "Gagal",
+    // server_error: "Terjadi kesalahan server saat memproses permintaan Anda.",
+
+    promo_title: "🎁 Welcome Gift untuk Member Baru",
+    promo_intro: "Buat akun GYCORA sekarang dan nikmati keuntungan eksklusif:",
+    promo_bullet1: "up to 40% OFF pembelian pertama",
+    promo_bullet2: "FREE Ongkir up to Rp10.000",
+    promo_bullet3: "Akses promo & penawaran spesial khusus member",
+    promo_cta: "Masukkan emailmu dan klaim hadiah spesialmu hari ini.",
+    email_placeholder: "Masukkan email aktif",
+    sending: "Memproses...",
+    claim_now: "Buat Akun & Klaim Hadiah",
+    promo_footer: "100% gratis. Proses pendaftaran hanya kurang dari 1 menit.",
     promo_success_title: "Kode Promo Terkirim!",
-    promo_success_desc:
-      "Silakan periksa kotak masuk email Anda untuk mendapatkan kode voucher spesial dari Gycora.",
+    promo_success_desc: "Silakan periksa kotak masuk email Anda untuk mendapatkan kode voucher spesial dari Gycora.",
     notification: "Pemberitahuan",
     promo_failed_desc: "Gagal mengklaim promo. Pastikan format email benar.",
     error: "Gagal",
@@ -1711,19 +1728,36 @@ export const translations: Record<string, TranslationDictionary> = {
     added_to_cart: "Added!",
 
     // HOME PAGE
-    promo_title: "First Order Special Discount ✨",
-    promo_desc1:
-      "Enjoy 10% OFF + IDR 10,000 shipping subsidy for your first purchase.",
-    promo_desc2: "Enter your email and claim the exclusive voucher now.",
-    email_placeholder: "Enter your Email",
-    sending: "Sending...",
-    claim_now: "Claim Now",
+    // promo_title: "First Order Special Discount ✨",
+    // promo_desc1:
+    //   "Enjoy 10% OFF + IDR 10,000 shipping subsidy for your first purchase.",
+    // promo_desc2: "Enter your email and claim the exclusive voucher now.",
+    // email_placeholder: "Enter your Email",
+    // sending: "Sending...",
+    // claim_now: "Claim Now",
+    // promo_success_title: "Promo Code Sent!",
+    // promo_success_desc:
+    //   "Please check your email inbox to get the special voucher code from Gycora.",
+    // notification: "Notification",
+    // promo_failed_desc:
+    //   "Failed to claim promo. Make sure the email format is correct.",
+    // error: "Failed",
+    // server_error: "A server error occurred while processing your request.",
+
+    promo_title: "🎁 Welcome Gift for New Members",
+    promo_intro: "Create a GYCORA account now and enjoy exclusive benefits:",
+    promo_bullet1: "up to 40% OFF your first purchase",
+    promo_bullet2: "FREE Shipping up to IDR 10,000",
+    promo_bullet3: "Access to member-only promos & special offers",
+    promo_cta: "Enter your email and claim your special gift today.",
+    email_placeholder: "Enter active email",
+    sending: "Processing...",
+    claim_now: "Create Account & Claim Gift",
+    promo_footer: "100% free. Registration takes less than 1 minute.",
     promo_success_title: "Promo Code Sent!",
-    promo_success_desc:
-      "Please check your email inbox to get the special voucher code from Gycora.",
+    promo_success_desc: "Please check your email inbox to get the special voucher code from Gycora.",
     notification: "Notification",
-    promo_failed_desc:
-      "Failed to claim promo. Make sure the email format is correct.",
+    promo_failed_desc: "Failed to claim promo. Make sure the email format is correct.",
     error: "Failed",
     server_error: "A server error occurred while processing your request.",
     hero_title1: "Quick Solution for",
