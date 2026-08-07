@@ -9898,7 +9898,7 @@ export default function ProductDetail() {
             {recommendedProducts.length > 0 && (
               <div className="pt-8 mt-16 border-t border-gray-100 animate-fade-in-up">
                 <h3 className="mb-6 text-xl font-bold tracking-tight text-gray-900 uppercase">
-                  Frequently Bought Together
+                  {t("you_may_also_like")}
                 </h3>
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
                   {recommendedProducts.map((recProd) => (

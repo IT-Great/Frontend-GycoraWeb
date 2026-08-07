@@ -1669,6 +1669,7 @@ export const translations: Record<string, TranslationDictionary> = {
     change_profile : "Ubah Profil",
     district : "Kecamatan:",
     choose_method : "Pilih metode",
+    you_may_also_like : "You May Also Like"
   },
   en: {
     // Nav Menu
@@ -2926,7 +2927,8 @@ export const translations: Record<string, TranslationDictionary> = {
     join_partnership: "Join Partnership",
     change_profile : "Change Profile",
     district : "District:",
-    choose_method : "Choose the Method"
+    choose_method : "Choose the Method",
+    you_may_also_like : "Anda Mungkin Suka"
   },
 };
 
