@@ -1273,6 +1273,7 @@ import * as XLSX from "xlsx";
 import { BASE_URL } from "../../config/api";
 // 👇 [PERBAIKAN] Import Context Multi-Currency
 import { useCurrency } from "../../context/CurrencyContext";
+import axios from "axios";
 
 type Currency = "IDR" | "USD" | "SGD" | "MYR" | "EUR" | "AUD";
 
@@ -1629,6 +1630,39 @@ export default function TransactionPage() {
       } catch (err: any) {
         console.error("Refund action error:", err); 
         Swal.fire("Error", "Gagal memproses tindakan", "error");
+      }
+    }
+  };
+
+  const handleDeleteTransaction = async (e: React.MouseEvent, id: number, orderId: string) => {
+    e.stopPropagation();
+    
+    const result = await Swal.fire({
+      title: "Hapus Transaksi?",
+      html: `Anda akan menghapus transaksi <b>${orderId}</b> secara permanen.<br/>Stok barang akan otomatis dikembalikan ke sistem.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Ya, Hapus!",
+      cancelButtonText: "Batal"
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const token = localStorage.getItem("admin_token");
+        await axios.delete(
+          `${BASE_URL}/api/admin/transactions/${id}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        Swal.fire("Terhapus!", "Transaksi berhasil dihapus dari sistem.", "success");
+        fetchTransactions(); // Refresh data tabel
+      } catch (err: any) {
+        Swal.fire(
+          "Gagal!",
+          err.response?.data?.message || "Terjadi kesalahan saat menghapus transaksi.",
+          "error"
+        );
       }
     }
   };
@@ -2113,7 +2147,7 @@ export default function TransactionPage() {
                     </td>
 
                     {/* ACTIONS */}
-                    <td
+                    {/* <td
                       className="py-6 text-center w-[15%] no-export"
                       onClick={(e) => e.stopPropagation()}
                     >
@@ -2196,6 +2230,105 @@ export default function TransactionPage() {
                           No Action
                         </span>
                       )}
+                    </td> */}
+                    {/* ACTIONS */}
+                    <td
+                      className="py-6 text-center w-[15%] no-export"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="flex flex-col items-center justify-center gap-3">
+                        {trx.status === "refund_requested" ? (
+                          <div className="flex flex-col items-center w-full gap-3">
+                            <div className="w-full p-3 text-left border border-red-100 bg-red-50 rounded-xl">
+                              <p className="font-bold text-[9px] text-red-600 uppercase tracking-widest mb-1 border-b border-red-100 pb-1">
+                                Refund Reason
+                              </p>
+                              <p
+                                className="text-[10px] text-gray-700 italic line-clamp-3 mb-2"
+                                title={trx.refund_reason}
+                              >
+                                "{trx.refund_reason || "No reason provided"}"
+                              </p>
+                              {trx.refund_proof_url && (
+                                <a
+                                  href={trx.refund_proof_url}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="inline-flex items-center gap-1 text-[9px] font-bold text-blue-600 hover:underline bg-white px-2 py-1 rounded border border-blue-100 w-fit"
+                                >
+                                  <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                  </svg>
+                                  View Proof
+                                </a>
+                              )}
+                            </div>
+                            
+                            {canAccess('transactions.refund') ? (
+                              <div className="flex justify-center w-full gap-2">
+                                <button
+                                  onClick={(e) => handleRefundAction(e, trx.id, "approve")}
+                                  className="bg-emerald-100 hover:bg-emerald-200 py-2 flex-1 rounded-lg text-emerald-700 transition shadow-sm font-bold text-[10px] uppercase tracking-widest flex justify-center items-center gap-1"
+                                  title="Approve Refund"
+                                >
+                                  <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                  </svg>
+                                  Accept
+                                </button>
+                                <button
+                                  onClick={(e) => handleRefundAction(e, trx.id, "reject")}
+                                  className="bg-red-100 hover:bg-red-200 py-2 flex-1 rounded-lg text-red-700 transition shadow-sm font-bold text-[10px] uppercase tracking-widest flex justify-center items-center gap-1"
+                                  title="Reject Refund"
+                                >
+                                  <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                  </svg>
+                                  Deny
+                                </button>
+                              </div>
+                            ) : (
+                              <span className="text-[10px] italic text-gray-400 text-center w-full">Menunggu Persetujuan</span>
+                            )}
+                          </div>
+                        ) : ["completed", "processing", "pending", "cancelled"].includes(trx.status) ? (
+                          <div className="flex justify-center">
+                            {canAccess('transactions.detail') ? (
+                              <button
+                                onClick={() => goToDetail(trx)}
+                                className="text-[10px] font-bold text-gycora hover:text-gycora-dark hover:underline uppercase tracking-widest"
+                              >
+                                View Detail
+                              </button>
+                            ) : (
+                              <span className="text-gray-300 text-[10px] italic">
+                                No Access
+                              </span>
+                            )}
+                          </div>
+                        ) : (
+                          <span className="text-gray-300 text-[10px] italic">
+                            No Action
+                          </span>
+                        )}
+
+                        {/* 👇 [BARU] TOMBOL HAPUS (DELETE) TRANSAKSI 👇 */}
+                        <div className="flex justify-center w-full pt-2 mt-1 border-t border-gray-100">
+                          <button
+                            onClick={(e) => handleDeleteTransaction(e, trx.id, trx.order_id)}
+                            className="flex items-center gap-1 text-[9px] font-bold text-red-400 hover:text-red-700 transition uppercase tracking-widest"
+                            title="Hapus Permanen Transaksi (Sandbox)"
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            Delete
+                          </button>
+                        </div>
+                        {/* 👆 ========================================= 👆 */}
+
+                      </div>
                     </td>
                   </tr>
                 ))}
