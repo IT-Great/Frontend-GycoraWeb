@@ -6946,13 +6946,15 @@ export default function CartPage() {
                       <div className="relative w-24 h-24 overflow-hidden border border-gray-100 cursor-pointer shrink-0 sm:w-40 sm:h-40 rounded-2xl bg-gray-50" onClick={() => navigate(`${urlPrefix}/product/${prod.slug}`)}>
                         <img src={prod.image_url} alt={prod.name} className="object-cover w-full h-full transition-transform duration-500 hover:scale-105" />
                         
-                        {/* {isBundled ? (
+                        {isBundled ? (
                           <div className="absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm bg-purple-600">{t("active_bundle")}</div>
-                        ) : isEligible ?  */}
-                        {isEligible ? (
-                          <div className="absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm bg-indigo-400">{t("wait_partner")}</div>
-                        ) : isDiscountedVisual ? (
-                          <div className={`absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm ${isWholesaleActive ? "bg-blue-600" : "bg-red-600"}`}>
+                        ) 
+                        // : isEligible ? 
+                        // (
+                        //   <div className="absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm bg-indigo-400">{t("wait_partner")}</div>
+                        // ) 
+                        : isDiscountedVisual ? (
+                        <div className={`absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm ${isWholesaleActive ? "bg-blue-600" : "bg-red-600"}`}>
                             {isWholesaleActive ? "GROSIR" : t("cart_sale_badge")}
                           </div>
                         ) : null}
