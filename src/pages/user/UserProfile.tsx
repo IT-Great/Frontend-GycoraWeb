@@ -7577,7 +7577,7 @@ export default function UserProfile() {
 
                 {/* Detail Identitas & Progress Bar */}
                 <div className="flex-1 text-center sm:text-left sm:pt-4">
-                  <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                  <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
                     {user.first_name} {user.last_name}
                   </h1>
                   
@@ -8132,7 +8132,7 @@ export default function UserProfile() {
                 <div className="space-y-5">
                   <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                     <div>
-                      <label className="block mb-1.5 text-[10px] font-bold text-white uppercase tracking-widest">
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
                         {t("label_first_name")}
                       </label>
                       <input
@@ -8149,7 +8149,7 @@ export default function UserProfile() {
                       />
                     </div>
                     <div>
-                      <label className="block mb-1.5 text-[10px] font-bold text-white uppercase tracking-widest">
+                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
                         {t("label_last_name")}
                       </label>
                       <input
