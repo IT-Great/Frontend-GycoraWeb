@@ -7603,7 +7603,7 @@ export default function UserProfile() {
                       <span>Kelengkapan Profil</span>
                       <span className={profileCompletion === 100 ? "text-emerald-600" : ""}>{profileCompletion}%</span>
                     </div>
-                    <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="w-full h-2 overflow-hidden bg-gray-100 rounded-full">
                       <div 
                         className={`h-full transition-all duration-1000 ease-out ${getProgressBarColor(profileCompletion)}`} 
                         style={{ width: `${profileCompletion}%` }}
@@ -8132,7 +8132,7 @@ export default function UserProfile() {
                 <div className="space-y-5">
                   <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                     <div>
-                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                      <label className="block mb-1.5 text-[10px] font-bold text-white uppercase tracking-widest">
                         {t("label_first_name")}
                       </label>
                       <input
@@ -8149,7 +8149,7 @@ export default function UserProfile() {
                       />
                     </div>
                     <div>
-                      <label className="block mb-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                      <label className="block mb-1.5 text-[10px] font-bold text-white uppercase tracking-widest">
                         {t("label_last_name")}
                       </label>
                       <input
