@@ -6907,7 +6907,7 @@ export default function CartPage() {
                   const calculatedGross = checkoutData.itemGrossAmounts[item.id];
                   
                   const isBundled = isItemSelected && checkoutData.isBundledMap[item.id];
-                  const isEligible = checkoutData.isEligibleForBundleMap[item.id];
+                  // const isEligible = checkoutData.isEligibleForBundleMap[item.id];
 
                   const currentGrossAmountObj = {
                     value: isItemSelected && calculatedGross !== undefined ? calculatedGross : activePriceObj.value * item.quantity,
