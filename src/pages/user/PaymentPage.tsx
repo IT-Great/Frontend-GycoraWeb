@@ -3614,7 +3614,9 @@ export default function PaymentPage() {
         setUserType(user.usertype || "user");
       }
       await fetchAddresses(token);
-      const now = new Date();
+      // const now = new Date();
+      // GANTI SEMENTARA UNTUK TESTING
+const now = new Date("2026-08-17T12:00:00+07:00");
       now.setHours(now.getHours() + 1);
       setDeliveryDate(now.toISOString().split("T")[0]);
       setDeliveryTime(`${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`);

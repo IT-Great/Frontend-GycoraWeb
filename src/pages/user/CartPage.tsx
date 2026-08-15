@@ -7466,7 +7466,9 @@ export default function CartPage() {
     // =========================================================================
     // LOGIKA EVENT PROMO KEMERDEKAAN 17-18 AGUSTUS 2026 
     // =========================================================================
-    const now = new Date();
+    // const now = new Date();
+    // GANTI SEMENTARA UNTUK TESTING
+const now = new Date("2026-08-17T12:00:00+07:00");
     const promoStart = new Date("2026-08-17T00:00:00+07:00");
     const promoEnd = new Date("2026-08-18T23:59:59+07:00");
     const isMerdekaPromoActive = now >= promoStart && now <= promoEnd;
