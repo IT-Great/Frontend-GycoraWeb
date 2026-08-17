@@ -7708,7 +7708,7 @@ const now = new Date("2026-08-17T12:00:00+07:00");
                   const calculatedGross = checkoutData.itemGrossAmounts[item.id];
                   
                   const isBundled = isItemSelected && checkoutData.isBundledMap[item.id];
-                  const isEligible = checkoutData.isEligibleForBundleMap[item.id];
+                  // const isEligible = checkoutData.isEligibleForBundleMap[item.id];
 
                   // Identifikasi Standalone Bundle BN-01 untuk label di keranjang
                   const catCode = String(prod.category?.code || "").toUpperCase();
