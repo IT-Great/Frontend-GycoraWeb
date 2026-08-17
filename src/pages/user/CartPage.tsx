@@ -7755,9 +7755,11 @@ const now = new Date("2026-08-17T12:00:00+07:00");
                           <div className="absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm bg-purple-600">
                             {isStandaloneBundle ? "BUNDLE PACKAGE" : t("active_bundle")}
                           </div>
-                        ) : isEligible ? (
-                          <div className="absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm bg-indigo-400">{t("wait_partner")}</div>
-                        ) : isDiscountedVisual ? (
+                        ) 
+                        // : isEligible ? (
+                        //   <div className="absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm bg-indigo-400">{t("wait_partner")}</div>
+                        // ) 
+                        : isDiscountedVisual ? (
                           <div className={`absolute px-2 py-0.5 text-[9px] font-bold text-white top-2 left-2 rounded shadow-sm ${isWholesaleActive ? "bg-blue-600" : "bg-red-600"}`}>
                             {isWholesaleActive ? "GROSIR" : t("cart_sale_badge")}
                           </div>
