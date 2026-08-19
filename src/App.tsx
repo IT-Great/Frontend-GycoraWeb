@@ -1974,8 +1974,8 @@
 //     if (allowedRoles.includes(user.usertype)) {
 //       return <Navigate to="/admin/dashboard" replace />;
 //     } else {
-//       return <Navigate to="/" replace />; 
-//     } 
+//       return <Navigate to="/" replace />;
+//     }
 //   }
 
 //   return <>{children}</>;
@@ -2463,8 +2463,8 @@ import {
   useLocation,
   Navigate,
   Outlet,
-  useParams,
-  useNavigate, // 👇 [BARU] Import useParams
+  // useParams,
+  // useNavigate, // 👇 [BARU] Import useParams
 } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -2540,24 +2540,28 @@ import AutoLogout from "./components/AutoLogout";
 import { CurrencyProvider } from "./context/CurrencyContext";
 import BusinessPartnerPage from "./pages/user/BusinessPartnerPage";
 import AdminBusinessPartnerPage from "./pages/admin/AdminBusinessPartnerPage";
+import AdminPromoListPage from "./pages/admin/AdminPromoListPage";
+import AdminPromoFormCreate from "./pages/admin/AdminPromoFormCreate";
+import AdminPromoFormEdit from "./pages/admin/AdminPromoFormEdit";
+import AdminPromoDetailPage from "./pages/admin/AdminPromoDetailPage";
 
 // 👇 [BARU] Import Form Promo Dinamis 👇
-import AdminPromoForm from "./pages/admin/AdminPromoForm"; 
+// import AdminPromoForm from "./pages/admin/AdminPromoForm";
 
 // ==========================================================
 // WRAPPER KHUSUS PROMO (Untuk Menangkap ID dari URL Edit)
 // ==========================================================
-function PromoFormWrapper() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  return (
-    <AdminPromoForm 
-      promoId={id} 
-      onSuccess={() => navigate("/admin/dashboard")} // Sementara kembali ke dashboard jika sukses
-      onCancel={() => navigate("/admin/dashboard")}
-    />
-  );
-}
+// function PromoFormWrapper() {
+//   const { id } = useParams();
+//   const navigate = useNavigate();
+//   return (
+//     <AdminPromoForm
+//       promoId={id}
+//       onSuccess={() => navigate("/admin/dashboard")} // Sementara kembali ke dashboard jika sukses
+//       onCancel={() => navigate("/admin/dashboard")}
+//     />
+//   );
+// }
 
 // ==========================================================
 // FUNGSI PENJAGA RUTE (ROUTE GUARDS)
@@ -2576,7 +2580,7 @@ function AdminRoute({ children }: { children: React.ReactNode }) {
   const isAuthorized = allowedRoles.includes(user.usertype);
 
   if (!isAuthorized) {
-    return <Navigate to="/" replace />; 
+    return <Navigate to="/" replace />;
   }
 
   return <>{children}</>;
@@ -2593,8 +2597,8 @@ function GuestAdminRoute({ children }: { children: React.ReactNode }) {
     if (allowedRoles.includes(user.usertype)) {
       return <Navigate to="/admin/dashboard" replace />;
     } else {
-      return <Navigate to="/" replace />; 
-    } 
+      return <Navigate to="/" replace />;
+    }
   }
 
   return <>{children}</>;
@@ -3064,29 +3068,47 @@ export default function App() {
                       }
                     />
 
-                    {/* 👇 [BARU] RUTE UNTUK DYNAMIC PROMO 👇 */}
+                    {/* RUTE MANAJEMEN PROMO DINAMIS (CRUD LENGKAP) */}
                     <Route
                       path="/admin/dynamic-promos"
                       element={
                         <AdminRoute>
                           <AdminLayout>
-                            <PromoFormWrapper />
+                            <AdminPromoListPage />
                           </AdminLayout>
                         </AdminRoute>
                       }
                     />
-                    {/* Jika nanti butuh URL Edit Promo (misal dipanggil dari tabel promo) */}
+                    <Route
+                      path="/admin/dynamic-promos/create"
+                      element={
+                        <AdminRoute>
+                          <AdminLayout>
+                            <AdminPromoFormCreate />
+                          </AdminLayout>
+                        </AdminRoute>
+                      }
+                    />
                     <Route
                       path="/admin/dynamic-promos/edit/:id"
                       element={
                         <AdminRoute>
                           <AdminLayout>
-                            <PromoFormWrapper />
+                            <AdminPromoFormEdit />
                           </AdminLayout>
                         </AdminRoute>
                       }
                     />
-
+                    <Route
+                      path="/admin/dynamic-promos/:id"
+                      element={
+                        <AdminRoute>
+                          <AdminLayout>
+                            <AdminPromoDetailPage />
+                          </AdminLayout>
+                        </AdminRoute>
+                      }
+                    />
                   </Routes>
                 </LayoutWrapper>
               </AutoLogout>
