@@ -33,8 +33,8 @@ export default function AdminPromoForm({ promoId, onSuccess, onCancel }: any) {
   }, [promoId]);
 
   const fetchPromoData = async () => {
-    const token = localStorage.getItem("user_token");
-    const res = await fetch(`http://localhost:8000/api/admin/dynamic-promos/${promoId}`, {
+    const token = localStorage.getItem("admin_token");
+    const res = await fetch(`${BASE_URL}/api/admin/dynamic-promos/${promoId}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     const data = await res.json();
@@ -104,7 +104,7 @@ export default function AdminPromoForm({ promoId, onSuccess, onCancel }: any) {
       rules: formattedRules
     };
 
-    const token = localStorage.getItem("user_token");
+    const token = localStorage.getItem("admin_token");
     const method = promoId ? "PUT" : "POST";
     const url = promoId 
         ? `${BASE_URL}/api/admin/dynamic-promos/${promoId}` 
