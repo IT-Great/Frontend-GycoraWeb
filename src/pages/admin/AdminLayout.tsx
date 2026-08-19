@@ -169,7 +169,7 @@
 
 //   const canAccess = (moduleKey: string) => {
 //     if (!adminUser) return false;
-//     if (adminUser.usertype === "superadmin") return true; 
+//     if (adminUser.usertype === "superadmin") return true;
 //     return allowedModules.includes(moduleKey);
 //   };
 
@@ -215,10 +215,10 @@
 
 //   return (
 //     <div className="relative flex h-screen overflow-hidden font-sans bg-gray-50">
-      
+
 //       {/* BACKDROP OVERLAY KHUSUS MOBILE */}
 //       {isMobileSidebarOpen && (
-//         <div 
+//         <div
 //           className="fixed inset-0 z-40 transition-opacity md:hidden bg-black/50 backdrop-blur-sm"
 //           onClick={() => setIsMobileSidebarOpen(false)}
 //         ></div>
@@ -228,7 +228,7 @@
 //       <aside
 //         className={`
 //           fixed inset-y-0 left-0 z-50 flex flex-col bg-white border-r border-gray-200 shadow-xl md:shadow-sm transition-all duration-300 ease-in-out
-//           ${isSidebarOpen ? "md:w-64" : "md:w-20"} 
+//           ${isSidebarOpen ? "md:w-64" : "md:w-20"}
 //           ${isMobileSidebarOpen ? "translate-x-0 w-64" : "-translate-x-full md:translate-x-0"}
 //           md:relative
 //         `}
@@ -248,8 +248,8 @@
 //               </span>
 //             )}
 //           </div>
-          
-//           <button 
+
+//           <button
 //             className="p-1 text-gray-400 md:hidden hover:text-black"
 //             onClick={() => setIsMobileSidebarOpen(false)}
 //           >
@@ -258,7 +258,7 @@
 //         </div>
 
 //         <nav className="flex-1 p-4 space-y-2 overflow-x-hidden overflow-y-auto custom-scrollbar">
-          
+
 //           {/* 👇 [PERBAIKAN] Label Menu Utama disembunyikan jika tidak ada akses 👇 */}
 //           {hasMainMenuAccess && (
 //             <>
@@ -845,7 +845,7 @@
 
 //   const canAccess = (moduleKey: string) => {
 //     if (!adminUser) return false;
-//     if (adminUser.usertype === "superadmin") return true; 
+//     if (adminUser.usertype === "superadmin") return true;
 //     return allowedModules.includes(moduleKey);
 //   };
 
@@ -888,10 +888,10 @@
 
 //   return (
 //     <div className="relative flex h-screen overflow-hidden font-sans bg-gray-50">
-      
+
 //       {/* BACKDROP OVERLAY KHUSUS MOBILE */}
 //       {isMobileSidebarOpen && (
-//         <div 
+//         <div
 //           className="fixed inset-0 z-40 transition-opacity md:hidden bg-black/50 backdrop-blur-sm"
 //           onClick={() => setIsMobileSidebarOpen(false)}
 //         ></div>
@@ -901,7 +901,7 @@
 //       <aside
 //         className={`
 //           fixed inset-y-0 left-0 z-50 flex flex-col bg-white border-r border-gray-200 shadow-xl md:shadow-sm transition-all duration-300 ease-in-out
-//           ${isSidebarOpen ? "md:w-64" : "md:w-20"} 
+//           ${isSidebarOpen ? "md:w-64" : "md:w-20"}
 //           ${isMobileSidebarOpen ? "translate-x-0 w-64" : "-translate-x-full md:translate-x-0"}
 //           md:relative
 //         `}
@@ -921,8 +921,8 @@
 //               </span>
 //             )}
 //           </div>
-          
-//           <button 
+
+//           <button
 //             className="p-1 text-gray-400 md:hidden hover:text-black"
 //             onClick={() => setIsMobileSidebarOpen(false)}
 //           >
@@ -931,7 +931,7 @@
 //         </div>
 
 //         <nav className="flex-1 p-4 space-y-2 overflow-x-hidden overflow-y-auto custom-scrollbar">
-          
+
 //           {hasMainMenuAccess && (
 //             <>
 //               {(isSidebarOpen || isMobileSidebarOpen) ? (
@@ -1093,7 +1093,7 @@
 //         </svg>
 //         {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Pelanggan</span>}
 //       </div>
-      
+
 //       {/* BADGE TOTAL PESAN BELUM TERBACA */}
 //       {unreadCount > 0 && (isSidebarOpen || isMobileSidebarOpen) && (
 //         <span className="px-2 py-0.5 ml-2 text-[10px] font-bold text-white bg-red-600 rounded-full shadow-sm whitespace-nowrap animate-pulse">
@@ -1450,7 +1450,7 @@
 //         "/admin/transactions": "transactions",
 //         "/admin/sales-report": "sales_report",
 //         "/admin/users": "users",
-//         "/admin/messages": "messages", 
+//         "/admin/messages": "messages",
 //         "/admin/business-partners": "business_partners",
 //         "/admin/reviews": "reviews",
 //         "/admin/events": "events",
@@ -1535,7 +1535,7 @@
 
 //   const canAccess = (moduleKey: string) => {
 //     if (!adminUser) return false;
-//     if (adminUser.usertype === "superadmin") return true; 
+//     if (adminUser.usertype === "superadmin") return true;
 //     return allowedModules.includes(moduleKey);
 //   };
 
@@ -1578,10 +1578,10 @@
 
 //   return (
 //     <div className="relative flex h-screen overflow-hidden font-sans bg-gray-50">
-      
+
 //       {/* BACKDROP OVERLAY KHUSUS MOBILE */}
 //       {isMobileSidebarOpen && (
-//         <div 
+//         <div
 //           className="fixed inset-0 z-40 transition-opacity md:hidden bg-black/50 backdrop-blur-sm"
 //           onClick={() => setIsMobileSidebarOpen(false)}
 //         ></div>
@@ -1591,7 +1591,7 @@
 //       <aside
 //         className={`
 //           fixed inset-y-0 left-0 z-50 flex flex-col bg-white border-r border-gray-200 shadow-xl md:shadow-sm transition-all duration-300 ease-in-out
-//           ${isSidebarOpen ? "md:w-64" : "md:w-20"} 
+//           ${isSidebarOpen ? "md:w-64" : "md:w-20"}
 //           ${isMobileSidebarOpen ? "translate-x-0 w-64" : "-translate-x-full md:translate-x-0"}
 //           md:relative
 //         `}
@@ -1611,8 +1611,8 @@
 //               </span>
 //             )}
 //           </div>
-          
-//           <button 
+
+//           <button
 //             className="p-1 text-gray-400 md:hidden hover:text-black"
 //             onClick={() => setIsMobileSidebarOpen(false)}
 //           >
@@ -1621,7 +1621,7 @@
 //         </div>
 
 //         <nav className="flex-1 p-4 space-y-2 overflow-x-hidden overflow-y-auto custom-scrollbar">
-          
+
 //           {hasMainMenuAccess && (
 //             <>
 //               {(isSidebarOpen || isMobileSidebarOpen) ? (
@@ -1770,7 +1770,7 @@
 //                 </svg>
 //                 {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Pelanggan</span>}
 //               </div>
-              
+
 //               {/* 👇 BADGE DI MENU SIDEBAR 👇 */}
 //               {unreadCount > 0 && (isSidebarOpen || isMobileSidebarOpen) && (
 //                 <span className="px-2 py-0.5 ml-2 text-[10px] font-bold text-white bg-red-600 rounded-full shadow-sm whitespace-nowrap animate-pulse">
@@ -2126,7 +2126,7 @@ export default function AdminLayout({
         "/admin/transactions": "transactions",
         "/admin/sales-report": "sales_report",
         "/admin/users": "users",
-        "/admin/messages": "messages", 
+        "/admin/messages": "messages",
         "/admin/business-partners": "business_partners",
         "/admin/reviews": "reviews",
         "/admin/events": "events",
@@ -2190,7 +2190,11 @@ export default function AdminLayout({
 
   useEffect(() => {
     window.addEventListener("refresh-admin-chat-badge", fetchUnreadMessages);
-    return () => window.removeEventListener("refresh-admin-chat-badge", fetchUnreadMessages);
+    return () =>
+      window.removeEventListener(
+        "refresh-admin-chat-badge",
+        fetchUnreadMessages,
+      );
   }, [fetchUnreadMessages]);
 
   const handleLogout = () => {
@@ -2212,7 +2216,7 @@ export default function AdminLayout({
 
   const canAccess = (moduleKey: string) => {
     if (!adminUser) return false;
-    if (adminUser.usertype === "superadmin") return true; 
+    if (adminUser.usertype === "superadmin") return true;
     return allowedModules.includes(moduleKey);
   };
 
@@ -2256,10 +2260,9 @@ export default function AdminLayout({
 
   return (
     <div className="relative flex h-screen overflow-hidden font-sans bg-gray-50">
-      
       {/* BACKDROP OVERLAY KHUSUS MOBILE */}
       {isMobileSidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-40 transition-opacity md:hidden bg-black/50 backdrop-blur-sm"
           onClick={() => setIsMobileSidebarOpen(false)}
         ></div>
@@ -2289,20 +2292,31 @@ export default function AdminLayout({
               </span>
             )}
           </div>
-          
-          <button 
+
+          <button
             className="p-1 text-gray-400 md:hidden hover:text-black"
             onClick={() => setIsMobileSidebarOpen(false)}
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
           </button>
         </div>
 
         <nav className="flex-1 p-4 space-y-2 overflow-x-hidden overflow-y-auto custom-scrollbar">
-          
           {hasMainMenuAccess && (
             <>
-              {(isSidebarOpen || isMobileSidebarOpen) ? (
+              {isSidebarOpen || isMobileSidebarOpen ? (
                 <p className="px-4 mt-2 mb-2 text-xs font-semibold tracking-wider text-gray-400 uppercase transition-opacity duration-300">
                   Menu Utama
                 </p>
@@ -2316,13 +2330,25 @@ export default function AdminLayout({
           {canAccess("dashboard") && (
             <Link
               to="/admin/dashboard"
-              title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Dashboard" : ""}
-              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/dashboard") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+              title={!isSidebarOpen && !isMobileSidebarOpen ? "Dashboard" : ""}
+              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/dashboard") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
             >
-              <svg className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/dashboard") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+              <svg
+                className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/dashboard") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+                />
               </svg>
-              {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Dashboard</span>}
+              {(isSidebarOpen || isMobileSidebarOpen) && (
+                <span className="truncate">Dashboard</span>
+              )}
             </Link>
           )}
 
@@ -2330,13 +2356,25 @@ export default function AdminLayout({
           {canAccess("categories") && (
             <Link
               to="/admin/categories"
-              title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Kategori" : ""}
-              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/categories") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+              title={!isSidebarOpen && !isMobileSidebarOpen ? "Kategori" : ""}
+              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/categories") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
             >
-              <svg className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/categories") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+              <svg
+                className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/categories") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                />
               </svg>
-              {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Kategori</span>}
+              {(isSidebarOpen || isMobileSidebarOpen) && (
+                <span className="truncate">Kategori</span>
+              )}
             </Link>
           )}
 
@@ -2345,31 +2383,66 @@ export default function AdminLayout({
             <div className="flex flex-col">
               <button
                 onClick={() => {
-                  if (!isSidebarOpen && !isMobileSidebarOpen) setIsSidebarOpen(true);
+                  if (!isSidebarOpen && !isMobileSidebarOpen)
+                    setIsSidebarOpen(true);
                   setIsProductMenuOpen(!isProductMenuOpen);
                 }}
-                title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Produk" : ""}
-                className={`flex items-center justify-between py-2.5 rounded-lg font-medium group transition-colors ${isAnyProductSubmenuActive ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+                title={!isSidebarOpen && !isMobileSidebarOpen ? "Produk" : ""}
+                className={`flex items-center justify-between py-2.5 rounded-lg font-medium group transition-colors ${isAnyProductSubmenuActive ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
               >
                 <div className="flex items-center gap-3">
-                  <svg className={`w-6 h-6 shrink-0 transition-colors ${isAnyProductSubmenuActive ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                  <svg
+                    className={`w-6 h-6 shrink-0 transition-colors ${isAnyProductSubmenuActive ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                    />
                   </svg>
-                  {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Produk</span>}
+                  {(isSidebarOpen || isMobileSidebarOpen) && (
+                    <span className="truncate">Produk</span>
+                  )}
                 </div>
                 {(isSidebarOpen || isMobileSidebarOpen) && (
-                  <svg className={`w-4 h-4 transition-transform duration-200 ${isProductMenuOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  <svg
+                    className={`w-4 h-4 transition-transform duration-200 ${isProductMenuOpen ? "rotate-180" : ""}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 )}
               </button>
-              <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isProductMenuOpen && (isSidebarOpen || isMobileSidebarOpen) ? "max-h-40 opacity-100 mt-1" : "max-h-0 opacity-0"}`}>
+              <div
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${isProductMenuOpen && (isSidebarOpen || isMobileSidebarOpen) ? "max-h-40 opacity-100 mt-1" : "max-h-0 opacity-0"}`}
+              >
                 <div className="flex flex-col pl-2 space-y-1 border-l-2 border-gray-100 ml-11">
                   {canAccess("products") && (
-                    <Link to="/admin/products" className={`py-2 px-3 text-sm font-medium rounded-lg transition-colors ${isProductsActive ? "text-gycora bg-emerald-50/50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`}>Katalog Utama</Link>
+                    <Link
+                      to="/admin/products"
+                      className={`py-2 px-3 text-sm font-medium rounded-lg transition-colors ${isProductsActive ? "text-gycora bg-emerald-50/50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`}
+                    >
+                      Katalog Utama
+                    </Link>
                   )}
                   {canAccess("stocks") && (
-                    <Link to="/admin/stocks" className={`py-2 px-3 text-sm font-medium rounded-lg transition-colors ${isStocksActive ? "text-gycora bg-emerald-50/50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`}>Stok & Batch Gudang</Link>
+                    <Link
+                      to="/admin/stocks"
+                      className={`py-2 px-3 text-sm font-medium rounded-lg transition-colors ${isStocksActive ? "text-gycora bg-emerald-50/50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`}
+                    >
+                      Stok & Batch Gudang
+                    </Link>
                   )}
                 </div>
               </div>
@@ -2381,27 +2454,57 @@ export default function AdminLayout({
             <div className="flex flex-col">
               <button
                 onClick={() => {
-                  if (!isSidebarOpen && !isMobileSidebarOpen) setIsSidebarOpen(true);
+                  if (!isSidebarOpen && !isMobileSidebarOpen)
+                    setIsSidebarOpen(true);
                   setIsClinicMenuOpen(!isClinicMenuOpen);
                 }}
-                title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Klinik" : ""}
-                className={`flex items-center justify-between py-2.5 rounded-lg font-medium group transition-colors ${isTreatmentsActive ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+                title={!isSidebarOpen && !isMobileSidebarOpen ? "Klinik" : ""}
+                className={`flex items-center justify-between py-2.5 rounded-lg font-medium group transition-colors ${isTreatmentsActive ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
               >
                 <div className="flex items-center gap-3">
-                  <svg className={`w-6 h-6 shrink-0 transition-colors ${isTreatmentsActive ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                  <svg
+                    className={`w-6 h-6 shrink-0 transition-colors ${isTreatmentsActive ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+                    />
                   </svg>
-                  {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Klinik</span>}
+                  {(isSidebarOpen || isMobileSidebarOpen) && (
+                    <span className="truncate">Klinik</span>
+                  )}
                 </div>
                 {(isSidebarOpen || isMobileSidebarOpen) && (
-                  <svg className={`w-4 h-4 transition-transform duration-200 ${isClinicMenuOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  <svg
+                    className={`w-4 h-4 transition-transform duration-200 ${isClinicMenuOpen ? "rotate-180" : ""}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 )}
               </button>
-              <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isClinicMenuOpen && (isSidebarOpen || isMobileSidebarOpen) ? "max-h-40 opacity-100 mt-1" : "max-h-0 opacity-0"}`}>
+              <div
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${isClinicMenuOpen && (isSidebarOpen || isMobileSidebarOpen) ? "max-h-40 opacity-100 mt-1" : "max-h-0 opacity-0"}`}
+              >
                 <div className="flex flex-col pl-2 space-y-1 border-l-2 border-gray-100 ml-11">
-                  <Link to="/admin/treatments" className={`py-2 px-3 text-sm font-medium rounded-lg transition-colors ${isTreatmentsActive ? "text-gycora bg-emerald-50/50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`}>Daftar Treatment</Link>
+                  <Link
+                    to="/admin/treatments"
+                    className={`py-2 px-3 text-sm font-medium rounded-lg transition-colors ${isTreatmentsActive ? "text-gycora bg-emerald-50/50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`}
+                  >
+                    Daftar Treatment
+                  </Link>
                 </div>
               </div>
             </div>
@@ -2411,13 +2514,25 @@ export default function AdminLayout({
           {canAccess("transactions") && (
             <Link
               to="/admin/transactions"
-              title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Transaksi" : ""}
-              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/transactions") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+              title={!isSidebarOpen && !isMobileSidebarOpen ? "Transaksi" : ""}
+              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/transactions") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
             >
-              <svg className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/transactions") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              <svg
+                className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/transactions") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
               </svg>
-              {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Transaksi</span>}
+              {(isSidebarOpen || isMobileSidebarOpen) && (
+                <span className="truncate">Transaksi</span>
+              )}
             </Link>
           )}
 
@@ -2425,13 +2540,29 @@ export default function AdminLayout({
           {canAccess("sales_report") && (
             <Link
               to="/admin/sales-report"
-              title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Laporan Penjualan" : ""}
-              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/sales-report") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+              title={
+                !isSidebarOpen && !isMobileSidebarOpen
+                  ? "Laporan Penjualan"
+                  : ""
+              }
+              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/sales-report") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
             >
-              <svg className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/sales-report") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              <svg
+                className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/sales-report") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
               </svg>
-              {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Laporan</span>}
+              {(isSidebarOpen || isMobileSidebarOpen) && (
+                <span className="truncate">Laporan</span>
+              )}
             </Link>
           )}
 
@@ -2439,16 +2570,28 @@ export default function AdminLayout({
           {canAccess("users") && (
             <Link
               to="/admin/users"
-              title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Pelanggan" : ""}
-              className={`flex items-center justify-between py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/users") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+              title={!isSidebarOpen && !isMobileSidebarOpen ? "Pelanggan" : ""}
+              className={`flex items-center justify-between py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/users") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
             >
               <div className="flex items-center gap-3">
-                <svg className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/users") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                <svg
+                  className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/users") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                  />
                 </svg>
-                {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Pelanggan</span>}
+                {(isSidebarOpen || isMobileSidebarOpen) && (
+                  <span className="truncate">Pelanggan</span>
+                )}
               </div>
-              
+
               {unreadCount > 0 && (isSidebarOpen || isMobileSidebarOpen) && (
                 <span className="px-2 py-0.5 ml-2 text-[10px] font-bold text-white bg-red-600 rounded-full shadow-sm whitespace-nowrap animate-pulse">
                   {unreadCount} Pesan
@@ -2457,17 +2600,63 @@ export default function AdminLayout({
             </Link>
           )}
 
+          {/* CUSTOMER ANALYTICS (RFM) */}
+          {canAccess("users") && ( // Anda bisa gabungkan aksesnya dengan Users
+            <Link
+              to="/admin/customer-analytics"
+              title={
+                !isSidebarOpen && !isMobileSidebarOpen
+                  ? "Segmentasi Pelanggan"
+                  : ""
+              }
+              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/customer-analytics") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
+            >
+              <svg
+                className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/customer-analytics") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                />
+              </svg>
+              {(isSidebarOpen || isMobileSidebarOpen) && (
+                <span className="truncate">Analitik RFM</span>
+              )}
+            </Link>
+          )}
+
           {/* PARTNER BISNIS */}
           {canAccess("business_partners") && (
             <Link
               to="/admin/business-partners"
-              title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Business Partners" : ""}
-              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/admin/business-partners") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+              title={
+                !isSidebarOpen && !isMobileSidebarOpen
+                  ? "Business Partners"
+                  : ""
+              }
+              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/admin/business-partners") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
             >
-              <svg className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/admin/business-partners") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              <svg
+                className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/admin/business-partners") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                />
               </svg>
-              {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Partner Bisnis</span>}
+              {(isSidebarOpen || isMobileSidebarOpen) && (
+                <span className="truncate">Partner Bisnis</span>
+              )}
             </Link>
           )}
 
@@ -2475,13 +2664,27 @@ export default function AdminLayout({
           {canAccess("reviews") && (
             <Link
               to="/admin/reviews"
-              title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Ulasan Pelanggan" : ""}
-              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/reviews") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+              title={
+                !isSidebarOpen && !isMobileSidebarOpen ? "Ulasan Pelanggan" : ""
+              }
+              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/reviews") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
             >
-              <svg className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/reviews") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+              <svg
+                className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/reviews") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+                />
               </svg>
-              {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Ulasan</span>}
+              {(isSidebarOpen || isMobileSidebarOpen) && (
+                <span className="truncate">Ulasan</span>
+              )}
             </Link>
           )}
 
@@ -2489,13 +2692,25 @@ export default function AdminLayout({
           {canAccess("events") && (
             <Link
               to="/admin/events"
-              title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Event" : ""}
-              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/admin/events") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+              title={!isSidebarOpen && !isMobileSidebarOpen ? "Event" : ""}
+              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/admin/events") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
             >
-              <svg className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/admin/events") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              <svg
+                className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/admin/events") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
               </svg>
-              {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Events</span>}
+              {(isSidebarOpen || isMobileSidebarOpen) && (
+                <span className="truncate">Events</span>
+              )}
             </Link>
           )}
 
@@ -2503,13 +2718,27 @@ export default function AdminLayout({
           {canAccess("dynamic_promos") && (
             <Link
               to="/admin/dynamic-promos"
-              title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Promo Dinamis" : ""}
-              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/dynamic-promos") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+              title={
+                !isSidebarOpen && !isMobileSidebarOpen ? "Promo Dinamis" : ""
+              }
+              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/dynamic-promos") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
             >
-              <svg className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/dynamic-promos") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+              <svg
+                className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/dynamic-promos") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"
+                />
               </svg>
-              {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Promo Dinamis</span>}
+              {(isSidebarOpen || isMobileSidebarOpen) && (
+                <span className="truncate">Promo Dinamis</span>
+              )}
             </Link>
           )}
 
@@ -2517,13 +2746,27 @@ export default function AdminLayout({
           {canAccess("subscribers") && (
             <Link
               to="/admin/subscribers"
-              title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Subscribers" : ""}
-              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/subscribers") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+              title={
+                !isSidebarOpen && !isMobileSidebarOpen ? "Subscribers" : ""
+              }
+              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/subscribers") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
             >
-              <svg className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/subscribers") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              <svg
+                className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/subscribers") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                />
               </svg>
-              {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Subscribers</span>}
+              {(isSidebarOpen || isMobileSidebarOpen) && (
+                <span className="truncate">Subscribers</span>
+              )}
             </Link>
           )}
 
@@ -2531,13 +2774,27 @@ export default function AdminLayout({
           {canAccess("audit_logs") && (
             <Link
               to="/admin/audit-logs"
-              title={(!isSidebarOpen && !isMobileSidebarOpen) ? "System Logs" : ""}
-              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/audit-logs") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+              title={
+                !isSidebarOpen && !isMobileSidebarOpen ? "System Logs" : ""
+              }
+              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/audit-logs") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
             >
-              <svg className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/audit-logs") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              <svg
+                className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/audit-logs") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                />
               </svg>
-              {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">System Logs</span>}
+              {(isSidebarOpen || isMobileSidebarOpen) && (
+                <span className="truncate">System Logs</span>
+              )}
             </Link>
           )}
 
@@ -2545,20 +2802,37 @@ export default function AdminLayout({
           {adminUser?.usertype === "superadmin" && (
             <Link
               to="/admin/access-policy"
-              title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Access Policy" : ""}
-              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/access-policy") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+              title={
+                !isSidebarOpen && !isMobileSidebarOpen ? "Access Policy" : ""
+              }
+              className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${pathname.includes("/access-policy") ? "bg-gycora-light text-gycora-dark" : "text-gray-700 hover:bg-gray-100"} ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
             >
-              <svg className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/access-policy") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              <svg
+                className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/access-policy") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
               </svg>
-              {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Access Policy</span>}
+              {(isSidebarOpen || isMobileSidebarOpen) && (
+                <span className="truncate">Access Policy</span>
+              )}
             </Link>
           )}
 
           {/* SECTION ACCOUNTING */}
-          {(canAccess("coas") || canAccess("transfer_receive") || canAccess("suppliers") || canAccess("invoices")) && (
+          {(canAccess("coas") ||
+            canAccess("transfer_receive") ||
+            canAccess("suppliers") ||
+            canAccess("invoices")) && (
             <div className="pt-2 mt-4 border-t border-gray-100">
-              {(isSidebarOpen || isMobileSidebarOpen) ? (
+              {isSidebarOpen || isMobileSidebarOpen ? (
                 <p className="px-4 mt-2 mb-2 text-xs font-semibold tracking-wider text-gray-400 uppercase transition-opacity duration-300">
                   Accounting
                 </p>
@@ -2569,68 +2843,127 @@ export default function AdminLayout({
               {canAccess("coas") && (
                 <Link
                   to="/admin/coas"
-                  title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Chart of Accounts" : ""}
+                  title={
+                    !isSidebarOpen && !isMobileSidebarOpen
+                      ? "Chart of Accounts"
+                      : ""
+                  }
                   className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${
-                    pathname.includes("/coas") || pathname.includes("/category-coas")
+                    pathname.includes("/coas") ||
+                    pathname.includes("/category-coas")
                       ? "bg-gycora-light text-gycora-dark"
                       : "text-gray-700 hover:bg-gray-100"
-                  } ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+                  } ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
                 >
-                  <svg className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/coas") || pathname.includes("/category-coas") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2-2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                  <svg
+                    className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/coas") || pathname.includes("/category-coas") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 5H7a2 2 0 00-2-2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                    />
                   </svg>
-                  {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Chart of Accounts</span>}
+                  {(isSidebarOpen || isMobileSidebarOpen) && (
+                    <span className="truncate">Chart of Accounts</span>
+                  )}
                 </Link>
               )}
 
               {canAccess("transfer_receive") && (
                 <Link
                   to="/admin/transfer-receive"
-                  title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Payments" : ""}
+                  title={
+                    !isSidebarOpen && !isMobileSidebarOpen ? "Payments" : ""
+                  }
                   className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${
                     pathname.includes("/transfer-receive")
                       ? "bg-gycora-light text-gycora-dark"
                       : "text-gray-700 hover:bg-gray-100"
-                  } ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+                  } ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
                 >
-                  <svg className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/transfer-receive") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                  <svg
+                    className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/transfer-receive") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+                    />
                   </svg>
-                  {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Payments</span>}
+                  {(isSidebarOpen || isMobileSidebarOpen) && (
+                    <span className="truncate">Payments</span>
+                  )}
                 </Link>
               )}
 
               {canAccess("suppliers") && (
                 <Link
                   to="/admin/suppliers"
-                  title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Suppliers" : ""}
+                  title={
+                    !isSidebarOpen && !isMobileSidebarOpen ? "Suppliers" : ""
+                  }
                   className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${
                     pathname.includes("/suppliers")
                       ? "bg-gycora-light text-gycora-dark"
                       : "text-gray-700 hover:bg-gray-100"
-                  } ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+                  } ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
                 >
-                  <svg className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/suppliers") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  <svg
+                    className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/suppliers") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                    />
                   </svg>
-                  {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Suppliers</span>}
+                  {(isSidebarOpen || isMobileSidebarOpen) && (
+                    <span className="truncate">Suppliers</span>
+                  )}
                 </Link>
               )}
 
               {canAccess("invoices") && (
                 <Link
                   to="/admin/invoices"
-                  title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Invoices" : ""}
+                  title={
+                    !isSidebarOpen && !isMobileSidebarOpen ? "Invoices" : ""
+                  }
                   className={`flex items-center gap-3 py-2.5 rounded-lg font-medium group transition-colors ${
                     pathname.includes("/invoices")
                       ? "bg-gycora-light text-gycora-dark"
                       : "text-gray-700 hover:bg-gray-100"
-                  } ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+                  } ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
                 >
-                  <svg className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/invoices") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  <svg
+                    className={`w-6 h-6 shrink-0 transition-colors ${pathname.includes("/invoices") ? "text-gycora" : "text-gray-400 group-hover:text-gycora"}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
                   </svg>
-                  {(isSidebarOpen || isMobileSidebarOpen) && <span className="truncate">Invoices</span>}
+                  {(isSidebarOpen || isMobileSidebarOpen) && (
+                    <span className="truncate">Invoices</span>
+                  )}
                 </Link>
               )}
             </div>
@@ -2641,11 +2974,21 @@ export default function AdminLayout({
         <div className="p-4 border-t border-gray-100 shrink-0">
           <button
             onClick={handleLogout}
-            title={(!isSidebarOpen && !isMobileSidebarOpen) ? "Logout" : ""}
-            className={`flex items-center gap-3 py-2 w-full text-left rounded-lg text-red-600 hover:bg-red-50 transition-colors font-medium text-sm ${(isSidebarOpen || isMobileSidebarOpen) ? "px-4" : "justify-center px-0"}`}
+            title={!isSidebarOpen && !isMobileSidebarOpen ? "Logout" : ""}
+            className={`flex items-center gap-3 py-2 w-full text-left rounded-lg text-red-600 hover:bg-red-50 transition-colors font-medium text-sm ${isSidebarOpen || isMobileSidebarOpen ? "px-4" : "justify-center px-0"}`}
           >
-            <svg className="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            <svg
+              className="w-6 h-6 shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              />
             </svg>
             {(isSidebarOpen || isMobileSidebarOpen) && <span>Logout</span>}
           </button>
@@ -2668,8 +3011,18 @@ export default function AdminLayout({
               className="p-2 text-gray-500 transition-colors rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gycora/20"
               title="Toggle Sidebar"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
             </button>
 
@@ -2685,8 +3038,18 @@ export default function AdminLayout({
                 className="relative p-1.5 md:p-1 text-gray-600 transition-colors rounded-full hover:bg-gray-100 hover:text-gycora"
                 title="Pesan Masuk"
               >
-                <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                <svg
+                  className="w-5 h-5 md:w-6 md:h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
                 </svg>
 
                 {unreadCount > 0 && (
