@@ -2315,6 +2315,10 @@ export default function AdminDashboard() {
       <div>
         <PredictiveInventoryWidget />
       </div>
+      <div className="xl:col-span-1">
+        {/* Jika Abang mau menambahkan widget Restock Alert yang tadi juga bisa di sini */}
+        <PredictiveInventoryWidget />
+      </div>
     </div>
   );
 }
