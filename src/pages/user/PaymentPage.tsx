@@ -9973,8 +9973,8 @@ export default function PaymentPage() {
               >
                 {!isProcessing
                   ? abVariant === "B"
-                    ? t("pay_btn_processing")
-                    : t("pay_btn_processing")
+                    ? "Pay Now"
+                    : "Pay Now"
                   : t("pay_btn_processing")}
               </button>
 
