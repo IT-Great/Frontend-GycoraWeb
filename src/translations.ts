@@ -399,11 +399,11 @@ type TranslationDictionary = Record<string, string>;
 export const translations: Record<string, TranslationDictionary> = {
   id: {
     // Menu Navigasi
-    home: "Home",
-    about_us: "About Us",
-    product: "Product",
-    events: "Events",
-    consult: "Consult",
+    home: "Beranda",
+    about_us: "Tentang Kami",
+    product: "Produk",
+    events: "Event",
+    consult: "Konsultasi",
 
     // Auth & Profil
     login: "Login",
@@ -455,16 +455,33 @@ export const translations: Record<string, TranslationDictionary> = {
     added_to_cart: "Ditambahkan!",
 
     // HOME PAGE
-    promo_title: "Diskon Spesial First Order ✨",
-    promo_desc1:
-      "Nikmati 10% OFF + subsidi ongkir Rp10.000 untuk pembelian pertamamu.",
-    promo_desc2: "Masukkan email kamu dan klaim voucher eksklusif sekarang.",
-    email_placeholder: "Masukkan Email",
-    sending: "Mengirim...",
-    claim_now: "Klaim Sekarang",
+    // promo_title: "Diskon Spesial First Order ✨",
+    // promo_desc1:
+    //   "Nikmati 10% OFF + subsidi ongkir Rp10.000 untuk pembelian pertamamu.",
+    // promo_desc2: "Masukkan email kamu dan klaim voucher eksklusif sekarang.",
+    // email_placeholder: "Masukkan Email",
+    // sending: "Mengirim...",
+    // claim_now: "Klaim Sekarang",
+    // promo_success_title: "Kode Promo Terkirim!",
+    // promo_success_desc:
+    //   "Silakan periksa kotak masuk email Anda untuk mendapatkan kode voucher spesial dari Gycora.",
+    // notification: "Pemberitahuan",
+    // promo_failed_desc: "Gagal mengklaim promo. Pastikan format email benar.",
+    // error: "Gagal",
+    // server_error: "Terjadi kesalahan server saat memproses permintaan Anda.",
+
+    promo_title: "🎁 Welcome Gift untuk Member Baru",
+    promo_intro: "Buat akun GYCORA sekarang dan nikmati keuntungan eksklusif:",
+    promo_bullet1: "up to 40% OFF pembelian pertama",
+    promo_bullet2: "FREE Ongkir up to Rp10.000",
+    promo_bullet3: "Akses promo & penawaran spesial khusus member",
+    promo_cta: "Masukkan emailmu dan klaim hadiah spesialmu hari ini.",
+    email_placeholder: "Masukkan email aktif",
+    sending: "Memproses...",
+    claim_now: "Buat Akun & Klaim Hadiah",
+    promo_footer: "100% gratis. Proses pendaftaran hanya kurang dari 1 menit.",
     promo_success_title: "Kode Promo Terkirim!",
-    promo_success_desc:
-      "Silakan periksa kotak masuk email Anda untuk mendapatkan kode voucher spesial dari Gycora.",
+    promo_success_desc: "Silakan periksa kotak masuk email Anda untuk mendapatkan kode voucher spesial dari Gycora.",
     notification: "Pemberitahuan",
     promo_failed_desc: "Gagal mengklaim promo. Pastikan format email benar.",
     error: "Gagal",
@@ -1628,6 +1645,31 @@ export const translations: Record<string, TranslationDictionary> = {
     alert_success_desc: "Tim kami akan segera meninjau aplikasi Anda.",
     alert_error_title: "Pendaftaran Gagal",
     alert_error_desc: "Terjadi kesalahan pada sistem. Coba lagi nanti.",
+    wholesale_price: "Harga Grosir",
+    active_bundle: "BUNDLE AKTIF",
+    wait_partner: "MENUNGGU PASANGAN BUNDLE",
+    bundle_promo_price: "Harga Promo Paket",
+    bundle_promo_active: "Promo Bundle Aktif",
+    bundle: "Paket",
+    check_or_add: "Centang atau tambah",
+    item_again: "barang lagi untuk mendapatkan harga reseller.",
+    wholesale_pricing_active: "Harga Grosir Aktif!",
+    enable_wholesale_pricing: "Aktifkan Harga Grosir",
+    favorite_collection: "Koleksi Favorit",
+    favorite_still_empty: "Daftar favorit Anda masih kosong.",
+    product_exploration: "Eksplorasi Produk",
+    payment_successful: "Pembayaran Berhasil 🎉",
+    thank_you_payment_success:
+      "Terima kasih! Pembayaran Anda telah berhasil diproses.",
+    payment_ref: "Referensi Pembayaran:",
+    see_my_order: "Lihat Pesanan Saya",
+    back_to_home: "Kembali ke Beranda",
+    wholesale_lable: "GROSIR",
+    join_partnership: "Gabung Partnership",
+    change_profile : "Ubah Profil",
+    district : "Kecamatan:",
+    choose_method : "Pilih metode",
+    you_may_also_like : "Anda Mungkin Suka"
   },
   en: {
     // Nav Menu
@@ -1687,19 +1729,36 @@ export const translations: Record<string, TranslationDictionary> = {
     added_to_cart: "Added!",
 
     // HOME PAGE
-    promo_title: "First Order Special Discount ✨",
-    promo_desc1:
-      "Enjoy 10% OFF + IDR 10,000 shipping subsidy for your first purchase.",
-    promo_desc2: "Enter your email and claim the exclusive voucher now.",
-    email_placeholder: "Enter your Email",
-    sending: "Sending...",
-    claim_now: "Claim Now",
+    // promo_title: "First Order Special Discount ✨",
+    // promo_desc1:
+    //   "Enjoy 10% OFF + IDR 10,000 shipping subsidy for your first purchase.",
+    // promo_desc2: "Enter your email and claim the exclusive voucher now.",
+    // email_placeholder: "Enter your Email",
+    // sending: "Sending...",
+    // claim_now: "Claim Now",
+    // promo_success_title: "Promo Code Sent!",
+    // promo_success_desc:
+    //   "Please check your email inbox to get the special voucher code from Gycora.",
+    // notification: "Notification",
+    // promo_failed_desc:
+    //   "Failed to claim promo. Make sure the email format is correct.",
+    // error: "Failed",
+    // server_error: "A server error occurred while processing your request.",
+
+    promo_title: "🎁 Welcome Gift for New Members",
+    promo_intro: "Create a GYCORA account now and enjoy exclusive benefits:",
+    promo_bullet1: "up to 40% OFF your first purchase",
+    promo_bullet2: "FREE Shipping up to IDR 10,000",
+    promo_bullet3: "Access to member-only promos & special offers",
+    promo_cta: "Enter your email and claim your special gift today.",
+    email_placeholder: "Enter active email",
+    sending: "Processing...",
+    claim_now: "Create Account & Claim Gift",
+    promo_footer: "100% free. Registration takes less than 1 minute.",
     promo_success_title: "Promo Code Sent!",
-    promo_success_desc:
-      "Please check your email inbox to get the special voucher code from Gycora.",
+    promo_success_desc: "Please check your email inbox to get the special voucher code from Gycora.",
     notification: "Notification",
-    promo_failed_desc:
-      "Failed to claim promo. Make sure the email format is correct.",
+    promo_failed_desc: "Failed to claim promo. Make sure the email format is correct.",
     error: "Failed",
     server_error: "A server error occurred while processing your request.",
     hero_title1: "Quick Solution for",
@@ -2845,6 +2904,31 @@ export const translations: Record<string, TranslationDictionary> = {
 
     alert_error_title: "Application Failed",
     alert_error_desc: "A system error occurred. Please try again later.",
+    wholesale_price: "Wholesale Price",
+    active_bundle: "ACTIVE BUNDLE",
+    wait_partner: "WAITING FOR BUNDLE PAIR",
+    bundle_promo_price: "Bundle Promo Price",
+    bundle_promo_active: "Bundle Promo Active",
+    bundle: "Bundle",
+    check_or_add: "Select or add",
+    item_again: "more item(s) to get the reseller price.",
+    wholesale_pricing_active: "Wholesale Pricing Active!",
+    enable_wholesale_pricing: "Enable Wholesale Pricing",
+    favorite_collection: "Favorite Collection",
+    favorite_still_empty: "Your favorites list is empty.",
+    product_exploration: "Explore Products",
+    payment_successful: "Payment Successful 🎉",
+    thank_you_payment_success:
+      "Thank you! Your payment has been processed successfully.",
+    payment_ref: "Payment Ref:",
+    see_my_order: "View My Orders",
+    back_to_home: "Back to Home",
+    wholesale_lable: "WHOLESALE",
+    join_partnership: "Join Partnership",
+    change_profile : "Change Profile",
+    district : "District:",
+    choose_method : "Choose the Method",
+    you_may_also_like : "You May Also Like"
   },
 };
 

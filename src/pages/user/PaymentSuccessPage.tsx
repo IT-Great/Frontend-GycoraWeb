@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLanguage } from "../../context/LanguageContext";
 
 export default function PaymentSuccessPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
+  const { t } = useLanguage();
 
   // Mengambil parameter dari URL (misal: ?external_id=PAY-123&order_id=ORD-456)
   const externalId = searchParams.get("external_id");
@@ -52,12 +55,12 @@ export default function PaymentSuccessPage() {
 
         {/* Title */}
         <h1 className="mb-2 text-2xl font-extrabold tracking-tight text-gray-900 uppercase">
-          Pembayaran Berhasil 🎉
+          {t("payment_successful")}
         </h1>
 
         {/* Description */}
         <p className="mb-6 text-gray-600">
-          Terima kasih! Pembayaran Anda telah berhasil diproses.
+          {t("thank_you_payment_success")}
         </p>
 
         {/* Optional Info */}
@@ -72,7 +75,7 @@ export default function PaymentSuccessPage() {
             )}
             {externalId && (
               <p className="mt-3">
-                <span className="font-bold text-gray-500 uppercase tracking-widest text-[10px]">Payment Ref:</span>
+                <span className="font-bold text-gray-500 uppercase tracking-widest text-[10px]">{t("payment_ref")}</span>
                 <br />
                 <span className="font-mono text-xs text-gray-700">{externalId}</span>
               </p>
@@ -86,14 +89,14 @@ export default function PaymentSuccessPage() {
             onClick={() => navigate("/orders")}
             className="w-full py-3 text-xs font-bold tracking-widest text-white uppercase transition shadow-sm bg-gycora hover:bg-gycora-dark rounded-xl"
           >
-            Lihat Pesanan Saya
+            {t("see_my_order")}
           </button>
 
           <button
             onClick={() => navigate("/")}
             className="w-full py-3 text-xs font-bold tracking-widest text-gray-600 uppercase transition border border-gray-200 hover:bg-gray-50 rounded-xl"
           >
-            Kembali ke Beranda
+            {t("back_to_home")}
           </button>
         </div>
       </div>
