@@ -1562,7 +1562,10 @@ import {
   Line,
 } from "recharts";
 import { BASE_URL } from "../../config/api";
+// import PredictiveInventoryWidget from "../../components/admin/PredictiveInventoryWidget";
+import ABTestWidget from "../../components/admin/ABTestWidget";
 import PredictiveInventoryWidget from "../../components/admin/PredictiveInventoryWidget";
+import CohortAnalysisWidget from "../../components/admin/CohortAnalysisWidget"; // Jika Anda ingin menambahkannya juga
 
 const DEFAULT_CHART_COLORS = [
   "#059669",
@@ -2312,12 +2315,33 @@ export default function AdminDashboard() {
         </div>
       </div>
       {/* Sisipkan Widget Pintar di sini */}
-      <div>
+      {/* <div>
         <PredictiveInventoryWidget />
+      </div> */}
+      {/* <div className="xl:col-span-1">
+        <PredictiveInventoryWidget />
+      </div> */}
+
+      {/* ========================================================================= */}
+      {/* 👇 [BARU] BARIS EKSPERIMEN & PREDIKSI (A/B Test & Smart Restock) 👇 */}
+      {/* ========================================================================= */}
+      <div
+        className={`grid grid-cols-1 gap-8 lg:grid-cols-3 transition-all duration-700 delay-[800ms] ${isDataReady ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
+      >
+        {/* A/B Test menempati 1 kolom */}
+        <div className="lg:col-span-1">
+          <ABTestWidget />
+        </div>
+
+        {/* Predictive Inventory menempati 2 kolom (atau sesuaikan dengan kebutuhan desain) */}
+        <div className="lg:col-span-2">
+          <PredictiveInventoryWidget />
+        </div>
       </div>
-      <div className="xl:col-span-1">
-        {/* Jika Abang mau menambahkan widget Restock Alert yang tadi juga bisa di sini */}
-        <PredictiveInventoryWidget />
+
+      {/* Tambahan Jika Ingin Menaruh Cohort Analysis */}
+      <div className="mt-8">
+        <CohortAnalysisWidget />
       </div>
     </div>
   );
