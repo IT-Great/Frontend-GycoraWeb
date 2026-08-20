@@ -9973,8 +9973,8 @@ export default function PaymentPage() {
               >
                 {!isProcessing
                   ? abVariant === "B"
-                    ? "Tuntaskan Pesanan (Varian Merah)"
-                    : "Tuntaskan Pesanan (Varian Hitam)"
+                    ? t("pay_btn_processing")
+                    : t("pay_btn_processing")
                   : t("pay_btn_processing")}
               </button>
 
