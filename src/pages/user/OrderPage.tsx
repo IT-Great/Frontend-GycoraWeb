@@ -14107,982 +14107,9 @@
 //   );
 // }
 
-// /* eslint-disable @typescript-eslint/no-explicit-any */
-// import { useState, useEffect, useMemo, useRef, useCallback } from "react";
-// import { useNavigate } from "react-router-dom";
-// import Swal from "sweetalert2";
-// import { BASE_URL } from "../../config/api";
-// import ReviewModal from "../../components/ReviewModal";
-// import { useLanguage } from "../../context/LanguageContext";
-// import { useCurrency } from "../../context/CurrencyContext";
-
-// type Currency = "IDR" | "USD" | "SGD" | "MYR" | "EUR" | "AUD";
-
-// export default function OrderPage() {
-//   const navigate = useNavigate();
-//   const { t } = useLanguage();
-
-//   const { currency, exchangeRates } = useCurrency() as any;
-
-//   const [userData, setUserData] = useState<any>(null);
-//   const [transactions, setTransactions] = useState<any[]>([]);
-//   const [loading, setLoading] = useState(true);
-//   const [countdowns, setCountdowns] = useState<Record<number, string>>({});
-
-//   const [searchQuery, setSearchQuery] = useState("");
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const [itemsPerPage, setItemsPerPage] = useState(10);
-//   const [activeUnifiedTab, setActiveUnifiedTab] = useState("all");
-
-//   const timerIntervalRef = useRef<any>(null);
-
-//   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
-//   const [selectedReviewItem, setSelectedReviewItem] = useState<{
-//     productId: number;
-//     productName: string;
-//     transactionId: string;
-//   } | null>(null);
-
-//   const unifiedTabs = [
-//     { label: t("order_tab_all"), value: "all" },
-//     { label: t("order_tab_unpaid"), value: "unpaid" },
-//     { label: t("order_tab_to_ship"), value: "to_ship" },
-//     { label: t("order_tab_shipping"), value: "shipping" },
-//     { label: t("order_tab_completed"), value: "completed" },
-//     { label: t("order_tab_cancelled"), value: "cancelled" },
-//     { label: t("order_tab_issues"), value: "issues" },
-//   ];
-
-//   const convertIDRtoActiveCurrency = useCallback((idrAmount: number) => {
-//     const curr = (currency as Currency) || "IDR";
-//     if (curr === "IDR" || !exchangeRates || !exchangeRates[curr])
-//       return { value: idrAmount, curr: "IDR" };
-//     return { value: idrAmount * exchangeRates[curr], curr: curr };
-//   }, [currency, exchangeRates]);
-
-//   const formatCurrencyDisplay = useCallback((priceObj: { value: number; curr: string } | null) => {
-//     if (!priceObj) return "";
-//     const symbols: any = { USD: "$", SGD: "S$", EUR: "€", AUD: "A$", MYR: "RM", IDR: "Rp " };
-//     const formatter = new Intl.NumberFormat(
-//       priceObj.curr === "IDR" ? "id-ID" : "en-US",
-//       {
-//         minimumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
-//         maximumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
-//       },
-//     );
-//     return `${symbols[priceObj.curr] || priceObj.curr + " "}${formatter.format(priceObj.value)}`;
-//   }, []);
-
-//   const formatDateTime = (dateString: string) => {
-//     return new Date(dateString).toLocaleDateString("id-ID", {
-//       day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit",
-//     });
-//   };
-
-//   const formatStatus = (status: string) => status ? status.replace(/_/g, " ") : "";
-//   const getSubtotal = (order: any) => order.total_amount;
-//   const getGrandTotal = (order: any) => {
-//     if (!order) return 0;
-//     const total = parseFloat(order.total_amount || 0);
-//     const shipping = parseFloat(order.shipping_cost || 0);
-//     const promo = parseFloat(order.promo_discount || 0);
-//     const pointsDiscount = (order.points_used || 0) * 1000;
-//     return total + shipping - promo - pointsDiscount;
-//   };
-//   const getOrderQuantity = (order: any) => order.details.reduce((sum: number, item: any) => sum + item.quantity, 0);
-
-//   // ============================================================================
-//   // 👇 LOGIKA FORENSIK HARGA HISTORY (MEMBACA MATEMATIKA ASLI DB & TANGGAL MULAI) 👇
-//   // ============================================================================
-//   const checkIsBundledInHistory = useCallback((detail: any, order: any) => {
-//     const prod = detail.product;
-//     if (!prod) return false;
-
-//     // 1. FILTER WAKTU (Rentang Waktu Bundle)
-//     let isWithinTimeframe = true;
-//     const orderDate = new Date(order.created_at).getTime();
-
-//     // Cek Start Date
-//     if (prod.bundle_start_date && prod.bundle_start_date !== "0000-00-00 00:00:00") {
-//       const startDate = new Date(prod.bundle_start_date.replace(" ", "T")).getTime();
-//       if (orderDate < startDate) isWithinTimeframe = false;
-//     } else {
-//       // Fallback: Jika tidak ada start date, kita anggap rilis fitur pada tgl 20 Juli 2026
-//       const fallbackLaunchDate = new Date("2026-07-20T00:00:00Z").getTime();
-//       if (orderDate < fallbackLaunchDate) isWithinTimeframe = false;
-//     }
-
-//     // Cek End Date
-//     if (isWithinTimeframe && prod.bundle_end_date && prod.bundle_end_date !== "0000-00-00 00:00:00") {
-//       const endDate = new Date(prod.bundle_end_date.replace(" ", "T")).getTime();
-//       if (orderDate > endDate) isWithinTimeframe = false;
-//     }
-
-//     if (!isWithinTimeframe) return false;
-
-//     // 2. FILTER MATEMATIKA ANTI-BUG
-//     const paidPrice = Number(detail.price);
-//     const normalPrice = Number(prod.price) || 0;
-//     const discPrice = Number(prod.discount_price) || 0;
-
-//     // Jika user bayar seharga normal atau harga diskon biasa, PASTI BUKAN BUNDLE!
-//     if (Math.abs(paidPrice - normalPrice) < 1) return false;
-//     if (discPrice > 0 && Math.abs(paidPrice - discPrice) < 1) return false;
-
-//     // 3. FILTER KOMPOSISI SYARAT BUNDLE (Ada EGB + Kategori Lain)
-//     const hasDriver = order.details.some((d: any) => (d.product?.sku || "").toUpperCase().startsWith("EGB"));
-//     const hasPartner = order.details.some((d: any) => !(d.product?.sku || "").toUpperCase().startsWith("EGB"));
-//     if (!hasDriver || !hasPartner) return false;
-
-//     // 4. PENCOCOKAN PEMBAGIAN HARGA BUNDLE
-//     let isMatchedWithBundleSplit = false;
-//     order.details.forEach((d: any) => {
-//       const p = d.product;
-//       if (p && (p.sku || "").toUpperCase().startsWith("EGB")) {
-//         const currentBundlePrice = Number(p.bundle_price) || 0;
-//         if (currentBundlePrice > 0) {
-//           const splitPrice = currentBundlePrice / 2;
-//           if (Math.abs(paidPrice - splitPrice) < 1) {
-//             isMatchedWithBundleSplit = true;
-//           }
-//         }
-//       }
-//     });
-
-//     return isMatchedWithBundleSplit;
-//   }, []);
-//   // ============================================================================
-
-//   const getCourierLogo = (company: string) => {
-//     if (!company) return null;
-//     const map: Record<string, string> = {
-//       jne: "jne.png", sicepat: "sicepat.png", jnt: "jnt.png", anteraja: "anteraja.png",
-//       gojek: "gojek.png", grab: "grab.png", paxel: "paxel.png", ninja: "ninja.png",
-//     };
-//     const key = company.toLowerCase();
-//     return map[key] ? "/courier_images/" + map[key] : null;
-//   };
-
-//   const getPaymentLogo = (methodString: string) => {
-//     if (!methodString) return null;
-//     const channel = methodString.split(" ")[1]?.toLowerCase();
-//     const map: Record<string, string> = {
-//       bca: "bca.png", bni: "bni.png", bri: "bri.png", mandiri: "mandiri.png", bsi: "bsi.png",
-//       permata: "permata.png", ovo: "ovo.png", dana: "dana.png", linkaja: "linkaja.png",
-//       shopeepay: "shopeepay.png", alfamart: "alfamart.png", indomaret: "indomaret.png", qris: "qris.png",
-//     };
-//     return map[channel] ? "/payment_images/" + map[channel] : null;
-//   };
-
-//   const statusClass = (status: string) => {
-//     const map: Record<string, string> = {
-//       pending: "bg-orange-100 text-orange-700", processing: "bg-blue-100 text-blue-700",
-//       completed: "bg-emerald-100 text-emerald-700", cancelled: "bg-red-100 text-red-700",
-//       refund_requested: "bg-purple-100 text-purple-700", refund_approved: "bg-indigo-100 text-indigo-700",
-//       refund_rejected: "bg-gray-200 text-gray-600 line-through", refunded: "bg-teal-100 text-teal-700",
-//       refund_manual_required: "bg-pink-100 text-pink-700", returned: "bg-gray-800 text-white",
-//       shipping_failed: "bg-red-800 text-white",
-//     };
-//     return map[status] || "bg-gray-100 text-gray-500";
-//   };
-
-//   const shippingStatusClass = (status: string) => {
-//     if (!status) return "bg-gray-50 border-gray-200 text-gray-500";
-//     const str = status.toLowerCase();
-//     if (["delivered"].includes(str)) return "bg-emerald-50 border-emerald-200 text-emerald-700";
-//     if (["cancelled", "rejected", "disposed", "courier_not_found"].includes(str)) return "bg-red-50 border-red-200 text-red-700";
-//     if (["on_hold", "return_in_transit", "returned"].includes(str)) return "bg-amber-50 border-amber-200 text-amber-700";
-//     if (["picking_up", "picked", "dropping_off", "allocated", "confirmed"].includes(str)) return "bg-blue-50 border-blue-200 text-blue-700";
-//     return "bg-gray-50 border-gray-200 text-gray-600";
-//   };
-
-//   const canPay = (status: string) => ["pending"].includes(status);
-//   const canCancel = (status: string) => ["pending", "processing"].includes(status);
-//   const canRequestRefund = (order: any) => {
-//     if (!["completed", "shipping_failed", "returned"].includes(order.status)) return false;
-//     if (["shipping_failed", "returned"].includes(order.status)) return true;
-//     if (order.shipping_method === "free") return true;
-//     if (order.shipping_method === "biteship") {
-//       const shipStatus = order.shipping_status ? order.shipping_status.toLowerCase() : "pending";
-//       const unRefundableLogistics = ["picked", "dropping_off", "delivered", "return_in_transit"];
-//       if (unRefundableLogistics.includes(shipStatus)) return false;
-//       return true;
-//     }
-//     return false;
-//   };
-
-//   const getUnifiedTabCount = (tabValue: string) => {
-//     return transactions.filter((order) => {
-//       if (tabValue === "all") return true;
-//       const shipStatus = order.shipping_status ? order.shipping_status.toLowerCase() : "pending";
-//       if (tabValue === "unpaid") return order.status === "pending";
-//       if (tabValue === "to_ship") return order.status === "processing" && ["pending", "placed", "confirmed", "allocated", "picking_up", "picked"].includes(shipStatus);
-//       if (tabValue === "shipping") return shipStatus === "dropping_off";
-//       if (tabValue === "completed") return order.status === "completed" || shipStatus === "delivered";
-//       if (tabValue === "cancelled") return order.status === "cancelled";
-//       if (tabValue === "issues") return order.status.includes("refund") || ["returned", "shipping_failed"].includes(order.status) || ["on_hold", "return_in_transit", "rejected", "disposed", "courier_not_found"].includes(shipStatus);
-//       return false;
-//     }).length;
-//   };
-
-//   const filteredTransactions = useMemo(() => {
-//     const query = searchQuery.toLowerCase();
-//     return transactions.filter((order) => {
-//       let matchSearch = true;
-//       if (query) {
-//         matchSearch =
-//           order.order_id.toLowerCase().includes(query) ||
-//           (order.total_amount && order.total_amount.toString().includes(query)) ||
-//           (order.shipping_cost && order.shipping_cost.toString().includes(query)) ||
-//           (order.payment_method && order.payment_method.toLowerCase().includes(query)) ||
-//           (order.tracking_number && order.tracking_number.toLowerCase().includes(query)) ||
-//           (order.delivery_type && order.delivery_type.toLowerCase().includes(query)) ||
-//           (order.courier_company && order.courier_company.toLowerCase().includes(query));
-//       }
-//       let matchTab = false;
-//       const tabValue = activeUnifiedTab;
-//       const shipStatus = order.shipping_status ? order.shipping_status.toLowerCase() : "pending";
-//       if (tabValue === "all") matchTab = true;
-//       else if (tabValue === "unpaid") matchTab = order.status === "pending";
-//       else if (tabValue === "to_ship") matchTab = order.status === "processing" && ["pending", "placed", "confirmed", "allocated", "picking_up", "picked"].includes(shipStatus);
-//       else if (tabValue === "shipping") matchTab = shipStatus === "dropping_off";
-//       else if (tabValue === "completed") matchTab = order.status === "completed" || shipStatus === "delivered";
-//       else if (tabValue === "cancelled") matchTab = order.status === "cancelled";
-//       else if (tabValue === "issues") matchTab = order.status.includes("refund") || ["returned", "shipping_failed"].includes(order.status) || ["on_hold", "return_in_transit", "rejected", "disposed", "courier_not_found"].includes(shipStatus);
-//       return matchSearch && matchTab;
-//     });
-//   }, [transactions, searchQuery, activeUnifiedTab]);
-
-//   const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
-//   const paginatedTransactions = useMemo(() => {
-//     const start = (currentPage - 1) * itemsPerPage;
-//     return filteredTransactions.slice(start, start + itemsPerPage);
-//   }, [filteredTransactions, currentPage, itemsPerPage]);
-
-//   const showingStart = filteredTransactions.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
-//   const showingEnd = Math.min(currentPage * itemsPerPage, filteredTransactions.length);
-
-//   const visiblePages = useMemo(() => {
-//     const isMobile = window.innerWidth < 768;
-//     const maxVisible = isMobile ? 3 : 7;
-//     if (totalPages <= maxVisible) return Array.from({ length: totalPages }, (_, i) => i + 1);
-//     if (isMobile) {
-//       if (currentPage <= 2) return [1, 2, "...", totalPages];
-//       if (currentPage >= totalPages - 1) return [1, "...", totalPages - 1, totalPages];
-//       return [1, "...", currentPage, "...", totalPages];
-//     } else {
-//       if (currentPage <= 4) return [1, 2, 3, 4, 5, "...", totalPages];
-//       if (currentPage >= totalPages - 3) return [1, "...", totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
-//       return [1, "...", currentPage - 1, currentPage, currentPage + 1, "...", totalPages];
-//     }
-//   }, [currentPage, totalPages]);
-
-//   useEffect(() => { setCurrentPage(1); }, [searchQuery, itemsPerPage, activeUnifiedTab]);
-
-//   const resetFilters = () => {
-//     setActiveUnifiedTab("all");
-//     setSearchQuery("");
-//   };
-
-//   const calculateTimeLeft = (referenceDate: string) => {
-//     if (!referenceDate) return "Expired";
-//     const expiryTime = new Date(referenceDate).getTime() + 86400000;
-//     const now = new Date().getTime();
-//     const diff = expiryTime - now;
-//     if (diff <= 0) return "Expired";
-//     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-//     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-//     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-//     return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-//   };
-
-//   const autoCancelSilent = async (id: number) => {
-//     try {
-//       const token = localStorage.getItem("user_token");
-//       await fetch(`${BASE_URL}/api/transactions/${id}/cancel`, {
-//         method: "POST", headers: { Authorization: `Bearer ${token}` },
-//       });
-//       fetchOrders();
-//     } catch (e) {}
-//   };
-
-//   const startTimers = (currentOrders: any[]) => {
-//     if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
-//     const hasPendingOrders = currentOrders.some(order => canPay(order.status));
-//     if (!hasPendingOrders) return; 
-
-//     timerIntervalRef.current = setInterval(() => {
-//       setCountdowns((prev) => {
-//         const newCountdowns = { ...prev };
-//         let activeTimers = 0;
-        
-//         currentOrders.forEach((order) => {
-//           if (canPay(order.status)) {
-//             const timeReference = order.status === "pending" && order.payment?.created_at ? order.payment.created_at : order.created_at;
-//             const timeLeft = calculateTimeLeft(timeReference);
-//             newCountdowns[order.id] = timeLeft;
-//             if (timeLeft !== "Expired") {
-//               activeTimers++;
-//             } else if (!order.isCancelling) {
-//               order.isCancelling = true;
-//               autoCancelSilent(order.id);
-//             }
-//           }
-//         });
-
-//         if (activeTimers === 0 && timerIntervalRef.current) {
-//            clearInterval(timerIntervalRef.current);
-//         }
-//         return newCountdowns;
-//       });
-//     }, 1000);
-//   };
-
-//   const fetchOrders = async () => {
-//     setLoading(true);
-//     try {
-//       const token = localStorage.getItem("user_token");
-//       const res = await fetch(`${BASE_URL}/api/transactions`, {
-//         headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
-//       });
-//       if (!res.ok) throw new Error("Gagal mengambil data");
-//       const data = await res.json();
-//       const validTransactions = data.filter((order: any) => order.status !== "awaiting_payment");
-//       const mappedOrders = validTransactions.map((o: any) => ({ ...o, isCancelling: false }));
-//       setTransactions(mappedOrders);
-//       startTimers(mappedOrders);
-//     } catch (err) {
-//     } finally {
-//       setTimeout(() => setLoading(false), 300);
-//     }
-//   };
-
-//   useEffect(() => {
-//     const userStr = localStorage.getItem("user_data");
-//     if (userStr) setUserData(JSON.parse(userStr));
-//     fetchOrders();
-//     return () => { if (timerIntervalRef.current) clearInterval(timerIntervalRef.current); };
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, []);
-
-//   const redirectToPayment = (order: any) => {
-//     if (order.status === "pending" && order.payment?.checkout_url) {
-//       window.location.href = order.payment.checkout_url;
-//     } else {
-//       Swal.fire("Error", "URL Pembayaran tidak ditemukan.", "error");
-//     }
-//   };
-
-//   const handleOrderClick = (order: any) => {
-//     if (canPay(order.status) && countdowns[order.id] !== "Expired") {
-//       redirectToPayment(order);
-//     }
-//   };
-
-//   const cancelOrder = async (id: number) => {
-//     const result = await Swal.fire({
-//       title: "Batalkan Pesanan?", text: "Tindakan ini tidak dapat dikembalikan!", icon: "warning",
-//       showCancelButton: true, confirmButtonColor: "#000", cancelButtonColor: "#d33", confirmButtonText: "Ya, batalkan!", cancelButtonText: "Kembali",
-//     });
-//     if (result.isConfirmed) {
-//       try {
-//         const token = localStorage.getItem("user_token");
-//         const res = await fetch(`${BASE_URL}/api/transactions/${id}/cancel`, {
-//           method: "POST", headers: { Authorization: `Bearer ${token}` },
-//         });
-//         if (res.ok) {
-//           Swal.fire("Dibatalkan!", "Pesanan Anda telah dibatalkan.", "success");
-//           fetchOrders();
-//         } else {
-//           const errorData = await res.json(); throw new Error(errorData.message);
-//         }
-//       } catch (err: any) {
-//         Swal.fire("Error", `Gagal membatalkan: ${err.message || "Terjadi kesalahan"}`, "error");
-//       }
-//     }
-//   };
-
-//   const requestRefund = async (id: number) => {
-//     const { value: formValues, isConfirmed } = await Swal.fire({
-//       title: "Ajukan Pengembalian (Refund)",
-//       html: `
-//         <div class="text-left space-y-4 font-sans">
-//           <div>
-//             <label class="block text-xs font-bold text-gray-700 uppercase tracking-widest mb-1">Alasan Pengembalian</label>
-//             <textarea id="swal-refund-reason" rows="3" class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 text-sm outline-none focus:ring-2 focus:ring-black resize-none" placeholder="Jelaskan alasan pengembalian dana..."></textarea>
-//           </div>
-//           <div>
-//             <label class="block text-xs font-bold text-gray-700 uppercase tracking-widest mb-1">Upload Bukti (Foto/Video)</label>
-//             <input type="file" id="swal-refund-file" accept="image/*,video/mp4,video/quicktime" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-gray-100 file:text-black hover:file:bg-gray-200 cursor-pointer" />
-//             <p class="text-[10px] text-gray-400 mt-1">Maksimal 10MB. Format: JPG, PNG, MP4.</p>
-//           </div>
-//         </div>
-//       `,
-//       showCancelButton: true, confirmButtonColor: "#000", confirmButtonText: "Kirim Pengajuan",
-//       preConfirm: () => {
-//         const reason = (document.getElementById("swal-refund-reason") as HTMLTextAreaElement).value;
-//         const fileInput = document.getElementById("swal-refund-file") as HTMLInputElement;
-//         const file = fileInput.files?.[0];
-//         if (!reason) { Swal.showValidationMessage("Harap isi alasan pengembalian."); return false; }
-//         if (!file) { Swal.showValidationMessage("Harap unggah file bukti."); return false; }
-//         if (file.size > 10 * 1024 * 1024) { Swal.showValidationMessage("Ukuran file tidak boleh lebih dari 10MB."); return false; }
-//         return { reason, file };
-//       },
-//     });
-
-//     if (isConfirmed && formValues) {
-//       Swal.fire({ title: "Mengunggah...", text: "Mohon tunggu, permintaan Anda sedang diproses.", allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
-//       try {
-//         const token = localStorage.getItem("user_token");
-//         const formData = new FormData();
-//         formData.append("reason", formValues.reason);
-//         formData.append("proof_file", formValues.file);
-//         const res = await fetch(`${BASE_URL}/api/transactions/${id}/refund-request`, {
-//           method: "POST", headers: { Authorization: `Bearer ${token}` }, body: formData,
-//         });
-//         if (res.ok) {
-//           fetchOrders();
-//           Swal.fire("Berhasil", "Pengajuan pengembalian telah dikirim ke admin.", "success");
-//         } else {
-//           const errData = await res.json(); throw new Error(errData.message);
-//         }
-//       } catch (err: any) {
-//         Swal.fire("Error", err.message || "Gagal mengajukan pengembalian", "error");
-//       }
-//     }
-//   };
-
-//   const processRefundUser = async (id: number) => {
-//     try {
-//       const token = localStorage.getItem("user_token");
-//       const res = await fetch(`${BASE_URL}/api/transactions/${id}/refund-process`, {
-//         method: "POST", headers: { Authorization: `Bearer ${token}` },
-//       });
-//       if (res.ok) {
-//         const data = await res.json();
-//         fetchOrders();
-//         Swal.fire("Refunded", data.message, "success");
-//       } else { throw new Error("Gagal memproses refund"); }
-//     } catch (err: any) { Swal.fire("Error", err.message || "Refund process failed", "error"); }
-//   };
-
-//   return (
-//     <div className="min-h-screen w-full px-4 py-6 mx-auto font-sans md:px-6 md:py-20 max-w-7xl animate-fade-in bg-[#FAFAFA] overflow-x-hidden">
-//       <div className="flex items-center justify-between w-full mb-6 md:mb-10">
-//         <h1 className="text-3xl font-extrabold tracking-tighter text-gray-900 uppercase md:text-4xl">{t("order_track_title")}</h1>
-//       </div>
-
-//       <div className="w-full mb-6 overflow-hidden border-b border-gray-200 md:mb-8">
-//         <div className="flex gap-4 pb-2 overflow-x-auto md:gap-6 scroll-smooth" style={{ WebkitOverflowScrolling: "touch", scrollbarWidth: "none" }}>
-//           {unifiedTabs.map((tab) => (
-//             <button
-//               key={tab.value}
-//               onClick={() => setActiveUnifiedTab(tab.value)}
-//               className={`pb-3 md:pb-4 font-bold text-[10px] md:text-xs uppercase tracking-widest transition-colors whitespace-nowrap border-b-2 flex items-center gap-1.5 md:gap-2 shrink-0 ${
-//                 activeUnifiedTab === tab.value ? "border-black text-black" : "border-transparent text-gray-400 hover:text-gray-700"
-//               }`}
-//             >
-//               {tab.label}
-//               {getUnifiedTabCount(tab.value) > 0 && (
-//                 <span className={`px-1.5 py-0.5 rounded-full text-[8px] md:text-[9px] font-black ${activeUnifiedTab === tab.value ? "bg-black text-white" : "bg-gray-200 text-gray-600"}`}>
-//                   {getUnifiedTabCount(tab.value)}
-//                 </span>
-//               )}
-//             </button>
-//           ))}
-//         </div>
-//       </div>
-
-//       <div className="flex flex-col w-full gap-3 mb-6 md:flex-row md:flex-nowrap md:mb-8 md:items-center md:justify-between">
-//         <div className="relative w-full md:w-80">
-//           <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
-//             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-//             </svg>
-//           </span>
-//           <input
-//             value={searchQuery}
-//             onChange={(e) => setSearchQuery(e.target.value)}
-//             type="text"
-//             placeholder={t("order_search_placeholder")}
-//             className="w-full py-2.5 md:py-2 pl-9 md:pl-10 pr-4 text-xs md:text-sm transition border border-gray-200 outline-none bg-white rounded-xl focus:ring-2 focus:ring-black"
-//           />
-//         </div>
-//         <div className="flex items-center gap-2 shrink-0">
-//           <span className="text-[10px] md:text-xs font-bold tracking-wide text-gray-400 uppercase whitespace-nowrap">{t("order_show_label")}</span>
-//           <select
-//             value={itemsPerPage}
-//             onChange={(e) => setItemsPerPage(Number(e.target.value))}
-//             className="px-2 py-1.5 md:px-3 md:py-2 text-xs md:text-sm font-bold border border-gray-200 outline-none cursor-pointer bg-white rounded-lg md:rounded-xl focus:ring-2 focus:ring-black"
-//           >
-//             <option value={5}>5</option><option value={10}>10</option><option value={20}>20</option><option value={50}>50</option>
-//           </select>
-//         </div>
-//       </div>
-
-//       {loading ? (
-//         <div className="w-full space-y-6 md:space-y-8 animate-pulse">
-//           {[1, 2, 3].map((i) => (
-//             <div key={i} className="w-full overflow-hidden bg-white border border-gray-100 rounded-2xl">
-//               <div className="flex flex-col justify-between gap-4 px-6 py-4 border-b border-gray-100 md:flex-row bg-gray-50">
-//                 <div className="flex flex-col gap-4 md:flex-row md:gap-8">
-//                   <div><div className="w-16 h-3 mb-2 bg-gray-200 rounded animate-pulse"></div><div className="w-32 h-4 bg-gray-300 rounded animate-pulse"></div></div>
-//                   <div><div className="w-12 h-3 mb-2 bg-gray-200 rounded animate-pulse"></div><div className="w-24 h-4 bg-gray-300 rounded animate-pulse"></div></div>
-//                 </div>
-//                 <div className="flex flex-col items-end gap-2"><div className="w-24 h-6 bg-gray-300 rounded-full animate-pulse"></div><div className="h-6 bg-gray-200 rounded-full w-28 animate-pulse"></div></div>
-//               </div>
-//               <div className="px-6 py-6"><div className="flex items-center gap-4"><div className="w-16 h-16 bg-gray-200 rounded-lg animate-pulse shrink-0"></div><div className="flex-grow min-w-0 space-y-2"><div className="w-48 h-4 bg-gray-300 rounded animate-pulse"></div><div className="w-20 h-3 bg-gray-200 rounded animate-pulse"></div></div><div className="w-24 h-5 bg-gray-300 rounded animate-pulse"></div></div></div>
-//             </div>
-//           ))}
-//         </div>
-//       ) : filteredTransactions.length === 0 ? (
-//         <div className="w-full p-8 text-center bg-white border border-gray-100 md:p-12 rounded-2xl animate-fade-in">
-//           <p className="text-sm italic text-gray-400 md:text-base">{t("order_no_match")}</p>
-//           <button onClick={resetFilters} className="inline-block mt-4 md:mt-6 text-[10px] md:text-xs font-bold tracking-widest text-black underline uppercase">{t("order_clear_filter")}</button>
-//         </div>
-//       ) : (
-//         <div className="w-full space-y-6 md:space-y-8 animate-fade-in">
-//           {paginatedTransactions.map((order) => {
-//             const orderTotalQty = getOrderQuantity(order);
-//             const isWholesaleOrder = userData?.usertype === 'reseller' && orderTotalQty >= 24;
-
-//             return (
-//             <div key={order.id} className="relative w-full min-w-0 overflow-hidden transition-shadow duration-300 bg-white border border-gray-100 shadow-sm rounded-2xl hover:shadow-md">
-
-//               {/* VERSI MOBILE (< 768px) */}
-//               <div className="block w-full md:hidden">
-//                 <div className="flex items-start justify-between gap-2 p-4 bg-white border-b border-gray-100">
-//                   <div className="flex-1 min-w-0 overflow-hidden">
-//                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Order ID</p>
-//                     <p className="w-full mb-2 font-mono text-xs font-bold text-gray-900 truncate">{order.order_id}</p>
-//                     <span className={`px-2.5 py-1 rounded-full font-bold text-[9px] uppercase tracking-tighter w-max inline-block ${statusClass(order.status)}`}>{formatStatus(order.status)}</span>
-//                   </div>
-//                   <div className="text-right shrink-0 max-w-[40%]">
-//                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{t("order_date_label")}</p>
-//                     <p className="text-[10px] font-bold text-gray-900 leading-snug">{formatDateTime(order.created_at)}</p>
-//                   </div>
-//                 </div>
-
-//                 <div
-//                   onClick={() => handleOrderClick(order)}
-//                   className={`px-4 py-2 bg-white border-b border-gray-100 ${canPay(order.status) && countdowns[order.id] !== "Expired" ? "cursor-pointer" : ""}`}
-//                 >
-//                   {canPay(order.status) && countdowns[order.id] !== "Expired" && (
-//                     <div className="my-2 text-blue-600 text-[10px] text-center uppercase tracking-widest animate-pulse font-bold bg-blue-50 py-1.5 rounded-md">
-//                       {t("order_tap_to_pay")}
-//                     </div>
-//                   )}
-//                   {order.details.map((detail: any) => {
-//                     // 👇 IDENTIFIKASI BADGE MOBILE (FORENSIK DB) 👇
-//                     const isHistoricallyBundled = checkIsBundledInHistory(detail, order);
-//                     const isWholesaleItem = isWholesaleOrder && Number(detail.product.wholesale_price) > 0 && Math.abs(Number(detail.price) - Number(detail.product.wholesale_price)) < 1;
-//                     const isDiscountedItem = !isHistoricallyBundled && !isWholesaleItem && Number(detail.price) < Number(detail.product.price);
-
-//                     return (
-//                     <div key={detail.id} className="flex items-start w-full gap-3 py-3 border-b border-gray-50 last:border-0">
-//                       <img src={detail.product.image_url || detail.product.image} className="object-cover mt-1 border border-gray-200 rounded-lg w-14 h-14 bg-gray-50 shrink-0" />
-//                       <div className="flex flex-col justify-center flex-grow min-w-0">
-//                         <h4 className="text-[11px] font-bold text-gray-900 uppercase leading-tight truncate">{detail.product.name}</h4>
-                        
-//                         <div className="flex flex-wrap gap-1 mt-1 mb-0.5">
-//                           {isHistoricallyBundled ? (
-//                             <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-purple-600 rounded w-max inline-block" title="Harga Promo Paket">BUNDLE</span>
-//                           ) : isWholesaleItem ? (
-//                             <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-blue-600 rounded w-max inline-block">WHOLESALE</span>
-//                           ) : isDiscountedItem ? (
-//                             <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-rose-500 rounded w-max inline-block">SALE</span>
-//                           ) : null}
-//                         </div>
-
-//                         <p className="text-[10px] text-gray-500 mt-1">
-//                           {detail.quantity} x {formatCurrencyDisplay(convertIDRtoActiveCurrency(detail.price))}
-//                           {(isHistoricallyBundled || isDiscountedItem) && (
-//                             <span className="text-[8px] line-through text-gray-400 ml-1">{formatCurrencyDisplay(convertIDRtoActiveCurrency(detail.product.price))}</span>
-//                           )}
-//                         </p>
-//                         {order.status === "completed" && (
-//                           <button
-//                             onClick={(e) => {
-//                               e.stopPropagation();
-//                               setSelectedReviewItem({ productId: detail.product.id, productName: detail.product.name, transactionId: order.order_id });
-//                               setIsReviewModalOpen(true);
-//                             }}
-//                             className="px-2.5 py-1 mt-2 text-[9px] font-bold tracking-widest text-black uppercase transition-colors bg-white border border-black rounded w-max"
-//                           >
-//                             {t("order_btn_review")}
-//                           </button>
-//                         )}
-//                       </div>
-//                     </div>
-//                   )})}
-//                 </div>
-
-//                 <div className="w-full p-4 bg-white border-b border-gray-100">
-//                   <div className="flex gap-3 mb-4">
-//                     <div className="flex-1 min-w-0 overflow-hidden">
-//                       <p className="font-bold text-[10px] text-gray-400 uppercase tracking-widest mb-1">{t("order_payment_info")}</p>
-//                       <p className="text-xs italic text-gray-500 truncate">
-//                         {order.payment_method ? order.payment_method.replace("_", " ").toUpperCase() : "Pending"}
-//                       </p>
-//                     </div>
-//                     <div className="flex-1 min-w-0 overflow-hidden">
-//                       <p className="font-bold text-[10px] text-gray-400 uppercase tracking-widest mb-1">{t("order_shipping_info")}</p>
-//                       <p className="text-xs italic text-gray-500 truncate">
-//                         {order.shipping_method === "free" ? "Ambil Sendiri" : order.courier_company ? order.courier_company.toUpperCase() : "Checkout"}
-//                       </p>
-//                     </div>
-//                   </div>
-
-//                   {userData?.is_membership && order.point > 0 && order.status === "completed" && (
-//                     <div className="flex items-center justify-between p-3 mb-4 border border-yellow-100 rounded-lg bg-gradient-to-r from-yellow-50 to-white">
-//                       <div className="flex items-center min-w-0 gap-2">
-//                         <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-yellow-500 shrink-0" viewBox="0 0 20 20" fill="currentColor">
-//                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-//                         </svg>
-//                         <p className="text-[9px] font-bold text-yellow-800 uppercase tracking-widest">{t("order_points_earned")}</p>
-//                       </div>
-//                       <span className="text-sm font-black text-yellow-600 shrink-0">+{order.point} Pts</span>
-//                     </div>
-//                   )}
-
-//                   <div className="pt-3 mt-1 border-t border-gray-100 border-dashed">
-//                     <div className="flex items-center justify-between gap-2">
-//                       <span className="uppercase tracking-widest text-[10px] font-bold text-gray-500 shrink-0">{t("order_final_amount")}</span>
-//                       <span className="text-sm font-black text-gray-900">{formatCurrencyDisplay(convertIDRtoActiveCurrency(getGrandTotal(order)))}</span>
-//                     </div>
-//                   </div>
-//                 </div>
-
-//                 <div className="grid w-full grid-cols-2 gap-2 p-4 overflow-hidden bg-gray-50">
-//                   {canPay(order.status) && order.payment && (
-//                     <div className="col-span-2 flex items-center justify-center gap-1.5 mb-1">
-//                       <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 text-red-500 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-//                       <span className="font-mono text-xs font-bold text-red-500">{countdowns[order.id]}</span>
-//                     </div>
-//                   )}
-//                   {canCancel(order.status) && (
-//                     <button onClick={() => cancelOrder(order.id)} className="col-span-2 w-full py-2.5 border border-red-200 rounded-xl font-bold text-red-600 text-[10px] uppercase tracking-widest transition hover:bg-red-50">{t("order_btn_cancel")}</button>
-//                   )}
-//                   {canPay(order.status) && (
-//                     <button onClick={() => redirectToPayment(order)} disabled={countdowns[order.id] === "Expired"} className={`col-span-2 w-full py-2.5 bg-black rounded-xl font-bold text-white text-[10px] uppercase tracking-widest transition hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed ${!canCancel(order.status) ? "col-span-2" : ""}`}>{t("order_btn_pay")}</button>
-//                   )}
-//                   {["processing", "completed", "cancelled", "refund_requested", "refund_approved", "refunded", "refund_rejected", "refund_manual_required", "shipping_failed", "returned"].includes(order.status) &&
-//                     order.shipping_method === "biteship" && (
-//                       <button onClick={() => navigate(`/tracking/${order.id}`, { state: { paymentMethod: order.payment_method } })} className="col-span-2 w-full py-2.5 bg-black rounded-xl font-bold text-white text-[10px] uppercase tracking-widest transition hover:bg-gray-800">{t("order_btn_track")}</button>
-//                     )}
-//                   {canRequestRefund(order) && (
-//                     <button onClick={() => requestRefund(order.id)} className="col-span-2 w-full py-2.5 border border-gray-300 rounded-xl font-bold text-gray-600 text-[10px] uppercase tracking-widest transition hover:bg-gray-100">{t("order_btn_refund")}</button>
-//                   )}
-                  
-//                   {order.status === "refund_requested" && <div className="col-span-2 w-full py-2.5 bg-amber-100 rounded-xl text-amber-700 text-[10px] font-bold text-center">{t("order_status_waiting_admin")}</div>}
-//                   {order.status === "refund_manual_required" && <div className="col-span-2 w-full py-2.5 bg-pink-100 rounded-xl text-pink-700 text-[10px] font-bold text-center">{t("order_status_manual_refund")}</div>}
-//                   {order.status === "refund_approved" && <button onClick={() => processRefundUser(order.id)} className="col-span-2 w-full py-2.5 bg-blue-600 rounded-xl font-bold text-white text-[10px] uppercase tracking-widest transition hover:bg-blue-700">{t("order_status_refund_now")}</button>}
-//                   {order.status === "refund_rejected" && <div className="col-span-2 text-[10px] font-bold italic text-red-500 text-center py-1">{t("order_status_refund_rejected")}</div>}
-//                 </div>
-//               </div>
-
-//               {/* VERSI DESKTOP (>= 768px) */}
-//               <div className="hidden md:block">
-//                 <div className="flex flex-col items-start justify-between gap-4 px-6 py-4 border-b border-gray-100 md:flex-row md:items-center bg-gray-50">
-//                   <div className="flex flex-col min-w-0 gap-4 md:flex-row md:items-center md:gap-8">
-//                     <div className="min-w-0">
-//                       <p className="font-bold text-[10px] text-gray-400 uppercase tracking-[0.2em] mb-1">Order ID</p>
-//                       <p className="font-mono font-bold text-gray-800 text-sm truncate max-w-[200px]">{order.order_id}</p>
-//                     </div>
-//                     <div>
-//                       <p className="font-bold text-[10px] text-gray-400 uppercase tracking-[0.2em] mb-1">{t("order_date_label")}</p>
-//                       <p className="text-xs font-bold text-gray-800 whitespace-nowrap">{formatDateTime(order.created_at)}</p>
-//                     </div>
-//                   </div>
-//                   <div className="flex flex-col items-end w-full gap-2 md:w-auto shrink-0">
-//                     <div className="flex items-center justify-between w-full gap-3 md:justify-end md:w-auto">
-//                       <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{t("order_transaction_label")}</span>
-//                       <span className={`px-3 py-1 rounded-full font-bold text-[10px] uppercase tracking-tighter ${statusClass(order.status)}`}>{formatStatus(order.status)}</span>
-//                     </div>
-//                     {order.shipping_method === "biteship" ? (
-//                       <div className="flex items-center justify-between w-full gap-3 mt-2 md:justify-end md:w-auto">
-//                         <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{t("order_shipping_label")}</span>
-//                         <span className={`px-3 py-1 rounded-full font-bold text-[10px] uppercase tracking-tighter border ${shippingStatusClass(order.shipping_status)}`}>{formatStatus(order.shipping_status || "Pending")}</span>
-//                       </div>
-//                     ) : order.shipping_method === "free" ? (
-//                       <div className="flex items-center justify-between w-full gap-3 mt-2 md:justify-end md:w-auto">
-//                         <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{t("order_shipping_label")}</span>
-//                         <span className="px-3 py-1 rounded-full font-bold text-[10px] uppercase tracking-tighter border bg-gray-100 text-gray-600">{t("in_store_pickup")}</span>
-//                       </div>
-//                     ) : null}
-//                   </div>
-//                 </div>
-
-//                 <div className="relative flex flex-col gap-6 px-6 py-4 bg-white border-b border-gray-100 md:flex-row md:gap-12">
-//                   {userData?.is_membership && order.point > 0 && order.status === "completed" && (
-//                     <div className="static md:absolute md:top-4 md:right-6 bg-gradient-to-r from-yellow-100 to-yellow-50 border border-yellow-200 px-3 py-1.5 rounded-lg flex items-center gap-2 shadow-sm w-max mb-4 md:mb-0 z-10">
-//                       <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-yellow-500 shrink-0" viewBox="0 0 20 20" fill="currentColor">
-//                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-//                       </svg>
-//                       <div>
-//                         <p className="text-[8px] font-bold text-yellow-800 uppercase tracking-widest leading-none">{t("order_points_earned")}</p>
-//                         <p className="text-sm font-black leading-tight text-yellow-600">+{order.point} Pts</p>
-//                       </div>
-//                     </div>
-//                   )}
-
-//                   <div className="flex-1 min-w-0">
-//                     <p className="font-bold text-[10px] text-gray-400 uppercase tracking-[0.2em] mb-3">{t("order_payment_info")}</p>
-//                     {order.payment_method ? (
-//                       <div className="flex items-center gap-3">
-//                         <div className="flex items-center justify-center w-12 h-8 overflow-hidden border border-gray-100 rounded bg-gray-50 shrink-0">
-//                           {getPaymentLogo(order.payment_method) ? (
-//                             <img src={getPaymentLogo(order.payment_method)!} className="object-contain w-full h-full p-1" />
-//                           ) : (
-//                             <span className="font-black text-gray-300 text-[8px] truncate px-1">{order.payment_method.split(" ")[1] || "PAY"}</span>
-//                           )}
-//                         </div>
-//                         <div className="min-w-0">
-//                           <p className="text-xs font-bold text-gray-800 uppercase truncate">{order.payment_method.replace("_", " ")}</p>
-//                           {order.status === "refunded" ? (
-//                             <p className="text-[10px] text-teal-600 font-bold mt-0.5">REFUNDED</p>
-//                           ) : order.status === "cancelled" ? (
-//                             <p className="text-[10px] text-red-600 font-bold mt-0.5">EXPIRED / CANCELLED</p>
-//                           ) : canPay(order.status) ? (
-//                             <p className="text-[10px] text-orange-500 font-bold mt-0.5">UNPAID</p>
-//                           ) : (
-//                             <p className="text-[10px] text-green-600 font-bold mt-0.5">PAID</p>
-//                           )}
-//                         </div>
-//                       </div>
-//                     ) : (
-//                       <p className="text-xs italic text-gray-400">Waiting for payment selection...</p>
-//                     )}
-//                   </div>
-                  
-//                   <div className="flex-1 min-w-0">
-//                     <p className="font-bold text-[10px] text-gray-400 uppercase tracking-[0.2em] mb-3">{t("order_shipping_info")}</p>
-//                     {order.shipping_method === "free" ? (
-//                       <div className="flex items-center gap-3">
-//                         <div className="flex items-center justify-center w-12 h-12 text-gray-400 bg-gray-100 border border-gray-200 rounded-lg shrink-0">
-//                           <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-//                           </svg>
-//                         </div>
-//                         <div className="min-w-0">
-//                           <p className="text-xs font-bold text-gray-800 uppercase truncate">No Courier</p>
-//                           <p className="text-[10px] text-gray-500 font-medium mt-0.5 truncate">In-store Payment / Pickup</p>
-//                         </div>
-//                       </div>
-//                     ) : order.shipping_method === "biteship" && order.courier_company ? (
-//                       <div className="flex items-center gap-3">
-//                         <div className="flex items-center justify-center w-12 h-12 overflow-hidden bg-white border border-gray-100 rounded-lg shrink-0">
-//                           {getCourierLogo(order.courier_company) ? (
-//                             <img src={getCourierLogo(order.courier_company)!} className="object-contain w-full h-full p-1" />
-//                           ) : (
-//                             <span className="px-1 text-xs font-black text-gray-300 truncate">{order.courier_company.toUpperCase()}</span>
-//                           )}
-//                         </div>
-//                         <div className="min-w-0">
-//                           <p className="text-xs font-bold text-gray-800 uppercase truncate">{order.courier_company} - {order.courier_type}</p>
-//                           <p className="text-[10px] text-gray-500 mt-0.5 truncate">Resi: <span className="font-mono font-bold text-black">{order.tracking_number || "Waiting..."}</span></p>
-//                         </div>
-//                       </div>
-//                     ) : (
-//                       <div className="text-xs italic text-gray-400">Setup shipping at checkout</div>
-//                     )}
-//                   </div>
-
-//                 </div>
-
-//                 <div
-//                   onClick={() => handleOrderClick(order)}
-//                   className={`px-6 py-2 ${canPay(order.status) && countdowns[order.id] !== "Expired" ? "cursor-pointer hover:bg-blue-50/30 transition-colors" : ""}`}
-//                 >
-//                   {order.details.map((detail: any) => {
-//                     // 👇 IDENTIFIKASI BADGE DESKTOP (FORENSIK DB) 👇
-//                     const isHistoricallyBundled = checkIsBundledInHistory(detail, order);
-//                     const isWholesaleItem = isWholesaleOrder && Number(detail.product.wholesale_price) > 0 && Math.abs(Number(detail.price) - Number(detail.product.wholesale_price)) < 1;
-//                     const isDiscountedItem = !isHistoricallyBundled && !isWholesaleItem && Number(detail.price) < Number(detail.product.price);
-
-//                     return (
-//                     <div key={detail.id} className="flex items-start gap-4 py-4 border-b border-gray-50 last:border-0">
-//                       <img src={detail.product.image_url || detail.product.image} className="object-cover w-16 h-16 bg-gray-100 border border-gray-100 rounded-lg shadow-sm shrink-0" />
-//                       <div className="flex-grow min-w-0">
-//                         <h4 className="text-sm font-bold text-gray-900 uppercase truncate">{detail.product.name}</h4>
-                        
-//                         <div className="flex flex-wrap gap-1 mt-1">
-//                           {isHistoricallyBundled ? (
-//                             <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-purple-600 rounded w-max inline-block" title="Harga Promo Paket">
-//                               BUNDLE
-//                             </span>
-//                           ) : isWholesaleItem ? (
-//                             <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-blue-600 rounded w-max inline-block">
-//                               GROSIR
-//                             </span>
-//                           ) : isDiscountedItem ? (
-//                             <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-rose-500 rounded w-max inline-block">
-//                               SALE
-//                             </span>
-//                           ) : null}
-//                         </div>
-
-//                         <div className="flex items-center justify-between gap-2 mt-1">
-//                           <p className="text-xs text-gray-400 shrink-0">
-//                             {detail.quantity} x {formatCurrencyDisplay(convertIDRtoActiveCurrency(detail.price))}
-//                             {(isHistoricallyBundled || isDiscountedItem) && (
-//                               <span className="text-[8px] line-through text-gray-400 ml-1">
-//                                 {formatCurrencyDisplay(convertIDRtoActiveCurrency(detail.product.price))}
-//                               </span>
-//                             )}
-//                           </p>
-//                           {order.status === "completed" && (
-//                             <button
-//                               onClick={(e) => {
-//                                 e.stopPropagation();
-//                                 setSelectedReviewItem({ productId: detail.product.id, productName: detail.product.name, transactionId: order.order_id });
-//                                 setIsReviewModalOpen(true);
-//                               }}
-//                               className="px-2 py-1 mt-1 text-[10px] font-bold tracking-widest text-black uppercase transition-colors bg-white border border-black hover:bg-gray-50 rounded w-max shrink-0"
-//                             >
-//                               {t("order_btn_review")}
-//                             </button>
-//                           )}
-//                         </div>
-//                       </div>
-//                       <p className="text-sm font-bold text-gray-900 shrink-0 whitespace-nowrap">
-//                         {formatCurrencyDisplay(convertIDRtoActiveCurrency(detail.quantity * detail.price))}
-//                       </p>
-//                     </div>
-//                   )})}
-//                 </div>
-
-//                 <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50">
-//                   <div className="flex flex-col pb-4 mb-4 space-y-1 border-b border-gray-200">
-//                     <div className="flex justify-between text-xs text-gray-500">
-//                       <span>{t("order_subtotal_products")}</span>
-//                       <span>{formatCurrencyDisplay(convertIDRtoActiveCurrency(getSubtotal(order)))}</span>
-//                     </div>
-//                     <div className="flex justify-between text-xs text-gray-500">
-//                       <span className="pr-2 truncate">{t("order_shipping_subtotal")} ({order.shipping_cost > 0 ? `${formatCurrencyDisplay(convertIDRtoActiveCurrency(order.shipping_cost / getOrderQuantity(order)))} x ${getOrderQuantity(order)}` : "Free"})</span>
-//                       <span className="shrink-0">{formatCurrencyDisplay(convertIDRtoActiveCurrency(order.shipping_cost))}</span>
-//                     </div>
-//                     {order.promo_discount > 0 && (
-//                       <div className="flex justify-between text-xs font-medium text-emerald-600">
-//                         <span className="pr-2 truncate">Promo (<span className="font-mono uppercase">{order.promo_code}</span>)</span>
-//                         <span className="shrink-0">- {formatCurrencyDisplay(convertIDRtoActiveCurrency(order.promo_discount))}</span>
-//                       </div>
-//                     )}
-//                     {order.points_used > 0 && (
-//                       <div className="flex justify-between text-xs font-medium text-yellow-600">
-//                         <span className="pr-2 truncate">Points Used ({order.points_used} Pts)</span>
-//                         <span className="shrink-0">- {formatCurrencyDisplay(convertIDRtoActiveCurrency(order.points_used * 1000))}</span>
-//                       </div>
-//                     )}
-//                     <div className="flex items-center justify-between pt-2 mt-2 text-sm font-bold text-gray-900 border-t border-gray-200 border-dashed">
-//                       <span className="uppercase tracking-widest text-[10px] mt-1">{t("order_final_amount")}</span>
-//                       <span className="text-lg text-gray-900">{formatCurrencyDisplay(convertIDRtoActiveCurrency(getGrandTotal(order)))}</span>
-//                     </div>
-//                   </div>
-
-//                   <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-//                     <div className="w-full text-left md:w-auto">
-//                       {canPay(order.status) && order.payment && (
-//                         <div className="flex items-center justify-center gap-2 md:justify-start">
-//                           <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-red-500 animate-pulse shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-//                           </svg>
-//                           <span className="font-mono text-sm font-bold text-red-500">{countdowns[order.id]}</span>
-//                         </div>
-//                       )}
-//                     </div>
-//                     <div className="flex flex-wrap justify-center w-full gap-3 md:justify-end md:w-auto">
-//                       {canCancel(order.status) && (
-//                         <button onClick={() => cancelOrder(order.id)} className="w-full px-6 py-2 text-xs font-bold tracking-widest text-red-600 uppercase transition border border-red-200 hover:bg-red-50 rounded-xl md:w-auto">{t("order_btn_cancel")}</button>
-//                       )}
-//                       {canPay(order.status) && (
-//                         <button onClick={() => redirectToPayment(order)} disabled={countdowns[order.id] === "Expired"} className="w-full px-6 py-2 text-xs font-bold tracking-widest text-white uppercase transition bg-black hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed rounded-xl md:w-auto">{t("order_btn_pay")}</button>
-//                       )}
-//                       {["processing", "completed", "cancelled", "refund_requested", "refund_approved", "refunded", "refund_rejected", "refund_manual_required", "shipping_failed", "returned"].includes(order.status) &&
-//                         order.shipping_method === "biteship" && (
-//                           <button onClick={() => navigate(`/tracking/${order.id}`, { state: { paymentMethod: order.payment_method } })} className="w-full px-6 py-2 text-xs font-bold tracking-widest text-white uppercase transition bg-black shadow-sm hover:bg-gray-800 rounded-xl md:w-auto">{t("order_btn_track")}</button>
-//                         )}
-//                       {canRequestRefund(order) && (
-//                         <button onClick={() => requestRefund(order.id)} className="w-full px-6 py-2 text-xs font-bold tracking-widest text-gray-600 uppercase transition border border-gray-300 hover:bg-gray-100 rounded-xl md:w-auto">{t("order_btn_refund")}</button>
-//                       )}
-                      
-//                       {/* STATUS REFUND DESKTOP */}
-//                       {order.status === "refund_requested" && (
-//                         <div className="w-full px-4 py-2 text-xs font-bold text-center bg-amber-100 rounded-xl text-amber-700 md:w-auto">{t("order_status_waiting_admin")}</div>
-//                       )}
-//                       {order.status === "refund_manual_required" && (
-//                         <div className="w-full px-4 py-2 text-xs font-bold text-center text-pink-700 bg-pink-100 rounded-xl md:w-auto">{t("order_status_manual_refund")}</div>
-//                       )}
-//                       {order.status === "refund_approved" && (
-//                         <button onClick={() => processRefundUser(order.id)} className="w-full px-6 py-2 text-xs font-bold tracking-widest text-white uppercase transition bg-blue-600 shadow-sm hover:bg-blue-700 rounded-xl md:w-auto">{t("order_status_refund_now")}</button>
-//                       )}
-//                       {order.status === "refund_rejected" && (
-//                         <div className="w-full text-xs italic font-bold text-center text-red-500 md:w-auto">{t("order_status_refund_rejected")}</div>
-//                       )}
-//                     </div>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//             );
-//           })}
-
-//           {/* PAGINATION */}
-//           <div className="flex flex-col items-center justify-between w-full gap-4 pt-6 mt-8 border-t border-gray-100 md:flex-row">
-//             <p className="text-[10px] md:text-sm text-gray-400">
-//               {t("order_showing")} <span className="font-bold text-black">{showingStart}</span> {t("order_to")} <span className="font-bold text-black">{showingEnd}</span> {t("order_of")} <span className="font-bold text-black">{filteredTransactions.length}</span> {t("order_orders")}
-//             </p>
-//             <div className="flex gap-2">
-//               <button
-//                 onClick={() => setCurrentPage((prev) => prev - 1)}
-//                 disabled={currentPage === 1}
-//                 className="px-3 py-1.5 md:px-4 md:py-2 border rounded-xl hover:bg-gray-50 disabled:opacity-30 transition disabled:cursor-not-allowed text-[10px] md:text-sm font-medium"
-//               >
-//                 {t("order_prev")}
-//               </button>
-//               <div className="flex gap-1">
-//                 {visiblePages.map((page, index) => (
-//                   <button
-//                     key={index}
-//                     onClick={() => typeof page === "number" ? setCurrentPage(page) : null}
-//                     disabled={page === "..."}
-//                     className={`w-7 h-7 md:w-10 md:h-10 rounded-lg md:rounded-xl font-medium transition flex items-center justify-center text-[10px] md:text-sm ${
-//                       currentPage === page ? "bg-black text-white border-black" : "hover:bg-gray-50 border-gray-200"
-//                     } ${page === "..." ? "cursor-default border-transparent hover:bg-transparent" : "border"}`}
-//                   >
-//                     {page}
-//                   </button>
-//                 ))}
-//               </div>
-//               <button
-//                 onClick={() => setCurrentPage((prev) => prev + 1)}
-//                 disabled={currentPage === totalPages || totalPages === 0}
-//                 className="px-3 py-1.5 md:px-4 md:py-2 border rounded-xl hover:bg-gray-50 disabled:opacity-30 transition disabled:cursor-not-allowed text-[10px] md:text-sm font-medium"
-//               >
-//                 {t("order_next")}
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-
-//       {selectedReviewItem && (
-//         <ReviewModal
-//           isOpen={isReviewModalOpen}
-//           onClose={() => setIsReviewModalOpen(false)}
-//           productId={selectedReviewItem.productId}
-//           productName={selectedReviewItem.productName}
-//           transactionId={selectedReviewItem.transactionId}
-//           onSuccess={() => {}}
-//         />
-//       )}
-//     </div>
-//   );
-// }
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useMemo, useRef, useCallback } from "react";
-import { useNavigate, useLocation } from "react-router-dom"; // [PERBAIKAN] Gunakan useLocation
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { BASE_URL } from "../../config/api";
 import ReviewModal from "../../components/ReviewModal";
@@ -15093,7 +14120,6 @@ type Currency = "IDR" | "USD" | "SGD" | "MYR" | "EUR" | "AUD";
 
 export default function OrderPage() {
   const navigate = useNavigate();
-  const location = useLocation(); // [BARU]
   const { t } = useLanguage();
 
   const { currency, exchangeRates } = useCurrency() as any;
@@ -15126,16 +14152,6 @@ export default function OrderPage() {
     { label: t("order_tab_cancelled"), value: "cancelled" },
     { label: t("order_tab_issues"), value: "issues" },
   ];
-
-  // =========================================================
-  // LOGIKA PREFIX URL PINTAR
-  // =========================================================
-  const getUrlPrefix = () => {
-    if (location.pathname.startsWith("/id")) return "/id";
-    if (location.pathname.startsWith("/en")) return "/en";
-    return ""; 
-  };
-  const urlPrefix = getUrlPrefix();
 
   const convertIDRtoActiveCurrency = useCallback((idrAmount: number) => {
     const curr = (currency as Currency) || "IDR";
@@ -15176,23 +14192,27 @@ export default function OrderPage() {
   const getOrderQuantity = (order: any) => order.details.reduce((sum: number, item: any) => sum + item.quantity, 0);
 
   // ============================================================================
-  // LOGIKA FORENSIK HARGA HISTORY
+  // 👇 LOGIKA FORENSIK HARGA HISTORY (MEMBACA MATEMATIKA ASLI DB & TANGGAL MULAI) 👇
   // ============================================================================
   const checkIsBundledInHistory = useCallback((detail: any, order: any) => {
     const prod = detail.product;
     if (!prod) return false;
 
+    // 1. FILTER WAKTU (Rentang Waktu Bundle)
     let isWithinTimeframe = true;
     const orderDate = new Date(order.created_at).getTime();
 
+    // Cek Start Date
     if (prod.bundle_start_date && prod.bundle_start_date !== "0000-00-00 00:00:00") {
       const startDate = new Date(prod.bundle_start_date.replace(" ", "T")).getTime();
       if (orderDate < startDate) isWithinTimeframe = false;
     } else {
+      // Fallback: Jika tidak ada start date, kita anggap rilis fitur pada tgl 20 Juli 2026
       const fallbackLaunchDate = new Date("2026-07-20T00:00:00Z").getTime();
       if (orderDate < fallbackLaunchDate) isWithinTimeframe = false;
     }
 
+    // Cek End Date
     if (isWithinTimeframe && prod.bundle_end_date && prod.bundle_end_date !== "0000-00-00 00:00:00") {
       const endDate = new Date(prod.bundle_end_date.replace(" ", "T")).getTime();
       if (orderDate > endDate) isWithinTimeframe = false;
@@ -15200,17 +14220,21 @@ export default function OrderPage() {
 
     if (!isWithinTimeframe) return false;
 
+    // 2. FILTER MATEMATIKA ANTI-BUG
     const paidPrice = Number(detail.price);
     const normalPrice = Number(prod.price) || 0;
     const discPrice = Number(prod.discount_price) || 0;
 
+    // Jika user bayar seharga normal atau harga diskon biasa, PASTI BUKAN BUNDLE!
     if (Math.abs(paidPrice - normalPrice) < 1) return false;
     if (discPrice > 0 && Math.abs(paidPrice - discPrice) < 1) return false;
 
+    // 3. FILTER KOMPOSISI SYARAT BUNDLE (Ada EGB + Kategori Lain)
     const hasDriver = order.details.some((d: any) => (d.product?.sku || "").toUpperCase().startsWith("EGB"));
     const hasPartner = order.details.some((d: any) => !(d.product?.sku || "").toUpperCase().startsWith("EGB"));
     if (!hasDriver || !hasPartner) return false;
 
+    // 4. PENCOCOKAN PEMBAGIAN HARGA BUNDLE
     let isMatchedWithBundleSplit = false;
     order.details.forEach((d: any) => {
       const p = d.product;
@@ -15227,6 +14251,7 @@ export default function OrderPage() {
 
     return isMatchedWithBundleSplit;
   }, []);
+  // ============================================================================
 
   const getCourierLogo = (company: string) => {
     if (!company) return null;
@@ -15252,7 +14277,7 @@ export default function OrderPage() {
   const statusClass = (status: string) => {
     const map: Record<string, string> = {
       pending: "bg-orange-100 text-orange-700", processing: "bg-blue-100 text-blue-700",
-      completed: "bg-emerald-100 text-emerald-700", cancelled: "bg-gray-100 text-gray-500", // Ubah merah jadi abu2 untuk cancelled
+      completed: "bg-emerald-100 text-emerald-700", cancelled: "bg-red-100 text-red-700",
       refund_requested: "bg-purple-100 text-purple-700", refund_approved: "bg-indigo-100 text-indigo-700",
       refund_rejected: "bg-gray-200 text-gray-600 line-through", refunded: "bg-teal-100 text-teal-700",
       refund_manual_required: "bg-pink-100 text-pink-700", returned: "bg-gray-800 text-white",
@@ -15354,14 +14379,9 @@ export default function OrderPage() {
 
   useEffect(() => { setCurrentPage(1); }, [searchQuery, itemsPerPage, activeUnifiedTab]);
 
-//   const resetFilters = () => {
-//     setActiveUnifiedTab("all");
-//     SearchQuery("");
-//   };
-
   const resetFilters = () => {
     setActiveUnifiedTab("all");
-    setSearchQuery(""); // <--- PERBAIKAN: Gunakan huruf kecil 's' dan tambah 'set'
+    setSearchQuery("");
   };
 
   const calculateTimeLeft = (referenceDate: string) => {
@@ -15376,34 +14396,13 @@ export default function OrderPage() {
     return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   };
 
-  // [PERBAIKAN] Tambahkan flag silent pada fetchOrders
-  const fetchOrders = async (isSilent = false) => {
-    if (!isSilent) setLoading(true);
-    try {
-      const token = localStorage.getItem("user_token");
-      const res = await fetch(`${BASE_URL}/api/transactions`, {
-        headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
-      });
-      if (!res.ok) throw new Error("Gagal mengambil data");
-      const data = await res.json();
-      const validTransactions = data.filter((order: any) => order.status !== "awaiting_payment");
-      const mappedOrders = validTransactions.map((o: any) => ({ ...o, isCancelling: false }));
-      setTransactions(mappedOrders);
-      startTimers(mappedOrders);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      if (!isSilent) setTimeout(() => setLoading(false), 300);
-    }
-  };
-
   const autoCancelSilent = async (id: number) => {
     try {
       const token = localStorage.getItem("user_token");
       await fetch(`${BASE_URL}/api/transactions/${id}/cancel`, {
         method: "POST", headers: { Authorization: `Bearer ${token}` },
       });
-      fetchOrders(true); // Panggil secara silent agar layar tidak jadi skeleton
+      fetchOrders();
     } catch (e) {}
   };
 
@@ -15439,6 +14438,25 @@ export default function OrderPage() {
     }, 1000);
   };
 
+  const fetchOrders = async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("user_token");
+      const res = await fetch(`${BASE_URL}/api/transactions`, {
+        headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+      });
+      if (!res.ok) throw new Error("Gagal mengambil data");
+      const data = await res.json();
+      const validTransactions = data.filter((order: any) => order.status !== "awaiting_payment");
+      const mappedOrders = validTransactions.map((o: any) => ({ ...o, isCancelling: false }));
+      setTransactions(mappedOrders);
+      startTimers(mappedOrders);
+    } catch (err) {
+    } finally {
+      setTimeout(() => setLoading(false), 300);
+    }
+  };
+
   useEffect(() => {
     const userStr = localStorage.getItem("user_data");
     if (userStr) setUserData(JSON.parse(userStr));
@@ -15461,20 +14479,6 @@ export default function OrderPage() {
     }
   };
 
-  // [FITUR BARU] Copy Order ID
-  const handleCopyOrderId = (e: React.MouseEvent, orderId: string) => {
-    e.stopPropagation();
-    navigator.clipboard.writeText(orderId);
-    Swal.fire({
-      toast: true,
-      position: "top-end",
-      icon: "success",
-      title: "Order ID disalin!",
-      showConfirmButton: false,
-      timer: 1500,
-    });
-  };
-
   const cancelOrder = async (id: number) => {
     const result = await Swal.fire({
       title: "Batalkan Pesanan?", text: "Tindakan ini tidak dapat dikembalikan!", icon: "warning",
@@ -15488,7 +14492,7 @@ export default function OrderPage() {
         });
         if (res.ok) {
           Swal.fire("Dibatalkan!", "Pesanan Anda telah dibatalkan.", "success");
-          fetchOrders(true); // Gunakan silent update
+          fetchOrders();
         } else {
           const errorData = await res.json(); throw new Error(errorData.message);
         }
@@ -15537,7 +14541,7 @@ export default function OrderPage() {
           method: "POST", headers: { Authorization: `Bearer ${token}` }, body: formData,
         });
         if (res.ok) {
-          fetchOrders(true);
+          fetchOrders();
           Swal.fire("Berhasil", "Pengajuan pengembalian telah dikirim ke admin.", "success");
         } else {
           const errData = await res.json(); throw new Error(errData.message);
@@ -15556,7 +14560,7 @@ export default function OrderPage() {
       });
       if (res.ok) {
         const data = await res.json();
-        fetchOrders(true);
+        fetchOrders();
         Swal.fire("Refunded", data.message, "success");
       } else { throw new Error("Gagal memproses refund"); }
     } catch (err: any) { Swal.fire("Error", err.message || "Refund process failed", "error"); }
@@ -15575,12 +14579,12 @@ export default function OrderPage() {
               key={tab.value}
               onClick={() => setActiveUnifiedTab(tab.value)}
               className={`pb-3 md:pb-4 font-bold text-[10px] md:text-xs uppercase tracking-widest transition-colors whitespace-nowrap border-b-2 flex items-center gap-1.5 md:gap-2 shrink-0 ${
-                activeUnifiedTab === tab.value ? "border-[#006A4E] text-[#006A4E]" : "border-transparent text-gray-400 hover:text-gray-700"
+                activeUnifiedTab === tab.value ? "border-black text-black" : "border-transparent text-gray-400 hover:text-gray-700"
               }`}
             >
               {tab.label}
               {getUnifiedTabCount(tab.value) > 0 && (
-                <span className={`px-1.5 py-0.5 rounded-full text-[8px] md:text-[9px] font-black ${activeUnifiedTab === tab.value ? "bg-[#006A4E] text-white" : "bg-gray-200 text-gray-600"}`}>
+                <span className={`px-1.5 py-0.5 rounded-full text-[8px] md:text-[9px] font-black ${activeUnifiedTab === tab.value ? "bg-black text-white" : "bg-gray-200 text-gray-600"}`}>
                   {getUnifiedTabCount(tab.value)}
                 </span>
               )}
@@ -15601,7 +14605,7 @@ export default function OrderPage() {
             onChange={(e) => setSearchQuery(e.target.value)}
             type="text"
             placeholder={t("order_search_placeholder")}
-            className="w-full py-2.5 md:py-2 pl-9 md:pl-10 pr-4 text-xs md:text-sm transition border border-gray-200 outline-none bg-white rounded-xl focus:ring-2 focus:ring-[#006A4E]"
+            className="w-full py-2.5 md:py-2 pl-9 md:pl-10 pr-4 text-xs md:text-sm transition border border-gray-200 outline-none bg-white rounded-xl focus:ring-2 focus:ring-black"
           />
         </div>
         <div className="flex items-center gap-2 shrink-0">
@@ -15609,7 +14613,7 @@ export default function OrderPage() {
           <select
             value={itemsPerPage}
             onChange={(e) => setItemsPerPage(Number(e.target.value))}
-            className="px-2 py-1.5 md:px-3 md:py-2 text-xs md:text-sm font-bold border border-gray-200 outline-none cursor-pointer bg-white rounded-lg md:rounded-xl focus:ring-2 focus:ring-[#006A4E]"
+            className="px-2 py-1.5 md:px-3 md:py-2 text-xs md:text-sm font-bold border border-gray-200 outline-none cursor-pointer bg-white rounded-lg md:rounded-xl focus:ring-2 focus:ring-black"
           >
             <option value={5}>5</option><option value={10}>10</option><option value={20}>20</option><option value={50}>50</option>
           </select>
@@ -15634,7 +14638,7 @@ export default function OrderPage() {
       ) : filteredTransactions.length === 0 ? (
         <div className="w-full p-8 text-center bg-white border border-gray-100 md:p-12 rounded-2xl animate-fade-in">
           <p className="text-sm italic text-gray-400 md:text-base">{t("order_no_match")}</p>
-          <button onClick={resetFilters} className="inline-block mt-4 md:mt-6 text-[10px] md:text-xs font-bold tracking-widest text-[#006A4E] underline uppercase">{t("order_clear_filter")}</button>
+          <button onClick={resetFilters} className="inline-block mt-4 md:mt-6 text-[10px] md:text-xs font-bold tracking-widest text-black underline uppercase">{t("order_clear_filter")}</button>
         </div>
       ) : (
         <div className="w-full space-y-6 md:space-y-8 animate-fade-in">
@@ -15645,32 +14649,13 @@ export default function OrderPage() {
             return (
             <div key={order.id} className="relative w-full min-w-0 overflow-hidden transition-shadow duration-300 bg-white border border-gray-100 shadow-sm rounded-2xl hover:shadow-md">
 
-              {/* [UI UPGRADE] Header Toko Global */}
-              <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100 md:px-6">
-                <div className="flex items-center gap-2">
-                  <svg className="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                  </svg>
-                  <span className="text-xs font-bold text-gray-900 md:text-sm">Gycora Official</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className={`px-2.5 py-1 rounded-md font-bold text-[9px] uppercase tracking-wider ${statusClass(order.status)}`}>
-                    {formatStatus(order.status)}
-                  </span>
-                </div>
-              </div>
-
               {/* VERSI MOBILE (< 768px) */}
               <div className="block w-full md:hidden">
-                <div className="flex items-start justify-between gap-2 px-4 py-3 border-b border-gray-100 bg-gray-50">
+                <div className="flex items-start justify-between gap-2 p-4 bg-white border-b border-gray-100">
                   <div className="flex-1 min-w-0 overflow-hidden">
                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Order ID</p>
-                    <div className="flex items-center gap-1.5">
-                      <p className="w-full font-mono text-xs font-bold text-gray-900 truncate">{order.order_id}</p>
-                      <button onClick={(e) => handleCopyOrderId(e, order.order_id)} className="text-gray-400 hover:text-emerald-600">
-                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
-                      </button>
-                    </div>
+                    <p className="w-full mb-2 font-mono text-xs font-bold text-gray-900 truncate">{order.order_id}</p>
+                    <span className={`px-2.5 py-1 rounded-full font-bold text-[9px] uppercase tracking-tighter w-max inline-block ${statusClass(order.status)}`}>{formatStatus(order.status)}</span>
                   </div>
                   <div className="text-right shrink-0 max-w-[40%]">
                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{t("order_date_label")}</p>
@@ -15688,6 +14673,7 @@ export default function OrderPage() {
                     </div>
                   )}
                   {order.details.map((detail: any) => {
+                    // 👇 IDENTIFIKASI BADGE MOBILE (FORENSIK DB) 👇
                     const isHistoricallyBundled = checkIsBundledInHistory(detail, order);
                     const isWholesaleItem = isWholesaleOrder && Number(detail.product.wholesale_price) > 0 && Math.abs(Number(detail.price) - Number(detail.product.wholesale_price)) < 1;
                     const isDiscountedItem = !isHistoricallyBundled && !isWholesaleItem && Number(detail.price) < Number(detail.product.price);
@@ -15721,7 +14707,7 @@ export default function OrderPage() {
                               setSelectedReviewItem({ productId: detail.product.id, productName: detail.product.name, transactionId: order.order_id });
                               setIsReviewModalOpen(true);
                             }}
-                            className="px-2.5 py-1 mt-2 text-[9px] font-bold tracking-widest text-[#006A4E] uppercase transition-colors bg-emerald-50 border border-emerald-200 rounded w-max"
+                            className="px-2.5 py-1 mt-2 text-[9px] font-bold tracking-widest text-black uppercase transition-colors bg-white border border-black rounded w-max"
                           >
                             {t("order_btn_review")}
                           </button>
@@ -15748,21 +14734,21 @@ export default function OrderPage() {
                   </div>
 
                   {userData?.is_membership && order.point > 0 && order.status === "completed" && (
-                    <div className="flex items-center justify-between p-3 mb-4 border rounded-lg border-emerald-100 bg-gradient-to-r from-emerald-50 to-white">
+                    <div className="flex items-center justify-between p-3 mb-4 border border-yellow-100 rounded-lg bg-gradient-to-r from-yellow-50 to-white">
                       <div className="flex items-center min-w-0 gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-emerald-500 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-yellow-500 shrink-0" viewBox="0 0 20 20" fill="currentColor">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
-                        <p className="text-[9px] font-bold text-emerald-800 uppercase tracking-widest">{t("order_points_earned")}</p>
+                        <p className="text-[9px] font-bold text-yellow-800 uppercase tracking-widest">{t("order_points_earned")}</p>
                       </div>
-                      <span className="text-sm font-black text-emerald-600 shrink-0">+{order.point} Pts</span>
+                      <span className="text-sm font-black text-yellow-600 shrink-0">+{order.point} Pts</span>
                     </div>
                   )}
 
                   <div className="pt-3 mt-1 border-t border-gray-100 border-dashed">
                     <div className="flex items-center justify-between gap-2">
                       <span className="uppercase tracking-widest text-[10px] font-bold text-gray-500 shrink-0">{t("order_final_amount")}</span>
-                      <span className="text-sm font-black text-[#006A4E]">{formatCurrencyDisplay(convertIDRtoActiveCurrency(getGrandTotal(order)))}</span>
+                      <span className="text-sm font-black text-gray-900">{formatCurrencyDisplay(convertIDRtoActiveCurrency(getGrandTotal(order)))}</span>
                     </div>
                   </div>
                 </div>
@@ -15778,11 +14764,11 @@ export default function OrderPage() {
                     <button onClick={() => cancelOrder(order.id)} className="col-span-2 w-full py-2.5 border border-red-200 rounded-xl font-bold text-red-600 text-[10px] uppercase tracking-widest transition hover:bg-red-50">{t("order_btn_cancel")}</button>
                   )}
                   {canPay(order.status) && (
-                    <button onClick={() => redirectToPayment(order)} disabled={countdowns[order.id] === "Expired"} className={`col-span-2 w-full py-2.5 bg-[#006A4E] rounded-xl font-bold text-white text-[10px] uppercase tracking-widest transition hover:bg-emerald-900 shadow-md disabled:bg-gray-300 disabled:cursor-not-allowed ${!canCancel(order.status) ? "col-span-2" : ""}`}>{t("order_btn_pay")}</button>
+                    <button onClick={() => redirectToPayment(order)} disabled={countdowns[order.id] === "Expired"} className={`col-span-2 w-full py-2.5 bg-black rounded-xl font-bold text-white text-[10px] uppercase tracking-widest transition hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed ${!canCancel(order.status) ? "col-span-2" : ""}`}>{t("order_btn_pay")}</button>
                   )}
                   {["processing", "completed", "cancelled", "refund_requested", "refund_approved", "refunded", "refund_rejected", "refund_manual_required", "shipping_failed", "returned"].includes(order.status) &&
                     order.shipping_method === "biteship" && (
-                      <button onClick={() => navigate(`${urlPrefix}/tracking/${order.id}`, { state: { paymentMethod: order.payment_method } })} className="col-span-2 w-full py-2.5 bg-[#006A4E] rounded-xl font-bold text-white text-[10px] uppercase tracking-widest transition hover:bg-emerald-900 shadow-md">{t("order_btn_track")}</button>
+                      <button onClick={() => navigate(`/tracking/${order.id}`, { state: { paymentMethod: order.payment_method } })} className="col-span-2 w-full py-2.5 bg-black rounded-xl font-bold text-white text-[10px] uppercase tracking-widest transition hover:bg-gray-800">{t("order_btn_track")}</button>
                     )}
                   {canRequestRefund(order) && (
                     <button onClick={() => requestRefund(order.id)} className="col-span-2 w-full py-2.5 border border-gray-300 rounded-xl font-bold text-gray-600 text-[10px] uppercase tracking-widest transition hover:bg-gray-100">{t("order_btn_refund")}</button>
@@ -15801,12 +14787,7 @@ export default function OrderPage() {
                   <div className="flex flex-col min-w-0 gap-4 md:flex-row md:items-center md:gap-8">
                     <div className="min-w-0">
                       <p className="font-bold text-[10px] text-gray-400 uppercase tracking-[0.2em] mb-1">Order ID</p>
-                      <div className="flex items-center gap-1.5">
-                        <p className="font-mono font-bold text-gray-800 text-sm truncate max-w-[200px]">{order.order_id}</p>
-                        <button onClick={(e) => handleCopyOrderId(e, order.order_id)} className="text-gray-400 hover:text-emerald-600">
-                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
-                        </button>
-                      </div>
+                      <p className="font-mono font-bold text-gray-800 text-sm truncate max-w-[200px]">{order.order_id}</p>
                     </div>
                     <div>
                       <p className="font-bold text-[10px] text-gray-400 uppercase tracking-[0.2em] mb-1">{t("order_date_label")}</p>
@@ -15816,18 +14797,17 @@ export default function OrderPage() {
                   <div className="flex flex-col items-end w-full gap-2 md:w-auto shrink-0">
                     <div className="flex items-center justify-between w-full gap-3 md:justify-end md:w-auto">
                       <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{t("order_transaction_label")}</span>
-                      {/* Status badge desktop dipindah ke header toko, ini dihapus agar tidak ganda, ATAU dipertahankan khusus payment */}
-                      <span className={`px-3 py-1 rounded-md font-bold text-[10px] uppercase tracking-wider border ${order.status === 'pending' ? 'bg-orange-50 border-orange-200 text-orange-700' : 'bg-gray-100 border-gray-200 text-gray-600'}`}>{order.status === 'pending' ? 'UNPAID' : 'PAID'}</span>
+                      <span className={`px-3 py-1 rounded-full font-bold text-[10px] uppercase tracking-tighter ${statusClass(order.status)}`}>{formatStatus(order.status)}</span>
                     </div>
                     {order.shipping_method === "biteship" ? (
                       <div className="flex items-center justify-between w-full gap-3 mt-2 md:justify-end md:w-auto">
                         <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{t("order_shipping_label")}</span>
-                        <span className={`px-3 py-1 rounded-md font-bold text-[10px] uppercase tracking-wider border ${shippingStatusClass(order.shipping_status)}`}>{formatStatus(order.shipping_status || "Pending")}</span>
+                        <span className={`px-3 py-1 rounded-full font-bold text-[10px] uppercase tracking-tighter border ${shippingStatusClass(order.shipping_status)}`}>{formatStatus(order.shipping_status || "Pending")}</span>
                       </div>
                     ) : order.shipping_method === "free" ? (
                       <div className="flex items-center justify-between w-full gap-3 mt-2 md:justify-end md:w-auto">
                         <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{t("order_shipping_label")}</span>
-                        <span className="px-3 py-1 rounded-md font-bold text-[10px] uppercase tracking-wider border bg-gray-100 text-gray-600 border-gray-200">{t("in_store_pickup")}</span>
+                        <span className="px-3 py-1 rounded-full font-bold text-[10px] uppercase tracking-tighter border bg-gray-100 text-gray-600">{t("in_store_pickup")}</span>
                       </div>
                     ) : null}
                   </div>
@@ -15835,13 +14815,13 @@ export default function OrderPage() {
 
                 <div className="relative flex flex-col gap-6 px-6 py-4 bg-white border-b border-gray-100 md:flex-row md:gap-12">
                   {userData?.is_membership && order.point > 0 && order.status === "completed" && (
-                    <div className="static md:absolute md:top-4 md:right-6 bg-gradient-to-r from-emerald-50 to-white border border-emerald-100 px-3 py-1.5 rounded-lg flex items-center gap-2 shadow-sm w-max mb-4 md:mb-0 z-10">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-emerald-500 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                    <div className="static md:absolute md:top-4 md:right-6 bg-gradient-to-r from-yellow-100 to-yellow-50 border border-yellow-200 px-3 py-1.5 rounded-lg flex items-center gap-2 shadow-sm w-max mb-4 md:mb-0 z-10">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-yellow-500 shrink-0" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                       </svg>
                       <div>
-                        <p className="text-[8px] font-bold text-emerald-800 uppercase tracking-widest leading-none">{t("order_points_earned")}</p>
-                        <p className="text-sm font-black leading-tight text-emerald-600">+{order.point} Pts</p>
+                        <p className="text-[8px] font-bold text-yellow-800 uppercase tracking-widest leading-none">{t("order_points_earned")}</p>
+                        <p className="text-sm font-black leading-tight text-yellow-600">+{order.point} Pts</p>
                       </div>
                     </div>
                   )}
@@ -15862,11 +14842,11 @@ export default function OrderPage() {
                           {order.status === "refunded" ? (
                             <p className="text-[10px] text-teal-600 font-bold mt-0.5">REFUNDED</p>
                           ) : order.status === "cancelled" ? (
-                            <p className="text-[10px] text-gray-500 font-bold mt-0.5">EXPIRED / CANCELLED</p>
+                            <p className="text-[10px] text-red-600 font-bold mt-0.5">EXPIRED / CANCELLED</p>
                           ) : canPay(order.status) ? (
                             <p className="text-[10px] text-orange-500 font-bold mt-0.5">UNPAID</p>
                           ) : (
-                            <p className="text-[10px] text-emerald-600 font-bold mt-0.5">PAID</p>
+                            <p className="text-[10px] text-green-600 font-bold mt-0.5">PAID</p>
                           )}
                         </div>
                       </div>
@@ -15900,14 +14880,7 @@ export default function OrderPage() {
                         </div>
                         <div className="min-w-0">
                           <p className="text-xs font-bold text-gray-800 uppercase truncate">{order.courier_company} - {order.courier_type}</p>
-                          <p className="text-[10px] text-gray-500 mt-0.5 truncate flex items-center gap-1">
-                            Resi: <span className="font-mono font-bold text-black">{order.tracking_number || "Waiting..."}</span>
-                            {order.tracking_number && (
-                              <button onClick={(e) => handleCopyOrderId(e, order.tracking_number)} className="hover:text-[#006A4E] transition-colors">
-                                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
-                              </button>
-                            )}
-                          </p>
+                          <p className="text-[10px] text-gray-500 mt-0.5 truncate">Resi: <span className="font-mono font-bold text-black">{order.tracking_number || "Waiting..."}</span></p>
                         </div>
                       </div>
                     ) : (
@@ -15919,9 +14892,10 @@ export default function OrderPage() {
 
                 <div
                   onClick={() => handleOrderClick(order)}
-                  className={`px-6 py-2 ${canPay(order.status) && countdowns[order.id] !== "Expired" ? "cursor-pointer hover:bg-emerald-50/30 transition-colors" : ""}`}
+                  className={`px-6 py-2 ${canPay(order.status) && countdowns[order.id] !== "Expired" ? "cursor-pointer hover:bg-blue-50/30 transition-colors" : ""}`}
                 >
                   {order.details.map((detail: any) => {
+                    // 👇 IDENTIFIKASI BADGE DESKTOP (FORENSIK DB) 👇
                     const isHistoricallyBundled = checkIsBundledInHistory(detail, order);
                     const isWholesaleItem = isWholesaleOrder && Number(detail.product.wholesale_price) > 0 && Math.abs(Number(detail.price) - Number(detail.product.wholesale_price)) < 1;
                     const isDiscountedItem = !isHistoricallyBundled && !isWholesaleItem && Number(detail.price) < Number(detail.product.price);
@@ -15964,7 +14938,7 @@ export default function OrderPage() {
                                 setSelectedReviewItem({ productId: detail.product.id, productName: detail.product.name, transactionId: order.order_id });
                                 setIsReviewModalOpen(true);
                               }}
-                              className="px-3 py-1 mt-1 text-[10px] font-bold tracking-widest text-[#006A4E] uppercase transition-colors bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 rounded w-max shrink-0"
+                              className="px-2 py-1 mt-1 text-[10px] font-bold tracking-widest text-black uppercase transition-colors bg-white border border-black hover:bg-gray-50 rounded w-max shrink-0"
                             >
                               {t("order_btn_review")}
                             </button>
@@ -16002,7 +14976,7 @@ export default function OrderPage() {
                     )}
                     <div className="flex items-center justify-between pt-2 mt-2 text-sm font-bold text-gray-900 border-t border-gray-200 border-dashed">
                       <span className="uppercase tracking-widest text-[10px] mt-1">{t("order_final_amount")}</span>
-                      <span className="text-lg text-[#006A4E]">{formatCurrencyDisplay(convertIDRtoActiveCurrency(getGrandTotal(order)))}</span>
+                      <span className="text-lg text-gray-900">{formatCurrencyDisplay(convertIDRtoActiveCurrency(getGrandTotal(order)))}</span>
                     </div>
                   </div>
 
@@ -16019,17 +14993,17 @@ export default function OrderPage() {
                     </div>
                     <div className="flex flex-wrap justify-center w-full gap-3 md:justify-end md:w-auto">
                       {canCancel(order.status) && (
-                        <button onClick={() => cancelOrder(order.id)} className="w-full px-6 py-2.5 text-xs font-bold tracking-widest text-red-600 uppercase transition border border-red-200 hover:bg-red-50 rounded-xl md:w-auto">{t("order_btn_cancel")}</button>
+                        <button onClick={() => cancelOrder(order.id)} className="w-full px-6 py-2 text-xs font-bold tracking-widest text-red-600 uppercase transition border border-red-200 hover:bg-red-50 rounded-xl md:w-auto">{t("order_btn_cancel")}</button>
                       )}
                       {canPay(order.status) && (
-                        <button onClick={() => redirectToPayment(order)} disabled={countdowns[order.id] === "Expired"} className="w-full px-6 py-2.5 text-xs font-bold tracking-widest text-white uppercase transition bg-[#006A4E] shadow-md hover:bg-emerald-900 disabled:bg-gray-300 disabled:shadow-none disabled:cursor-not-allowed rounded-xl md:w-auto">{t("order_btn_pay")}</button>
+                        <button onClick={() => redirectToPayment(order)} disabled={countdowns[order.id] === "Expired"} className="w-full px-6 py-2 text-xs font-bold tracking-widest text-white uppercase transition bg-black hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed rounded-xl md:w-auto">{t("order_btn_pay")}</button>
                       )}
                       {["processing", "completed", "cancelled", "refund_requested", "refund_approved", "refunded", "refund_rejected", "refund_manual_required", "shipping_failed", "returned"].includes(order.status) &&
                         order.shipping_method === "biteship" && (
-                          <button onClick={() => navigate(`${urlPrefix}/tracking/${order.id}`, { state: { paymentMethod: order.payment_method } })} className="w-full px-6 py-2.5 text-xs font-bold tracking-widest text-white uppercase transition bg-[#006A4E] shadow-sm hover:bg-emerald-900 rounded-xl md:w-auto">{t("order_btn_track")}</button>
+                          <button onClick={() => navigate(`/tracking/${order.id}`, { state: { paymentMethod: order.payment_method } })} className="w-full px-6 py-2 text-xs font-bold tracking-widest text-white uppercase transition bg-black shadow-sm hover:bg-gray-800 rounded-xl md:w-auto">{t("order_btn_track")}</button>
                         )}
                       {canRequestRefund(order) && (
-                        <button onClick={() => requestRefund(order.id)} className="w-full px-6 py-2.5 text-xs font-bold tracking-widest text-gray-600 uppercase transition border border-gray-300 hover:bg-gray-100 rounded-xl md:w-auto">{t("order_btn_refund")}</button>
+                        <button onClick={() => requestRefund(order.id)} className="w-full px-6 py-2 text-xs font-bold tracking-widest text-gray-600 uppercase transition border border-gray-300 hover:bg-gray-100 rounded-xl md:w-auto">{t("order_btn_refund")}</button>
                       )}
                       
                       {/* STATUS REFUND DESKTOP */}
@@ -16062,7 +15036,7 @@ export default function OrderPage() {
               <button
                 onClick={() => setCurrentPage((prev) => prev - 1)}
                 disabled={currentPage === 1}
-                className="px-3 py-1.5 md:px-4 md:py-2 border border-gray-200 rounded-xl hover:bg-gray-50 disabled:opacity-30 transition disabled:cursor-not-allowed text-[10px] md:text-sm font-bold text-gray-600"
+                className="px-3 py-1.5 md:px-4 md:py-2 border rounded-xl hover:bg-gray-50 disabled:opacity-30 transition disabled:cursor-not-allowed text-[10px] md:text-sm font-medium"
               >
                 {t("order_prev")}
               </button>
@@ -16072,8 +15046,8 @@ export default function OrderPage() {
                     key={index}
                     onClick={() => typeof page === "number" ? setCurrentPage(page) : null}
                     disabled={page === "..."}
-                    className={`w-7 h-7 md:w-10 md:h-10 rounded-lg md:rounded-xl font-bold transition flex items-center justify-center text-[10px] md:text-sm ${
-                      currentPage === page ? "bg-[#006A4E] text-white border-[#006A4E] shadow-sm" : "text-gray-600 hover:bg-gray-50 border-gray-200"
+                    className={`w-7 h-7 md:w-10 md:h-10 rounded-lg md:rounded-xl font-medium transition flex items-center justify-center text-[10px] md:text-sm ${
+                      currentPage === page ? "bg-black text-white border-black" : "hover:bg-gray-50 border-gray-200"
                     } ${page === "..." ? "cursor-default border-transparent hover:bg-transparent" : "border"}`}
                   >
                     {page}
@@ -16083,7 +15057,7 @@ export default function OrderPage() {
               <button
                 onClick={() => setCurrentPage((prev) => prev + 1)}
                 disabled={currentPage === totalPages || totalPages === 0}
-                className="px-3 py-1.5 md:px-4 md:py-2 border border-gray-200 rounded-xl hover:bg-gray-50 disabled:opacity-30 transition disabled:cursor-not-allowed text-[10px] md:text-sm font-bold text-gray-600"
+                className="px-3 py-1.5 md:px-4 md:py-2 border rounded-xl hover:bg-gray-50 disabled:opacity-30 transition disabled:cursor-not-allowed text-[10px] md:text-sm font-medium"
               >
                 {t("order_next")}
               </button>
@@ -16105,3 +15079,1029 @@ export default function OrderPage() {
     </div>
   );
 }
+
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+// import { useState, useEffect, useMemo, useRef, useCallback } from "react";
+// import { useNavigate, useLocation } from "react-router-dom"; // [PERBAIKAN] Gunakan useLocation
+// import Swal from "sweetalert2";
+// import { BASE_URL } from "../../config/api";
+// import ReviewModal from "../../components/ReviewModal";
+// import { useLanguage } from "../../context/LanguageContext";
+// import { useCurrency } from "../../context/CurrencyContext";
+
+// type Currency = "IDR" | "USD" | "SGD" | "MYR" | "EUR" | "AUD";
+
+// export default function OrderPage() {
+//   const navigate = useNavigate();
+//   const location = useLocation(); // [BARU]
+//   const { t } = useLanguage();
+
+//   const { currency, exchangeRates } = useCurrency() as any;
+
+//   const [userData, setUserData] = useState<any>(null);
+//   const [transactions, setTransactions] = useState<any[]>([]);
+//   const [loading, setLoading] = useState(true);
+//   const [countdowns, setCountdowns] = useState<Record<number, string>>({});
+
+//   const [searchQuery, setSearchQuery] = useState("");
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const [itemsPerPage, setItemsPerPage] = useState(10);
+//   const [activeUnifiedTab, setActiveUnifiedTab] = useState("all");
+
+//   const timerIntervalRef = useRef<any>(null);
+
+//   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+//   const [selectedReviewItem, setSelectedReviewItem] = useState<{
+//     productId: number;
+//     productName: string;
+//     transactionId: string;
+//   } | null>(null);
+
+//   const unifiedTabs = [
+//     { label: t("order_tab_all"), value: "all" },
+//     { label: t("order_tab_unpaid"), value: "unpaid" },
+//     { label: t("order_tab_to_ship"), value: "to_ship" },
+//     { label: t("order_tab_shipping"), value: "shipping" },
+//     { label: t("order_tab_completed"), value: "completed" },
+//     { label: t("order_tab_cancelled"), value: "cancelled" },
+//     { label: t("order_tab_issues"), value: "issues" },
+//   ];
+
+//   // =========================================================
+//   // LOGIKA PREFIX URL PINTAR
+//   // =========================================================
+//   const getUrlPrefix = () => {
+//     if (location.pathname.startsWith("/id")) return "/id";
+//     if (location.pathname.startsWith("/en")) return "/en";
+//     return ""; 
+//   };
+//   const urlPrefix = getUrlPrefix();
+
+//   const convertIDRtoActiveCurrency = useCallback((idrAmount: number) => {
+//     const curr = (currency as Currency) || "IDR";
+//     if (curr === "IDR" || !exchangeRates || !exchangeRates[curr])
+//       return { value: idrAmount, curr: "IDR" };
+//     return { value: idrAmount * exchangeRates[curr], curr: curr };
+//   }, [currency, exchangeRates]);
+
+//   const formatCurrencyDisplay = useCallback((priceObj: { value: number; curr: string } | null) => {
+//     if (!priceObj) return "";
+//     const symbols: any = { USD: "$", SGD: "S$", EUR: "€", AUD: "A$", MYR: "RM", IDR: "Rp " };
+//     const formatter = new Intl.NumberFormat(
+//       priceObj.curr === "IDR" ? "id-ID" : "en-US",
+//       {
+//         minimumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
+//         maximumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
+//       },
+//     );
+//     return `${symbols[priceObj.curr] || priceObj.curr + " "}${formatter.format(priceObj.value)}`;
+//   }, []);
+
+//   const formatDateTime = (dateString: string) => {
+//     return new Date(dateString).toLocaleDateString("id-ID", {
+//       day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit",
+//     });
+//   };
+
+//   const formatStatus = (status: string) => status ? status.replace(/_/g, " ") : "";
+//   const getSubtotal = (order: any) => order.total_amount;
+//   const getGrandTotal = (order: any) => {
+//     if (!order) return 0;
+//     const total = parseFloat(order.total_amount || 0);
+//     const shipping = parseFloat(order.shipping_cost || 0);
+//     const promo = parseFloat(order.promo_discount || 0);
+//     const pointsDiscount = (order.points_used || 0) * 1000;
+//     return total + shipping - promo - pointsDiscount;
+//   };
+//   const getOrderQuantity = (order: any) => order.details.reduce((sum: number, item: any) => sum + item.quantity, 0);
+
+//   // ============================================================================
+//   // LOGIKA FORENSIK HARGA HISTORY
+//   // ============================================================================
+//   const checkIsBundledInHistory = useCallback((detail: any, order: any) => {
+//     const prod = detail.product;
+//     if (!prod) return false;
+
+//     let isWithinTimeframe = true;
+//     const orderDate = new Date(order.created_at).getTime();
+
+//     if (prod.bundle_start_date && prod.bundle_start_date !== "0000-00-00 00:00:00") {
+//       const startDate = new Date(prod.bundle_start_date.replace(" ", "T")).getTime();
+//       if (orderDate < startDate) isWithinTimeframe = false;
+//     } else {
+//       const fallbackLaunchDate = new Date("2026-07-20T00:00:00Z").getTime();
+//       if (orderDate < fallbackLaunchDate) isWithinTimeframe = false;
+//     }
+
+//     if (isWithinTimeframe && prod.bundle_end_date && prod.bundle_end_date !== "0000-00-00 00:00:00") {
+//       const endDate = new Date(prod.bundle_end_date.replace(" ", "T")).getTime();
+//       if (orderDate > endDate) isWithinTimeframe = false;
+//     }
+
+//     if (!isWithinTimeframe) return false;
+
+//     const paidPrice = Number(detail.price);
+//     const normalPrice = Number(prod.price) || 0;
+//     const discPrice = Number(prod.discount_price) || 0;
+
+//     if (Math.abs(paidPrice - normalPrice) < 1) return false;
+//     if (discPrice > 0 && Math.abs(paidPrice - discPrice) < 1) return false;
+
+//     const hasDriver = order.details.some((d: any) => (d.product?.sku || "").toUpperCase().startsWith("EGB"));
+//     const hasPartner = order.details.some((d: any) => !(d.product?.sku || "").toUpperCase().startsWith("EGB"));
+//     if (!hasDriver || !hasPartner) return false;
+
+//     let isMatchedWithBundleSplit = false;
+//     order.details.forEach((d: any) => {
+//       const p = d.product;
+//       if (p && (p.sku || "").toUpperCase().startsWith("EGB")) {
+//         const currentBundlePrice = Number(p.bundle_price) || 0;
+//         if (currentBundlePrice > 0) {
+//           const splitPrice = currentBundlePrice / 2;
+//           if (Math.abs(paidPrice - splitPrice) < 1) {
+//             isMatchedWithBundleSplit = true;
+//           }
+//         }
+//       }
+//     });
+
+//     return isMatchedWithBundleSplit;
+//   }, []);
+
+//   const getCourierLogo = (company: string) => {
+//     if (!company) return null;
+//     const map: Record<string, string> = {
+//       jne: "jne.png", sicepat: "sicepat.png", jnt: "jnt.png", anteraja: "anteraja.png",
+//       gojek: "gojek.png", grab: "grab.png", paxel: "paxel.png", ninja: "ninja.png",
+//     };
+//     const key = company.toLowerCase();
+//     return map[key] ? "/courier_images/" + map[key] : null;
+//   };
+
+//   const getPaymentLogo = (methodString: string) => {
+//     if (!methodString) return null;
+//     const channel = methodString.split(" ")[1]?.toLowerCase();
+//     const map: Record<string, string> = {
+//       bca: "bca.png", bni: "bni.png", bri: "bri.png", mandiri: "mandiri.png", bsi: "bsi.png",
+//       permata: "permata.png", ovo: "ovo.png", dana: "dana.png", linkaja: "linkaja.png",
+//       shopeepay: "shopeepay.png", alfamart: "alfamart.png", indomaret: "indomaret.png", qris: "qris.png",
+//     };
+//     return map[channel] ? "/payment_images/" + map[channel] : null;
+//   };
+
+//   const statusClass = (status: string) => {
+//     const map: Record<string, string> = {
+//       pending: "bg-orange-100 text-orange-700", processing: "bg-blue-100 text-blue-700",
+//       completed: "bg-emerald-100 text-emerald-700", cancelled: "bg-gray-100 text-gray-500", // Ubah merah jadi abu2 untuk cancelled
+//       refund_requested: "bg-purple-100 text-purple-700", refund_approved: "bg-indigo-100 text-indigo-700",
+//       refund_rejected: "bg-gray-200 text-gray-600 line-through", refunded: "bg-teal-100 text-teal-700",
+//       refund_manual_required: "bg-pink-100 text-pink-700", returned: "bg-gray-800 text-white",
+//       shipping_failed: "bg-red-800 text-white",
+//     };
+//     return map[status] || "bg-gray-100 text-gray-500";
+//   };
+
+//   const shippingStatusClass = (status: string) => {
+//     if (!status) return "bg-gray-50 border-gray-200 text-gray-500";
+//     const str = status.toLowerCase();
+//     if (["delivered"].includes(str)) return "bg-emerald-50 border-emerald-200 text-emerald-700";
+//     if (["cancelled", "rejected", "disposed", "courier_not_found"].includes(str)) return "bg-red-50 border-red-200 text-red-700";
+//     if (["on_hold", "return_in_transit", "returned"].includes(str)) return "bg-amber-50 border-amber-200 text-amber-700";
+//     if (["picking_up", "picked", "dropping_off", "allocated", "confirmed"].includes(str)) return "bg-blue-50 border-blue-200 text-blue-700";
+//     return "bg-gray-50 border-gray-200 text-gray-600";
+//   };
+
+//   const canPay = (status: string) => ["pending"].includes(status);
+//   const canCancel = (status: string) => ["pending", "processing"].includes(status);
+//   const canRequestRefund = (order: any) => {
+//     if (!["completed", "shipping_failed", "returned"].includes(order.status)) return false;
+//     if (["shipping_failed", "returned"].includes(order.status)) return true;
+//     if (order.shipping_method === "free") return true;
+//     if (order.shipping_method === "biteship") {
+//       const shipStatus = order.shipping_status ? order.shipping_status.toLowerCase() : "pending";
+//       const unRefundableLogistics = ["picked", "dropping_off", "delivered", "return_in_transit"];
+//       if (unRefundableLogistics.includes(shipStatus)) return false;
+//       return true;
+//     }
+//     return false;
+//   };
+
+//   const getUnifiedTabCount = (tabValue: string) => {
+//     return transactions.filter((order) => {
+//       if (tabValue === "all") return true;
+//       const shipStatus = order.shipping_status ? order.shipping_status.toLowerCase() : "pending";
+//       if (tabValue === "unpaid") return order.status === "pending";
+//       if (tabValue === "to_ship") return order.status === "processing" && ["pending", "placed", "confirmed", "allocated", "picking_up", "picked"].includes(shipStatus);
+//       if (tabValue === "shipping") return shipStatus === "dropping_off";
+//       if (tabValue === "completed") return order.status === "completed" || shipStatus === "delivered";
+//       if (tabValue === "cancelled") return order.status === "cancelled";
+//       if (tabValue === "issues") return order.status.includes("refund") || ["returned", "shipping_failed"].includes(order.status) || ["on_hold", "return_in_transit", "rejected", "disposed", "courier_not_found"].includes(shipStatus);
+//       return false;
+//     }).length;
+//   };
+
+//   const filteredTransactions = useMemo(() => {
+//     const query = searchQuery.toLowerCase();
+//     return transactions.filter((order) => {
+//       let matchSearch = true;
+//       if (query) {
+//         matchSearch =
+//           order.order_id.toLowerCase().includes(query) ||
+//           (order.total_amount && order.total_amount.toString().includes(query)) ||
+//           (order.shipping_cost && order.shipping_cost.toString().includes(query)) ||
+//           (order.payment_method && order.payment_method.toLowerCase().includes(query)) ||
+//           (order.tracking_number && order.tracking_number.toLowerCase().includes(query)) ||
+//           (order.delivery_type && order.delivery_type.toLowerCase().includes(query)) ||
+//           (order.courier_company && order.courier_company.toLowerCase().includes(query));
+//       }
+//       let matchTab = false;
+//       const tabValue = activeUnifiedTab;
+//       const shipStatus = order.shipping_status ? order.shipping_status.toLowerCase() : "pending";
+//       if (tabValue === "all") matchTab = true;
+//       else if (tabValue === "unpaid") matchTab = order.status === "pending";
+//       else if (tabValue === "to_ship") matchTab = order.status === "processing" && ["pending", "placed", "confirmed", "allocated", "picking_up", "picked"].includes(shipStatus);
+//       else if (tabValue === "shipping") matchTab = shipStatus === "dropping_off";
+//       else if (tabValue === "completed") matchTab = order.status === "completed" || shipStatus === "delivered";
+//       else if (tabValue === "cancelled") matchTab = order.status === "cancelled";
+//       else if (tabValue === "issues") matchTab = order.status.includes("refund") || ["returned", "shipping_failed"].includes(order.status) || ["on_hold", "return_in_transit", "rejected", "disposed", "courier_not_found"].includes(shipStatus);
+//       return matchSearch && matchTab;
+//     });
+//   }, [transactions, searchQuery, activeUnifiedTab]);
+
+//   const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
+//   const paginatedTransactions = useMemo(() => {
+//     const start = (currentPage - 1) * itemsPerPage;
+//     return filteredTransactions.slice(start, start + itemsPerPage);
+//   }, [filteredTransactions, currentPage, itemsPerPage]);
+
+//   const showingStart = filteredTransactions.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
+//   const showingEnd = Math.min(currentPage * itemsPerPage, filteredTransactions.length);
+
+//   const visiblePages = useMemo(() => {
+//     const isMobile = window.innerWidth < 768;
+//     const maxVisible = isMobile ? 3 : 7;
+//     if (totalPages <= maxVisible) return Array.from({ length: totalPages }, (_, i) => i + 1);
+//     if (isMobile) {
+//       if (currentPage <= 2) return [1, 2, "...", totalPages];
+//       if (currentPage >= totalPages - 1) return [1, "...", totalPages - 1, totalPages];
+//       return [1, "...", currentPage, "...", totalPages];
+//     } else {
+//       if (currentPage <= 4) return [1, 2, 3, 4, 5, "...", totalPages];
+//       if (currentPage >= totalPages - 3) return [1, "...", totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+//       return [1, "...", currentPage - 1, currentPage, currentPage + 1, "...", totalPages];
+//     }
+//   }, [currentPage, totalPages]);
+
+//   useEffect(() => { setCurrentPage(1); }, [searchQuery, itemsPerPage, activeUnifiedTab]);
+
+// //   const resetFilters = () => {
+// //     setActiveUnifiedTab("all");
+// //     SearchQuery("");
+// //   };
+
+//   const resetFilters = () => {
+//     setActiveUnifiedTab("all");
+//     setSearchQuery(""); // <--- PERBAIKAN: Gunakan huruf kecil 's' dan tambah 'set'
+//   };
+
+//   const calculateTimeLeft = (referenceDate: string) => {
+//     if (!referenceDate) return "Expired";
+//     const expiryTime = new Date(referenceDate).getTime() + 86400000;
+//     const now = new Date().getTime();
+//     const diff = expiryTime - now;
+//     if (diff <= 0) return "Expired";
+//     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+//     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+//     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+//     return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+//   };
+
+//   // [PERBAIKAN] Tambahkan flag silent pada fetchOrders
+//   const fetchOrders = async (isSilent = false) => {
+//     if (!isSilent) setLoading(true);
+//     try {
+//       const token = localStorage.getItem("user_token");
+//       const res = await fetch(`${BASE_URL}/api/transactions`, {
+//         headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+//       });
+//       if (!res.ok) throw new Error("Gagal mengambil data");
+//       const data = await res.json();
+//       const validTransactions = data.filter((order: any) => order.status !== "awaiting_payment");
+//       const mappedOrders = validTransactions.map((o: any) => ({ ...o, isCancelling: false }));
+//       setTransactions(mappedOrders);
+//       startTimers(mappedOrders);
+//     } catch (err) {
+//       console.error(err);
+//     } finally {
+//       if (!isSilent) setTimeout(() => setLoading(false), 300);
+//     }
+//   };
+
+//   const autoCancelSilent = async (id: number) => {
+//     try {
+//       const token = localStorage.getItem("user_token");
+//       await fetch(`${BASE_URL}/api/transactions/${id}/cancel`, {
+//         method: "POST", headers: { Authorization: `Bearer ${token}` },
+//       });
+//       fetchOrders(true); // Panggil secara silent agar layar tidak jadi skeleton
+//     } catch (e) {}
+//   };
+
+//   const startTimers = (currentOrders: any[]) => {
+//     if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
+//     const hasPendingOrders = currentOrders.some(order => canPay(order.status));
+//     if (!hasPendingOrders) return; 
+
+//     timerIntervalRef.current = setInterval(() => {
+//       setCountdowns((prev) => {
+//         const newCountdowns = { ...prev };
+//         let activeTimers = 0;
+        
+//         currentOrders.forEach((order) => {
+//           if (canPay(order.status)) {
+//             const timeReference = order.status === "pending" && order.payment?.created_at ? order.payment.created_at : order.created_at;
+//             const timeLeft = calculateTimeLeft(timeReference);
+//             newCountdowns[order.id] = timeLeft;
+//             if (timeLeft !== "Expired") {
+//               activeTimers++;
+//             } else if (!order.isCancelling) {
+//               order.isCancelling = true;
+//               autoCancelSilent(order.id);
+//             }
+//           }
+//         });
+
+//         if (activeTimers === 0 && timerIntervalRef.current) {
+//            clearInterval(timerIntervalRef.current);
+//         }
+//         return newCountdowns;
+//       });
+//     }, 1000);
+//   };
+
+//   useEffect(() => {
+//     const userStr = localStorage.getItem("user_data");
+//     if (userStr) setUserData(JSON.parse(userStr));
+//     fetchOrders();
+//     return () => { if (timerIntervalRef.current) clearInterval(timerIntervalRef.current); };
+//     // eslint-disable-next-line react-hooks/exhaustive-deps
+//   }, []);
+
+//   const redirectToPayment = (order: any) => {
+//     if (order.status === "pending" && order.payment?.checkout_url) {
+//       window.location.href = order.payment.checkout_url;
+//     } else {
+//       Swal.fire("Error", "URL Pembayaran tidak ditemukan.", "error");
+//     }
+//   };
+
+//   const handleOrderClick = (order: any) => {
+//     if (canPay(order.status) && countdowns[order.id] !== "Expired") {
+//       redirectToPayment(order);
+//     }
+//   };
+
+//   // [FITUR BARU] Copy Order ID
+//   const handleCopyOrderId = (e: React.MouseEvent, orderId: string) => {
+//     e.stopPropagation();
+//     navigator.clipboard.writeText(orderId);
+//     Swal.fire({
+//       toast: true,
+//       position: "top-end",
+//       icon: "success",
+//       title: "Order ID disalin!",
+//       showConfirmButton: false,
+//       timer: 1500,
+//     });
+//   };
+
+//   const cancelOrder = async (id: number) => {
+//     const result = await Swal.fire({
+//       title: "Batalkan Pesanan?", text: "Tindakan ini tidak dapat dikembalikan!", icon: "warning",
+//       showCancelButton: true, confirmButtonColor: "#000", cancelButtonColor: "#d33", confirmButtonText: "Ya, batalkan!", cancelButtonText: "Kembali",
+//     });
+//     if (result.isConfirmed) {
+//       try {
+//         const token = localStorage.getItem("user_token");
+//         const res = await fetch(`${BASE_URL}/api/transactions/${id}/cancel`, {
+//           method: "POST", headers: { Authorization: `Bearer ${token}` },
+//         });
+//         if (res.ok) {
+//           Swal.fire("Dibatalkan!", "Pesanan Anda telah dibatalkan.", "success");
+//           fetchOrders(true); // Gunakan silent update
+//         } else {
+//           const errorData = await res.json(); throw new Error(errorData.message);
+//         }
+//       } catch (err: any) {
+//         Swal.fire("Error", `Gagal membatalkan: ${err.message || "Terjadi kesalahan"}`, "error");
+//       }
+//     }
+//   };
+
+//   const requestRefund = async (id: number) => {
+//     const { value: formValues, isConfirmed } = await Swal.fire({
+//       title: "Ajukan Pengembalian (Refund)",
+//       html: `
+//         <div class="text-left space-y-4 font-sans">
+//           <div>
+//             <label class="block text-xs font-bold text-gray-700 uppercase tracking-widest mb-1">Alasan Pengembalian</label>
+//             <textarea id="swal-refund-reason" rows="3" class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 text-sm outline-none focus:ring-2 focus:ring-black resize-none" placeholder="Jelaskan alasan pengembalian dana..."></textarea>
+//           </div>
+//           <div>
+//             <label class="block text-xs font-bold text-gray-700 uppercase tracking-widest mb-1">Upload Bukti (Foto/Video)</label>
+//             <input type="file" id="swal-refund-file" accept="image/*,video/mp4,video/quicktime" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-gray-100 file:text-black hover:file:bg-gray-200 cursor-pointer" />
+//             <p class="text-[10px] text-gray-400 mt-1">Maksimal 10MB. Format: JPG, PNG, MP4.</p>
+//           </div>
+//         </div>
+//       `,
+//       showCancelButton: true, confirmButtonColor: "#000", confirmButtonText: "Kirim Pengajuan",
+//       preConfirm: () => {
+//         const reason = (document.getElementById("swal-refund-reason") as HTMLTextAreaElement).value;
+//         const fileInput = document.getElementById("swal-refund-file") as HTMLInputElement;
+//         const file = fileInput.files?.[0];
+//         if (!reason) { Swal.showValidationMessage("Harap isi alasan pengembalian."); return false; }
+//         if (!file) { Swal.showValidationMessage("Harap unggah file bukti."); return false; }
+//         if (file.size > 10 * 1024 * 1024) { Swal.showValidationMessage("Ukuran file tidak boleh lebih dari 10MB."); return false; }
+//         return { reason, file };
+//       },
+//     });
+
+//     if (isConfirmed && formValues) {
+//       Swal.fire({ title: "Mengunggah...", text: "Mohon tunggu, permintaan Anda sedang diproses.", allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+//       try {
+//         const token = localStorage.getItem("user_token");
+//         const formData = new FormData();
+//         formData.append("reason", formValues.reason);
+//         formData.append("proof_file", formValues.file);
+//         const res = await fetch(`${BASE_URL}/api/transactions/${id}/refund-request`, {
+//           method: "POST", headers: { Authorization: `Bearer ${token}` }, body: formData,
+//         });
+//         if (res.ok) {
+//           fetchOrders(true);
+//           Swal.fire("Berhasil", "Pengajuan pengembalian telah dikirim ke admin.", "success");
+//         } else {
+//           const errData = await res.json(); throw new Error(errData.message);
+//         }
+//       } catch (err: any) {
+//         Swal.fire("Error", err.message || "Gagal mengajukan pengembalian", "error");
+//       }
+//     }
+//   };
+
+//   const processRefundUser = async (id: number) => {
+//     try {
+//       const token = localStorage.getItem("user_token");
+//       const res = await fetch(`${BASE_URL}/api/transactions/${id}/refund-process`, {
+//         method: "POST", headers: { Authorization: `Bearer ${token}` },
+//       });
+//       if (res.ok) {
+//         const data = await res.json();
+//         fetchOrders(true);
+//         Swal.fire("Refunded", data.message, "success");
+//       } else { throw new Error("Gagal memproses refund"); }
+//     } catch (err: any) { Swal.fire("Error", err.message || "Refund process failed", "error"); }
+//   };
+
+//   return (
+//     <div className="min-h-screen w-full px-4 py-6 mx-auto font-sans md:px-6 md:py-20 max-w-7xl animate-fade-in bg-[#FAFAFA] overflow-x-hidden">
+//       <div className="flex items-center justify-between w-full mb-6 md:mb-10">
+//         <h1 className="text-3xl font-extrabold tracking-tighter text-gray-900 uppercase md:text-4xl">{t("order_track_title")}</h1>
+//       </div>
+
+//       <div className="w-full mb-6 overflow-hidden border-b border-gray-200 md:mb-8">
+//         <div className="flex gap-4 pb-2 overflow-x-auto md:gap-6 scroll-smooth" style={{ WebkitOverflowScrolling: "touch", scrollbarWidth: "none" }}>
+//           {unifiedTabs.map((tab) => (
+//             <button
+//               key={tab.value}
+//               onClick={() => setActiveUnifiedTab(tab.value)}
+//               className={`pb-3 md:pb-4 font-bold text-[10px] md:text-xs uppercase tracking-widest transition-colors whitespace-nowrap border-b-2 flex items-center gap-1.5 md:gap-2 shrink-0 ${
+//                 activeUnifiedTab === tab.value ? "border-[#006A4E] text-[#006A4E]" : "border-transparent text-gray-400 hover:text-gray-700"
+//               }`}
+//             >
+//               {tab.label}
+//               {getUnifiedTabCount(tab.value) > 0 && (
+//                 <span className={`px-1.5 py-0.5 rounded-full text-[8px] md:text-[9px] font-black ${activeUnifiedTab === tab.value ? "bg-[#006A4E] text-white" : "bg-gray-200 text-gray-600"}`}>
+//                   {getUnifiedTabCount(tab.value)}
+//                 </span>
+//               )}
+//             </button>
+//           ))}
+//         </div>
+//       </div>
+
+//       <div className="flex flex-col w-full gap-3 mb-6 md:flex-row md:flex-nowrap md:mb-8 md:items-center md:justify-between">
+//         <div className="relative w-full md:w-80">
+//           <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+//             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+//             </svg>
+//           </span>
+//           <input
+//             value={searchQuery}
+//             onChange={(e) => setSearchQuery(e.target.value)}
+//             type="text"
+//             placeholder={t("order_search_placeholder")}
+//             className="w-full py-2.5 md:py-2 pl-9 md:pl-10 pr-4 text-xs md:text-sm transition border border-gray-200 outline-none bg-white rounded-xl focus:ring-2 focus:ring-[#006A4E]"
+//           />
+//         </div>
+//         <div className="flex items-center gap-2 shrink-0">
+//           <span className="text-[10px] md:text-xs font-bold tracking-wide text-gray-400 uppercase whitespace-nowrap">{t("order_show_label")}</span>
+//           <select
+//             value={itemsPerPage}
+//             onChange={(e) => setItemsPerPage(Number(e.target.value))}
+//             className="px-2 py-1.5 md:px-3 md:py-2 text-xs md:text-sm font-bold border border-gray-200 outline-none cursor-pointer bg-white rounded-lg md:rounded-xl focus:ring-2 focus:ring-[#006A4E]"
+//           >
+//             <option value={5}>5</option><option value={10}>10</option><option value={20}>20</option><option value={50}>50</option>
+//           </select>
+//         </div>
+//       </div>
+
+//       {loading ? (
+//         <div className="w-full space-y-6 md:space-y-8 animate-pulse">
+//           {[1, 2, 3].map((i) => (
+//             <div key={i} className="w-full overflow-hidden bg-white border border-gray-100 rounded-2xl">
+//               <div className="flex flex-col justify-between gap-4 px-6 py-4 border-b border-gray-100 md:flex-row bg-gray-50">
+//                 <div className="flex flex-col gap-4 md:flex-row md:gap-8">
+//                   <div><div className="w-16 h-3 mb-2 bg-gray-200 rounded animate-pulse"></div><div className="w-32 h-4 bg-gray-300 rounded animate-pulse"></div></div>
+//                   <div><div className="w-12 h-3 mb-2 bg-gray-200 rounded animate-pulse"></div><div className="w-24 h-4 bg-gray-300 rounded animate-pulse"></div></div>
+//                 </div>
+//                 <div className="flex flex-col items-end gap-2"><div className="w-24 h-6 bg-gray-300 rounded-full animate-pulse"></div><div className="h-6 bg-gray-200 rounded-full w-28 animate-pulse"></div></div>
+//               </div>
+//               <div className="px-6 py-6"><div className="flex items-center gap-4"><div className="w-16 h-16 bg-gray-200 rounded-lg animate-pulse shrink-0"></div><div className="flex-grow min-w-0 space-y-2"><div className="w-48 h-4 bg-gray-300 rounded animate-pulse"></div><div className="w-20 h-3 bg-gray-200 rounded animate-pulse"></div></div><div className="w-24 h-5 bg-gray-300 rounded animate-pulse"></div></div></div>
+//             </div>
+//           ))}
+//         </div>
+//       ) : filteredTransactions.length === 0 ? (
+//         <div className="w-full p-8 text-center bg-white border border-gray-100 md:p-12 rounded-2xl animate-fade-in">
+//           <p className="text-sm italic text-gray-400 md:text-base">{t("order_no_match")}</p>
+//           <button onClick={resetFilters} className="inline-block mt-4 md:mt-6 text-[10px] md:text-xs font-bold tracking-widest text-[#006A4E] underline uppercase">{t("order_clear_filter")}</button>
+//         </div>
+//       ) : (
+//         <div className="w-full space-y-6 md:space-y-8 animate-fade-in">
+//           {paginatedTransactions.map((order) => {
+//             const orderTotalQty = getOrderQuantity(order);
+//             const isWholesaleOrder = userData?.usertype === 'reseller' && orderTotalQty >= 24;
+
+//             return (
+//             <div key={order.id} className="relative w-full min-w-0 overflow-hidden transition-shadow duration-300 bg-white border border-gray-100 shadow-sm rounded-2xl hover:shadow-md">
+
+//               {/* [UI UPGRADE] Header Toko Global */}
+//               <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100 md:px-6">
+//                 <div className="flex items-center gap-2">
+//                   <svg className="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+//                   </svg>
+//                   <span className="text-xs font-bold text-gray-900 md:text-sm">Gycora Official</span>
+//                 </div>
+//                 <div className="flex items-center gap-3">
+//                   <span className={`px-2.5 py-1 rounded-md font-bold text-[9px] uppercase tracking-wider ${statusClass(order.status)}`}>
+//                     {formatStatus(order.status)}
+//                   </span>
+//                 </div>
+//               </div>
+
+//               {/* VERSI MOBILE (< 768px) */}
+//               <div className="block w-full md:hidden">
+//                 <div className="flex items-start justify-between gap-2 px-4 py-3 border-b border-gray-100 bg-gray-50">
+//                   <div className="flex-1 min-w-0 overflow-hidden">
+//                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Order ID</p>
+//                     <div className="flex items-center gap-1.5">
+//                       <p className="w-full font-mono text-xs font-bold text-gray-900 truncate">{order.order_id}</p>
+//                       <button onClick={(e) => handleCopyOrderId(e, order.order_id)} className="text-gray-400 hover:text-emerald-600">
+//                         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+//                       </button>
+//                     </div>
+//                   </div>
+//                   <div className="text-right shrink-0 max-w-[40%]">
+//                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{t("order_date_label")}</p>
+//                     <p className="text-[10px] font-bold text-gray-900 leading-snug">{formatDateTime(order.created_at)}</p>
+//                   </div>
+//                 </div>
+
+//                 <div
+//                   onClick={() => handleOrderClick(order)}
+//                   className={`px-4 py-2 bg-white border-b border-gray-100 ${canPay(order.status) && countdowns[order.id] !== "Expired" ? "cursor-pointer" : ""}`}
+//                 >
+//                   {canPay(order.status) && countdowns[order.id] !== "Expired" && (
+//                     <div className="my-2 text-blue-600 text-[10px] text-center uppercase tracking-widest animate-pulse font-bold bg-blue-50 py-1.5 rounded-md">
+//                       {t("order_tap_to_pay")}
+//                     </div>
+//                   )}
+//                   {order.details.map((detail: any) => {
+//                     const isHistoricallyBundled = checkIsBundledInHistory(detail, order);
+//                     const isWholesaleItem = isWholesaleOrder && Number(detail.product.wholesale_price) > 0 && Math.abs(Number(detail.price) - Number(detail.product.wholesale_price)) < 1;
+//                     const isDiscountedItem = !isHistoricallyBundled && !isWholesaleItem && Number(detail.price) < Number(detail.product.price);
+
+//                     return (
+//                     <div key={detail.id} className="flex items-start w-full gap-3 py-3 border-b border-gray-50 last:border-0">
+//                       <img src={detail.product.image_url || detail.product.image} className="object-cover mt-1 border border-gray-200 rounded-lg w-14 h-14 bg-gray-50 shrink-0" />
+//                       <div className="flex flex-col justify-center flex-grow min-w-0">
+//                         <h4 className="text-[11px] font-bold text-gray-900 uppercase leading-tight truncate">{detail.product.name}</h4>
+                        
+//                         <div className="flex flex-wrap gap-1 mt-1 mb-0.5">
+//                           {isHistoricallyBundled ? (
+//                             <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-purple-600 rounded w-max inline-block" title="Harga Promo Paket">BUNDLE</span>
+//                           ) : isWholesaleItem ? (
+//                             <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-blue-600 rounded w-max inline-block">WHOLESALE</span>
+//                           ) : isDiscountedItem ? (
+//                             <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-rose-500 rounded w-max inline-block">SALE</span>
+//                           ) : null}
+//                         </div>
+
+//                         <p className="text-[10px] text-gray-500 mt-1">
+//                           {detail.quantity} x {formatCurrencyDisplay(convertIDRtoActiveCurrency(detail.price))}
+//                           {(isHistoricallyBundled || isDiscountedItem) && (
+//                             <span className="text-[8px] line-through text-gray-400 ml-1">{formatCurrencyDisplay(convertIDRtoActiveCurrency(detail.product.price))}</span>
+//                           )}
+//                         </p>
+//                         {order.status === "completed" && (
+//                           <button
+//                             onClick={(e) => {
+//                               e.stopPropagation();
+//                               setSelectedReviewItem({ productId: detail.product.id, productName: detail.product.name, transactionId: order.order_id });
+//                               setIsReviewModalOpen(true);
+//                             }}
+//                             className="px-2.5 py-1 mt-2 text-[9px] font-bold tracking-widest text-[#006A4E] uppercase transition-colors bg-emerald-50 border border-emerald-200 rounded w-max"
+//                           >
+//                             {t("order_btn_review")}
+//                           </button>
+//                         )}
+//                       </div>
+//                     </div>
+//                   )})}
+//                 </div>
+
+//                 <div className="w-full p-4 bg-white border-b border-gray-100">
+//                   <div className="flex gap-3 mb-4">
+//                     <div className="flex-1 min-w-0 overflow-hidden">
+//                       <p className="font-bold text-[10px] text-gray-400 uppercase tracking-widest mb-1">{t("order_payment_info")}</p>
+//                       <p className="text-xs italic text-gray-500 truncate">
+//                         {order.payment_method ? order.payment_method.replace("_", " ").toUpperCase() : "Pending"}
+//                       </p>
+//                     </div>
+//                     <div className="flex-1 min-w-0 overflow-hidden">
+//                       <p className="font-bold text-[10px] text-gray-400 uppercase tracking-widest mb-1">{t("order_shipping_info")}</p>
+//                       <p className="text-xs italic text-gray-500 truncate">
+//                         {order.shipping_method === "free" ? "Ambil Sendiri" : order.courier_company ? order.courier_company.toUpperCase() : "Checkout"}
+//                       </p>
+//                     </div>
+//                   </div>
+
+//                   {userData?.is_membership && order.point > 0 && order.status === "completed" && (
+//                     <div className="flex items-center justify-between p-3 mb-4 border rounded-lg border-emerald-100 bg-gradient-to-r from-emerald-50 to-white">
+//                       <div className="flex items-center min-w-0 gap-2">
+//                         <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-emerald-500 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+//                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+//                         </svg>
+//                         <p className="text-[9px] font-bold text-emerald-800 uppercase tracking-widest">{t("order_points_earned")}</p>
+//                       </div>
+//                       <span className="text-sm font-black text-emerald-600 shrink-0">+{order.point} Pts</span>
+//                     </div>
+//                   )}
+
+//                   <div className="pt-3 mt-1 border-t border-gray-100 border-dashed">
+//                     <div className="flex items-center justify-between gap-2">
+//                       <span className="uppercase tracking-widest text-[10px] font-bold text-gray-500 shrink-0">{t("order_final_amount")}</span>
+//                       <span className="text-sm font-black text-[#006A4E]">{formatCurrencyDisplay(convertIDRtoActiveCurrency(getGrandTotal(order)))}</span>
+//                     </div>
+//                   </div>
+//                 </div>
+
+//                 <div className="grid w-full grid-cols-2 gap-2 p-4 overflow-hidden bg-gray-50">
+//                   {canPay(order.status) && order.payment && (
+//                     <div className="col-span-2 flex items-center justify-center gap-1.5 mb-1">
+//                       <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 text-red-500 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+//                       <span className="font-mono text-xs font-bold text-red-500">{countdowns[order.id]}</span>
+//                     </div>
+//                   )}
+//                   {canCancel(order.status) && (
+//                     <button onClick={() => cancelOrder(order.id)} className="col-span-2 w-full py-2.5 border border-red-200 rounded-xl font-bold text-red-600 text-[10px] uppercase tracking-widest transition hover:bg-red-50">{t("order_btn_cancel")}</button>
+//                   )}
+//                   {canPay(order.status) && (
+//                     <button onClick={() => redirectToPayment(order)} disabled={countdowns[order.id] === "Expired"} className={`col-span-2 w-full py-2.5 bg-[#006A4E] rounded-xl font-bold text-white text-[10px] uppercase tracking-widest transition hover:bg-emerald-900 shadow-md disabled:bg-gray-300 disabled:cursor-not-allowed ${!canCancel(order.status) ? "col-span-2" : ""}`}>{t("order_btn_pay")}</button>
+//                   )}
+//                   {["processing", "completed", "cancelled", "refund_requested", "refund_approved", "refunded", "refund_rejected", "refund_manual_required", "shipping_failed", "returned"].includes(order.status) &&
+//                     order.shipping_method === "biteship" && (
+//                       <button onClick={() => navigate(`${urlPrefix}/tracking/${order.id}`, { state: { paymentMethod: order.payment_method } })} className="col-span-2 w-full py-2.5 bg-[#006A4E] rounded-xl font-bold text-white text-[10px] uppercase tracking-widest transition hover:bg-emerald-900 shadow-md">{t("order_btn_track")}</button>
+//                     )}
+//                   {canRequestRefund(order) && (
+//                     <button onClick={() => requestRefund(order.id)} className="col-span-2 w-full py-2.5 border border-gray-300 rounded-xl font-bold text-gray-600 text-[10px] uppercase tracking-widest transition hover:bg-gray-100">{t("order_btn_refund")}</button>
+//                   )}
+                  
+//                   {order.status === "refund_requested" && <div className="col-span-2 w-full py-2.5 bg-amber-100 rounded-xl text-amber-700 text-[10px] font-bold text-center">{t("order_status_waiting_admin")}</div>}
+//                   {order.status === "refund_manual_required" && <div className="col-span-2 w-full py-2.5 bg-pink-100 rounded-xl text-pink-700 text-[10px] font-bold text-center">{t("order_status_manual_refund")}</div>}
+//                   {order.status === "refund_approved" && <button onClick={() => processRefundUser(order.id)} className="col-span-2 w-full py-2.5 bg-blue-600 rounded-xl font-bold text-white text-[10px] uppercase tracking-widest transition hover:bg-blue-700">{t("order_status_refund_now")}</button>}
+//                   {order.status === "refund_rejected" && <div className="col-span-2 text-[10px] font-bold italic text-red-500 text-center py-1">{t("order_status_refund_rejected")}</div>}
+//                 </div>
+//               </div>
+
+//               {/* VERSI DESKTOP (>= 768px) */}
+//               <div className="hidden md:block">
+//                 <div className="flex flex-col items-start justify-between gap-4 px-6 py-4 border-b border-gray-100 md:flex-row md:items-center bg-gray-50">
+//                   <div className="flex flex-col min-w-0 gap-4 md:flex-row md:items-center md:gap-8">
+//                     <div className="min-w-0">
+//                       <p className="font-bold text-[10px] text-gray-400 uppercase tracking-[0.2em] mb-1">Order ID</p>
+//                       <div className="flex items-center gap-1.5">
+//                         <p className="font-mono font-bold text-gray-800 text-sm truncate max-w-[200px]">{order.order_id}</p>
+//                         <button onClick={(e) => handleCopyOrderId(e, order.order_id)} className="text-gray-400 hover:text-emerald-600">
+//                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+//                         </button>
+//                       </div>
+//                     </div>
+//                     <div>
+//                       <p className="font-bold text-[10px] text-gray-400 uppercase tracking-[0.2em] mb-1">{t("order_date_label")}</p>
+//                       <p className="text-xs font-bold text-gray-800 whitespace-nowrap">{formatDateTime(order.created_at)}</p>
+//                     </div>
+//                   </div>
+//                   <div className="flex flex-col items-end w-full gap-2 md:w-auto shrink-0">
+//                     <div className="flex items-center justify-between w-full gap-3 md:justify-end md:w-auto">
+//                       <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{t("order_transaction_label")}</span>
+//                       {/* Status badge desktop dipindah ke header toko, ini dihapus agar tidak ganda, ATAU dipertahankan khusus payment */}
+//                       <span className={`px-3 py-1 rounded-md font-bold text-[10px] uppercase tracking-wider border ${order.status === 'pending' ? 'bg-orange-50 border-orange-200 text-orange-700' : 'bg-gray-100 border-gray-200 text-gray-600'}`}>{order.status === 'pending' ? 'UNPAID' : 'PAID'}</span>
+//                     </div>
+//                     {order.shipping_method === "biteship" ? (
+//                       <div className="flex items-center justify-between w-full gap-3 mt-2 md:justify-end md:w-auto">
+//                         <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{t("order_shipping_label")}</span>
+//                         <span className={`px-3 py-1 rounded-md font-bold text-[10px] uppercase tracking-wider border ${shippingStatusClass(order.shipping_status)}`}>{formatStatus(order.shipping_status || "Pending")}</span>
+//                       </div>
+//                     ) : order.shipping_method === "free" ? (
+//                       <div className="flex items-center justify-between w-full gap-3 mt-2 md:justify-end md:w-auto">
+//                         <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{t("order_shipping_label")}</span>
+//                         <span className="px-3 py-1 rounded-md font-bold text-[10px] uppercase tracking-wider border bg-gray-100 text-gray-600 border-gray-200">{t("in_store_pickup")}</span>
+//                       </div>
+//                     ) : null}
+//                   </div>
+//                 </div>
+
+//                 <div className="relative flex flex-col gap-6 px-6 py-4 bg-white border-b border-gray-100 md:flex-row md:gap-12">
+//                   {userData?.is_membership && order.point > 0 && order.status === "completed" && (
+//                     <div className="static md:absolute md:top-4 md:right-6 bg-gradient-to-r from-emerald-50 to-white border border-emerald-100 px-3 py-1.5 rounded-lg flex items-center gap-2 shadow-sm w-max mb-4 md:mb-0 z-10">
+//                       <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-emerald-500 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+//                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+//                       </svg>
+//                       <div>
+//                         <p className="text-[8px] font-bold text-emerald-800 uppercase tracking-widest leading-none">{t("order_points_earned")}</p>
+//                         <p className="text-sm font-black leading-tight text-emerald-600">+{order.point} Pts</p>
+//                       </div>
+//                     </div>
+//                   )}
+
+//                   <div className="flex-1 min-w-0">
+//                     <p className="font-bold text-[10px] text-gray-400 uppercase tracking-[0.2em] mb-3">{t("order_payment_info")}</p>
+//                     {order.payment_method ? (
+//                       <div className="flex items-center gap-3">
+//                         <div className="flex items-center justify-center w-12 h-8 overflow-hidden border border-gray-100 rounded bg-gray-50 shrink-0">
+//                           {getPaymentLogo(order.payment_method) ? (
+//                             <img src={getPaymentLogo(order.payment_method)!} className="object-contain w-full h-full p-1" />
+//                           ) : (
+//                             <span className="font-black text-gray-300 text-[8px] truncate px-1">{order.payment_method.split(" ")[1] || "PAY"}</span>
+//                           )}
+//                         </div>
+//                         <div className="min-w-0">
+//                           <p className="text-xs font-bold text-gray-800 uppercase truncate">{order.payment_method.replace("_", " ")}</p>
+//                           {order.status === "refunded" ? (
+//                             <p className="text-[10px] text-teal-600 font-bold mt-0.5">REFUNDED</p>
+//                           ) : order.status === "cancelled" ? (
+//                             <p className="text-[10px] text-gray-500 font-bold mt-0.5">EXPIRED / CANCELLED</p>
+//                           ) : canPay(order.status) ? (
+//                             <p className="text-[10px] text-orange-500 font-bold mt-0.5">UNPAID</p>
+//                           ) : (
+//                             <p className="text-[10px] text-emerald-600 font-bold mt-0.5">PAID</p>
+//                           )}
+//                         </div>
+//                       </div>
+//                     ) : (
+//                       <p className="text-xs italic text-gray-400">Waiting for payment selection...</p>
+//                     )}
+//                   </div>
+                  
+//                   <div className="flex-1 min-w-0">
+//                     <p className="font-bold text-[10px] text-gray-400 uppercase tracking-[0.2em] mb-3">{t("order_shipping_info")}</p>
+//                     {order.shipping_method === "free" ? (
+//                       <div className="flex items-center gap-3">
+//                         <div className="flex items-center justify-center w-12 h-12 text-gray-400 bg-gray-100 border border-gray-200 rounded-lg shrink-0">
+//                           <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+//                           </svg>
+//                         </div>
+//                         <div className="min-w-0">
+//                           <p className="text-xs font-bold text-gray-800 uppercase truncate">No Courier</p>
+//                           <p className="text-[10px] text-gray-500 font-medium mt-0.5 truncate">In-store Payment / Pickup</p>
+//                         </div>
+//                       </div>
+//                     ) : order.shipping_method === "biteship" && order.courier_company ? (
+//                       <div className="flex items-center gap-3">
+//                         <div className="flex items-center justify-center w-12 h-12 overflow-hidden bg-white border border-gray-100 rounded-lg shrink-0">
+//                           {getCourierLogo(order.courier_company) ? (
+//                             <img src={getCourierLogo(order.courier_company)!} className="object-contain w-full h-full p-1" />
+//                           ) : (
+//                             <span className="px-1 text-xs font-black text-gray-300 truncate">{order.courier_company.toUpperCase()}</span>
+//                           )}
+//                         </div>
+//                         <div className="min-w-0">
+//                           <p className="text-xs font-bold text-gray-800 uppercase truncate">{order.courier_company} - {order.courier_type}</p>
+//                           <p className="text-[10px] text-gray-500 mt-0.5 truncate flex items-center gap-1">
+//                             Resi: <span className="font-mono font-bold text-black">{order.tracking_number || "Waiting..."}</span>
+//                             {order.tracking_number && (
+//                               <button onClick={(e) => handleCopyOrderId(e, order.tracking_number)} className="hover:text-[#006A4E] transition-colors">
+//                                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+//                               </button>
+//                             )}
+//                           </p>
+//                         </div>
+//                       </div>
+//                     ) : (
+//                       <div className="text-xs italic text-gray-400">Setup shipping at checkout</div>
+//                     )}
+//                   </div>
+
+//                 </div>
+
+//                 <div
+//                   onClick={() => handleOrderClick(order)}
+//                   className={`px-6 py-2 ${canPay(order.status) && countdowns[order.id] !== "Expired" ? "cursor-pointer hover:bg-emerald-50/30 transition-colors" : ""}`}
+//                 >
+//                   {order.details.map((detail: any) => {
+//                     const isHistoricallyBundled = checkIsBundledInHistory(detail, order);
+//                     const isWholesaleItem = isWholesaleOrder && Number(detail.product.wholesale_price) > 0 && Math.abs(Number(detail.price) - Number(detail.product.wholesale_price)) < 1;
+//                     const isDiscountedItem = !isHistoricallyBundled && !isWholesaleItem && Number(detail.price) < Number(detail.product.price);
+
+//                     return (
+//                     <div key={detail.id} className="flex items-start gap-4 py-4 border-b border-gray-50 last:border-0">
+//                       <img src={detail.product.image_url || detail.product.image} className="object-cover w-16 h-16 bg-gray-100 border border-gray-100 rounded-lg shadow-sm shrink-0" />
+//                       <div className="flex-grow min-w-0">
+//                         <h4 className="text-sm font-bold text-gray-900 uppercase truncate">{detail.product.name}</h4>
+                        
+//                         <div className="flex flex-wrap gap-1 mt-1">
+//                           {isHistoricallyBundled ? (
+//                             <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-purple-600 rounded w-max inline-block" title="Harga Promo Paket">
+//                               BUNDLE
+//                             </span>
+//                           ) : isWholesaleItem ? (
+//                             <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-blue-600 rounded w-max inline-block">
+//                               GROSIR
+//                             </span>
+//                           ) : isDiscountedItem ? (
+//                             <span className="px-1.5 py-0.5 text-[8px] font-bold text-white bg-rose-500 rounded w-max inline-block">
+//                               SALE
+//                             </span>
+//                           ) : null}
+//                         </div>
+
+//                         <div className="flex items-center justify-between gap-2 mt-1">
+//                           <p className="text-xs text-gray-400 shrink-0">
+//                             {detail.quantity} x {formatCurrencyDisplay(convertIDRtoActiveCurrency(detail.price))}
+//                             {(isHistoricallyBundled || isDiscountedItem) && (
+//                               <span className="text-[8px] line-through text-gray-400 ml-1">
+//                                 {formatCurrencyDisplay(convertIDRtoActiveCurrency(detail.product.price))}
+//                               </span>
+//                             )}
+//                           </p>
+//                           {order.status === "completed" && (
+//                             <button
+//                               onClick={(e) => {
+//                                 e.stopPropagation();
+//                                 setSelectedReviewItem({ productId: detail.product.id, productName: detail.product.name, transactionId: order.order_id });
+//                                 setIsReviewModalOpen(true);
+//                               }}
+//                               className="px-3 py-1 mt-1 text-[10px] font-bold tracking-widest text-[#006A4E] uppercase transition-colors bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 rounded w-max shrink-0"
+//                             >
+//                               {t("order_btn_review")}
+//                             </button>
+//                           )}
+//                         </div>
+//                       </div>
+//                       <p className="text-sm font-bold text-gray-900 shrink-0 whitespace-nowrap">
+//                         {formatCurrencyDisplay(convertIDRtoActiveCurrency(detail.quantity * detail.price))}
+//                       </p>
+//                     </div>
+//                   )})}
+//                 </div>
+
+//                 <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50">
+//                   <div className="flex flex-col pb-4 mb-4 space-y-1 border-b border-gray-200">
+//                     <div className="flex justify-between text-xs text-gray-500">
+//                       <span>{t("order_subtotal_products")}</span>
+//                       <span>{formatCurrencyDisplay(convertIDRtoActiveCurrency(getSubtotal(order)))}</span>
+//                     </div>
+//                     <div className="flex justify-between text-xs text-gray-500">
+//                       <span className="pr-2 truncate">{t("order_shipping_subtotal")} ({order.shipping_cost > 0 ? `${formatCurrencyDisplay(convertIDRtoActiveCurrency(order.shipping_cost / getOrderQuantity(order)))} x ${getOrderQuantity(order)}` : "Free"})</span>
+//                       <span className="shrink-0">{formatCurrencyDisplay(convertIDRtoActiveCurrency(order.shipping_cost))}</span>
+//                     </div>
+//                     {order.promo_discount > 0 && (
+//                       <div className="flex justify-between text-xs font-medium text-emerald-600">
+//                         <span className="pr-2 truncate">Promo (<span className="font-mono uppercase">{order.promo_code}</span>)</span>
+//                         <span className="shrink-0">- {formatCurrencyDisplay(convertIDRtoActiveCurrency(order.promo_discount))}</span>
+//                       </div>
+//                     )}
+//                     {order.points_used > 0 && (
+//                       <div className="flex justify-between text-xs font-medium text-yellow-600">
+//                         <span className="pr-2 truncate">Points Used ({order.points_used} Pts)</span>
+//                         <span className="shrink-0">- {formatCurrencyDisplay(convertIDRtoActiveCurrency(order.points_used * 1000))}</span>
+//                       </div>
+//                     )}
+//                     <div className="flex items-center justify-between pt-2 mt-2 text-sm font-bold text-gray-900 border-t border-gray-200 border-dashed">
+//                       <span className="uppercase tracking-widest text-[10px] mt-1">{t("order_final_amount")}</span>
+//                       <span className="text-lg text-[#006A4E]">{formatCurrencyDisplay(convertIDRtoActiveCurrency(getGrandTotal(order)))}</span>
+//                     </div>
+//                   </div>
+
+//                   <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+//                     <div className="w-full text-left md:w-auto">
+//                       {canPay(order.status) && order.payment && (
+//                         <div className="flex items-center justify-center gap-2 md:justify-start">
+//                           <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-red-500 animate-pulse shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+//                           </svg>
+//                           <span className="font-mono text-sm font-bold text-red-500">{countdowns[order.id]}</span>
+//                         </div>
+//                       )}
+//                     </div>
+//                     <div className="flex flex-wrap justify-center w-full gap-3 md:justify-end md:w-auto">
+//                       {canCancel(order.status) && (
+//                         <button onClick={() => cancelOrder(order.id)} className="w-full px-6 py-2.5 text-xs font-bold tracking-widest text-red-600 uppercase transition border border-red-200 hover:bg-red-50 rounded-xl md:w-auto">{t("order_btn_cancel")}</button>
+//                       )}
+//                       {canPay(order.status) && (
+//                         <button onClick={() => redirectToPayment(order)} disabled={countdowns[order.id] === "Expired"} className="w-full px-6 py-2.5 text-xs font-bold tracking-widest text-white uppercase transition bg-[#006A4E] shadow-md hover:bg-emerald-900 disabled:bg-gray-300 disabled:shadow-none disabled:cursor-not-allowed rounded-xl md:w-auto">{t("order_btn_pay")}</button>
+//                       )}
+//                       {["processing", "completed", "cancelled", "refund_requested", "refund_approved", "refunded", "refund_rejected", "refund_manual_required", "shipping_failed", "returned"].includes(order.status) &&
+//                         order.shipping_method === "biteship" && (
+//                           <button onClick={() => navigate(`${urlPrefix}/tracking/${order.id}`, { state: { paymentMethod: order.payment_method } })} className="w-full px-6 py-2.5 text-xs font-bold tracking-widest text-white uppercase transition bg-[#006A4E] shadow-sm hover:bg-emerald-900 rounded-xl md:w-auto">{t("order_btn_track")}</button>
+//                         )}
+//                       {canRequestRefund(order) && (
+//                         <button onClick={() => requestRefund(order.id)} className="w-full px-6 py-2.5 text-xs font-bold tracking-widest text-gray-600 uppercase transition border border-gray-300 hover:bg-gray-100 rounded-xl md:w-auto">{t("order_btn_refund")}</button>
+//                       )}
+                      
+//                       {/* STATUS REFUND DESKTOP */}
+//                       {order.status === "refund_requested" && (
+//                         <div className="w-full px-4 py-2 text-xs font-bold text-center bg-amber-100 rounded-xl text-amber-700 md:w-auto">{t("order_status_waiting_admin")}</div>
+//                       )}
+//                       {order.status === "refund_manual_required" && (
+//                         <div className="w-full px-4 py-2 text-xs font-bold text-center text-pink-700 bg-pink-100 rounded-xl md:w-auto">{t("order_status_manual_refund")}</div>
+//                       )}
+//                       {order.status === "refund_approved" && (
+//                         <button onClick={() => processRefundUser(order.id)} className="w-full px-6 py-2 text-xs font-bold tracking-widest text-white uppercase transition bg-blue-600 shadow-sm hover:bg-blue-700 rounded-xl md:w-auto">{t("order_status_refund_now")}</button>
+//                       )}
+//                       {order.status === "refund_rejected" && (
+//                         <div className="w-full text-xs italic font-bold text-center text-red-500 md:w-auto">{t("order_status_refund_rejected")}</div>
+//                       )}
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//             );
+//           })}
+
+//           {/* PAGINATION */}
+//           <div className="flex flex-col items-center justify-between w-full gap-4 pt-6 mt-8 border-t border-gray-100 md:flex-row">
+//             <p className="text-[10px] md:text-sm text-gray-400">
+//               {t("order_showing")} <span className="font-bold text-black">{showingStart}</span> {t("order_to")} <span className="font-bold text-black">{showingEnd}</span> {t("order_of")} <span className="font-bold text-black">{filteredTransactions.length}</span> {t("order_orders")}
+//             </p>
+//             <div className="flex gap-2">
+//               <button
+//                 onClick={() => setCurrentPage((prev) => prev - 1)}
+//                 disabled={currentPage === 1}
+//                 className="px-3 py-1.5 md:px-4 md:py-2 border border-gray-200 rounded-xl hover:bg-gray-50 disabled:opacity-30 transition disabled:cursor-not-allowed text-[10px] md:text-sm font-bold text-gray-600"
+//               >
+//                 {t("order_prev")}
+//               </button>
+//               <div className="flex gap-1">
+//                 {visiblePages.map((page, index) => (
+//                   <button
+//                     key={index}
+//                     onClick={() => typeof page === "number" ? setCurrentPage(page) : null}
+//                     disabled={page === "..."}
+//                     className={`w-7 h-7 md:w-10 md:h-10 rounded-lg md:rounded-xl font-bold transition flex items-center justify-center text-[10px] md:text-sm ${
+//                       currentPage === page ? "bg-[#006A4E] text-white border-[#006A4E] shadow-sm" : "text-gray-600 hover:bg-gray-50 border-gray-200"
+//                     } ${page === "..." ? "cursor-default border-transparent hover:bg-transparent" : "border"}`}
+//                   >
+//                     {page}
+//                   </button>
+//                 ))}
+//               </div>
+//               <button
+//                 onClick={() => setCurrentPage((prev) => prev + 1)}
+//                 disabled={currentPage === totalPages || totalPages === 0}
+//                 className="px-3 py-1.5 md:px-4 md:py-2 border border-gray-200 rounded-xl hover:bg-gray-50 disabled:opacity-30 transition disabled:cursor-not-allowed text-[10px] md:text-sm font-bold text-gray-600"
+//               >
+//                 {t("order_next")}
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+
+//       {selectedReviewItem && (
+//         <ReviewModal
+//           isOpen={isReviewModalOpen}
+//           onClose={() => setIsReviewModalOpen(false)}
+//           productId={selectedReviewItem.productId}
+//           productName={selectedReviewItem.productName}
+//           transactionId={selectedReviewItem.transactionId}
+//           onSuccess={() => {}}
+//         />
+//       )}
+//     </div>
+//   );
+// }
