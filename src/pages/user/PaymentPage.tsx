@@ -10495,7 +10495,7 @@ export default function PaymentPage() {
       const bundleObj = typeof product.bundle_prices === "string" ? JSON.parse(product.bundle_prices) : product.bundle_prices || {};
       const dbBundle = bundleObj[curr] || bundleObj[curr.toLowerCase()] || bundleObj[curr.toUpperCase()];
       if (dbBundle) return { value: parseFloat(dbBundle), curr: curr };
-    } catch (e) { }
+    } catch (e) {}
     return product.bundle_price > 0 ? convertIDRtoActiveCurrency(Number(product.bundle_price)) : null;
   }, [curr, convertIDRtoActiveCurrency]);
 
@@ -10677,10 +10677,6 @@ export default function PaymentPage() {
     return { value: checkoutTotalAmountObj.value + shippingCostObj.value - actualPromoDiscountObj.value - appliedPointDiscountObj.value, curr: curr };
   }, [checkoutTotalAmountObj, shippingCostObj, actualPromoDiscountObj, appliedPointDiscountObj, curr]);
 
-
-  // ==============================================================================
-  // 👇 FUNGSI POLLING TICKETING (BACKGROUND REFRESH) 👇
-  // ==============================================================================
   const pollTicketStatus = async (tId: string) => {
     try {
       const token = localStorage.getItem("user_token");
@@ -10702,12 +10698,10 @@ export default function PaymentPage() {
           },
         });
         window.location.href = data.checkout_url;
-
       } else if (data.status === 'error') {
         setIsWaitingRoomOpen(false);
         setIsProcessing(false);
         Swal.fire("Gagal", data.message || "Gagal memproses pesanan karena sistem sibuk.", "error");
-
       } else if (data.status === 'waiting') {
         setQueuePosition(data.position);
         setQueueMessage(data.message || "Sedang memproses antrean...");
@@ -10722,6 +10716,8 @@ export default function PaymentPage() {
     setIsProcessing(true);
     try {
       const token = localStorage.getItem("user_token");
+      
+      // 👇 [PERBAIKAN] MASUKKAN KEMBALI DELIVERY DATE & TIME KE PAYLOAD 👇
       const payload = {
         address_id: selectedAddressId,
         shipping_method: shippingMethod,
@@ -10731,10 +10727,13 @@ export default function PaymentPage() {
         courier_type: shippingMethod === "biteship" ? selectedRate?.type : null,
         shipping_cost: shippingMethod === "biteship" ? selectedRate?.price : null,
         delivery_type: shippingMethod === "biteship" ? "now" : null,
+        delivery_date: shippingMethod === "biteship" ? deliveryDate : null, 
+        delivery_time: shippingMethod === "biteship" ? deliveryTime : null, 
         promo_code: appliedPromoCode,
         promo_type: appliedPromoType,
         ab_test_variant: abVariant,
       };
+      // 👆 ============================================================== 👆
 
       const res = await fetch(`${BASE_URL}/api/checkout`, {
         method: "POST",
@@ -11080,9 +11079,7 @@ export default function PaymentPage() {
         </div>
       </div>
 
-      {/* ========================================================= */}
-      {/* 👇 MODAL FORM ALAMAT DENGAN PETA (YANG TERHAPUS) 👇 */}
-      {/* ========================================================= */}
+      {/* --- MODAL FORM ALAMAT DENGAN PETA --- */}
       {isModalOpen && (
         <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 pt-10 pb-10 overflow-y-auto bg-black/60 backdrop-blur-sm animate-fade-in-up">
           <div className="flex flex-col w-full max-w-5xl my-auto overflow-hidden bg-white shadow-2xl rounded-3xl">
