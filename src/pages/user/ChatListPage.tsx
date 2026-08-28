@@ -3141,7 +3141,7 @@ export default function ChatListPage() {
 
   const isOfficialSupport =
     activeChat?.usertype === "Official Account" ||
-    activeChat?.email === "support@gycora.com";
+    activeChat?.email === "gycora.essence@gmail.com";
 
   // 👇 [PERBAIKAN] Mengeluarkan fetchStaff dan menggunakan useCallback 👇
   const fetchStaffList = useCallback(async (token: string) => {
