@@ -2545,6 +2545,7 @@ import AdminPromoFormCreate from "./pages/admin/AdminPromoFormCreate";
 import AdminPromoFormEdit from "./pages/admin/AdminPromoFormEdit";
 import AdminPromoDetailPage from "./pages/admin/AdminPromoDetailPage";
 import AdminCustomerAnalytics from "./components/admin/AdminCustomerAnalytics";
+import AdminResellerList from "./pages/admin/AdminResellerList";
 
 // 👇 [BARU] Import Form Promo Dinamis 👇
 // import AdminPromoForm from "./pages/admin/AdminPromoForm";
@@ -2864,6 +2865,16 @@ export default function App() {
                         <AdminRoute>
                           <AdminLayout>
                             <UserDetailPage />
+                          </AdminLayout>
+                        </AdminRoute>
+                      }
+                    />
+                    <Route
+                      path="/admin/resellers"
+                      element={
+                        <AdminRoute>
+                          <AdminLayout>
+                            <AdminResellerList />
                           </AdminLayout>
                         </AdminRoute>
                       }
