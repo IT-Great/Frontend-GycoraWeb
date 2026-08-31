@@ -30,7 +30,7 @@ export default function AdminResellerList() {
         try {
             const token = localStorage.getItem("admin_token");
             // Asumsi route backend Anda mengarah ke ResellerController@index
-            const res = await fetch(`${BASE_URL}/api/reseller-applications`, {
+            const res = await fetch(`${BASE_URL}/api/resellers/applications`, {
                 headers: { Accept: "application/json", Authorization: `Bearer ${token}` },
             });
             if (!res.ok) throw new Error("Gagal load data aplikasi");
