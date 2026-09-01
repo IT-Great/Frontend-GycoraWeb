@@ -50,7 +50,7 @@ export default function AdminResellerList() {
     const handleApprove = async (id: number) => {
         const token = localStorage.getItem("admin_token");
         try {
-            const res = await fetch(`${BASE_URL}/api/reseller-applications/${id}/approve`, {
+            const res = await fetch(`${BASE_URL}/api/applications/${id}/approve`, {
                 method: "POST",
                 headers: { Authorization: `Bearer ${token}` },
             });
@@ -70,7 +70,7 @@ export default function AdminResellerList() {
     const handleReject = async (id: number) => {
         const token = localStorage.getItem("admin_token");
         try {
-            const res = await fetch(`${BASE_URL}/api/reseller-applications/${id}/reject`, {
+            const res = await fetch(`${BASE_URL}/api/applications/${id}/reject`, {
                 method: "POST",
                 headers: { Authorization: `Bearer ${token}` },
             });
