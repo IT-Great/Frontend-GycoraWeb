@@ -1,24 +1,135 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// import { useState } from "react";
+// import { Link } from "react-router-dom"; 
+// import Swal from "sweetalert2";
+// import { BASE_URL } from "../../../config/api";
+// import logoGycora from "../../../assets/gycora_logo.png";
+// // [BARU] Import provider dan hook reCAPTCHA v3
+// import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
+
+// // Komponen form login inti (telah di-ekstrak)
+// function UserLoginForm() {
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [loading, setLoading] = useState(false); 
+  
+//   // [BARU] Ambil fungsi executeRecaptcha
+//   const { executeRecaptcha } = useGoogleReCaptcha();
+
+//   const handleLogin = async (e: React.FormEvent) => {
+//     e.preventDefault();
+    
+//     // [BARU] Validasi apakah recaptcha siap
+//     if (!executeRecaptcha) {
+//         Swal.fire("Error", "reCAPTCHA belum siap. Silakan muat ulang halaman.", "error");
+//         return;
+//     }
+
+//     setLoading(true);
+
+//     try {
+//       // [BARU] Eksekusi reCAPTCHA dan dapatkan token
+//       // 'login_user' adalah action name (bisa apa saja) untuk analitik di dashboard Google
+//       const recaptchaToken = await executeRecaptcha("login_user");
+
+//       const res = await fetch(`${BASE_URL}/api/login`, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json", "Accept": "application/json" },
+//         // [BARU] Kirimkan token reCAPTCHA ke backend
+//         body: JSON.stringify({ email, password, recaptcha_token: recaptchaToken }),
+//       });
+
+//       const data = await res.json();
+
+//       if (res.ok) {
+//         localStorage.setItem("user_token", data.access_token);
+//         localStorage.setItem("user_data", JSON.stringify(data.user));
+
+//         Swal.fire({
+//           icon: "success", title: "Login Berhasil", showConfirmButton: false, timer: 1500,
+//         }).then(() => {
+//            window.location.href = "/"; 
+//         });
+//       } else {
+//         Swal.fire("Login Gagal", data.message || "Email/Password salah.", "error");
+//       }
+//     } catch (error) {
+//       console.error("Login request failed:", error);
+//       Swal.fire("Error", "Gagal terhubung ke server", "error");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <div className="flex items-center justify-center min-h-screen p-4 font-sans bg-white">
+//       <div className="w-full max-w-md p-8 border border-gray-100 shadow-sm rounded-2xl">
+//         <div className="flex justify-center mb-6">
+//           <img src={logoGycora} alt="Gycora Logo" className="object-contain h-10" />
+//         </div>
+//         <h1 className="mb-2 text-3xl font-extrabold text-center text-gray-900">Login</h1>
+//         <p className="mb-8 text-sm text-center text-gray-500">Selamat datang kembali di Gycora.</p>
+
+//         <form onSubmit={handleLogin} className="space-y-5">
+//           <div>
+//             <label className="block mb-1 text-sm font-medium text-gray-700">Email</label>
+//             <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-gycora focus:ring-1 focus:ring-gycora" />
+//           </div>
+//           <div>
+//             <div className="flex items-center justify-between mb-1">
+//               <label className="text-sm font-medium text-gray-700">Password</label>
+//               <Link to="/forgot-password" className="text-xs font-semibold transition-colors text-gycora hover:text-gycora-dark">Lupa Password?</Link>
+//             </div>
+//             <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} className="w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-gycora focus:ring-1 focus:ring-gycora" />
+//           </div>
+//           <button type="submit" disabled={loading} className="w-full px-4 py-3 font-bold text-white transition-colors bg-gray-900 rounded-lg hover:bg-gray-800 disabled:opacity-70">
+//             {loading ? "Memproses..." : "Login"}
+//           </button>
+//         </form>
+
+//         <p className="mt-6 text-sm text-center text-gray-500">
+//           Belum punya akun? <Link to="/register" className="font-semibold text-gycora hover:underline">Daftar sekarang</Link>
+//         </p>
+        
+        
+//         <p className="mt-4 text-[10px] text-center text-gray-400">
+//             Situs ini dilindungi oleh reCAPTCHA dan <a href="https://policies.google.com/privacy" className="hover:underline">Kebijakan Privasi</a> serta <a href="https://policies.google.com/terms" className="hover:underline">Persyaratan Layanan</a> Google berlaku.
+//         </p>
+//       </div>
+//     </div>
+//   );
+// }
+
+// // [BARU] Wrapper komponen dengan Provider
+// export default function UserLogin() {
+//     const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6LdHKtUsAAAAAA9niqeYd5PgduCGtuiUcbiwhS4C";
+//     return (
+//         <GoogleReCaptchaProvider reCaptchaKey={siteKey}>
+//             <UserLoginForm/>
+//         </GoogleReCaptchaProvider>
+//     );
+// }
+
 import { useState } from "react";
 import { Link } from "react-router-dom"; 
 import Swal from "sweetalert2";
 import { BASE_URL } from "../../../config/api";
 import logoGycora from "../../../assets/gycora_logo.png";
-// [BARU] Import provider dan hook reCAPTCHA v3
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
+// 👇 [BARU] Import Provider dan Komponen Tombol Google
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
-// Komponen form login inti (telah di-ekstrak)
 function UserLoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false); 
   
-  // [BARU] Ambil fungsi executeRecaptcha
   const { executeRecaptcha } = useGoogleReCaptcha();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // [BARU] Validasi apakah recaptcha siap
     if (!executeRecaptcha) {
         Swal.fire("Error", "reCAPTCHA belum siap. Silakan muat ulang halaman.", "error");
         return;
@@ -27,14 +138,11 @@ function UserLoginForm() {
     setLoading(true);
 
     try {
-      // [BARU] Eksekusi reCAPTCHA dan dapatkan token
-      // 'login_user' adalah action name (bisa apa saja) untuk analitik di dashboard Google
       const recaptchaToken = await executeRecaptcha("login_user");
 
       const res = await fetch(`${BASE_URL}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        // [BARU] Kirimkan token reCAPTCHA ke backend
         body: JSON.stringify({ email, password, recaptcha_token: recaptchaToken }),
       });
 
@@ -54,6 +162,33 @@ function UserLoginForm() {
       }
     } catch (error) {
       console.error("Login request failed:", error);
+      Swal.fire("Error", "Gagal terhubung ke server", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 👇 [BARU] Penanganan setelah Google mengembalikan Token JWT
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    setLoading(true);
+    try {
+      const res = await fetch(`${BASE_URL}/api/auth/google`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ token: credentialResponse.credential }),
+      });
+      const data = await res.json();
+      
+      if (res.ok) {
+        localStorage.setItem("user_token", data.access_token);
+        localStorage.setItem("user_data", JSON.stringify(data.user));
+        Swal.fire({ icon: "success", title: "Login Google Berhasil", showConfirmButton: false, timer: 1500 }).then(() => {
+          window.location.href = "/";
+        });
+      } else {
+        Swal.fire("Login Gagal", data.message || "Gagal masuk dengan Google.", "error");
+      }
+    } catch (error) {
       Swal.fire("Error", "Gagal terhubung ke server", "error");
     } finally {
       setLoading(false);
@@ -86,10 +221,33 @@ function UserLoginForm() {
           </button>
         </form>
 
+        {/* 👇 [BARU] Garis Pemisah (Divider) 👇 */}
+        <div className="flex items-center my-6">
+          <div className="flex-grow border-t border-gray-200"></div>
+          <span className="px-3 text-xs text-gray-400">Atau masuk dengan</span>
+          <div className="flex-grow border-t border-gray-200"></div>
+        </div>
+
+        {/* 👇 [BARU] Tombol Resmi Google Login 👇 */}
+        <div className="flex justify-center w-full mb-6">
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => {
+              console.log("Login Failed");
+              Swal.fire("Dibatalkan", "Login dengan Google dibatalkan.", "info");
+            }}
+            useOneTap={false}
+            shape="rectangular"
+            theme="outline"
+            text="continue_with"
+            size="large"
+            width="100%"
+          />
+        </div>
+
         <p className="mt-6 text-sm text-center text-gray-500">
           Belum punya akun? <Link to="/register" className="font-semibold text-gycora hover:underline">Daftar sekarang</Link>
         </p>
-        
         
         <p className="mt-4 text-[10px] text-center text-gray-400">
             Situs ini dilindungi oleh reCAPTCHA dan <a href="https://policies.google.com/privacy" className="hover:underline">Kebijakan Privasi</a> serta <a href="https://policies.google.com/terms" className="hover:underline">Persyaratan Layanan</a> Google berlaku.
@@ -99,12 +257,17 @@ function UserLoginForm() {
   );
 }
 
-// [BARU] Wrapper komponen dengan Provider
+// Wrapper komponen dengan Multiple Providers
 export default function UserLogin() {
-    const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6LdHKtUsAAAAAA9niqeYd5PgduCGtuiUcbiwhS4C";
+    const recaptchaKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6LdHKtUsAAAAAA9niqeYd5PgduCGtuiUcbiwhS4C";
+    // 🌟 Wajib: Masukkan Client ID Google Anda di file .env dengan nama VITE_GOOGLE_CLIENT_ID 🌟
+    const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || "GOOGLE_CLIENT_ID_ANDA";
+
     return (
-        <GoogleReCaptchaProvider reCaptchaKey={siteKey}>
-            <UserLoginForm/>
-        </GoogleReCaptchaProvider>
+        <GoogleOAuthProvider clientId={googleClientId}>
+            <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
+                <UserLoginForm/>
+            </GoogleReCaptchaProvider>
+        </GoogleOAuthProvider>
     );
 }
