@@ -2821,7 +2821,7 @@ export default function App() {
                       }
                     />
                     <Route
-                      path="/admin/stocks"
+                      path="/admin/product-stocks"
                       element={
                         <AdminRoute>
                           <AdminLayout>

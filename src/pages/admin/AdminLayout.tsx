@@ -81,7 +81,7 @@
 //         "/admin/dashboard": "dashboard",
 //         "/admin/categories": "categories",
 //         "/admin/products": "products",
-//         "/admin/stocks": "stocks",
+//         "/admin/product-stocks": "stocks",
 //         "/admin/treatments": "treatments",
 //         "/admin/transactions": "transactions",
 //         "/admin/sales-report": "sales_report",
@@ -136,7 +136,7 @@
 //   useEffect(() => {
 //     if (
 //       pathname.includes("/admin/products") ||
-//       pathname.includes("/admin/stocks")
+//       pathname.includes("/admin/product-stocks")
 //     ) {
 //       setIsProductMenuOpen(true);
 //     }
@@ -189,7 +189,7 @@
 //     pathname === "/admin/products" ||
 //     pathname.includes("/admin/products/create") ||
 //     (pathname.includes("/admin/products/") && !pathname.includes("stocks"));
-//   const isStocksActive = pathname.includes("/admin/stocks");
+//   const isStocksActive = pathname.includes("/admin/product-stocks");
 //   const isAnyProductSubmenuActive = isProductsActive || isStocksActive;
 
 //   const isTreatmentsActive = pathname.includes("/admin/treatments");
@@ -329,7 +329,7 @@
 //                     <Link to="/admin/products" className={`py-2 px-3 text-sm font-medium rounded-lg transition-colors ${isProductsActive ? "text-gycora bg-emerald-50/50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`}>Katalog Utama</Link>
 //                   )}
 //                   {canAccess("stocks") && (
-//                     <Link to="/admin/stocks" className={`py-2 px-3 text-sm font-medium rounded-lg transition-colors ${isStocksActive ? "text-gycora bg-emerald-50/50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`}>Stok & Batch Gudang</Link>
+//                     <Link to="/admin/product-stocks" className={`py-2 px-3 text-sm font-medium rounded-lg transition-colors ${isStocksActive ? "text-gycora bg-emerald-50/50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`}>Stok & Batch Gudang</Link>
 //                   )}
 //                 </div>
 //               </div>
@@ -756,7 +756,7 @@
 //         "/admin/dashboard": "dashboard",
 //         "/admin/categories": "categories",
 //         "/admin/products": "products",
-//         "/admin/stocks": "stocks",
+//         "/admin/product-stocks": "stocks",
 //         "/admin/treatments": "treatments",
 //         "/admin/transactions": "transactions",
 //         "/admin/sales-report": "sales_report",
@@ -808,7 +808,7 @@
 //   useEffect(() => {
 //     if (
 //       pathname.includes("/admin/products") ||
-//       pathname.includes("/admin/stocks")
+//       pathname.includes("/admin/product-stocks")
 //     ) {
 //       setIsProductMenuOpen(true);
 //     }
@@ -865,7 +865,7 @@
 //     pathname === "/admin/products" ||
 //     pathname.includes("/admin/products/create") ||
 //     (pathname.includes("/admin/products/") && !pathname.includes("stocks"));
-//   const isStocksActive = pathname.includes("/admin/stocks");
+//   const isStocksActive = pathname.includes("/admin/product-stocks");
 //   const isAnyProductSubmenuActive = isProductsActive || isStocksActive;
 
 //   const isTreatmentsActive = pathname.includes("/admin/treatments");
@@ -1001,7 +1001,7 @@
 //                     <Link to="/admin/products" className={`py-2 px-3 text-sm font-medium rounded-lg transition-colors ${isProductsActive ? "text-gycora bg-emerald-50/50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`}>Katalog Utama</Link>
 //                   )}
 //                   {canAccess("stocks") && (
-//                     <Link to="/admin/stocks" className={`py-2 px-3 text-sm font-medium rounded-lg transition-colors ${isStocksActive ? "text-gycora bg-emerald-50/50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`}>Stok & Batch Gudang</Link>
+//                     <Link to="/admin/product-stocks" className={`py-2 px-3 text-sm font-medium rounded-lg transition-colors ${isStocksActive ? "text-gycora bg-emerald-50/50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`}>Stok & Batch Gudang</Link>
 //                   )}
 //                 </div>
 //               </div>
@@ -1445,7 +1445,7 @@
 //         "/admin/dashboard": "dashboard",
 //         "/admin/categories": "categories",
 //         "/admin/products": "products",
-//         "/admin/stocks": "stocks",
+//         "/admin/product-stocks": "stocks",
 //         "/admin/treatments": "treatments",
 //         "/admin/transactions": "transactions",
 //         "/admin/sales-report": "sales_report",
@@ -1497,7 +1497,7 @@
 //   useEffect(() => {
 //     if (
 //       pathname.includes("/admin/products") ||
-//       pathname.includes("/admin/stocks")
+//       pathname.includes("/admin/product-stocks")
 //     ) {
 //       setIsProductMenuOpen(true);
 //     }
@@ -1555,7 +1555,7 @@
 //     pathname === "/admin/products" ||
 //     pathname.includes("/admin/products/create") ||
 //     (pathname.includes("/admin/products/") && !pathname.includes("stocks"));
-//   const isStocksActive = pathname.includes("/admin/stocks");
+//   const isStocksActive = pathname.includes("/admin/product-stocks");
 //   const isAnyProductSubmenuActive = isProductsActive || isStocksActive;
 
 //   const isTreatmentsActive = pathname.includes("/admin/treatments");
@@ -1691,7 +1691,7 @@
 //                     <Link to="/admin/products" className={`py-2 px-3 text-sm font-medium rounded-lg transition-colors ${isProductsActive ? "text-gycora bg-emerald-50/50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`}>Katalog Utama</Link>
 //                   )}
 //                   {canAccess("stocks") && (
-//                     <Link to="/admin/stocks" className={`py-2 px-3 text-sm font-medium rounded-lg transition-colors ${isStocksActive ? "text-gycora bg-emerald-50/50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`}>Stok & Batch Gudang</Link>
+//                     <Link to="/admin/product-stocks" className={`py-2 px-3 text-sm font-medium rounded-lg transition-colors ${isStocksActive ? "text-gycora bg-emerald-50/50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`}>Stok & Batch Gudang</Link>
 //                   )}
 //                 </div>
 //               </div>
@@ -2121,7 +2121,7 @@ export default function AdminLayout({
         "/admin/dashboard": "dashboard",
         "/admin/categories": "categories",
         "/admin/products": "products",
-        "/admin/stocks": "stocks",
+        "/admin/product-stocks": "stocks",
         "/admin/treatments": "treatments",
         "/admin/transactions": "transactions",
         "/admin/sales-report": "sales_report",
@@ -2175,7 +2175,7 @@ export default function AdminLayout({
   useEffect(() => {
     if (
       pathname.includes("/admin/products") ||
-      pathname.includes("/admin/stocks")
+      pathname.includes("/admin/product-stocks")
     ) {
       setIsProductMenuOpen(true);
     }
@@ -2236,7 +2236,7 @@ export default function AdminLayout({
     pathname === "/admin/products" ||
     pathname.includes("/admin/products/create") ||
     (pathname.includes("/admin/products/") && !pathname.includes("stocks"));
-  const isStocksActive = pathname.includes("/admin/stocks");
+  const isStocksActive = pathname.includes("/admin/product-stocks");
   const isAnyProductSubmenuActive = isProductsActive || isStocksActive;
 
   const isTreatmentsActive = pathname.includes("/admin/treatments");
@@ -2438,7 +2438,7 @@ export default function AdminLayout({
                   )}
                   {canAccess("stocks") && (
                     <Link
-                      to="/admin/stocks"
+                      to="/admin/product-stocks"
                       className={`py-2 px-3 text-sm font-medium rounded-lg transition-colors ${isStocksActive ? "text-gycora bg-emerald-50/50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`}
                     >
                       Stok & Batch Gudang
