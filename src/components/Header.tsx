@@ -2175,17 +2175,22 @@ export default function Header() {
   const [userData, setUserData] = useState<any>(null);
   const { cartTotalItems } = useCart();
   const { lang, setLang, t } = useLanguage();
-  const { currency, setCurrency, exchangeRates } = useCurrency();
+
+  // 👇 PERBAIKAN: Menghapus exchangeRates yang tidak dipakai 👇
+  const { currency, setCurrency } = useCurrency();
 
   const [isCurrencyMenuOpen, setIsCurrencyMenuOpen] = useState(false);
   const currencyDropdownRef = useRef<HTMLDivElement>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const [isProductMenuOpen, setIsProductMenuOpen] = useState(false);
   const [isMobileProductMenuOpen, setIsMobileProductMenuOpen] = useState(false);
+
   const [isAboutMenuOpen, setIsAboutMenuOpen] = useState(false);
   const [isMobileAboutMenuOpen, setIsMobileAboutMenuOpen] = useState(false);
+
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const langDropdownRef = useRef<HTMLDivElement>(null);
 
@@ -2195,7 +2200,7 @@ export default function Header() {
   const [isSearching, setIsSearching] = useState(false);
   const [unreadChatCount, setUnreadChatCount] = useState(0);
 
-  // 👇 STATE UNTUK MEILISEARCH & FACETED SEARCH 👇
+  // STATE UNTUK MEILISEARCH & FACETED SEARCH
   const [rawScoutProducts, setRawScoutProducts] = useState<any[]>([]);
   const [activeCategoryFacet, setActiveCategoryFacet] = useState<string>("all");
   const [maxPriceFacet, setMaxPriceFacet] = useState<number>(5000000);
@@ -2337,7 +2342,7 @@ export default function Header() {
   };
 
   // ============================================================================
-  // 👇 LOGIKA PENCARIAN MEILISEARCH SUPER KILAT (150ms Debounce) 👇
+  // LOGIKA PENCARIAN MEILISEARCH SUPER KILAT (150ms Debounce)
   // ============================================================================
   useEffect(() => {
     if (!isSearchOpen) return;
@@ -2352,7 +2357,6 @@ export default function Header() {
 
     searchTimeoutRef.current = setTimeout(async () => {
       try {
-        // Menggunakan endpoint Scout yang mentoleransi Typo
         const res = await fetch(`${BASE_URL}/api/search/products?q=${encodeURIComponent(searchQuery)}`, {
           headers: { Accept: "application/json" },
         });
@@ -2368,20 +2372,18 @@ export default function Header() {
       } finally {
         setIsSearching(false);
       }
-    }, 150); // Kecepatan diubah menjadi 150ms agar terasa Real-time
+    }, 150);
 
     return () => {
       if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
     };
   }, [searchQuery, isSearchOpen]);
 
-  // Faceted Categories Extractor (Membuat daftar kategori dari hasil pencarian secara dinamis)
   const availableFacets = useMemo(() => {
     const cats = new Set(rawScoutProducts.map((p: any) => p.category?.name).filter(Boolean));
     return ["all", ...Array.from(cats)];
   }, [rawScoutProducts]);
 
-  // Eksekusi Filter Facet di sisi Client (Memori RAM Browser = 0ms Loading)
   const filteredProducts = useMemo(() => {
     return rawScoutProducts.filter((p: any) => {
       const matchCat = activeCategoryFacet === "all" || p.category?.name === activeCategoryFacet;
@@ -2389,7 +2391,6 @@ export default function Header() {
       return matchCat && matchPrice;
     });
   }, [rawScoutProducts, activeCategoryFacet, maxPriceFacet]);
-  // 👆 ============================================================================ 👆
 
   const closeSearchModal = () => {
     setIsSearchOpen(false);
@@ -2527,6 +2528,119 @@ export default function Header() {
           </div>
         </div>
       </header>
+
+      {/* 👇 PERBAIKAN: BLOK MOBILE MENU YANG SEMPAT HILANG 👇 */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[100] md:hidden">
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
+          <div className="absolute inset-y-0 left-0 w-4/5 max-w-sm p-4 overflow-y-auto bg-white shadow-2xl custom-scrollbar">
+            <div className="flex items-center justify-between mb-8">
+              <img src={logoGycora} alt="Logo" className="h-6" />
+              <button onClick={() => setIsMobileMenuOpen(false)}>
+                <svg className="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {userData && (
+              <div className="flex items-center gap-3 p-4 mb-4 border border-gray-100 rounded-xl bg-emerald-50/30">
+                <div className="flex items-center justify-center w-12 h-12 font-bold rounded-full bg-gycora-light text-gycora-dark">
+                  {userData.first_name.charAt(0)}
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-gray-900">{userData.first_name} {userData.last_name}</p>
+                  <p className="text-xs text-gray-500">{userData.email}</p>
+                </div>
+              </div>
+            )}
+
+            <nav className="flex flex-col gap-4">
+              <Link to={urlPrefix || "/"} onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold">
+                {t("home")}
+              </Link>
+
+              <div>
+                <button onClick={() => setIsMobileAboutMenuOpen(!isMobileAboutMenuOpen)} className="flex items-center justify-between w-full text-lg font-bold">
+                  {t("about_us")}
+                  <svg className={`w-5 h-5 transition-transform ${isMobileAboutMenuOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {isMobileAboutMenuOpen && (
+                  <div className="flex flex-col gap-3 pl-4 mt-2 text-gray-600">
+                    <Link to={`${urlPrefix}/pages/our-story`} onClick={() => setIsMobileMenuOpen(false)} className="text-left">Our Story</Link>
+                    <Link to={`${urlPrefix}/pages/our-purpose`} onClick={() => setIsMobileMenuOpen(false)} className="text-left">Our Purpose</Link>
+                    <Link to={`${urlPrefix}/pages/about-us#our-innovation`} onClick={() => setIsMobileMenuOpen(false)} className="text-left">Our Innovation</Link>
+                    <Link to={`${urlPrefix}/pages/vission-and-mission`} onClick={() => setIsMobileMenuOpen(false)} className="text-left">Vision and Mission</Link>
+                    <Link to={`${urlPrefix}/pages/faq`} onClick={() => setIsMobileMenuOpen(false)} className="text-left text-gycora">FAQs</Link>
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <button onClick={() => setIsMobileProductMenuOpen(!isMobileProductMenuOpen)} className="flex items-center justify-between w-full text-lg font-bold">
+                  {t("product")}
+                  <svg className={`w-5 h-5 transition-transform ${isMobileProductMenuOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {isMobileProductMenuOpen && (
+                  <div className="flex flex-col gap-3 pl-4 mt-2 text-gray-600">
+                    <button className="text-left" onClick={() => { setIsMobileMenuOpen(false); const target = allProducts.find((p) => p.slug === 'ethereal-glow-brush-pink'); navigate(`${urlPrefix}/product/ethereal-glow-brush-pink`, { state: { initialProduct: target, allProducts } }); }}>Ethereal Glow Brush Pink</button>
+                    <button className="text-left" onClick={() => { setIsMobileMenuOpen(false); const target = allProducts.find((p) => p.slug === 'ethereal-glow-brush-black'); navigate(`${urlPrefix}/product/ethereal-glow-brush-black`, { state: { initialProduct: target, allProducts } }); }}>Ethereal Glow Brush Black</button>
+                    <button className="text-left" onClick={() => { setIsMobileMenuOpen(false); const target = allProducts.find((p) => p.slug === 'eco-serenity-scalp-care-orange'); navigate(`${urlPrefix}/product/eco-serenity-scalp-care-orange`, { state: { initialProduct: target, allProducts } }); }}>Eco Serenity Scalp Care</button>
+                    <button className="mt-2 font-bold text-left text-gycora" onClick={() => { setIsMobileMenuOpen(false); navigate(`${urlPrefix}/collections/all`, { state: { filterCategory: 'Bundle' } }); }}>Bundle Product</button>
+                  </div>
+                )}
+              </div>
+
+              <Link to={`${urlPrefix}/events`} onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold">{t("events")}</Link>
+              <Link to={`${urlPrefix}/consult`} onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold">{t("consult")}</Link>
+
+              {userData ? (
+                <>
+                  <div className="my-2 border-t border-gray-100"></div>
+                  <Link to={`${urlPrefix}/chat`} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center text-base font-medium text-gray-700">
+                    Live Chat Pakar
+                    {unreadChatCount > 0 && (
+                      <span className="px-2 py-0.5 ml-2 text-[10px] font-bold text-white bg-red-600 rounded-full animate-pulse">
+                        {unreadChatCount} New
+                      </span>
+                    )}
+                  </Link>
+                  <Link to={`${urlPrefix}/profile`} onClick={() => setIsMobileMenuOpen(false)} className="text-base font-medium text-gray-700">{t("my_profile")}</Link>
+                  <Link to={`${urlPrefix}/orders`} onClick={() => setIsMobileMenuOpen(false)} className="text-base font-medium text-gray-700">{t("my_orders")}</Link>
+
+                  <div className="flex items-center justify-between pt-4 mt-2 border-t border-gray-100">
+                    <span className="text-sm font-bold text-gray-700">Currency</span>
+                    <select value={currency} onChange={(e) => setCurrency(e.target.value as Currency)} className="p-2 pr-8 text-sm font-bold text-left uppercase bg-gray-100 border-none rounded-lg outline-none text-gycora">
+                      {availableCurrencies.map((curr) => (
+                        <option key={curr} value={curr}>{curr}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <button onClick={handleLogout} className="mt-4 font-bold text-left text-red-600">{t("logout")}</button>
+                </>
+              ) : (
+                <div className="flex flex-col gap-2 mt-4">
+                  <div className="flex items-center justify-between pb-2 mb-2 border-b border-gray-100">
+                    <span className="text-sm font-bold text-gray-700">Currency</span>
+                    <select value={currency} onChange={(e) => setCurrency(e.target.value as Currency)} className="p-2 pr-8 text-sm font-bold text-left uppercase bg-gray-100 border-none rounded-lg outline-none text-gycora">
+                      {availableCurrencies.map((curr) => (
+                        <option key={curr} value={curr}>{curr}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <button onClick={() => { setIsMobileMenuOpen(false); navigate(`${urlPrefix}/login`); }} className="w-full px-4 py-3 text-sm font-bold text-white bg-gray-900 rounded-xl">{t("login")}</button>
+                  <button onClick={() => { setIsMobileMenuOpen(false); navigate(`${urlPrefix}/register`); }} className="w-full px-4 py-3 text-sm font-bold text-gray-700 border border-gray-200 rounded-xl">{t("register")}</button>
+                </div>
+              )}
+            </nav>
+          </div>
+        </div>
+      )}
 
       {/* GLOBAL FACETED SEARCH MODAL */}
       {isSearchOpen && (
