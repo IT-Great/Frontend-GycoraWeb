@@ -2546,6 +2546,7 @@ import AdminPromoFormEdit from "./pages/admin/AdminPromoFormEdit";
 import AdminPromoDetailPage from "./pages/admin/AdminPromoDetailPage";
 import AdminCustomerAnalytics from "./components/admin/AdminCustomerAnalytics";
 import AdminResellerList from "./pages/admin/AdminResellerList";
+import AdminInactiveProductStock from "./pages/admin/AdminInactiveProductStock";
 
 // 👇 [BARU] Import Form Promo Dinamis 👇
 // import AdminPromoForm from "./pages/admin/AdminPromoForm";
@@ -2825,6 +2826,16 @@ export default function App() {
                         <AdminRoute>
                           <AdminLayout>
                             <AdminProductStock />
+                          </AdminLayout>
+                        </AdminRoute>
+                      }
+                    />
+                    <Route
+                      path="/admin/product-stocks/inactive"
+                      element={
+                        <AdminRoute>
+                          <AdminLayout>
+                            <AdminInactiveProductStock />
                           </AdminLayout>
                         </AdminRoute>
                       }
