@@ -13,13 +13,13 @@
 //   const [email, setEmail] = useState("");
 //   const [password, setPassword] = useState("");
 //   const [loading, setLoading] = useState(false); 
-  
+
 //   // [BARU] Ambil fungsi executeRecaptcha
 //   const { executeRecaptcha } = useGoogleReCaptcha();
 
 //   const handleLogin = async (e: React.FormEvent) => {
 //     e.preventDefault();
-    
+
 //     // [BARU] Validasi apakah recaptcha siap
 //     if (!executeRecaptcha) {
 //         Swal.fire("Error", "reCAPTCHA belum siap. Silakan muat ulang halaman.", "error");
@@ -91,8 +91,8 @@
 //         <p className="mt-6 text-sm text-center text-gray-500">
 //           Belum punya akun? <Link to="/register" className="font-semibold text-gycora hover:underline">Daftar sekarang</Link>
 //         </p>
-        
-        
+
+
 //         <p className="mt-4 text-[10px] text-center text-gray-400">
 //             Situs ini dilindungi oleh reCAPTCHA dan <a href="https://policies.google.com/privacy" className="hover:underline">Kebijakan Privasi</a> serta <a href="https://policies.google.com/terms" className="hover:underline">Persyaratan Layanan</a> Google berlaku.
 //         </p>
@@ -103,7 +103,7 @@
 
 // // [BARU] Wrapper komponen dengan Provider
 // export default function UserLogin() {
-//     const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6LdHKtUsAAAAAA9niqeYd5PgduCGtuiUcbiwhS4C";
+//     const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "";
 //     return (
 //         <GoogleReCaptchaProvider reCaptchaKey={siteKey}>
 //             <UserLoginForm/>
@@ -112,7 +112,7 @@
 // }
 
 import { useState } from "react";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { BASE_URL } from "../../../config/api";
 import logoGycora from "../../../assets/gycora_logo.png";
@@ -123,16 +123,16 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 function UserLoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false); 
-  
+  const [loading, setLoading] = useState(false);
+
   const { executeRecaptcha } = useGoogleReCaptcha();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!executeRecaptcha) {
-        Swal.fire("Error", "reCAPTCHA belum siap. Silakan muat ulang halaman.", "error");
-        return;
+      Swal.fire("Error", "reCAPTCHA belum siap. Silakan muat ulang halaman.", "error");
+      return;
     }
 
     setLoading(true);
@@ -155,7 +155,7 @@ function UserLoginForm() {
         Swal.fire({
           icon: "success", title: "Login Berhasil", showConfirmButton: false, timer: 1500,
         }).then(() => {
-           window.location.href = "/"; 
+          window.location.href = "/";
         });
       } else {
         Swal.fire("Login Gagal", data.message || "Email/Password salah.", "error");
@@ -178,7 +178,7 @@ function UserLoginForm() {
         body: JSON.stringify({ token: credentialResponse.credential }),
       });
       const data = await res.json();
-      
+
       if (res.ok) {
         localStorage.setItem("user_token", data.access_token);
         localStorage.setItem("user_data", JSON.stringify(data.user));
@@ -248,9 +248,9 @@ function UserLoginForm() {
         <p className="mt-6 text-sm text-center text-gray-500">
           Belum punya akun? <Link to="/register" className="font-semibold text-gycora hover:underline">Daftar sekarang</Link>
         </p>
-        
+
         <p className="mt-4 text-[10px] text-center text-gray-400">
-            Situs ini dilindungi oleh reCAPTCHA dan <a href="https://policies.google.com/privacy" className="hover:underline">Kebijakan Privasi</a> serta <a href="https://policies.google.com/terms" className="hover:underline">Persyaratan Layanan</a> Google berlaku.
+          Situs ini dilindungi oleh reCAPTCHA dan <a href="https://policies.google.com/privacy" className="hover:underline">Kebijakan Privasi</a> serta <a href="https://policies.google.com/terms" className="hover:underline">Persyaratan Layanan</a> Google berlaku.
         </p>
       </div>
     </div>
@@ -259,15 +259,15 @@ function UserLoginForm() {
 
 // Wrapper komponen dengan Multiple Providers
 export default function UserLogin() {
-    const recaptchaKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6LdHKtUsAAAAAA9niqeYd5PgduCGtuiUcbiwhS4C";
-    // 🌟 Wajib: Masukkan Client ID Google Anda di file .env dengan nama VITE_GOOGLE_CLIENT_ID 🌟
-    const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || "GOOGLE_CLIENT_ID_ANDA";
+  const recaptchaKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "";
+  // 🌟 Wajib: Masukkan Client ID Google Anda di file .env dengan nama VITE_GOOGLE_CLIENT_ID 🌟
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || "GOOGLE_CLIENT_ID_ANDA";
 
-    return (
-        <GoogleOAuthProvider clientId={googleClientId}>
-            <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
-                <UserLoginForm/>
-            </GoogleReCaptchaProvider>
-        </GoogleOAuthProvider>
-    );
+  return (
+    <GoogleOAuthProvider clientId={googleClientId}>
+      <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
+        <UserLoginForm />
+      </GoogleReCaptchaProvider>
+    </GoogleOAuthProvider>
+  );
 }

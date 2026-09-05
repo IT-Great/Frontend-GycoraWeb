@@ -157,7 +157,7 @@ function AdminLoginForm() {
 export default function AdminLogin() {
   const siteKey =
     import.meta.env.VITE_RECAPTCHA_SITE_KEY ||
-    "6LdHKtUsAAAAAA9niqeYd5PgduCGtuiUcbiwhS4C";
+    "";
   return (
     <GoogleReCaptchaProvider reCaptchaKey={siteKey}>
       <AdminLoginForm />
