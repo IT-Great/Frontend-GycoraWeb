@@ -13489,7 +13489,7 @@ export default function PaymentPage() {
                             Waiting Room
                         </h2>
                         <p className="text-emerald-400 font-bold mb-6">
-                            Flash Sale Sedang Berlangsung!
+                            Proses Sedang Berlangsung!
                         </p>
                         <div className="bg-white/10 border border-white/20 p-6 rounded-2xl mb-6">
                             <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">
