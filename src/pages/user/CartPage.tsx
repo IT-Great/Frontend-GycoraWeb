@@ -8102,19 +8102,53 @@ export default function CartPage() {
     return convertIDRtoActiveCurrency(basePrice);
   }, [currency, convertIDRtoActiveCurrency]);
 
-  const getDiscountToDisplay = useCallback((product: Product | null) => {
-    if (!product) return null;
-    const curr = (currency as Currency) || "IDR";
-    const baseDisc = Number(product.discount_price) || 0;
+  // const getDiscountToDisplay = useCallback((product: Product | null) => {
+  //   if (!product) return null;
+  //   const curr = (currency as Currency) || "IDR";
+  //   const baseDisc = Number(product.discount_price) || 0;
 
-    if (curr === "IDR") return baseDisc > 0 ? { value: baseDisc, curr: "IDR" } : null;
+  //   if (curr === "IDR") return baseDisc > 0 ? { value: baseDisc, curr: "IDR" } : null;
+  //   try {
+  //     const discObj = typeof product.discount_prices === "string" ? JSON.parse(product.discount_prices) : product.discount_prices || {};
+  //     const dbDisc = discObj[curr] || discObj[curr.toLowerCase()] || discObj[curr.toUpperCase()];
+  //     if (dbDisc) return { value: parseFloat(dbDisc), curr: curr };
+  //   } catch (e) {}
+  //   return baseDisc > 0 ? convertIDRtoActiveCurrency(baseDisc) : null;
+  // }, [currency, convertIDRtoActiveCurrency]);
+
+  const getDiscountToDisplay = useCallback((product: any) => {
+    if (!product) return null;
+
+    // 👇 LOGIKA VALIDASI TANGGAL DISKON DINAMIS 👇
+    let isDiscountValid = true;
+    const now = Date.now();
+
+    if (product.discount_start_date && product.discount_start_date !== "0000-00-00 00:00:00") {
+      const start = new Date(product.discount_start_date.replace(" ", "T")).getTime();
+      if (!isNaN(start) && now < start) isDiscountValid = false;
+    }
+
+    if (isDiscountValid && product.discount_end_date && product.discount_end_date !== "0000-00-00 00:00:00") {
+      const end = new Date(product.discount_end_date.replace(" ", "T")).getTime();
+      if (!isNaN(end) && now > end) isDiscountValid = false;
+    }
+
+    // Jika waktu tidak memenuhi syarat, kembalikan null (Gunakan harga normal)
+    if (!isDiscountValid) return null;
+    // 👆 ========================================= 👆
+
+    const curr = (currency as Currency) || "IDR";
+    if (curr === "IDR") return product.discount_price ? { value: Number(product.discount_price), curr: "IDR" } : null;
+
     try {
       const discObj = typeof product.discount_prices === "string" ? JSON.parse(product.discount_prices) : product.discount_prices || {};
       const dbDisc = discObj[curr] || discObj[curr.toLowerCase()] || discObj[curr.toUpperCase()];
       if (dbDisc) return { value: parseFloat(dbDisc), curr: curr };
-    } catch (e) {}
-    return baseDisc > 0 ? convertIDRtoActiveCurrency(baseDisc) : null;
-  }, [currency, convertIDRtoActiveCurrency]);
+    } catch (e) {
+      console.error(e);
+    }
+    return product.discount_price ? { value: Number(product.discount_price), curr: "IDR" } : null;
+  }, [currency]);
 
   const getWholesaleToDisplay = useCallback((product: Product | null) => {
     if (!product) return null;
