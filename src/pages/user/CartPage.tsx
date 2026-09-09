@@ -7993,6 +7993,7 @@ export default function CartPage() {
     removeCartItemOptimistically,
     updateCartItemQtyOptimistically,
     revertCartItems,
+    freePouchRemaining, // 👈 AMBIL STATE INI
   } = useCart() as any;
 
   const [localCartItems, setLocalCartItems] = useState<CartItem[]>([]);
@@ -8655,6 +8656,25 @@ export default function CartPage() {
                               <h3 className="text-sm font-bold tracking-tight text-gray-900 transition-colors cursor-pointer sm:text-lg hover:text-[#006A4E] line-clamp-2" onClick={() => navigate(`${urlPrefix}/product/${prod.slug}`)}>
                                 {prod.name}
                               </h3>
+
+                              {/* 👇 [FITUR BARU] TAMPILAN SISA KUOTA HADIAH BUNDLE 👇 */}
+                              {isBundled && prod.has_bundle_freebie && (
+                                <div className="mt-2">
+                                  {prod.bundle_freebie_quota > 0 ? (
+                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg animate-pulse">
+                                      <span>🎁 Free {prod.bundle_freebie_name}</span>
+                                      <span className="px-1.5 py-0.5 text-[9px] text-white bg-red-500 rounded">
+                                        Sisa Kuota: {prod.bundle_freebie_quota} Pembeli!
+                                      </span>
+                                    </span>
+                                  ) : (
+                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-bold text-gray-400 bg-gray-50 border border-gray-200 rounded-lg line-through">
+                                      🎁 Free {prod.bundle_freebie_name} (Sudah Habis)
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+                              {/* 👆 ================================================== 👆 */}
                               
                               {item.color && (
                                 <div className="flex items-center gap-1.5 mt-2">
@@ -8779,13 +8799,46 @@ export default function CartPage() {
                   <span className="font-bold text-gray-900">{selectedTotalQuantity} Pcs</span>
                 </div>
 
-                {checkoutData.appliedBundlesCount > 0 && (
+                {/* {checkoutData.appliedBundlesCount > 0 && (
                   <div className="flex items-center justify-between p-4 border border-purple-200 rounded-2xl bg-purple-50">
                     <div className="flex items-center gap-3">
                       <span className="flex items-center justify-center w-6 h-6 text-xs text-white bg-purple-600 rounded-full shadow-sm">✓</span>
                       <span className="text-xs font-extrabold tracking-wide text-purple-800 uppercase">{t("bundle_promo_active")}</span>
                     </div>
                     <span className="text-sm font-black text-purple-700">{checkoutData.appliedBundlesCount} {t("bundle")}</span>
+                  </div>
+                )} */}
+
+                {checkoutData.appliedBundlesCount > 0 && (
+                  <div className="flex flex-col p-4 border border-purple-200 rounded-2xl bg-purple-50">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <span className="flex items-center justify-center w-6 h-6 text-xs text-white bg-purple-600 rounded-full shadow-sm">✓</span>
+                        <span className="text-xs font-extrabold tracking-wide text-purple-800 uppercase">{t("bundle_promo_active")}</span>
+                      </div>
+                      <span className="text-sm font-black text-purple-700">{checkoutData.appliedBundlesCount} {t("bundle")}</span>
+                    </div>
+
+                    {/* 👇 [FITUR BARU] UI FREE POUCH LIMITED 👇 */}
+                    <div className="flex items-center justify-between pt-3 mt-3 border-t border-purple-200/50">
+                      <div className="flex flex-col">
+                        <span className="text-[11px] font-bold text-purple-800 flex items-center gap-1">
+                          🎁 Free Pouch Exclusive
+                        </span>
+                        <span className="text-[9px] text-purple-600/80 mt-0.5 font-medium">Limited to first 5 customers</span>
+                      </div>
+
+                      {freePouchRemaining > 0 ? (
+                        <span className="text-[10px] font-black bg-purple-600 text-white px-2 py-1 rounded-full animate-pulse shadow-sm whitespace-nowrap">
+                          Sisa {freePouchRemaining} Kuota!
+                        </span>
+                      ) : (
+                        <span className="text-[10px] font-bold bg-gray-300 text-gray-500 px-2 py-1 rounded-full whitespace-nowrap">
+                          Kesempatan Habis
+                        </span>
+                      )}
+                    </div>
+                    {/* 👆 ===================================== 👆 */}
                   </div>
                 )}
 

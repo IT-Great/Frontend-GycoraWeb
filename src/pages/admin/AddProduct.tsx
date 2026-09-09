@@ -1291,6 +1291,9 @@ export default function AddProduct() {
     description: "",
     benefits: "",
     status: "active",
+    has_bundle_freebie: false,
+    bundle_freebie_name: "",
+    bundle_freebie_quota: "0",
   });
 
   const [multiPrices, setMultiPrices] = useState<Record<string, string>>({

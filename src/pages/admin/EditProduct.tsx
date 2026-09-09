@@ -1064,6 +1064,9 @@ export default function EditProduct() {
     benefits: "",
     status: "active",
     image_url: "",
+    has_bundle_freebie: false,
+    bundle_freebie_name: "",
+    bundle_freebie_quota: "0",
   });
 
   useEffect(() => {
@@ -1113,6 +1116,11 @@ export default function EditProduct() {
           benefits: prodData.benefits || "",
           image_url: prodData.image_url || "",
           status: prodData.status || "active",
+          has_bundle_freebie: prodData.has_bundle_freebie || false,
+          bundle_freebie_name: prodData.bundle_freebie_name || "",
+          bundle_freebie_quota: prodData.bundle_freebie_quota
+            ? prodData.bundle_freebie_quota.toString()
+            : "0",
         });
 
         const existingPrices = prodData.prices || {};
@@ -1630,6 +1638,54 @@ export default function EditProduct() {
                         className="p-2 text-sm bg-white border border-purple-200 rounded-lg outline-none focus:border-purple-500"
                       />
                     </div>
+                    {/* 👇 [FITUR BARU] HADIAH TERBATAS BUNDLE 👇 */}
+                    <div className="w-full pt-4 mt-4 space-y-4 border-t border-purple-200/60">
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="checkbox"
+                          id="has_freebie"
+                          checked={formData.has_bundle_freebie}
+                          onChange={(e) => setFormData({ ...formData, has_bundle_freebie: e.target.checked })}
+                          className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                        />
+                        <label htmlFor="has_freebie" className="text-xs font-bold text-purple-800 cursor-pointer">
+                          🎁 Berikan Hadiah Gratis Terbatas (Free Pouch/Merch)
+                        </label>
+                      </div>
+
+                      {formData.has_bundle_freebie && (
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                          <div className="flex-1">
+                            <label className="block mb-1 text-[10px] font-bold text-purple-700 uppercase tracking-widest">
+                              Nama Hadiah
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.bundle_freebie_name}
+                              onChange={(e) => setFormData({ ...formData, bundle_freebie_name: e.target.value })}
+                              className="w-full p-2.5 text-sm bg-white border border-purple-200 rounded-lg outline-none focus:border-purple-500"
+                              placeholder="Misal: Free Pouch Kosmetik"
+                              required={formData.has_bundle_freebie}
+                            />
+                          </div>
+                          <div className="w-full sm:w-32 shrink-0">
+                            <label className="block mb-1 text-[10px] font-bold text-purple-700 uppercase tracking-widest">
+                              Kuota Customer
+                            </label>
+                            <input
+                              type="number"
+                              min="0"
+                              value={formData.bundle_freebie_quota}
+                              onChange={(e) => setFormData({ ...formData, bundle_freebie_quota: e.target.value })}
+                              className="w-full p-2.5 text-sm font-black text-center text-purple-900 bg-white border border-purple-200 rounded-lg outline-none focus:border-purple-500"
+                              placeholder="0"
+                              required={formData.has_bundle_freebie}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    {/* 👆 ========================================== 👆 */}
                   </div>
                 )}
               </div>

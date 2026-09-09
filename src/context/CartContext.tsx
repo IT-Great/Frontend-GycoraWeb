@@ -342,6 +342,10 @@ export interface Product {
   stock: number;
   
   color?: string | Record<string, unknown> | unknown[] | null; 
+
+  has_bundle_freebie?: boolean;
+  bundle_freebie_name?: string | null;
+  bundle_freebie_quota?: number;
 }
 
 export interface CartItem {
@@ -366,6 +370,8 @@ interface CartContextType {
   setIsCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
   cartTotalItems: number;
   cartSubtotal: number;
+  // 👇 [FITUR BARU] State sisa kuota
+  freePouchRemaining: number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -373,6 +379,9 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  // 👇 State default kuota awal = 5
+  const [freePouchRemaining, setFreePouchRemaining] = useState<number>(5);
 
   const fetchCart = async () => {
     const token = localStorage.getItem("user_token");
@@ -386,6 +395,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         const data = await res.json();
         const cartsArray = data.data ? data.data : data;
         setCartItems(cartsArray || []);
+        // 👇 Tangkap sisa kuota dari Backend
+        if (data.free_pouch_remaining !== undefined) {
+          setFreePouchRemaining(data.free_pouch_remaining);
+        }
       }
     } catch (error) {
       console.error("Gagal mengambil data keranjang:", error);
@@ -456,6 +469,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         setIsCartOpen,
         cartTotalItems,
         cartSubtotal,
+        freePouchRemaining, // 👈 Ekspor ke halaman
       }}
     >
       {children}
