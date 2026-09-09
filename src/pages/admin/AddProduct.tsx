@@ -1294,6 +1294,8 @@ export default function AddProduct() {
     has_bundle_freebie: false,
     bundle_freebie_name: "",
     bundle_freebie_quota: "0",
+    discount_start_date: "",
+    discount_end_date: "",
   });
 
   const [multiPrices, setMultiPrices] = useState<Record<string, string>>({
@@ -1533,6 +1535,8 @@ export default function AddProduct() {
         variant_video: uploadedVideoUrl,
         variant_images:
           uploadedVariantUrls.length > 0 ? uploadedVariantUrls : null,
+        discount_start_date: formData.discount_start_date === "" ? null : formData.discount_start_date,
+        discount_end_date: formData.discount_end_date === "" ? null : formData.discount_end_date,
       };
 
       const res = await fetch(`${BASE_URL}/api/products`, {
@@ -1913,6 +1917,30 @@ export default function AddProduct() {
                       placeholder="0.00"
                     />
                   </div>
+                </div>
+                {/* UI Rentang Waktu Diskon */}
+                <div className="flex flex-col gap-2 p-3 mt-4 border border-red-100 rounded-xl bg-red-50/50 sm:flex-row sm:items-center">
+                  <span className="text-[10px] font-bold tracking-widest text-red-600 uppercase shrink-0">
+                    Batas Waktu Diskon:
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="datetime-local"
+                      value={formData.discount_start_date}
+                      onChange={(e) => setFormData({ ...formData, discount_start_date: e.target.value })}
+                      className="p-2 text-xs bg-white border border-red-200 rounded-lg outline-none focus:border-red-500"
+                    />
+                    <span className="text-xs font-bold text-gray-400">-</span>
+                    <input
+                      type="datetime-local"
+                      value={formData.discount_end_date}
+                      onChange={(e) => setFormData({ ...formData, discount_end_date: e.target.value })}
+                      className="p-2 text-xs bg-white border border-red-200 rounded-lg outline-none focus:border-red-500"
+                    />
+                  </div>
+                  <p className="text-[9px] text-gray-500 italic mt-1 sm:mt-0 sm:ml-2">
+                    *Kosongkan untuk diskon permanen tanpa batas waktu.
+                  </p>
                 </div>
               </div>
             ))}
