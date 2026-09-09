@@ -78,3 +78,16 @@ window.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
 
   return response;
 };
+
+window.fetch = async (...args) => {
+    const response = await originalFetch(...args);
+    // Tangkap kode 503 yang dilempar dari CheckMaintenanceMode
+    if (response.status === 503) {
+        const data = await response.clone().json().catch(() => ({}));
+        if (data.is_maintenance) {
+            // Arahkan pengunjung ke layar perbaikan statis (buat file MaintenancePage.tsx)
+            window.location.href = '/maintenance';
+        }
+    }
+    return response;
+};
