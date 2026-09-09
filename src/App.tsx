@@ -2547,6 +2547,7 @@ import AdminPromoDetailPage from "./pages/admin/AdminPromoDetailPage";
 import AdminCustomerAnalytics from "./components/admin/AdminCustomerAnalytics";
 import AdminResellerList from "./pages/admin/AdminResellerList";
 import AdminInactiveProductStock from "./pages/admin/AdminInactiveProductStock";
+import MaintenancePage from "./pages/MaintenancePage";
 
 // 👇 [BARU] Import Form Promo Dinamis 👇
 // import AdminPromoForm from "./pages/admin/AdminPromoForm";
@@ -3142,6 +3143,7 @@ export default function App() {
                         </AdminRoute>
                       }
                     />
+                    <Route path="/maintenance" element={<MaintenancePage />} />
                   </Routes>
                 </LayoutWrapper>
               </AutoLogout>
