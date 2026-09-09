@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import logoGycora from "../../assets/gycora_logo.png"; // Sesuaikan path logo
+// import logoGycora from "../../assets/gycora_logo.png"; // Sesuaikan path logo
 
 export default function MaintenancePage() {
     const [dots, setDots] = useState("");
@@ -23,13 +23,13 @@ export default function MaintenancePage() {
         <div className="flex flex-col items-center justify-center min-h-screen px-6 font-sans text-center bg-gray-50 animate-fade-in">
             <div className="w-full max-w-lg p-8 bg-white border border-gray-100 shadow-2xl md:p-12 rounded-[2rem]">
 
-                <div className="flex justify-center mb-8">
+                {/* <div className="flex justify-center mb-8">
                     <img
                         src={logoGycora}
                         alt="Gycora Essence"
                         className="object-contain h-12 md:h-16 animate-pulse"
                     />
-                </div>
+                </div> */}
 
                 <div className="flex items-center justify-center w-24 h-24 mx-auto mb-6 bg-amber-50 rounded-full">
                     <svg
