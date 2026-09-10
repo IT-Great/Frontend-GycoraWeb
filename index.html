@@ -36,15 +36,13 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- [PERBAIKAN] Title dan Deskripsi Web Sesuai Arahan Bos -->
   <title>Gycora | Where Hair Care Meets Innovation</title>
   <meta name="description"
     content="Innovative hair tools designed to transform everyday hair care into a ritual of confidence and self-care." />
-  <!-- ======================================================= -->
 
   <!-- KODE LAINNYA MILIK ANDA (CSS, Font, dll) ADA DI SINI -->
 
-  <!-- Meta Pixel Code -->
+  <!-- Meta Pixel Code (Hanya bagian Script yang boleh di Head) -->
   <script>
     !function (f, b, e, v, n, t, s) {
       if (f.fbq) return; n = f.fbq = function () {
@@ -60,12 +58,15 @@
     fbq('init', '1754121469266505');
     fbq('track', 'PageView');
   </script>
-  <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=1754121469266505&ev=PageView&noscript=1" /></noscript>
   <!-- End Meta Pixel Code -->
 </head>
 
 <body>
+  <!-- Meta Pixel Code (Bagian gambar fallback dipindah ke Body) -->
+  <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1754121469266505&ev=PageView&noscript=1" /></noscript>
+  <!-- End Meta Pixel Code -->
+
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
