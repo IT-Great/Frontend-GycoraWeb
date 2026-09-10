@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // import { useState, useEffect } from "react";
 // import { Link, useNavigate } from "react-router-dom";
@@ -12463,11 +12465,1111 @@
 //   );
 // }
 
+// import { useState, useEffect } from "react";
+// import { Link, useNavigate } from "react-router-dom";
+// import { BASE_URL } from "../../config/api";
+// import Swal from "sweetalert2";
+// import { useLanguage } from "../../context/LanguageContext"; // [BARU] Import Language Context
+// import { useCurrency } from "../../context/CurrencyContext";
+
+// // --- IMPORT GAMBAR DARI LOKAL UNTUK SLIDER & ASET ---
+// import slide1 from "/landing_page_images/hero_slide_1.jpg";
+// import slide2 from "/landing_page_images/hero_slide_2.jpg";
+// import slide3 from "/landing_page_images/hero_slide_3.jpg";
+// import slide4 from "/landing_page_images/hero_slide_4.jpg";
+// import beforeAfterImg from "/landing_page_images/before_after.png";
+
+// const heroSlides = [
+//   { id: 1, image: slide1, alt: "Gycora Premium Hair Care 1" },
+//   { id: 2, image: slide2, alt: "Gycora Premium Hair Care 2" },
+//   { id: 3, image: slide3, alt: "Gycora Premium Hair Care 3" },
+//   { id: 4, image: slide4, alt: "Gycora Premium Hair Care 4" },
+// ];
+
+// const displayReviews = [
+//   {
+//     id: "f1",
+//     name: "Claudiasunshinee",
+//     role: "Verified Buyer",
+//     image: "/landing_page_images/user_1.jpg",
+//     text: "Sisir nya bagus banget sih sesuai dgn claim nya 🙌🙌 sblmnya aku pakai brand w** krn rambutku rontok.. trs setelah aku compare sm brand Gycora ternyata jauh lbh ga rontok pakai Gycora ❤👍",
+//     rating: 5,
+//   },
+//   {
+//     id: "f2",
+//     name: "Nilasetiobudii",
+//     role: "Verified Buyer",
+//     image: "/landing_page_images/user_2.jpg",
+//     text: "Sisirnya enak banget terutama buat rambut yg suka kusut Jd lebih gampang pake sisir dari Gycora..",
+//     rating: 5,
+//   },
+//   {
+//     id: "f3",
+//     name: "Thaliastanley___",
+//     role: "Verified Buyer",
+//     image: "/landing_page_images/user_3.jpg",
+//     text: "Setelah saya pakai hair brush nya rambutku jadi lebih gak kusut dan bikin lebih pede pastinya..",
+//     rating: 5,
+//   },
+//   {
+//     id: "f4",
+//     name: "Herlenasutanto",
+//     role: "Verified Buyer",
+//     image: "/landing_page_images/user_4.jpg",
+//     text: "Oke kok enak sisir nya lentur ngikutin kepala. ga nyangkut2 hehe",
+//     rating: 5,
+//   },
+//   {
+//     id: "f5",
+//     name: "Anitaa_bee",
+//     role: "Verified Buyer",
+//     image: "/landing_page_images/user_5.jpg",
+//     text: "Sukaaa poll sma sisirnya... Rambut jd makin teratur pas disisir dan ga gerundel (kusut frizzy) n rambut ku ya uda ga tllu banyak yg rontok. terus sisirnya tu empuk dan nyaman poll di kepala ga sakit.",
+//     rating: 5,
+//   },
+// ];
+
+// export default function HomePage() {
+//   const navigate = useNavigate();
+
+//   const [currentSlide, setCurrentSlide] = useState(0);
+//   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
+//   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
+//   const [isPromoMounted, setIsPromoMounted] = useState(false);
+//   const [showPromoModal, setShowPromoModal] = useState(false);
+//   const [promoEmail, setPromoEmail] = useState("");
+//   const [isSubscribing, setIsSubscribing] = useState(false);
+//   const { t, lang } = useLanguage();
+
+//   //   const { formatPrice } = useCurrency();
+
+//   const { currency } = useCurrency(); // Gunakan currency dari context
+
+//   // ============================================================================
+//   // [BARU] HELPER HARGA MULTI-CURRENCY (Disesuaikan dengan arsitektur baru)
+//   // ============================================================================
+//   const getPriceToDisplay = (product: any) => {
+//     if (!product) return { value: 0, curr: "IDR" };
+//     const curr = currency || "IDR";
+//     if (curr === "IDR") return { value: Number(product.price), curr: "IDR" };
+
+//     const pricesObj =
+//       typeof product.prices === "string"
+//         ? JSON.parse(product.prices)
+//         : product.prices || {};
+//     if (pricesObj[curr])
+//       return { value: parseFloat(pricesObj[curr]), curr: curr };
+//     return { value: Number(product.price), curr: "IDR" };
+//   };
+
+//   const getDiscountToDisplay = (product: any) => {
+//     if (!product) return null;
+//     const curr = currency || "IDR";
+//     if (curr === "IDR")
+//       return product.discount_price
+//         ? { value: Number(product.discount_price), curr: "IDR" }
+//         : null;
+
+//     const discObj =
+//       typeof product.discount_prices === "string"
+//         ? JSON.parse(product.discount_prices)
+//         : product.discount_prices || {};
+//     if (discObj[curr]) return { value: parseFloat(discObj[curr]), curr: curr };
+//     return product.discount_price
+//       ? { value: Number(product.discount_price), curr: "IDR" }
+//       : null;
+//   };
+
+//   const formatCurrencyDisplay = (
+//     priceObj: { value: number; curr: string } | null,
+//   ) => {
+//     if (!priceObj) return "";
+//     const symbols: any = {
+//       USD: "$",
+//       SGD: "S$",
+//       EUR: "€",
+//       AUD: "A$",
+//       MYR: "RM",
+//       IDR: "Rp ",
+//     };
+//     const formatter = new Intl.NumberFormat(
+//       priceObj.curr === "IDR" ? "id-ID" : "en-US",
+//       {
+//         minimumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
+//         maximumFractionDigits: priceObj.curr === "IDR" ? 0 : 2,
+//       },
+//     );
+//     return `${symbols[priceObj.curr] || priceObj.curr + " "}${formatter.format(priceObj.value)}`;
+//   };
+
+//   // Helper status diskon
+//   // s
+
+//   // [BARU] Pindahkan keyBenefits ke dalam komponen agar bisa menggunakan t()
+//   const keyBenefits = [
+//     {
+//       title: t("benefit_1"),
+//       icon: (
+//         <svg
+//           className="w-8 h-8"
+//           fill="none"
+//           stroke="currentColor"
+//           viewBox="0 0 24 24"
+//         >
+//           <path
+//             strokeLinecap="round"
+//             strokeLinejoin="round"
+//             strokeWidth="1.5"
+//             d="M8 20v-4m4 4v-4m4 4v-4M6 11a6 6 0 0112 0v3a2 2 0 01-2 2H8a2 2 0 01-2-2v-3zM9 5v4m3-4v4m3-4v4"
+//           />
+//         </svg>
+//       ),
+//     },
+//     {
+//       title: t("benefit_2"),
+//       icon: (
+//         <svg
+//           className="w-8 h-8"
+//           fill="none"
+//           stroke="currentColor"
+//           viewBox="0 0 24 24"
+//         >
+//           <path
+//             strokeLinecap="round"
+//             strokeLinejoin="round"
+//             strokeWidth="1.5"
+//             d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM13 10V6l-4 6h4v4l4-6h-4z"
+//           />
+//         </svg>
+//       ),
+//     },
+//     {
+//       title: t("benefit_3"),
+//       icon: (
+//         <svg
+//           className="w-8 h-8"
+//           fill="none"
+//           stroke="currentColor"
+//           viewBox="0 0 24 24"
+//         >
+//           <path
+//             strokeLinecap="round"
+//             strokeLinejoin="round"
+//             strokeWidth="1.5"
+//             d="M4 8h16M4 8a2 2 0 00-2 2v8a2 2 0 002 2h16a2 2 0 002-2v-8a2 2 0 00-2-2M4 8V6a2 2 0 012-2h12a2 2 0 012 2v2M9 14h6"
+//           />
+//         </svg>
+//       ),
+//     },
+//     {
+//       title: t("benefit_4"),
+//       icon: (
+//         <svg
+//           className="w-8 h-8"
+//           fill="none"
+//           stroke="currentColor"
+//           viewBox="0 0 24 24"
+//         >
+//           <path
+//             strokeLinecap="round"
+//             strokeLinejoin="round"
+//             strokeWidth="1.5"
+//             d="M4 12c1.5-3 3-3 4.5 0s3 3 4.5 0 3-3 4.5 0M4 16c1.5-3 3-3 4.5 0s3 3 4.5 0 3-3 4.5 0M4 8c1.5-3 3-3 4.5 0s3 3 4.5 0 3-3 4.5 0"
+//           />
+//         </svg>
+//       ),
+//     },
+//     {
+//       title: t("benefit_5"),
+//       icon: (
+//         <svg
+//           className="w-8 h-8"
+//           fill="none"
+//           stroke="currentColor"
+//           viewBox="0 0 24 24"
+//         >
+//           <path
+//             strokeLinecap="round"
+//             strokeLinejoin="round"
+//             strokeWidth="1.5"
+//             d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+//           />
+//         </svg>
+//       ),
+//     },
+//   ];
+
+//   useEffect(() => {
+//     setIsPromoMounted(true);
+//     const animTimer = setTimeout(() => {
+//       setShowPromoModal(true);
+//     }, 50);
+
+//     const fetchFeaturedProducts = async () => {
+//       try {
+//         const res = await fetch(`${BASE_URL}/api/products`);
+//         if (res.ok) {
+//           const data = await res.json();
+//           let productsArray = data.data ? data.data : data;
+
+//           productsArray = productsArray.sort((a: any, b: any) => {
+//             const nameA = a.name.toLowerCase();
+//             const nameB = b.name.toLowerCase();
+//             const aIsBrush = nameA.includes("ethereal glow brush");
+//             const bIsBrush = nameB.includes("ethereal glow brush");
+//             if (aIsBrush && !bIsBrush) return -1;
+//             if (!aIsBrush && bIsBrush) return 1;
+//             return 0;
+//           });
+
+//           setFeaturedProducts(productsArray.slice(0, 3) || []);
+//         }
+//       } catch (error) {
+//         console.error("Gagal memuat produk unggulan:", error);
+//       } finally {
+//         setIsLoadingProducts(false);
+//       }
+//     };
+
+//     fetchFeaturedProducts();
+
+//     return () => {
+//       clearTimeout(animTimer);
+//     };
+//   }, []);
+
+//   useEffect(() => {
+//     const slideInterval = setInterval(() => {
+//       setCurrentSlide((prev) =>
+//         prev === heroSlides.length - 1 ? 0 : prev + 1,
+//       );
+//     }, 4000);
+//     return () => clearInterval(slideInterval);
+//   }, []);
+
+//   //   const formatRupiah = (angka: number) => {
+//   //     return new Intl.NumberFormat("id-ID", {
+//   //       style: "currency",
+//   //       currency: "IDR",
+//   //       minimumFractionDigits: 0,
+//   //     }).format(angka || 0);
+//   //   };
+
+//   const closePromoModal = () => {
+//     setShowPromoModal(false);
+//     setTimeout(() => {
+//       setIsPromoMounted(false);
+//     }, 300);
+//   };
+
+//   const handleSubscribePromo = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     if (!promoEmail) return;
+
+//     setIsSubscribing(true);
+//     try {
+//       const res = await fetch(`${BASE_URL}/api/promo/claim`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Accept: "application/json",
+//         },
+//         body: JSON.stringify({ email: promoEmail }),
+//       });
+
+//       const data = await res.json();
+
+//       if (res.ok) {
+//         closePromoModal();
+//         Swal.fire({
+//           icon: "success",
+//           title: t("promo_success_title"),
+//           text: t("promo_success_desc"),
+//           confirmButtonColor: "#059669",
+//         });
+//       } else {
+//         Swal.fire({
+//           icon: "warning",
+//           title: t("notification"),
+//           text: data.message || t("promo_failed_desc"),
+//           confirmButtonColor: "#d33",
+//         });
+//       }
+//     } catch (error) {
+//       console.error(error);
+//       Swal.fire({
+//         icon: "error",
+//         title: t("error"),
+//         text: t("server_error"),
+//         confirmButtonColor: "#d33",
+//       });
+//     } finally {
+//       setIsSubscribing(false);
+//     }
+//   };
+
+//   return (
+//     <div className="relative font-sans bg-gray-50">
+//       {/* POP-UP PROMO MODAL */}
+//       {/* {isPromoMounted && (
+//         <div
+//           className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-500 ease-out
+//             ${showPromoModal ? "bg-black/60 backdrop-blur-sm opacity-100" : "bg-black/0 backdrop-blur-none opacity-0"}
+//           `}
+//         >
+//           <div
+//             className={`relative flex flex-col w-full max-w-3xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-2xl transition-all duration-500 ease-out transform
+//               ${showPromoModal ? "scale-100 translate-y-0 opacity-100" : "scale-95 translate-y-8 opacity-0"}
+//             `}
+//           >
+//             <button
+//               onClick={closePromoModal}
+//               className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
+//             >
+//               <svg
+//                 className="w-5 h-5"
+//                 fill="none"
+//                 viewBox="0 0 24 24"
+//                 stroke="currentColor"
+//               >
+//                 <path
+//                   strokeLinecap="round"
+//                   strokeLinejoin="round"
+//                   strokeWidth="2"
+//                   d="M6 18L18 6M6 6l12 12"
+//                 />
+//               </svg>
+//             </button>
+
+//             <div className="flex flex-col justify-center flex-1 p-8 md:p-12">
+//               <h2 className="mb-2 font-serif text-4xl font-black tracking-tight text-gray-900 uppercase">
+//                 Gycora
+//               </h2>
+//               <h3 className="mb-4 text-3xl font-extrabold leading-tight text-[#006A4E]">
+//                 {t("promo_title")}
+//               </h3>
+//               <p className="mb-8 text-sm font-medium text-gray-500">
+//                 {t("promo_desc1")}
+//                 <br />
+//                 {t("promo_desc2")}
+//               </p>
+
+//               <form onSubmit={handleSubscribePromo} className="space-y-4">
+//                 <input
+//                   type="email"
+//                   value={promoEmail}
+//                   onChange={(e) => setPromoEmail(e.target.value)}
+//                   placeholder={t("email_placeholder")}
+//                   className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-[#006A4E]"
+//                   required
+//                 />
+//                 <button
+//                   type="submit"
+//                   disabled={isSubscribing}
+//                   className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-[#006A4E] rounded-lg hover:bg-emerald-900 disabled:bg-gray-400"
+//                 >
+//                   {isSubscribing ? t("sending") : t("claim_now")}
+//                 </button>
+//               </form>
+//             </div>
+
+//             <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
+//               <img
+//                 src="/landing_page_images/promo_popup.jpg"
+//                 alt="Promo Gycora"
+//                 className="object-cover w-full h-full"
+//               />
+//             </div>
+//           </div>
+//         </div>
+//       )} */}
+
+//       {isPromoMounted && (
+//         <div
+//           className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-500 ease-out
+//       ${showPromoModal ? "bg-black/60 backdrop-blur-sm opacity-100" : "bg-black/0 backdrop-blur-none opacity-0"}
+//     `}
+//         >
+//           <div
+//             className={`relative flex flex-col w-full max-w-4xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-3xl transition-all duration-500 ease-out transform
+//         ${showPromoModal ? "scale-100 translate-y-0 opacity-100" : "scale-95 translate-y-8 opacity-0"}
+//       `}
+//           >
+//             <button
+//               onClick={closePromoModal}
+//               className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
+//             >
+//               <svg
+//                 className="w-5 h-5"
+//                 fill="none"
+//                 viewBox="0 0 24 24"
+//                 stroke="currentColor"
+//               >
+//                 <path
+//                   strokeLinecap="round"
+//                   strokeLinejoin="round"
+//                   strokeWidth="2"
+//                   d="M6 18L18 6M6 6l12 12"
+//                 />
+//               </svg>
+//             </button>
+
+//             {/* Konten Kiri (Form) */}
+//             <div className="flex flex-col justify-center flex-1 p-8 md:p-12">
+//               <h2 className="mb-2 font-serif text-3xl font-black tracking-tight text-gray-900 uppercase">
+//                 Gycora
+//               </h2>
+
+//               <h3 className="mb-3 text-2xl font-extrabold leading-tight text-[#006A4E] md:text-3xl">
+//                 {t("promo_title")}
+//               </h3>
+
+//               <p className="mb-4 text-sm font-medium text-gray-600">
+//                 {t("promo_intro")}
+//               </p>
+
+//               {/* List Keuntungan */}
+//               <ul className="mb-6 space-y-3 text-sm font-bold text-gray-800">
+//                 <li className="flex items-start gap-2">
+//                   <span className="text-base shrink-0">✨</span>
+//                   <span>{t("promo_bullet1")}</span>
+//                 </li>
+//                 <li className="flex items-start gap-2">
+//                   <span className="text-base shrink-0">🚚</span>
+//                   <span>{t("promo_bullet2")}</span>
+//                 </li>
+//                 <li className="flex items-start gap-2">
+//                   <span className="text-base shrink-0">💚</span>
+//                   <span>{t("promo_bullet3")}</span>
+//                 </li>
+//               </ul>
+
+//               <p className="mb-6 text-sm font-medium text-gray-500">
+//                 {t("promo_cta")}
+//               </p>
+
+//               <form onSubmit={handleSubscribePromo} className="space-y-4">
+//                 <input
+//                   type="email"
+//                   value={promoEmail}
+//                   onChange={(e) => setPromoEmail(e.target.value)}
+//                   placeholder={t("email_placeholder")}
+//                   className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-xl outline-none focus:ring-2 focus:ring-[#006A4E] focus:border-[#006A4E]"
+//                   required
+//                 />
+//                 <button
+//                   type="submit"
+//                   disabled={isSubscribing}
+//                   className="w-full px-4 py-3.5 text-xs font-bold tracking-widest text-white uppercase transition-all shadow-md bg-[#006A4E] rounded-xl hover:bg-emerald-900 hover:shadow-lg disabled:bg-gray-400 disabled:shadow-none"
+//                 >
+//                   {isSubscribing ? t("sending") : t("claim_now")}
+//                 </button>
+//               </form>
+
+//               {/* Footer Note */}
+//               <p className="mt-5 text-[11px] font-medium text-center text-gray-400">
+//                 {t("promo_footer")}
+//               </p>
+//             </div>
+
+//             {/* Gambar Kanan */}
+//             <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
+//               <img
+//                 src="/landing_page_images/promo_popup.jpg"
+//                 alt="Promo Gycora"
+//                 className="object-cover w-full h-full"
+//               />
+//             </div>
+//           </div>
+//         </div>
+//       )}
+
+//       {/* =========================================
+//           HERO SECTION
+//       ========================================= */}
+//       <div className="relative w-full overflow-hidden bg-[#F4F9F6] flex flex-col md:block md:min-h-[600px]">
+//         <div className="relative w-full h-[350px] sm:h-[450px] md:absolute md:inset-0 md:h-full md:z-0 md:flex md:justify-end shrink-0">
+//           <div className="w-full h-full md:w-[60%] relative">
+//             {heroSlides.map((slide, index) => (
+//               <img
+//                 key={slide.id}
+//                 src={slide.image}
+//                 alt={slide.alt}
+//                 className={`absolute inset-0 object-cover object-[100%_top] md:object-right-top w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
+//               />
+//             ))}
+//             <div className="absolute inset-0 bg-gradient-to-t from-[#F4F9F6] via-[#F4F9F6]/20 to-transparent md:bg-gradient-to-r md:from-[#F4F9F6] md:via-[#F4F9F6]/90 md:to-transparent md:w-1/2"></div>
+//           </div>
+
+//           <button
+//             onClick={() =>
+//               setCurrentSlide((prev) =>
+//                 prev === 0 ? heroSlides.length - 1 : prev - 1,
+//               )
+//             }
+//             className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md left-4 md:left-8 top-1/2 -translate-y-1/2 hover:bg-gray-50 focus:outline-none"
+//           >
+//             <svg
+//               className="w-4 h-4 md:w-6 md:h-6"
+//               fill="none"
+//               viewBox="0 0 24 24"
+//               stroke="currentColor"
+//             >
+//               <path
+//                 strokeLinecap="round"
+//                 strokeLinejoin="round"
+//                 strokeWidth={2.5}
+//                 d="M15 19l-7-7 7-7"
+//               />
+//             </svg>
+//           </button>
+//           <button
+//             onClick={() =>
+//               setCurrentSlide((prev) =>
+//                 prev === heroSlides.length - 1 ? 0 : prev + 1,
+//               )
+//             }
+//             className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md right-4 md:right-8 top-1/2 -translate-y-1/2 hover:bg-gray-50 focus:outline-none"
+//           >
+//             <svg
+//               className="w-4 h-4 md:w-6 md:h-6"
+//               fill="none"
+//               viewBox="0 0 24 24"
+//               stroke="currentColor"
+//             >
+//               <path
+//                 strokeLinecap="round"
+//                 strokeLinejoin="round"
+//                 strokeWidth={2.5}
+//                 d="M9 5l7 7-7 7"
+//               />
+//             </svg>
+//           </button>
+//         </div>
+
+//         <div className="relative z-10 w-full px-6 pt-6 pb-12 mx-auto max-w-[1236px] sm:px-10 lg:px-16 animate-fade-in-up flex items-center md:min-h-[600px]">
+//           <div className="w-full text-center md:max-w-xl md:text-left">
+//             <h1 className="text-3xl font-extrabold leading-tight sm:text-4xl md:text-5xl lg:text-6xl text-[#006A4E]">
+//               {t("hero_title1")} <br className="hidden md:block" />{" "}
+//               {t("hero_title2")}
+//             </h1>
+//             <h2 className="mt-3 text-base font-bold text-gray-900 md:mt-4 sm:text-xl md:text-2xl">
+//               {t("hero_subtitle")}
+//             </h2>
+//             <p className="mt-3 text-sm leading-relaxed text-gray-500 md:mt-4 md:text-lg">
+//               {t("hero_desc")}
+//             </p>
+
+//             <div className="flex flex-col justify-center gap-3 mt-6 sm:flex-row md:justify-start md:gap-4 md:mt-8">
+//               <Link
+//                 to={`/${lang}/collections/all`}
+//                 className="px-6 py-3 md:px-8 md:py-3.5 text-xs md:text-sm font-bold tracking-wider text-center text-white uppercase transition-colors rounded-full shadow-lg bg-[#006A4E] hover:bg-emerald-900"
+//               >
+//                 {t("shop_now")}
+//               </Link>
+//               <a
+//                 href="#featured"
+//                 className="px-6 py-3 md:px-8 md:py-3.5 text-xs md:text-sm font-bold tracking-wider text-center uppercase transition-colors bg-transparent border-2 rounded-full border-[#006A4E] text-[#006A4E] hover:bg-[#006A4E] hover:text-white"
+//               >
+//                 {t("see_product")}
+//               </a>
+//             </div>
+
+//             <div className="flex flex-wrap justify-center gap-4 mt-8 md:justify-start md:gap-8 md:mt-10">
+//               <div className="relative flex items-center gap-2 group cursor-help">
+//                 <svg
+//                   className="w-6 h-6 text-gray-600 md:w-8 md:h-8"
+//                   fill="none"
+//                   stroke="currentColor"
+//                   viewBox="0 0 24 24"
+//                 >
+//                   <path
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                     strokeWidth={1.5}
+//                     d="M13 10V3L4 14h7v7l9-11h-7z"
+//                   />
+//                 </svg>
+//                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
+//                   {t("feature1_title")}
+//                   <br className="hidden sm:block" /> {t("feature1_subtitle")}
+//                 </span>
+
+//                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
+//                   {t("feature1_desc")}
+//                   <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900"></div>
+//                 </div>
+//               </div>
+
+//               <div className="relative flex items-center gap-2 group cursor-help">
+//                 <svg
+//                   className="w-6 h-6 text-gray-600 md:w-8 md:h-8"
+//                   fill="none"
+//                   stroke="currentColor"
+//                   viewBox="0 0 24 24"
+//                 >
+//                   <path
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                     strokeWidth={1.5}
+//                     d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+//                   />
+//                 </svg>
+//                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
+//                   {t("feature2_title")}
+//                   <br className="hidden sm:block" /> {t("feature2_subtitle")}
+//                 </span>
+
+//                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
+//                   {t("feature2_desc")}
+//                   <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900"></div>
+//                 </div>
+//               </div>
+
+//               <div className="relative flex items-center gap-2 group cursor-help">
+//                 <svg
+//                   className="w-6 h-6 text-gray-600 md:w-8 md:h-8"
+//                   fill="none"
+//                   stroke="currentColor"
+//                   viewBox="0 0 24 24"
+//                 >
+//                   <path
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                     strokeWidth={1.5}
+//                     d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+//                   />
+//                 </svg>
+//                 <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
+//                   {t("feature3_title")}
+//                   <br className="hidden sm:block" /> {t("feature3_subtitle")}
+//                 </span>
+
+//                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
+//                   {t("feature3_desc")}
+//                   <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900"></div>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* FEATURED PRODUCT SECTION */}
+//       <div id="featured" className="py-24 bg-white border-gray-100 border-y">
+//         <div className="px-6 mx-auto max-w-[1536px] sm:px-10 lg:px-16">
+//           <div className="flex flex-col items-center justify-between mb-10 text-center md:items-end md:flex-row md:text-left">
+//             <div className="w-full md:w-1/2">
+//               <h2 className="text-2xl font-extrabold sm:text-3xl text-[#006A4E]">
+//                 {t("fav_product_title")}
+//               </h2>
+//               <p className="mt-2 text-sm text-gray-500 sm:text-base">
+//                 {t("fav_product_desc")}
+//               </p>
+//             </div>
+//             <Link
+//               to="/collections/all"
+//               className="flex items-center justify-center gap-2 mt-4 font-bold text-gray-600 transition-colors md:justify-start md:mt-0 hover:text-[#006A4E]"
+//             >
+//               {t("see_all_products")}
+//               <svg
+//                 className="w-4 h-4"
+//                 fill="none"
+//                 viewBox="0 0 24 24"
+//                 stroke="currentColor"
+//               >
+//                 <path
+//                   strokeLinecap="round"
+//                   strokeLinejoin="round"
+//                   strokeWidth={2}
+//                   d="M14 5l7 7m0 0l-7 7m7-7H3"
+//                 />
+//               </svg>
+//             </Link>
+//           </div>
+
+//           {isLoadingProducts ? (
+//             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+//               {[1, 2, 3].map((i) => (
+//                 <div
+//                   key={i}
+//                   className="flex flex-row p-4 border border-gray-100 shadow-sm bg-gray-50 rounded-3xl animate-pulse"
+//                 >
+//                   <div className="w-2/5 bg-gray-200 rounded-2xl h-36"></div>
+//                   <div className="w-3/5 pl-4 space-y-3">
+//                     <div className="w-full h-4 bg-gray-200 rounded"></div>
+//                     <div className="w-3/4 h-3 bg-gray-200 rounded"></div>
+//                     <div className="w-1/2 h-5 mt-4 bg-gray-200 rounded"></div>
+//                   </div>
+//                 </div>
+//               ))}
+//             </div>
+//           ) : featuredProducts.length > 0 ? (
+//             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+//               {/* {featuredProducts.map((product) => {
+//                 let customDesc = product.description;
+//                 if (product.name.toLowerCase().includes("brush")) {
+//                   customDesc = t("brush_desc");
+//                 }
+
+//                 return (
+//                   <div
+//                     key={product.id}
+//                     className="relative flex flex-row p-4 transition-all duration-300 bg-gray-50 border border-gray-100 shadow-sm cursor-pointer rounded-3xl hover:shadow-lg hover:-translate-y-1 hover:border-[#006A4E]/30"
+//                     onClick={() =>
+//                       navigate(`/${lang}/product/${product.slug}`, {
+//                         state: {
+//                           initialProduct: product,
+//                           allProducts: featuredProducts,
+//                         },
+//                       })
+//                     }
+//                   >
+//                     <button className="absolute z-10 text-gray-300 top-4 right-4 hover:text-red-500">
+//                       <svg
+//                         className="w-5 h-5"
+//                         fill="none"
+//                         viewBox="0 0 24 24"
+//                         stroke="currentColor"
+//                       >
+//                         <path
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                           strokeWidth={1.5}
+//                           d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+//                         />
+//                       </svg>
+//                     </button>
+
+//                     <div className="flex items-center justify-center w-2/5 p-2 bg-white shrink-0 rounded-2xl">
+//                       <img
+//                         src={product.image_url}
+//                         alt={product.name}
+//                         className="object-contain w-full h-28 md:h-32 drop-shadow-sm"
+//                       />
+//                     </div>
+
+//                     <div className="flex flex-col justify-center w-3/5 pl-4 pr-2">
+//                       <h3 className="text-sm font-extrabold leading-tight text-[#006A4E] line-clamp-2">
+//                         {product.name}
+//                       </h3>
+//                       <p className="mt-1 text-xs leading-relaxed text-gray-500 md:text-sm line-clamp-3">
+//                         {customDesc}
+//                       </p>
+//                         <div className="mt-3">
+//                             {isDiscounted ? (
+//                                 <div className="flex flex-col">
+//                                     <span className="text-[10px] font-medium text-gray-400 line-through">
+//                                         {formatCurrencyDisplay(dynamicPriceObj)}
+//                                     </span>
+//                                     <span className="text-base font-black leading-none text-rose-500">
+//                                         {formatCurrencyDisplay(dynamicDiscountObj)}
+//                                     </span>
+//                                 </div>
+//                             ) : (
+//                                 <span className="block text-base font-black leading-none text-[#006A4E]">
+//                                     {formatCurrencyDisplay(dynamicPriceObj)}
+//                                 </span>
+//                             )}
+//                         </div>
+//                       <button className="px-4 py-1.5 mt-4 text-[10px] font-bold tracking-widest uppercase transition-colors bg-white border border-[#006A4E] rounded-full text-[#006A4E] hover:bg-[#006A4E] hover:text-white w-max">
+//                         {t("shop_now")}
+//                       </button>
+//                     </div>
+//                   </div>
+//                 );
+//               })} */}
+//               {featuredProducts.map((product) => {
+//                 // 1. Definisikan variabel di dalam scope map agar setiap produk punya datanya sendiri
+//                 const dynamicPriceObj = getPriceToDisplay(product);
+//                 const dynamicDiscountObj = getDiscountToDisplay(product);
+
+//                 // 2. Tentukan status diskon
+//                 const isDiscounted = !!(
+//                   dynamicDiscountObj &&
+//                   dynamicDiscountObj.value > 0 &&
+//                   dynamicDiscountObj.value < dynamicPriceObj.value
+//                 );
+
+//                 let customDesc = product.description;
+//                 if (product.name.toLowerCase().includes("brush")) {
+//                   customDesc = t("brush_desc");
+//                 }
+
+//                 return (
+//                   <div
+//                     key={product.id}
+//                     className="relative flex flex-row p-4 transition-all duration-300 bg-gray-50 border border-gray-100 shadow-sm cursor-pointer rounded-3xl hover:shadow-lg hover:-translate-y-1 hover:border-[#006A4E]/30"
+//                     onClick={() =>
+//                       navigate(`/${lang}/product/${product.slug}`, {
+//                         state: {
+//                           initialProduct: product,
+//                           allProducts: featuredProducts,
+//                         },
+//                       })
+//                     }
+//                   >
+//                     <button className="absolute z-10 text-gray-300 top-4 right-4 hover:text-red-500">
+//                       <svg
+//                         className="w-5 h-5"
+//                         fill="none"
+//                         viewBox="0 0 24 24"
+//                         stroke="currentColor"
+//                       >
+//                         <path
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                           strokeWidth={1.5}
+//                           d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+//                         />
+//                       </svg>
+//                     </button>
+
+//                     <div className="flex items-center justify-center w-2/5 p-2 bg-white shrink-0 rounded-2xl">
+//                       <img
+//                         src={product.image_url}
+//                         alt={product.name}
+//                         className="object-contain w-full h-28 md:h-32 drop-shadow-sm"
+//                       />
+//                     </div>
+
+//                     <div className="flex flex-col justify-center w-3/5 pl-4 pr-2">
+//                       <h3 className="text-sm font-extrabold leading-tight text-[#006A4E] line-clamp-2">
+//                         {product.name}
+//                       </h3>
+//                       <p className="mt-1 text-xs leading-relaxed text-gray-500 md:text-sm line-clamp-3">
+//                         {customDesc}
+//                       </p>
+
+//                       {/* Render Harga Menggunakan Variabel yang Baru Didefinisikan */}
+//                       <div className="mt-3">
+//                         {isDiscounted ? (
+//                           <div className="flex flex-col">
+//                             <span className="text-[10px] font-medium text-gray-400 line-through">
+//                               {formatCurrencyDisplay(dynamicPriceObj)}
+//                             </span>
+//                             <span className="text-base font-black leading-none text-rose-500">
+//                               {formatCurrencyDisplay(dynamicDiscountObj)}
+//                             </span>
+//                           </div>
+//                         ) : (
+//                           <span className="block text-base font-black leading-none text-[#006A4E]">
+//                             {formatCurrencyDisplay(dynamicPriceObj)}
+//                           </span>
+//                         )}
+//                       </div>
+
+//                       <button className="px-4 py-1.5 mt-4 text-[10px] font-bold tracking-widest uppercase transition-colors bg-white border border-[#006A4E] rounded-full text-[#006A4E] hover:bg-[#006A4E] hover:text-white w-max">
+//                         {t("shop_now")}
+//                       </button>
+//                     </div>
+//                   </div>
+//                 );
+//               })}
+//             </div>
+//           ) : (
+//             <div className="py-12 italic text-center text-gray-500">
+//               {t("empty_product")}
+//             </div>
+//           )}
+//         </div>
+//       </div>
+
+//       {/* RELATABLE PROBLEM & SOLUTION SECTION */}
+//       <div className="py-24 border-b border-gray-100 bg-gray-50">
+//         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+//           <div className="flex flex-col gap-16 lg:flex-row lg:items-center">
+//             <div className="flex-1 space-y-6">
+//               <h2 className="text-3xl font-extrabold text-[#006A4E] sm:text-4xl">
+//                 {t("problem_title")}
+//               </h2>
+//               <ul className="space-y-4 text-lg text-gray-600">
+//                 <li className="flex items-start gap-3">
+//                   <span className="mt-1 font-bold text-red-500">✕</span>
+//                   <span>{t("problem_1")}</span>
+//                 </li>
+//                 <li className="flex items-start gap-3">
+//                   <span className="mt-1 font-bold text-red-500">✕</span>
+//                   <span>{t("problem_2")}</span>
+//                 </li>
+//                 <li className="flex items-start gap-3">
+//                   <span className="mt-1 font-bold text-red-500">✕</span>
+//                   <span>{t("problem_3")}</span>
+//                 </li>
+//                 <li className="flex items-start gap-3">
+//                   <span className="mt-1 font-bold text-red-500">✕</span>
+//                   <span>{t("problem_4")}</span>
+//                 </li>
+//               </ul>
+//               <p className="pt-4 font-medium text-gray-900 text-md">
+//                 {t("problem_footer")}
+//               </p>
+//             </div>
+
+//             <div className="relative flex-1 p-8 overflow-hidden bg-white border border-gray-200 shadow-xl rounded-3xl lg:p-12">
+//               {/* Ornamen Abstrak Halus */}
+//               <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-full opacity-50 bg-emerald-50 -z-0"></div>
+
+//               <div className="relative z-10">
+//                 <div className="inline-flex items-center px-4 py-1.5 mb-6 rounded-full text-xs font-bold tracking-wide text-emerald-800 bg-emerald-100 uppercase">
+//                   {t("the_solution")}
+//                 </div>
+//                 <h3 className="mb-6 text-2xl font-extrabold text-gray-900 sm:text-3xl">
+//                   {t("solution_title")}
+//                 </h3>
+//                 <p className="mb-6 text-lg leading-relaxed text-gray-500">
+//                   {t("solution_desc1")}
+//                 </p>
+//                 <p className="mb-8 text-lg leading-relaxed text-gray-500">
+//                   {t("solution_desc2")}
+//                 </p>
+//                 <Link
+//                   to="/collections/all"
+//                   className="inline-block px-8 py-4 text-base font-bold text-white transition-all bg-[#006A4E] rounded-full shadow-lg hover:bg-emerald-900 hover:shadow-xl hover:-translate-y-0.5"
+//                 >
+//                   {t("explore_product")}
+//                 </Link>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* REAL RESULTS (BEFORE - AFTER) */}
+//       <div className="py-24 bg-white border-b border-gray-100">
+//         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+//           <div className="mb-16 text-center">
+//             <h2 className="text-3xl font-extrabold text-[#006A4E]">
+//               {t("result_title")}
+//             </h2>
+//             <p className="mt-4 text-gray-500">{t("result_desc")}</p>
+//           </div>
+
+//           <div className="relative flex flex-col max-w-4xl mx-auto overflow-hidden border border-gray-200 shadow-xl bg-gray-50 group rounded-3xl">
+//             <img
+//               src={beforeAfterImg}
+//               alt="Before After Hair Treatment"
+//               className="object-cover w-full h-auto transition-transform duration-1000 group-hover:scale-105"
+//             />
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* KEY BENEFITS */}
+//       <div className="py-24 border-b border-gray-100 bg-gray-50">
+//         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+//           <div className="mb-16 text-center">
+//             <h2 className="text-3xl font-extrabold text-[#006A4E] sm:text-4xl">
+//               {t("benefit_title")}
+//             </h2>
+//           </div>
+//           <div className="grid grid-cols-1 gap-8 text-center md:grid-cols-3 lg:grid-cols-5">
+//             {keyBenefits.map((benefit, idx) => (
+//               <div
+//                 key={idx}
+//                 className="p-8 transition-colors bg-white border border-transparent shadow-sm rounded-3xl hover:border-emerald-200 hover:shadow-md"
+//               >
+//                 <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 rounded-2xl bg-emerald-100 text-[#006A4E]">
+//                   {benefit.icon}
+//                 </div>
+//                 <p className="text-sm font-bold leading-relaxed text-gray-800">
+//                   {benefit.title}
+//                 </p>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* SOCIAL PROOF */}
+//       <div className="py-24 bg-white border-b border-gray-100">
+//         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+//           <div className="max-w-2xl mx-auto mb-16 text-center">
+//             <h2 className="text-3xl font-extrabold text-[#006A4E]">
+//               {t("social_title")}
+//             </h2>
+//             <p className="mt-4 text-gray-500">{t("social_desc")}</p>
+//           </div>
+
+//           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+//             {displayReviews.map((review) => (
+//               <div
+//                 key={review.id}
+//                 className="relative flex flex-col p-8 transition-shadow border border-gray-200 bg-gray-50 rounded-3xl hover:shadow-md hover:border-emerald-200"
+//               >
+//                 <div className="flex gap-1 mb-4 text-amber-400">
+//                   {[...Array(review.rating)].map((_, i) => (
+//                     <svg
+//                       key={i}
+//                       className="w-5 h-5 fill-current"
+//                       viewBox="0 0 20 20"
+//                     >
+//                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+//                     </svg>
+//                   ))}
+//                 </div>
+
+//                 <p className="flex-1 mb-6 text-sm italic leading-relaxed text-gray-600 line-clamp-4">
+//                   "{review.text}"
+//                 </p>
+
+//                 <div className="flex items-center gap-3 pt-6 mt-auto border-t border-gray-200">
+//                   <img
+//                     src={
+//                       review.image ||
+//                       `https://ui-avatars.com/api/?name=${review.name}&background=059669&color=fff`
+//                     }
+//                     alt={review.name}
+//                     className="object-cover w-10 h-10 rounded-full bg-emerald-100"
+//                     onError={(e) => {
+//                       e.currentTarget.src = `https://ui-avatars.com/api/?name=${review.name}&background=059669&color=fff`;
+//                     }}
+//                   />
+//                   <div className="flex-1 min-w-0">
+//                     <h4 className="text-sm font-bold text-gray-900 truncate">
+//                       {review.name}
+//                     </h4>
+//                     <p className="text-xs tracking-widest uppercase text-emerald-700">
+//                       {review.role}
+//                     </p>
+//                   </div>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* CTA SECTION (CLOSING) */}
+//       <div className="relative py-24 overflow-hidden bg-[#006A4E]">
+//         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-400 rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
+
+//         <div className="relative max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
+//           <h2 className="text-3xl font-extrabold text-white sm:text-5xl">
+//             {t("cta_title")}
+//           </h2>
+//           <p className="mt-6 mb-10 text-lg leading-relaxed text-emerald-100">
+//             {t("cta_desc1")}
+//             <br />
+//             {t("cta_desc2")}
+//           </p>
+//           <button
+//             onClick={() => navigate(`/collections/all`)}
+//             className="px-10 py-4 text-lg font-bold text-[#006A4E] transition-all bg-white rounded-full hover:bg-gray-50 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
+//           >
+//             {t("shop_now")}
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../config/api";
 import Swal from "sweetalert2";
-import { useLanguage } from "../../context/LanguageContext"; // [BARU] Import Language Context
+import { useLanguage } from "../../context/LanguageContext"; 
 import { useCurrency } from "../../context/CurrencyContext";
 
 // --- IMPORT GAMBAR DARI LOKAL UNTUK SLIDER & ASET ---
@@ -12539,12 +13641,10 @@ export default function HomePage() {
   const [isSubscribing, setIsSubscribing] = useState(false);
   const { t, lang } = useLanguage();
 
-  //   const { formatPrice } = useCurrency();
-
   const { currency } = useCurrency(); // Gunakan currency dari context
 
   // ============================================================================
-  // [BARU] HELPER HARGA MULTI-CURRENCY (Disesuaikan dengan arsitektur baru)
+  // HELPER HARGA MULTI-CURRENCY
   // ============================================================================
   const getPriceToDisplay = (product: any) => {
     if (!product) return { value: 0, curr: "IDR" };
@@ -12600,10 +13700,6 @@ export default function HomePage() {
     return `${symbols[priceObj.curr] || priceObj.curr + " "}${formatter.format(priceObj.value)}`;
   };
 
-  // Helper status diskon
-  // s
-
-  // [BARU] Pindahkan keyBenefits ke dalam komponen agar bisa menggunakan t()
   const keyBenefits = [
     {
       title: t("benefit_1"),
@@ -12710,7 +13806,11 @@ export default function HomePage() {
           const data = await res.json();
           let productsArray = data.data ? data.data : data;
 
-          productsArray = productsArray.sort((a: any, b: any) => {
+          // Hanya tampilkan produk tunggal (Hapus yang memiliki nama "+")
+          const singleProducts = productsArray.filter((p: any) => !p.name.includes("+"));
+
+          // Urutkan Ethereal Glow Brush pertama
+          const sortedProducts = singleProducts.sort((a: any, b: any) => {
             const nameA = a.name.toLowerCase();
             const nameB = b.name.toLowerCase();
             const aIsBrush = nameA.includes("ethereal glow brush");
@@ -12720,7 +13820,7 @@ export default function HomePage() {
             return 0;
           });
 
-          setFeaturedProducts(productsArray.slice(0, 3) || []);
+          setFeaturedProducts(sortedProducts.slice(0, 3) || []);
         }
       } catch (error) {
         console.error("Gagal memuat produk unggulan:", error);
@@ -12744,14 +13844,6 @@ export default function HomePage() {
     }, 4000);
     return () => clearInterval(slideInterval);
   }, []);
-
-  //   const formatRupiah = (angka: number) => {
-  //     return new Intl.NumberFormat("id-ID", {
-  //       style: "currency",
-  //       currency: "IDR",
-  //       minimumFractionDigits: 0,
-  //     }).format(angka || 0);
-  //   };
 
   const closePromoModal = () => {
     setShowPromoModal(false);
@@ -12808,180 +13900,74 @@ export default function HomePage() {
 
   return (
     <div className="relative font-sans bg-gray-50">
-      {/* POP-UP PROMO MODAL */}
-      {/* {isPromoMounted && (
-        <div
-          className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-500 ease-out
-            ${showPromoModal ? "bg-black/60 backdrop-blur-sm opacity-100" : "bg-black/0 backdrop-blur-none opacity-0"}
-          `}
-        >
-          <div
-            className={`relative flex flex-col w-full max-w-3xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-2xl transition-all duration-500 ease-out transform
-              ${showPromoModal ? "scale-100 translate-y-0 opacity-100" : "scale-95 translate-y-8 opacity-0"}
-            `}
-          >
-            <button
-              onClick={closePromoModal}
-              className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-
-            <div className="flex flex-col justify-center flex-1 p-8 md:p-12">
-              <h2 className="mb-2 font-serif text-4xl font-black tracking-tight text-gray-900 uppercase">
-                Gycora
-              </h2>
-              <h3 className="mb-4 text-3xl font-extrabold leading-tight text-[#006A4E]">
-                {t("promo_title")}
-              </h3>
-              <p className="mb-8 text-sm font-medium text-gray-500">
-                {t("promo_desc1")}
-                <br />
-                {t("promo_desc2")}
-              </p>
-
-              <form onSubmit={handleSubscribePromo} className="space-y-4">
-                <input
-                  type="email"
-                  value={promoEmail}
-                  onChange={(e) => setPromoEmail(e.target.value)}
-                  placeholder={t("email_placeholder")}
-                  className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-[#006A4E]"
-                  required
-                />
-                <button
-                  type="submit"
-                  disabled={isSubscribing}
-                  className="w-full px-4 py-3 text-sm font-bold tracking-widest text-white uppercase transition-all bg-[#006A4E] rounded-lg hover:bg-emerald-900 disabled:bg-gray-400"
-                >
-                  {isSubscribing ? t("sending") : t("claim_now")}
-                </button>
-              </form>
-            </div>
-
-            <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
-              <img
-                src="/landing_page_images/promo_popup.jpg"
-                alt="Promo Gycora"
-                className="object-cover w-full h-full"
-              />
-            </div>
-          </div>
-        </div>
-      )} */}
-
+      
+      {/* =========================================
+          👇 KEMBALIKAN POP-UP PROMO MODAL DI SINI 👇
+      ========================================= */}
       {isPromoMounted && (
-        <div
-          className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-500 ease-out
-      ${showPromoModal ? "bg-black/60 backdrop-blur-sm opacity-100" : "bg-black/0 backdrop-blur-none opacity-0"}
-    `}
-        >
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          {/* Latar Belakang Gelap */}
           <div
-            className={`relative flex flex-col w-full max-w-4xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-3xl transition-all duration-500 ease-out transform
-        ${showPromoModal ? "scale-100 translate-y-0 opacity-100" : "scale-95 translate-y-8 opacity-0"}
-      `}
+            className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
+              showPromoModal ? "opacity-100" : "opacity-0"
+            }`}
+            onClick={closePromoModal}
+          ></div>
+
+          {/* Kotak Modal */}
+          <div
+            className={`relative w-full max-w-lg overflow-hidden bg-white shadow-2xl rounded-[2rem] transition-all duration-300 transform ${
+              showPromoModal ? "scale-100 opacity-100 translate-y-0" : "scale-95 opacity-0 translate-y-8"
+            }`}
           >
+            {/* Garis Aksen Atas */}
+            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-emerald-400 to-[#006A4E]"></div>
+            
             <button
               onClick={closePromoModal}
-              className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
+              className="absolute p-2 text-gray-400 transition-colors bg-white rounded-full top-4 right-4 hover:text-gray-900 hover:bg-gray-100"
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
 
-            {/* Konten Kiri (Form) */}
-            <div className="flex flex-col justify-center flex-1 p-8 md:p-12">
-              <h2 className="mb-2 font-serif text-3xl font-black tracking-tight text-gray-900 uppercase">
-                Gycora
-              </h2>
-
-              <h3 className="mb-3 text-2xl font-extrabold leading-tight text-[#006A4E] md:text-3xl">
-                {t("promo_title")}
+            <div className="p-8 sm:p-10 text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-emerald-50 text-[#006A4E]">
+                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h3 className="mb-2 text-2xl font-extrabold text-gray-900">
+                {t("promo_title") || "Dapatkan Promo Eksklusif!"}
               </h3>
-
-              <p className="mb-4 text-sm font-medium text-gray-600">
-                {t("promo_intro")}
+              <p className="mb-8 text-sm text-gray-500 leading-relaxed">
+                {t("promo_desc") || "Berlangganan newsletter kami dan jadilah yang pertama tahu tentang rilis produk baru dan penawaran spesial lainnya."}
               </p>
 
-              {/* List Keuntungan */}
-              <ul className="mb-6 space-y-3 text-sm font-bold text-gray-800">
-                <li className="flex items-start gap-2">
-                  <span className="text-base shrink-0">✨</span>
-                  <span>{t("promo_bullet1")}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-base shrink-0">🚚</span>
-                  <span>{t("promo_bullet2")}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-base shrink-0">💚</span>
-                  <span>{t("promo_bullet3")}</span>
-                </li>
-              </ul>
-
-              <p className="mb-6 text-sm font-medium text-gray-500">
-                {t("promo_cta")}
-              </p>
-
-              <form onSubmit={handleSubscribePromo} className="space-y-4">
+              <form onSubmit={handleSubscribePromo} className="flex flex-col gap-3 sm:flex-row">
                 <input
                   type="email"
+                  required
+                  placeholder={t("promo_placeholder") || "Alamat email Anda"}
                   value={promoEmail}
                   onChange={(e) => setPromoEmail(e.target.value)}
-                  placeholder={t("email_placeholder")}
-                  className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-xl outline-none focus:ring-2 focus:ring-[#006A4E] focus:border-[#006A4E]"
-                  required
+                  className="w-full px-4 py-3 text-sm transition-colors bg-gray-50 border border-gray-200 rounded-xl outline-none focus:bg-white focus:border-[#006A4E] focus:ring-1 focus:ring-[#006A4E]"
                 />
                 <button
                   type="submit"
                   disabled={isSubscribing}
-                  className="w-full px-4 py-3.5 text-xs font-bold tracking-widest text-white uppercase transition-all shadow-md bg-[#006A4E] rounded-xl hover:bg-emerald-900 hover:shadow-lg disabled:bg-gray-400 disabled:shadow-none"
+                  className="w-full sm:w-auto px-6 py-3 text-sm font-bold text-white uppercase tracking-widest transition-all bg-[#006A4E] rounded-xl hover:bg-emerald-900 shadow-md disabled:opacity-70 whitespace-nowrap"
                 >
-                  {isSubscribing ? t("sending") : t("claim_now")}
+                  {isSubscribing ? "..." : t("promo_btn") || "KLAIM!"}
                 </button>
               </form>
-
-              {/* Footer Note */}
-              <p className="mt-5 text-[11px] font-medium text-center text-gray-400">
-                {t("promo_footer")}
-              </p>
-            </div>
-
-            {/* Gambar Kanan */}
-            <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
-              <img
-                src="/landing_page_images/promo_popup.jpg"
-                alt="Promo Gycora"
-                className="object-cover w-full h-full"
-              />
             </div>
           </div>
         </div>
       )}
-
+      {/* 👆 ========================================= 👆 */}
+      
       {/* =========================================
           HERO SECTION
       ========================================= */}
@@ -13039,7 +14025,7 @@ export default function HomePage() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2.5}
-                d="M9 5l7 7-7 7"
+                d="M9 5l7 7-7-7"
               />
             </svg>
           </button>
@@ -13204,85 +14190,10 @@ export default function HomePage() {
             </div>
           ) : featuredProducts.length > 0 ? (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {/* {featuredProducts.map((product) => {
-                let customDesc = product.description;
-                if (product.name.toLowerCase().includes("brush")) {
-                  customDesc = t("brush_desc");
-                }
-
-                return (
-                  <div
-                    key={product.id}
-                    className="relative flex flex-row p-4 transition-all duration-300 bg-gray-50 border border-gray-100 shadow-sm cursor-pointer rounded-3xl hover:shadow-lg hover:-translate-y-1 hover:border-[#006A4E]/30"
-                    onClick={() =>
-                      navigate(`/${lang}/product/${product.slug}`, {
-                        state: {
-                          initialProduct: product,
-                          allProducts: featuredProducts,
-                        },
-                      })
-                    }
-                  >
-                    <button className="absolute z-10 text-gray-300 top-4 right-4 hover:text-red-500">
-                      <svg
-                        className="w-5 h-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={1.5}
-                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                        />
-                      </svg>
-                    </button>
-
-                    <div className="flex items-center justify-center w-2/5 p-2 bg-white shrink-0 rounded-2xl">
-                      <img
-                        src={product.image_url}
-                        alt={product.name}
-                        className="object-contain w-full h-28 md:h-32 drop-shadow-sm"
-                      />
-                    </div>
-
-                    <div className="flex flex-col justify-center w-3/5 pl-4 pr-2">
-                      <h3 className="text-sm font-extrabold leading-tight text-[#006A4E] line-clamp-2">
-                        {product.name}
-                      </h3>
-                      <p className="mt-1 text-xs leading-relaxed text-gray-500 md:text-sm line-clamp-3">
-                        {customDesc}
-                      </p>
-                        <div className="mt-3">
-                            {isDiscounted ? (
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] font-medium text-gray-400 line-through">
-                                        {formatCurrencyDisplay(dynamicPriceObj)}
-                                    </span>
-                                    <span className="text-base font-black leading-none text-rose-500">
-                                        {formatCurrencyDisplay(dynamicDiscountObj)}
-                                    </span>
-                                </div>
-                            ) : (
-                                <span className="block text-base font-black leading-none text-[#006A4E]">
-                                    {formatCurrencyDisplay(dynamicPriceObj)}
-                                </span>
-                            )}
-                        </div>
-                      <button className="px-4 py-1.5 mt-4 text-[10px] font-bold tracking-widest uppercase transition-colors bg-white border border-[#006A4E] rounded-full text-[#006A4E] hover:bg-[#006A4E] hover:text-white w-max">
-                        {t("shop_now")}
-                      </button>
-                    </div>
-                  </div>
-                );
-              })} */}
               {featuredProducts.map((product) => {
-                // 1. Definisikan variabel di dalam scope map agar setiap produk punya datanya sendiri
                 const dynamicPriceObj = getPriceToDisplay(product);
                 const dynamicDiscountObj = getDiscountToDisplay(product);
 
-                // 2. Tentukan status diskon
                 const isDiscounted = !!(
                   dynamicDiscountObj &&
                   dynamicDiscountObj.value > 0 &&
@@ -13339,7 +14250,6 @@ export default function HomePage() {
                         {customDesc}
                       </p>
 
-                      {/* Render Harga Menggunakan Variabel yang Baru Didefinisikan */}
                       <div className="mt-3">
                         {isDiscounted ? (
                           <div className="flex flex-col">
@@ -13405,7 +14315,6 @@ export default function HomePage() {
             </div>
 
             <div className="relative flex-1 p-8 overflow-hidden bg-white border border-gray-200 shadow-xl rounded-3xl lg:p-12">
-              {/* Ornamen Abstrak Halus */}
               <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-full opacity-50 bg-emerald-50 -z-0"></div>
 
               <div className="relative z-10">
