@@ -13900,68 +13900,104 @@ export default function HomePage() {
 
   return (
     <div className="relative font-sans bg-gray-50">
-      
       {/* =========================================
           👇 KEMBALIKAN POP-UP PROMO MODAL DI SINI 👇
       ========================================= */}
       {isPromoMounted && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          {/* Latar Belakang Gelap */}
+        <div
+          className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-500 ease-out
+      ${showPromoModal ? "bg-black/60 backdrop-blur-sm opacity-100" : "bg-black/0 backdrop-blur-none opacity-0"}
+    `}
+        >
           <div
-            className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
-              showPromoModal ? "opacity-100" : "opacity-0"
-            }`}
-            onClick={closePromoModal}
-          ></div>
-
-          {/* Kotak Modal */}
-          <div
-            className={`relative w-full max-w-lg overflow-hidden bg-white shadow-2xl rounded-[2rem] transition-all duration-300 transform ${
-              showPromoModal ? "scale-100 opacity-100 translate-y-0" : "scale-95 opacity-0 translate-y-8"
-            }`}
+            className={`relative flex flex-col w-full max-w-4xl overflow-hidden bg-white shadow-2xl md:flex-row rounded-3xl transition-all duration-500 ease-out transform
+        ${showPromoModal ? "scale-100 translate-y-0 opacity-100" : "scale-95 translate-y-8 opacity-0"}
+      `}
           >
-            {/* Garis Aksen Atas */}
-            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-emerald-400 to-[#006A4E]"></div>
-            
             <button
               onClick={closePromoModal}
-              className="absolute p-2 text-gray-400 transition-colors bg-white rounded-full top-4 right-4 hover:text-gray-900 hover:bg-gray-100"
+              className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors bg-white rounded-full shadow-md top-4 right-4 hover:bg-gray-100 hover:text-gray-900"
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
 
-            <div className="p-8 sm:p-10 text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-emerald-50 text-[#006A4E]">
-                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h3 className="mb-2 text-2xl font-extrabold text-gray-900">
-                {t("promo_title") || "Dapatkan Promo Eksklusif!"}
+            {/* Konten Kiri (Form) */}
+            <div className="flex flex-col justify-center flex-1 p-8 md:p-12">
+              <h2 className="mb-2 font-serif text-3xl font-black tracking-tight text-gray-900 uppercase">
+                Gycora
+              </h2>
+
+              <h3 className="mb-3 text-2xl font-extrabold leading-tight text-[#006A4E] md:text-3xl">
+                {t("promo_title")}
               </h3>
-              <p className="mb-8 text-sm text-gray-500 leading-relaxed">
-                {t("promo_desc") || "Berlangganan newsletter kami dan jadilah yang pertama tahu tentang rilis produk baru dan penawaran spesial lainnya."}
+
+              <p className="mb-4 text-sm font-medium text-gray-600">
+                {t("promo_intro")}
               </p>
 
-              <form onSubmit={handleSubscribePromo} className="flex flex-col gap-3 sm:flex-row">
+              {/* List Keuntungan */}
+              <ul className="mb-6 space-y-3 text-sm font-bold text-gray-800">
+                <li className="flex items-start gap-2">
+                  <span className="text-base shrink-0">✨</span>
+                  <span>{t("promo_bullet1")}</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-base shrink-0">🚚</span>
+                  <span>{t("promo_bullet2")}</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-base shrink-0">💚</span>
+                  <span>{t("promo_bullet3")}</span>
+                </li>
+              </ul>
+
+              <p className="mb-6 text-sm font-medium text-gray-500">
+                {t("promo_cta")}
+              </p>
+
+              <form onSubmit={handleSubscribePromo} className="space-y-4">
                 <input
                   type="email"
-                  required
-                  placeholder={t("promo_placeholder") || "Alamat email Anda"}
                   value={promoEmail}
                   onChange={(e) => setPromoEmail(e.target.value)}
-                  className="w-full px-4 py-3 text-sm transition-colors bg-gray-50 border border-gray-200 rounded-xl outline-none focus:bg-white focus:border-[#006A4E] focus:ring-1 focus:ring-[#006A4E]"
+                  placeholder={t("email_placeholder")}
+                  className="w-full px-4 py-3 text-sm transition-all border border-gray-300 rounded-xl outline-none focus:ring-2 focus:ring-[#006A4E] focus:border-[#006A4E]"
+                  required
                 />
                 <button
                   type="submit"
                   disabled={isSubscribing}
-                  className="w-full sm:w-auto px-6 py-3 text-sm font-bold text-white uppercase tracking-widest transition-all bg-[#006A4E] rounded-xl hover:bg-emerald-900 shadow-md disabled:opacity-70 whitespace-nowrap"
+                  className="w-full px-4 py-3.5 text-xs font-bold tracking-widest text-white uppercase transition-all shadow-md bg-[#006A4E] rounded-xl hover:bg-emerald-900 hover:shadow-lg disabled:bg-gray-400 disabled:shadow-none"
                 >
-                  {isSubscribing ? "..." : t("promo_btn") || "KLAIM!"}
+                  {isSubscribing ? t("sending") : t("claim_now")}
                 </button>
               </form>
+
+              {/* Footer Note */}
+              <p className="mt-5 text-[11px] font-medium text-center text-gray-400">
+                {t("promo_footer")}
+              </p>
+            </div>
+
+            {/* Gambar Kanan */}
+            <div className="hidden w-full md:block md:w-5/12 bg-emerald-50">
+              <img
+                src="/landing_page_images/promo_popup.jpg"
+                alt="Promo Gycora"
+                className="object-cover w-full h-full"
+              />
             </div>
           </div>
         </div>
