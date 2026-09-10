@@ -3746,7 +3746,7 @@ export default function AdminDashboard() {
       const token = localStorage.getItem("admin_token");
       Swal.fire({ title: "Menyiapkan Dokumen...", allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
-      const res = await fetch(`${BASE_URL}/api/admin/finance/export`, {
+      const res = await fetch(`${BASE_URL}/api/admin/dashboard/finance/export`, {
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` }
       });
