@@ -14892,6 +14892,23 @@ export default function ProductDetail() {
     const seoDescription = `Beli ${product.name} seharga ${formatCurrencyDisplay(finalPriceObj)} di Gycora. ${plainDesc}...`;
     const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
 
+    // 👇 EVALUASI VALIDITAS WAKTU PROMO BUNDLE 👇
+    let isBundlePromoValid = false;
+    if (product && product.has_bundle_freebie) {
+        isBundlePromoValid = true;
+        const now = Date.now();
+
+        if (product.bundle_start_date && product.bundle_start_date !== "0000-00-00 00:00:00") {
+            const start = new Date(product.bundle_start_date.replace(" ", "T")).getTime();
+            if (!isNaN(start) && now < start) isBundlePromoValid = false;
+        }
+
+        if (isBundlePromoValid && product.bundle_end_date && product.bundle_end_date !== "0000-00-00 00:00:00") {
+            const end = new Date(product.bundle_end_date.replace(" ", "T")).getTime();
+            if (!isNaN(end) && now > end) isBundlePromoValid = false;
+        }
+    }
+
     return (
         <div className="min-h-screen py-12 font-sans bg-white animate-fade-in relative">
 
@@ -15038,7 +15055,8 @@ export default function ProductDetail() {
                         </div>
 
                         {/* 👇 [FITUR BARU] TAMPILAN KUOTA HADIAH BUNDLE 👇 */}
-                        {product.has_bundle_freebie && product.bundle_freebie_quota !== undefined && (
+                        {/* {product.has_bundle_freebie && product.bundle_freebie_quota !== undefined && ( */}
+                        {isBundlePromoValid && product.bundle_freebie_quota !== undefined && (
                             <div className="mt-2 mb-4">
                                 {product.bundle_freebie_quota > 0 ? (
                                     <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg animate-pulse">
