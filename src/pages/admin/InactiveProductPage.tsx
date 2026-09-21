@@ -36,25 +36,61 @@ export default function InactiveProductPage() {
     fetchInactiveProducts();
   }, []);
 
+  // const handleRestore = async (id: number) => {
+  //   try {
+  //     const token = localStorage.getItem("admin_token");
+  //     await fetch(`${BASE_URL}/api/products/${id}/restore`, {
+  //       method: "POST",
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+  //     fetchInactiveProducts();
+  //     Swal.fire({
+  //       toast: true,
+  //       position: "top-end",
+  //       icon: "success",
+  //       title: "Produk Aktif Kembali",
+  //       showConfirmButton: false,
+  //       timer: 2000,
+  //     });
+  //   } catch (error) {
+  //     console.error("Gagal mengaktifkan produk.", error);
+  //     Swal.fire("Error!", "Gagal mengaktifkan produk.", "error");
+  //   }
+  // };
+
   const handleRestore = async (id: number) => {
     try {
       const token = localStorage.getItem("admin_token");
-      await fetch(`${BASE_URL}/api/products/${id}/restore`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
+      const res = await fetch(`${BASE_URL}/api/products/${id}/restore`, {
+        method: "POST", // Pastikan route Laravel menggunakan POST. Jika PUT, ubah jadi "PUT"
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Accept": "application/json", // Wajib untuk Laravel API
+          "Content-Type": "application/json"
+        },
       });
-      fetchInactiveProducts();
-      Swal.fire({
-        toast: true,
-        position: "top-end",
-        icon: "success",
-        title: "Produk Aktif Kembali",
-        showConfirmButton: false,
-        timer: 2000,
-      });
+
+      if (res.ok) {
+        // Hanya refresh data dan munculkan alert JIKA API benar-benar sukses (Status 200-299)
+        fetchInactiveProducts();
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "success",
+          title: "Produk Aktif Kembali",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      } else {
+        // Tangkap jika terjadi error HTTP dari Laravel
+        const errorData = await res.json();
+        console.error("Gagal dari server:", errorData);
+        Swal.fire("Gagal", errorData.message || "Gagal mengaktifkan produk.", "error");
+      }
     } catch (error) {
-      console.error("Gagal mengaktifkan produk.", error);
-      Swal.fire("Error!", "Gagal mengaktifkan produk.", "error");
+      // Catch ini hanya menangkap masalah jaringan (misal: server mati atau koneksi terputus)
+      console.error("Network / Server error:", error);
+      Swal.fire("Error!", "Terjadi kesalahan koneksi.", "error");
     }
   };
 
