@@ -62,7 +62,7 @@ export default function InactiveProductPage() {
     try {
       const token = localStorage.getItem("admin_token");
       const res = await fetch(`${BASE_URL}/api/products/${id}/restore`, {
-        method: "POST", // Pastikan route Laravel menggunakan POST. Jika PUT, ubah jadi "PUT"
+        method: "PUT", // Pastikan route Laravel menggunakan POST. Jika PUT, ubah jadi "PUT"
         headers: {
           "Authorization": `Bearer ${token}`,
           "Accept": "application/json", // Wajib untuk Laravel API
