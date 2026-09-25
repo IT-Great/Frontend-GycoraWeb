@@ -15142,6 +15142,57 @@ export default function PaymentPage() {
         }
     };
 
+    // const handlePayment = async () => {
+    //     setIsProcessing(true);
+    //     try {
+    //         const token = localStorage.getItem("user_token");
+
+    //         const payload = {
+    //             address_id: selectedAddressId,
+    //             shipping_method: shippingMethod,
+    //             use_points: pointsUsed,
+    //             cart_ids: selectedItemIds,
+    //             courier_company:
+    //                 shippingMethod === "biteship" ? selectedRate?.company : null,
+    //             courier_type:
+    //                 shippingMethod === "biteship" ? selectedRate?.type : null,
+    //             shipping_cost:
+    //                 shippingMethod === "biteship" ? selectedRate?.price : null,
+    //             delivery_type: shippingMethod === "biteship" ? "now" : null,
+    //             delivery_date: shippingMethod === "biteship" ? deliveryDate : null,
+    //             delivery_time: shippingMethod === "biteship" ? deliveryTime : null,
+    //             promo_code: appliedPromoCode,
+    //             promo_type: appliedPromoType,
+    //             ab_test_variant: abVariant,
+    //         };
+
+    //         const res = await fetch(`${BASE_URL}/api/checkout`, {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 Authorization: `Bearer ${token}`,
+    //                 Accept: "application/json",
+    //             },
+    //             body: JSON.stringify(payload),
+    //         });
+    //         const data = await res.json();
+
+    //         if (res.ok && data.ticket_id) {
+    //             setQueuePosition(data.position);
+    //             setQueueMessage("Masuk antrean...");
+    //             setIsWaitingRoomOpen(true);
+    //             pollTicketStatus(data.ticket_id);
+    //         } else {
+    //             throw new Error(
+    //                 data.message || "Sistem sangat sibuk. Harap coba lagi.",
+    //             );
+    //         }
+    //     } catch (err: any) {
+    //         setIsProcessing(false);
+    //         Swal.fire("Sistem Sibuk", err.message, "error");
+    //     }
+    // };
+
     const handlePayment = async () => {
         setIsProcessing(true);
         try {
@@ -15177,19 +15228,17 @@ export default function PaymentPage() {
             });
             const data = await res.json();
 
-            if (res.ok && data.ticket_id) {
-                setQueuePosition(data.position);
-                setQueueMessage("Masuk antrean...");
-                setIsWaitingRoomOpen(true);
-                pollTicketStatus(data.ticket_id);
+            if (res.ok && data.checkout_url) {
+                // Langsung redirect ke URL Sandbox / Production Xendit!
+                window.location.href = data.checkout_url;
             } else {
                 throw new Error(
-                    data.message || "Sistem sangat sibuk. Harap coba lagi.",
+                    data.message || "Gagal memproses pembayaran.",
                 );
             }
         } catch (err: any) {
             setIsProcessing(false);
-            Swal.fire("Sistem Sibuk", err.message, "error");
+            Swal.fire("Gagal", err.message, "error");
         }
     };
 
