@@ -1669,7 +1669,37 @@ export const translations: Record<string, TranslationDictionary> = {
     change_profile : "Ubah Profil",
     district : "Kecamatan:",
     choose_method : "Pilih metode",
-    you_may_also_like : "Anda Mungkin Suka"
+    you_may_also_like: "Anda Mungkin Suka",
+    
+    // 👇 TAMBAHAN UNTUK GYCORA CIRCLE 👇
+    gc_loyalty_title: "Gycora Circle Loyalty",
+    gc_greeting: "Halo {name}, Anda saat ini berada di tingkat {tier}. Nikmati berbagai keuntungan eksklusif khusus untuk Anda.",
+    gc_point_balance: "Saldo Poin Anda",
+    gc_towards_tier: "Menuju {tier}",
+    gc_need_points: "Butuh {points} Pts lagi",
+    gc_max_tier: "Tingkat Tertinggi Tercapai 👑",
+    gc_privileges_title: "Hak Istimewa Gycora Circle",
+    gc_current_tier: "Current Tier",
+    gc_min_points: "Min. {points} Poin",
+    gc_locked: "Terkunci 🔒",
+    gc_how_to_earn_title: "Cara Mendapatkan Poin",
+    gc_how_to_earn_desc: "Poin Gycora Circle otomatis ditambahkan ke akun Anda setiap kali Anda menyelesaikan transaksi. Setiap pembelanjaan senilai Rp 100.000 akan memberikan Anda 1 Poin (berlaku kelipatan). Kumpulkan terus poinnya dan nikmati fasilitas VIP dari Gycora!",
+
+    // Benefit Items (Bisa diterjemahkan satu per satu)
+    gc_ben_silver_1: "Akses ke katalog reguler",
+    gc_ben_silver_2: "Poin belanja standar (1 Pts = Rp 100.000)",
+    gc_ben_silver_3: "Dukungan CS 24/7",
+    gc_ben_gold_1: "Semua benefit Silver",
+    gc_ben_gold_2: "Diskon Ongkir hingga 15rb/bulan",
+    gc_ben_gold_3: "Akses awal produk baru (Early Access)",
+    gc_ben_plat_1: "Semua benefit Gold",
+    gc_ben_plat_2: "Gratis Ongkir tanpa batas",
+    gc_ben_plat_3: "Prioritas komplain & retur instant",
+    gc_ben_plat_4: "Hadiah ulang tahun eksklusif",
+    gc_ben_em_1: "Semua benefit Platinum",
+    gc_ben_em_2: "Multiplier Poin 2x lipat",
+    gc_ben_em_3: "Undangan ke VIP Gathering Gycora",
+    gc_ben_em_4: "Personal Shopper Assistant",
   },
   en: {
     // Nav Menu
@@ -2928,7 +2958,37 @@ export const translations: Record<string, TranslationDictionary> = {
     change_profile : "Change Profile",
     district : "District:",
     choose_method : "Choose the Method",
-    you_may_also_like : "You May Also Like"
+    you_may_also_like: "You May Also Like",
+    
+    // 👇 TAMBAHAN UNTUK GYCORA CIRCLE 👇
+    gc_loyalty_title: "Gycora Circle Loyalty",
+    gc_greeting: "Hello {name}, you are currently at the {tier} tier. Enjoy various exclusive benefits specially made for you.",
+    gc_point_balance: "Your Point Balance",
+    gc_towards_tier: "Towards {tier}",
+    gc_need_points: "Need {points} Pts more",
+    gc_max_tier: "Highest Tier Reached 👑",
+    gc_privileges_title: "Gycora Circle Privileges",
+    gc_current_tier: "Current Tier",
+    gc_min_points: "Min. {points} Points",
+    gc_locked: "Locked 🔒",
+    gc_how_to_earn_title: "How to Earn Points",
+    gc_how_to_earn_desc: "Gycora Circle points are automatically added to your account every time you complete a transaction. Every purchase of Rp 100,000 will grant you 1 Point (multiples apply). Keep collecting points and enjoy VIP facilities from Gycora!",
+
+    // Benefit Items
+    gc_ben_silver_1: "Access to regular catalog",
+    gc_ben_silver_2: "Standard shopping points (1 Pts = Rp 100,000)",
+    gc_ben_silver_3: "24/7 CS Support",
+    gc_ben_gold_1: "All Silver benefits",
+    gc_ben_gold_2: "Shipping discount up to 15k/month",
+    gc_ben_gold_3: "Early access to new products",
+    gc_ben_plat_1: "All Gold benefits",
+    gc_ben_plat_2: "Unlimited free shipping",
+    gc_ben_plat_3: "Priority instant returns & complaints",
+    gc_ben_plat_4: "Exclusive birthday gift",
+    gc_ben_em_1: "All Platinum benefits",
+    gc_ben_em_2: "2x Point Multiplier",
+    gc_ben_em_3: "Invitation to VIP Gycora Gathering",
+    gc_ben_em_4: "Personal Shopper Assistant",
   },
 };
 
