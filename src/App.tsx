@@ -3246,6 +3246,7 @@ import AdminCustomerAnalytics from "./components/admin/AdminCustomerAnalytics";
 import AdminResellerList from "./pages/admin/AdminResellerList";
 import AdminInactiveProductStock from "./pages/admin/AdminInactiveProductStock";
 import MaintenancePage from "./pages/MaintenancePage";
+import GycoraCirclePage from "./pages/user/GycoraCirclePage";
 
 function AdminRoute({ children }: { children: React.ReactNode }) {
   const token = localStorage.getItem("admin_token");
@@ -3337,6 +3338,7 @@ const publicRoutes = (
     <Route path="reset-password" element={<ResetPasswordPage />} />
 
     <Route path="profile" element={<UserProfile />} />
+    <Route path="gycora-circle" element={<GycoraCirclePage />} />
     <Route path="orders" element={<OrderPage />} />
     <Route path="cart" element={<CartPage />} />
     <Route path="checkout" element={<PaymentPage />} />
