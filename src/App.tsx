@@ -3327,6 +3327,39 @@ function OfflineBanner() {
   );
 }
 
+// function LayoutWrapper({ children }: { children: React.ReactNode }) {
+//   const location = useLocation();
+//   const isAdminArea = location.pathname.startsWith("/admin");
+
+//   const noLayoutPaths = [
+//     "/login",
+//     "/register",
+//     "/forgot-password",
+//     "/verify-code",
+//     "/reset-password",
+//     "/maintenance",
+//   ];
+
+//   const pathWithoutLang = location.pathname.replace(/^\/(id|en)/, "");
+//   const isNoLayoutPage = noLayoutPaths.includes(pathWithoutLang);
+
+//   if (isAdminArea) return <>{children}</>;
+
+//   const shouldShowHeaderFooter = !isNoLayoutPage;
+
+//   return (
+//     <div className="flex flex-col min-h-screen font-sans text-gray-900 bg-white pt-8">
+//       {/* 👇 Tampilkan Banner Offline di atas segalanya 👇 */}
+//       <OfflineBanner />
+
+//       {shouldShowHeaderFooter && <Header />}
+//       <main className="flex flex-col flex-1">{children}</main>
+//       {shouldShowHeaderFooter && <Footer />}
+//       {shouldShowHeaderFooter && <WhatsAppButton />}
+//     </div>
+//   );
+// }
+
 function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const isAdminArea = location.pathname.startsWith("/admin");
@@ -3348,8 +3381,8 @@ function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const shouldShowHeaderFooter = !isNoLayoutPage;
 
   return (
-    <div className="flex flex-col min-h-screen font-sans text-gray-900 bg-white pt-8">
-      {/* 👇 Tampilkan Banner Offline di atas segalanya 👇 */}
+    // 👇 PERBAIKAN: Hapus pt-8 dari className di bawah ini 👇
+    <div className="flex flex-col min-h-screen font-sans text-gray-900 bg-white">
       <OfflineBanner />
 
       {shouldShowHeaderFooter && <Header />}
