@@ -3155,7 +3155,7 @@
 //   );
 // }
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -3164,6 +3164,7 @@ import {
   Navigate,
   Outlet,
 } from "react-router-dom";
+// (Seluruh Import Page Anda tetap dipertahankan)
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HomePage from "./pages/user/HomePage";
@@ -3296,8 +3297,36 @@ function LanguageWrapper({ langCode }: { langCode: "id" | "en" }) {
 }
 
 // ==========================================================
-// 👇 [PERBAIKAN] LayoutWrapper menambahkan pengecualian /maintenance
+// 👇 [PWA] Komponen Peringatan Offline 👇
 // ==========================================================
+function OfflineBanner() {
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+
+  useEffect(() => {
+    const handleOnline = () => setIsOffline(false);
+    const handleOffline = () => setIsOffline(true);
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
+
+  if (!isOffline) return null;
+
+  return (
+    <div className="fixed top-0 left-0 right-0 z-[1000] flex items-center justify-center p-2 text-xs font-bold text-white uppercase tracking-widest bg-rose-500 shadow-md animate-fade-in-up">
+      <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+      Tidak ada koneksi internet. Anda sedang dalam Mode Offline.
+    </div>
+  );
+}
+
 function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const isAdminArea = location.pathname.startsWith("/admin");
@@ -3308,7 +3337,7 @@ function LayoutWrapper({ children }: { children: React.ReactNode }) {
     "/forgot-password",
     "/verify-code",
     "/reset-password",
-    "/maintenance", // <-- Fitur Maintenance kini diabaikan dari Header/Footer
+    "/maintenance",
   ];
 
   const pathWithoutLang = location.pathname.replace(/^\/(id|en)/, "");
@@ -3319,7 +3348,10 @@ function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const shouldShowHeaderFooter = !isNoLayoutPage;
 
   return (
-    <div className="flex flex-col min-h-screen font-sans text-gray-900 bg-white">
+    <div className="flex flex-col min-h-screen font-sans text-gray-900 bg-white pt-8">
+      {/* 👇 Tampilkan Banner Offline di atas segalanya 👇 */}
+      <OfflineBanner />
+
       {shouldShowHeaderFooter && <Header />}
       <main className="flex flex-col flex-1">{children}</main>
       {shouldShowHeaderFooter && <Footer />}
@@ -3341,8 +3373,11 @@ const publicRoutes = (
     <Route path="gycora-circle" element={<GycoraCirclePage />} />
     <Route path="orders" element={<OrderPage />} />
     <Route path="cart" element={<CartPage />} />
+
+    {/* Halaman Checkout yang butuh online */}
     <Route path="checkout" element={<PaymentPage />} />
     <Route path="payment-success" element={<PaymentSuccessPage />} />
+
     <Route path="tracking/:id" element={<TrackingPage />} />
     <Route path="favorites" element={<FavoritePage />} />
     <Route path="chat" element={<ChatListPage />} />
@@ -3401,410 +3436,49 @@ export default function App() {
                       {publicRoutes}
                     </Route>
 
-                    <Route
-                      path="/admin/login"
-                      element={
-                        <GuestAdminRoute>
-                          <AdminLayout>
-                            <AdminLogin />
-                          </AdminLayout>
-                        </GuestAdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/forgot-password"
-                      element={<AdminForgotPasswordPage />}
-                    />
-                    <Route
-                      path="/admin/verify-code"
-                      element={<AdminCodeVerificationPage />}
-                    />
-                    <Route
-                      path="/admin/reset-password"
-                      element={<AdminResetPasswordPage />}
-                    />
-
-                    <Route
-                      path="/admin/dashboard"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminDashboard />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/categories"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminCategories />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/products"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminProducts />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/products/create"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AddProduct />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/products/:slug/edit"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <EditProduct />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/products/:slug"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminProductDetail />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/product-stocks"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminProductStock />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/product-stocks/inactive"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminInactiveProductStock />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/transactions"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <TransactionPage />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/transactions/:id"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <TransactionDetailPage />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/users"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminUsersList />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/users/:id"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <UserDetailPage />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/resellers"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminResellerList />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/sales-report"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <SalesReportPage />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/products/inactive"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <InactiveProductPage />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/subscribers"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <SubscriberPage />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/profile"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminProfilePage />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/messages"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <MessageViewPage />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/messages/:id"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <DetailMessageViewPage />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/category-coas"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <CategoryCoaPage />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/coas"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <CoaPage />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/transfer-receive"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <TransferReceivePage />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/suppliers"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <SupplierPage />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/invoices"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <InvoicePage />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/treatments"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminTreatments />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/reviews"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminReviews />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/audit-logs"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminAuditLogPage />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/events"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminEventList />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/events/create"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminEventForm />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/events/edit/:id"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminEventForm />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/events/:id"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminEventDetail />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/business-partners"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminBusinessPartnerPage />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/access-policy"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AccessPolicyManagement />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-
-                    <Route
-                      path="/admin/dynamic-promos"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminPromoListPage />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/dynamic-promos/create"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminPromoFormCreate />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/dynamic-promos/edit/:id"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminPromoFormEdit />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/dynamic-promos/:id"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminPromoDetailPage />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/customer-analytics"
-                      element={
-                        <AdminRoute>
-                          <AdminLayout>
-                            <AdminCustomerAnalytics />
-                          </AdminLayout>
-                        </AdminRoute>
-                      }
-                    />
+                    {/* ADMIN ROUTES */}
+                    <Route path="/admin/login" element={<GuestAdminRoute><AdminLayout><AdminLogin /></AdminLayout></GuestAdminRoute>} />
+                    <Route path="/admin/forgot-password" element={<AdminForgotPasswordPage />} />
+                    <Route path="/admin/verify-code" element={<AdminCodeVerificationPage />} />
+                    <Route path="/admin/reset-password" element={<AdminResetPasswordPage />} />
+                    <Route path="/admin/dashboard" element={<AdminRoute><AdminLayout><AdminDashboard /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/categories" element={<AdminRoute><AdminLayout><AdminCategories /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/products" element={<AdminRoute><AdminLayout><AdminProducts /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/products/create" element={<AdminRoute><AdminLayout><AddProduct /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/products/:slug/edit" element={<AdminRoute><AdminLayout><EditProduct /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/products/:slug" element={<AdminRoute><AdminLayout><AdminProductDetail /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/product-stocks" element={<AdminRoute><AdminLayout><AdminProductStock /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/product-stocks/inactive" element={<AdminRoute><AdminLayout><AdminInactiveProductStock /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/transactions" element={<AdminRoute><AdminLayout><TransactionPage /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/transactions/:id" element={<AdminRoute><AdminLayout><TransactionDetailPage /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/users" element={<AdminRoute><AdminLayout><AdminUsersList /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/users/:id" element={<AdminRoute><AdminLayout><UserDetailPage /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/resellers" element={<AdminRoute><AdminLayout><AdminResellerList /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/sales-report" element={<AdminRoute><AdminLayout><SalesReportPage /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/products/inactive" element={<AdminRoute><AdminLayout><InactiveProductPage /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/subscribers" element={<AdminRoute><AdminLayout><SubscriberPage /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/profile" element={<AdminRoute><AdminLayout><AdminProfilePage /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/messages" element={<AdminRoute><AdminLayout><MessageViewPage /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/messages/:id" element={<AdminRoute><AdminLayout><DetailMessageViewPage /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/category-coas" element={<AdminRoute><AdminLayout><CategoryCoaPage /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/coas" element={<AdminRoute><AdminLayout><CoaPage /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/transfer-receive" element={<AdminRoute><AdminLayout><TransferReceivePage /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/suppliers" element={<AdminRoute><AdminLayout><SupplierPage /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/invoices" element={<AdminRoute><AdminLayout><InvoicePage /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/treatments" element={<AdminRoute><AdminLayout><AdminTreatments /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/reviews" element={<AdminRoute><AdminLayout><AdminReviews /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/audit-logs" element={<AdminRoute><AdminLayout><AdminAuditLogPage /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/events" element={<AdminRoute><AdminLayout><AdminEventList /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/events/create" element={<AdminRoute><AdminLayout><AdminEventForm /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/events/edit/:id" element={<AdminRoute><AdminLayout><AdminEventForm /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/events/:id" element={<AdminRoute><AdminLayout><AdminEventDetail /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/business-partners" element={<AdminRoute><AdminLayout><AdminBusinessPartnerPage /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/access-policy" element={<AdminRoute><AdminLayout><AccessPolicyManagement /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/dynamic-promos" element={<AdminRoute><AdminLayout><AdminPromoListPage /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/dynamic-promos/create" element={<AdminRoute><AdminLayout><AdminPromoFormCreate /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/dynamic-promos/edit/:id" element={<AdminRoute><AdminLayout><AdminPromoFormEdit /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/dynamic-promos/:id" element={<AdminRoute><AdminLayout><AdminPromoDetailPage /></AdminLayout></AdminRoute>} />
+                    <Route path="/admin/customer-analytics" element={<AdminRoute><AdminLayout><AdminCustomerAnalytics /></AdminLayout></AdminRoute>} />
                     <Route path="/maintenance" element={<MaintenancePage />} />
                   </Routes>
                 </LayoutWrapper>
