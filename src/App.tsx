@@ -3299,33 +3299,33 @@ function LanguageWrapper({ langCode }: { langCode: "id" | "en" }) {
 // ==========================================================
 // 👇 [PWA] Komponen Peringatan Offline 👇
 // ==========================================================
-function OfflineBanner() {
-  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+// function OfflineBanner() {
+//   const [isOffline, setIsOffline] = useState(!navigator.onLine);
 
-  useEffect(() => {
-    const handleOnline = () => setIsOffline(false);
-    const handleOffline = () => setIsOffline(true);
+//   useEffect(() => {
+//     const handleOnline = () => setIsOffline(false);
+//     const handleOffline = () => setIsOffline(true);
 
-    window.addEventListener("online", handleOnline);
-    window.addEventListener("offline", handleOffline);
+//     window.addEventListener("online", handleOnline);
+//     window.addEventListener("offline", handleOffline);
 
-    return () => {
-      window.removeEventListener("online", handleOnline);
-      window.removeEventListener("offline", handleOffline);
-    };
-  }, []);
+//     return () => {
+//       window.removeEventListener("online", handleOnline);
+//       window.removeEventListener("offline", handleOffline);
+//     };
+//   }, []);
 
-  if (!isOffline) return null;
+//   if (!isOffline) return null;
 
-  return (
-    <div className="fixed top-0 left-0 right-0 z-[1000] flex items-center justify-center p-2 text-xs font-bold text-white uppercase tracking-widest bg-rose-500 shadow-md animate-fade-in-up">
-      <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>
-      Tidak ada koneksi internet. Anda sedang dalam Mode Offline.
-    </div>
-  );
-}
+//   return (
+//     <div className="fixed top-0 left-0 right-0 z-[1000] flex items-center justify-center p-2 text-xs font-bold text-white uppercase tracking-widest bg-rose-500 shadow-md animate-fade-in-up">
+//       <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+//       </svg>
+//       Tidak ada koneksi internet. Anda sedang dalam Mode Offline.
+//     </div>
+//   );
+// }
 
 // function LayoutWrapper({ children }: { children: React.ReactNode }) {
 //   const location = useLocation();
@@ -3360,6 +3360,74 @@ function OfflineBanner() {
 //   );
 // }
 
+// function LayoutWrapper({ children }: { children: React.ReactNode }) {
+//   const location = useLocation();
+//   const isAdminArea = location.pathname.startsWith("/admin");
+
+//   const noLayoutPaths = [
+//     "/login",
+//     "/register",
+//     "/forgot-password",
+//     "/verify-code",
+//     "/reset-password",
+//     "/maintenance",
+//   ];
+
+//   const pathWithoutLang = location.pathname.replace(/^\/(id|en)/, "");
+//   const isNoLayoutPage = noLayoutPaths.includes(pathWithoutLang);
+
+//   if (isAdminArea) return <>{children}</>;
+
+//   const shouldShowHeaderFooter = !isNoLayoutPage;
+
+//   return (
+//     // 👇 PERBAIKAN: Hapus pt-8 dari className di bawah ini 👇
+//     <div className="flex flex-col min-h-screen font-sans text-gray-900 bg-white">
+//       <OfflineBanner />
+
+//       {shouldShowHeaderFooter && <Header />}
+//       <main className="flex flex-col flex-1">{children}</main>
+//       {shouldShowHeaderFooter && <Footer />}
+//       {shouldShowHeaderFooter && <WhatsAppButton />}
+//     </div>
+//   );
+// }
+
+// ==========================================================
+// 👇 [PWA] Komponen Peringatan Offline 👇
+// ==========================================================
+function OfflineBanner() {
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+
+  useEffect(() => {
+    const handleOnline = () => setIsOffline(false);
+    const handleOffline = () => setIsOffline(true);
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
+
+  if (!isOffline) return null;
+
+  return (
+    // 👇 PERBAIKAN: Hapus 'fixed', gunakan INLINE STYLE untuk warna background dan text 👇
+    <div
+      className="w-full flex items-center justify-center p-3 text-[10px] md:text-xs font-bold uppercase tracking-widest shadow-md z-[1001]"
+      style={{ backgroundColor: "#e11d48", color: "#ffffff" }}
+    >
+      <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+      Tidak ada koneksi internet. Anda sedang dalam Mode Offline.
+    </div>
+  );
+}
+
 function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const isAdminArea = location.pathname.startsWith("/admin");
@@ -3381,8 +3449,9 @@ function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const shouldShowHeaderFooter = !isNoLayoutPage;
 
   return (
-    // 👇 PERBAIKAN: Hapus pt-8 dari className di bawah ini 👇
+    // 👇 PASTIKAN HANYA SEPERTI INI (Tidak ada pt-8) 👇
     <div className="flex flex-col min-h-screen font-sans text-gray-900 bg-white">
+      {/* Banner akan menempati posisi teratas secara natural dan mendorong konten ke bawah */}
       <OfflineBanner />
 
       {shouldShowHeaderFooter && <Header />}
