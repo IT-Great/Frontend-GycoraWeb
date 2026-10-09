@@ -14021,7 +14021,7 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#F4F9F6] via-[#F4F9F6]/20 to-transparent md:bg-gradient-to-r md:from-[#F4F9F6] md:via-[#F4F9F6]/90 md:to-transparent md:w-1/2"></div>
           </div>
 
-          <button
+          {/* <button
             onClick={() =>
               setCurrentSlide((prev) =>
                 prev === 0 ? heroSlides.length - 1 : prev - 1,
@@ -14064,7 +14064,53 @@ export default function HomePage() {
                 d="M9 5l7 7-7-7"
               />
             </svg>
-          </button>
+          </button> */}
+
+                  <button
+                      onClick={() =>
+                          setCurrentSlide((prev) =>
+                              prev === 0 ? heroSlides.length - 1 : prev - 1,
+                          )
+                      }
+                      className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md left-4 md:left-8 top-1/2 -translate-y-1/2 hover:bg-gray-50 focus:outline-none"
+                  >
+                      <svg
+                          className="w-4 h-4 md:w-5 md:h-5" /* Sedikit dikecilkan w-5 agar proporsional di dalam bundaran w-10 */
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                      >
+                          <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2.5}
+                              d="M15 18l-6-6 6-6" /* Disesuaikan agar lebih seimbang di tengah */
+                          />
+                      </svg>
+                  </button>
+
+                  <button
+                      onClick={() =>
+                          setCurrentSlide((prev) =>
+                              prev === heroSlides.length - 1 ? 0 : prev + 1,
+                          )
+                      }
+                      className="absolute z-20 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[#006A4E] transition-colors bg-white rounded-full shadow-md right-4 md:right-8 top-1/2 -translate-y-1/2 hover:bg-gray-50 focus:outline-none"
+                  >
+                      <svg
+                          className="w-4 h-4 md:w-5 md:h-5" /* Sedikit dikecilkan w-5 agar proporsional di dalam bundaran w-10 */
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                      >
+                          <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2.5}
+                              d="M9 18l6-6-6-6" /* Digeser ke kiri agar tidak memotong viewBox saat ditarik garis tebal */
+                          />
+                      </svg>
+                  </button>
         </div>
 
         <div className="relative z-10 w-full px-6 pt-6 pb-12 mx-auto max-w-[1236px] sm:px-10 lg:px-16 animate-fade-in-up flex items-center md:min-h-[600px]">
