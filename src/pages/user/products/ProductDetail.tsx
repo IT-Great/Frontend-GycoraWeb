@@ -14984,7 +14984,7 @@ export default function ProductDetail() {
                                                 onClick={nextImage}
                                                 className="absolute z-30 p-3 text-gray-800 transition-opacity -translate-y-1/2 rounded-full shadow-md opacity-0 right-4 top-1/2 bg-white/90 hover:bg-white group-hover:opacity-100 focus:outline-none"
                                             >
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7-7" /></svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                                             </button>
 
                                             <div className="absolute left-0 right-0 z-30 flex items-center justify-center gap-2 bottom-6">
