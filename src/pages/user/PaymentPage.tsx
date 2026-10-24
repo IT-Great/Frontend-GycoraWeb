@@ -14728,10 +14728,54 @@ export default function PaymentPage() {
         [curr, convertIDRtoActiveCurrency],
     );
 
+    // const getActivePriceObj = useCallback(
+    //     (product: any, totalQty: number) => {
+    //         const isReseller = userType === "reseller";
+    //         const voucher = Number(product.voucher_discount_price) || 0;
+    //         if (appliedPromoType === "voucher" && voucher > 0)
+    //             return { value: voucher, curr: "IDR" };
+
+    //         const dynamicPriceObj = getPriceToDisplay(product);
+    //         const dynamicDiscountObj = getDiscountToDisplay(product);
+    //         const dynamicWholesaleObj = getWholesaleToDisplay(product);
+
+    //         if (
+    //             isReseller &&
+    //             dynamicWholesaleObj &&
+    //             dynamicWholesaleObj.value > 0 &&
+    //             totalQty >= 24
+    //         )
+    //             return dynamicWholesaleObj;
+    //         else if (
+    //             dynamicDiscountObj &&
+    //             dynamicDiscountObj.value > 0 &&
+    //             dynamicDiscountObj.value < dynamicPriceObj.value
+    //         )
+    //             return dynamicDiscountObj;
+    //         return dynamicPriceObj;
+    //     },
+    //     [
+    //         userType,
+    //         appliedPromoType,
+    //         getPriceToDisplay,
+    //         getDiscountToDisplay,
+    //         getWholesaleToDisplay,
+    //     ],
+    // );
+
     const getActivePriceObj = useCallback(
         (product: any, totalQty: number) => {
             const isReseller = userType === "reseller";
             const voucher = Number(product.voucher_discount_price) || 0;
+            const sku = (product.sku || "").toUpperCase();
+
+            // 👇 [PERBAIKAN] Terapkan harga spesial per barang untuk promo GNCS 👇
+            if (appliedPromoType === "special_gncs") {
+                if (sku === "EGB001") return { value: 179000, curr: "IDR" };
+                if (sku === "EGB002") return { value: 189000, curr: "IDR" };
+            }
+            // 👆 ========================================================== 👆
+
             if (appliedPromoType === "voucher" && voucher > 0)
                 return { value: voucher, curr: "IDR" };
 
@@ -14756,7 +14800,7 @@ export default function PaymentPage() {
         },
         [
             userType,
-            appliedPromoType,
+            appliedPromoType, // Pastikan ini ada di array dependensi
             getPriceToDisplay,
             getDiscountToDisplay,
             getWholesaleToDisplay,
@@ -16130,7 +16174,7 @@ export default function PaymentPage() {
                                         {promoMessage}
                                     </p>
                                 )}
-                                {appliedPromoCode && (
+                                {/* {appliedPromoCode && (
                                     <div className="flex justify-between text-[10px] md:text-xs font-medium text-emerald-600 mt-2">
                                         <span className="pr-2 truncate">
                                             Promo (
@@ -16142,6 +16186,25 @@ export default function PaymentPage() {
                                         <span>
                                             - {formatCurrencyDisplay(actualPromoDiscountObj)}
                                         </span>
+                                    </div>
+                                )} */}
+                                
+                                {appliedPromoCode && (
+                                    <div className="flex justify-between text-[10px] md:text-xs font-medium text-emerald-600 mt-2">
+                                        <span className="pr-2 truncate">
+                                            Promo (
+                                            <span className="font-mono uppercase">
+                                                {appliedPromoCode}
+                                            </span>
+                                            )
+                                        </span>
+                                        {/* 👇 [PERBAIKAN] Tampilkan keterangan alih-alih - Rp 0 👇 */}
+                                        <span>
+                                            {actualPromoDiscountObj.value > 0
+                                                ? `- ${formatCurrencyDisplay(actualPromoDiscountObj)}`
+                                                : "Special Price"}
+                                        </span>
+                                        {/* 👆 ==================================================== 👆 */}
                                     </div>
                                 )}
                             </div>
