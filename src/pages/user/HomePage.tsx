@@ -13573,15 +13573,17 @@ import { useLanguage } from "../../context/LanguageContext";
 import { useCurrency } from "../../context/CurrencyContext";
 
 // --- IMPORT GAMBAR DARI LOKAL UNTUK SLIDER & ASET ---
-import slide1 from "/landing_page_images/hero_slide_1.jpg";
-import slide2 from "/landing_page_images/hero_slide_2.jpg";
+// import slide1 from "/landing_page_images/hero_slide_1.jpg";
+// import slide2 from "/landing_page_images/hero_slide_2.jpg";
 import slide3 from "/landing_page_images/hero_slide_3.jpg";
 import slide4 from "/landing_page_images/hero_slide_4.jpg";
+import slide5 from "/landing_page_images/banner_01_0.jpg";
+import slide6 from "/landing_page_images/banner_02_0.jpg";
 import beforeAfterImg from "/landing_page_images/before_after.png";
 
 const heroSlides = [
-  { id: 1, image: slide1, alt: "Gycora Premium Hair Care 1" },
-  { id: 2, image: slide2, alt: "Gycora Premium Hair Care 2" },
+  { id: 1, image: slide5, alt: "Gycora Premium Hair Care 1" },
+  { id: 2, image: slide6, alt: "Gycora Premium Hair Care 2" },
   { id: 3, image: slide3, alt: "Gycora Premium Hair Care 3" },
   { id: 4, image: slide4, alt: "Gycora Premium Hair Care 4" },
 ];
