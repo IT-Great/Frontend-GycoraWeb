@@ -14115,7 +14115,7 @@ export default function HomePage() {
                   </button>
         </div>
 
-        <div className="relative z-10 w-full px-6 pt-6 pb-12 mx-auto max-w-[1236px] sm:px-10 lg:px-16 animate-fade-in-up flex items-center md:min-h-[600px]">
+        {/* <div className="relative z-10 w-full px-6 pt-6 pb-12 mx-auto max-w-[1236px] sm:px-10 lg:px-16 animate-fade-in-up flex items-center md:min-h-[600px]">
           <div className="w-full text-center md:max-w-xl md:text-left">
             <h1 className="text-3xl font-extrabold leading-tight sm:text-4xl md:text-5xl lg:text-6xl text-[#006A4E]">
               {t("hero_title1")} <br className="hidden md:block" />{" "}
@@ -14138,6 +14138,112 @@ export default function HomePage() {
               <a
                 href="#featured"
                 className="px-6 py-3 md:px-8 md:py-3.5 text-xs md:text-sm font-bold tracking-wider text-center uppercase transition-colors bg-transparent border-2 rounded-full border-[#006A4E] text-[#006A4E] hover:bg-[#006A4E] hover:text-white"
+              >
+                {t("see_product")}
+              </a>
+            </div>
+
+            <div className="flex flex-wrap justify-center gap-4 mt-8 md:justify-start md:gap-8 md:mt-10">
+              <div className="relative flex items-center gap-2 group cursor-help">
+                <svg
+                  className="w-6 h-6 text-gray-600 md:w-8 md:h-8"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
+                </svg>
+                <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
+                  {t("feature1_title")}
+                  <br className="hidden sm:block" /> {t("feature1_subtitle")}
+                </span>
+
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
+                  {t("feature1_desc")}
+                  <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900"></div>
+                </div>
+              </div>
+
+              <div className="relative flex items-center gap-2 group cursor-help">
+                <svg
+                  className="w-6 h-6 text-gray-600 md:w-8 md:h-8"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                  />
+                </svg>
+                <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
+                  {t("feature2_title")}
+                  <br className="hidden sm:block" /> {t("feature2_subtitle")}
+                </span>
+
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
+                  {t("feature2_desc")}
+                  <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900"></div>
+                </div>
+              </div>
+
+              <div className="relative flex items-center gap-2 group cursor-help">
+                <svg
+                  className="w-6 h-6 text-gray-600 md:w-8 md:h-8"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span className="text-[10px] md:text-xs font-bold leading-tight text-left text-gray-500">
+                  {t("feature3_title")}
+                  <br className="hidden sm:block" /> {t("feature3_subtitle")}
+                </span>
+
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 px-3 py-2 text-[10px] md:text-xs text-white bg-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
+                  {t("feature3_desc")}
+                  <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> */}
+
+        <div className="relative z-10 w-full px-6 pt-6 pb-12 mx-auto max-w-[1236px] sm:px-10 lg:px-16 animate-fade-in-up flex items-center md:min-h-[600px]">
+          <div className="w-full text-center md:max-w-xl md:text-left">
+            <h1 className="text-4xl font-black leading-tight sm:text-5xl md:text-6xl lg:text-7xl text-rose-600 drop-shadow-sm tracking-tighter uppercase italic">
+              {t("hero_title1")}
+            </h1>
+            <h2 className="mt-3 text-lg font-black text-gray-900 md:mt-4 sm:text-2xl md:text-3xl tracking-tight">
+              {t("hero_subtitle")}
+            </h2>
+            <p className="mt-3 text-sm font-medium leading-relaxed text-gray-600 md:mt-4 md:text-lg">
+              {t("hero_desc")}
+            </p>
+
+            <div className="flex flex-col justify-center gap-3 mt-6 sm:flex-row md:justify-start md:gap-4 md:mt-8">
+              <Link
+                to={`/${lang}/collections/all`}
+                className="px-6 py-3 md:px-8 md:py-3.5 text-xs md:text-sm font-bold tracking-wider text-center text-white uppercase transition-all rounded-full shadow-lg bg-rose-600 hover:bg-rose-800 hover:-translate-y-0.5"
+              >
+                {t("shop_now")}
+              </Link>
+              <a
+                href="#featured"
+                className="px-6 py-3 md:px-8 md:py-3.5 text-xs md:text-sm font-bold tracking-wider text-center uppercase transition-all bg-transparent border-2 rounded-full border-rose-600 text-rose-600 hover:bg-rose-600 hover:text-white"
               >
                 {t("see_product")}
               </a>

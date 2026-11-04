@@ -486,25 +486,41 @@ export const translations: Record<string, TranslationDictionary> = {
     promo_failed_desc: "Gagal mengklaim promo. Pastikan format email benar.",
     error: "Gagal",
     server_error: "Terjadi kesalahan server saat memproses permintaan Anda.",
-    hero_title1: "Solusi Cepat untuk",
-    hero_title2: "Rambut Lebih Rapi",
-    hero_subtitle: "Tanpa Ribet, Tanpa Nunggu Lama.",
-    hero_desc:
-      "Nggak semua orang punya waktu buat styling setiap hari. Tapi kamu tetap bisa tampil lebih rapi dalam hitungan menit dengan produk pilihan dari Gycora.",
+    // hero_title1: "Solusi Cepat untuk",
+    // hero_title2: "Rambut Lebih Rapi",
+    // hero_subtitle: "Tanpa Ribet, Tanpa Nunggu Lama.",
+    // hero_desc:
+    //   "Nggak semua orang punya waktu buat styling setiap hari. Tapi kamu tetap bisa tampil lebih rapi dalam hitungan menit dengan produk pilihan dari Gycora.",
+    // shop_now: "Shop Now",
+    // see_product: "Lihat Produk",
+    // feature1_title: "Teknologi",
+    // feature1_subtitle: "Anti Statis",
+    // feature1_desc:
+    //   "Teknologi ion untuk mencegah rambut berdiri karena listrik statis.",
+    // feature2_title: "Carbon Patented",
+    // feature2_subtitle: "Material",
+    // feature2_desc:
+    //   "Bahan karbon khusus yang dipatenkan untuk mendistribusikan panas secara merata dan aman.",
+    // feature3_title: "Eco",
+    // feature3_subtitle: "Friendly",
+    // feature3_desc:
+    //   "Terbuat dari bahan ramah lingkungan yang aman dan dapat didaur ulang.",
+
+    hero_title1: "11.11 BIG SALE",
+    hero_title2: "", // Dikosongkan karena title1 sudah mencakup judul penuh
+    hero_subtitle: "Good Hair Days, Better Deals.",
+    hero_desc: "Nikmati harga spesial 11.11 untuk Ethereal Glow Brush dan Eco Serenity Scalp. Upgrade your haircare routine with Gycora.",
     shop_now: "Shop Now",
     see_product: "Lihat Produk",
     feature1_title: "Teknologi",
     feature1_subtitle: "Anti Statis",
-    feature1_desc:
-      "Teknologi ion untuk mencegah rambut berdiri karena listrik statis.",
+    feature1_desc: "Teknologi ion untuk mencegah rambut berdiri karena listrik statis.",
     feature2_title: "Carbon Patented",
     feature2_subtitle: "Material",
-    feature2_desc:
-      "Bahan karbon khusus yang dipatenkan untuk mendistribusikan panas secara merata dan aman.",
+    feature2_desc: "Bahan karbon khusus yang dipatenkan untuk mendistribusikan panas secara merata dan aman.",
     feature3_title: "Eco",
     feature3_subtitle: "Friendly",
-    feature3_desc:
-      "Terbuat dari bahan ramah lingkungan yang aman dan dapat didaur ulang.",
+    feature3_desc: "Terbuat dari bahan ramah lingkungan yang aman dan dapat didaur ulang.",
     fav_product_title: "Produk Favorit Pilihan Banyak Orang",
     fav_product_desc:
       "Temukan produk best seller yang jadi andalan untuk rambut lebih rapi, halus, dan mudah diatur setiap hari.",
@@ -1791,25 +1807,42 @@ export const translations: Record<string, TranslationDictionary> = {
     promo_failed_desc: "Failed to claim promo. Make sure the email format is correct.",
     error: "Failed",
     server_error: "A server error occurred while processing your request.",
-    hero_title1: "Quick Solution for",
-    hero_title2: "Neater Hair",
-    hero_subtitle: "No Hassle, No Waiting.",
-    hero_desc:
-      "Not everyone has the time to style their hair every day. But you can still look neater in minutes with selected products from Gycora.",
+    // hero_title1: "Quick Solution for",
+    // hero_title2: "Neater Hair",
+    // hero_subtitle: "No Hassle, No Waiting.",
+    // hero_desc:
+    //   "Not everyone has the time to style their hair every day. But you can still look neater in minutes with selected products from Gycora.",
+    // shop_now: "Shop Now",
+    // see_product: "View Products",
+    // feature1_title: "Anti Static",
+    // feature1_subtitle: "Technology",
+    // feature1_desc:
+    //   "Ionic technology to prevent hair from standing up due to static electricity.",
+    // feature2_title: "Carbon Patented",
+    // feature2_subtitle: "Material",
+    // feature2_desc:
+    //   "Special patented carbon material to distribute heat evenly and safely.",
+    // feature3_title: "Eco",
+    // feature3_subtitle: "Friendly",
+    // feature3_desc:
+    //   "Made from environmentally friendly materials that are safe and recyclable.",
+
+    hero_title1: "11.11 BIG SALE",
+    hero_title2: "", // Dikosongkan karena title1 sudah mencakup judul penuh
+    hero_subtitle: "Good Hair Days, Better Deals.",
+    hero_desc: "Enjoy 11.11 special prices for Ethereal Glow Brush and Eco Serenity Scalp. Upgrade your haircare routine with Gycora.",
     shop_now: "Shop Now",
     see_product: "View Products",
     feature1_title: "Anti Static",
     feature1_subtitle: "Technology",
-    feature1_desc:
-      "Ionic technology to prevent hair from standing up due to static electricity.",
+    feature1_desc: "Ionic technology to prevent hair from standing up due to static electricity.",
     feature2_title: "Carbon Patented",
     feature2_subtitle: "Material",
-    feature2_desc:
-      "Special patented carbon material to distribute heat evenly and safely.",
+    feature2_desc: "Special patented carbon material to distribute heat evenly and safely.",
     feature3_title: "Eco",
     feature3_subtitle: "Friendly",
-    feature3_desc:
-      "Made from environmentally friendly materials that are safe and recyclable.",
+    feature3_desc: "Made from environmentally friendly materials that are safe and recyclable.",
+    // ... teks lain tetap sama
     fav_product_title: "Favorite Products Chosen by Many",
     fav_product_desc:
       "Find the best-selling products that are the mainstay for neater, smoother, and easier to manage hair every day.",
