@@ -14115,7 +14115,7 @@ export default function HomePage() {
                   </button>
         </div>
 
-        {/* <div className="relative z-10 w-full px-6 pt-6 pb-12 mx-auto max-w-[1236px] sm:px-10 lg:px-16 animate-fade-in-up flex items-center md:min-h-[600px]">
+        <div className="relative z-10 w-full px-6 pt-6 pb-12 mx-auto max-w-[1236px] sm:px-10 lg:px-16 animate-fade-in-up flex items-center md:min-h-[600px]">
           <div className="w-full text-center md:max-w-xl md:text-left">
             <h1 className="text-3xl font-extrabold leading-tight sm:text-4xl md:text-5xl lg:text-6xl text-[#006A4E]">
               {t("hero_title1")} <br className="hidden md:block" />{" "}
@@ -14220,9 +14220,9 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
 
-        <div className="relative z-10 w-full px-6 pt-6 pb-12 mx-auto max-w-[1236px] sm:px-10 lg:px-16 animate-fade-in-up flex items-center md:min-h-[600px]">
+        {/* <div className="relative z-10 w-full px-6 pt-6 pb-12 mx-auto max-w-[1236px] sm:px-10 lg:px-16 animate-fade-in-up flex items-center md:min-h-[600px]">
           <div className="w-full text-center md:max-w-xl md:text-left">
             <h1 className="text-4xl font-black leading-tight sm:text-5xl md:text-6xl lg:text-7xl text-rose-600 drop-shadow-sm tracking-tighter uppercase italic">
               {t("hero_title1")}
@@ -14326,7 +14326,7 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* FEATURED PRODUCT SECTION */}
